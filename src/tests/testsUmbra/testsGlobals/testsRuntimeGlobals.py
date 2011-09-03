@@ -48,7 +48,7 @@ class RuntimeGlobalsTestCase(unittest.TestCase):
 		"""
 
 		requiredAttributes = ("parameters",
-								"args",
+								"arguments",
 								"loggingConsoleHandler",
 								"loggingFileHandler",
 								"loggingSessionHandler",
@@ -59,6 +59,7 @@ class RuntimeGlobalsTestCase(unittest.TestCase):
 								"loggingFile",
 								"application",
 								"userApplicationDatasDirectory",
+								"resourcesPaths",
 								"uiFile",
 								"ui",
 								"settingsFile",
@@ -68,6 +69,13 @@ class RuntimeGlobalsTestCase(unittest.TestCase):
 
 		for attribute in requiredAttributes:
 			self.assertIn(attribute, RuntimeGlobals.__dict__)
+
+	def testResourcesPathsAttribute(self):
+		"""
+		This method tests :attr:`umbra.globals.runtimeGlobals.RuntimeGlobals.resourcesPaths` attribute.
+		"""
+
+		self.assertIsInstance(RuntimeGlobals.resourcesPaths, list)
 
 if __name__ == "__main__":
 	unittest.main()

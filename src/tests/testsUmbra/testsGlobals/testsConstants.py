@@ -58,24 +58,16 @@ class ConstantsTestCase(unittest.TestCase):
 								"encodingError",
 								"applicationDirectory",
 								"providerDirectory",
-								"databaseDirectory",
-								"databaseMigrationsDirectory",
-								"databaseMigrationsFilesDirectory",
-								"databaseMigrationsTemplatesDirectory",
 								"settingsDirectory",
 								"userComponentsDirectory",
 								"loggingDirectory",
-								"templatesDirectory",
 								"ioDirectory",
 								"preferencesDirectories",
-								"coreComponentsDirectory",
-								"addonsComponentsDirectory",
-								"databaseFile",
+								"factoryComponentsDirectory",
+								"resourcesDirectory",
 								"settingsFile",
 								"loggingFile",
-								"databaseMigrationsFilesExtension",
 								"librariesDirectory",
-								"freeImageLibrary",
 								"defaultTimerCycle",
 								"nullObject")
 
@@ -112,13 +104,6 @@ class ConstantsTestCase(unittest.TestCase):
 		self.assertGreaterEqual(Constants.verbosityLevel, 0)
 		self.assertLessEqual(Constants.verbosityLevel, 4)
 
-	def testLoggingDefaultFormaterAttribute(self):
-		"""
-		This method tests :attr:`umbra.globals.constants.Constants.loggingDefaultFormatter` attribute.
-		"""
-
-		self.assertIsInstance(Constants.loggingDefaultFormatter, str)
-
 	def testVerbosityLabelsAttribute(self):
 		"""
 		This method tests :attr:`umbra.globals.constants.Constants.verbosityLabels` attribute.
@@ -127,6 +112,13 @@ class ConstantsTestCase(unittest.TestCase):
 		self.assertIsInstance(Constants.verbosityLabels, tuple)
 		for label in Constants.verbosityLabels:
 			self.assertIsInstance(label, str)
+
+	def testLoggingDefaultFormaterAttribute(self):
+		"""
+		This method tests :attr:`umbra.globals.constants.Constants.loggingDefaultFormatter` attribute.
+		"""
+
+		self.assertIsInstance(Constants.loggingDefaultFormatter, str)
 
 	def testLoggingSeparatorsAttribute(self):
 		"""
@@ -172,34 +164,6 @@ class ConstantsTestCase(unittest.TestCase):
 
 		self.assertRegexpMatches(Constants.providerDirectory, "\w+")
 
-	def testDatabaseDirectoryAttribute(self):
-		"""
-		This method tests :attr:`umbra.globals.constants.Constants.databaseDirectory` attribute.
-		"""
-
-		self.assertRegexpMatches(Constants.databaseDirectory, "\w+")
-
-	def testDatabaseMigrationsDirectoryAttribute(self):
-		"""
-		This method tests :attr:`umbra.globals.constants.Constants.databaseMigrationsDirectory` attribute.
-		"""
-
-		self.assertRegexpMatches(Constants.databaseMigrationsDirectory, "\w+")
-
-	def testDatabaseMigrationsFilesDirectoryAttribute(self):
-		"""
-		This method tests :attr:`umbra.globals.constants.Constants.databaseMigrationsFilesDirectory` attribute.
-		"""
-
-		self.assertRegexpMatches(Constants.databaseMigrationsFilesDirectory, "\w+")
-
-	def testDatabaseMigrationsTemplatesDirectoryAttribute(self):
-		"""
-		This method tests :attr:`umbra.globals.constants.Constants.databaseMigrationsTemplatesDirectory` attribute.
-		"""
-
-		self.assertRegexpMatches(Constants.databaseMigrationsTemplatesDirectory, "\w+")
-
 	def testSettingsDirectoryAttribute(self):
 		"""
 		This method tests :attr:`umbra.globals.constants.Constants.settingsDirectory` attribute.
@@ -221,13 +185,6 @@ class ConstantsTestCase(unittest.TestCase):
 
 		self.assertRegexpMatches(Constants.loggingDirectory, "\w+")
 
-	def testTemplatesDirectoryAttribute(self):
-		"""
-		This method tests :attr:`umbra.globals.constants.Constants.templatesDirectory` attribute.
-		"""
-
-		self.assertRegexpMatches(Constants.templatesDirectory, "\w+")
-
 	def testIoDirectoryAttribute(self):
 		"""
 		This method tests :attr:`umbra.globals.constants.Constants.ioDirectory` attribute.
@@ -242,19 +199,19 @@ class ConstantsTestCase(unittest.TestCase):
 
 		self.assertIsInstance(Constants.preferencesDirectories, tuple)
 
-	def testCoreComponentsDirectoryAttribute(self):
+	def testFactoryComponentsDirectoryAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.coreComponentsDirectory` attribute.
-		"""
-
-		self.assertRegexpMatches(Constants.coreComponentsDirectory, "\w+")
-
-	def testAddonsComponentsDirectoryAttribute(self):
-		"""
-		This method tests :attr:`umbra.globals.constants.Constants.addonsComponentsDirectory` attribute.
+		This method tests :attr:`umbra.globals.constants.Constants.factoryComponentsDirectory` attribute.
 		"""
 
-		self.assertRegexpMatches(Constants.addonsComponentsDirectory, "\w+")
+		self.assertRegexpMatches(Constants.factoryComponentsDirectory, "\w+")
+
+	def testResourcesDirectoryAttribute(self):
+		"""
+		This method tests :attr:`umbra.globals.constants.Constants.resourcesDirectory` attribute.
+		"""
+
+		self.assertRegexpMatches(Constants.resourcesDirectory, "\w+")
 
 	def testSettingsFileAttribute(self):
 		"""
@@ -270,26 +227,12 @@ class ConstantsTestCase(unittest.TestCase):
 
 		self.assertRegexpMatches(Constants.loggingFile, "\w+")
 
-	def testDatabaseMigrationsFilesExtensionAttribute(self):
-		"""
-		This method tests :attr:`umbra.globals.constants.Constants.databaseMigrationsFilesExtension` attribute.
-		"""
-
-		self.assertRegexpMatches(Constants.databaseMigrationsFilesExtension, "\w+")
-
 	def testLibrariesDirectoryAttribute(self):
 		"""
 		This method tests :attr:`umbra.globals.constants.Constants.librariesDirectory` attribute.
 		"""
 
 		self.assertRegexpMatches(Constants.librariesDirectory, "\w+")
-
-	def testFreeImageLibraryAttribute(self):
-		"""
-		This method tests :attr:`umbra.globals.constants.Constants.freeImageLibrary` attribute.
-		"""
-
-		self.assertRegexpMatches(Constants.freeImageLibrary, "\w+")
 
 	def testDefaultTimerCycleAttribute(self):
 		"""
