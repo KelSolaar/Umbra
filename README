@@ -1,7 +1,7 @@
 - Umbra -
 
 - Introduction -
-Umbra is the main package of Umbra and sIBL_Reporter.
+Umbra is the main package of sIBL_GUI and sIBL_Reporter.
 
 - Installation / Usage -
 Umbra depends on some other packages / repositories:
