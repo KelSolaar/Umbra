@@ -1,0 +1,13 @@
+.DS_Store
+.project
+.pydevproject
+.settings
+
+*.exe
+*.log
+*.pyc
+*.pyo
+
+src/umbra/resources/images/builders/
+support/documentation/sphinx/build
+support/documentation/sphinx/source/resources/src
