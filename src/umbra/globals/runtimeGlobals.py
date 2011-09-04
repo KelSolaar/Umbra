@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines **Umbra** package runtime constants through the :class:`RuntimeGlobals` class.
+	This module defines **Umbra** package runtime globals through the :class:`RuntimeGlobals` class.
 
 **Others:**
 
