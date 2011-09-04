@@ -956,7 +956,7 @@ class ComponentsManagerUi(UiComponent):
 		if success:
 			return True
 		else:
-			raise Exception, "{0} | Exception raised while reloading '{1}' Components!".format(self.__class__.__name__, ", ". join((component.name for component in selectedComponents)))
+			raise Exception("{0} | Exception raised while reloading '{1}' Components!".format(self.__class__.__name__, ", ". join((component.name for component in selectedComponents))))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(_componentActivationErrorHandler, False, manager.exceptions.ComponentActivationError)
@@ -1001,7 +1001,7 @@ class ComponentsManagerUi(UiComponent):
 			self.emit(SIGNAL("modelPartialRefresh()"))
 			return True
 		else:
-			raise foundations.exceptions.ComponentDeactivationError, "{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, component.name)
+			raise foundations.exceptions.ComponentDeactivationError("{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, component.name))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(_componentReloadErrorHandler, False, manager.exceptions.ComponentReloadError)

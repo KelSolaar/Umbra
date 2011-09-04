@@ -1028,7 +1028,7 @@ class Umbra(Ui_Type, Ui_Setup):
 					styleSheetFile.content[i] = line.replace(search.group("url"), umbra.ui.common.getResourcePath(search.group("url")))
 			RuntimeGlobals.application.setStyleSheet(QString("".join(styleSheetFile.content)))
 		else:
-			raise OSError, "{0} | '{1}' stylesheet file is not available, visual style will not be applied!".format(self.__class__.__name__, styleSheetFile.file)
+			raise OSError("{0} | '{1}' stylesheet file is not available, visual style will not be applied!".format(self.__class__.__name__, styleSheetFile.file))
 
 	@core.executionTrace
 	def initializeToolBar(self):
@@ -1191,7 +1191,7 @@ class Umbra(Ui_Type, Ui_Setup):
 			not self.__settings._datas.restoreGeometryOnLayoutChange and self.restoreGeometry(self.__settings.getKey("Layouts", "{0}_geometry".format(UiConstants.startupLayout)).toByteArray())
 			return True
 		else:
-			raise Exception, "{0} | Exception raised while restoring startup layout!".format(self.__class__.__name__)
+			raise Exception("{0} | Exception raised while restoring startup layout!".format(self.__class__.__name__))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -1241,10 +1241,10 @@ def setUserApplicationDatasDirectory(path):
 	if io.setDirectory(userApplicationDatasDirectory):
 		for directory in Constants.preferencesDirectories:
 			if not io.setDirectory(os.path.join(userApplicationDatasDirectory, directory)):
-				raise OSError, "'{0}' directory creation failed , {1} will now close!".format(os.path.join(userApplicationDatasDirectory, directory), Constants.applicationName)
+				raise OSError("'{0}' directory creation failed , {1} will now close!".format(os.path.join(userApplicationDatasDirectory, directory), Constants.applicationName))
 		return True
 	else:
-		raise OSError, "'{0}' directory creation failed , {1} will now close!".format(userApplicationDatasDirectory, Constants.applicationName)
+		raise OSError("'{0}' directory creation failed , {1} will now close!".format(userApplicationDatasDirectory, Constants.applicationName))
 
 @core.executionTrace
 def getCommandLineParametersParser():
@@ -1300,7 +1300,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None):
 		RuntimeGlobals.userApplicationDatasDirectory = foundations.common.getUserApplicationDatasDirectory()
 
 	if not setUserApplicationDatasDirectory(RuntimeGlobals.userApplicationDatasDirectory):
-		raise OSError, "'{0}' user Application datas directory is not available, {1} will now close!".format(RuntimeGlobals.userApplicationDatasDirectory, Constants.applicationName)
+		raise OSError("'{0}' user Application datas directory is not available, {1} will now close!".format(RuntimeGlobals.userApplicationDatasDirectory, Constants.applicationName))
 
 	LOGGER.debug("> Application python interpreter: '{0}'".format(sys.executable))
 	LOGGER.debug("> Application startup location: '{0}'".format(os.getcwd()))
@@ -1312,14 +1312,14 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None):
 	try:
 		os.path.exists(RuntimeGlobals.loggingFile) and os.remove(RuntimeGlobals.loggingFile)
 	except:
-		raise OSError, "{0} Logging file is currently locked by another process, {1} will now close!".format(RuntimeGlobals.loggingFile, Constants.applicationName)
+		raise OSError("{0} Logging file is currently locked by another process, {1} will now close!".format(RuntimeGlobals.loggingFile, Constants.applicationName))
 
 	try:
 		RuntimeGlobals.loggingFileHandler = logging.FileHandler(RuntimeGlobals.loggingFile)
 		RuntimeGlobals.loggingFileHandler.setFormatter(RuntimeGlobals.loggingFormatters[Constants.loggingDefaultFormatter])
 		LOGGER.addHandler(RuntimeGlobals.loggingFileHandler)
 	except:
-		raise OSError, "{0} Logging file is not available, {1} will now close!".format(RuntimeGlobals.loggingFile, Constants.applicationName)
+		raise OSError("{0} Logging file is not available, {1} will now close!".format(RuntimeGlobals.loggingFile, Constants.applicationName))
 
 	# Retrieving Framework verbose level from settings file.
 	LOGGER.debug("> Initializing {0}!".format(Constants.applicationName))
