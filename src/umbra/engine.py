@@ -27,6 +27,7 @@ import platform
 import re
 import sys
 import time
+import traceback
 from PyQt4 import uic
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -134,7 +135,7 @@ class Ui_Type():
 	pass
 
 for path in (os.path.join(umbra.__path__[0], Constants.resourcesDirectory), os.path.join(os.getcwd(), umbra.__name__, Constants.resourcesDirectory)):
-	os.path.exists(path) and RuntimeGlobals.resourcesPaths.append(path)
+	(os.path.exists(path) and not path in RuntimeGlobals.resourcesPaths) and RuntimeGlobals.resourcesPaths.append(path)
 
 RuntimeGlobals.uiFile = umbra.ui.common.getResourcePath(UiConstants.uiFile)
 if os.path.exists(RuntimeGlobals.uiFile):
@@ -161,7 +162,7 @@ class Umbra(Ui_Type, Ui_Setup):
 	"""
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiSystemExitExceptionHandler, False, manager.exceptions.ComponentActivationError, Exception)
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiSystemExitExceptionHandler, False, Exception)
 	def __init__(self, componentsPaths=None, requisiteComponents=None):
 		"""
 		This method initializes the class.
@@ -243,7 +244,8 @@ class Umbra(Ui_Type, Ui_Setup):
 					interface.addWidget()
 					interface.initializeUi()
 			except:
-				raise manager.exceptions.ComponentActivationError("'{0}' requisite Component failed to activate, '{1}' will now close!".format(component, Constants.applicationName))
+				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
+				umbra.ui.common.uiSystemExitExceptionHandler(manager.exceptions.ComponentActivationError("'{0}' requisite Component failed to activate:\n{1}".format(component, traceback.format_exc())), self.__class__.__name__,)
 
 		# --- Activating others Components. ---
 		deactivatedComponents = self.__settings.getKey("Settings", "deactivatedComponents").toString().split(",")
@@ -277,11 +279,14 @@ class Umbra(Ui_Type, Ui_Setup):
 		for component in self.__componentsManager.getComponents():
 			try:
 				interface = self.__componentsManager.getInterface(component)
+				if not interface:
+					continue
+
 				if interface.activated:
 					hasattr(interface, "onStartup") and interface.onStartup()
 			except:
 				if not component in self.__requisiteComponents:
-					raise Exception("'{0}' requisite Component startup method raised an exception, '{1}' will now close!".format(component, Constants.applicationName))
+					umbra.ui.common.uiSystemExitExceptionHandler(manager.exceptions.ComponentActivationError("'{0}' requisite Component startup method raised an exception:\n{1}".format(component, traceback.format_exc())), self.__class__.__name__,)
 				else:
 					messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component startup method raised an exception, unexpected behavior may occur!".format(self.__class__.__name__, component))
 
@@ -888,6 +893,9 @@ class Umbra(Ui_Type, Ui_Setup):
 		# --- Running onClose components methods. ---
 		for component in self.__componentsManager.getComponents():
 			interface = self.__componentsManager.getInterface(component)
+			if not interface:
+				continue
+
 			if interface.activated:
 				hasattr(interface, "onClose") and interface.onClose()
 
