@@ -122,7 +122,9 @@ class Ui_Type():
 
 	pass
 
-RuntimeGlobals.resourcesPaths.append(os.path.join(umbra.__path__[0], Constants.resourcesDirectory))
+for path in (os.path.join(umbra.__path__[0], Constants.resourcesDirectory), os.path.join(os.getcwd(), umbra.__name__, Constants.resourcesDirectory)):
+	os.path.exists(path) and RuntimeGlobals.resourcesPaths.append(path)
+
 RuntimeGlobals.uiFile = umbra.ui.common.getResourcePath(UiConstants.uiFile)
 if os.path.exists(RuntimeGlobals.uiFile):
 	Ui_Setup, Ui_Type = uic.loadUiType(RuntimeGlobals.uiFile)
@@ -1384,4 +1386,7 @@ def getCommandLineParametersParser():
 #***	Launcher.
 #***********************************************************************************************
 if __name__ == "__main__":
-	_run(Umbra, getCommandLineParametersParser().parse_args(sys.argv), (os.path.join(umbra.__path__[0], Constants.factoryComponentsDirectory),), ("factory.scriptEditor", "factory.preferencesManager", "factory.componentsManagerUi"))
+	componentsPaths = []
+	for path in (os.path.join(umbra.__path__[0], Constants.factoryComponentsDirectory), os.path.join(os.getcwd(), umbra.__name__, Constants.factoryComponentsDirectory)):
+		os.path.exists(path) and componentsPaths.append(path)
+	_run(Umbra, getCommandLineParametersParser().parse_args(sys.argv), componentsPaths, ("factory.scriptEditor", "factory.preferencesManager", "factory.componentsManagerUi"))
