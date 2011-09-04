@@ -567,7 +567,7 @@ class PythonHighlighter(Highlighter):
 		self.rules.append(Rule(pattern=QRegExp(r"\b({0})\b".format(self.__pythonTokens.getValue("builtinsObjectMethods", "Tokens"))), format=self.formats.builtinsObjectMethods))
 		self.rules.append(Rule(pattern=QRegExp(r"\b({0})\b".format(self.__pythonTokens.getValue("magicMethods", "Tokens"))), format=self.formats.magicMethods))
 
-		self.rules.append(Rule(pattern=QRegExp(r"\b(?:(?!({0}|{1}|{2}))\w+__)\b".format(self.__pythonTokens.getValue("builtinsMiscellaneous", "Tokens"), self.__pythonTokens.getValue("builtinsObjectMethods", "Tokens"), self.__pythonTokens.getValue("magicMethods", "Tokens"))), format=self.formats.magicObject))
+		self.rules.append(Rule(pattern=QRegExp(r"\b(?:(?!({0}|{1}|{2}))__\w+__)\b".format(self.__pythonTokens.getValue("builtinsMiscellaneous", "Tokens"), self.__pythonTokens.getValue("builtinsObjectMethods", "Tokens"), self.__pythonTokens.getValue("magicMethods", "Tokens"))), format=self.formats.magicObject))
 
 		self.rules.append(Rule(pattern=QRegExp(r"\bself\b"), format=self.formats.decoratorArgument))
 
