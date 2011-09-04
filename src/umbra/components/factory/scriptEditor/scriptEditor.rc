@@ -1,5 +1,6 @@
 [Component]
 Name = factory.scriptEditor
+Title = Script Editor
 Module = scriptEditor
 Object = ScriptEditor
 Rank = 5

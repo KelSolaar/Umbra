@@ -609,6 +609,7 @@ class ComponentsManagerUi(UiComponent):
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
 
 		self.__model = QStandardItemModel()
+
 		self.__Components_Manager_Ui_treeView_setModel()
 
 		self.ui.Components_Manager_Ui_gridLayout.setContentsMargins(self.__treeViewInnerMargins)
@@ -693,7 +694,7 @@ class ComponentsManagerUi(UiComponent):
 		self.__model.setColumnCount(len(self.__modelHeaders))
 
 		for path in self.__container.componentsManager.paths:
-			components = [component for component in self.__container.componentsManager.components if os.path.normpath(path) in os.path.normpath(self.__container.componentsManager.components[component].path)]
+			components = {name : component for name, component in self.__container.componentsManager.components.items() if os.path.normpath(path) in os.path.normpath(component.path)}
 			if not components:
 				break
 
@@ -703,28 +704,31 @@ class ComponentsManagerUi(UiComponent):
 			LOGGER.debug("> Adding '{0}' path to '{1}' Model.".format(path, "Components_Manager_Ui_treeView"))
 			self.__model.appendRow(pathStandardItem)
 
-			for component in components:
-				componentStandardItem = QStandardItem(QString(strings.getNiceName(self.__container.componentsManager.components[component].module)))
-				iconPath = os.path.join(self.__uiResources, "{0}{1}".format(strings.getNiceName(self.__container.componentsManager.components[component].categorie), self.__uiCategorieAffixe))
+			for name, component in components.items():
+				if not component.interface:
+					continue
+
+				componentStandardItem = QStandardItem(QString(component.title))
+				iconPath = os.path.join(self.__uiResources, "{0}{1}".format(strings.getNiceName(component.categorie), self.__uiCategorieAffixe))
 				componentStandardItem.setIcon(QIcon(iconPath))
 
-				componentActivationStandardItem = QStandardItem(QString(str(self.__container.componentsManager.components[component].interface.activated)))
-				iconPath = self.__container.componentsManager.components[component].interface.activated and os.path.join(self.__uiResources, self.__uiActivatedImage) or os.path.join(self.__uiResources, self.__uiDeactivatedImage)
+				componentActivationStandardItem = QStandardItem(QString(str(component.interface.activated)))
+				iconPath = component.interface.activated and os.path.join(self.__uiResources, self.__uiActivatedImage) or os.path.join(self.__uiResources, self.__uiDeactivatedImage)
 				componentActivationStandardItem.setIcon(QIcon(iconPath))
 
-				componentCategorieStandardItem = QStandardItem(QString(self.__container.componentsManager.components[component].categorie and strings.getNiceName(self.__container.componentsManager.components[component].categorie) or ""))
+				componentCategorieStandardItem = QStandardItem(QString(component.categorie and strings.getNiceName(component.categorie) or ""))
 				componentCategorieStandardItem.setTextAlignment(Qt.AlignCenter)
 
-				componentRankStandardItem = QStandardItem(QString(self.__container.componentsManager.components[component].rank or ""))
+				componentRankStandardItem = QStandardItem(QString(component.rank or ""))
 				componentRankStandardItem.setTextAlignment(Qt.AlignCenter)
 
-				componentVersionStandardItem = QStandardItem(QString(self.__container.componentsManager.components[component].version or ""))
+				componentVersionStandardItem = QStandardItem(QString(component.version or ""))
 				componentVersionStandardItem.setTextAlignment(Qt.AlignCenter)
 
-				componentStandardItem._datas = self.__container.componentsManager.components[component]
+				componentStandardItem._datas = component
 				componentStandardItem._type = "Component"
 
-				LOGGER.debug("> Adding '{0}' Component to '{1}'.".format(component, "Components_Manager_Ui_treeView"))
+				LOGGER.debug("> Adding '{0}' Component to '{1}'.".format(name, "Components_Manager_Ui_treeView"))
 				pathStandardItem.appendRow([componentStandardItem, componentActivationStandardItem, componentCategorieStandardItem, componentRankStandardItem, componentVersionStandardItem])
 
 		self.emit(SIGNAL("modelChanged()"))

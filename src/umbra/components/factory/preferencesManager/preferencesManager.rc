@@ -1,5 +1,6 @@
 [Component]
 Name = factory.preferencesManager
+Title = Preferences Manager
 Module = preferencesManager
 Object = PreferencesManager
 Rank = 10

@@ -1,5 +1,6 @@
 [Component]
 Name = factory.componentsManagerUi
+Title = Components Manager Ui
 Module = componentsManagerUi
 Object = ComponentsManagerUi
 Rank = 5
