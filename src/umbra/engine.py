@@ -74,7 +74,9 @@ import foundations.common
 import foundations.core as core
 import foundations.exceptions
 import foundations.io as io
+import manager.exceptions
 import umbra.ui.common
+import umbra.ui.widgets.messageBox as messageBox
 from foundations.streamObject import StreamObject
 from manager.componentsManager import Manager
 from umbra.globals.runtimeGlobals import RuntimeGlobals
@@ -146,13 +148,13 @@ class Umbra(Ui_Type, Ui_Setup):
 	"""
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiSystemExitExceptionHandler, False, foundations.exceptions.ProgrammingError, Exception)
-	def __init__(self, paths, components=None):
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiSystemExitExceptionHandler, False, manager.exceptions.ComponentActivationError, Exception)
+	def __init__(self, componentsPaths=None, requisiteComponents=None):
 		"""
 		This method initializes the class.
 
-		:param paths: Components paths. ( QString )
-		:param components: Mandatory components names. ( QString )
+		:param componentsPaths: Components componentsPaths. ( Tuple / List )
+		:param requisiteComponents: Requisite components names. ( Tuple / List )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -165,6 +167,9 @@ class Umbra(Ui_Type, Ui_Setup):
 		self.closeEvent = self.__closeUi
 
 		# --- Setting class attributes. ---
+		self.__componentsPaths = componentsPaths or []
+		self.__requisiteComponents = requisiteComponents or []
+
 		self.__timer = None
 		self.__componentsManager = None
 		self.__lastBrowsedPath = os.getcwd()
@@ -203,46 +208,51 @@ class Umbra(Ui_Type, Ui_Setup):
 		# --- Initializing Components Manager. ---
 		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Initializing Components manager.".format(self.__class__.__name__, Constants.releaseVersion), textColor=Qt.white, waitTime=0.25)
 
-		self.__componentsManager = Manager(paths)
+		self.__componentsManager = Manager(componentsPaths)
 		self.__componentsManager.registerComponents()
 
 		if not self.__componentsManager.components:
-			raise foundations.exceptions.ProgrammingError, "'{0}' Components Manager has no Components, {1} will now close!".format(self.__componentsManager, Constants.applicationName)
+			messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Components Manager has no Components!".format(self.__class__.__name__, Constants.applicationName))
 
 		self.__componentsManager.instantiateComponents(self.__componentsInstantiationCallback)
 
 		# --- Activating mandatory Components. ---
-		components = components or []
-		for component in components:
-			profile = self.__componentsManager.components[component]
-			interface = self.__componentsManager.getInterface(component)
-			setattr(self, "_{0}__{1}".format(self.__class__.__name__, Manager.getComponentAttributeName(component)), interface)
-			RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component), textColor=Qt.white)
-			interface.activate(self)
-			if profile.categorie == "default":
-				interface.initialize()
-			elif profile.categorie == "ui":
-				interface.addWidget()
-				interface.initializeUi()
+		for component in self.__requisiteComponents:
+			try:
+				profile = self.__componentsManager.components[component]
+				interface = self.__componentsManager.getInterface(component)
+				setattr(self, "_{0}__{1}".format(self.__class__.__name__, Manager.getComponentAttributeName(component)), interface)
+				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component), textColor=Qt.white)
+				interface.activate(self)
+				if profile.categorie == "default":
+					interface.initialize()
+				elif profile.categorie == "ui":
+					interface.addWidget()
+					interface.initializeUi()
+			except:
+				raise manager.exceptions.ComponentActivationError("'{0}' requisite Component failed to activate, '{1}' will now close!".format(component, Constants.applicationName))
 
 		# --- Activating others Components. ---
 		deactivatedComponents = self.__settings.getKey("Settings", "deactivatedComponents").toString().split(",")
 		for component in self.__componentsManager.getComponents():
-			if component in deactivatedComponents:
-				continue
+			try:
+				if component in deactivatedComponents:
+					continue
 
-			profile = self.__componentsManager.components[component]
-			interface = self.__componentsManager.getInterface(component)
-			if interface.activated:
-				continue
+				profile = self.__componentsManager.components[component]
+				interface = self.__componentsManager.getInterface(component)
+				if interface.activated:
+					continue
 
-			RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component), textColor=Qt.white)
-			interface.activate(self)
-			if profile.categorie == "default":
-				interface.initialize()
-			elif profile.categorie == "ui":
-				interface.addWidget()
-				interface.initializeUi()
+				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component), textColor=Qt.white)
+				interface.activate(self)
+				if profile.categorie == "default":
+					interface.initialize()
+				elif profile.categorie == "ui":
+					interface.addWidget()
+					interface.initializeUi()
+			except:
+				messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component failed to activate, unexpected behavior may occur!".format(self.__class__.__name__, component))
 
 		# Hiding splashscreen.
 		LOGGER.debug("> Hiding splashscreen.")
@@ -252,9 +262,15 @@ class Umbra(Ui_Type, Ui_Setup):
 
 		# --- Running onStartup components methods. ---
 		for component in self.__componentsManager.getComponents():
-			interface = self.__componentsManager.getInterface(component)
-			if interface.activated:
-				hasattr(interface, "onStartup") and interface.onStartup()
+			try:
+				interface = self.__componentsManager.getInterface(component)
+				if interface.activated:
+					hasattr(interface, "onStartup") and interface.onStartup()
+			except:
+				if not component in self.__requisiteComponents:
+					raise Exception("'{0}' requisite Component startup method raised an exception, '{1}' will now close!".format(component, Constants.applicationName))
+				else:
+					messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component startup method raised an exception, unexpected behavior may occur!".format(self.__class__.__name__, component))
 
 		self.__setLayoutsActiveLabelsShortcuts()
 
@@ -294,6 +310,66 @@ class Umbra(Ui_Type, Ui_Setup):
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("timer"))
 
 	@property
+	def componentsPaths(self):
+		"""
+		This method is the property for **self.__componentsPaths** attribute.
+
+		:return: self.__componentsPaths. ( Tuple / List )
+		"""
+
+		return self.__componentsPaths
+
+	@componentsPaths.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def componentsPaths(self, value):
+		"""
+		This method is the setter method for **self.__componentsPaths** attribute.
+
+		:param value: Attribute value. ( Tuple / List )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("componentsPaths"))
+
+	@componentsPaths.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def componentsPaths(self):
+		"""
+		This method is the deleter method for **self.__componentsPaths** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("componentsPaths"))
+
+	@property
+	def requisiteComponents(self):
+		"""
+		This method is the property for **self.__requisiteComponents** attribute.
+
+		:return: self.__requisiteComponents. ( Tuple / List )
+		"""
+
+		return self.__requisiteComponents
+
+	@requisiteComponents.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def requisiteComponents(self, value):
+		"""
+		This method is the setter method for **self.__requisiteComponents** attribute.
+
+		:param value: Attribute value. ( Tuple / List )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("requisiteComponents"))
+
+	@requisiteComponents.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def requisiteComponents(self):
+		"""
+		This method is the deleter method for **self.__requisiteComponents** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("requisiteComponents"))
+
+	@property
 	def componentsManager(self):
 		"""
 		This method is the property for **self.__componentsManager** attribute.
@@ -322,7 +398,6 @@ class Umbra(Ui_Type, Ui_Setup):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("componentsManager"))
-
 
 	@property
 	def lastBrowsedPath(self):
@@ -1142,14 +1217,14 @@ class Umbra(Ui_Type, Ui_Setup):
 #***********************************************************************************************
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(umbra.ui.common.uiStandaloneSystemExitExceptionHandler, False, OSError)
-def _run(engine, parameters, paths, components=None):
+def _run(engine, parameters, componentsPaths=None, requisiteComponents=None):
 	"""
 	This definition is called when **Umbra** starts.
 
 	:param engine: Engine. ( QObject )
 	:param parameters: Command line parameters. ( Tuple )
-	:param paths: Components paths. ( QString )
-	:param components: Mandatory components names. ( QString )
+	:param componentsPaths: Components componentsPaths. ( Tuple / List )
+	:param requisiteComponents: Requisite components names. ( Tuple / List )
 	:return: Definition success. ( Boolean )
 	"""
 
@@ -1174,7 +1249,7 @@ def _run(engine, parameters, paths, components=None):
 	else:
 		RuntimeGlobals.userApplicationDatasDirectory = foundations.common.getUserApplicationDatasDirectory()
 
-	if not _setUserApplicationDatasDirectory(RuntimeGlobals.userApplicationDatasDirectory):
+	if not setUserApplicationDatasDirectory(RuntimeGlobals.userApplicationDatasDirectory):
 		raise OSError, "'{0}' user Application datas directory is not available, {1} will now close!".format(RuntimeGlobals.userApplicationDatasDirectory, Constants.applicationName)
 
 	LOGGER.debug("> Application python interpreter: '{0}'".format(sys.executable))
@@ -1246,7 +1321,7 @@ def _run(engine, parameters, paths, components=None):
 		RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Initializing {0}.".format(Constants.applicationName, Constants.releaseVersion), textColor=Qt.white)
 		RuntimeGlobals.splashscreen.show()
 
-	RuntimeGlobals.ui = engine(paths, components)
+	RuntimeGlobals.ui = engine(componentsPaths, requisiteComponents)
 	RuntimeGlobals.ui.show()
 	RuntimeGlobals.ui.raise_()
 
@@ -1267,7 +1342,7 @@ def _exit():
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(umbra.ui.common.uiStandaloneSystemExitExceptionHandler, False, OSError)
-def _setUserApplicationDatasDirectory(path):
+def setUserApplicationDatasDirectory(path):
 	"""
 	This definition sets the Application datas directory.
 
