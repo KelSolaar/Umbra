@@ -20,7 +20,6 @@
 import logging
 import os
 import platform
-import re
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -45,6 +44,20 @@ __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
+
+__all__ = ["LOGGER",
+			"LayoutActiveLabel",
+			"Icon",
+			"uiExtendedExceptionHandler",
+			"uiStandaloneExtendedExceptionHandler",
+			"uiBasicExceptionHandler",
+			"uiStandaloneBasicExceptionHandler",
+			"uiSystemExitExceptionHandler",
+			"uiStandaloneSystemExitExceptionHandler",
+			"getResourcePath",
+			"setWindowDefaultIcon",
+			"centerWidgetOnScreen",
+			"getTokensParser"]
 
 LOGGER = logging.getLogger(Constants.logger)
 

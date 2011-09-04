@@ -39,6 +39,8 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
+__all__ = ["LOGGER", "Delayed_QSplashScreen"]
+
 LOGGER = logging.getLogger(Constants.logger)
 
 #***********************************************************************************************

@@ -18,7 +18,6 @@
 #***	External imports.
 #***********************************************************************************************
 import logging
-import os
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -40,6 +39,8 @@ __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
+
+__all__ = ["LOGGER", "PYTHON_TOKENS_FILE" , "PythonCompleter"]
 
 LOGGER = logging.getLogger(Constants.logger)
 

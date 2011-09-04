@@ -95,6 +95,17 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
+__all__ = ["LOGGER",
+			"Ui_Setup",
+			"Ui_Type",
+			"SESSION_HEADER_TEXT",
+			"SESSION_FOOTER_TEXT",
+			"Umbra",
+			"setUserApplicationDatasDirectory",
+			"getCommandLineParametersParser",
+			"run",
+			"exit"]
+
 LOGGER = logging.getLogger(Constants.logger)
 
 # Starting the console handler.
@@ -901,7 +912,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		self.deleteLater()
 		event.accept()
 
-		_exit()
+		exit()
 
 	@core.executionTrace
 	def __componentsInstantiationCallback(self, profile):
@@ -1214,12 +1225,49 @@ class Umbra(Ui_Type, Ui_Setup):
 
 		return path
 
-#***********************************************************************************************
-#***	Overall definitions..
-#***********************************************************************************************
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(umbra.ui.common.uiStandaloneSystemExitExceptionHandler, False, OSError)
-def _run(engine, parameters, componentsPaths=None, requisiteComponents=None):
+def setUserApplicationDatasDirectory(path):
+	"""
+	This definition sets the Application datas directory.
+
+	:param path: Starting point for the directories tree creation. ( String )
+	:return: Definition success. ( Boolean )
+	"""
+
+	userApplicationDatasDirectory = RuntimeGlobals.userApplicationDatasDirectory
+
+	LOGGER.debug("> Current Application datas directory '{0}'.".format(userApplicationDatasDirectory))
+	if io.setDirectory(userApplicationDatasDirectory):
+		for directory in Constants.preferencesDirectories:
+			if not io.setDirectory(os.path.join(userApplicationDatasDirectory, directory)):
+				raise OSError, "'{0}' directory creation failed , {1} will now close!".format(os.path.join(userApplicationDatasDirectory, directory), Constants.applicationName)
+		return True
+	else:
+		raise OSError, "'{0}' directory creation failed , {1} will now close!".format(userApplicationDatasDirectory, Constants.applicationName)
+
+@core.executionTrace
+def getCommandLineParametersParser():
+	"""
+	This definition returns the command line parameters parser.
+
+	:return: Parser. ( Parser )
+	"""
+
+	parser = optparse.OptionParser(formatter=optparse.IndentedHelpFormatter (indent_increment=2, max_help_position=8, width=128, short_first=1), add_help_option=None)
+
+	parser.add_option("-h", "--help", action="help", help="'Display this help message and exit.'")
+	parser.add_option("-a", "--about", action="store_true", default=False, dest="about", help="'Display Application about message.'")
+	parser.add_option("-v", "--verbose", action="store", type="int", dest="verbosityLevel", help="'Application verbosity levels: 0 = Critical | 1 = Error | 2 = Warning | 3 = Info | 4 = Debug.'")
+	parser.add_option("-f", "--loggingFormatter", action="store", type="string", dest="loggingFormater", help="'Application logging formatter: '{0}'.'".format(", ".join(sorted(RuntimeGlobals.loggingFormatters.keys()))))
+	parser.add_option("-u", "--userApplicationDatasDirectory", action="store", type="string", dest="userApplicationDatasDirectory", help="'User Application datas directory'.")
+	parser.add_option("-s", "--hideSplashScreen", action="store_true", default=False, dest="hideSplashScreen", help="'Hide splashscreen'.")
+
+	return parser
+
+@core.executionTrace
+@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiStandaloneSystemExitExceptionHandler, False, OSError)
+def run(engine, parameters, componentsPaths=None, requisiteComponents=None):
 	"""
 	This definition is called when **Umbra** starts.
 
@@ -1330,7 +1378,7 @@ def _run(engine, parameters, componentsPaths=None, requisiteComponents=None):
 	return sys.exit(RuntimeGlobals.application.exec_())
 
 @core.executionTrace
-def _exit():
+def exit():
 	"""
 	This definition is called when **Umbra** closes.
 	"""
@@ -1342,46 +1390,6 @@ def _exit():
 
 	QApplication.exit()
 
-@core.executionTrace
-@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiStandaloneSystemExitExceptionHandler, False, OSError)
-def setUserApplicationDatasDirectory(path):
-	"""
-	This definition sets the Application datas directory.
-
-	:param path: Starting point for the directories tree creation. ( String )
-	:return: Definition success. ( Boolean )
-	"""
-
-	userApplicationDatasDirectory = RuntimeGlobals.userApplicationDatasDirectory
-
-	LOGGER.debug("> Current Application datas directory '{0}'.".format(userApplicationDatasDirectory))
-	if io.setDirectory(userApplicationDatasDirectory):
-		for directory in Constants.preferencesDirectories:
-			if not io.setDirectory(os.path.join(userApplicationDatasDirectory, directory)):
-				raise OSError, "'{0}' directory creation failed , {1} will now close!".format(os.path.join(userApplicationDatasDirectory, directory), Constants.applicationName)
-		return True
-	else:
-		raise OSError, "'{0}' directory creation failed , {1} will now close!".format(userApplicationDatasDirectory, Constants.applicationName)
-
-@core.executionTrace
-def getCommandLineParametersParser():
-	"""
-	This definition returns the command line parameters parser.
-
-	:return: Parser. ( Parser )
-	"""
-
-	parser = optparse.OptionParser(formatter=optparse.IndentedHelpFormatter (indent_increment=2, max_help_position=8, width=128, short_first=1), add_help_option=None)
-
-	parser.add_option("-h", "--help", action="help", help="'Display this help message and exit.'")
-	parser.add_option("-a", "--about", action="store_true", default=False, dest="about", help="'Display Application about message.'")
-	parser.add_option("-v", "--verbose", action="store", type="int", dest="verbosityLevel", help="'Application verbosity levels: 0 = Critical | 1 = Error | 2 = Warning | 3 = Info | 4 = Debug.'")
-	parser.add_option("-f", "--loggingFormatter", action="store", type="string", dest="loggingFormater", help="'Application logging formatter: '{0}'.'".format(", ".join(sorted(RuntimeGlobals.loggingFormatters.keys()))))
-	parser.add_option("-u", "--userApplicationDatasDirectory", action="store", type="string", dest="userApplicationDatasDirectory", help="'User Application datas directory'.")
-	parser.add_option("-s", "--hideSplashScreen", action="store_true", default=False, dest="hideSplashScreen", help="'Hide splashscreen'.")
-
-	return parser
-
 #***********************************************************************************************
 #***	Launcher.
 #***********************************************************************************************
@@ -1389,4 +1397,4 @@ if __name__ == "__main__":
 	componentsPaths = []
 	for path in (os.path.join(umbra.__path__[0], Constants.factoryComponentsDirectory), os.path.join(os.getcwd(), umbra.__name__, Constants.factoryComponentsDirectory)):
 		os.path.exists(path) and componentsPaths.append(path)
-	_run(Umbra, getCommandLineParametersParser().parse_args(sys.argv), componentsPaths, ("factory.scriptEditor", "factory.preferencesManager", "factory.componentsManagerUi"))
+	run(Umbra, getCommandLineParametersParser().parse_args(sys.argv), componentsPaths, ("factory.scriptEditor", "factory.preferencesManager", "factory.componentsManagerUi"))
