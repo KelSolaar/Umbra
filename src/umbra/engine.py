@@ -76,6 +76,7 @@ import foundations.core as core
 import foundations.exceptions
 import foundations.io as io
 import manager.exceptions
+import umbra.exceptions
 import umbra.ui.common
 import umbra.ui.widgets.messageBox as messageBox
 from foundations.streamObject import StreamObject
@@ -141,7 +142,7 @@ RuntimeGlobals.uiFile = umbra.ui.common.getResourcePath(UiConstants.uiFile)
 if os.path.exists(RuntimeGlobals.uiFile):
 	Ui_Setup, Ui_Type = uic.loadUiType(RuntimeGlobals.uiFile)
 else:
-	umbra.ui.common.uiStandaloneSystemExitExceptionHandler(OSError("'{0}' ui file is not available, {1} will now close!".format(UiConstants.uiFile, Constants.applicationName)), Constants.applicationName)
+	umbra.ui.common.uiStandaloneSystemExitExceptionHandler(foundations.exceptions.FileExistsError("'{0}' ui file is not available, {1} will now close!".format(UiConstants.uiFile, Constants.applicationName)), Constants.applicationName)
 
 SESSION_HEADER_TEXT = ("{0} | Copyright ( C ) 2008 - 2011 Thomas Mansencal - thomas.mansencal@gmail.com".format(Constants.applicationName),
 			"{0} | This software is released under terms of GNU GPL V3 license.".format(Constants.applicationName),
@@ -1009,7 +1010,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		QDesktopServices.openUrl(QUrl(QString(UiConstants.apiFile)))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, OSError)
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def setVisualStyle(self):
 		"""
 		This method sets the Application visual style.
@@ -1036,7 +1037,7 @@ class Umbra(Ui_Type, Ui_Setup):
 					styleSheetFile.content[i] = line.replace(search.group("url"), umbra.ui.common.getResourcePath(search.group("url")))
 			RuntimeGlobals.application.setStyleSheet(QString("".join(styleSheetFile.content)))
 		else:
-			raise OSError("{0} | '{1}' stylesheet file is not available, visual style will not be applied!".format(self.__class__.__name__, styleSheetFile.file))
+			raise foundations.exceptions.FileExistsError("{0} | '{1}' stylesheet file is not available, visual style will not be applied!".format(self.__class__.__name__, styleSheetFile.file))
 
 	@core.executionTrace
 	def initializeToolBar(self):
@@ -1274,7 +1275,7 @@ def getCommandLineParametersParser():
 	return parser
 
 @core.executionTrace
-@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiStandaloneSystemExitExceptionHandler, False, OSError)
+@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiStandaloneSystemExitExceptionHandler, False, umbra.exceptions.EngineConfigurationError)
 def run(engine, parameters, componentsPaths=None, requisiteComponents=None):
 	"""
 	This definition is called when **Umbra** starts.
@@ -1308,7 +1309,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None):
 		RuntimeGlobals.userApplicationDatasDirectory = foundations.common.getUserApplicationDatasDirectory()
 
 	if not setUserApplicationDatasDirectory(RuntimeGlobals.userApplicationDatasDirectory):
-		raise OSError("'{0}' user Application datas directory is not available, {1} will now close!".format(RuntimeGlobals.userApplicationDatasDirectory, Constants.applicationName))
+		raise umbra.exceptions.EngineConfigurationError("'{0}' user Application datas directory is not available, {1} will now close!".format(RuntimeGlobals.userApplicationDatasDirectory, Constants.applicationName))
 
 	LOGGER.debug("> Application python interpreter: '{0}'".format(sys.executable))
 	LOGGER.debug("> Application startup location: '{0}'".format(os.getcwd()))
@@ -1320,14 +1321,14 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None):
 	try:
 		os.path.exists(RuntimeGlobals.loggingFile) and os.remove(RuntimeGlobals.loggingFile)
 	except:
-		raise OSError("{0} Logging file is currently locked by another process, {1} will now close!".format(RuntimeGlobals.loggingFile, Constants.applicationName))
+		raise umbra.exceptions.EngineConfigurationError("{0} Logging file is currently locked by another process, {1} will now close!".format(RuntimeGlobals.loggingFile, Constants.applicationName))
 
 	try:
 		RuntimeGlobals.loggingFileHandler = logging.FileHandler(RuntimeGlobals.loggingFile)
 		RuntimeGlobals.loggingFileHandler.setFormatter(RuntimeGlobals.loggingFormatters[Constants.loggingDefaultFormatter])
 		LOGGER.addHandler(RuntimeGlobals.loggingFileHandler)
 	except:
-		raise OSError("{0} Logging file is not available, {1} will now close!".format(RuntimeGlobals.loggingFile, Constants.applicationName))
+		raise umbra.exceptions.EngineConfigurationError("{0} Logging file is not available, {1} will now close!".format(RuntimeGlobals.loggingFile, Constants.applicationName))
 
 	# Retrieving Framework verbose level from settings file.
 	LOGGER.debug("> Initializing {0}!".format(Constants.applicationName))

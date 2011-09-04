@@ -29,6 +29,7 @@ from PyQt4.QtGui import *
 import foundations.common
 import foundations.core as core
 import foundations.exceptions
+import umbra.exceptions
 import umbra.ui.widgets.messageBox as messageBox
 from foundations.parser import Parser
 from umbra.globals.constants import Constants
@@ -179,7 +180,7 @@ def uiStandaloneSystemExitExceptionHandler(exception, origin, *args, **kwargs):
 	foundations.common.exit(1, LOGGER, [RuntimeGlobals.loggingSessionHandler, RuntimeGlobals.loggingFileHandler, RuntimeGlobals.loggingConsoleHandler])
 
 @core.executionTrace
-@foundations.exceptions.exceptionsHandler(None, False, OSError)
+@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.ResourceExistsError)
 def getResourcePath(name):
 	"""
 	This definition returns the resource file path matching the provided name.
@@ -194,7 +195,7 @@ def getResourcePath(name):
 			LOGGER.debug("> '{0}' resource path: '{1}'.".format(name, path))
 			return path
 
-	raise OSError("No resource file path found for '{0}' name!".format(name))
+	raise umbra.exceptions.ResourceExistsError("No resource file path found for '{0}' name!".format(name))
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -232,7 +233,7 @@ def centerWidgetOnScreen(widget, screen=None):
 	return True
 
 @core.executionTrace
-@foundations.exceptions.exceptionsHandler(None, False, OSError)
+@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 def getTokensParser(tokensFile):
 	"""
 	This method returns a tokens parser.
@@ -242,7 +243,7 @@ def getTokensParser(tokensFile):
 	"""
 
 	if not os.path.exists(tokensFile):
-		raise OSError("'{0}' tokens file doesn't exists!".format(tokensFile))
+		raise foundations.exceptions.FileExistsError("'{0}' tokens file doesn't exists!".format(tokensFile))
 
 	parser = Parser(tokensFile)
 	parser.read() and parser.parse(orderedDictionary=False)
