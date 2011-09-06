@@ -69,16 +69,12 @@ def getFormat(**kwargs):
 	settings.update(kwargs)
 
 	format = QTextCharFormat(settings.format)
-	if settings.backgroundColor:
-		format.setBackground(settings.backgroundColor)
-	if settings.color:
-		format.setForeground(settings.color)
-	if settings.fontWeight:
-		format.setFontWeight(settings.fontWeight)
-	if settings.fontPointSize:
-		format.setFontPointSize(settings.fontPointSize)
-	if settings.italic:
-		format.setFontItalic(True)
+	
+	settings.backgroundColor and format.setBackground(settings.backgroundColor)
+	settings.color and format.setForeground(settings.color)
+	settings.fontWeight and format.setFontWeight(settings.fontWeight)
+	settings.fontPointSize and format.setFontPointSize(settings.fontPointSize)
+	settings.italic and	format.setFontItalic(True)
 
 	return format
 
