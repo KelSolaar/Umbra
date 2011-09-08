@@ -62,3 +62,23 @@ class ResourceExistsError(foundations.exceptions.AbstractOsError):
 
 	pass
 
+class AbstractActionsManagerError(foundations.exceptions.AbstractError):
+	"""
+	This class is the abstract base class for :class:`ActionsManager` related exceptions.
+	"""
+
+	pass
+
+class CategorieExistsError(AbstractActionsManagerError):
+	"""
+	This class is used for non existing categorie exceptions.
+	"""
+
+	pass
+
+class ActionExistsError(AbstractActionsManagerError):
+	"""
+	This class is used for non existing action exceptions.
+	"""
+
+	pass

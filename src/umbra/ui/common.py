@@ -31,7 +31,7 @@ import foundations.core as core
 import foundations.exceptions
 import umbra.exceptions
 import umbra.ui.widgets.messageBox as messageBox
-from foundations.parser import Parser
+from foundations.parsers import SectionsFileParser
 from umbra.globals.constants import Constants
 from umbra.globals.uiConstants import UiConstants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
@@ -239,12 +239,12 @@ def getTokensParser(tokensFile):
 	This method returns a tokens parser.
 
 	:param tokensFile: Tokens file. ( String )
-	:return: Tokens. ( Parser )
+	:return: Tokens. ( SectionsFileParser )
 	"""
 
 	if not os.path.exists(tokensFile):
 		raise foundations.exceptions.FileExistsError("'{0}' tokens file doesn't exists!".format(tokensFile))
 
-	parser = Parser(tokensFile)
+	parser = SectionsFileParser(tokensFile)
 	parser.read() and parser.parse(orderedDictionary=False)
 	return parser

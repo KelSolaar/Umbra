@@ -28,7 +28,7 @@ from PyQt4.QtGui import *
 import foundations.core as core
 import foundations.exceptions
 import umbra.ui.common
-from foundations.parser import Parser
+from foundations.parsers import SectionsFileParser
 from umbra.globals.constants import Constants
 from umbra.globals.uiConstants import UiConstants
 
@@ -404,7 +404,7 @@ class PythonHighlighter(Highlighter):
 		"""
 		This method is the property for **self.__pythonTokens** attribute.
 
-		:return: self.__pythonTokens. ( Parser )
+		:return: self.__pythonTokens. ( SectionsFileParser )
 		"""
 
 		return self.__pythonTokens
@@ -415,11 +415,11 @@ class PythonHighlighter(Highlighter):
 		"""
 		This method is the setter method for **self.__pythonTokens** attribute.
 
-		:param value: Attribute value. ( Parser )
+		:param value: Attribute value. ( SectionsFileParser )
 		"""
 
 		if value:
-			assert type(value) is Parser, "'{0}' attribute: '{1}' type is not 'Parser'!".format("pythonTokens", value)
+			assert type(value) is SectionsFileParser, "'{0}' attribute: '{1}' type is not 'SectionsFileParser'!".format("pythonTokens", value)
 		self.__pythonTokens = value
 
 	@pythonTokens.deleter
