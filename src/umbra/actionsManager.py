@@ -349,6 +349,7 @@ class ActionsManager(QObject):
 									"whatsThis" : None,
 									"toolTip" : None,
 									"shortcut" : None,
+									"shortcutContext" : None,
 									"slot" : None})
 		settings.update(kwargs)
 
@@ -365,6 +366,7 @@ class ActionsManager(QObject):
 		settings.whatsThis and action.setWhatsThis(settings.whatsThis)
 		settings.toolTip and action.setToolTip(settings.toolTip)
 		settings.shortcut and action.setShortcut(QKeySequence(settings.shortcut))
+		settings.shortcutContext and action.setShortcutContext(settings.shortcutContext)
 		if settings.slot:
 			self.__actionsSignalsSlots[action] = settings.slot
 			action.triggered.connect(settings.slot)

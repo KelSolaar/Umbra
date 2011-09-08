@@ -76,6 +76,7 @@ import foundations.core as core
 import foundations.exceptions
 import foundations.io as io
 import manager.exceptions
+import umbra.actionsManager
 import umbra.exceptions
 import umbra.ui.common
 import umbra.ui.widgets.messageBox as messageBox
@@ -186,6 +187,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		self.__requisiteComponents = requisiteComponents or []
 
 		self.__timer = None
+		self.__actionsManager = None
 		self.__componentsManager = None
 		self.__lastBrowsedPath = os.getcwd()
 		self.__userApplicationDatasDirectory = RuntimeGlobals.userApplicationDatasDirectory
@@ -211,6 +213,9 @@ class Umbra(Ui_Type, Ui_Setup):
 
 		# --- Initializing application. ---
 		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Initializing interface.".format(self.__class__.__name__, Constants.releaseVersion), textColor=Qt.white, waitTime=0.25)
+
+		# --- Initializing Actions Manager. ---
+		self.__actionsManager = umbra.actionsManager.ActionsManager(parent=self)
 
 		# Visual style initialization.
 		self.setVisualStyle()
@@ -389,11 +394,41 @@ class Umbra(Ui_Type, Ui_Setup):
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("requisiteComponents"))
 
 	@property
+	def actionsManager(self):
+		"""
+		This method is the property for **self.__actionsManager** attribute.
+
+		:return: self.__actionsManager. ( ActionsManager )
+		"""
+
+		return self.__actionsManager
+
+	@actionsManager.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def actionsManager(self, value):
+		"""
+		This method is the setter method for **self.__actionsManager** attribute.
+
+		:param value: Attribute value. ( ActionsManager )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("actionsManager"))
+
+	@actionsManager.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def actionsManager(self):
+		"""
+		This method is the deleter method for **self.__actionsManager** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("actionsManager"))
+
+	@property
 	def componentsManager(self):
 		"""
 		This method is the property for **self.__componentsManager** attribute.
 
-		:return: self.__componentsManager. ( Object )
+		:return: self.__componentsManager. ( ComponentsManager )
 		"""
 
 		return self.__componentsManager
@@ -404,7 +439,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		"""
 		This method is the setter method for **self.__componentsManager** attribute.
 
-		:param value: Attribute value. ( Object )
+		:param value: Attribute value. ( ComponentsManager )
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("componentsManager"))
@@ -942,10 +977,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		LOGGER.debug("> Setting layouts Active_QLabels shortcuts.")
 
 		for layoutActiveLabel in self.__layoutsActiveLabels:
-			action = QAction(layoutActiveLabel.name, self)
-			action.setShortcut(QKeySequence(layoutActiveLabel.shortcut))
-			self.addAction(action)
-			action.triggered.connect(functools.partial(self.restoreLayout, layoutActiveLabel.layout))
+			self.addAction(self.__actionsManager.registerAction("Actions|Umbra|Layouts|{0}".format(layoutActiveLabel.name), shortcut=layoutActiveLabel.shortcut, shortcutContext=Qt.ApplicationShortcut, slot=functools.partial(self.restoreLayout, layoutActiveLabel.layout)))
 
 	@core.executionTrace
 	def __getLayoutsActiveLabel(self):
@@ -1094,24 +1126,13 @@ class Umbra(Ui_Type, Ui_Setup):
 		self.__layoutMenu = QMenu("Layout", layoutButton)
 
 		userLayouts = (("1", Qt.Key_1, "one"), ("2", Qt.Key_2, "two"), ("3", Qt.Key_3, "three"), ("4", Qt.Key_4, "four"), ("5", Qt.Key_5, "five"))
-
-		for layout in userLayouts:
-			action = QAction("Restore layout {0}".format(layout[0]), self)
-			action.setShortcut(QKeySequence(layout[1]))
-			self.__layoutMenu.addAction(action)
-
-			# Signals / Slots.
-			action.triggered.connect(functools.partial(self.restoreLayout, layout[2]))
+		for index, shortcut, name in userLayouts:
+			self.__layoutMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|Miscellaneous|Restore layout {0}".format(index), shortcut=shortcut, slot=functools.partial(self.restoreLayout, name)))
 
 		self.__layoutMenu.addSeparator()
 
-		for layout in userLayouts:
-			action = QAction("Store layout {0}".format(layout[0]), self)
-			action.setShortcut(QKeySequence(Qt.CTRL + layout[1]))
-			self.__layoutMenu.addAction(action)
-
-			# Signals / Slots.
-			action.triggered.connect(functools.partial(self.storeLayout, layout[2]))
+		for index, shortcut, name in userLayouts:
+			self.__layoutMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|Miscellaneous|Store layout {0}".format(index), shortcut=Qt.CTRL + shortcut, slot=functools.partial(self.storeLayout, name)))
 
 		layoutButton.setMenu(self.__layoutMenu)
 
@@ -1122,18 +1143,11 @@ class Umbra(Ui_Type, Ui_Setup):
 		miscellaneousButton.setObjectName("Miscellaneous_activeLabel")
 		self.toolBar.addWidget(miscellaneousButton)
 
-		helpDisplayMiscAction = QAction("Help content ...", self)
-		apiDisplayMiscAction = QAction("Api content ...", self)
-
 		self.__miscMenu = QMenu("Miscellaneous", miscellaneousButton)
 
-		self.__miscMenu.addAction(helpDisplayMiscAction)
-		self.__miscMenu.addAction(apiDisplayMiscAction)
+		self.__miscMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|Miscellaneous|Help content ...", shortcut="F1", slot=self.helpDisplayMiscAction__triggered))
+		self.__miscMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|Miscellaneous|Api content ...", slot=self.apiDisplayMiscAction__triggered))
 		self.__miscMenu.addSeparator()
-
-		# Signals / Slots.
-		helpDisplayMiscAction.triggered.connect(self.helpDisplayMiscAction__triggered)
-		apiDisplayMiscAction.triggered.connect(self.apiDisplayMiscAction__triggered)
 
 		miscellaneousButton.setMenu(self.__miscMenu)
 
@@ -1182,7 +1196,6 @@ class Umbra(Ui_Type, Ui_Setup):
 		self.restoreState(self.__settings.getKey("Layouts", "{0}_windowState".format(name)).toByteArray())
 		self.__settings._datas.restoreGeometryOnLayoutChange and self.restoreGeometry(self.__settings.getKey("Layouts", "{0}_geometry".format(name)).toByteArray())
 		self.__setLayoutsActiveLabel(self.__settings.getKey("Layouts", "{0}_activeLabel".format(name)).toInt()[0])
-		QApplication.focusWidget() and QApplication.focusWidget().clearFocus()
 		return True
 
 	@core.executionTrace
