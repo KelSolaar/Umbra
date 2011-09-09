@@ -76,7 +76,7 @@ class ScriptEditor(UiComponent):
 		UiComponent.__init__(self, name=name, uiFile=uiFile)
 
 		# --- Setting class attributes. ---
-		self.deactivatable = True
+		self.deactivatable = False
 
 		self.__uiPath = "ui/Script_Editor.ui"
 		self.__dockArea = 8
@@ -398,67 +398,26 @@ class ScriptEditor(UiComponent):
 		"""
 
 		self.__fileMenu = QMenu("&File")
-		loadScriptAction = QAction("&Load script ...", self)
-		loadScriptAction.setShortcut(QKeySequence(QKeySequence.Open))
-		self.__fileMenu.addAction(loadScriptAction)
-		sourceScriptAction = QAction("Source script ...", self)
-		self.__fileMenu.addAction(sourceScriptAction)
-		saveScriptAction = QAction("&Save script ...", self)
-		saveScriptAction.setShortcut(QKeySequence(QKeySequence.Save))
-		self.__fileMenu.addAction(saveScriptAction)
+		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Load script ...", shortcut=QKeySequence.Open, slot=self.__loadScriptAction__triggered))
+		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Source script ...", slot=self.__sourceScriptAction__triggered))
+		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Save script ...", shortcut=QKeySequence.Save, slot=self.__saveScriptAction__triggered))
 		self.__menuBar.addMenu(self.__fileMenu)
 
-		# Signals / Slots.
-		loadScriptAction.triggered.connect(self.__loadScriptAction__triggered)
-		sourceScriptAction.triggered.connect(self.__sourceScriptAction__triggered)
-		saveScriptAction.triggered.connect(self.__saveScriptAction__triggered)
-
 		self.__editMenu = QMenu("&Edit")
-		undoAction = QAction("&Undo", self)
-		undoAction.setShortcut(QKeySequence(QKeySequence.Undo))
-		self.__editMenu.addAction(undoAction)
-		redoAction = QAction("&Redo", self)
-		redoAction.setShortcut(QKeySequence(QKeySequence.Redo))
-		self.__editMenu.addAction(redoAction)
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Undo", shortcut=QKeySequence.Undo, slot=self.__undoAction__triggered))
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Redo", shortcut=QKeySequence.Redo, slot=self.__redoAction__triggered))
 		self.__editMenu.addSeparator()
-		cutAction = QAction("Cu&t", self)
-		cutAction.setShortcut(QKeySequence(QKeySequence.Cut))
-		self.__editMenu.addAction(cutAction)
-		copyAction = QAction("&Copy", self)
-		copyAction.setShortcut(QKeySequence(QKeySequence.Copy))
-		self.__editMenu.addAction(copyAction)
-		pasteAction = QAction("&Paste", self)
-		pasteAction.setShortcut(QKeySequence(QKeySequence.Paste))
-		self.__editMenu.addAction(pasteAction)
-		deleteAction = QAction("Delete", self)
-		self.__editMenu.addAction(deleteAction)
-		self.__editMenu.addSeparator()
-		selectAllAction = QAction("Select All", self)
-		selectAllAction.setShortcut(QKeySequence(QKeySequence.SelectAll))
-		self.__editMenu.addAction(selectAllAction)
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Cu&t", shortcut=QKeySequence.Cut, slot=self.__cutAction__triggered))
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Copy", shortcut=QKeySequence.Copy, slot=self.__copyAction__triggered))
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Paste", shortcut=QKeySequence.Paste, slot=self.__pasteAction__triggered))
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete", slot=self.__deleteAction__triggered))
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Select All", shortcut=QKeySequence.SelectAll, slot=self.__selectAllAction__triggered))
 		self.__menuBar.addMenu(self.__editMenu)
 
-		# Signals / Slots.
-		undoAction.triggered.connect(self.__undoAction__triggered)
-		redoAction.triggered.connect(self.__redoAction__triggered)
-		cutAction.triggered.connect(self.__cutAction__triggered)
-		copyAction.triggered.connect(self.__copyAction__triggered)
-		pasteAction.triggered.connect(self.__pasteAction__triggered)
-		deleteAction.triggered.connect(self.__deleteAction__triggered)
-		selectAllAction.triggered.connect(self.__selectAllAction__triggered)
-
 		self.__commandMenu = QMenu("&Command")
-		evaluateSelectionAction = QAction("&Evaluate Selection", self)
-		evaluateSelectionAction.setShortcut(QKeySequence(Qt.ControlModifier + Qt.Key_Return))
-		self.__commandMenu.addAction(evaluateSelectionAction)
-		evaluateScriptAction = QAction("Evaluate &Script", self)
-		evaluateScriptAction.setShortcut(QKeySequence(Qt.SHIFT + Qt.CTRL + Qt.Key_Return))
-		self.__commandMenu.addAction(evaluateScriptAction)
+		self.__commandMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection", shortcut=Qt.ControlModifier + Qt.Key_Return, slot=self.__evaluateSelectionAction__triggered))
+		self.__commandMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script", shortcut=Qt.SHIFT + Qt.CTRL + Qt.Key_Return, slot=self.__evaluateScriptAction__triggered))
 		self.__menuBar.addMenu(self.__commandMenu)
-
-		# Signals / Slots.
-		evaluateSelectionAction.triggered.connect(self.__evaluateSelectionAction__triggered)
-		evaluateScriptAction.triggered.connect(self.__evaluateScriptAction__triggered)
 
 	# @core.executionTrace
 	def __Script_Editor_Output_plainTextEdit_setUi(self):
