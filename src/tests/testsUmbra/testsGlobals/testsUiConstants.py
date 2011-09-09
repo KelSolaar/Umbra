@@ -63,9 +63,9 @@ class UiConstantsTestCase(unittest.TestCase):
 								"splashScreenImage",
 								"logoImage",
 								"defaultToolbarIconSize",
-								"layoutIcon",
-								"layoutHoverIcon",
-								"layoutActiveIcon",
+								"customLayoutsIcon",
+								"customLayoutsHoverIcon",
+								"customLayoutsActiveIcon",
 								"miscellaneousIcon",
 								"miscellaneousHoverIcon",
 								"miscellaneousActiveIcon",
@@ -188,26 +188,26 @@ class UiConstantsTestCase(unittest.TestCase):
 		self.assertGreaterEqual(UiConstants.defaultToolbarIconSize, 8)
 		self.assertLessEqual(UiConstants.defaultToolbarIconSize, 128)
 
-	def testLayoutIconAttribute(self):
+	def testCustomLayoutsIconAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.uiConstants.UiConstants.layoutIcon` attribute.
-		"""
-
-		self.assertRegexpMatches(UiConstants.layoutIcon, "\w+")
-
-	def testLayoutHoverIconAttribute(self):
-		"""
-		This method tests :attr:`umbra.globals.uiConstants.UiConstants.layoutHoverIcon` attribute.
+		This method tests :attr:`umbra.globals.uiConstants.UiConstants.customLayoutsIcon` attribute.
 		"""
 
-		self.assertRegexpMatches(UiConstants.layoutHoverIcon, "\w+")
+		self.assertRegexpMatches(UiConstants.customLayoutsIcon, "\w+")
 
-	def testLayoutActiveIconAttribute(self):
+	def testCustomLayoutsHoverIconAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.uiConstants.UiConstants.layoutActiveIcon` attribute.
+		This method tests :attr:`umbra.globals.uiConstants.UiConstants.customLayoutsHoverIcon` attribute.
 		"""
 
-		self.assertRegexpMatches(UiConstants.layoutActiveIcon, "\w+")
+		self.assertRegexpMatches(UiConstants.customLayoutsHoverIcon, "\w+")
+
+	def testCustomLayoutsActiveIconAttribute(self):
+		"""
+		This method tests :attr:`umbra.globals.uiConstants.UiConstants.customLayoutsActiveIcon` attribute.
+		"""
+
+		self.assertRegexpMatches(UiConstants.customLayoutsActiveIcon, "\w+")
 
 	def testMiscellaneousIconAttribute(self):
 		"""

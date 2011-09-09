@@ -203,7 +203,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		self.__developmentActiveLabel = None
 		self.__preferencesActiveLabel = None
 		self.__layoutsActiveLabels = None
-		self.__layoutMenu = None
+		self.__customLayoutsMenu = None
 		self.__miscMenu = None
 		self.__workerThreads = []
 
@@ -822,36 +822,36 @@ class Umbra(Ui_Type, Ui_Setup):
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("layoutsActiveLabels"))
 
 	@property
-	def layoutMenu(self):
+	def customLayoutsMenu(self):
 		"""
-		This method is the property for **self.__layoutMenu** attribute.
+		This method is the property for **self.__customLayoutsMenu** attribute.
 
-		:return: self.__layoutMenu. ( QMenu )
+		:return: self.__customLayoutsMenu. ( QMenu )
 		"""
 
-		return self.__layoutMenu
+		return self.__customLayoutsMenu
 
-	@layoutMenu.setter
+	@customLayoutsMenu.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def layoutMenu(self, value):
+	def customLayoutsMenu(self, value):
 		"""
-		This method is the setter method for **self.__layoutMenu** attribute.
+		This method is the setter method for **self.__customLayoutsMenu** attribute.
 
 		:param value: Attribute value. ( QMenu )
 		"""
 
 		if value:
-			assert issubclass(value.__class__, QMenu), "'{0}' attribute: '{1}' type is not 'QMenu'!".format("layoutMenu", value)
-		self.__layoutMenu = value
+			assert issubclass(value.__class__, QMenu), "'{0}' attribute: '{1}' type is not 'QMenu'!".format("customLayoutsMenu", value)
+		self.__customLayoutsMenu = value
 
-	@layoutMenu.deleter
+	@customLayoutsMenu.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def layoutMenu(self):
+	def customLayoutsMenu(self):
 		"""
-		This method is the deleter method for **self.__layoutMenu** attribute.
+		This method is the deleter method for **self.__customLayoutsMenu** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("layoutMenu"))
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("customLayoutsMenu"))
 
 	@property
 	def miscMenu(self):
@@ -977,10 +977,10 @@ class Umbra(Ui_Type, Ui_Setup):
 		LOGGER.debug("> Setting layouts Active_QLabels shortcuts.")
 
 		for layoutActiveLabel in self.__layoutsActiveLabels:
-			self.addAction(self.__actionsManager.registerAction("Actions|Umbra|Layouts|{0}".format(layoutActiveLabel.name), shortcut=layoutActiveLabel.shortcut, shortcutContext=Qt.ApplicationShortcut, slot=functools.partial(self.restoreLayout, layoutActiveLabel.layout)))
+			self.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Layouts|{0}".format(layoutActiveLabel.name), shortcut=layoutActiveLabel.shortcut, shortcutContext=Qt.ApplicationShortcut, slot=functools.partial(self.restoreLayout, layoutActiveLabel.layout)))
 
 	@core.executionTrace
-	def __getLayoutsActiveLabel(self):
+	def __getCurrentLayoutActiveLabel(self):
 		"""
 		This method returns the current layout **Active_QLabel** index.
 
@@ -995,7 +995,7 @@ class Umbra(Ui_Type, Ui_Setup):
 				return index
 
 	@core.executionTrace
-	def __setLayoutsActiveLabel(self, index):
+	def __setLayoutsActiveLabels(self, index):
 		"""
 		This method sets the layouts **Active_QLabel**.
 
@@ -1046,6 +1046,8 @@ class Umbra(Ui_Type, Ui_Setup):
 	def setVisualStyle(self):
 		"""
 		This method sets the Application visual style.
+		
+		:return: Method success. ( Boolean )
 		"""
 
 		LOGGER.debug("> Setting Application visual style.")
@@ -1068,46 +1070,55 @@ class Umbra(Ui_Type, Ui_Setup):
 				if search:
 					styleSheetFile.content[i] = line.replace(search.group("url"), umbra.ui.common.getResourcePath(search.group("url")))
 			RuntimeGlobals.application.setStyleSheet(QString("".join(styleSheetFile.content)))
+			return True
 		else:
 			raise foundations.exceptions.FileExistsError("{0} | '{1}' stylesheet file is not available, visual style will not be applied!".format(self.__class__.__name__, styleSheetFile.file))
 
 	@core.executionTrace
-	def initializeToolBar(self):
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getApplicationLogoLabel(self):
 		"""
-		This method initializes Application toolBar.
+		This method provides the default **Application_Logo_label** widget.
+
+		:return: Application logo label. ( QLabel )
 		"""
 
-		LOGGER.debug("> Initializing Application toolBar.")
-
-		self.toolBar.setIconSize(QSize(UiConstants.defaultToolbarIconSize, UiConstants.defaultToolbarIconSize))
-
-		LOGGER.debug("> Adding Application logo.")
 		logoLabel = QLabel()
 		logoLabel.setObjectName("Application_Logo_label")
 		logoLabel.setPixmap(QPixmap(umbra.ui.common.getResourcePath(UiConstants.logoImage)))
-		self.toolBar.addWidget(logoLabel)
+		return logoLabel
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getLogoSpacerLabel(self):
+		"""
+		This method provides the default **Logo_Spacer_label** widget.
+
+		:return: Logo spacer label. ( QLabel )
+		"""
 
 		spacer = QLabel()
 		spacer.setObjectName("Logo_Spacer_label")
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-		self.toolBar.addWidget(spacer)
+		return spacer
 
-		toolBarFont = QFont()
-		toolBarFont.setPointSize(16)
+	@core.executionTrace
+	def getLayoutsActiveLabels(self):
+		"""
+		This method returns the default layouts active labels widgets.
 
-		LOGGER.debug("> Adding Active_QLabels.")
+		:return: Method success. ( Boolean )
+		"""
 
 		self.__developmentActiveLabel = Active_QLabel(QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentIcon)),
 													QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentHoverIcon)),
 													QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentActiveIcon)), True)
 		self.__developmentActiveLabel.setObjectName("Development_activeLabel")
-		self.toolBar.addWidget(self.__developmentActiveLabel)
 
 		self.__preferencesActiveLabel = Active_QLabel(QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesIcon)),
 													QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesHoverIcon)),
 													QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesActiveIcon)), True)
 		self.__preferencesActiveLabel.setObjectName("Preferences_activeLabel")
-		self.toolBar.addWidget(self.__preferencesActiveLabel)
 
 		self.__layoutsActiveLabels = (umbra.ui.common.LayoutActiveLabel(name="Development", object=self.__developmentActiveLabel, layout="developmentCentric", shortcut=Qt.Key_9),
 									umbra.ui.common.LayoutActiveLabel(name="Preferences", object=self.__preferencesActiveLabel, layout="preferencesCentric", shortcut=Qt.Key_0))
@@ -1116,45 +1127,104 @@ class Umbra(Ui_Type, Ui_Setup):
 		for layoutActiveLabel in self.__layoutsActiveLabels:
 			layoutActiveLabel.object.clicked.connect(functools.partial(self.layoutActiveLabel__clicked, layoutActiveLabel.layout))
 
-		LOGGER.debug("> Adding layout button.")
-		layoutButton = Active_QLabel(QPixmap(umbra.ui.common.getResourcePath(UiConstants.layoutIcon)),
-									QPixmap(umbra.ui.common.getResourcePath(UiConstants.layoutHoverIcon)),
-									QPixmap(umbra.ui.common.getResourcePath(UiConstants.layoutActiveIcon)), parent=self)
-		layoutButton.setObjectName("Layout_activeLabel")
-		self.toolBar.addWidget(layoutButton)
+		return True
 
-		self.__layoutMenu = QMenu("Layout", layoutButton)
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getCustomLayoutsActiveLabel(self):
+		"""
+		This method provides the default **Custom_Layouts_activeLabel** widget.
+
+		:return: Layout active label. ( Active_QLabel )
+		"""
+
+		layoutActiveLabel = Active_QLabel(QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsIcon)),
+									QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsHoverIcon)),
+									QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsActiveIcon)), parent=self)
+		layoutActiveLabel.setObjectName("Custom_Layouts_activeLabel")
+
+		self.__customLayoutsMenu = QMenu("Layouts", layoutActiveLabel)
 
 		userLayouts = (("1", Qt.Key_1, "one"), ("2", Qt.Key_2, "two"), ("3", Qt.Key_3, "three"), ("4", Qt.Key_4, "four"), ("5", Qt.Key_5, "five"))
 		for index, shortcut, name in userLayouts:
-			self.__layoutMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|Miscellaneous|Restore layout {0}".format(index), shortcut=shortcut, slot=functools.partial(self.restoreLayout, name)))
+			self.__customLayoutsMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Layouts|Restore layout {0}".format(index), shortcut=shortcut, slot=functools.partial(self.restoreLayout, name)))
 
-		self.__layoutMenu.addSeparator()
+		self.__customLayoutsMenu.addSeparator()
 
 		for index, shortcut, name in userLayouts:
-			self.__layoutMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|Miscellaneous|Store layout {0}".format(index), shortcut=Qt.CTRL + shortcut, slot=functools.partial(self.storeLayout, name)))
+			self.__customLayoutsMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Layouts|Store layout {0}".format(index), shortcut=Qt.CTRL + shortcut, slot=functools.partial(self.storeLayout, name)))
 
-		layoutButton.setMenu(self.__layoutMenu)
+		layoutActiveLabel.setMenu(self.__customLayoutsMenu)
+		return layoutActiveLabel
 
-		LOGGER.debug("> Adding miscellaneous button.")
-		miscellaneousButton = Active_QLabel(QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousIcon)),
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getMiscellaneousActiveLabel(self):
+		"""
+		This method provides the default **Miscellaneous_activeLabel** widget.
+
+		:return: Miscellaneous active label. ( Active_QLabel )
+		"""
+
+		miscellaneousActiveLabel = Active_QLabel(QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousIcon)),
 										QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousHoverIcon)),
 										QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousActiveIcon)), parent=self)
-		miscellaneousButton.setObjectName("Miscellaneous_activeLabel")
-		self.toolBar.addWidget(miscellaneousButton)
+		miscellaneousActiveLabel.setObjectName("Miscellaneous_activeLabel")
 
-		self.__miscMenu = QMenu("Miscellaneous", miscellaneousButton)
+		self.__miscMenu = QMenu("Miscellaneous", miscellaneousActiveLabel)
 
-		self.__miscMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|Miscellaneous|Help content ...", shortcut="F1", slot=self.helpDisplayMiscAction__triggered))
-		self.__miscMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|Miscellaneous|Api content ...", slot=self.apiDisplayMiscAction__triggered))
+		self.__miscMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Miscellaneous|Help content ...", shortcut="F1", slot=self.helpDisplayMiscAction__triggered))
+		self.__miscMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Miscellaneous|Api content ...", slot=self.apiDisplayMiscAction__triggered))
 		self.__miscMenu.addSeparator()
 
-		miscellaneousButton.setMenu(self.__miscMenu)
+		miscellaneousActiveLabel.setMenu(self.__miscMenu)
+		return miscellaneousActiveLabel
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getClosureSpacerLabel(self):
+		"""
+		This method provides the default **Closure_Spacer_label** widget.
+
+		:return: Closure spacer label. ( QLabel )
+		"""
 
 		spacer = QLabel()
-		spacer.setObjectName("Closure_Spacer_activeLabel")
+		spacer.setObjectName("Closure_Spacer_label")
 		spacer.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Expanding)
-		self.toolBar.addWidget(spacer)
+		return spacer
+
+	@core.executionTrace
+	def initializeToolBar(self):
+		"""
+		This method initializes Application toolBar.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		LOGGER.debug("> Initializing Application toolBar!")
+		self.toolBar.setIconSize(QSize(UiConstants.defaultToolbarIconSize, UiConstants.defaultToolbarIconSize))
+
+		LOGGER.debug("> Adding 'Application_Logo_label' widget!")
+		self.toolBar.addWidget(self.getApplicationLogoLabel())
+
+		LOGGER.debug("> Adding 'Logo_Spacer_label' widget!")
+		self.toolBar.addWidget(self.getLogoSpacerLabel())
+
+		LOGGER.debug("> Adding 'Development_activeLabel', 'Preferences_activeLabel' widgets!")
+		self.getLayoutsActiveLabels()
+		for activeLabel in self.__layoutsActiveLabels:
+			self.toolBar.addWidget(activeLabel.object)
+
+		LOGGER.debug("> Adding 'Custom_Layouts_activeLabel' widget!")
+		self.toolBar.addWidget(self.getCustomLayoutsActiveLabel())
+
+		LOGGER.debug("> Adding 'Miscellaneous_activeLabel' widget!")
+		self.toolBar.addWidget(self.getMiscellaneousActiveLabel())
+
+		LOGGER.debug("> Adding 'Closure_Spacer_label' widget!")
+		self.toolBar.addWidget(self.getClosureSpacerLabel())
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -1172,7 +1242,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		self.__settings.setKey("Layouts", "{0}_geometry".format(name), self.saveGeometry())
 		self.__settings.setKey("Layouts", "{0}_windowState".format(name), self.saveState())
 		self.__settings.setKey("Layouts", "{0}_centralWidget".format(name), self.centralwidget.isVisible())
-		self.__settings.setKey("Layouts", "{0}_activeLabel".format(name), self.__getLayoutsActiveLabel())
+		self.__settings.setKey("Layouts", "{0}_activeLabel".format(name), self.__getCurrentLayoutActiveLabel())
 		return True
 
 	@core.executionTrace
@@ -1195,7 +1265,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		self.centralwidget.setVisible(self.__settings.getKey("Layouts", "{0}_centralWidget".format(name)).toBool())
 		self.restoreState(self.__settings.getKey("Layouts", "{0}_windowState".format(name)).toByteArray())
 		self.__settings._datas.restoreGeometryOnLayoutChange and self.restoreGeometry(self.__settings.getKey("Layouts", "{0}_geometry".format(name)).toByteArray())
-		self.__setLayoutsActiveLabel(self.__settings.getKey("Layouts", "{0}_activeLabel".format(name)).toInt()[0])
+		self.__setLayoutsActiveLabels(self.__settings.getKey("Layouts", "{0}_activeLabel".format(name)).toInt()[0])
 		return True
 
 	@core.executionTrace
