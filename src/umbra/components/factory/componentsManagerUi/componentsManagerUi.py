@@ -52,39 +52,6 @@ LOGGER = logging.getLogger(Constants.logger)
 #***********************************************************************************************
 #***	Module classes and definitions.
 #***********************************************************************************************
-@core.executionTrace
-def _componentActivationErrorHandler(exception, origin, *args, **kwargs):
-	"""
-	This definition provides an exception handler for Component activation.
-
-	:param exception: Exception. ( Exception )
-	:param origin: Function / Method raising the exception. ( String )
-	"""
-
-	umbra.ui.common.uiBasicExceptionHandler(manager.exceptions.ComponentActivationError("{0} | An exception occurred while activating '{1}' Component:\n{2}".format(core.getModule(_componentActivationErrorHandler).__name__, args[1].name, traceback.format_exc())), origin, *args, **kwargs)
-
-@core.executionTrace
-def _componentDeactivationErrorHandler(exception, origin, *args, **kwargs):
-	"""
-	This definition provides an exception handler for Component deactivation.
-
-	:param exception: Exception. ( Exception )
-	:param origin: Function / Method raising the exception. ( String )
-	"""
-
-	umbra.ui.common.uiBasicExceptionHandler(manager.exceptions.ComponentDeactivationError("{0} | An exception occurred while deactivating '{1}' Component:\n{2}".format(core.getModule(_componentDeactivationErrorHandler).__name__, args[1].name, traceback.format_exc())), origin, *args, **kwargs)
-
-@core.executionTrace
-def _componentReloadErrorHandler(exception, origin, *args, **kwargs):
-	"""
-	This definition provides an exception handler for Component reload.
-
-	:param exception: Exception. ( Exception )
-	:param origin: Function / Method raising the exception. ( String )
-	"""
-
-	umbra.ui.common.uiBasicExceptionHandler(manager.exceptions.ComponentReloadError("{0} | An exception occurred while reloading '{1}' Component:\n{2}".format(core.getModule(_componentReloadErrorHandler).__name__, args[1].name, traceback.format_exc())), origin, *args, **kwargs)
-
 class ComponentsManagerUi(UiComponent):
 	"""
 	| This class is the :mod:`umbra.components.core.componentsManagerUi.componentsManagerUi` Component Interface class.
@@ -804,21 +771,14 @@ class ComponentsManagerUi(UiComponent):
 		This method sets the **Components_Manager_Ui_treeView** actions.
 		"""
 
-		activateComponentsAction = QAction("Activate Component(s)", self.ui.Components_Manager_Ui_treeView)
-		activateComponentsAction.triggered.connect(self.__Components_Manager_Ui_treeView_activateComponentsAction__triggered)
-		self.ui.Components_Manager_Ui_treeView.addAction(activateComponentsAction)
-
-		deactivateComponentsAction = QAction("Deactivate Component(s)", self.ui.Components_Manager_Ui_treeView)
-		deactivateComponentsAction.triggered.connect(self.__Components_Manager_Ui_treeView_deactivateComponentsAction__triggered)
-		self.ui.Components_Manager_Ui_treeView.addAction(deactivateComponentsAction)
+		self.ui.Components_Manager_Ui_treeView.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.ComponentsManagerUi|Activate Component(s)", slot=self.__Components_Manager_Ui_treeView_activateComponentsAction__triggered))
+		self.ui.Components_Manager_Ui_treeView.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.ComponentsManagerUi|Deactivate Component(s)", slot=self.__Components_Manager_Ui_treeView_deactivateComponentsAction__triggered))
 
 		separatorAction = QAction(self.ui.Components_Manager_Ui_treeView)
 		separatorAction.setSeparator(True)
 		self.ui.Components_Manager_Ui_treeView.addAction(separatorAction)
 
-		reloadComponentsAction = QAction("Reload Component(s)", self.ui.Components_Manager_Ui_treeView)
-		reloadComponentsAction.triggered.connect(self.__Components_Manager_Ui_treeView_reloadComponentsAction__triggered)
-		self.ui.Components_Manager_Ui_treeView.addAction(reloadComponentsAction)
+		self.ui.Components_Manager_Ui_treeView.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.ComponentsManagerUi|Reload Component(s)", slot=self.__Components_Manager_Ui_treeView_reloadComponentsAction__triggered))
 
 		separatorAction = QAction(self.ui.Components_Manager_Ui_treeView)
 		separatorAction.setSeparator(True)
@@ -900,7 +860,7 @@ class ComponentsManagerUi(UiComponent):
 		return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, manager.exceptions.ComponentActivationError)
 	def activateComponents_ui(self):
 		"""
 		This method activates user selected Components.
@@ -910,16 +870,22 @@ class ComponentsManagerUi(UiComponent):
 		:note: This method may require user interaction.
 		"""
 
+		activationFailedComponents = []
 		for component in self.getSelectedComponents():
 			if not component.interface.activated:
-				self.activateComponent(component)
+				success = self.activateComponent(component) or False
+				if not success:
+					activationFailedComponents.append(component)
 			else:
 				messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component is already activated!".format(self.__class__.__name__, component.name))
 		self.__storeDeactivatedComponents()
-		return True
+		if not activationFailedComponents:
+			return True
+		else:
+			raise manager.exceptions.ComponentActivationError("{0} | Exception(s) raised while activating '{1}' Component(s)!".format(self.__class__.__name__, ", ". join(activationFailedComponents)))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, manager.exceptions.ComponentDeactivationError)
 	def deactivateComponents_ui(self):
 		"""
 		This method deactivates user selected Components.
@@ -929,19 +895,25 @@ class ComponentsManagerUi(UiComponent):
 		:note: This method may require user interaction.
 		"""
 
+		deactivationFailedComponents = []
 		for component in self.getSelectedComponents():
 			if component.interface.activated:
 				if component.interface.deactivatable:
-					self.deactivateComponent(component)
+					success = self.deactivateComponent(component) or False
+					if not success:
+						deactivationFailedComponents.append(component)
 				else:
 					messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, component.name))
 			else:
 				messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component is already deactivated!".format(self.__class__.__name__, component.name))
 		self.__storeDeactivatedComponents()
-		return True
+		if not deactivationFailedComponents:
+			return True
+		else:
+			raise manager.exceptions.ComponentDeactivationError("{0} | Exception(s) raised while deactivating '{1}' Component(s)!".format(self.__class__.__name__, ", ". join(deactivationFailedComponents)))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, manager.exceptions.ComponentReloadError)
 	def reloadComponents_ui(self):
 		"""
 		This method reloads user selected Components.
@@ -951,19 +923,21 @@ class ComponentsManagerUi(UiComponent):
 		:note: This method may require user interaction.
 		"""
 
-		selectedComponents = self.getSelectedComponents()
-
-		success = True
+		reloadFailedComponents = []
 		for component in self.getSelectedComponents():
-			success *= self.reloadComponent(component) or False
-
-		if success:
+			if component.interface.deactivatable:
+				success = self.reloadComponent(component) or False
+				if not success:
+					reloadFailedComponents.append(component)
+			else:
+				messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component cannot be deactivated and won't be reloaded!".format(self.__class__.__name__, component.name))
+		if not reloadFailedComponents:
 			return True
 		else:
-			raise Exception("{0} | Exception raised while reloading '{1}' Components!".format(self.__class__.__name__, ", ". join((component.name for component in selectedComponents))))
+			raise manager.exceptions.ComponentReloadError("{0} | Exception(s) raised while reloading '{1}' Component(s)!".format(self.__class__.__name__, ", ". join(reloadFailedComponents)))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(_componentActivationErrorHandler, False, manager.exceptions.ComponentActivationError)
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def activateComponent(self, component):
 		"""
 		This method activates provided Component.
@@ -984,7 +958,7 @@ class ComponentsManagerUi(UiComponent):
 		return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(_componentDeactivationErrorHandler, False, manager.exceptions.ComponentDeactivationError)
+	@foundations.exceptions.exceptionsHandler(None, False, manager.exceptions.ComponentDeactivationError)
 	def deactivateComponent(self, component):
 		"""
 		This method deactivates provided Component.
@@ -1005,10 +979,10 @@ class ComponentsManagerUi(UiComponent):
 			self.emit(SIGNAL("modelPartialRefresh()"))
 			return True
 		else:
-			raise foundations.exceptions.ComponentDeactivationError("{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, component.name))
+			raise manager.exceptions.ComponentDeactivationError("{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, component.name))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(_componentReloadErrorHandler, False, manager.exceptions.ComponentReloadError)
+	@foundations.exceptions.exceptionsHandler(None, False, manager.exceptions.ComponentReloadError)
 	def reloadComponent(self, component):
 		"""
 		This method reloads provided Component.
@@ -1018,14 +992,17 @@ class ComponentsManagerUi(UiComponent):
 		"""
 
 		LOGGER.debug("> Attempting '{0}' Component reload.".format(component.name))
-		if component.interface.activated:
-			self.deactivateComponent(component)
-		self.__container.componentsManager.reloadComponent(component.name)
-		if not component.interface.activated:
-			self.activateComponent(component)
-		LOGGER.info("{0} | '{1}' Component has been reloaded!".format(self.__class__.__name__, component.name))
-		self.emit(SIGNAL("modelPartialRefresh()"))
-		return True
+		if component.interface.deactivatable:
+			if component.interface.activated:
+				self.deactivateComponent(component)
+			self.__container.componentsManager.reloadComponent(component.name)
+			if not component.interface.activated:
+				self.activateComponent(component)
+			LOGGER.info("{0} | '{1}' Component has been reloaded!".format(self.__class__.__name__, component.name))
+			self.emit(SIGNAL("modelPartialRefresh()"))
+			return True
+		else:
+			raise manager.exceptions.ComponentReloadError("{0} | '{1}' Component cannot be deactivated and won't be reloaded!".format(self.__class__.__name__, component.name))
 
 	@core.executionTrace
 	def getSelectedItems(self, rowsRootOnly=True):
