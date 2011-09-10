@@ -67,18 +67,21 @@ def messageBox(type, title, message, icon=None, buttons=QMessageBox.Ok):
 	messageBox.setWindowTitle("{0} | {1}".format(Constants.applicationName, title))
 	messageBox.setText(message)
 
+	message = message.split("\n")
 	if type == "Critical":
 		if icon:
 			messageBox.setIcon(icon)
 		else:
 			messageBox.setIcon(QMessageBox.Critical)
-		LOGGER.critical("!> {0}".format(message))
+		for line in message:
+			LOGGER.critical("!> {0}".format(line))
 	elif type == "Error":
 		if icon:
 			messageBox.setIcon(icon)
 		else:
 			messageBox.setIcon(QMessageBox.Critical)
-		LOGGER.error("!> {0}".format(message))
+		for line in message:
+			LOGGER.error("!> {0}".format(line))
 	elif type == "Detailed Error":
 		if icon:
 			messageBox.setIcon(icon)
@@ -91,25 +94,29 @@ def messageBox(type, title, message, icon=None, buttons=QMessageBox.Ok):
 			textEdit.setLineWrapMode(QTextEdit.NoWrap)
 			textEdit.moveCursor(QTextCursor.End)
 			textEdit.ensureCursorVisible()
-		LOGGER.error("!> {0}".format(message))
+		for line in message:
+			LOGGER.error("!> {0}".format(line))
 	elif type == "Warning":
 		if icon:
 			messageBox.setIcon(icon)
 		else:
 			messageBox.setIcon(QMessageBox.Warning)
-		LOGGER.warning("{0}".format(message))
+		for line in message:
+			LOGGER.warning("{0}".format(line))
 	elif type == "Information":
 		if icon:
 			messageBox.setIcon(icon)
 		else:
 			messageBox.setIcon(QMessageBox.Information)
-		LOGGER.info("{0}".format(message))
+		for line in message:
+			LOGGER.info("{0}".format(line))
 	elif type == "Question":
 		if icon:
 			messageBox.setIcon(icon)
 		else:
 			messageBox.setIcon(QMessageBox.Question)
-		LOGGER.info("{0}".format(message))
+		for line in message:
+			LOGGER.info("{0}".format(line))
 
 	messageBox.setStandardButtons(buttons)
 	messageBox.setWindowFlags(Qt.WindowStaysOnTopHint)

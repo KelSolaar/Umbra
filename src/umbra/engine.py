@@ -247,9 +247,9 @@ class Umbra(Ui_Type, Ui_Setup):
 				elif profile.categorie == "ui":
 					interface.addWidget()
 					interface.initializeUi()
-			except:
+			except Exception as error:
 				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
-				umbra.ui.common.uiSystemExitExceptionHandler(manager.exceptions.ComponentActivationError("'{0}' requisite Component failed to activate:\n{1}".format(component, traceback.format_exc())), self.__class__.__name__,)
+				umbra.ui.common.uiSystemExitExceptionHandler(manager.exceptions.ComponentActivationError("'{0}' requisite Component failed to activate!\nException raised: {1}".format(component, error)), self.__class__.__name__)
 
 		# --- Activating others Components. ---
 		deactivatedComponents = self.__settings.getKey("Settings", "deactivatedComponents").toString().split(",")
@@ -270,8 +270,9 @@ class Umbra(Ui_Type, Ui_Setup):
 				elif profile.categorie == "ui":
 					interface.addWidget()
 					interface.initializeUi()
-			except:
-				messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component failed to activate, unexpected behavior may occur!".format(self.__class__.__name__, component))
+			except Exception as error:
+				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
+				umbra.ui.common.uiExtendedExceptionHandler(manager.exceptions.ComponentActivationError("'{0}' Component failed to activate, unexpected behavior may occur!\nException raised: {1}".format(component, error)), self.__class__.__name__)
 
 		# Hiding splashscreen.
 		LOGGER.debug("> Hiding splashscreen.")
