@@ -200,11 +200,9 @@ class Umbra(Ui_Type, Ui_Setup):
 		self.__settings._datas = core.Structure(restoreGeometryOnLayoutChange=True)
 		self.__verbosityLevel = RuntimeGlobals.verbosityLevel
 		self.__parameters = RuntimeGlobals.parameters
-		self.__developmentActiveLabel = None
-		self.__preferencesActiveLabel = None
 		self.__layoutsActiveLabels = None
 		self.__customLayoutsMenu = None
-		self.__miscMenu = None
+		self.__miscellaneousMenu = None
 		self.__workerThreads = []
 
 		# --- Initializing timer. ---
@@ -730,66 +728,6 @@ class Umbra(Ui_Type, Ui_Setup):
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("parameters"))
 
 	@property
-	def developmentActiveLabel (self):
-		"""
-		This method is the property for **self.__developmentActiveLabel** attribute.
-
-		:return: self.__developmentActiveLabel . ( Active_QLabel )
-		"""
-
-		return self.__developmentActiveLabel
-
-	@developmentActiveLabel .setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def developmentActiveLabel (self, value):
-		"""
-		This method is the setter method for **self.__developmentActiveLabel** attribute.
-
-		:param value: Attribute value. ( Active_QLabel )
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("developmentActiveLabel "))
-
-	@developmentActiveLabel .deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def developmentActiveLabel (self):
-		"""
-		This method is the deleter method for **self.__developmentActiveLabel** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("developmentActiveLabel "))
-
-	@property
-	def preferencesActiveLabel (self):
-		"""
-		This method is the property for **self.__preferencesActiveLabel** attribute.
-
-		:return: self.__preferencesActiveLabel. ( Active_QLabel )
-		"""
-
-		return self.__preferencesActiveLabel
-
-	@preferencesActiveLabel .setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def preferencesActiveLabel (self, value):
-		"""
-		This method is the setter method for **self.__preferencesActiveLabel** attribute.
-
-		:param value: Attribute value. ( Active_QLabel )
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("preferencesActiveLabel "))
-
-	@preferencesActiveLabel .deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def preferencesActiveLabel (self):
-		"""
-		This method is the deleter method for **self.__preferencesActiveLabel** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("preferencesActiveLabel "))
-
-	@property
 	def layoutsActiveLabels(self):
 		"""
 		This method is the property for **self.__layoutsActiveLabels** attribute.
@@ -854,36 +792,36 @@ class Umbra(Ui_Type, Ui_Setup):
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("customLayoutsMenu"))
 
 	@property
-	def miscMenu(self):
+	def miscellaneousMenu(self):
 		"""
-		This method is the property for **self.__miscMenu** attribute.
+		This method is the property for **self.__miscellaneousMenu** attribute.
 
-		:return: self.__miscMenu. ( QMenu )
+		:return: self.__miscellaneousMenu. ( QMenu )
 		"""
 
-		return self.__miscMenu
+		return self.__miscellaneousMenu
 
-	@miscMenu.setter
+	@miscellaneousMenu.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def miscMenu(self, value):
+	def miscellaneousMenu(self, value):
 		"""
-		This method is the setter method for **self.__miscMenu** attribute.
+		This method is the setter method for **self.__miscellaneousMenu** attribute.
 
 		:param value: Attribute value. ( QMenu )
 		"""
 
 		if value:
-			assert issubclass(value.__class__, QMenu), "'{0}' attribute: '{1}' type is not 'QMenu'!".format("miscMenu", value)
-		self.__miscMenu = value
+			assert issubclass(value.__class__, QMenu), "'{0}' attribute: '{1}' type is not 'QMenu'!".format("miscellaneousMenu", value)
+		self.__miscellaneousMenu = value
 
-	@miscMenu.deleter
+	@miscellaneousMenu.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def miscMenu(self):
+	def miscellaneousMenu(self):
 		"""
-		This method is the deleter method for **self.__miscMenu** attribute.
+		This method is the deleter method for **self.__miscellaneousMenu** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("miscMenu"))
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("miscellaneousMenu"))
 
 	@property
 	def workerThreads(self):
@@ -1110,18 +1048,18 @@ class Umbra(Ui_Type, Ui_Setup):
 		:return: Method success. ( Boolean )
 		"""
 
-		self.__developmentActiveLabel = Active_QLabel(QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentIcon)),
+		developmentActiveLabel = Active_QLabel(QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentIcon)),
 													QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentHoverIcon)),
 													QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentActiveIcon)), True)
-		self.__developmentActiveLabel.setObjectName("Development_activeLabel")
+		developmentActiveLabel.setObjectName("Development_activeLabel")
 
-		self.__preferencesActiveLabel = Active_QLabel(QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesIcon)),
+		preferencesActiveLabel = Active_QLabel(QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesIcon)),
 													QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesHoverIcon)),
 													QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesActiveIcon)), True)
-		self.__preferencesActiveLabel.setObjectName("Preferences_activeLabel")
+		preferencesActiveLabel.setObjectName("Preferences_activeLabel")
 
-		self.__layoutsActiveLabels = (umbra.ui.common.LayoutActiveLabel(name="Development", object=self.__developmentActiveLabel, layout="developmentCentric", shortcut=Qt.Key_9),
-									umbra.ui.common.LayoutActiveLabel(name="Preferences", object=self.__preferencesActiveLabel, layout="preferencesCentric", shortcut=Qt.Key_0))
+		self.__layoutsActiveLabels = (umbra.ui.common.LayoutActiveLabel(name="Development", object=developmentActiveLabel, layout="developmentCentric", shortcut=Qt.Key_9),
+									umbra.ui.common.LayoutActiveLabel(name="Preferences", object=preferencesActiveLabel, layout="preferencesCentric", shortcut=Qt.Key_0))
 
 		# Signals / Slots.
 		for layoutActiveLabel in self.__layoutsActiveLabels:
@@ -1171,13 +1109,13 @@ class Umbra(Ui_Type, Ui_Setup):
 										QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousActiveIcon)), parent=self)
 		miscellaneousActiveLabel.setObjectName("Miscellaneous_activeLabel")
 
-		self.__miscMenu = QMenu("Miscellaneous", miscellaneousActiveLabel)
+		self.__miscellaneousMenu = QMenu("Miscellaneous", miscellaneousActiveLabel)
 
-		self.__miscMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Miscellaneous|Help content ...", shortcut="F1", slot=self.helpDisplayMiscAction__triggered))
-		self.__miscMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Miscellaneous|Api content ...", slot=self.apiDisplayMiscAction__triggered))
-		self.__miscMenu.addSeparator()
+		self.__miscellaneousMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Miscellaneous|Help content ...", shortcut="F1", slot=self.helpDisplayMiscAction__triggered))
+		self.__miscellaneousMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Miscellaneous|Api content ...", slot=self.apiDisplayMiscAction__triggered))
+		self.__miscellaneousMenu.addSeparator()
 
-		miscellaneousActiveLabel.setMenu(self.__miscMenu)
+		miscellaneousActiveLabel.setMenu(self.__miscellaneousMenu)
 		return miscellaneousActiveLabel
 
 	@core.executionTrace
