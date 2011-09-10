@@ -459,6 +459,7 @@ class ScriptEditor(UiComponent):
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Load script ...'** action.
 
 		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
 		print "loadScriptAction"
@@ -469,6 +470,7 @@ class ScriptEditor(UiComponent):
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Source script ...'** action.
 
 		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
 		print "sourceScriptAction"
@@ -479,6 +481,7 @@ class ScriptEditor(UiComponent):
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Save script ...'** action.
 
 		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
 		print "saveScriptAction"
@@ -489,6 +492,7 @@ class ScriptEditor(UiComponent):
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Undo'** action.
 
 		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
 		print "undoAction"
@@ -499,6 +503,7 @@ class ScriptEditor(UiComponent):
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Redo'** action.
 
 		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
 		print "redoAction"
@@ -509,6 +514,7 @@ class ScriptEditor(UiComponent):
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Cu&t'** action.
 
 		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
 		print "cutAction"
@@ -519,6 +525,7 @@ class ScriptEditor(UiComponent):
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Copy'** action.
 
 		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
 		print "copyAction"
@@ -529,6 +536,7 @@ class ScriptEditor(UiComponent):
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Paste'** action.
 
 		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
 		print "pasteAction"
@@ -539,6 +547,7 @@ class ScriptEditor(UiComponent):
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete'** action.
 
 		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
 		print "deleteAction"
@@ -549,6 +558,7 @@ class ScriptEditor(UiComponent):
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Select All'** action.
 
 		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
 		print "selectAllAction"
@@ -559,9 +569,10 @@ class ScriptEditor(UiComponent):
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection'** action.
 
 		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
-		self.evaluateSelection()
+		return self.evaluateSelection()
 
 	@core.executionTrace
 	def __evaluateScriptAction__triggered(self, checked):
@@ -569,9 +580,10 @@ class ScriptEditor(UiComponent):
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script'** action.
 
 		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
-		self.evaluateScript()
+		return self.evaluateScript()
 
 	@core.executionTrace
 	def __Evaluate_Script_pushButton__clicked(self, checked):

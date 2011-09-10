@@ -790,9 +790,10 @@ class ComponentsManagerUi(UiComponent):
 		This method is triggered by **'Actions|Umbra|Components|factory.ComponentsManagerUi|Activate Component(s)'** action.
 
 		:param checked: Action checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
-		self.activateComponents_ui()
+		return self.activateComponents_ui()
 
 	@core.executionTrace
 	def __Components_Manager_Ui_treeView_deactivateComponentsAction__triggered(self, checked):
@@ -800,9 +801,10 @@ class ComponentsManagerUi(UiComponent):
 		This method is triggered by **'Actions|Umbra|Components|factory.ComponentsManagerUi|Deactivate Component(s)'** action.
 
 		:param checked: Action checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
-		self.deactivateComponents_ui()
+		return self.deactivateComponents_ui()
 
 	@core.executionTrace
 	def __Components_Manager_Ui_treeView_reloadComponentsAction__triggered(self, checked):
@@ -810,9 +812,10 @@ class ComponentsManagerUi(UiComponent):
 		This method is triggered by **'Actions|Umbra|Components|factory.ComponentsManagerUi|Reload Component(s)'** action.
 
 		:param checked: Action checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
-		self.reloadComponents_ui()
+		return self.reloadComponents_ui()
 
 	@core.executionTrace
 	def __Components_Manager_Ui_treeView_selectionModel__selectionChanged(self, selectedItems, deselectedItems):

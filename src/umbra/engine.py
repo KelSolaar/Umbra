@@ -964,10 +964,12 @@ class Umbra(Ui_Type, Ui_Setup):
 		This method is triggered by **'Actions|Umbra|ToolBar|Miscellaneous|Help content ...'** action.
 
 		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
 		LOGGER.debug("> Opening url: '{0}'.".format(UiConstants.helpFile))
 		QDesktopServices.openUrl(QUrl(QString(UiConstants.helpFile)))
+		return True
 
 	@core.executionTrace
 	def apiDisplayMiscAction__triggered(self, checked):
@@ -975,10 +977,12 @@ class Umbra(Ui_Type, Ui_Setup):
 		This method is triggered by **'Actions|Umbra|ToolBar|Miscellaneous|Api content ...'** action.
 
 		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
 		LOGGER.debug("> Opening url: '{0}'.".format(UiConstants.apiFile))
 		QDesktopServices.openUrl(QUrl(QString(UiConstants.apiFile)))
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
