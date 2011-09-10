@@ -961,7 +961,7 @@ class Umbra(Ui_Type, Ui_Setup):
 	@core.executionTrace
 	def helpDisplayMiscAction__triggered(self, checked):
 		"""
-		This method is triggered by **helpDisplayMiscAction** action.
+		This method is triggered by **'Actions|Umbra|ToolBar|Miscellaneous|Help content ...'** action.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -972,7 +972,7 @@ class Umbra(Ui_Type, Ui_Setup):
 	@core.executionTrace
 	def apiDisplayMiscAction__triggered(self, checked):
 		"""
-		This method is triggered by **apiDisplayMiscAction** action.
+		This method is triggered by **'Actions|Umbra|ToolBar|Miscellaneous|Api content ...'** action.
 
 		:param checked: Checked state. ( Boolean )
 		"""

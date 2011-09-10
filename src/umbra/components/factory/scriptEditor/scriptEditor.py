@@ -456,7 +456,7 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __loadScriptAction__triggered(self, checked):
 		"""
-		This method is triggered by **loadScriptAction** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Load script ...'** action.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -466,7 +466,7 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __sourceScriptAction__triggered(self, checked):
 		"""
-		This method is triggered by **sourceScriptAction** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Source script ...'** action.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -476,7 +476,7 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __saveScriptAction__triggered(self, checked):
 		"""
-		This method is triggered by **saveScriptAction** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Save script ...'** action.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -486,7 +486,7 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __undoAction__triggered(self, checked):
 		"""
-		This method is triggered by **undoAction** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Undo'** action.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -496,7 +496,7 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __redoAction__triggered(self, checked):
 		"""
-		This method is triggered by **redoAction** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Redo'** action.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -506,7 +506,7 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __cutAction__triggered(self, checked):
 		"""
-		This method is triggered by **cutAction** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Cu&t'** action.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -516,7 +516,7 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __copyAction__triggered(self, checked):
 		"""
-		This method is triggered by **copyAction** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Copy'** action.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -526,7 +526,7 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __pasteAction__triggered(self, checked):
 		"""
-		This method is triggered by **pasteAction** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Paste'** action.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -536,7 +536,7 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __deleteAction__triggered(self, checked):
 		"""
-		This method is triggered by **deleteAction** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete'** action.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -546,7 +546,7 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __selectAllAction__triggered(self, checked):
 		"""
-		This method is triggered by **selectAllAction** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Select All'** action.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -556,7 +556,7 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __evaluateSelectionAction__triggered(self, checked):
 		"""
-		This method is triggered by **evaluateSelectionAction** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection'** action.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -566,7 +566,7 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __evaluateScriptAction__triggered(self, checked):
 		"""
-		This method is triggered by **evaluateScript** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script'** action.
 
 		:param checked: Checked state. ( Boolean )
 		"""

@@ -787,7 +787,7 @@ class ComponentsManagerUi(UiComponent):
 	@core.executionTrace
 	def __Components_Manager_Ui_treeView_activateComponentsAction__triggered(self, checked):
 		"""
-		This method is triggered by **activateComponentsAction** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.ComponentsManagerUi|Activate Component(s)'** action.
 
 		:param checked: Action checked state. ( Boolean )
 		"""
@@ -797,7 +797,7 @@ class ComponentsManagerUi(UiComponent):
 	@core.executionTrace
 	def __Components_Manager_Ui_treeView_deactivateComponentsAction__triggered(self, checked):
 		"""
-		This method is triggered by **deactivateComponentsAction** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.ComponentsManagerUi|Deactivate Component(s)'** action.
 
 		:param checked: Action checked state. ( Boolean )
 		"""
@@ -807,7 +807,7 @@ class ComponentsManagerUi(UiComponent):
 	@core.executionTrace
 	def __Components_Manager_Ui_treeView_reloadComponentsAction__triggered(self, checked):
 		"""
-		This method is triggered by **reloadComponentsAction** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.ComponentsManagerUi|Reload Component(s)'** action.
 
 		:param checked: Action checked state. ( Boolean )
 		"""
