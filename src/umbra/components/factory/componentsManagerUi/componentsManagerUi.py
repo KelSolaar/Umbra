@@ -875,7 +875,7 @@ class ComponentsManagerUi(UiComponent):
 		activationFailedComponents = []
 		for component in self.getSelectedComponents():
 			if not component.interface.activated:
-				success = self.activateComponent(component) or False
+				success = self.activateComponent(component.name) or False
 				if not success:
 					activationFailedComponents.append(component)
 			else:
@@ -901,7 +901,7 @@ class ComponentsManagerUi(UiComponent):
 		for component in self.getSelectedComponents():
 			if component.interface.activated:
 				if component.interface.deactivatable:
-					success = self.deactivateComponent(component) or False
+					success = self.deactivateComponent(component.name) or False
 					if not success:
 						deactivationFailedComponents.append(component)
 				else:
@@ -928,7 +928,7 @@ class ComponentsManagerUi(UiComponent):
 		reloadFailedComponents = []
 		for component in self.getSelectedComponents():
 			if component.interface.deactivatable:
-				success = self.reloadComponent(component) or False
+				success = self.reloadComponent(component.name) or False
 				if not success:
 					reloadFailedComponents.append(component)
 			else:
@@ -939,15 +939,19 @@ class ComponentsManagerUi(UiComponent):
 			raise manager.exceptions.ComponentReloadError("{0} | Exception(s) raised while reloading '{1}' Component(s)!".format(self.__class__.__name__, ", ". join(reloadFailedComponents)))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def activateComponent(self, component):
+	@foundations.exceptions.exceptionsHandler(None, False, manager.exceptions.ComponentExistsError, Exception)
+	def activateComponent(self, name):
 		"""
 		This method activates provided Component.
 
-		:param component: Component. ( Profile )
+		:param name: Component name. ( String )
 		:return: Method success. ( Boolean )
 		"""
 
+		if not name in self.__container.componentsManager.components.keys():
+			raise manager.exceptions.ComponentExistsError("'{0}' Component isn't registered in the Components Manager!".format(name))
+
+		component = self.__container.componentsManager.components[name]
 		LOGGER.debug("> Attempting '{0}' Component activation.".format(component.name))
 		component.interface.activate(self.__container)
 		if component.categorie == "default":
@@ -960,14 +964,19 @@ class ComponentsManagerUi(UiComponent):
 		return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, manager.exceptions.ComponentDeactivationError)
-	def deactivateComponent(self, component):
+	@foundations.exceptions.exceptionsHandler(None, False, manager.exceptions.ComponentExistsError, manager.exceptions.ComponentDeactivationError)
+	def deactivateComponent(self, name):
 		"""
 		This method deactivates provided Component.
 
-		:param component: Component. ( Profile )
+		:param name: Component name. ( String )
 		:return: Method success. ( Boolean )
 		"""
+
+		if not name in self.__container.componentsManager.components.keys():
+			raise manager.exceptions.ComponentExistsError("'{0}' Component isn't registered in the Components Manager!".format(name))
+
+		component = self.__container.componentsManager.components[name]
 
 		LOGGER.debug("> Attempting '{0}' Component deactivation.".format(component.name))
 		if component.interface.deactivatable:
@@ -984,22 +993,27 @@ class ComponentsManagerUi(UiComponent):
 			raise manager.exceptions.ComponentDeactivationError("{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, component.name))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, manager.exceptions.ComponentReloadError)
-	def reloadComponent(self, component):
+	@foundations.exceptions.exceptionsHandler(None, False, manager.exceptions.ComponentExistsError, manager.exceptions.ComponentReloadError)
+	def reloadComponent(self, name):
 		"""
 		This method reloads provided Component.
 
-		:param component: Component. ( Profile )
+		:param name: Component name. ( String )
 		:return: Method success. ( Boolean )
 		"""
+
+		if not name in self.__container.componentsManager.components.keys():
+			raise manager.exceptions.ComponentExistsError("'{0}' Component isn't registered in the Components Manager!".format(name))
+
+		component = self.__container.componentsManager.components[name]
 
 		LOGGER.debug("> Attempting '{0}' Component reload.".format(component.name))
 		if component.interface.deactivatable:
 			if component.interface.activated:
-				self.deactivateComponent(component)
+				self.deactivateComponent(name)
 			self.__container.componentsManager.reloadComponent(component.name)
 			if not component.interface.activated:
-				self.activateComponent(component)
+				self.activateComponent(name)
 			LOGGER.info("{0} | '{1}' Component has been reloaded!".format(self.__class__.__name__, component.name))
 			self.emit(SIGNAL("modelPartialRefresh()"))
 			return True
