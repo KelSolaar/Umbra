@@ -236,7 +236,7 @@ def centerWidgetOnScreen(widget, screen=None):
 @foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 def getTokensParser(tokensFile):
 	"""
-	This method returns a tokens parser.
+	This method returns a tokens sections file parser.
 
 	:param tokensFile: Tokens file. ( String )
 	:return: Tokens. ( SectionsFileParser )
@@ -245,6 +245,6 @@ def getTokensParser(tokensFile):
 	if not os.path.exists(tokensFile):
 		raise foundations.exceptions.FileExistsError("'{0}' tokens file doesn't exists!".format(tokensFile))
 
-	parser = SectionsFileParser(tokensFile)
-	parser.read() and parser.parse(orderedDictionary=False)
-	return parser
+	sectionsFileParser = SectionsFileParser(tokensFile)
+	sectionsFileParser.read() and sectionsFileParser.parse(orderedDictionary=False)
+	return sectionsFileParser
