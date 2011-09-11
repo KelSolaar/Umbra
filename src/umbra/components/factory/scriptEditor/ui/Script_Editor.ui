@@ -6,18 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>315</width>
-    <height>488</height>
+    <width>394</width>
+    <height>529</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Script Editor</string>
   </property>
   <widget class="QWidget" name="Script_Editor_dockWidgetContents">
-   <layout class="QGridLayout" name="Script_Editor_dockWidgetContents_gridLayout">
-    <property name="topMargin">
-     <number>0</number>
-    </property>
+   <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QFrame" name="menuBar_frame">
       <layout class="QGridLayout" name="menuBar_frame_gridLayout">
@@ -33,13 +30,7 @@
        <enum>Qt::Vertical</enum>
       </property>
       <widget class="QPlainTextEdit" name="Script_Editor_Output_plainTextEdit"/>
-      <widget class="QWidget" name="gridLayoutWidget">
-       <layout class="QGridLayout" name="Script_Editor_gridLayout">
-        <item row="0" column="0">
-         <widget class="QPlainTextEdit" name="Script_Editor_Input_plainTextEdit"/>
-        </item>
-       </layout>
-      </widget>
+      <widget class="QMdiArea" name="Script_Editor_mdiArea"/>
      </widget>
     </item>
     <item row="2" column="0">
