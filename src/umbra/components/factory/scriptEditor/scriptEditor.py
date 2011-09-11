@@ -29,6 +29,8 @@ from PyQt4.QtGui import *
 #***********************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import foundations.io as io
+
 from manager.uiComponent import UiComponent
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
@@ -82,6 +84,11 @@ class ScriptEditor(UiComponent):
 		self.__dockArea = 8
 
 		self.__container = None
+
+		self.__defaultWindowTitle = "Script Editor"
+		self.__defaultScriptEditorDirectory = "scriptEditor"
+		self.__defaultScriptEditorFile = "defaultScript.py"
+		self.__scriptEditorFile = None
 
 		self.__locals = None
 		self.__memoryHandlerStackDepth = None
@@ -179,6 +186,128 @@ class ScriptEditor(UiComponent):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("container"))
+
+	@property
+	def defaultWindowTitle(self):
+		"""
+		This method is the property for **self.__defaultWindowTitle** attribute.
+
+		:return: self.__defaultWindowTitle. ( String )
+		"""
+
+		return self.__defaultWindowTitle
+
+	@defaultWindowTitle.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultWindowTitle(self, value):
+		"""
+		This method is the setter method for **self.__defaultWindowTitle** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("defaultWindowTitle"))
+
+	@defaultWindowTitle.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultWindowTitle(self):
+		"""
+		This method is the deleter method for **self.__defaultWindowTitle** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("defaultWindowTitle"))
+
+	@property
+	def defaultScriptEditorDirectory(self):
+		"""
+		This method is the property for **self.__defaultScriptEditorDirectory** attribute.
+
+		:return: self.__defaultScriptEditorDirectory. ( String )
+		"""
+
+		return self.__defaultScriptEditorDirectory
+
+	@defaultScriptEditorDirectory.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultScriptEditorDirectory(self, value):
+		"""
+		This method is the setter method for **self.__defaultScriptEditorDirectory** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("defaultScriptEditorDirectory"))
+
+	@defaultScriptEditorDirectory.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultScriptEditorDirectory(self):
+		"""
+		This method is the deleter method for **self.__defaultScriptEditorDirectory** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("defaultScriptEditorDirectory"))
+
+	@property
+	def defaultScriptEditorFile(self):
+		"""
+		This method is the property for **self.__defaultScriptEditorFile** attribute.
+
+		:return: self.__defaultScriptEditorFile. ( String )
+		"""
+
+		return self.__defaultScriptEditorFile
+
+	@defaultScriptEditorFile.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultScriptEditorFile(self, value):
+		"""
+		This method is the setter method for **self.__defaultScriptEditorFile** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("defaultScriptEditorFile"))
+
+	@defaultScriptEditorFile.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultScriptEditorFile(self):
+		"""
+		This method is the deleter method for **self.__defaultScriptEditorFile** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("defaultScriptEditorFile"))
+
+	@property
+	def scriptEditorFile(self):
+		"""
+		This method is the property for **self.__scriptEditorFile** attribute.
+
+		:return: self.__scriptEditorFile. ( String )
+		"""
+
+		return self.__scriptEditorFile
+
+	@scriptEditorFile.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def scriptEditorFile(self, value):
+		"""
+		This method is the setter method for **self.__scriptEditorFile** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		if value:
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("scriptEditorFile", value)
+		self.__scriptEditorFile = value
+
+	@scriptEditorFile.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def scriptEditorFile(self):
+		"""
+		This method is the deleter method for **self.__scriptEditorFile** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("scriptEditorFile"))
 
 	@property
 	def locals(self):
@@ -287,12 +416,17 @@ class ScriptEditor(UiComponent):
 		self.uiFile = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiPath)
 		self.__container = container
 
+		self.__defaultScriptEditorDirectory = os.path.join(self.__container.userApplicationDatasDirectory, Constants.ioDirectory, self.__defaultScriptEditorDirectory)
+		not os.path.exists(self.__defaultScriptEditorDirectory) and os.makedirs(self.__defaultScriptEditorDirectory)
+		self.__defaultScriptEditorFile = os.path.join(self.__defaultScriptEditorDirectory, self.__defaultScriptEditorFile)
+
 		self.__getsLocals()
 		self.__console = code.InteractiveConsole(self.__locals)
 
 		return UiComponent.activate(self)
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def deactivate(self):
 		"""
 		This method deactivates the Component.
@@ -300,14 +434,7 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		LOGGER.debug("> Deactivating '{0}' Component.".format(self.__class__.__name__))
-
-		self.uiFile = None
-		self.__container = None
-
-		self.__console = None
-
-		return UiComponent.deactivate(self)
+		raise foundations.exceptions.ProgrammingError("'{0}' Component cannot be deactivated!".format(self.__name))
 
 	@core.executionTrace
 	def initializeUi(self):
@@ -339,6 +466,7 @@ class ScriptEditor(UiComponent):
 		return True
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def uninitializeUi(self):
 		"""
 		This method uninitializes the Component ui.
@@ -346,21 +474,7 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )		
 		"""
 
-		LOGGER.debug("> Uninitializing '{0}' Component ui.".format(self.__class__.__name__))
-
-		self.__menuBar.setParent(None)
-		self.__menuBar = None
-
-		self.ui.Script_Editor_Input_plainTextEdit.highlighter = None
-		self.ui.Script_Editor_Output_plainTextEdit.highlighter = None
-		self.ui.Script_Editor_Input_plainTextEdit = None
-
-		# Signals / Slots.
-		self.__container.timer.timeout.disconnect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
-		self.ui.Evaluate_Script_pushButton.clicked.disconnect(self.__Evaluate_Script_pushButton__clicked)
-		self.datasChanged.disconnect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
-
-		return True
+		raise foundations.exceptions.ProgrammingError("'{0}' Component ui cannot be uninitialized!".format(self.name))
 
 	@core.executionTrace
 	def addWidget(self):
@@ -390,6 +504,16 @@ class ScriptEditor(UiComponent):
 		self.ui.setParent(None)
 
 		return True
+
+	@core.executionTrace
+	def onStartup(self):
+		"""
+		This method is called on Framework startup.
+		"""
+
+		LOGGER.debug("> Calling '{0}' Component Framework startup method.".format(self.__class__.__name__))
+
+		os.path.exists(self.__defaultScriptEditorFile) and self.loadScript(self.__defaultScriptEditorFile)
 
 	@core.executionTrace
 	def __initializeMenuBar(self):
@@ -462,7 +586,7 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		print "loadScriptAction"
+		return self.loadScript(self.__defaultScriptEditorFile)
 
 	@core.executionTrace
 	def __sourceScriptAction__triggered(self, checked):
@@ -614,6 +738,26 @@ class ScriptEditor(UiComponent):
 		return True
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
+	def loadScript(self, path):
+		"""
+		This method reads and loads provided script file path into the **Script_Editor_Input_plainTextEdit** widget.
+
+		:param path: Script to load. ( String )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not os.path.exists(path):
+			raise foundations.exceptions.FileExistsError("{0} | '{1}' script file doesn't exists!".format(self.__class__.__name__, path))
+
+		LOGGER.info("{0} | Loading '{1}' script!".format(self.__class__.__name__, path))
+		file = io.File(path)
+		file.read() and self.ui.Script_Editor_Input_plainTextEdit.setPlainText("".join(file.content))
+		self.ui.setWindowTitle("{0} - {1}".format(self.__defaultWindowTitle, self.__defaultScriptEditorFile))
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def evaluateSelection(self):
 		"""
 		This method evaluates **Script_Editor_Input_plainTextEdit** widget selected content in the interactive console.
@@ -626,6 +770,7 @@ class ScriptEditor(UiComponent):
 			return True
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def evaluateScript(self):
 		"""
 		This method evaluates **Script_Editor_Input_plainTextEdit** widget content in the interactive console.
@@ -638,6 +783,7 @@ class ScriptEditor(UiComponent):
 			return True
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def evaluateCode(self, code):
 		"""
 		This method evaluates provided code in the interactive console.

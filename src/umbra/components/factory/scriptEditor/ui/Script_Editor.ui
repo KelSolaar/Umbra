@@ -2,11 +2,22 @@
 <ui version="4.0">
  <class>Script_Editor_DockWidget</class>
  <widget class="QDockWidget" name="Script_Editor_DockWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>315</width>
+    <height>488</height>
+   </rect>
+  </property>
   <property name="windowTitle">
    <string>Script Editor</string>
   </property>
   <widget class="QWidget" name="Script_Editor_dockWidgetContents">
    <layout class="QGridLayout" name="Script_Editor_dockWidgetContents_gridLayout">
+    <property name="topMargin">
+     <number>0</number>
+    </property>
     <item row="0" column="0">
      <widget class="QFrame" name="menuBar_frame">
       <layout class="QGridLayout" name="menuBar_frame_gridLayout">
@@ -17,7 +28,7 @@
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QSplitter" name="splitter">
+     <widget class="QSplitter" name="Script_Editor_splitter">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
