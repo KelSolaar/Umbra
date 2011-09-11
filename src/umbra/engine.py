@@ -249,7 +249,7 @@ class Umbra(Ui_Type, Ui_Setup):
 					interface.initializeUi()
 			except Exception as error:
 				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
-				umbra.ui.common.uiSystemExitExceptionHandler(manager.exceptions.ComponentActivationError("'{0}' requisite Component failed to activate!\nException raised: {1}".format(component, error)), self.__class__.__name__)
+				umbra.ui.common.uiSystemExitExceptionHandler(manager.exceptions.ComponentActivationError("'{0}' Component failed to activate!\nException raised: {1}".format(component, error)), self.__class__.__name__)
 
 		# --- Activating others Components. ---
 		deactivatedComponents = self.__settings.getKey("Settings", "deactivatedComponents").toString().split(",")
@@ -289,11 +289,9 @@ class Umbra(Ui_Type, Ui_Setup):
 
 				if interface.activated:
 					hasattr(interface, "onStartup") and interface.onStartup()
-			except:
-				if not component in self.__requisiteComponents:
-					umbra.ui.common.uiSystemExitExceptionHandler(manager.exceptions.ComponentActivationError("'{0}' requisite Component startup method raised an exception:\n{1}".format(component, traceback.format_exc())), self.__class__.__name__,)
-				else:
-					messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component startup method raised an exception, unexpected behavior may occur!".format(self.__class__.__name__, component))
+			except Exception as error:
+				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
+				umbra.ui.common.uiExtendedExceptionHandler(Exception("'{0}' Component 'onStartup' method raised an exception, unexpected behavior may occur!\nException raised: {1}".format(component, error)), self.__class__.__name__)
 
 		self.__setLayoutsActiveLabelsShortcuts()
 
