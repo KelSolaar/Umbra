@@ -58,7 +58,8 @@ __all__ = ["LOGGER",
 			"getResourcePath",
 			"setWindowDefaultIcon",
 			"centerWidgetOnScreen",
-			"getTokensParser"]
+			"getTokensParser",
+			"storeLastBrowsedPath"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -248,3 +249,22 @@ def getTokensParser(tokensFile):
 	sectionsFileParser = SectionsFileParser(tokensFile)
 	sectionsFileParser.read() and sectionsFileParser.parse(orderedDictionary=False)
 	return sectionsFileParser
+
+@core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
+def storeLastBrowsedPath(self, path):
+	"""
+	This definition is a wrapper method used to store the last browsed path.
+
+	:param path: Provided path. ( QString )
+	:return: Provided path. ( String )
+	"""
+
+	path = str(path)
+
+	lastBrowsedPath = os.path.normpath(os.path.join(os.path.isfile(path) and os.path.dirname(path) or path, ".."))
+	LOGGER.debug("> Storing last browsed path: '%s'.", lastBrowsedPath)
+
+	RuntimeGlobals.lastBrowsedPath = lastBrowsedPath
+
+	return path

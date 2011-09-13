@@ -189,7 +189,6 @@ class Umbra(Ui_Type, Ui_Setup):
 		self.__timer = None
 		self.__actionsManager = None
 		self.__componentsManager = None
-		self.__lastBrowsedPath = os.getcwd()
 		self.__userApplicationDatasDirectory = RuntimeGlobals.userApplicationDatasDirectory
 		self.__loggingSessionHandler = RuntimeGlobals.loggingSessionHandler
 		self.__loggingFileHandler = RuntimeGlobals.loggingFileHandler
@@ -449,39 +448,6 @@ class Umbra(Ui_Type, Ui_Setup):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("componentsManager"))
-
-	@property
-	def lastBrowsedPath(self):
-		"""
-		This method is the property for **self.__lastBrowsedPath** attribute.
-
-		:return: self.__lastBrowsedPath. ( String )
-		"""
-
-		return self.__lastBrowsedPath
-
-	@lastBrowsedPath.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def lastBrowsedPath(self, value):
-		"""
-		This method is the setter method for **self.__lastBrowsedPath** attribute.
-
-		:param value: Attribute value. ( String )
-		"""
-
-		if value:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("lastBrowsedPath", value)
-			assert os.path.exists(value), "'{0}' attribute: '{1}' directory doesn't exists!".format("lastBrowsedPath", value)
-		self.__lastBrowsedPath = value
-
-	@lastBrowsedPath.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def lastBrowsedPath(self):
-		"""
-		This method is the deleter method for **self.__lastBrowsedPath** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("lastBrowsedPath"))
 
 	@property
 	def userApplicationDatasDirectory(self):
@@ -1238,25 +1204,6 @@ class Umbra(Ui_Type, Ui_Setup):
 		LOGGER.debug("> Storing startup layout.")
 
 		return self.storeLayout(UiConstants.startupLayout)
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def storeLastBrowsedPath(self, path):
-		"""
-		This method is a wrapper method for storing the last browser path.
-
-		:param path: Provided path. ( QString )
-		:return: Provided path. ( QString )
-		"""
-
-		path = str(path)
-
-		lastBrowserPath = os.path.normpath(os.path.join(os.path.isfile(path) and os.path.dirname(path) or path, ".."))
-		LOGGER.debug("> Storing last browsed path: '%s'.", lastBrowserPath)
-
-		self.__lastBrowsedPath = lastBrowserPath
-
-		return path
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(umbra.ui.common.uiStandaloneSystemExitExceptionHandler, False, OSError)

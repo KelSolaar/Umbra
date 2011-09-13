@@ -17,6 +17,7 @@
 #***********************************************************************************************
 #***	External imports.
 #***********************************************************************************************
+import os
 import unittest
 
 #***********************************************************************************************
@@ -66,6 +67,7 @@ class RuntimeGlobalsTestCase(unittest.TestCase):
 								"ui",
 								"settingsFile",
 								"settings",
+								"lastBrowsedPath",
 								"splashscreenImage",
 								"splashscreen")
 
@@ -78,6 +80,13 @@ class RuntimeGlobalsTestCase(unittest.TestCase):
 		"""
 
 		self.assertIsInstance(RuntimeGlobals.resourcesPaths, list)
+
+	def testlastBrowsedPath(self):
+		"""
+		This method tests :attr:`umbra.globals.runtimeGlobals.RuntimeGlobals.lastBrowsedPath` attribute.
+		"""
+
+		self.assertTrue(os.path.exists(RuntimeGlobals.lastBrowsedPath))
 
 if __name__ == "__main__":
 	unittest.main()

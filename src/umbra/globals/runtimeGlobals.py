@@ -15,6 +15,11 @@
 """
 
 #***********************************************************************************************
+#***	External imports.
+#***********************************************************************************************
+import os
+
+#***********************************************************************************************
 #***	Module attributes.
 #***********************************************************************************************
 __author__ = "Thomas Mansencal"
@@ -74,6 +79,9 @@ class RuntimeGlobals():
 	"""Application settings file."""
 	settings = None
 	"""Application settings instance."""
+
+	lastBrowsedPath = os.getcwd()
+	"""Last browsed path."""
 
 	splashscreenImage = None
 	"""Application splashscreen picture."""
