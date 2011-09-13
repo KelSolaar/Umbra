@@ -252,7 +252,7 @@ def getTokensParser(tokensFile):
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
-def storeLastBrowsedPath(self, path):
+def storeLastBrowsedPath(path):
 	"""
 	This definition is a wrapper method used to store the last browsed path.
 
