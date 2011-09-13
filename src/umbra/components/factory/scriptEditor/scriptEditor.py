@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`ScriptEditor` Component Interface class and the :class:`CodeEditor class.
+	This module defines the :class:`ScriptEditor` Component Interface class and the :class:`Editor class.
 
 **Others:**
 
@@ -18,7 +18,6 @@
 #***	External imports.
 #***********************************************************************************************
 import code
-import functools
 import logging
 import os
 import sys
@@ -32,6 +31,7 @@ import foundations.core as core
 import foundations.exceptions
 import foundations.io as io
 import foundations.strings
+import umbra.ui.common
 from manager.uiComponent import UiComponent
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
@@ -50,19 +50,19 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "CodeEditor", "ScriptEditor"]
+__all__ = ["LOGGER", "Editor", "ScriptEditor"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
 #***********************************************************************************************
 #***	Module classes and definitions.
 #***********************************************************************************************
-class CodeEditor(CodeEditor_QPlainTextEdit):
+class Editor(CodeEditor_QPlainTextEdit):
 	"""
 	| This class defines the default editor used by the: class:`ScriptEditor`. 
 	"""
 
-	__titleNumber = 1
+	__titleNumber = 0
 
 	# Custom signals definitions.
 	contentChanged = pyqtSignal()
@@ -73,7 +73,7 @@ class CodeEditor(CodeEditor_QPlainTextEdit):
 		"""
 		This method initializes the class.
 
-		:param script: Script path. ( String )
+		:param file: File path. ( String )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -226,7 +226,7 @@ class CodeEditor(CodeEditor_QPlainTextEdit):
 	@core.executionTrace
 	def __setFile(self, file):
 		"""
-		This method sets the code editor file.
+		This method sets the editor file.
 
 		:param File: File to set. ( String )
 		"""
@@ -239,9 +239,9 @@ class CodeEditor(CodeEditor_QPlainTextEdit):
 		self.emit(SIGNAL("fileChanged()"))
 
 	@core.executionTrace
-	def __codeEditor__contentsChanged(self):
+	def __editor__contentsChanged(self):
 		"""
-		This method is triggered when the code editor content changes.
+		This method is triggered when the editor content changes.
 		"""
 
 		titleTemplate = self.document().isModified() and "{0} *" or "{0}"
@@ -273,19 +273,19 @@ class CodeEditor(CodeEditor_QPlainTextEdit):
 		"""
 
 		self.__isUntitled = True
-		self.__file = "{0}_{1}.{2}".format(self.__defaultFileName, CodeEditor._CodeEditor__titleNumber, self.defaultFileExtension)
-		CodeEditor._CodeEditor__titleNumber += 1
+		self.__file = "{0} {1}.{2}".format(self.__defaultFileName, Editor._Editor__titleNumber, self.defaultFileExtension)
+		Editor._Editor__titleNumber += 1
 		self.setWindowTitle("{0}".format(self.__file))
 
 		# Signals / Slots.
-		self.document().contentsChanged.connect(self.__codeEditor__contentsChanged)
+		self.document().contentsChanged.connect(self.__editor__contentsChanged)
 		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def loadFile(self, file):
 		"""
-		This method reads and loads provided file into the code editor.
+		This method reads and loads provided file into the editor.
 
 		:param File: File to load. ( String )
 		:return: Method success. ( Boolean )
@@ -294,20 +294,20 @@ class CodeEditor(CodeEditor_QPlainTextEdit):
 		if not os.path.exists(file):
 			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(self.__class__.__name__, file))
 
-		LOGGER.info("{0} | Loading '{1}' file into code editor!".format(self.__class__.__name__, file))
+		LOGGER.info("{0} | Loading '{1}' file into editor!".format(self.__class__.__name__, file))
 		reader = io.File(file)
 		reader.read() and self.setPlainText("".join(reader.content))
 		self.__setFile(file)
 
 		# Signals / Slots.
-		self.document().contentsChanged.connect(self.__codeEditor__contentsChanged)
+		self.document().contentsChanged.connect(self.__editor__contentsChanged)
 		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def saveFile(self):
 		"""
-		This method saves the code editor content.
+		This method saves the editor content.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -318,15 +318,15 @@ class CodeEditor(CodeEditor_QPlainTextEdit):
 			return self.saveFileAs()
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
 	def saveFileAs(self):
 		"""
-		This method saves the code editor content into user defined file.
+		This method saves the editor content into user defined file.
 
 		:return: Method success. ( Boolean )
 		"""
 
-		file = QFileDialog.getSaveFileName(self, "Save As", self.__file)
+		file = umbra.ui.common.storeLastBrowsedPath(QFileDialog.getSaveFileName(self, "Save As", self.__file))
 		if not file:
 			return
 
@@ -339,7 +339,7 @@ class CodeEditor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def writeFile(self, file):
 		"""
-		This method writes the code editor content into provided file.
+		This method writes the editor content into provided file.
 
 		:param file: File to write. ( String )
 		:return: Method success. ( Boolean )
@@ -349,6 +349,18 @@ class CodeEditor(CodeEditor_QPlainTextEdit):
 		writer = io.File(file)
 		writer.content = [self.toPlainText()]
 		return writer.write()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def closeFile(self):
+		"""
+		This method close the editor file.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		LOGGER.info("{0} | Closing '{1}' file!".format(self.__class__.__name__, self.__file))
+		return True
 
 class ScriptEditor(UiComponent):
 	"""
@@ -745,7 +757,7 @@ class ScriptEditor(UiComponent):
 		self.ui.menuBar_frame_gridLayout.addWidget(self.__menuBar)
 		self.__initializeMenuBar()
 
-#		self.ui.Script_Editor_Input_plainTextEdit = CodeEditor_QPlainTextEdit(self)
+#		self.ui.Script_Editor_Input_plainTextEdit = Editor_QPlainTextEdit(self)
 #		self.ui.Script_Editor_gridLayout.addWidget(self.ui.Script_Editor_Input_plainTextEdit, 0, 0)
 
 #		self.ui.Script_Editor_Input_plainTextEdit.highlighter = PythonHighlighter(self.ui.Script_Editor_Input_plainTextEdit.document())
@@ -754,6 +766,7 @@ class ScriptEditor(UiComponent):
 
 		# Signals / Slots.
 		self.__container.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
+		self.ui.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
 #		self.ui.Evaluate_Script_pushButton.clicked.connect(self.__Evaluate_Script_pushButton__clicked)
 #		self.datasChanged.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 
@@ -807,7 +820,10 @@ class ScriptEditor(UiComponent):
 
 		LOGGER.debug("> Calling '{0}' Component Framework startup method.".format(self.__class__.__name__))
 
-		os.path.exists(self.__defaultScriptEditorFile) and self.loadFile(self.__defaultScriptEditorFile)
+		if os.path.exists(self.__defaultScriptEditorFile):
+			self.loadFile(self.__defaultScriptEditorFile)
+		else:
+			self.newFile()
 
 	@core.executionTrace
 	def __initializeMenuBar(self):
@@ -816,10 +832,12 @@ class ScriptEditor(UiComponent):
 		"""
 
 		self.__fileMenu = QMenu("&File")
-		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&New file ...", shortcut=QKeySequence.New, slot=self.__newFileAction__triggered))
-#		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Load file ...", shortcut=QKeySequence.Open, slot=self.__loadFileAction__triggered))
-#		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Source file ...", slot=self.__sourceFileAction__triggered))
-		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Save file ...", shortcut=QKeySequence.Save, slot=self.__saveFileAction__triggered))
+		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&New File ...", shortcut=QKeySequence.New, slot=self.__newFileAction__triggered))
+		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Load File ...", shortcut=QKeySequence.Open, slot=self.__loadFileAction__triggered))
+#		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Source File ...", slot=self.__sourceFileAction__triggered))
+		self.__fileMenu.addSeparator()
+		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Save File ...", shortcut=QKeySequence.Save, slot=self.__saveFileAction__triggered))
+		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Save File As ...", shortcut=QKeySequence.SaveAs, slot=self.__saveFileAsAction__triggered))
 		self.__menuBar.addMenu(self.__fileMenu)
 #
 #		self.__editMenu = QMenu("&Edit")
@@ -847,10 +865,10 @@ class ScriptEditor(UiComponent):
 		for line in self.__container.loggingSessionHandlerStream.stream:
 			self.ui.Script_Editor_Output_plainTextEdit.moveCursor(QTextCursor.End)
 			self.ui.Script_Editor_Output_plainTextEdit.insertPlainText(line)
-		self.__Script_Editor_Output_plainTextEdit__setDefaultViewState()
+		self.__Script_Editor_Output_plainTextEdit_setDefaultViewState()
 
 	# @core.executionTrace
-	def __Script_Editor_Output_plainTextEdit__setDefaultViewState(self):
+	def __Script_Editor_Output_plainTextEdit_setDefaultViewState(self):
 		"""
 		This method sets the ** Script_Editor_Output_plainTextEdit ** Widget.
 		"""
@@ -869,13 +887,23 @@ class ScriptEditor(UiComponent):
 			for line in self.__container.loggingSessionHandlerStream.stream[self.__memoryHandlerStackDepth:memoryHandlerStackDepth]:
 				self.ui.Script_Editor_Output_plainTextEdit.moveCursor(QTextCursor.End)
 				self.ui.Script_Editor_Output_plainTextEdit.insertPlainText(line)
-			self.__Script_Editor_Output_plainTextEdit__setDefaultViewState()
+			self.__Script_Editor_Output_plainTextEdit_setDefaultViewState()
 			self.__memoryHandlerStackDepth = memoryHandlerStackDepth
+
+	@core.executionTrace
+	def __Script_Editor_tabWidget__tabCloseRequested(self, tabIndex):
+		"""
+		This method is triggered by the **Script_Editor_tabWidget** widget when a tab is requested to be closed.
+
+		:param tabIndex: Tab index. ( Integer )
+		"""
+
+		return self.closeFile()
 
 	@core.executionTrace
 	def __newFileAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&New file ...'** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&New File ...'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
@@ -884,15 +912,37 @@ class ScriptEditor(UiComponent):
 		return self.newFile()
 
 	@core.executionTrace
+	def __loadFileAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Load File ...'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.loadFile()
+
+	@core.executionTrace
 	def __saveFileAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Save file ...'** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Save File ...'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
 
 		return self.saveFile()
+
+	@core.executionTrace
+	def __saveFileAsAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Save File As ...'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.saveFileAs()
 
 #	@core.executionTrace
 #	def __loadFileAction__triggered(self, checked):
@@ -1055,84 +1105,82 @@ class ScriptEditor(UiComponent):
 #		return True
 #
 	@core.executionTrace
-	def __codeEditor__contentChanged(self, tabIndex):
+	def __editor__contentChanged(self):
 		"""
-		This method is triggered when a code editor content changes.
+		This method is triggered when a editor content changes.
+		"""
 
-		:param tabIndex: Index of the tab containing the code editor. ( Integer )
-		"""
-		self.__setCodeEditorTabName(tabIndex)
+		self.__setEditorTabName(self.ui.Script_Editor_tabWidget.currentIndex())
 
 	@core.executionTrace
-	def __codeEditor__fileChanged(self, tabIndex):
+	def __editor__fileChanged(self):
 		"""
-		This method is triggered when a code editor file changes.
-
-		:param tabIndex: Index of the tab containing the code editor. ( Integer )
+		This method is triggered when a editor file changes.
 		"""
 
-		self.__setCodeEditorTabName(tabIndex)
+		self.__setEditorTabName(self.ui.Script_Editor_tabWidget.currentIndex())
 
 	@core.executionTrace
-	def __setCodeEditorTabName(self, tabIndex):
+	def __setEditorTabName(self, tabIndex):
 		"""
-		This method sets the code editor tab name.
+		This method sets the editor tab name.
 
-		:param tabIndex: Index of the tab containing the code editor. ( Integer )
+		:param tabIndex: Index of the tab containing the editor. ( Integer )
 		"""
 
 		self.ui.Script_Editor_tabWidget.setTabText(tabIndex, self.ui.Script_Editor_tabWidget.widget(tabIndex).windowTitle())
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def addCodeEditorTab(self, codeEditor):
+	def addEditorTab(self, editor):
 		"""
-		This method adds a new tab to the **Script_Editor_tabWidget** widget and sets provided code editor as child widget.
+		This method adds a new tab to the **Script_Editor_tabWidget** widget and sets provided editor as child widget.
 
-		:param codeEditor: Code editor. ( CodeEditor )
+		:param editor: Editor. ( Editor )
 		:return: New tab index. ( Integer )
 		"""
 
-		tabIndex = self.ui.Script_Editor_tabWidget.addTab(codeEditor, codeEditor.getFileShortName())
+		tabIndex = self.ui.Script_Editor_tabWidget.addTab(editor, editor.getFileShortName())
 		self.ui.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
 
 		# Signals / Slots.
-		codeEditor.contentChanged.connect(functools.partial(self.__codeEditor__contentChanged, tabIndex))
-		codeEditor.fileChanged.connect(functools.partial(self.__codeEditor__fileChanged, tabIndex))
+		editor.contentChanged.connect(self.__editor__contentChanged)
+		editor.fileChanged.connect(self.__editor__fileChanged)
 		return tabIndex
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def createCodeEditor(self):
+	def removeEditorTab(self, tabIndex):
 		"""
-		This method creates a new :class:`CodeEditor` instance and add it to the **Script_Editor_tabWidget** widget.
+		This method deletes **Script_Editor_tabWidget** widget tab with provided index.
 
-		:param file: File to load. ( String )
-		:return: Code editor. ( CodeEditor )
+		:param tabIndex: Tab index. ( Integer )
+		:return: New tab index. ( Integer )
 		"""
 
-		codeEditor = CodeEditor()
-		return codeEditor
+		self.ui.Script_Editor_tabWidget.removeTab(tabIndex)
+		not self.ui.Script_Editor_tabWidget.count() and self.newFile()
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def newFile(self):
 		"""
-		This method creates new file into a new :class:`CodeEditor` instance.
+		This method creates new file into a new :class:`Editor` instance.
 
 		:return: Method success. ( Boolean )
 		"""
 
-		codeEditor = self.createCodeEditor()
-		if codeEditor.newFile():
-			self.addCodeEditorTab(codeEditor)
+		editor = Editor()
+		if editor.newFile():
+			self.addEditorTab(editor)
 			return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def loadFile(self, file):
 		"""
-		This method reads and loads provided file into a new or already existing :class:`CodeEditor` instance.
+		This method reads and loads provided file into a new or already existing :class:`Editor` instance.
 
 		:param file: File to load. ( String )
 		:return: Method success. ( Boolean )
@@ -1141,21 +1189,21 @@ class ScriptEditor(UiComponent):
 		if not os.path.exists(file):
 			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(self.__class__.__name__, file))
 
-		existingCodeEditor = self.findCodeEditor(file)
-		if existingCodeEditor:
+		existingEditor = self.findEditor(file)
+		if existingEditor:
 			# Set active tab to document.			
 			return
 
 		LOGGER.info("{0} | Loading '{1}' file into 'Script_Editor_tabWidget'!".format(self.__class__.__name__, file))
-		codeEditor = self.createCodeEditor()
-		if codeEditor.loadFile(file):
-			self.addCodeEditorTab(codeEditor)
+		editor = Editor()
+		if editor.loadFile(file):
+			self.addEditorTab(editor)
 			return True
 
 	@core.executionTrace
 	def saveFile(self):
 		"""
-		This method saves current :class:`CodeEditor` instance file.
+		This method saves current :class:`Editor` instance file.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -1164,20 +1212,42 @@ class ScriptEditor(UiComponent):
 			return self.ui.Script_Editor_tabWidget.currentWidget().saveFile()
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def findCodeEditor(self, file):
+	def saveFileAs(self):
 		"""
-		This method finds the :class:`CodeEditor` instance associated to the provided file.
+		This method saves current :class:`Editor` instance file as user defined file.
 
-		:param file: File to search code editors for. ( String )
-		:return: Code editor. ( CodeEditor )
+		:return: Method success. ( Boolean )
+		"""
+
+		if self.ui.Script_Editor_tabWidget.count():
+			return self.ui.Script_Editor_tabWidget.currentWidget().saveFileAs()
+
+	@core.executionTrace
+	def closeFile(self):
+		"""
+		This method closes current :class:`Editor` instance file and delete the associated **Script_Editor_tabWidget** widget tab.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		if self.ui.Script_Editor_tabWidget.currentWidget().closeFile():
+			return self.removeEditorTab(self.ui.Script_Editor_tabWidget.currentIndex())
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def findEditor(self, file):
+		"""
+		This method finds the :class:`Editor` instance associated to the provided file.
+
+		:param file: File to search editors for. ( String )
+		:return: Editor. ( Editor )
 		"""
 
 		pass
 
-#		for codeEditor in self.ui.Script_Editor_mdiArea.subWindowList():
-#			if codeEditor.widget().currentFile() == file:
-#				return codeEditor
+#		for editor in self.ui.Script_Editor_mdiArea.subWindowList():
+#			if editor.widget().currentFile() == file:
+#				return editor
 
 #	@core.executionTrace
 #	@foundations.exceptions.exceptionsHandler(None, False, Exception)

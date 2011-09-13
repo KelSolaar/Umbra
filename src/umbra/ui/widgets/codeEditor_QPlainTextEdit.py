@@ -452,9 +452,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param value: Attribute value. ( QCompleter )
 		"""
 
-		if value:
-			assert issubclass(value.__class__, QCompleter), "'{0}' attribute: '{1}' type is not 'QCompleter'!".format("completer", value)
-		self.__completer = value
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("completer"))
 
 	@completer.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -569,18 +567,6 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		self.__marginArea_LinesNumbers_widget.updateGeometry()
 
 	@core.executionTrace
-	def focusInEvent(self, event):
-		"""
-		This method reimplements the Widget **focusInEvent** method.
-		
-		:param event: Event. ( QEvent )
-		"""
-
-		if self.__completer:
-			self.__completer.setWidget(self);
-		QPlainTextEdit.focusInEvent(self, event)
-
-	@core.executionTrace
 	def keyPressEvent(self, event):
 		"""
 		This method reimplements the Widget **keyPressEvent** method.
@@ -623,11 +609,14 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:return: Method success. ( Boolean )		
 		"""
 
+		if not issubclass(completer.__class__, QCompleter):
+			raise Exception("'{1}' type is not 'QCompleter'!".format(completer))
+
 		# Signals / Slots.
 		if self.__completer:
 			self.__completer.activated.disconnect(self.__insertCompletion)
 
-		self.completer = completer
+		self.__completer = completer
 		self.__completer.setWidget(self)
 
 		# Signals / Slots.
