@@ -633,11 +633,14 @@ class ComponentsManagerUi(UiComponent):
 	def onStartup(self):
 		"""
 		This method is called on Framework startup.
+
+		:return: Method success. ( Boolean )		
 		"""
 
 		LOGGER.debug("> Calling '{0}' Component Framework startup method.".format(self.__class__.__name__))
 
 		self.__Components_Manager_Ui_treeView_setActivationsStatus()
+		return True
 
 	@core.executionTrace
 	def __Components_Manager_Ui_treeView_setModel(self):

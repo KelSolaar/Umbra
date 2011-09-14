@@ -835,8 +835,15 @@ class Umbra(Ui_Type, Ui_Setup):
 			if not interface:
 				continue
 
-			if interface.activated:
-				hasattr(interface, "onClose") and interface.onClose()
+			if not interface.activated:
+				continue
+
+			if not hasattr(interface, "onClose"):
+				continue
+
+			if not interface.onClose():
+				event.ignore()
+				return
 
 		# Storing current layout.
 		self.storeStartupLayout()
