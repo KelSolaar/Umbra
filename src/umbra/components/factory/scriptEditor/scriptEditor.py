@@ -31,6 +31,7 @@ import foundations.core as core
 import foundations.exceptions
 import foundations.io as io
 import foundations.strings
+import umbra.ui.widgets.messageBox as messageBox
 import umbra.ui.common
 from manager.uiComponent import UiComponent
 from umbra.globals.constants import Constants
@@ -62,7 +63,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	| This class defines the default editor used by the: class:`ScriptEditor`. 
 	"""
 
-	__titleNumber = 0
+	__instanceId = 1
 
 	# Custom signals definitions.
 	contentChanged = pyqtSignal()
@@ -265,6 +266,19 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getNextUntitledFileName(self):
+		"""
+		This method returns the next untitled file name.
+
+		:return: File short name. ( String )
+		"""
+
+		name = "{0} {1}.{2}".format(self.__defaultFileName, Editor._Editor__instanceId, self.defaultFileExtension)
+		LOGGER.debug("> Next untitled file name: '{0}'.".format(name))
+		return name
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def newFile(self):
 		"""
 		This method creates a new file.
@@ -272,9 +286,11 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:return: Method success. ( Boolean )
 		"""
 
+		file = self.getNextUntitledFileName()
+		LOGGER.debug("> Creating '{0}' file.".format(file))
+		self.__file = file
 		self.__isUntitled = True
-		self.__file = "{0} {1}.{2}".format(self.__defaultFileName, Editor._Editor__titleNumber, self.defaultFileExtension)
-		Editor._Editor__titleNumber += 1
+		Editor._Editor__instanceId += 1
 		self.setWindowTitle("{0}".format(self.__file))
 
 		# Signals / Slots.
@@ -294,7 +310,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		if not os.path.exists(file):
 			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(self.__class__.__name__, file))
 
-		LOGGER.info("{0} | Loading '{1}' file into editor!".format(self.__class__.__name__, file))
+		LOGGER.debug("> Loading '{0}' file.".format(file))
 		reader = io.File(file)
 		reader.read() and self.setPlainText("".join(reader.content))
 		self.__setFile(file)
@@ -324,9 +340,11 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method saves the editor content into user defined file.
 
 		:return: Method success. ( Boolean )
+		
+		:note: This method may require user interaction.
 		"""
 
-		file = umbra.ui.common.storeLastBrowsedPath(QFileDialog.getSaveFileName(self, "Save As", self.__file))
+		file = umbra.ui.common.storeLastBrowsedPath(QFileDialog.getSaveFileName(self, "Save As:", self.__file))
 		if not file:
 			return
 
@@ -345,7 +363,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:return: Method success. ( Boolean )
 		"""
 
-		LOGGER.info("{0} | Writing '{1}' file!".format(self.__class__.__name__, file))
+		LOGGER.debug("> Writing '{0}' file.".format(file))
 		writer = io.File(file)
 		writer.content = [self.toPlainText()]
 		return writer.write()
@@ -359,8 +377,18 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:return: Method success. ( Boolean )
 		"""
 
-		LOGGER.info("{0} | Closing '{1}' file!".format(self.__class__.__name__, self.__file))
-		return True
+		if not self.document().isModified():
+			LOGGER.debug("> Closing '{0}' file.".format(self.__file))
+			return True
+
+		choice = messageBox.messageBox("Warning", "Warning", "'{0}' document has been modified!\nWould you like to save your changes?".format(self.getFileShortName()), buttons=QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+		if choice == QMessageBox.Save:
+			if self.saveFile():
+				LOGGER.debug("> Closing '{0}' file.".format(self.__file))
+				return True
+		elif choice == QMessageBox.Discard:
+			LOGGER.debug("> Discarding '{0}' file.".format(self.__file))
+			return True
 
 class ScriptEditor(UiComponent):
 	"""
@@ -757,17 +785,11 @@ class ScriptEditor(UiComponent):
 		self.ui.menuBar_frame_gridLayout.addWidget(self.__menuBar)
 		self.__initializeMenuBar()
 
-#		self.ui.Script_Editor_Input_plainTextEdit = Editor_QPlainTextEdit(self)
-#		self.ui.Script_Editor_gridLayout.addWidget(self.ui.Script_Editor_Input_plainTextEdit, 0, 0)
-
-#		self.ui.Script_Editor_Input_plainTextEdit.highlighter = PythonHighlighter(self.ui.Script_Editor_Input_plainTextEdit.document())
-#		self.ui.Script_Editor_Input_plainTextEdit.setCompleter(PythonCompleter())
 		self.ui.Script_Editor_Output_plainTextEdit.highlighter = LoggingHighlighter(self.ui.Script_Editor_Output_plainTextEdit.document())
 
 		# Signals / Slots.
 		self.__container.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.ui.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
-#		self.ui.Evaluate_Script_pushButton.clicked.connect(self.__Evaluate_Script_pushButton__clicked)
 #		self.datasChanged.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 
 		return True
@@ -818,12 +840,22 @@ class ScriptEditor(UiComponent):
 		This method is called on Framework startup.
 		"""
 
-		LOGGER.debug("> Calling '{0}' Component Framework startup method.".format(self.__class__.__name__))
+		LOGGER.debug("> Calling '{0}' Component Framework 'onStartup' method.".format(self.__class__.__name__))
 
 		if os.path.exists(self.__defaultScriptEditorFile):
-			self.loadFile(self.__defaultScriptEditorFile)
+			return self.loadFile(self.__defaultScriptEditorFile)
 		else:
-			self.newFile()
+			return self.newFile()
+
+	@core.executionTrace
+	def onClose(self):
+		"""
+		This method is called on Framework close.
+		"""
+
+		LOGGER.debug("> Calling '{0}' Component Framework 'onClose' method.".format(self.__class__.__name__))
+
+		return self.closeAllFiles(leaveLastEditor=False)
 
 	@core.executionTrace
 	def __initializeMenuBar(self):
@@ -832,12 +864,15 @@ class ScriptEditor(UiComponent):
 		"""
 
 		self.__fileMenu = QMenu("&File")
-		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&New File ...", shortcut=QKeySequence.New, slot=self.__newFileAction__triggered))
-		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Load File ...", shortcut=QKeySequence.Open, slot=self.__loadFileAction__triggered))
-#		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Source File ...", slot=self.__sourceFileAction__triggered))
+		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&New", shortcut=QKeySequence.New, slot=self.__newFileAction__triggered))
+		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Load ...", shortcut=QKeySequence.Open, slot=self.__loadFileAction__triggered))
+#		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Source ...", slot=self.__sourceFileAction__triggered))
 		self.__fileMenu.addSeparator()
-		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Save File ...", shortcut=QKeySequence.Save, slot=self.__saveFileAction__triggered))
-		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Save File As ...", shortcut=QKeySequence.SaveAs, slot=self.__saveFileAsAction__triggered))
+		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Save", shortcut=QKeySequence.Save, slot=self.__saveFileAction__triggered))
+		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Save As ...", shortcut=QKeySequence.SaveAs, slot=self.__saveFileAsAction__triggered))
+		self.__fileMenu.addSeparator()
+		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Close ...", shortcut=QKeySequence.Close, slot=self.__closeFileAction__triggered))
+		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Close All ...", shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.Key_W, slot=self.__closeAllFilesAction__triggered))
 		self.__menuBar.addMenu(self.__fileMenu)
 #
 #		self.__editMenu = QMenu("&Edit")
@@ -903,7 +938,7 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __newFileAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&New File ...'** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&New'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
@@ -914,18 +949,18 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __loadFileAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Load File ...'** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Load ...'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
 
-		return self.loadFile()
+		return self.loadFile_ui()
 
 	@core.executionTrace
 	def __saveFileAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Save File ...'** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Save'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
@@ -936,13 +971,35 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __saveFileAsAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Save File As ...'** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Save As ...'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
 
 		return self.saveFileAs()
+
+	@core.executionTrace
+	def __closeFileAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Close ...'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.closeFile()
+
+	@core.executionTrace
+	def __closeAllFilesAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Close All ...'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.closeAllFiles()
 
 #	@core.executionTrace
 #	def __loadFileAction__triggered(self, checked):
@@ -1131,6 +1188,23 @@ class ScriptEditor(UiComponent):
 		self.ui.Script_Editor_tabWidget.setTabText(tabIndex, self.ui.Script_Editor_tabWidget.widget(tabIndex).windowTitle())
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
+	def loadFile_ui(self):
+		"""
+		This method loads user chosen file into a new :class:`Editor` instance with its associated tab.
+
+		:return: Method success. ( Boolean )
+		
+		:note: This method may require user interaction.
+		"""
+
+		file = umbra.ui.common.storeLastBrowsedPath((QFileDialog.getOpenFileName(self, "Load File:", RuntimeGlobals.lastBrowsedPath)))
+		if not file:
+			return
+
+		return self.loadFile(file)
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addEditorTab(self, editor):
 		"""
@@ -1152,26 +1226,41 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeEditorTab(self, tabIndex):
 		"""
-		This method deletes **Script_Editor_tabWidget** widget tab with provided index.
+		This method removes the **Script_Editor_tabWidget** widget tab with provided index.
 
 		:param tabIndex: Tab index. ( Integer )
-		:return: New tab index. ( Integer )
+		:return: Method success. ( Boolean )
 		"""
 
 		self.ui.Script_Editor_tabWidget.removeTab(tabIndex)
-		not self.ui.Script_Editor_tabWidget.count() and self.newFile()
 		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def findEditorTab(self, file):
+		"""
+		This method finds the :class:`Editor` instance tab associated with the provided file.
+
+		:param file: File to search editors for. ( String )
+		:return: Tab index. ( Editor )
+		"""
+
+		for i in range(self.ui.Script_Editor_tabWidget.count()):
+			if not self.ui.Script_Editor_tabWidget.widget(i).file == file:
+				continue
+			return i
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def newFile(self):
 		"""
-		This method creates new file into a new :class:`Editor` instance.
+		This method creates a new file into a new :class:`Editor` instance with its associated tab.
 
 		:return: Method success. ( Boolean )
 		"""
 
 		editor = Editor()
+		LOGGER.info("{0} | Creating '{1}' file!".format(self.__class__.__name__, editor.getNextUntitledFileName()))
 		if editor.newFile():
 			self.addEditorTab(editor)
 			return True
@@ -1180,7 +1269,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def loadFile(self, file):
 		"""
-		This method reads and loads provided file into a new or already existing :class:`Editor` instance.
+		This method reads and loads provided file into a new :class:`Editor` instance with its associated tab or sets the focus on an existing tab if the file is already loaded.
 
 		:param file: File to load. ( String )
 		:return: Method success. ( Boolean )
@@ -1189,18 +1278,20 @@ class ScriptEditor(UiComponent):
 		if not os.path.exists(file):
 			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(self.__class__.__name__, file))
 
-		existingEditor = self.findEditor(file)
-		if existingEditor:
-			# Set active tab to document.			
+		tabIndex = self.findEditorTab(file)
+		if tabIndex >= 0:
+			LOGGER.info("{0} | '{1}' is already loaded!".format(self.__class__.__name__, file))
+			self.ui.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
 			return
 
-		LOGGER.info("{0} | Loading '{1}' file into 'Script_Editor_tabWidget'!".format(self.__class__.__name__, file))
+		LOGGER.info("{0} | Loading '{1}' file!".format(self.__class__.__name__, file))
 		editor = Editor()
 		if editor.loadFile(file):
 			self.addEditorTab(editor)
 			return True
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def saveFile(self):
 		"""
 		This method saves current :class:`Editor` instance file.
@@ -1209,9 +1300,12 @@ class ScriptEditor(UiComponent):
 		"""
 
 		if self.ui.Script_Editor_tabWidget.count():
-			return self.ui.Script_Editor_tabWidget.currentWidget().saveFile()
+			editor = self.ui.Script_Editor_tabWidget.currentWidget()
+			LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
+			return editor.saveFile()
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def saveFileAs(self):
 		"""
 		This method saves current :class:`Editor` instance file as user defined file.
@@ -1219,35 +1313,53 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.ui.Script_Editor_tabWidget.count():
-			return self.ui.Script_Editor_tabWidget.currentWidget().saveFileAs()
+		if not self.ui.Script_Editor_tabWidget.count():
+			return
+
+		editor = self.ui.Script_Editor_tabWidget.currentWidget()
+		LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
+		return editor.saveFileAs()
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def closeFile(self):
 		"""
-		This method closes current :class:`Editor` instance file and delete the associated **Script_Editor_tabWidget** widget tab.
+ 		This method closes current :class:`Editor` instance file and removes the associated **Script_Editor_tabWidget** widget tab.
 
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.ui.Script_Editor_tabWidget.currentWidget().closeFile():
-			return self.removeEditorTab(self.ui.Script_Editor_tabWidget.currentIndex())
+		if not self.ui.Script_Editor_tabWidget.count():
+			return
+
+		editor = self.ui.Script_Editor_tabWidget.currentWidget()
+		LOGGER.info("{0} | Closing '{1}' file!".format(self.__class__.__name__, editor.file))
+		if not editor.closeFile():
+			return
+
+		if self.removeEditorTab(self.ui.Script_Editor_tabWidget.currentIndex()):
+			not self.ui.Script_Editor_tabWidget.count() and self.newFile()
+			return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def findEditor(self, file):
+	def closeAllFiles(self, leaveLastEditor=True):
 		"""
-		This method finds the :class:`Editor` instance associated to the provided file.
+ 		This method closes every :class:`Editor` instances and removes their associated **Script_Editor_tabWidget** widget tabs.
 
-		:param file: File to search editors for. ( String )
-		:return: Editor. ( Editor )
+		:return: Method success. ( Boolean )
 		"""
 
-		pass
+		for i in range(self.ui.Script_Editor_tabWidget.count(), 0, -1):
+			editor = self.ui.Script_Editor_tabWidget.widget(i - 1)
+			LOGGER.info("{0} | Closing '{1}' file!".format(self.__class__.__name__, editor.file))
+			if not editor.closeFile():
+				return
 
-#		for editor in self.ui.Script_Editor_mdiArea.subWindowList():
-#			if editor.widget().currentFile() == file:
-#				return editor
+			if self.removeEditorTab(self.ui.Script_Editor_tabWidget.currentIndex()):
+				if not self.ui.Script_Editor_tabWidget.count() and leaveLastEditor:
+					self.newFile()
+		return True
 
 #	@core.executionTrace
 #	@foundations.exceptions.exceptionsHandler(None, False, Exception)

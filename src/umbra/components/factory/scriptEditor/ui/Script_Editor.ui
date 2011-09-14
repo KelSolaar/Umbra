@@ -2,20 +2,15 @@
 <ui version="4.0">
  <class>Script_Editor_DockWidget</class>
  <widget class="QDockWidget" name="Script_Editor_DockWidget">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>394</width>
-    <height>529</height>
-   </rect>
-  </property>
   <property name="windowTitle">
    <string>Script Editor</string>
   </property>
   <widget class="QWidget" name="Script_Editor_dockWidgetContents">
-   <layout class="QGridLayout" name="Script_Editor_dockWidgetContents_gridLayout">
+   <layout class="QGridLayout" name="gScript_Editor_dockWidgetContents_ridLayout">
     <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="verticalSpacing">
      <number>0</number>
     </property>
     <item row="0" column="0">
@@ -32,43 +27,56 @@
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
-      <widget class="QPlainTextEdit" name="Script_Editor_Output_plainTextEdit"/>
-      <widget class="QTabWidget" name="Script_Editor_tabWidget">
-       <property name="documentMode">
-        <bool>true</bool>
-       </property>
-       <property name="tabsClosable">
-        <bool>true</bool>
-       </property>
-       <property name="movable">
-        <bool>true</bool>
-       </property>
+      <widget class="QFrame" name="Script_Editor_Output_plainTextEdit_frame">
+       <layout class="QGridLayout" name="Script_Editor_Output_plainTextEdit_frame_gridLayout">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>4</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QPlainTextEdit" name="Script_Editor_Output_plainTextEdit">
+          <property name="textInteractionFlags">
+           <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QFrame" name="Script_Editor_tabWidget_frame">
+       <layout class="QGridLayout" name="Script_Editor_tabWidget_frame_gridLayout">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>4</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QTabWidget" name="Script_Editor_tabWidget">
+          <property name="tabsClosable">
+           <bool>true</bool>
+          </property>
+          <property name="movable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
-    </item>
-    <item row="2" column="0">
-     <layout class="QHBoxLayout" name="Buttons_horizontalLayout">
-      <item>
-       <widget class="QPushButton" name="Evaluate_Selection_pushButton">
-        <property name="statusTip">
-         <string>Evaluate Selection Push Button: Evaluates selected &quot;Script_Editor_Input_textEdit&quot; QTextEdit content as Python code.</string>
-        </property>
-        <property name="text">
-         <string>Evaluate Selection</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="Evaluate_Script_pushButton">
-        <property name="statusTip">
-         <string>Evaluate Script Push Button: Evaluates &quot;Script_Editor_Input_textEdit&quot; QTextEdit content as Python code.</string>
-        </property>
-        <property name="text">
-         <string>Evaluate Script</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
     </item>
    </layout>
   </widget>
