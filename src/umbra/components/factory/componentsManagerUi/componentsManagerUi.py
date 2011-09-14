@@ -637,7 +637,7 @@ class ComponentsManagerUi(UiComponent):
 		:return: Method success. ( Boolean )		
 		"""
 
-		LOGGER.debug("> Calling '{0}' Component Framework startup method.".format(self.__class__.__name__))
+		LOGGER.debug("> Calling '{0}' Component Framework 'onStartup' method.".format(self.__class__.__name__))
 
 		self.__Components_Manager_Ui_treeView_setActivationsStatus()
 		return True
