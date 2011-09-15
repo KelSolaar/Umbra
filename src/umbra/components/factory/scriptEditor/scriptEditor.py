@@ -754,8 +754,8 @@ class ScriptEditor(UiComponent):
 		not os.path.exists(self.__defaultScriptEditorDirectory) and os.makedirs(self.__defaultScriptEditorDirectory)
 		self.__defaultScriptEditorFile = os.path.join(self.__defaultScriptEditorDirectory, self.__defaultScriptEditorFile)
 
-#		self.__getsLocals()
-#		self.__console = code.InteractiveConsole(self.__locals)
+		self.__getsLocals()
+		self.__console = code.InteractiveConsole(self.__locals)
 
 		return UiComponent.activate(self)
 
@@ -790,7 +790,7 @@ class ScriptEditor(UiComponent):
 		# Signals / Slots.
 		self.__container.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.ui.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
-#		self.datasChanged.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
+		self.datasChanged.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 
 		return True
 
@@ -886,10 +886,10 @@ class ScriptEditor(UiComponent):
 #		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Select All", shortcut=QKeySequence.SelectAll, slot=self.__selectAllAction__triggered))
 #		self.__menuBar.addMenu(self.__editMenu)
 #
-#		self.__commandMenu = QMenu("&Command")
-#		self.__commandMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection", shortcut=Qt.ControlModifier + Qt.Key_Return, slot=self.__evaluateSelectionAction__triggered))
-#		self.__commandMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script", shortcut=Qt.SHIFT + Qt.CTRL + Qt.Key_Return, slot=self.__evaluateScriptAction__triggered))
-#		self.__menuBar.addMenu(self.__commandMenu)
+		self.__commandMenu = QMenu("&Command")
+		self.__commandMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection", shortcut=Qt.ControlModifier + Qt.Key_Return, slot=self.__evaluateSelectionAction__triggered))
+		self.__commandMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script", shortcut=Qt.SHIFT + Qt.CTRL + Qt.Key_Return, slot=self.__evaluateScriptAction__triggered))
+		self.__menuBar.addMenu(self.__commandMenu)
 
 	# @core.executionTrace
 	def __Script_Editor_Output_plainTextEdit_setUi(self):
@@ -1001,6 +1001,28 @@ class ScriptEditor(UiComponent):
 
 		return self.closeAllFiles()
 
+	@core.executionTrace
+	def __evaluateSelectionAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.evaluateSelection()
+
+	@core.executionTrace
+	def __evaluateScriptAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.evaluateScript()
+
 #	@core.executionTrace
 #	def __loadFileAction__triggered(self, checked):
 #		"""
@@ -1111,56 +1133,6 @@ class ScriptEditor(UiComponent):
 #
 #		print "selectAllAction"
 #
-#	@core.executionTrace
-#	def __evaluateSelectionAction__triggered(self, checked):
-#		"""
-#		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection'** action.
-#
-#		:param checked: Checked state. ( Boolean )
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		return self.evaluateSelection()
-#
-#	@core.executionTrace
-#	def __evaluateScriptAction__triggered(self, checked):
-#		"""
-#		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script'** action.
-#
-#		:param checked: Checked state. ( Boolean )
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		return self.evaluateScript()
-#
-#	@core.executionTrace
-#	def __Evaluate_Script_pushButton__clicked(self, checked):
-#		"""
-#		This method is triggered when **Evaluate_Script_pushButton** is clicked.
-#
-#		:param checked: Checked state. ( Boolean )
-#		"""
-#
-#		self.evaluateScript()
-#
-#	@core.executionTrace
-#	def __getsLocals(self):
-#		"""
-#		This method gets the locals for the interactive console.
-#
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		self.__locals = {}
-#
-#		for globals in (Constants, RuntimeGlobals, UiConstants):
-#			self.__locals[globals.__name__] = globals
-#
-#		self.__locals[Constants.applicationName] = self.__container
-#		self.__locals["componentsManager"] = self.__container.componentsManager
-#
-#		return True
-#
 	@core.executionTrace
 	def __editor__contentChanged(self):
 		"""
@@ -1186,6 +1158,24 @@ class ScriptEditor(UiComponent):
 		"""
 
 		self.ui.Script_Editor_tabWidget.setTabText(tabIndex, self.ui.Script_Editor_tabWidget.widget(tabIndex).windowTitle())
+
+	@core.executionTrace
+	def __getsLocals(self):
+		"""
+		This method gets the locals for the interactive console.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		self.__locals = {}
+
+		for globals in (Constants, RuntimeGlobals, UiConstants):
+			self.__locals[globals.__name__] = globals
+
+		self.__locals[Constants.applicationName] = self.__container
+		self.__locals["componentsManager"] = self.__container.componentsManager
+
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
@@ -1252,6 +1242,17 @@ class ScriptEditor(UiComponent):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def hasEditorTab(self):
+		"""
+		This method returns if the **Script_Editor_tabWidget** widget has at least a tab.
+
+		:return: Has tab. ( Boolean )
+		"""
+
+		return self.ui.Script_Editor_tabWidget.count() and True or False
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def newFile(self):
 		"""
 		This method creates a new file into a new :class:`Editor` instance with its associated tab.
@@ -1313,7 +1314,7 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not self.ui.Script_Editor_tabWidget.count():
+		if not self.hasEditorTab():
 			return
 
 		editor = self.ui.Script_Editor_tabWidget.currentWidget()
@@ -1329,7 +1330,7 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not self.ui.Script_Editor_tabWidget.count():
+		if not self.hasEditorTab():
 			return
 
 		editor = self.ui.Script_Editor_tabWidget.currentWidget()
@@ -1361,43 +1362,49 @@ class ScriptEditor(UiComponent):
 					self.newFile()
 		return True
 
-#	@core.executionTrace
-#	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-#	def evaluateSelection(self):
-#		"""
-#		This method evaluates **Script_Editor_Input_plainTextEdit** widget selected content in the interactive console.
-#
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		if self.evaluateCode(str(self.ui.Script_Editor_Input_plainTextEdit.textCursor().selectedText().replace(QChar(QChar.ParagraphSeparator), QString("\n")))):
-#			self.emit(SIGNAL("datasChanged()"))
-#			return True
-#
-#	@core.executionTrace
-#	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-#	def evaluateScript(self):
-#		"""
-#		This method evaluates **Script_Editor_Input_plainTextEdit** widget content in the interactive console.
-#
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		if self.evaluateCode(str(self.ui.Script_Editor_Input_plainTextEdit.toPlainText())):
-#			self.emit(SIGNAL("datasChanged()"))
-#			return True
-#
-#	@core.executionTrace
-#	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-#	def evaluateCode(self, code):
-#		"""
-#		This method evaluates provided code in the interactive console.
-#
-#		:param code: Code to evaluate. ( String )
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		sys.stdout.write(code)
-#		self.__console.runcode(code)
-#
-#		return True
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def evaluateSelection(self):
+		"""
+		This method evaluates current **Script_Editor_tabWidget** widget tab editor selected content in the interactive console.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		if self.evaluateCode(str(self.ui.Script_Editor_tabWidget.currentWidget().textCursor().selectedText().replace(QChar(QChar.ParagraphSeparator), QString("\n")))):
+			self.emit(SIGNAL("datasChanged()"))
+			return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def evaluateScript(self):
+		"""
+		This method evaluates current **Script_Editor_tabWidget** widget tab editor content in the interactive console.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		if self.evaluateCode(str(self.ui.Script_Editor_tabWidget.currentWidget().toPlainText())):
+			self.emit(SIGNAL("datasChanged()"))
+			return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def evaluateCode(self, code):
+		"""
+		This method evaluates provided code in the interactive console.
+
+		:param code: Code to evaluate. ( String )
+		:return: Method success. ( Boolean )
+		"""
+
+		sys.stdout.write(code)
+		self.__console.runcode(code)
+
+		return True
