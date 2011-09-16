@@ -397,14 +397,15 @@ class ScriptEditor(UiComponent):
 
 	# Custom signals definitions.
 	datasChanged = pyqtSignal()
+	recentFilesChanged = pyqtSignal()
 
 	@core.executionTrace
 	def __init__(self, name=None, uiFile=None):
 		"""
 		This method initializes the class.
 
-		:param name: Component name. (String)
-		:param uiFile: Ui file. (String)
+		:param name: Component name. ( String )
+		:param uiFile: Ui file. ( String )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -418,11 +419,16 @@ class ScriptEditor(UiComponent):
 		self.__dockArea = 8
 
 		self.__container = None
+		self.__settings = None
+		self.__settingsSection = None
 
 		self.__defaultWindowTitle = "Script Editor"
 		self.__defaultScriptEditorDirectory = "scriptEditor"
 		self.__defaultScriptEditorFile = "defaultScript.py"
 		self.__scriptEditorFile = None
+
+		self.__maximumRecentFiles = 10
+		self.__recentFilesActions = None
 
 		self.__locals = None
 		self.__memoryHandlerStackDepth = None
@@ -436,7 +442,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method is the property for ** self.__uiPath ** attribute.
 
-		:return: self.__uiPath. (String)
+		:return: self.__uiPath. ( String )
 		"""
 
 		return self.__uiPath
@@ -447,7 +453,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method is the setter method for ** self.__uiPath ** attribute.
 
-		:param value: Attribute value. (String)
+		:param value: Attribute value. ( String )
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("uiPath"))
@@ -466,7 +472,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method is the property for ** self.__dockArea ** attribute.
 
-		:return: self.__dockArea. (Integer)
+		:return: self.__dockArea. ( Integer )
 		"""
 
 		return self.__dockArea
@@ -477,7 +483,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method is the setter method for ** self.__dockArea ** attribute.
 
-		:param value: Attribute value. (Integer)
+		:param value: Attribute value. ( Integer )
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("dockArea"))
@@ -496,7 +502,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method is the property for ** self.__container ** attribute.
 
-		:return: self.__container. (QObject)
+		:return: self.__container. ( QObject )
 		"""
 
 		return self.__container
@@ -507,7 +513,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method is the setter method for ** self.__container ** attribute.
 
-		:param value: Attribute value. (QObject)
+		:param value: Attribute value. ( QObject )
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("container"))
@@ -522,11 +528,71 @@ class ScriptEditor(UiComponent):
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("container"))
 
 	@property
+	def settings(self):
+		"""
+		This method is the property for **self.__settings** attribute.
+
+		:return: self.__settings. ( QSettings )
+		"""
+
+		return self.__settings
+
+	@settings.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def settings(self, value):
+		"""
+		This method is the setter method for **self.__settings** attribute.
+
+		:param value: Attribute value. ( QSettings )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("settings"))
+
+	@settings.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def settings(self):
+		"""
+		This method is the deleter method for **self.__settings** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("settings"))
+
+	@property
+	def settingsSection(self):
+		"""
+		This method is the property for **self.__settingsSection** attribute.
+
+		:return: self.__settingsSection. ( String )
+		"""
+
+		return self.__settingsSection
+
+	@settingsSection.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def settingsSection(self, value):
+		"""
+		This method is the setter method for **self.__settingsSection** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("settingsSection"))
+
+	@settingsSection.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def settingsSection(self):
+		"""
+		This method is the deleter method for **self.__settingsSection** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("settingsSection"))
+
+	@property
 	def defaultWindowTitle(self):
 		"""
 		This method is the property for ** self.__defaultWindowTitle ** attribute.
 
-		:return: self.__defaultWindowTitle. (String)
+		:return: self.__defaultWindowTitle. ( String )
 		"""
 
 		return self.__defaultWindowTitle
@@ -537,7 +603,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method is the setter method for ** self.__defaultWindowTitle ** attribute.
 
-		:param value: Attribute value. (String)
+		:param value: Attribute value. ( String )
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("defaultWindowTitle"))
@@ -556,7 +622,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method is the property for ** self.__defaultScriptEditorDirectory ** attribute.
 
-		:return: self.__defaultScriptEditorDirectory. (String)
+		:return: self.__defaultScriptEditorDirectory. ( String )
 		"""
 
 		return self.__defaultScriptEditorDirectory
@@ -567,7 +633,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method is the setter method for ** self.__defaultScriptEditorDirectory ** attribute.
 
-		:param value: Attribute value. (String)
+		:param value: Attribute value. ( String )
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("defaultScriptEditorDirectory"))
@@ -586,7 +652,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method is the property for ** self.__defaultScriptEditorFile ** attribute.
 
-		:return: self.__defaultScriptEditorFile. (String)
+		:return: self.__defaultScriptEditorFile. ( String )
 		"""
 
 		return self.__defaultScriptEditorFile
@@ -597,7 +663,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method is the setter method for ** self.__defaultScriptEditorFile ** attribute.
 
-		:param value: Attribute value. (String)
+		:param value: Attribute value. ( String )
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("defaultScriptEditorFile"))
@@ -616,7 +682,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method is the property for ** self.__scriptEditorFile ** attribute.
 
-		:return: self.__scriptEditorFile. (String)
+		:return: self.__scriptEditorFile. ( String )
 		"""
 
 		return self.__scriptEditorFile
@@ -627,7 +693,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method is the setter method for ** self.__scriptEditorFile ** attribute.
 
-		:param value: Attribute value. (String)
+		:param value: Attribute value. ( String )
 		"""
 
 		if value:
@@ -642,6 +708,66 @@ class ScriptEditor(UiComponent):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("scriptEditorFile"))
+
+	@property
+	def maximumRecentFiles(self):
+		"""
+		This method is the property for ** self.__maximumRecentFiles ** attribute.
+
+		:return: self.__maximumRecentFiles. ( Integer )
+		"""
+
+		return self.__maximumRecentFiles
+
+	@maximumRecentFiles.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def maximumRecentFiles(self, value):
+		"""
+		This method is the setter method for ** self.__maximumRecentFiles ** attribute.
+
+		:param value: Attribute value. ( Integer )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("maximumRecentFiles"))
+
+	@maximumRecentFiles.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def maximumRecentFiles(self):
+		"""
+		This method is the deleter method for ** self.__maximumRecentFiles ** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("maximumRecentFiles"))
+
+	@property
+	def recentFilesActions(self):
+		"""
+		This method is the property for ** self.__recentFilesActions ** attribute.
+
+		:return: self.__recentFilesActions. ( List )
+		"""
+
+		return self.__recentFilesActions
+
+	@recentFilesActions.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def recentFilesActions(self, value):
+		"""
+		This method is the setter method for ** self.__recentFilesActions ** attribute.
+
+		:param value: Attribute value. ( List )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("recentFilesActions"))
+
+	@recentFilesActions.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def recentFilesActions(self):
+		"""
+		This method is the deleter method for ** self.__recentFilesActions ** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("recentFilesActions"))
 
 	@property
 	def locals(self):
@@ -678,7 +804,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method is the property for ** self.__memoryHandlerStackDepth ** attribute.
 
-		:return: self.__memoryHandlerStackDepth. (Integer)
+		:return: self.__memoryHandlerStackDepth. ( Integer )
 		"""
 
 		return self.__memoryHandlerStackDepth
@@ -689,7 +815,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method is the setter method for ** self.__memoryHandlerStackDepth ** attribute.
 
-		:param value: Attribute value. (Integer)
+		:param value: Attribute value. ( Integer )
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("memoryHandlerStackDepth"))
@@ -708,7 +834,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method is the property for ** self.__menuBar ** attribute.
 
-		:return: self.__menuBar. (QToolbar)
+		:return: self.__menuBar. ( QToolbar )
 		"""
 
 		return self.__menuBar
@@ -719,7 +845,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method is the setter method for ** self.__menuBar ** attribute.
 
-		:param value: Attribute value. (QToolbar)
+		:param value: Attribute value. ( QToolbar )
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("menuBar"))
@@ -741,14 +867,16 @@ class ScriptEditor(UiComponent):
 		"""
 		This method activates the Component.
 
-		:param container: Container to attach the Component to. (QObject)
-		:return: Method success. (Boolean)
+		:param container: Container to attach the Component to. ( QObject )
+		:return: Method success. ( Boolean )
 		"""
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
 
 		self.uiFile = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiPath)
 		self.__container = container
+		self.__settings = self.__container.settings
+		self.__settingsSection = self.name
 
 		self.__defaultScriptEditorDirectory = os.path.join(self.__container.userApplicationDatasDirectory, Constants.ioDirectory, self.__defaultScriptEditorDirectory)
 		not os.path.exists(self.__defaultScriptEditorDirectory) and os.makedirs(self.__defaultScriptEditorDirectory)
@@ -765,7 +893,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method deactivates the Component.
 
-		:return: Method success. (Boolean)
+		:return: Method success. ( Boolean )
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' Component cannot be deactivated!".format(self.__name))
@@ -775,10 +903,14 @@ class ScriptEditor(UiComponent):
 		"""
 		This method initializes the Component ui.
 
-		:return: Method success. (Boolean)
+		:return: Method success. ( Boolean )
 		"""
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
+
+		self.__recentFilesActions = []
+		for i in range(self.__maximumRecentFiles):
+			self.__recentFilesActions.append(QAction(self.__menuBar, visible=False, triggered=self.__loadRecentFile__triggered))
 
 		self.__menuBar = QMenuBar()
 		self.__menuBar.setNativeMenuBar(False)
@@ -790,8 +922,9 @@ class ScriptEditor(UiComponent):
 		# Signals / Slots.
 		self.__container.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.ui.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
+		self.ui.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
 		self.datasChanged.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
-
+		self.recentFilesChanged.connect(self.__setRecentFilesActions)
 		return True
 
 	@core.executionTrace
@@ -800,7 +933,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method uninitializes the Component ui.
 
-		:return: Method success. (Boolean)
+		:return: Method success. ( Boolean )
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' Component ui cannot be uninitialized!".format(self.name))
@@ -810,7 +943,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method adds the Component Widget to the container.
 
-		:return: Method success. (Boolean)
+		:return: Method success. ( Boolean )
 		"""
 
 		LOGGER.debug("> Adding '{0}' Component Widget.".format(self.__class__.__name__))
@@ -824,7 +957,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method removes the Component Widget from the container.
 
-		:return: Method success. (Boolean)
+		:return: Method success. ( Boolean )
 		"""
 
 		LOGGER.debug("> Removing '{0}' Component Widget.".format(self.__class__.__name__))
@@ -863,18 +996,22 @@ class ScriptEditor(UiComponent):
 		This method initializes Component menuBar.
 		"""
 
-		self.__fileMenu = QMenu("&File")
-		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&New", shortcut=QKeySequence.New, slot=self.__newFileAction__triggered))
-		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Load ...", shortcut=QKeySequence.Open, slot=self.__loadFileAction__triggered))
-#		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Source ...", slot=self.__sourceFileAction__triggered))
-		self.__fileMenu.addSeparator()
-		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Save", shortcut=QKeySequence.Save, slot=self.__saveFileAction__triggered))
-		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Save As ...", shortcut=QKeySequence.SaveAs, slot=self.__saveFileAsAction__triggered))
-		self.__fileMenu.addSeparator()
-		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Close ...", shortcut=QKeySequence.Close, slot=self.__closeFileAction__triggered))
-		self.__fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Close All ...", shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.Key_W, slot=self.__closeAllFilesAction__triggered))
-		self.__menuBar.addMenu(self.__fileMenu)
-#
+		fileMenu = QMenu("&File", parent=self.__menuBar)
+		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&New", shortcut=QKeySequence.New, slot=self.__newFileAction__triggered))
+		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Load ...", shortcut=QKeySequence.Open, slot=self.__loadFileAction__triggered))
+		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Source ...", slot=self.__sourceFileAction__triggered))
+		fileMenu.addSeparator()
+		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Save", shortcut=QKeySequence.Save, slot=self.__saveFileAction__triggered))
+		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Save As ...", shortcut=QKeySequence.SaveAs, slot=self.__saveFileAsAction__triggered))
+		fileMenu.addSeparator()
+		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Close ...", shortcut=QKeySequence.Close, slot=self.__closeFileAction__triggered))
+		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Close All ...", shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.Key_W, slot=self.__closeAllFilesAction__triggered))
+		fileMenu.addSeparator()
+		for action in self.__recentFilesActions:
+			fileMenu.addAction(action)
+		self.__setRecentFilesActions()
+		self.__menuBar.addMenu(fileMenu)
+
 #		self.__editMenu = QMenu("&Edit")
 #		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Undo", shortcut=QKeySequence.Undo, slot=self.__undoAction__triggered))
 #		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Redo", shortcut=QKeySequence.Redo, slot=self.__redoAction__triggered))
@@ -936,6 +1073,16 @@ class ScriptEditor(UiComponent):
 		return self.closeFile()
 
 	@core.executionTrace
+	def __Script_Editor_tabWidget__currentChanged(self, tabIndex):
+		"""
+		This method is triggered by the **Script_Editor_tabWidget** widget when the current tab is changed.
+
+		:param tabIndex: Tab index. ( Integer )
+		"""
+
+		return self.__setWindowTitle()
+
+	@core.executionTrace
 	def __newFileAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&New'** action.
@@ -956,6 +1103,18 @@ class ScriptEditor(UiComponent):
 		"""
 
 		return self.loadFile_ui()
+
+	@core.executionTrace
+	def __sourceFileAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Source ...'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if self.loadFile_ui():
+			return self.evaluateScript()
 
 	@core.executionTrace
 	def __saveFileAction__triggered(self, checked):
@@ -1000,6 +1159,20 @@ class ScriptEditor(UiComponent):
 		"""
 
 		return self.closeAllFiles()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __loadRecentFile__triggered(self, checked):
+		"""
+		This method is triggered by any recent file related action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		file = self.sender()._datas
+		if os.path.exists(file):
+			return self.loadFile(file)
 
 	@core.executionTrace
 	def __evaluateSelectionAction__triggered(self, checked):
@@ -1150,6 +1323,58 @@ class ScriptEditor(UiComponent):
 		self.__setEditorTabName(self.ui.Script_Editor_tabWidget.currentIndex())
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __setRecentFilesActions(self):
+		"""
+		This method sets the recent files actions.
+		"""
+
+		recentFiles = self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",")
+		if not recentFiles:
+			return
+
+		numberRecentFiles = min(len(recentFiles), self.__maximumRecentFiles)
+
+		for i in range(self.__maximumRecentFiles):
+			if i >= numberRecentFiles:
+				self.__recentFilesActions[i].setVisible(False)
+				continue
+
+			self.__recentFilesActions[i].setText("{0} {1}".format(i + 1, os.path.basename(str(recentFiles[i]))))
+			self.__recentFilesActions[i]._datas = str(recentFiles[i])
+			self.__recentFilesActions[i].setVisible(True)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __storeRecentFile(self, file):
+		"""
+		This method stores provided recent file into the settings.
+		"""
+
+		recentFiles = self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",")
+		if not recentFiles:
+			recentFiles = QStringList()
+
+		if file in recentFiles:
+			recentFiles.removeAt(recentFiles.indexOf(file))
+		recentFiles.insert(0, file)
+		del recentFiles[self.__maximumRecentFiles:]
+		recentFiles = self.__settings.setKey(self.__settingsSection, "recentFiles", recentFiles.join(","))
+		self.emit(SIGNAL("recentFilesChanged()"))
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __setWindowTitle(self):
+		"""
+		This method sets the **scriptEditor** Component window title.
+		"""
+
+		if self.hasEditorTab():
+			self.ui.setWindowTitle("{0} - {1}".format(self.__defaultWindowTitle, self.ui.Script_Editor_tabWidget.currentWidget().file))
+		else:
+			self.ui.setWindowTitle("{0}".format(self.__defaultWindowTitle))
+
+	@core.executionTrace
 	def __setEditorTabName(self, tabIndex):
 		"""
 		This method sets the editor tab name.
@@ -1289,6 +1514,7 @@ class ScriptEditor(UiComponent):
 		editor = Editor()
 		if editor.loadFile(file):
 			self.addEditorTab(editor)
+			self.__storeRecentFile(file)
 			return True
 
 	@core.executionTrace
@@ -1319,7 +1545,9 @@ class ScriptEditor(UiComponent):
 
 		editor = self.ui.Script_Editor_tabWidget.currentWidget()
 		LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
-		return editor.saveFileAs()
+		if editor.saveFileAs():
+			self.__storeRecentFile(editor.file)
+			return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -1404,6 +1632,10 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
+		if not code:
+			return
+
+		code = code.endswith("\n") and code or "{0}\n".format(code)
 		sys.stdout.write(code)
 		self.__console.runcode(code)
 

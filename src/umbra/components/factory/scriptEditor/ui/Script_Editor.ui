@@ -51,6 +51,12 @@
        </layout>
       </widget>
       <widget class="QFrame" name="Script_Editor_tabWidget_frame">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>1</verstretch>
+        </sizepolicy>
+       </property>
        <layout class="QGridLayout" name="Script_Editor_tabWidget_frame_gridLayout">
         <property name="leftMargin">
          <number>0</number>
