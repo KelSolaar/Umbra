@@ -847,7 +847,7 @@ class ComponentsManagerUi(UiComponent):
 		self.ui.Components_Informations_textBrowser.setText(separator.join(content))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __storeDeactivatedComponents(self):
 		"""
 		This method stores deactivated Components in settings file.
