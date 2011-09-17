@@ -625,6 +625,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		return True
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getWords(self):
 		"""
 		This method returns the document words.
@@ -653,3 +654,30 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		textCursor = self.textCursor()
 		textCursor.select(QTextCursor.WordUnderCursor)
 		return textCursor.selectedText()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def delete(self):
+		"""
+		This method deletes the text under cursor.
+		
+		:return: Method success. ( Boolean )		
+		"""
+
+		self.textCursor().removeSelectedText()
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def gotoLine(self, line):
+		"""
+		This method moves the text cursor to provided line.
+		
+		:return: Method success. ( Boolean )		
+		"""
+
+		cursor = self.textCursor()
+		cursor.setPosition(0, QTextCursor.MoveAnchor)
+		cursor.movePosition(QTextCursor.Down, QTextCursor.MoveAnchor, line - 1)
+		self.setTextCursor(cursor)
+		return True

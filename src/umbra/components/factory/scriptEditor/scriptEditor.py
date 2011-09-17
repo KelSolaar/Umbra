@@ -1012,17 +1012,20 @@ class ScriptEditor(UiComponent):
 		self.__setRecentFilesActions()
 		self.__menuBar.addMenu(fileMenu)
 
-#		self.__editMenu = QMenu("&Edit")
-#		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Undo", shortcut=QKeySequence.Undo, slot=self.__undoAction__triggered))
-#		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Redo", shortcut=QKeySequence.Redo, slot=self.__redoAction__triggered))
-#		self.__editMenu.addSeparator()
-#		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Cu&t", shortcut=QKeySequence.Cut, slot=self.__cutAction__triggered))
-#		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Copy", shortcut=QKeySequence.Copy, slot=self.__copyAction__triggered))
-#		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Paste", shortcut=QKeySequence.Paste, slot=self.__pasteAction__triggered))
-#		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete", slot=self.__deleteAction__triggered))
-#		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Select All", shortcut=QKeySequence.SelectAll, slot=self.__selectAllAction__triggered))
-#		self.__menuBar.addMenu(self.__editMenu)
-#
+		self.__editMenu = QMenu("&Edit")
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Undo", shortcut=QKeySequence.Undo, slot=self.__undoAction__triggered))
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Redo", shortcut=QKeySequence.Redo, slot=self.__redoAction__triggered))
+		self.__editMenu.addSeparator()
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Cu&t", shortcut=QKeySequence.Cut, slot=self.__cutAction__triggered))
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Copy", shortcut=QKeySequence.Copy, slot=self.__copyAction__triggered))
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Paste", shortcut=QKeySequence.Paste, slot=self.__pasteAction__triggered))
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete", slot=self.__deleteAction__triggered))
+		self.__editMenu.addSeparator()
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Select All", shortcut=QKeySequence.SelectAll, slot=self.__selectAllAction__triggered))
+		self.__editMenu.addSeparator()
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Goto Line ...", shortcut=Qt.ControlModifier + Qt.Key_L, slot=self.__gotoLineAction__triggered))
+		self.__menuBar.addMenu(self.__editMenu)
+
 		self.__commandMenu = QMenu("&Command")
 		self.__commandMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection", shortcut=Qt.ControlModifier + Qt.Key_Return, slot=self.__evaluateSelectionAction__triggered))
 		self.__commandMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script", shortcut=Qt.SHIFT + Qt.CTRL + Qt.Key_Return, slot=self.__evaluateScriptAction__triggered))
@@ -1196,116 +1199,114 @@ class ScriptEditor(UiComponent):
 
 		return self.evaluateScript()
 
-#	@core.executionTrace
-#	def __loadFileAction__triggered(self, checked):
-#		"""
-#		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Load file ...'** action.
-#
-#		:param checked: Checked state. ( Boolean )
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		return self.loadFile(self.__defaultScriptEditorFile)
-#
-#	@core.executionTrace
-#	def __sourceScriptAction__triggered(self, checked):
-#		"""
-#		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Source file ...'** action.
-#
-#		:param checked: Checked state. ( Boolean )
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		print "sourceScriptAction"
-#
-#	@core.executionTrace
-#	def __saveScriptAction__triggered(self, checked):
-#		"""
-#		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Save file ...'** action.
-#
-#		:param checked: Checked state. ( Boolean )
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		print "saveScriptAction"
-#
-#	@core.executionTrace
-#	def __undoAction__triggered(self, checked):
-#		"""
-#		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Undo'** action.
-#
-#		:param checked: Checked state. ( Boolean )
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		print "undoAction"
-#
-#	@core.executionTrace
-#	def __redoAction__triggered(self, checked):
-#		"""
-#		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Redo'** action.
-#
-#		:param checked: Checked state. ( Boolean )
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		print "redoAction"
-#
-#	@core.executionTrace
-#	def __cutAction__triggered(self, checked):
-#		"""
-#		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Cu&t'** action.
-#
-#		:param checked: Checked state. ( Boolean )
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		print "cutAction"
-#
-#	@core.executionTrace
-#	def __copyAction__triggered(self, checked):
-#		"""
-#		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Copy'** action.
-#
-#		:param checked: Checked state. ( Boolean )
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		print "copyAction"
-#
-#	@core.executionTrace
-#	def __pasteAction__triggered(self, checked):
-#		"""
-#		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Paste'** action.
-#
-#		:param checked: Checked state. ( Boolean )
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		print "pasteAction"
-#
-#	@core.executionTrace
-#	def __deleteAction__triggered(self, checked):
-#		"""
-#		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete'** action.
-#
-#		:param checked: Checked state. ( Boolean )
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		print "deleteAction"
-#
-#	@core.executionTrace
-#	def __selectAllAction__triggered(self, checked):
-#		"""
-#		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Select All'** action.
-#
-#		:param checked: Checked state. ( Boolean )
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		print "selectAllAction"
-#
+	@core.executionTrace
+	def __undoAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Undo'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if isinstance(QApplication.focusWidget(), Editor):
+			self.getCurrentEditor().undo()
+		return True
+
+	@core.executionTrace
+	def __redoAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Redo'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if isinstance(QApplication.focusWidget(), Editor):
+			self.getCurrentEditor().redo()
+		return True
+
+	@core.executionTrace
+	def __cutAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Cu&t'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		currentWidget = QApplication.focusWidget()
+		if currentWidget.objectName() == "Script_Editor_Output_plainTextEdit":
+			self.ui.Script_Editor_Output_plainTextEdit.copy()
+		elif isinstance(QApplication.focusWidget(), Editor):
+			self.getCurrentEditor().cut()
+		return True
+
+	@core.executionTrace
+	def __copyAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Copy'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		currentWidget = QApplication.focusWidget()
+		if currentWidget.objectName() == "Script_Editor_Output_plainTextEdit":
+			self.ui.Script_Editor_Output_plainTextEdit.copy()
+		elif isinstance(QApplication.focusWidget(), Editor):
+			self.getCurrentEditor().copy()
+		return True
+
+	@core.executionTrace
+	def __pasteAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Paste'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if isinstance(QApplication.focusWidget(), Editor):
+			self.getCurrentEditor().paste()
+		return True
+
+	@core.executionTrace
+	def __deleteAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if isinstance(QApplication.focusWidget(), Editor):
+			self.getCurrentEditor().delete()
+		return True
+
+	@core.executionTrace
+	def __selectAllAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Select All'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if isinstance(QApplication.focusWidget(), Editor):
+			self.getCurrentEditor().selectAll()
+		return True
+
+	@core.executionTrace
+	def __gotoLineAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Goto Line ...'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.gotoLine()
+
 	@core.executionTrace
 	def __editor__contentChanged(self):
 		"""
@@ -1401,6 +1402,20 @@ class ScriptEditor(UiComponent):
 		self.__locals["componentsManager"] = self.__container.componentsManager
 
 		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
+	def getCurrentEditor(self):
+		"""
+		This method returns the current editor.
+
+		:return: Current editor. ( Editor )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.ui.Script_Editor_tabWidget.currentWidget()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
@@ -1540,10 +1555,10 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not self.hasEditorTab():
+		editor = self.getCurrentEditor()
+		if not editor:
 			return
 
-		editor = self.ui.Script_Editor_tabWidget.currentWidget()
 		LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
 		if editor.saveFileAs():
 			self.__storeRecentFile(editor.file)
@@ -1558,10 +1573,10 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not self.hasEditorTab():
+		editor = self.getCurrentEditor()
+		if not editor:
 			return
 
-		editor = self.ui.Script_Editor_tabWidget.currentWidget()
 		LOGGER.info("{0} | Closing '{1}' file!".format(self.__class__.__name__, editor.file))
 		if not editor.closeFile():
 			return
@@ -1591,6 +1606,27 @@ class ScriptEditor(UiComponent):
 		return True
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
+	def gotoLine(self):
+		"""
+ 		This method moves the provided widget tab editor cursor to user defined line.
+
+		:return: Method success. ( Boolean )
+
+		:note: This method may require user interaction.
+		"""
+
+		editor = self.getCurrentEditor()
+		if not editor:
+			return
+
+		line, state = QInputDialog.getInt(self, "Goto Line Number", "Line number:", min=1)
+		if not state:
+			return
+
+		return editor.gotoLine(line)
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def evaluateSelection(self):
 		"""
@@ -1599,10 +1635,11 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not self.hasEditorTab():
+		editor = self.getCurrentEditor()
+		if not editor:
 			return
 
-		if self.evaluateCode(str(self.ui.Script_Editor_tabWidget.currentWidget().textCursor().selectedText().replace(QChar(QChar.ParagraphSeparator), QString("\n")))):
+		if self.evaluateCode(str(editor.textCursor().selectedText().replace(QChar(QChar.ParagraphSeparator), QString("\n")))):
 			self.emit(SIGNAL("datasChanged()"))
 			return True
 
@@ -1615,10 +1652,11 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not self.hasEditorTab():
+		editor = self.getCurrentEditor()
+		if not editor:
 			return
 
-		if self.evaluateCode(str(self.ui.Script_Editor_tabWidget.currentWidget().toPlainText())):
+		if self.evaluateCode(str(editor.toPlainText())):
 			self.emit(SIGNAL("datasChanged()"))
 			return True
 
