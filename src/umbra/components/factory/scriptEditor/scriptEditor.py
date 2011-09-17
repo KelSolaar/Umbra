@@ -70,29 +70,35 @@ class Editor(CodeEditor_QPlainTextEdit):
 	fileChanged = pyqtSignal()
 
 	@core.executionTrace
-	def __init__(self, file=None):
+	def __init__(self, highlighter=PythonHighlighter, completer=PythonCompleter, file=None, parent=None):
 		"""
 		This method initializes the class.
 
+		:param highlighter: Highlighter object. ( QHighlighter )
+		:param completer: Completer object. ( QCompleter )
 		:param file: File path. ( String )
+		:param parent: Widget parent. ( QObject )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		CodeEditor_QPlainTextEdit.__init__(self)
+		CodeEditor_QPlainTextEdit.__init__(self, parent=parent)
 
 		# --- Setting class attributes. ---
 		self.__file = None
 		self.file = file
 
+		self.__indentWidth = 20
+
 		self.__isUntitled = True
 		self.__defaultFileName = "Untitled"
 		self.__defaultFileExtension = "py"
 
-		self.setAttribute(Qt.WA_DeleteOnClose)
+		self.highlighter = highlighter(self.document())
+		self.setCompleter(completer())
 
-		self.highlighter = PythonHighlighter(self.document())
-		self.setCompleter(PythonCompleter())
+		self.setAttribute(Qt.WA_DeleteOnClose)
+		self.setTabStopWidth(self.__indentWidth)
 
 		file and self.loadFile(file)
 
@@ -130,6 +136,36 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("file"))
+
+	@property
+	def indentWidth(self):
+		"""
+		This method is the property for **self.__indentWidth** attribute.
+
+		:return: self.__indentWidth. ( Integer )
+		"""
+
+		return self.__indentWidth
+
+	@indentWidth.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def indentWidth(self, value):
+		"""
+		This method is the setter method for **self.__indentWidth** attribute.
+
+		:param value: Attribute value. ( Integer )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("indentWidth"))
+
+	@indentWidth.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def indentWidth(self):
+		"""
+		This method is the deleter method for **self.__indentWidth** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("indentWidth"))
 
 	@property
 	def isUntitled(self):
@@ -1024,6 +1060,9 @@ class ScriptEditor(UiComponent):
 		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Select All", shortcut=QKeySequence.SelectAll, slot=self.__selectAllAction__triggered))
 		self.__editMenu.addSeparator()
 		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Goto Line ...", shortcut=Qt.ControlModifier + Qt.Key_L, slot=self.__gotoLineAction__triggered))
+		self.__editMenu.addSeparator()
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Indent Selection", shortcut=Qt.Key_Tab, slot=self.__indentSelectionAction__triggered))
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Unindent Selection", shortcut=Qt.Key_Backtab, slot=self.__unindentSelectionAction__triggered))
 		self.__menuBar.addMenu(self.__editMenu)
 
 		self.__commandMenu = QMenu("&Command")
@@ -1292,7 +1331,10 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if isinstance(QApplication.focusWidget(), Editor):
+		currentWidget = QApplication.focusWidget()
+		if currentWidget.objectName() == "Script_Editor_Output_plainTextEdit":
+			self.ui.Script_Editor_Output_plainTextEdit.selectAll()
+		elif isinstance(QApplication.focusWidget(), Editor):
 			self.getCurrentEditor().selectAll()
 		return True
 
@@ -1306,6 +1348,32 @@ class ScriptEditor(UiComponent):
 		"""
 
 		return self.gotoLine()
+
+	@core.executionTrace
+	def __indentSelectionAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Indent Selection'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if isinstance(QApplication.focusWidget(), Editor):
+			self.getCurrentEditor().indent()
+		return True
+
+	@core.executionTrace
+	def __unindentSelectionAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Unindent Selection'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if isinstance(QApplication.focusWidget(), Editor):
+			self.getCurrentEditor().unindent()
+		return True
 
 	@core.executionTrace
 	def __editor__contentChanged(self):
@@ -1609,7 +1677,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
 	def gotoLine(self):
 		"""
- 		This method moves the provided widget tab editor cursor to user defined line.
+ 		This method moves current widget tab editor cursor to user defined line.
 
 		:return: Method success. ( Boolean )
 

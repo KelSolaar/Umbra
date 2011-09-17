@@ -12,13 +12,14 @@
 
 **Others:**
 	Portions of the code from codeeditor.py by Roberto Alsina: http://lateral.netmanagers.com.ar/weblog/posts/BB832.html
-
+	Portions of the code from KhtEditor.py by Benoit Hervier: http://khertan.net/khteditor
 """
 
 #***********************************************************************************************
 #***	External imports.
 #***********************************************************************************************
 import logging
+import re
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -378,10 +379,11 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent=None):
+	def __init__(self, indentMarker="\t", parent=None):
 		"""
 		This method initializes the class.
 
+		:param indentMarker: Indentation marker. ( String )
 		:param parent: Widget parent. ( QObject )
 		"""
 
@@ -390,6 +392,9 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		QPlainTextEdit.__init__(self, parent)
 
 		# --- Setting class attributes. ---
+		self.__indentMarker = None
+		self.indentMarker = indentMarker
+
 		self.__marginArea_LinesNumbers_widget = None
 		self.__completer = None
 
@@ -401,6 +406,39 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	#***********************************************************************************************
 	#***	Attributes properties.
 	#***********************************************************************************************
+	@property
+	def indentMarker(self):
+		"""
+		This method is the property for **self.__indentMarker** attribute.
+
+		:return: self.__indentMarker. ( String )
+		"""
+
+		return self.__indentMarker
+
+	@indentMarker.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def indentMarker(self, value):
+		"""
+		This method is the setter method for **self.__indentMarker** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		if value:
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("indentMarker", value)
+			assert not re.search("\w", value), "'{0}' attribute: '{1}' is an alphanumeric character!".format("indentMarker", value)
+		self.__indentMarker = value
+
+	@indentMarker.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def indentMarker(self):
+		"""
+		This method is the deleter method for **self.__indentMarker** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("indentMarker"))
+
 	@property
 	def marginArea_LinesNumbers_widget(self):
 		"""
@@ -574,6 +612,13 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param event: Event. ( QEvent )
 		"""
 
+		if event.key() == Qt.Key_Tab:
+			self.indent()
+			return
+		elif event.key() == Qt.Key_Backtab:
+			self.unindent()
+			return
+
 		if self.__completer and self.__completer.popup().isVisible():
 			if event.key() in (Qt.Key_Enter, Qt.Key_Return, Qt.Key_Escape, Qt.Key_Tab, Qt.Key_Backtab):
 				event.ignore()
@@ -680,4 +725,68 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		cursor.setPosition(0, QTextCursor.MoveAnchor)
 		cursor.movePosition(QTextCursor.Down, QTextCursor.MoveAnchor, line - 1)
 		self.setTextCursor(cursor)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def indent(self):
+		"""
+		This method indents the text under cursor.
+		
+		:return: Method success. ( Boolean )		
+		"""
+
+		cursor = self.textCursor()
+
+		cursor.beginEditBlock()
+		if not cursor.hasSelection():
+			cursor.movePosition(QTextCursor.StartOfBlock)
+			cursor.insertText(self.__indentMarker)
+		else:
+			block = self.document().findBlock(cursor.selectionStart())
+			while True:
+				blockCursor = self.textCursor()
+				blockCursor.setPosition(block.position())
+				blockCursor.insertText(self.__indentMarker)
+				if block.contains(cursor.selectionEnd()):
+					break
+				block = block.next()
+		cursor.endEditBlock()
+
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def unindent(self):
+		"""
+		This method unindents the text under cursor.
+		
+		:return: Method success. ( Boolean )		
+		"""
+
+		cursor = self.textCursor()
+
+		cursor.beginEditBlock()
+		if not cursor.hasSelection():
+			cursor.movePosition(QTextCursor.StartOfBlock)
+			line = str(self.document().findBlockByNumber(cursor\
+									  .blockNumber()).text())
+			indentMarker = re.match(r"({0})".format(self.__indentMarker), line)
+			if indentMarker:
+				for i in range(len(indentMarker.group(1))):
+					cursor.deleteChar()
+		else:
+			block = self.document().findBlock(cursor.selectionStart())
+			while True:
+				blockCursor = self.textCursor()
+				blockCursor.setPosition(block.position())
+				indentMarker = re.match(r"({0})".format(self.__indentMarker), block.text())
+				if indentMarker:
+					for i in range(len(indentMarker.group(1))):
+						blockCursor.deleteChar()
+				if block.contains(cursor.selectionEnd()):
+					break
+				block = block.next()
+		cursor.endEditBlock()
+
 		return True
