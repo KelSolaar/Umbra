@@ -51,14 +51,14 @@ class Variable_QPushButton(QPushButton):
 	"""
 
 	@core.executionTrace
-	def __init__(self, state, colors, labels, parent=None):
+	def __init__(self, parent=None, state=True, colors=(QColor(240, 240, 240), QColor(160, 160, 160)), labels=("Yes", "Noe")):
 		"""
 		This method initializes the class.
 
+		:param parent: Widget parent. ( QObject )
 		:param state: Current button state. ( Boolean )
 		:param colors: Button colors. ( Tuple )
 		:param labels: Button texts. ( Tuple )
-		:param parent: Widget parent. ( QObject )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))

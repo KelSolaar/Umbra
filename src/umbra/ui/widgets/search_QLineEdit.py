@@ -53,12 +53,12 @@ class Search_QLineEdit(QLineEdit):
 	"""
 
 	@core.executionTrace
-	def __init__(self, uiClearImage=None, uiClearClickedImage=None, parent=None):
+	def __init__(self, parent=None, uiClearImage=None, uiClearClickedImage=None):
 		"""
 		This method initializes the class.
 
-		:param uiClearImage: Icon path. ( String )
 		:param parent: Widget parent. ( QObject )
+		:param uiClearImage: Icon path. ( String )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))

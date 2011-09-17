@@ -54,16 +54,16 @@ class Active_QLabel(QLabel):
 	clicked = pyqtSignal()
 
 	@core.executionTrace
-	def __init__(self, defaultPixmap, hoverPixmap, activePixmap, checkable=False, checked=False, parent=None):
+	def __init__(self, parent=None, defaultPixmap=None, hoverPixmap=None, activePixmap=None, checkable=False, checked=False):
 		"""
 		This method initializes the class.
 
+		:param parent: Widget parent. ( QObject )
 		:param defaultPixmap: Label default pixmap. ( QPixmap )
 		:param hoverPixmap: Label hover pixmap. ( QPixmap )
 		:param activePixmap: Label active pixmap. ( QPixmap )
 		:param checkable: Checkable state. ( Boolean )
 		:param checked: Checked state. ( Boolean )
-		:param parent: Widget parent. ( QObject )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -71,9 +71,12 @@ class Active_QLabel(QLabel):
 		QLabel.__init__(self, parent)
 
 		# --- Setting class attributes. ---
-		self.__defaultPixmap = defaultPixmap
-		self.__hoverPixmap = hoverPixmap
-		self.__activePixmap = activePixmap
+		self.__defaultPixmap = None
+		self.defaultPixmap = defaultPixmap or QPixmap()
+		self.__hoverPixmap = None
+		self.hoverPixmap = hoverPixmap or QPixmap()
+		self.__activePixmap = None
+		self.activePixmap = activePixmap or QPixmap()
 
 		self.__checkable = None
 		self.checkable = checkable

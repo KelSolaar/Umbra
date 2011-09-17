@@ -55,14 +55,14 @@ class ActionsManager(QObject):
 	"""
 
 	@core.executionTrace
-	def __init__(self, namespaceSplitter="|", rootNamespace="Actions", defaultNamespace="Others", parent=None):
+	def __init__(self, parent=None, namespaceSplitter="|", rootNamespace="Actions", defaultNamespace="Others"):
 		"""
 		This method initializes the class.
 
+		:param parent: Object parent. ( QObject )
 		:param namespaceSplitter: Namespace splitters character. ( String )
 		:param rootNamespace: Root namespace. ( String )
 		:param defaultNamespace: Default namespace ( For actions with relative path ). ( String )
-		:param parent: Object parent. ( QObject )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))

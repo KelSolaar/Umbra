@@ -379,12 +379,12 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	"""
 
 	@core.executionTrace
-	def __init__(self, indentMarker="\t", parent=None):
+	def __init__(self, parent=None, indentMarker="\t"):
 		"""
 		This method initializes the class.
 
-		:param indentMarker: Indentation marker. ( String )
 		:param parent: Widget parent. ( QObject )
+		:param indentMarker: Indentation marker. ( String )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))

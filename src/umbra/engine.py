@@ -212,7 +212,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Initializing interface.".format(self.__class__.__name__, Constants.releaseVersion), textColor=Qt.white, waitTime=0.25)
 
 		# --- Initializing Actions Manager. ---
-		self.__actionsManager = umbra.actionsManager.ActionsManager(parent=self)
+		self.__actionsManager = umbra.actionsManager.ActionsManager(self)
 
 		# Visual style initialization.
 		self.setVisualStyle()
@@ -1024,12 +1024,12 @@ class Umbra(Ui_Type, Ui_Setup):
 		:return: Method success. ( Boolean )
 		"""
 
-		developmentActiveLabel = Active_QLabel(QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentIcon)),
+		developmentActiveLabel = Active_QLabel(self, QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentIcon)),
 													QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentHoverIcon)),
 													QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentActiveIcon)), True)
 		developmentActiveLabel.setObjectName("Development_activeLabel")
 
-		preferencesActiveLabel = Active_QLabel(QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesIcon)),
+		preferencesActiveLabel = Active_QLabel(self, QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesIcon)),
 													QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesHoverIcon)),
 													QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesActiveIcon)), True)
 		preferencesActiveLabel.setObjectName("Preferences_activeLabel")
@@ -1052,9 +1052,9 @@ class Umbra(Ui_Type, Ui_Setup):
 		:return: Layout active label. ( Active_QLabel )
 		"""
 
-		layoutActiveLabel = Active_QLabel(QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsIcon)),
+		layoutActiveLabel = Active_QLabel(self, QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsIcon)),
 									QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsHoverIcon)),
-									QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsActiveIcon)), parent=self)
+									QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsActiveIcon)))
 		layoutActiveLabel.setObjectName("Custom_Layouts_activeLabel")
 
 		self.__customLayoutsMenu = QMenu("Layouts", layoutActiveLabel)
@@ -1080,9 +1080,9 @@ class Umbra(Ui_Type, Ui_Setup):
 		:return: Miscellaneous active label. ( Active_QLabel )
 		"""
 
-		miscellaneousActiveLabel = Active_QLabel(QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousIcon)),
+		miscellaneousActiveLabel = Active_QLabel(self, QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousIcon)),
 										QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousHoverIcon)),
-										QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousActiveIcon)), parent=self)
+										QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousActiveIcon)))
 		miscellaneousActiveLabel.setObjectName("Miscellaneous_activeLabel")
 
 		self.__miscellaneousMenu = QMenu("Miscellaneous", miscellaneousActiveLabel)

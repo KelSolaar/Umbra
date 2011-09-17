@@ -114,11 +114,11 @@ class Highlighter(QSyntaxHighlighter):
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent):
+	def __init__(self, parent=None):
 		"""
 		This method initializes the class.
 
-		:param parent: Syntax highlighter parent. ( QObject )
+		:param parent: Widget parent. ( QObject )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -236,11 +236,11 @@ class LoggingHighlighter(Highlighter):
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent):
+	def __init__(self, parent=None):
 		"""
 		This method initializes the class.
 
-		:param parent: Syntax highlighter parent. ( QObject )
+		:param parent: Widget parent. ( QObject )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -314,11 +314,11 @@ class PythonHighlighter(Highlighter):
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent):
+	def __init__(self, parent=None):
 		"""
 		This method initializes the class.
 
-		:param parent: Syntax highlighter parent. ( QObject )
+		:param parent: Widget parent. ( QObject )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))

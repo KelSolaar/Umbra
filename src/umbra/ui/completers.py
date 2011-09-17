@@ -59,7 +59,7 @@ class PythonCompleter(QCompleter):
 		"""
 		This method initializes the class.
 
-		:param parent: Completer parent. ( QObject )
+		:param parent: Widget parent. ( QObject )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
