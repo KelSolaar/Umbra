@@ -12,7 +12,6 @@
 
 **Others:**
 	Portions of the code from PyQtWiki: http://diotavelli.net/PyQtWiki/Python%20syntax%20highlighting
-
 """
 
 #***********************************************************************************************
@@ -69,7 +68,7 @@ def getFormat(**kwargs):
 	settings.update(kwargs)
 
 	format = QTextCharFormat(settings.format)
-	
+
 	settings.backgroundColor and format.setBackground(settings.backgroundColor)
 	settings.color and format.setForeground(settings.color)
 	settings.fontWeight and format.setFontWeight(settings.fontWeight)
