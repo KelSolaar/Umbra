@@ -21,6 +21,7 @@ import code
 import logging
 import os
 import sys
+from PyQt4 import uic
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -58,6 +59,183 @@ LOGGER = logging.getLogger(Constants.logger)
 #***********************************************************************************************
 #***	Module classes and definitions.
 #***********************************************************************************************
+class SearchAndReplace(QObject):
+	"""
+	| This class defines the default search and replace dialog used by the: class:`ScriptEditor`. 
+	"""
+
+	@core.executionTrace
+	def __init__(self, container):
+		"""
+		This method initializes the class.
+
+		:param container: Container. ( Object )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		QObject.__init__(self)
+
+		# --- Setting class attributes. ---
+		self.__container = container
+
+		self.__uiPath = "ui/Search_And_Replace.ui"
+		self.__uiPath = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiPath)
+
+		self.__ui = uic.loadUi(self.__uiPath)
+		if "." in sys.path:
+			sys.path.remove(".")
+
+		self.initializeUi()
+
+	#***********************************************************************************************
+	#***	Attributes properties.
+	#***********************************************************************************************
+	@property
+	def container(self):
+		"""
+		This method is the property for **self.__container** attribute.
+
+		:return: self.__container. ( QObject )
+		"""
+
+		return self.__container
+
+	@container.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def container(self, value):
+		"""
+		This method is the setter method for **self.__container** attribute.
+
+		:param value: Attribute value. ( QObject )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("container"))
+
+	@container.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def container(self):
+		"""
+		This method is the deleter method for **self.__container** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("container"))
+
+	@property
+	def uiPath(self):
+		"""
+		This method is the property for **self.__uiPath** attribute.
+
+		:return: self.__uiPath. ( String )
+		"""
+
+		return self.__uiPath
+
+	@uiPath.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def uiPath(self, value):
+		"""
+		This method is the setter method for **self.__uiPath** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("uiPath"))
+
+	@uiPath.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def uiPath(self):
+		"""
+		This method is the deleter method for **self.__uiPath** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("uiPath"))
+
+	@property
+	def ui(self):
+		"""
+		This method is the property for **self.__ui** attribute.
+
+		:return: self.__ui. ( Object )
+		"""
+
+		return self.__ui
+
+	@ui.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def ui(self, value):
+		"""
+		This method is the setter method for **self.__ui** attribute.
+
+		:param value: Attribute value. ( Object )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("ui"))
+
+	@ui.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def ui(self):
+		"""
+		This method is the deleter method for **self.__ui** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("ui"))
+
+	#***********************************************************************************************
+	#***	Class methods.
+	#***********************************************************************************************
+	@core.executionTrace
+	def initializeUi(self):
+		"""
+		This method initializes the Widget ui.
+
+		:return: Method success. ( Boolean )		
+		"""
+
+		umbra.ui.common.setWindowDefaultIcon(self.ui)
+
+		# Signals / Slots.
+		self.__ui.Search_pushButton.clicked.connect(self.__Search_pushButton__clicked)
+		self.__ui.Close_pushButton.clicked.connect(self.__Close_pushButton__clicked)
+
+		return True
+
+	@core.executionTrace
+	def __Search_pushButton__clicked(self, checked):
+		"""
+		This method is triggered when **Search_pushButton** is clicked.
+
+		:param checked: Checked state. ( Boolean )
+		"""
+
+		self.search()
+
+	@core.executionTrace
+	def __Close_pushButton__clicked(self, checked):
+		"""
+		This method is triggered when **Close_pushButton** is clicked.
+
+		:param checked: Checked state. ( Boolean )
+		"""
+
+		self.__ui.close()
+
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def search(self):
+		"""
+		This method search current widget tab editor for search pattern.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		editor = self.__container.getCurrentEditor()
+		searchPattern = self.__ui.Search_comboBox.currentText()
+
+		if not editor or not searchPattern:
+			return
+
+		return editor.search(searchPattern)
+
 class Editor(CodeEditor_QPlainTextEdit):
 	"""
 	| This class defines the default editor used by the: class:`ScriptEditor`. 
@@ -466,6 +644,8 @@ class ScriptEditor(UiComponent):
 		self.__maximumRecentFiles = 10
 		self.__recentFilesActions = None
 
+		self.__searchAndReplace = None
+
 		self.__locals = None
 		self.__memoryHandlerStackDepth = None
 		self.__menuBar = None
@@ -806,11 +986,41 @@ class ScriptEditor(UiComponent):
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("recentFilesActions"))
 
 	@property
+	def searchAndReplace(self):
+		"""
+		This method is the property for ** self.__searchAndReplace ** attribute.
+
+		:return: self.__searchAndReplace. ( SearchAndReplace )
+		"""
+
+		return self.__searchAndReplace
+
+	@searchAndReplace.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def searchAndReplace(self, value):
+		"""
+		This method is the setter method for ** self.__searchAndReplace ** attribute.
+
+		:param value: Attribute value. ( SearchAndReplace )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("searchAndReplace"))
+
+	@searchAndReplace.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def searchAndReplace(self):
+		"""
+		This method is the deleter method for ** self.__searchAndReplace ** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("searchAndReplace"))
+
+	@property
 	def locals(self):
 		"""
 		This method is the property for ** self.__locals ** attribute.
 
-		:return: self.__locals. (Dictionary)
+		:return: self.__locals. ( Dictionary )
 		"""
 
 		return self.__locals
@@ -821,7 +1031,7 @@ class ScriptEditor(UiComponent):
 		"""
 		This method is the setter method for ** self.__locals ** attribute.
 
-		:param value: Attribute value. (Dictionary)
+		:param value: Attribute value. ( Dictionary )
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("locals"))
@@ -955,6 +1165,8 @@ class ScriptEditor(UiComponent):
 
 		self.ui.Script_Editor_Output_plainTextEdit.highlighter = LoggingHighlighter(self.ui.Script_Editor_Output_plainTextEdit.document())
 
+		self.__searchAndReplace = SearchAndReplace(self)
+
 		# Signals / Slots.
 		self.__container.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.ui.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
@@ -1061,6 +1273,8 @@ class ScriptEditor(UiComponent):
 		self.__editMenu.addSeparator()
 		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Goto Line ...", shortcut=Qt.ControlModifier + Qt.Key_L, slot=self.__gotoLineAction__triggered))
 		self.__editMenu.addSeparator()
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Search And Replace ...", shortcut=Qt.ControlModifier + Qt.Key_F, slot=self.__searchAndReplaceAction__triggered))
+		self.__editMenu.addSeparator()
 		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Indent Selection", shortcut=Qt.Key_Tab, slot=self.__indentSelectionAction__triggered))
 		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Unindent Selection", shortcut=Qt.Key_Backtab, slot=self.__unindentSelectionAction__triggered))
 		self.__menuBar.addMenu(self.__editMenu)
@@ -1073,7 +1287,7 @@ class ScriptEditor(UiComponent):
 	# @core.executionTrace
 	def __Script_Editor_Output_plainTextEdit_setUi(self):
 		"""
-		This method sets the ** Script_Editor_Output_plainTextEdit ** Widget.
+		This method sets the **Script_Editor_Output_plainTextEdit** Widget.
 		"""
 
 		for line in self.__container.loggingSessionHandlerStream.stream:
@@ -1084,7 +1298,7 @@ class ScriptEditor(UiComponent):
 	# @core.executionTrace
 	def __Script_Editor_Output_plainTextEdit_setDefaultViewState(self):
 		"""
-		This method sets the ** Script_Editor_Output_plainTextEdit ** Widget.
+		This method sets the **Script_Editor_Output_plainTextEdit** Widget.
 		"""
 
 		self.ui.Script_Editor_Output_plainTextEdit.moveCursor(QTextCursor.End)
@@ -1093,7 +1307,7 @@ class ScriptEditor(UiComponent):
 	# @core.executionTrace
 	def __Script_Editor_Output_plainTextEdit_refreshUi(self):
 		"""
-		This method updates the ** Script_Editor_Output_plainTextEdit ** Widget.
+		This method updates the **Script_Editor_Output_plainTextEdit** Widget.
 		"""
 
 		memoryHandlerStackDepth = len(self.__container.loggingSessionHandlerStream.stream)
@@ -1350,6 +1564,17 @@ class ScriptEditor(UiComponent):
 		return self.gotoLine()
 
 	@core.executionTrace
+	def __searchAndReplaceAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Search And Replace ...'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.searchAndReplace_ui()
+
+	@core.executionTrace
 	def __indentSelectionAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Indent Selection'** action.
@@ -1501,6 +1726,21 @@ class ScriptEditor(UiComponent):
 			return
 
 		return self.loadFile(file)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
+	def searchAndReplace_ui(self):
+		"""
+ 		This method performs a search and replace in the current widget tab editor.
+
+		:return: Method success. ( Boolean )
+
+		:note: This method may require user interaction.
+		"""
+
+		self.__searchAndReplace.ui.show()
+
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

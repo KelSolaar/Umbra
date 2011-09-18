@@ -540,7 +540,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	def initializeUi(self):
 		"""
 		This method initializes the widget ui.
-		
+
 		:return: Method success. ( Boolean )		
 		"""
 
@@ -558,7 +558,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	def __highlightCurrentLine(self):
 		"""
 		This method highlights the current line.
-		
+
 		:return: Method success. ( Boolean )		
 		"""
 
@@ -597,7 +597,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	def resizeEvent(self, event):
 		"""
 		This method reimplements the Widget **resizeEvent** method.
-		
+
 		:param event: Event. ( QEvent )
 		"""
 
@@ -608,7 +608,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	def keyPressEvent(self, event):
 		"""
 		This method reimplements the Widget **keyPressEvent** method.
-		
+
 		:param event: Event. ( QEvent )
 		"""
 
@@ -674,7 +674,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	def getWords(self):
 		"""
 		This method returns the document words.
-		
+
 		:return: Document words. ( List )		
 		"""
 
@@ -692,7 +692,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	def textUnderCursor(self):
 		"""
 		This method returns the text under cursor.
-		
+
 		:return: Text under cursor. ( QString )		
 		"""
 
@@ -705,7 +705,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	def delete(self):
 		"""
 		This method deletes the text under cursor.
-		
+
 		:return: Method success. ( Boolean )		
 		"""
 
@@ -717,7 +717,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	def gotoLine(self, line):
 		"""
 		This method moves the text cursor to provided line.
-		
+
 		:return: Method success. ( Boolean )		
 		"""
 
@@ -732,7 +732,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	def indent(self):
 		"""
 		This method indents the text under cursor.
-		
+
 		:return: Method success. ( Boolean )		
 		"""
 
@@ -743,7 +743,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 			cursor.movePosition(QTextCursor.StartOfBlock)
 			cursor.insertText(self.__indentMarker)
 		else:
-			block = self.document().findBlock(cursor.selectionStart())
+			block = self.document().searchBlock(cursor.selectionStart())
 			while True:
 				blockCursor = self.textCursor()
 				blockCursor.setPosition(block.position())
@@ -760,7 +760,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	def unindent(self):
 		"""
 		This method unindents the text under cursor.
-		
+
 		:return: Method success. ( Boolean )		
 		"""
 
@@ -769,14 +769,14 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		cursor.beginEditBlock()
 		if not cursor.hasSelection():
 			cursor.movePosition(QTextCursor.StartOfBlock)
-			line = str(self.document().findBlockByNumber(cursor\
+			line = str(self.document().searchBlockByNumber(cursor\
 									  .blockNumber()).text())
 			indentMarker = re.match(r"({0})".format(self.__indentMarker), line)
 			if indentMarker:
 				for i in range(len(indentMarker.group(1))):
 					cursor.deleteChar()
 		else:
-			block = self.document().findBlock(cursor.selectionStart())
+			block = self.document().searchBlock(cursor.selectionStart())
 			while True:
 				blockCursor = self.textCursor()
 				blockCursor.setPosition(block.position())
@@ -789,4 +789,37 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 				block = block.next()
 		cursor.endEditBlock()
 
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def search(self, pattern, **kwargs):
+		"""
+		This method searchs provided pattern in the document.
+
+		:param \*\*kwargs: Format settings. ( Key / Value pairs )
+		:return: Method success. ( Boolean )		
+		"""
+
+		settings = core.Structure(**{"caseSensitive" : False,
+								"wholeWord" : False,
+								"backwardSearch" : False,
+								"regularExpressions" : False})
+		settings.update(kwargs)
+
+		flags = QTextDocument.FindFlags()
+		if settings.caseSensitive:
+			flags = flags | QTextDocument.FindCaseSensitively
+		if settings.wholeWord:
+			flags = flags | QTextDocument.FindWholeWords
+		if settings.backwardSearch:
+			flags = flags | QTextDocument.FindBackward
+
+		cursor = self.textCursor()
+		if settings.regularExpressions:
+			cursor = self.document().find(QRegExp(pattern), cursor, flags)
+		else:
+			cursor = self.document().find(pattern, cursor, flags)
+		if not cursor.isNull():
+			self.setTextCursor(cursor)
 		return True
