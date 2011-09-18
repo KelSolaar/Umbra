@@ -70,7 +70,7 @@ class LinesNumbers_QWidget(QWidget):
 
 		self.__margin = 16
 		self.__separatorWidth = 2
-		self.__backgroundColor = QColor(64, 64, 64)
+		self.__backgroundColor = QColor(48, 48, 48)
 		self.__color = QColor(192, 192, 192)
 		self.__separatorColor = QColor(88, 88, 88)
 
@@ -379,12 +379,13 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent=None, indentMarker="\t"):
+	def __init__(self, parent=None, indentMarker="\t", commentMarker="#"):
 		"""
 		This method initializes the class.
 
 		:param parent: Widget parent. ( QObject )
 		:param indentMarker: Indentation marker. ( String )
+		:param commentMarker: Comment marker. ( String )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -394,6 +395,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		# --- Setting class attributes. ---
 		self.__indentMarker = None
 		self.indentMarker = indentMarker
+		self.__commentMarker = None
+		self.commentMarker = commentMarker
 
 		self.__marginArea_LinesNumbers_widget = None
 		self.__completer = None
@@ -429,7 +432,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 		if value:
 			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("indentMarker", value)
-			assert not re.search("\w", value), "'{0}' attribute: '{1}' is an alphanumeric character!".format("indentMarker", value)
+			assert re.search("\s", value), "'{0}' attribute: '{1}' is not a whitespace character!".format("indentMarker", value)
 		self.__indentMarker = value
 
 	@indentMarker.deleter
@@ -440,6 +443,38 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("indentMarker"))
+
+	@property
+	def commentMarker(self):
+		"""
+		This method is the property for **self.__commentMarker** attribute.
+
+		:return: self.__commentMarker. ( String )
+		"""
+
+		return self.__commentMarker
+
+	@commentMarker.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def commentMarker(self, value):
+		"""
+		This method is the setter method for **self.__commentMarker** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		if value:
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("commentMarker", value)
+		self.__commentMarker = value
+
+	@commentMarker.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def commentMarker(self):
+		"""
+		This method is the deleter method for **self.__commentMarker** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("commentMarker"))
 
 	@property
 	def marginArea_LinesNumbers_widget(self):
@@ -771,7 +806,6 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		cursor = self.textCursor()
-
 		cursor.beginEditBlock()
 		if not cursor.hasSelection():
 			cursor.insertText(self.__indentMarker)
@@ -785,7 +819,6 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 					break
 				block = block.next()
 		cursor.endEditBlock()
-
 		return True
 
 	@core.executionTrace
@@ -798,7 +831,6 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		cursor = self.textCursor()
-
 		cursor.beginEditBlock()
 		if not cursor.hasSelection():
 			cursor.movePosition(QTextCursor.StartOfBlock)
@@ -821,7 +853,6 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 					break
 				block = block.next()
 		cursor.endEditBlock()
-
 		return True
 
 	@core.executionTrace
@@ -914,7 +945,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def replace(self, pattern, replacementPattern, **kwargs):
 		"""
-		This method replaces provided pattern in the document with the replacement pattern.
+		This method replaces current provided pattern occurence in the document with the replacement pattern.
 
 		:param pattern: Pattern to replace. ( String )
 		:param replacementPattern: Replacement pattern. ( String )
@@ -926,6 +957,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 			return
 
 		cursor = self.textCursor()
+		cursor.beginEditBlock()
 		if cursor.isNull():
 			return
 
@@ -933,4 +965,69 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 			return
 
 		cursor.insertText(replacementPattern)
+		cursor.endEditBlock()
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def replaceAll(self, pattern, replacementPattern, **kwargs):
+		"""
+		This method replaces every provided pattern occurences in the document with the replacement pattern.
+
+		:param pattern: Pattern to replace. ( String )
+		:param replacementPattern: Replacement pattern. ( String )
+		:param \*\*kwargs: Format settings. ( Key / Value pairs )
+		:return: Method success. ( Boolean )		
+		"""
+
+		editCursor = self.textCursor()
+		editCursor.beginEditBlock()
+		while True:
+			if not self.search(pattern, **kwargs):
+				break
+
+			cursor = self.textCursor()
+			if cursor.isNull():
+				break
+
+			if not cursor.hasSelection():
+				break
+			cursor.insertText(replacementPattern)
+		editCursor.endEditBlock()
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def toggleComments(self):
+		"""
+		This method toggles comments on the document selected lines.
+
+		:return: Method success. ( Boolean )		
+		"""
+
+		cursor = self.textCursor()
+		cursor.beginEditBlock()
+		if not cursor.hasSelection():
+			cursor.movePosition(QTextCursor.StartOfBlock)
+			line = str(self.document().\
+				 findBlockByNumber(cursor.blockNumber()).text())
+			if line.startswith(self.__commentMarker):
+				cursor.deleteChar()
+			else:
+				cursor.insertText(self.__commentMarker)
+		else:
+			block = self.document().findBlock(cursor.selectionStart())
+			while True:
+				blockCursor = self.textCursor()
+				blockCursor.setPosition(block.position())
+
+				if str(block.text()).startswith(self.__commentMarker):
+					blockCursor.deleteChar()
+				else:
+					blockCursor.insertText(self.__commentMarker)
+
+				if block.contains(cursor.selectionEnd()):
+					break
+				block = block.next()
+		cursor.endEditBlock()
 		return True

@@ -200,6 +200,7 @@ class SearchAndReplace(QObject):
 		# Signals / Slots.
 		self.__ui.Search_pushButton.clicked.connect(self.__Search_pushButton__clicked)
 		self.__ui.Replace_pushButton.clicked.connect(self.__Replace_pushButton__clicked)
+		self.__ui.Replace_All_pushButton.clicked.connect(self.__Replace_All_pushButton__clicked)
 		self.__ui.Close_pushButton.clicked.connect(self.__Close_pushButton__clicked)
 
 		return True
@@ -223,6 +224,16 @@ class SearchAndReplace(QObject):
 		"""
 
 		self.replace()
+
+	@core.executionTrace
+	def __Replace_All_pushButton__clicked(self, checked):
+		"""
+		This method is triggered when **Replace_All_pushButton** is clicked.
+
+		:param checked: Checked state. ( Boolean )
+		"""
+
+		self.replaceAll()
 
 	@core.executionTrace
 	def __Close_pushButton__clicked(self, checked):
@@ -274,7 +285,7 @@ class SearchAndReplace(QObject):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def replace(self):
 		"""
-		This method replaces current widget tab editor search pattern occurences with replacement pattern.
+		This method replaces current widget tab editor current search pattern occurence with replacement pattern.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -291,6 +302,28 @@ class SearchAndReplace(QObject):
 																	"regularExpressions" : self.__ui.Regular_Expressions_checkBox.isChecked(),
 																	"backwardSearch" : self.__ui.Backward_Search_checkBox.isChecked(),
 																	"wrapSearch" : self.__ui.Wrap_Search_checkBox.isChecked()})
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def replaceAll(self):
+		"""
+		This method replaces current widget tab editor search pattern occurences with replacement pattern.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		editor = self.__container.getCurrentEditor()
+		searchPattern = self.__ui.Search_comboBox.currentText()
+		replacementPattern = self.__ui.Replace_With_comboBox.currentText()
+
+		if not editor or not searchPattern:
+			return
+
+		return editor.replaceAll(searchPattern, replacementPattern, **{"caseSensitive" : self.__ui.Case_Sensitive_checkBox.isChecked(),
+																		"wholeWord" : self.__ui.Whole_Word_checkBox.isChecked(),
+																		"regularExpressions" : self.__ui.Regular_Expressions_checkBox.isChecked(),
+																		"backwardSearch" : False,
+																		"wrapSearch" : True})
 
 class Editor(CodeEditor_QPlainTextEdit):
 	"""
@@ -321,15 +354,14 @@ class Editor(CodeEditor_QPlainTextEdit):
 		# --- Setting class attributes. ---
 		self.__file = None
 		self.file = file
+		self.highlighter = highlighter(self.document())
+		self.setCompleter(completer())
 
 		self.__indentWidth = 20
 
 		self.__isUntitled = True
 		self.__defaultFileName = "Untitled"
 		self.__defaultFileExtension = "py"
-
-		self.highlighter = highlighter(self.document())
-		self.setCompleter(completer())
 
 		self.setAttribute(Qt.WA_DeleteOnClose)
 		self.setTabStopWidth(self.__indentWidth)
@@ -1331,6 +1363,8 @@ class ScriptEditor(UiComponent):
 		self.__editMenu.addSeparator()
 		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Indent Selection", shortcut=Qt.Key_Tab, slot=self.__indentSelectionAction__triggered))
 		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Unindent Selection", shortcut=Qt.Key_Backtab, slot=self.__unindentSelectionAction__triggered))
+		self.__editMenu.addSeparator()
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Toggle Comments", shortcut=Qt.ControlModifier + Qt.Key_Slash, slot=self.__toggleCommentsAction__triggered))
 		self.__menuBar.addMenu(self.__editMenu)
 
 		self.__searchMenu = QMenu("&Search")
@@ -1682,6 +1716,18 @@ class ScriptEditor(UiComponent):
 
 		if isinstance(QApplication.focusWidget(), Editor):
 			return self.getCurrentEditor().unindent()
+
+	@core.executionTrace
+	def __toggleCommentsAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Toggle Comments'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if isinstance(QApplication.focusWidget(), Editor):
+			return self.getCurrentEditor().toggleComments()
 
 	@core.executionTrace
 	def __editor__contentChanged(self):
