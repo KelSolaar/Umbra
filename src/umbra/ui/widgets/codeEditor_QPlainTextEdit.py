@@ -400,6 +400,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 		self.__highlightColor = QColor(56, 56, 56)
 
+		self.__searchPattern = None
+
 		self.initializeUi()
 		self.__highlightCurrentLine()
 
@@ -532,6 +534,38 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("highlightColor"))
+
+	@property
+	def searchPattern(self):
+		"""
+		This method is the property for **self.__searchPattern** attribute.
+
+		:return: self.__searchPattern. ( String )
+		"""
+
+		return self.__searchPattern
+
+	@searchPattern.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def searchPattern(self, value):
+		"""
+		This method is the setter method for **self.__searchPattern** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		if value:
+			assert type(value) in (str, unicode, QString), "'{0}' attribute: '{1}' type is not 'str', 'unicode' or 'QString'!".format("searchPattern", value)
+		self.__searchPattern = value
+
+	@searchPattern.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def searchPattern(self):
+		"""
+		This method is the deleter method for **self.__searchPattern** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("searchPattern"))
 
 	#***********************************************************************************************
 	#***	Class methods.
@@ -740,10 +774,9 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 		cursor.beginEditBlock()
 		if not cursor.hasSelection():
-			cursor.movePosition(QTextCursor.StartOfBlock)
 			cursor.insertText(self.__indentMarker)
 		else:
-			block = self.document().searchBlock(cursor.selectionStart())
+			block = self.document().findBlock(cursor.selectionStart())
 			while True:
 				blockCursor = self.textCursor()
 				blockCursor.setPosition(block.position())
@@ -769,14 +802,14 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		cursor.beginEditBlock()
 		if not cursor.hasSelection():
 			cursor.movePosition(QTextCursor.StartOfBlock)
-			line = str(self.document().searchBlockByNumber(cursor\
+			line = str(self.document().findBlockByNumber(cursor\
 									  .blockNumber()).text())
 			indentMarker = re.match(r"({0})".format(self.__indentMarker), line)
 			if indentMarker:
 				for i in range(len(indentMarker.group(1))):
 					cursor.deleteChar()
 		else:
-			block = self.document().searchBlock(cursor.selectionStart())
+			block = self.document().findBlock(cursor.selectionStart())
 			while True:
 				blockCursor = self.textCursor()
 				blockCursor.setPosition(block.position())
@@ -797,15 +830,19 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 		This method searchs provided pattern in the document.
 
+		:param pattern: Pattern to search for. ( String )
 		:param \*\*kwargs: Format settings. ( Key / Value pairs )
 		:return: Method success. ( Boolean )		
 		"""
 
 		settings = core.Structure(**{"caseSensitive" : False,
 								"wholeWord" : False,
+								"regularExpressions" : False,
 								"backwardSearch" : False,
-								"regularExpressions" : False})
+								"wrapSearch" : True})
 		settings.update(kwargs)
+
+		self.__searchPattern = pattern
 
 		flags = QTextDocument.FindFlags()
 		if settings.caseSensitive:
@@ -822,4 +859,78 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 			cursor = self.document().find(pattern, cursor, flags)
 		if not cursor.isNull():
 			self.setTextCursor(cursor)
+		else:
+			if settings.wrapSearch:
+				cursor = self.textCursor()
+				if settings.backwardSearch:
+					cursor.movePosition(QTextCursor.End, QTextCursor.MoveAnchor)
+				else:
+					cursor.movePosition(QTextCursor.Start, QTextCursor.MoveAnchor)
+				self.setTextCursor(cursor)
+				settings.wrapSearch = False
+				return self.search(pattern, **settings)
+
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def searchNext(self):
+		"""
+		This method searchs the next search pattern in the document.
+
+		:return: Method success. ( Boolean )		
+		"""
+
+		pattern = self.textCursor().selectedText() or self.__searchPattern
+		if not pattern:
+			return
+
+		return self.search(pattern, **{"caseSensitive" : True,
+										"wholeWord" : False,
+										"regularExpressions" : False,
+										"backwardSearch" : False,
+										"wrapSearch" : True})
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def searchPrevious(self):
+		"""
+		This method searchs the previous search pattern in the document.
+
+		:return: Method success. ( Boolean )		
+		"""
+
+		pattern = self.textCursor().selectedText() or self.__searchPattern
+		if not pattern:
+			return
+
+		return self.search(pattern, **{"caseSensitive" : True,
+										"wholeWord" : False,
+										"regularExpressions" : False,
+										"backwardSearch" : True,
+										"wrapSearch" : True})
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def replace(self, pattern, replacementPattern, **kwargs):
+		"""
+		This method replaces provided pattern in the document with the replacement pattern.
+
+		:param pattern: Pattern to replace. ( String )
+		:param replacementPattern: Replacement pattern. ( String )
+		:param \*\*kwargs: Format settings. ( Key / Value pairs )
+		:return: Method success. ( Boolean )		
+		"""
+
+		if not self.search(pattern, **kwargs):
+			return
+
+		cursor = self.textCursor()
+		if cursor.isNull():
+			return
+
+		if not cursor.hasSelection():
+			return
+
+		cursor.insertText(replacementPattern)
 		return True

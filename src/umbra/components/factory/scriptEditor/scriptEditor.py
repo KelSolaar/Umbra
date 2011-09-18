@@ -185,6 +185,7 @@ class SearchAndReplace(QObject):
 	#***	Class methods.
 	#***********************************************************************************************
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def initializeUi(self):
 		"""
 		This method initializes the Widget ui.
@@ -194,8 +195,11 @@ class SearchAndReplace(QObject):
 
 		umbra.ui.common.setWindowDefaultIcon(self.ui)
 
+		self.__ui.Wrap_Search_checkBox.setChecked(True)
+
 		# Signals / Slots.
 		self.__ui.Search_pushButton.clicked.connect(self.__Search_pushButton__clicked)
+		self.__ui.Replace_pushButton.clicked.connect(self.__Replace_pushButton__clicked)
 		self.__ui.Close_pushButton.clicked.connect(self.__Close_pushButton__clicked)
 
 		return True
@@ -211,6 +215,16 @@ class SearchAndReplace(QObject):
 		self.search()
 
 	@core.executionTrace
+	def __Replace_pushButton__clicked(self, checked):
+		"""
+		This method is triggered when **Replace_pushButton** is clicked.
+
+		:param checked: Checked state. ( Boolean )
+		"""
+
+		self.replace()
+
+	@core.executionTrace
 	def __Close_pushButton__clicked(self, checked):
 		"""
 		This method is triggered when **Close_pushButton** is clicked.
@@ -220,10 +234,26 @@ class SearchAndReplace(QObject):
 
 		self.__ui.close()
 
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def show(self):
+		"""
+		This method shows the Widget.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		self.__ui.show()
+		self.__ui.raise_()
+		self.__ui.Search_comboBox.setFocus()
+
+		return True
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def search(self):
 		"""
-		This method search current widget tab editor for search pattern.
+		This method searchs current widget tab editor for search pattern.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -234,7 +264,33 @@ class SearchAndReplace(QObject):
 		if not editor or not searchPattern:
 			return
 
-		return editor.search(searchPattern)
+		return editor.search(searchPattern, **{"caseSensitive" : self.__ui.Case_Sensitive_checkBox.isChecked(),
+												"wholeWord" : self.__ui.Whole_Word_checkBox.isChecked(),
+												"regularExpressions" : self.__ui.Regular_Expressions_checkBox.isChecked(),
+												"backwardSearch" : self.__ui.Backward_Search_checkBox.isChecked(),
+												"wrapSearch" : self.__ui.Wrap_Search_checkBox.isChecked()})
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def replace(self):
+		"""
+		This method replaces current widget tab editor search pattern occurences with replacement pattern.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		editor = self.__container.getCurrentEditor()
+		searchPattern = self.__ui.Search_comboBox.currentText()
+		replacementPattern = self.__ui.Replace_With_comboBox.currentText()
+
+		if not editor or not searchPattern:
+			return
+
+		return editor.replace(searchPattern, replacementPattern, **{"caseSensitive" : self.__ui.Case_Sensitive_checkBox.isChecked(),
+																	"wholeWord" : self.__ui.Whole_Word_checkBox.isChecked(),
+																	"regularExpressions" : self.__ui.Regular_Expressions_checkBox.isChecked(),
+																	"backwardSearch" : self.__ui.Backward_Search_checkBox.isChecked(),
+																	"wrapSearch" : self.__ui.Wrap_Search_checkBox.isChecked()})
 
 class Editor(CodeEditor_QPlainTextEdit):
 	"""
@@ -1273,11 +1329,16 @@ class ScriptEditor(UiComponent):
 		self.__editMenu.addSeparator()
 		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Goto Line ...", shortcut=Qt.ControlModifier + Qt.Key_L, slot=self.__gotoLineAction__triggered))
 		self.__editMenu.addSeparator()
-		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Search And Replace ...", shortcut=Qt.ControlModifier + Qt.Key_F, slot=self.__searchAndReplaceAction__triggered))
-		self.__editMenu.addSeparator()
 		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Indent Selection", shortcut=Qt.Key_Tab, slot=self.__indentSelectionAction__triggered))
 		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Unindent Selection", shortcut=Qt.Key_Backtab, slot=self.__unindentSelectionAction__triggered))
 		self.__menuBar.addMenu(self.__editMenu)
+
+		self.__searchMenu = QMenu("&Search")
+		self.__searchMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Search|Search And Replace ...", shortcut=Qt.ControlModifier + Qt.Key_F, slot=self.__searchAndReplaceAction__triggered))
+		self.__searchMenu.addSeparator()
+		self.__searchMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Search|Search Next", shortcut=Qt.ControlModifier + Qt.Key_K, slot=self.__searchNextAction__triggered))
+		self.__searchMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Search|Search Previous", shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.Key_K, slot=self.__searchPreviousAction__triggered))
+		self.__menuBar.addMenu(self.__searchMenu)
 
 		self.__commandMenu = QMenu("&Command")
 		self.__commandMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection", shortcut=Qt.ControlModifier + Qt.Key_Return, slot=self.__evaluateSelectionAction__triggered))
@@ -1566,13 +1627,37 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __searchAndReplaceAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Search And Replace ...'** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Search|Search And Replace ...'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
 
 		return self.searchAndReplace_ui()
+
+	@core.executionTrace
+	def __searchNextAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Search|Search Next'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if isinstance(QApplication.focusWidget(), Editor):
+			return self.getCurrentEditor().searchNext()
+
+	@core.executionTrace
+	def __searchPreviousAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Search|Search Previous'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if isinstance(QApplication.focusWidget(), Editor):
+			return self.getCurrentEditor().searchPrevious()
 
 	@core.executionTrace
 	def __indentSelectionAction__triggered(self, checked):
@@ -1584,8 +1669,7 @@ class ScriptEditor(UiComponent):
 		"""
 
 		if isinstance(QApplication.focusWidget(), Editor):
-			self.getCurrentEditor().indent()
-		return True
+			return self.getCurrentEditor().indent()
 
 	@core.executionTrace
 	def __unindentSelectionAction__triggered(self, checked):
@@ -1597,8 +1681,7 @@ class ScriptEditor(UiComponent):
 		"""
 
 		if isinstance(QApplication.focusWidget(), Editor):
-			self.getCurrentEditor().unindent()
-		return True
+			return self.getCurrentEditor().unindent()
 
 	@core.executionTrace
 	def __editor__contentChanged(self):
@@ -1738,9 +1821,7 @@ class ScriptEditor(UiComponent):
 		:note: This method may require user interaction.
 		"""
 
-		self.__searchAndReplace.ui.show()
-
-		return True
+		return self.__searchAndReplace.show()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

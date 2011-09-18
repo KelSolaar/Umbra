@@ -2,14 +2,6 @@
 <ui version="4.0">
  <class>Search_And_Replace_Form</class>
  <widget class="QWidget" name="Search_And_Replace_Form">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>412</width>
-    <height>276</height>
-   </rect>
-  </property>
   <property name="windowTitle">
    <string>Search And Replace</string>
   </property>
@@ -56,13 +48,23 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0" colspan="2">
+      <item row="3" column="0">
        <widget class="QCheckBox" name="Regular_Expressions_checkBox">
         <property name="statusTip">
          <string>Regular Expressions Check Box: Performs search using regular expressions.</string>
         </property>
         <property name="text">
          <string>Regular Expressions</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QCheckBox" name="Wrap_Search_checkBox">
+        <property name="statusTip">
+         <string>Wrap Search Check Box: Wrap the search around the document.</string>
+        </property>
+        <property name="text">
+         <string>Wrap Search</string>
         </property>
        </widget>
       </item>
