@@ -192,6 +192,19 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>Search_comboBox</tabstop>
+  <tabstop>Replace_With_comboBox</tabstop>
+  <tabstop>Case_Sensitive_checkBox</tabstop>
+  <tabstop>Whole_Word_checkBox</tabstop>
+  <tabstop>Regular_Expressions_checkBox</tabstop>
+  <tabstop>Backward_Search_checkBox</tabstop>
+  <tabstop>Wrap_Search_checkBox</tabstop>
+  <tabstop>Search_pushButton</tabstop>
+  <tabstop>Replace_pushButton</tabstop>
+  <tabstop>Replace_All_pushButton</tabstop>
+  <tabstop>Close_pushButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
