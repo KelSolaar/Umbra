@@ -507,13 +507,13 @@ class PythonHighlighter(Highlighter):
 
 		self.formats.decoratorArgument = getFormat(format=self.formats.default, color=QColor(115, 135, 175), italic=True)
 
-		self.formats.singleLineComment = getFormat(format=self.formats.default, color=QColor(128, 128, 128))
-
-		self.formats.multiLineString = getFormat(format=self.formats.default, color=QColor(205, 105, 75), italic=True)
-
 		self.formats.quotation = getFormat(format=self.formats.default, color=QColor(145, 160, 105), italic=True)
 		self.formats.doubleQuotation = getFormat(format=self.formats.quotation)
 		self.formats.singleQuotation = getFormat(format=self.formats.quotation)
+
+		self.formats.singleLineComment = getFormat(format=self.formats.default, color=QColor(128, 128, 128))
+
+		self.formats.multiLineString = getFormat(format=self.formats.default, color=QColor(205, 105, 75), italic=True)
 
 		return True
 
@@ -566,10 +566,10 @@ class PythonHighlighter(Highlighter):
 
 		self.rules.append(Rule(pattern=QRegExp(r"\bself\b"), format=self.formats.decoratorArgument))
 
-		self.rules.append(Rule(pattern=QRegExp(r"#.*$\n?"), format=self.formats.singleLineComment))
-
 		self.rules.append(Rule(pattern=QRegExp(r"\"[^\n\"]*\""), format=self.formats.doubleQuotation))
 		self.rules.append(Rule(pattern=QRegExp(r"'[^\n']*'"), format=self.formats.singleQuotation))
+
+		self.rules.append(Rule(pattern=QRegExp(r"#.*$\n?"), format=self.formats.singleLineComment))
 
 		return True
 
