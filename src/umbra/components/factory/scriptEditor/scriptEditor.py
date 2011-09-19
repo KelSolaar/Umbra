@@ -365,6 +365,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		self.setAttribute(Qt.WA_DeleteOnClose)
 		self.setTabStopWidth(self.__indentWidth)
+		self.setWordWrapMode(QTextOption.NoWrap)
 
 		file and self.loadFile(file)
 
@@ -1388,6 +1389,10 @@ class ScriptEditor(UiComponent):
 		self.__commandMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script", shortcut=Qt.SHIFT + Qt.CTRL + Qt.Key_Return, slot=self.__evaluateScriptAction__triggered))
 		self.__menuBar.addMenu(self.__commandMenu)
 
+		self.__viewMenu = QMenu("&View")
+		self.__viewMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&View|Toggle Word Wrap", slot=self.__toggleWordWrap__triggered))
+		self.__menuBar.addMenu(self.__viewMenu)
+
 	# @core.executionTrace
 	def __Script_Editor_Output_plainTextEdit_setUi(self):
 		"""
@@ -1533,28 +1538,6 @@ class ScriptEditor(UiComponent):
 		file = self.sender()._datas
 		if os.path.exists(file):
 			return self.loadFile(file)
-
-	@core.executionTrace
-	def __evaluateSelectionAction__triggered(self, checked):
-		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection'** action.
-
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
-		"""
-
-		return self.evaluateSelection()
-
-	@core.executionTrace
-	def __evaluateScriptAction__triggered(self, checked):
-		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script'** action.
-
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
-		"""
-
-		return self.evaluateScript()
 
 	@core.executionTrace
 	def __undoAction__triggered(self, checked):
@@ -1737,6 +1720,45 @@ class ScriptEditor(UiComponent):
 
 		if isinstance(QApplication.focusWidget(), Editor):
 			return self.getCurrentEditor().toggleComments()
+
+	@core.executionTrace
+	def __evaluateSelectionAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.evaluateSelection()
+
+	@core.executionTrace
+	def __evaluateScriptAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.evaluateScript()
+
+	@core.executionTrace
+	def __toggleWordWrap__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Toggle Word Wrap'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if isinstance(QApplication.focusWidget(), Editor):
+			if self.getCurrentEditor().wordWrapMode() == QTextOption.WordWrap:
+				wordWrap = QTextOption.NoWrap
+			else:
+				wordWrap = QTextOption.WordWrap
+			self.getCurrentEditor().setWordWrapMode(wordWrap)
+			return True
 
 	@core.executionTrace
 	def __editor__contentChanged(self):
