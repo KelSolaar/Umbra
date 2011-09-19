@@ -541,16 +541,22 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		self.emit(SIGNAL("fileChanged()"))
 
+	def __setWindowTitle(self):
+		"""
+		This method sets the editor window title.
+		"""
+
+		titleTemplate = self.document().isModified() and "{0} *" or "{0}"
+		self.setWindowTitle(titleTemplate.format(self.getFileShortName()))
+		self.emit(SIGNAL("contentChanged()"))
+
 	@core.executionTrace
 	def __editor__contentsChanged(self):
 		"""
 		This method is triggered when the editor content changes.
 		"""
 
-		titleTemplate = self.document().isModified() and "{0} *" or "{0}"
-		self.setWindowTitle(titleTemplate.format(self.getFileShortName()))
-
-		self.emit(SIGNAL("contentChanged()"))
+		self.__setWindowTitle()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -668,7 +674,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 		LOGGER.debug("> Writing '{0}' file.".format(file))
 		writer = io.File(file)
 		writer.content = [self.toPlainText()]
-		return writer.write()
+		if writer.write():
+			self.document().setModified(False)
+			self.__setWindowTitle()
+			return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
