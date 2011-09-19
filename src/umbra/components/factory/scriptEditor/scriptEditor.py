@@ -195,7 +195,7 @@ class SearchAndReplace(QObject):
 
 		umbra.ui.common.setWindowDefaultIcon(self.ui)
 
-		self.__ui.Wrap_Search_checkBox.setChecked(True)
+		self.__ui.Wrap_Around_checkBox.setChecked(True)
 
 		# Signals / Slots.
 		self.__ui.Search_pushButton.clicked.connect(self.__Search_pushButton__clicked)
@@ -279,7 +279,7 @@ class SearchAndReplace(QObject):
 												"wholeWord" : self.__ui.Whole_Word_checkBox.isChecked(),
 												"regularExpressions" : self.__ui.Regular_Expressions_checkBox.isChecked(),
 												"backwardSearch" : self.__ui.Backward_Search_checkBox.isChecked(),
-												"wrapSearch" : self.__ui.Wrap_Search_checkBox.isChecked()})
+												"wrapAround" : self.__ui.Wrap_Around_checkBox.isChecked()})
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -301,7 +301,7 @@ class SearchAndReplace(QObject):
 																	"wholeWord" : self.__ui.Whole_Word_checkBox.isChecked(),
 																	"regularExpressions" : self.__ui.Regular_Expressions_checkBox.isChecked(),
 																	"backwardSearch" : self.__ui.Backward_Search_checkBox.isChecked(),
-																	"wrapSearch" : self.__ui.Wrap_Search_checkBox.isChecked()})
+																	"wrapAround" : self.__ui.Wrap_Around_checkBox.isChecked()})
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -323,7 +323,7 @@ class SearchAndReplace(QObject):
 																		"wholeWord" : self.__ui.Whole_Word_checkBox.isChecked(),
 																		"regularExpressions" : self.__ui.Regular_Expressions_checkBox.isChecked(),
 																		"backwardSearch" : False,
-																		"wrapSearch" : True})
+																		"wrapAround" : True})
 
 class Editor(CodeEditor_QPlainTextEdit):
 	"""

@@ -870,7 +870,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 								"wholeWord" : False,
 								"regularExpressions" : False,
 								"backwardSearch" : False,
-								"wrapSearch" : True})
+								"wrapAround" : True})
 		settings.update(kwargs)
 
 		self.__searchPattern = pattern
@@ -891,14 +891,14 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		if not cursor.isNull():
 			self.setTextCursor(cursor)
 		else:
-			if settings.wrapSearch:
+			if settings.wrapAround:
 				cursor = self.textCursor()
 				if settings.backwardSearch:
 					cursor.movePosition(QTextCursor.End, QTextCursor.MoveAnchor)
 				else:
 					cursor.movePosition(QTextCursor.Start, QTextCursor.MoveAnchor)
 				self.setTextCursor(cursor)
-				settings.wrapSearch = False
+				settings.wrapAround = False
 				return self.search(pattern, **settings)
 
 		return True
@@ -920,7 +920,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 										"wholeWord" : False,
 										"regularExpressions" : False,
 										"backwardSearch" : False,
-										"wrapSearch" : True})
+										"wrapAround" : True})
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -939,7 +939,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 										"wholeWord" : False,
 										"regularExpressions" : False,
 										"backwardSearch" : True,
-										"wrapSearch" : True})
+										"wrapAround" : True})
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
