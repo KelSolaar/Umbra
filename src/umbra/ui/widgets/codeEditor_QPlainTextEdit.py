@@ -998,6 +998,30 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getDefaultTextOption(self):
+		"""
+		This method returns default text option.
+
+		:return: Default text options. ( QTextOption )		
+		"""
+
+		return self.document().defaultTextOption()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def setDefaultTextOption(self, textOption):
+		"""
+		This method sets default text option using provided flag.
+
+		:param textOption: Text option. ( QTextOption )
+		:return: Method success. ( Boolean )		
+		"""
+
+		self.document().setDefaultTextOption(textOption)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def toggleComments(self):
 		"""
 		This method toggles comments on the document selected lines.
@@ -1030,4 +1054,34 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 					break
 				block = block.next()
 		cursor.endEditBlock()
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def toggleWordWrap(self):
+		"""
+		This method toggles document word wrap.
+
+		:return: Method success. ( Boolean )		
+		"""
+
+		self.setWordWrapMode(not self.wordWrapMode() and QTextOption.WordWrap or QTextOption.NoWrap)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def toggleWhiteSpaces(self):
+		"""
+		This method toggles document white spaces.
+
+		:return: Method success. ( Boolean )		
+		"""
+
+		textOption = self.getDefaultTextOption()
+		if textOption.flags().__int__():
+			textOption = QTextOption()
+			textOption.setTabStop(self.tabStopWidth())
+		else:
+			textOption.setFlags(textOption.flags() | QTextOption.ShowTabsAndSpaces | QTextOption.ShowLineAndParagraphSeparators)
+		self.setDefaultTextOption(textOption)
 		return True

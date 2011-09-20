@@ -61,7 +61,7 @@ LOGGER = logging.getLogger(Constants.logger)
 #***********************************************************************************************
 class SearchAndReplace(QObject):
 	"""
-	| This class defines the default search and replace dialog used by the: class:`ScriptEditor`. 
+	| This class defines the default search and replace dialog used by the :class:`ScriptEditor` class. 
 	"""
 
 	@core.executionTrace
@@ -1390,7 +1390,8 @@ class ScriptEditor(UiComponent):
 		self.__menuBar.addMenu(self.__commandMenu)
 
 		self.__viewMenu = QMenu("&View")
-		self.__viewMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&View|Toggle Word Wrap", slot=self.__toggleWordWrap__triggered))
+		self.__viewMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&View|Toggle Word Wrap", slot=self.__toggleWordWrapAction__triggered))
+		self.__viewMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&View|Toggle White Spaces", slot=self.__toggleWhiteSpacesAction__triggered))
 		self.__menuBar.addMenu(self.__viewMenu)
 
 	# @core.executionTrace
@@ -1548,7 +1549,7 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if isinstance(QApplication.focusWidget(), Editor):
+		if self.hasEditorTab():
 			self.getCurrentEditor().undo()
 		return True
 
@@ -1561,7 +1562,7 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if isinstance(QApplication.focusWidget(), Editor):
+		if self.hasEditorTab():
 			self.getCurrentEditor().redo()
 		return True
 
@@ -1606,7 +1607,7 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if isinstance(QApplication.focusWidget(), Editor):
+		if self.hasEditorTab():
 			self.getCurrentEditor().paste()
 		return True
 
@@ -1619,7 +1620,7 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if isinstance(QApplication.focusWidget(), Editor):
+		if self.hasEditorTab():
 			self.getCurrentEditor().delete()
 		return True
 
@@ -1670,7 +1671,7 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if isinstance(QApplication.focusWidget(), Editor):
+		if self.hasEditorTab():
 			return self.getCurrentEditor().searchNext()
 
 	@core.executionTrace
@@ -1682,7 +1683,7 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if isinstance(QApplication.focusWidget(), Editor):
+		if self.hasEditorTab():
 			return self.getCurrentEditor().searchPrevious()
 
 	@core.executionTrace
@@ -1694,7 +1695,7 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if isinstance(QApplication.focusWidget(), Editor):
+		if self.hasEditorTab():
 			return self.getCurrentEditor().indent()
 
 	@core.executionTrace
@@ -1706,7 +1707,7 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if isinstance(QApplication.focusWidget(), Editor):
+		if self.hasEditorTab():
 			return self.getCurrentEditor().unindent()
 
 	@core.executionTrace
@@ -1718,7 +1719,7 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if isinstance(QApplication.focusWidget(), Editor):
+		if self.hasEditorTab():
 			return self.getCurrentEditor().toggleComments()
 
 	@core.executionTrace
@@ -1744,7 +1745,7 @@ class ScriptEditor(UiComponent):
 		return self.evaluateScript()
 
 	@core.executionTrace
-	def __toggleWordWrap__triggered(self, checked):
+	def __toggleWordWrapAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Toggle Word Wrap'** action.
 
@@ -1752,13 +1753,20 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if isinstance(QApplication.focusWidget(), Editor):
-			if self.getCurrentEditor().wordWrapMode() == QTextOption.WordWrap:
-				wordWrap = QTextOption.NoWrap
-			else:
-				wordWrap = QTextOption.WordWrap
-			self.getCurrentEditor().setWordWrapMode(wordWrap)
-			return True
+		if self.hasEditorTab():
+			return self.getCurrentEditor().toggleWordWrap()
+
+	@core.executionTrace
+	def __toggleWhiteSpacesAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Toggle White Spaces'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if self.hasEditorTab():
+			return self.getCurrentEditor().toggleWhiteSpaces()
 
 	@core.executionTrace
 	def __editor__contentChanged(self):
