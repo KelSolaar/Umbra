@@ -404,6 +404,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 		self.__searchPattern = None
 
+		self.__symbolsPairs = {Qt.Key_BracketLeft : Qt.Key_BracketRight, Qt.Key_ParenLeft : Qt.Key_ParenRight, Qt.Key_BraceLeft : Qt.Key_BraceRight, Qt.Key_QuoteDbl : Qt.Key_QuoteDbl, Qt.Key_Apostrophe : Qt.Key_Apostrophe}
+
 		self.initializeUi()
 		self.__highlightCurrentLine()
 
@@ -601,6 +603,38 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("searchPattern"))
 
+	@property
+	def symbolsPairs(self):
+		"""
+		This method is the property for **self.__symbolsPairs** attribute.
+
+		:return: self.__symbolsPairs. ( Dictionary )
+		"""
+
+		return self.__symbolsPairs
+
+	@symbolsPairs.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def symbolsPairs(self, value):
+		"""
+		This method is the setter method for **self.__symbolsPairs** attribute.
+
+		:param value: Attribute value. ( Dictionary )
+		"""
+
+		if value:
+			assert type(value) in (str, unicode, QString), "'{0}' attribute: '{1}' type is not 'str', 'unicode' or 'QString'!".format("symbolsPairs", value)
+		self.__symbolsPairs = value
+
+	@symbolsPairs.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def symbolsPairs(self):
+		"""
+		This method is the deleter method for **self.__symbolsPairs** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("symbolsPairs"))
+
 	#***********************************************************************************************
 	#***	Class methods.
 	#***********************************************************************************************
@@ -687,6 +721,22 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 			self.unindent()
 			return
 
+		if event.key() in self.__symbolsPairs.keys():
+			cursor = self.textCursor()
+			cursor.beginEditBlock()
+			if not cursor.hasSelection():
+				cursor.insertText(event.text())
+				cursor.insertText(chr(self.__symbolsPairs[event.key()]))
+				cursor.movePosition(QTextCursor.Left, QTextCursor.MoveAnchor)
+			else:
+				selectionText = cursor.selectedText()
+				cursor.insertText(event.text())
+				cursor.insertText(selectionText)
+				cursor.insertText(chr(self.__symbolsPairs[event.key()]))
+			self.setTextCursor(cursor)
+			cursor.endEditBlock()
+			return
+
 		if self.__completer and self.__completer.popup().isVisible():
 			if event.key() in (Qt.Key_Enter, Qt.Key_Return, Qt.Key_Escape, Qt.Key_Tab, Qt.Key_Backtab):
 				event.ignore()
@@ -713,6 +763,17 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 		QPlainTextEdit.keyPressEvent(self, event)
 
+		if event.key() in (Qt.Key_Backspace,):
+			cursor = self.textCursor()
+			cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor)
+			selectedText = cursor.selectedText()
+			if not selectedText:
+				return
+
+			if ord(str(selectedText)) in self.__symbolsPairs.values():
+				cursor.deleteChar()
+				return
+
 		if event.key() in (Qt.Key_Enter, Qt.Key_Return):
 			cursor = self.textCursor()
 			block = cursor.block().previous()
@@ -721,6 +782,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 				if str(block.text()).endswith(":"):
 					indent += self.__indentMarker
 				cursor.insertText(indent)
+				return
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
