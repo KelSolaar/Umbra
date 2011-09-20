@@ -744,6 +744,8 @@ class ScriptEditor(UiComponent):
 
 		self.__searchAndReplace = None
 
+		self.__indentWidth = 20
+
 		self.__locals = None
 		self.__memoryHandlerStackDepth = None
 		self.__menuBar = None
@@ -1114,6 +1116,36 @@ class ScriptEditor(UiComponent):
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("searchAndReplace"))
 
 	@property
+	def indentWidth(self):
+		"""
+		This method is the property for **self.__indentWidth** attribute.
+
+		:return: self.__indentWidth. ( Integer )
+		"""
+
+		return self.__indentWidth
+
+	@indentWidth.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def indentWidth(self, value):
+		"""
+		This method is the setter method for **self.__indentWidth** attribute.
+
+		:param value: Attribute value. ( Integer )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("indentWidth"))
+
+	@indentWidth.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def indentWidth(self):
+		"""
+		This method is the deleter method for **self.__indentWidth** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("indentWidth"))
+
+	@property
 	def locals(self):
 		"""
 		This method is the property for ** self.__locals ** attribute.
@@ -1262,6 +1294,7 @@ class ScriptEditor(UiComponent):
 		self.__initializeMenuBar()
 
 		self.ui.Script_Editor_Output_plainTextEdit.highlighter = LoggingHighlighter(self.ui.Script_Editor_Output_plainTextEdit.document())
+		self.ui.Script_Editor_Output_plainTextEdit.setTabStopWidth(self.__indentWidth)
 
 		self.__searchAndReplace = SearchAndReplace(self)
 

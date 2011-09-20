@@ -11,8 +11,7 @@
 	This module defines the :class:`LinesNumbers_QWidget` and :class:`CodeEditor_QPlainTextEdit` classes.
 
 **Others:**
-	Portions of the code from codeeditor.py by Roberto Alsina: http://lateral.netmanagers.com.ar/weblog/posts/BB832.html
-	Portions of the code from KhtEditor.py by Benoit Hervier: http://khertan.net/khteditor
+	Portions of the code from codeeditor.py by Roberto Alsina: http://lateral.netmanagers.com.ar/weblog/posts/BB832.html and KhtEditor.py by Benoit Hervier: http://khertan.net/khteditor
 """
 
 #***********************************************************************************************
@@ -711,7 +710,17 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		else:
 			if self.__completer:
 				self.__completer.popup().hide()
-			QPlainTextEdit.keyPressEvent(self, event)
+
+		QPlainTextEdit.keyPressEvent(self, event)
+
+		if event.key() in (Qt.Key_Enter, Qt.Key_Return):
+			cursor = self.textCursor()
+			block = cursor.block().previous()
+			if block.isValid():
+				indent = re.match(r"(\s*)", unicode(block.text())).group(1)
+				if str(block.text()).endswith(":"):
+					indent += self.__indentMarker
+				cursor.insertText(indent)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
