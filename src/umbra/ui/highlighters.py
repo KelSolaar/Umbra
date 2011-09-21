@@ -581,8 +581,8 @@ class PythonHighlighter(Highlighter):
 
 		self.rules.decoratorArgument = Rule(pattern=QRegExp(r"\bself\b"), format=self.formats.decoratorArgument)
 
-		self.rules.doubleQuotation = Rule(pattern=QRegExp(r"\"[^\n\"]*\""), format=self.formats.doubleQuotation)
-		self.rules.singleQuotation = Rule(pattern=QRegExp(r"'[^\n']*'"), format=self.formats.singleQuotation)
+		self.rules.doubleQuotation = Rule(pattern=QRegExp(r"\"([^\"\\]|\\.)*\""), format=self.formats.doubleQuotation)
+		self.rules.singleQuotation = Rule(pattern=QRegExp(r"'([^'\\]|\\.)*'"), format=self.formats.singleQuotation)
 
 		self.rules.singleLineComment = Rule(pattern=QRegExp(r"#.*$\n?"), format=self.formats.singleLineComment)
 
