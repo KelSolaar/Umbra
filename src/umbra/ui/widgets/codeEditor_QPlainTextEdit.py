@@ -811,6 +811,30 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getDefaultTextOption(self):
+		"""
+		This method returns default text option.
+
+		:return: Default text options. ( QTextOption )		
+		"""
+
+		return self.document().defaultTextOption()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def setDefaultTextOption(self, textOption):
+		"""
+		This method sets default text option using provided flag.
+
+		:param textOption: Text option. ( QTextOption )
+		:return: Method success. ( Boolean )		
+		"""
+
+		self.document().setDefaultTextOption(textOption)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getWords(self):
 		"""
 		This method returns the document words.
@@ -850,21 +874,6 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		self.textCursor().removeSelectedText()
-		return True
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def gotoLine(self, line):
-		"""
-		This method moves the text cursor to provided line.
-
-		:return: Method success. ( Boolean )		
-		"""
-
-		cursor = self.textCursor()
-		cursor.setPosition(0, QTextCursor.MoveAnchor)
-		cursor.movePosition(QTextCursor.Down, QTextCursor.MoveAnchor, line - 1)
-		self.setTextCursor(cursor)
 		return True
 
 	@core.executionTrace
@@ -1069,26 +1078,37 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getDefaultTextOption(self):
+	def setContent(self, content):
 		"""
-		This method returns default text option.
+		This method sets document content while providing undo capability.
 
-		:return: Default text options. ( QTextOption )		
-		"""
-
-		return self.document().defaultTextOption()
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def setDefaultTextOption(self, textOption):
-		"""
-		This method sets default text option using provided flag.
-
-		:param textOption: Text option. ( QTextOption )
 		:return: Method success. ( Boolean )		
 		"""
 
-		self.document().setDefaultTextOption(textOption)
+		cursor = self.textCursor()
+		cursor.beginEditBlock()
+		cursor.movePosition(QTextCursor.Start, QTextCursor.MoveAnchor)
+		cursor.movePosition(QTextCursor.End, QTextCursor.KeepAnchor)
+		cursor.removeSelectedText()
+		for line in content:
+			self.moveCursor(QTextCursor.End)
+			self.insertPlainText(line)
+		cursor.endEditBlock()
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def gotoLine(self, line):
+		"""
+		This method moves the text cursor to provided line.
+
+		:return: Method success. ( Boolean )		
+		"""
+
+		cursor = self.textCursor()
+		cursor.setPosition(0, QTextCursor.MoveAnchor)
+		cursor.movePosition(QTextCursor.Down, QTextCursor.MoveAnchor, line - 1)
+		self.setTextCursor(cursor)
 		return True
 
 	@core.executionTrace

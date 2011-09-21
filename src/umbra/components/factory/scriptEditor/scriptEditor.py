@@ -29,6 +29,7 @@ from PyQt4.QtGui import *
 #***	Internal imports.
 #***********************************************************************************************
 import foundations.core as core
+import foundations.common
 import foundations.exceptions
 import foundations.io as io
 import foundations.strings
@@ -629,6 +630,24 @@ class Editor(CodeEditor_QPlainTextEdit):
 		return True
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
+	def reloadFile(self):
+		"""
+		This method reloads the current file into the editor.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		if not os.path.exists(self.__file):
+			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(self.__class__.__name__, self.__file))
+
+		LOGGER.debug("> Reloading '{0}' file.".format(self.__file))
+		reader = io.File(self.__file)
+		if reader.read():
+			self.setContent(reader.content)
+			return True
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def saveFile(self):
 		"""
@@ -734,6 +753,9 @@ class ScriptEditor(UiComponent):
 		self.__settings = None
 		self.__settingsSection = None
 
+		self.__files = []
+		self.__modifiedFiles = set()
+
 		self.__defaultWindowTitle = "Script Editor"
 		self.__defaultScriptEditorDirectory = "scriptEditor"
 		self.__defaultScriptEditorFile = "defaultScript.py"
@@ -749,6 +771,8 @@ class ScriptEditor(UiComponent):
 		self.__locals = None
 		self.__memoryHandlerStackDepth = None
 		self.__menuBar = None
+
+		self.__fileSystemWatcher = None
 
 	#***********************************************************************************************
 	#***	Attributes properties.
@@ -902,6 +926,66 @@ class ScriptEditor(UiComponent):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("settingsSection"))
+
+	@property
+	def files(self):
+		"""
+		This method is the property for **self.__files** attribute.
+
+		:return: self.__files. ( List )
+		"""
+
+		return self.__files
+
+	@files.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def files(self, value):
+		"""
+		This method is the setter method for **self.__files** attribute.
+
+		:param value: Attribute value. ( List )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("files"))
+
+	@files.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def files(self):
+		"""
+		This method is the deleter method for **self.__files** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("files"))
+
+	@property
+	def modifiedFiles(self):
+		"""
+		This method is the property for **self.__modifiedFiles** attribute.
+
+		:return: self.__modifiedFiles. ( Set )
+		"""
+
+		return self.__modifiedFiles
+
+	@modifiedFiles.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def modifiedFiles(self, value):
+		"""
+		This method is the setter method for **self.__modifiedFiles** attribute.
+
+		:param value: Attribute value. ( Set )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("modifiedFiles"))
+
+	@modifiedFiles.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def modifiedFiles(self):
+		"""
+		This method is the deleter method for **self.__modifiedFiles** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("modifiedFiles"))
 
 	@property
 	def defaultWindowTitle(self):
@@ -1235,6 +1319,36 @@ class ScriptEditor(UiComponent):
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("menuBar"))
 
+	@property
+	def fileSystemWatcher(self):
+		"""
+		This method is the property for **self.__fileSystemWatcher** attribute.
+
+		:return: self.__fileSystemWatcher. ( QFileSystemWatcher )
+		"""
+
+		return self.__fileSystemWatcher
+
+	@fileSystemWatcher.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def fileSystemWatcher(self, value):
+		"""
+		This method is the setter method for **self.__fileSystemWatcher** attribute.
+
+		:param value: Attribute value. ( QFileSystemWatcher )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("fileSystemWatcher"))
+
+	@fileSystemWatcher.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def fileSystemWatcher(self):
+		"""
+		This method is the deleter method for **self.__fileSystemWatcher** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("fileSystemWatcher"))
+
 	#***********************************************************************************************
 	#***	Class methods.
 	#***********************************************************************************************
@@ -1298,12 +1412,16 @@ class ScriptEditor(UiComponent):
 
 		self.__searchAndReplace = SearchAndReplace(self)
 
+		self.__fileSystemWatcher = QFileSystemWatcher(self)
+
 		# Signals / Slots.
 		self.__container.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
+		self.__container.timer.timeout.connect(self.__reloadModifiedFiles)
 		self.ui.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
 		self.ui.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
 		self.datasChanged.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.recentFilesChanged.connect(self.__setRecentFilesActions)
+		self.__fileSystemWatcher.fileChanged.connect(self.__fileSystemWatcher__fileChanged)
 		return True
 
 	@core.executionTrace
@@ -1818,6 +1936,48 @@ class ScriptEditor(UiComponent):
 		self.__setEditorTabName(self.ui.Script_Editor_tabWidget.currentIndex())
 
 	@core.executionTrace
+	def __fileSystemWatcher__fileChanged(self, file):
+		"""
+		This method is triggered by the :obj:`fileSystemWatcher` class property when a file is modified.
+		
+		:param file: File modified. ( String )
+		"""
+
+		self.__modifiedFiles.add(file)
+
+	@core.executionTrace
+	def __reloadModifiedFiles(self):
+		"""
+		This method reloads modfied files.
+		"""
+
+		while self.__modifiedFiles:
+			self.reloadFile(self.__modifiedFiles.pop())
+
+	@core.executionTrace
+	def __registerFile(self, file):
+		"""
+		This method registers provided file in the :obj:`ScriptEditor.files` class property.
+		
+		:param file: File to register. ( String )
+		"""
+
+		self.__files.append(file)
+		self.__fileSystemWatcher.addPath(file)
+
+	@core.executionTrace
+	def __unregisterFile(self, file):
+		"""
+		This method unregisters provided file in the :obj:`ScriptEditor.files` class property.
+		
+		:param file: File to unregister. ( String )
+		"""
+
+		if file in self.__files:
+			self.__files.remove(file)
+			self.__fileSystemWatcher.removePath(file)
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __setRecentFilesActions(self):
 		"""
@@ -1844,6 +2004,8 @@ class ScriptEditor(UiComponent):
 	def __storeRecentFile(self, file):
 		"""
 		This method stores provided recent file into the settings.
+		
+		:param file: File to store. ( String )
 		"""
 
 		recentFiles = self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",")
@@ -2037,7 +2199,27 @@ class ScriptEditor(UiComponent):
 		if editor.loadFile(file):
 			self.addEditorTab(editor)
 			self.__storeRecentFile(file)
+			self.__registerFile(file)
 			return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
+	def reloadFile(self, file):
+		"""
+		This method reloads provided file into its associated tab.
+
+		:param file: File to reload. ( String )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not os.path.exists(file):
+			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(self.__class__.__name__, file))
+
+		tabIndex = self.findEditorTab(file)
+		if tabIndex >= 0:
+			LOGGER.info("{0} | Reloading '{1}' file!".format(self.__class__.__name__, file))
+			editor = self.ui.Script_Editor_tabWidget.widget(tabIndex)
+			return editor.reloadFile()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -2051,7 +2233,9 @@ class ScriptEditor(UiComponent):
 		if self.ui.Script_Editor_tabWidget.count():
 			editor = self.ui.Script_Editor_tabWidget.currentWidget()
 			LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
-			return editor.saveFile()
+			self.__fileSystemWatcher.removePaths(self.__files)
+			editor.saveFile()
+			self.__fileSystemWatcher.addPaths(self.__files)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -2069,6 +2253,7 @@ class ScriptEditor(UiComponent):
 		LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
 		if editor.saveFileAs():
 			self.__storeRecentFile(editor.file)
+			self.__registerFile(editor.file)
 			return True
 
 	@core.executionTrace
@@ -2088,6 +2273,8 @@ class ScriptEditor(UiComponent):
 		if not editor.closeFile():
 			return
 
+		self.__unregisterFile(editor.file)
+
 		if self.removeEditorTab(self.ui.Script_Editor_tabWidget.currentIndex()):
 			not self.ui.Script_Editor_tabWidget.count() and self.newFile()
 			return True
@@ -2106,6 +2293,8 @@ class ScriptEditor(UiComponent):
 			LOGGER.info("{0} | Closing '{1}' file!".format(self.__class__.__name__, editor.file))
 			if not editor.closeFile():
 				return
+
+			self.__unregisterFile(editor.file)
 
 			if self.removeEditorTab(self.ui.Script_Editor_tabWidget.currentIndex()):
 				if not self.ui.Script_Editor_tabWidget.count() and leaveLastEditor:
