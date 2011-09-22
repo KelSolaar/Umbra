@@ -75,6 +75,7 @@ import foundations.common
 import foundations.core as core
 import foundations.exceptions
 import foundations.io as io
+import foundations.strings
 import manager.exceptions
 import umbra.actionsManager
 import umbra.exceptions
@@ -981,8 +982,10 @@ class Umbra(Ui_Type, Ui_Setup):
 			styleSheetFile.read()
 			for i, line in enumerate(styleSheetFile.content):
 				search = re.search("url\((?P<url>.*)\)", line)
-				if search:
-					styleSheetFile.content[i] = line.replace(search.group("url"), umbra.ui.common.getResourcePath(search.group("url")))
+				if not search:
+					continue
+				
+				styleSheetFile.content[i] = line.replace(search.group("url"), foundations.strings.toForwardSlashes(umbra.ui.common.getResourcePath(search.group("url"))))
 			RuntimeGlobals.application.setStyleSheet(QString("".join(styleSheetFile.content)))
 			return True
 		else:
