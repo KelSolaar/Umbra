@@ -298,7 +298,7 @@ class PreferencesManager(UiComponent):
 	@core.executionTrace
 	def __Logging_Formatters_comboBox__activated(self, index):
 		"""
-		This method is called when the **Logging_Formatter_comboBox** is triggered.
+		This method is called when the **Logging_Formatter_comboBox** widget is triggered.
 
 		:param index: ComboBox activated item index. ( Integer )
 		"""

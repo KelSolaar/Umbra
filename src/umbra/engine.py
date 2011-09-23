@@ -921,7 +921,7 @@ class Umbra(Ui_Type, Ui_Setup):
 	@core.executionTrace
 	def layoutActiveLabel__clicked(self, activeLabel):
 		"""
-		This method is triggered when a layout **Active_QLabel** is clicked.
+		This method is triggered when a layout **Active_QLabel** widget is clicked.
 		"""
 
 		LOGGER.debug("> Clicked Active_QLabel: '{0}'.".format(activeLabel))
