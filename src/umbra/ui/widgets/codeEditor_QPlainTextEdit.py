@@ -406,7 +406,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 		self.__symbolsPairs = {Qt.Key_BracketLeft : Qt.Key_BracketRight, Qt.Key_ParenLeft : Qt.Key_ParenRight, Qt.Key_BraceLeft : Qt.Key_BraceRight, Qt.Key_QuoteDbl : Qt.Key_QuoteDbl, Qt.Key_Apostrophe : Qt.Key_Apostrophe}
 
-		self.initializeUi()
+		CodeEditor_QPlainTextEdit.initializeUi(self)
+
 		self.__highlightCurrentLine()
 
 	#***********************************************************************************************

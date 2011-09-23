@@ -80,6 +80,8 @@ class SearchAndReplace(QObject):
 		# --- Setting class attributes. ---
 		self.__container = container
 
+		self.__maximumStoredPatterns = 15
+
 		self.__uiPath = "ui/Search_And_Replace.ui"
 		self.__uiPath = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiPath)
 
@@ -87,7 +89,7 @@ class SearchAndReplace(QObject):
 		if "." in sys.path:
 			sys.path.remove(".")
 
-		self.initializeUi()
+		SearchAndReplace.initializeUi(self)
 
 	#***********************************************************************************************
 	#***	Attributes properties.
@@ -121,6 +123,36 @@ class SearchAndReplace(QObject):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("container"))
+
+	@property
+	def maximumStoredPatterns(self):
+		"""
+		This method is the property for **self.__maximumStoredPatterns** attribute.
+
+		:return: self.__maximumStoredPatterns. ( Integer )
+		"""
+
+		return self.__maximumStoredPatterns
+
+	@maximumStoredPatterns.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def maximumStoredPatterns(self, value):
+		"""
+		This method is the setter method for **self.__maximumStoredPatterns** attribute.
+
+		:param value: Attribute value. ( Integer )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("maximumStoredPatterns"))
+
+	@maximumStoredPatterns.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def maximumStoredPatterns(self):
+		"""
+		This method is the deleter method for **self.__maximumStoredPatterns** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("maximumStoredPatterns"))
 
 	@property
 	def uiPath(self):
@@ -198,6 +230,16 @@ class SearchAndReplace(QObject):
 
 		self.__ui.Wrap_Around_checkBox.setChecked(True)
 
+		recentSearchPatterns = self.__container.settings.getKey(self.__container.settingsSection, "recentSearchPatterns").toString().split(",")
+		if recentSearchPatterns:
+			for i in range(min(self.__maximumStoredPatterns, len(recentSearchPatterns))):
+				self.__ui.Search_comboBox.addItem(recentSearchPatterns[i])
+
+		recentReplaceWithPatterns = self.__container.settings.getKey(self.__container.settingsSection, "recentReplaceWithPatterns").toString().split(",")
+		if recentReplaceWithPatterns:
+			for i in range(min(self.__maximumStoredPatterns, len(recentReplaceWithPatterns))):
+				self.__ui.Search_comboBox.addItem(recentReplaceWithPatterns[i])
+
 		# Signals / Slots.
 		self.__ui.Search_pushButton.clicked.connect(self.__Search_pushButton__clicked)
 		self.__ui.Replace_pushButton.clicked.connect(self.__Replace_pushButton__clicked)
@@ -207,39 +249,77 @@ class SearchAndReplace(QObject):
 		return True
 
 	@core.executionTrace
+	def __storeRecentPatterns(self, comboBox, settingsKey):
+		"""
+		This method stores recent patterns.
+		"""
+
+		currentText = comboBox.currentText()
+		if currentText:
+			isNotRegistered = True
+			for i in range(comboBox.count()):
+				if comboBox.itemText(i) == currentText:
+					isNotRegistered = False
+					break
+			isNotRegistered and comboBox.insertItem(0, currentText)
+
+		self.__container.settings.setKey(self.__container.settingsSection, settingsKey, ",".join((str(comboBox.itemText(i)) for i in range(min(self.__maximumStoredPatterns, comboBox.count())) if comboBox.itemText(i))))
+
+	@core.executionTrace
+	def __storeRecentSearchPatterns(self):
+		"""
+		This method stores recent search patterns.
+		"""
+
+		self.__storeRecentPatterns(self.__ui.Search_comboBox, "recentSearchPatterns")
+
+	@core.executionTrace
+	def __storeRecentReplaceWithPatterns(self):
+		"""
+		This method stores recent replace with patterns.
+		"""
+
+		self.__storeRecentPatterns(self.__ui.Replace_With_comboBox, "recentReplaceWithPatterns")
+
+	@core.executionTrace
 	def __Search_pushButton__clicked(self, checked):
 		"""
-		This method is triggered when **Search_pushButton** is clicked.
+		This method is triggered when **Search_pushButton** widget is clicked.
 
 		:param checked: Checked state. ( Boolean )
 		"""
 
+		self.__storeRecentSearchPatterns()
 		self.search()
 
 	@core.executionTrace
 	def __Replace_pushButton__clicked(self, checked):
 		"""
-		This method is triggered when **Replace_pushButton** is clicked.
+		This method is triggered when **Replace_pushButton** widget is clicked.
 
 		:param checked: Checked state. ( Boolean )
 		"""
 
+		self.__storeRecentSearchPatterns()
+		self.__storeRecentReplaceWithPatterns()
 		self.replace()
 
 	@core.executionTrace
 	def __Replace_All_pushButton__clicked(self, checked):
 		"""
-		This method is triggered when **Replace_All_pushButton** is clicked.
+		This method is triggered when **Replace_All_pushButton** widget is clicked.
 
 		:param checked: Checked state. ( Boolean )
 		"""
 
+		self.__storeRecentSearchPatterns()
+		self.__storeRecentReplaceWithPatterns()
 		self.replaceAll()
 
 	@core.executionTrace
 	def __Close_pushButton__clicked(self, checked):
 		"""
-		This method is triggered when **Close_pushButton** is clicked.
+		This method is triggered when **Close_pushButton** widget is clicked.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -364,9 +444,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.__defaultFileName = "Untitled"
 		self.__defaultFileExtension = "py"
 
-		self.setAttribute(Qt.WA_DeleteOnClose)
-		self.setTabStopWidth(self.__indentWidth)
-		self.setWordWrapMode(QTextOption.NoWrap)
+		Editor.initializeUi(self)
 
 		file and self.loadFile(file)
 
@@ -528,6 +606,20 @@ class Editor(CodeEditor_QPlainTextEdit):
 	#***********************************************************************************************
 	#***	Class methods.
 	#***********************************************************************************************
+	@core.executionTrace
+	def initializeUi(self):
+		"""
+		This method initializes the widget ui.
+
+		:return: Method success. ( Boolean )		
+		"""
+
+		self.setAttribute(Qt.WA_DeleteOnClose)
+		self.setTabStopWidth(self.__indentWidth)
+		self.setWordWrapMode(QTextOption.NoWrap)
+
+		return True
+
 	@core.executionTrace
 	def __setFile(self, file):
 		"""
