@@ -623,9 +623,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param value: Attribute value. ( Dictionary )
 		"""
 
-		if value:
-			assert type(value) in (str, unicode, QString), "'{0}' attribute: '{1}' type is not 'str', 'unicode' or 'QString'!".format("symbolsPairs", value)
-		self.__symbolsPairs = value
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("symbolsPairs"))
 
 	@symbolsPairs.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -973,15 +971,15 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 			self.setTextCursor(cursor)
 		else:
 			if settings.wrapAround:
-				cursor = self.textCursor()
+				previousCursor = self.textCursor()
 				if settings.backwardSearch:
 					cursor.movePosition(QTextCursor.End, QTextCursor.MoveAnchor)
 				else:
 					cursor.movePosition(QTextCursor.Start, QTextCursor.MoveAnchor)
 				self.setTextCursor(cursor)
 				settings.wrapAround = False
-				return self.search(pattern, **settings)
-
+				self.search(pattern, **settings)
+				self.textCursor().isNull() and self.setTextCursor(previousCursor)
 		return True
 
 	@core.executionTrace

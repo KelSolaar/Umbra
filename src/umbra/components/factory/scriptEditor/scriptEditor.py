@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`ScriptEditor` Component Interface class and the :class:`Editor class.
+	This module defines the :class:`ScriptEditor` Component Interface class and the :class:`Editor and :class:`SearchAndReplace` classes.
 
 **Others:**
 
@@ -18,9 +18,11 @@
 #***	External imports.
 #***********************************************************************************************
 import code
+import functools
 import logging
 import os
 import sys
+import types
 from PyQt4 import uic
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -29,7 +31,6 @@ from PyQt4.QtGui import *
 #***	Internal imports.
 #***********************************************************************************************
 import foundations.core as core
-import foundations.common
 import foundations.exceptions
 import foundations.io as io
 import foundations.strings
@@ -60,6 +61,20 @@ LOGGER = logging.getLogger(Constants.logger)
 #***********************************************************************************************
 #***	Module classes and definitions.
 #***********************************************************************************************
+def _keyPressEvent(self, container, event):
+	"""
+	This definition reimplements the :class:`SearchAndReplace` widgets **keyPressEvent** method.
+
+	:param container: Container. ( QObject )
+	:param event: Event. ( QEvent )
+	"""
+
+	self.__class__.keyPressEvent(self, event)
+	if event.key() in (Qt.Key_Enter, Qt.Key_Return):
+		container.search()
+	elif event.key() in (Qt.Key_Escape,):
+		container.ui.close()
+
 class SearchAndReplace(QObject):
 	"""
 	| This class defines the default search and replace dialog used by the :class:`ScriptEditor` class. 
@@ -230,6 +245,9 @@ class SearchAndReplace(QObject):
 
 		self.__ui.Wrap_Around_checkBox.setChecked(True)
 
+		for widget in self.__ui.findChildren(QWidget, QRegExp(".*")):
+			widget.keyPressEvent = functools.partial(_keyPressEvent, widget, self)
+
 		recentSearchPatterns = self.__container.settings.getKey(self.__container.settingsSection, "recentSearchPatterns").toString().split(",")
 		if recentSearchPatterns:
 			for i in range(min(self.__maximumStoredPatterns, len(recentSearchPatterns))):
@@ -251,7 +269,10 @@ class SearchAndReplace(QObject):
 	@core.executionTrace
 	def __storeRecentPatterns(self, comboBox, settingsKey):
 		"""
-		This method stores recent patterns.
+		This method stores provided :class:`QComboBox` patterns.
+		
+		:param comboBox: QComboBox. ( QComboBox )
+		:param settingsKey: Associated settings key. ( String )
 		"""
 
 		currentText = comboBox.currentText()
@@ -268,7 +289,7 @@ class SearchAndReplace(QObject):
 	@core.executionTrace
 	def __storeRecentSearchPatterns(self):
 		"""
-		This method stores recent search patterns.
+		This method stores recent **Search_comboBox** widget patterns.
 		"""
 
 		self.__storeRecentPatterns(self.__ui.Search_comboBox, "recentSearchPatterns")
@@ -276,7 +297,7 @@ class SearchAndReplace(QObject):
 	@core.executionTrace
 	def __storeRecentReplaceWithPatterns(self):
 		"""
-		This method stores recent replace with patterns.
+		This method stores recent **Replace_With_comboBox** widget patterns.
 		"""
 
 		self.__storeRecentPatterns(self.__ui.Replace_With_comboBox, "recentReplaceWithPatterns")
@@ -289,7 +310,6 @@ class SearchAndReplace(QObject):
 		:param checked: Checked state. ( Boolean )
 		"""
 
-		self.__storeRecentSearchPatterns()
 		self.search()
 
 	@core.executionTrace
@@ -300,8 +320,6 @@ class SearchAndReplace(QObject):
 		:param checked: Checked state. ( Boolean )
 		"""
 
-		self.__storeRecentSearchPatterns()
-		self.__storeRecentReplaceWithPatterns()
 		self.replace()
 
 	@core.executionTrace
@@ -312,8 +330,6 @@ class SearchAndReplace(QObject):
 		:param checked: Checked state. ( Boolean )
 		"""
 
-		self.__storeRecentSearchPatterns()
-		self.__storeRecentReplaceWithPatterns()
 		self.replaceAll()
 
 	@core.executionTrace
@@ -350,6 +366,8 @@ class SearchAndReplace(QObject):
 		:return: Method success. ( Boolean )
 		"""
 
+		self.__storeRecentSearchPatterns()
+
 		editor = self.__container.getCurrentEditor()
 		searchPattern = self.__ui.Search_comboBox.currentText()
 
@@ -370,6 +388,8 @@ class SearchAndReplace(QObject):
 
 		:return: Method success. ( Boolean )
 		"""
+
+		self.__storeRecentReplaceWithPatterns()
 
 		editor = self.__container.getCurrentEditor()
 		searchPattern = self.__ui.Search_comboBox.currentText()
@@ -392,6 +412,8 @@ class SearchAndReplace(QObject):
 
 		:return: Method success. ( Boolean )
 		"""
+
+		self.__storeRecentReplaceWithPatterns()
 
 		editor = self.__container.getCurrentEditor()
 		searchPattern = self.__ui.Search_comboBox.currentText()
