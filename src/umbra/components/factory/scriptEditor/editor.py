@@ -88,7 +88,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.setCompleter(completer())
 
 		self.__indentWidth = 20
-		self.__defaultFontsSettings = {"Windows" : ("Consolas", 12), "Darwin" : ("Monaco", 12), "Linux" : ("Nimbus Mono L", 12)}
+		self.__defaultFontsSettings = {"Windows" : ("Consolas", 10), "Darwin" : ("Monaco", 12), "Linux" : ("Nimbus Mono L", 10)}
 
 		self.__isUntitled = True
 		self.__defaultFileName = "Untitled"

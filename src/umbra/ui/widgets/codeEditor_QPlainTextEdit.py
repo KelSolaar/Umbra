@@ -834,6 +834,28 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getCursorLine(self):
+		"""
+		This method returns the text cursor line.
+
+		:return: Cursor line. ( Integer )		
+		"""
+
+		return self.textCursor().blockNumber()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getCursorColumn(self):
+		"""
+		This method returns the text cursor column.
+
+		:return: Cursor column. ( Integer )		
+		"""
+
+		return self.textCursor().columnNumber()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getWords(self):
 		"""
 		This method returns the document words.

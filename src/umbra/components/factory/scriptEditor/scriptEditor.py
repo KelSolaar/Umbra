@@ -22,7 +22,6 @@ import logging
 import os
 import platform
 import sys
-from PyQt4 import uic
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -103,13 +102,14 @@ class ScriptEditor(UiComponent):
 		self.__searchAndReplace = None
 
 		self.__indentWidth = 20
-		self.__defaultFontsSettings = {"Windows" : ("Consolas", 12), "Darwin" : ("Monaco", 12), "Linux" : ("Nimbus Mono L", 12)}
+		self.__defaultFontsSettings = {"Windows" : ("Consolas", 10), "Darwin" : ("Monaco", 12), "Linux" : ("Nimbus Mono L", 10)}
 
 		self.__locals = None
 		self.__memoryHandlerStackDepth = None
 		self.__menuBar = None
 
 		self.__fileSystemWatcher = None
+		self.__Lines_Columns_QLabel = None
 
 	#***********************************************************************************************
 	#***	Attributes properties.
@@ -716,6 +716,36 @@ class ScriptEditor(UiComponent):
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("fileSystemWatcher"))
 
+	@property
+	def Lines_Columns_QLabel(self):
+		"""
+		This method is the property for **self.__Lines_Columns_QLabel** attribute.
+
+		:return: self.__Lines_Columns_QLabel. ( QLabel )
+		"""
+
+		return self.__Lines_Columns_QLabel
+
+	@Lines_Columns_QLabel.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def Lines_Columns_QLabel(self, value):
+		"""
+		This method is the setter method for **self.__Lines_Columns_QLabel** attribute.
+
+		:param value: Attribute value. ( QLabel )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("Lines_Columns_QLabel"))
+
+	@Lines_Columns_QLabel.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def Lines_Columns_QLabel(self):
+		"""
+		This method is the deleter method for **self.__Lines_Columns_QLabel** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("Lines_Columns_QLabel"))
+
 	#***********************************************************************************************
 	#***	Class methods.
 	#***********************************************************************************************
@@ -790,11 +820,16 @@ class ScriptEditor(UiComponent):
 
 		self.__fileSystemWatcher = QFileSystemWatcher(self)
 
+		self.__Lines_Columns_QLabel_setUi()
+
+		self.__container.statusBar.addPermanentWidget(self.__Lines_Columns_QLabel)
+
 		# Signals / Slots.
 		self.__container.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.__container.timer.timeout.connect(self.__reloadModifiedFiles)
 		self.ui.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
 		self.ui.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
+		RuntimeGlobals.application.focusChanged.connect(self.__application__focusChanged)
 		self.datasChanged.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.recentFilesChanged.connect(self.__setRecentFilesActions)
 		self.__fileSystemWatcher.fileChanged.connect(self.__fileSystemWatcher__fileChanged)
@@ -956,6 +991,16 @@ class ScriptEditor(UiComponent):
 			self.__memoryHandlerStackDepth = memoryHandlerStackDepth
 
 	@core.executionTrace
+	def __Lines_Columns_QLabel_setUi(self):
+		"""
+		This method sets the **Lines_Columns_QLabel** Widget.
+		"""
+
+		self.__Lines_Columns_QLabel = QLabel()
+		self.__Lines_Columns_QLabel.setObjectName("Lines_Columns_QLabel")
+		self.__Lines_Columns_QLabel.setAlignment(Qt.AlignRight)
+
+	@core.executionTrace
 	def __Script_Editor_tabWidget__tabCloseRequested(self, tabIndex):
 		"""
 		This method is triggered by the **Script_Editor_tabWidget** widget when a tab is requested to be closed.
@@ -974,6 +1019,23 @@ class ScriptEditor(UiComponent):
 		"""
 
 		return self.__setWindowTitle()
+
+	@core.executionTrace
+	def __application__focusChanged(self, previousWidget, currentWidget):
+		"""
+		This method is triggered by the Application when the widget focus is changed.
+
+		:param previousWidget: Widget that lost focus. ( QWidget )
+		:param currentWidget: Widget that gained focus. ( QWidget )
+		"""
+
+		if not currentWidget:
+			return
+
+		if isinstance(currentWidget, Editor):
+			self.__Lines_Columns_QLabel.show()
+		else:
+			self.__Lines_Columns_QLabel.hide()
 
 	@core.executionTrace
 	def __newFileAction__triggered(self, checked):
@@ -1298,7 +1360,7 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __editor__contentChanged(self):
 		"""
-		This method is triggered when a editor content changes.
+		This method is triggered when an editor content is changed.
 		"""
 
 		self.__setEditorTabName(self.ui.Script_Editor_tabWidget.currentIndex())
@@ -1306,10 +1368,20 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __editor__fileChanged(self):
 		"""
-		This method is triggered when a editor file changes.
+		This method is triggered when an editor file is changed.
 		"""
 
 		self.__setEditorTabName(self.ui.Script_Editor_tabWidget.currentIndex())
+
+	@core.executionTrace
+	def __editor__cursorPositionChanged(self):
+		"""
+		This method is triggered when an editor cursor position is changed.
+		"""
+
+		if self.hasEditorTab():
+			editor = self.getCurrentEditor()
+			self.__Lines_Columns_QLabel.setText("{0} : {1}".format(editor.getCursorLine(), editor.getCursorColumn()))
 
 	@core.executionTrace
 	def __fileSystemWatcher__fileChanged(self, file):
@@ -1495,6 +1567,7 @@ class ScriptEditor(UiComponent):
 		# Signals / Slots.
 		editor.contentChanged.connect(self.__editor__contentChanged)
 		editor.fileChanged.connect(self.__editor__fileChanged)
+		editor.cursorPositionChanged.connect(self.__editor__cursorPositionChanged)
 		return tabIndex
 
 	@core.executionTrace
