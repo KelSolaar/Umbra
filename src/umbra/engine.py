@@ -27,7 +27,6 @@ import platform
 import re
 import sys
 import time
-import traceback
 from PyQt4 import uic
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -984,7 +983,7 @@ class Umbra(Ui_Type, Ui_Setup):
 				search = re.search("url\((?P<url>.*)\)", line)
 				if not search:
 					continue
-				
+
 				styleSheetFile.content[i] = line.replace(search.group("url"), foundations.strings.toForwardSlashes(umbra.ui.common.getResourcePath(search.group("url"))))
 			RuntimeGlobals.application.setStyleSheet(QString("".join(styleSheetFile.content)))
 			return True
