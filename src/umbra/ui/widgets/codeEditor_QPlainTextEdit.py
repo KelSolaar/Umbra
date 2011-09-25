@@ -398,6 +398,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		self.commentMarker = commentMarker
 
 		self.__marginArea_LinesNumbers_widget = None
+		self.highlighter = None
 		self.__completer = None
 
 		self.__highlightColor = QColor(56, 56, 56)
@@ -769,10 +770,11 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		if self.highlighter:
 			self.highlighter.setParent(None)
 			self.highlighter = None
+			QApplication.processEvents()
 		return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def setCompleter(self, completer):
 		"""
 		This method sets provided completer as the current completer.
@@ -782,7 +784,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if not issubclass(completer.__class__, QCompleter):
-			raise Exception("'{1}' type is not 'QCompleter'!".format(completer))
+			raise foundations.exceptions.ProgrammingError("'{1}' type is not a 'QCompleter' subclass!".format(completer))
 
 		# Signals / Slots.
 		if self.__completer:
@@ -808,6 +810,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		if self.__completer:
 			self.__completer.setParent(None)
 			self.__completer = None
+			QApplication.processEvents()
 		return True
 
 	@core.executionTrace

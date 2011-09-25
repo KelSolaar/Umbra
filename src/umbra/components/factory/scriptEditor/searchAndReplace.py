@@ -278,7 +278,7 @@ class SearchAndReplace(QObject):
 	@core.executionTrace
 	def __storeRecentSearchPatterns(self):
 		"""
-		This method stores recent **Search_comboBox** widget patterns.
+		This method stores recent **Search_comboBox** Widget patterns.
 		"""
 
 		self.__storeRecentPatterns(self.__ui.Search_comboBox, "recentSearchPatterns")
@@ -286,7 +286,7 @@ class SearchAndReplace(QObject):
 	@core.executionTrace
 	def __storeRecentReplaceWithPatterns(self):
 		"""
-		This method stores recent **Replace_With_comboBox** widget patterns.
+		This method stores recent **Replace_With_comboBox** Widget patterns.
 		"""
 
 		self.__storeRecentPatterns(self.__ui.Replace_With_comboBox, "recentReplaceWithPatterns")
@@ -294,7 +294,7 @@ class SearchAndReplace(QObject):
 	@core.executionTrace
 	def __Search_pushButton__clicked(self, checked):
 		"""
-		This method is triggered when **Search_pushButton** widget is clicked.
+		This method is triggered when **Search_pushButton** Widget is clicked.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -304,7 +304,7 @@ class SearchAndReplace(QObject):
 	@core.executionTrace
 	def __Replace_pushButton__clicked(self, checked):
 		"""
-		This method is triggered when **Replace_pushButton** widget is clicked.
+		This method is triggered when **Replace_pushButton** Widget is clicked.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -314,7 +314,7 @@ class SearchAndReplace(QObject):
 	@core.executionTrace
 	def __Replace_All_pushButton__clicked(self, checked):
 		"""
-		This method is triggered when **Replace_All_pushButton** widget is clicked.
+		This method is triggered when **Replace_All_pushButton** Widget is clicked.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -324,7 +324,7 @@ class SearchAndReplace(QObject):
 	@core.executionTrace
 	def __Close_pushButton__clicked(self, checked):
 		"""
-		This method is triggered when **Close_pushButton** widget is clicked.
+		This method is triggered when **Close_pushButton** Widget is clicked.
 
 		:param checked: Checked state. ( Boolean )
 		"""

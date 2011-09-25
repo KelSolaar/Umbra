@@ -734,7 +734,7 @@ class ComponentsManagerUi(UiComponent):
 	@core.executionTrace
 	def __Components_Manager_Ui_treeView_setDefaultViewState(self):
 		"""
-		This method sets **Components_Manager_Ui_treeView** default View state.
+		This method sets **Components_Manager_Ui_treeView** Widget default View state.
 		"""
 
 		LOGGER.debug("> Setting '{0}' default View state!".format("Components_Manager_Ui_treeView"))
