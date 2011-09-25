@@ -78,7 +78,9 @@ PYTHON_LANGUAGE = Language(name="Python",
 							highlighter=umbra.ui.highlighters.PythonHighlighter,
 							completer=umbra.ui.completers.PythonCompleter,
 							preInputAccelerators=(umbra.ui.inputAccelerators.indentationPreEventInputAccelerators, umbra.ui.inputAccelerators.pythonPreEventInputAccelerators, umbra.ui.inputAccelerators.completionPreEventInputAccelerators),
-							postInputAccelerators=(umbra.ui.inputAccelerators.pythonPostEventInputAccelerators,))
+							postInputAccelerators=(umbra.ui.inputAccelerators.pythonPostEventInputAccelerators,),
+							indentMarker="\t",
+							commentMarker="#")
 
 #***********************************************************************************************
 #***	Module classes and definitions.
@@ -351,7 +353,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:return: Method success. ( Boolean )		
 		"""
 
-		self.__setAccelerators()
+		self.__setLanguageDescription()
 
 		self.setAttribute(Qt.WA_DeleteOnClose)
 		self.setTabStopWidth(self.__indentWidth)
@@ -401,22 +403,27 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.__setWindowTitle()
 
 	@core.executionTrace
-	def __setAccelerators(self):
+	def __setLanguageDescription(self):
 		"""
 		This method sets the editor language accelerators.
 		"""
 
-		if self.__language:
-			if self.__language.highlighter:
-				self.highlighter = self.__language.highlighter(self.document())
-			else:
-				self.removeHighlighter()
-			if self.__language.completer:
-				self.setCompleter(self.__language.completer())
-			else:
-				self.removeCompleter()
-			self.preInputAccelerators = self.__language.preInputAccelerators
-			self.postInputAccelerators = self.__language.postInputAccelerators
+		if not self.__language:
+			return
+
+		if self.__language.highlighter:
+			self.highlighter = self.__language.highlighter(self.document())
+		else:
+			self.removeHighlighter()
+		if self.__language.completer:
+			self.setCompleter(self.__language.completer())
+		else:
+			self.removeCompleter()
+
+		self.indentMarker = self.__language.indentMarker
+		self.commentMarker = self.__language.commentMarker
+		self.preInputAccelerators = self.__language.preInputAccelerators
+		self.postInputAccelerators = self.__language.postInputAccelerators
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -432,7 +439,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 			raise foundations.exceptions.ProgrammingError("'{0}' type is not 'Language'!".format(language))
 
 		self.__language = language
-		self.__setAccelerators()
+		self.__setLanguageDescription()
 		self.emit(SIGNAL("languageChanged()"))
 		return True
 

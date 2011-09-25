@@ -23,6 +23,7 @@ import os
 import platform
 import re
 import sys
+from PyQt4 import uic
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -52,13 +53,199 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "ScriptEditor"]
+__all__ = ["LOGGER", "Editor_Status", "ScriptEditor"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
 #***********************************************************************************************
 #***	Module classes and definitions.
 #***********************************************************************************************
+class Editor_Status(QObject):
+	"""
+	| This class defines the **ScriptEditor** Component status bar widget. 
+	"""
+
+	@core.executionTrace
+	def __init__(self, container):
+		"""
+		This method initializes the class.
+
+		:param container: Container. ( Object )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		QObject.__init__(self)
+
+		# --- Setting class attributes. ---
+		self.__container = container
+
+		self.__maximumStoredPatterns = 15
+
+		self.__uiPath = "ui/Editor_Status.ui"
+		self.__uiPath = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiPath)
+
+		self.__ui = uic.loadUi(self.__uiPath)
+		if "." in sys.path:
+			sys.path.remove(".")
+
+		Editor_Status.initializeUi(self)
+
+	#***********************************************************************************************
+	#***	Attributes properties.
+	#***********************************************************************************************
+	@property
+	def container(self):
+		"""
+		This method is the property for **self.__container** attribute.
+
+		:return: self.__container. ( QObject )
+		"""
+
+		return self.__container
+
+	@container.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def container(self, value):
+		"""
+		This method is the setter method for **self.__container** attribute.
+
+		:param value: Attribute value. ( QObject )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("container"))
+
+	@container.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def container(self):
+		"""
+		This method is the deleter method for **self.__container** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("container"))
+
+	@property
+	def uiPath(self):
+		"""
+		This method is the property for **self.__uiPath** attribute.
+
+		:return: self.__uiPath. ( String )
+		"""
+
+		return self.__uiPath
+
+	@uiPath.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def uiPath(self, value):
+		"""
+		This method is the setter method for **self.__uiPath** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("uiPath"))
+
+	@uiPath.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def uiPath(self):
+		"""
+		This method is the deleter method for **self.__uiPath** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("uiPath"))
+
+	@property
+	def ui(self):
+		"""
+		This method is the property for **self.__ui** attribute.
+
+		:return: self.__ui. ( Object )
+		"""
+
+		return self.__ui
+
+	@ui.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def ui(self, value):
+		"""
+		This method is the setter method for **self.__ui** attribute.
+
+		:param value: Attribute value. ( Object )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("ui"))
+
+	@ui.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def ui(self):
+		"""
+		This method is the deleter method for **self.__ui** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("ui"))
+
+	#***********************************************************************************************
+	#***	Class methods.
+	#***********************************************************************************************
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def initializeUi(self):
+		"""
+		This method initializes the Widget ui.
+
+		:return: Method success. ( Boolean )		
+		"""
+
+		self.__ui.Lines_Columns_label.setAlignment(Qt.AlignRight)
+		self.__ui.Languages_comboBox.addItems(self.__container.languages.keys())
+
+		# Signals / Slots.
+		self.__ui.Languages_comboBox.activated.connect(self.__Languages_comboBox__activated)
+
+	@core.executionTrace
+	def __Languages_comboBox_setDefaultViewState(self):
+		"""
+		This method sets the **Languages_comboBox** Widget default View state.
+		"""
+
+		if not self.__container.hasEditorTab():
+			return
+
+		editor = self.__container.getCurrentEditor()
+		for i in range(self.__ui.Languages_comboBox.count()):
+			if self.__ui.Languages_comboBox.itemText(i) == editor.language.name:
+				self.__ui.Languages_comboBox.setCurrentIndex(i)
+				return
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __Languages_comboBox__activated(self, index):
+		"""
+		This method is called when the **Languages_comboBox** Widget is activated.
+
+		:param index: ComboBox activated item index. ( Integer )
+		"""
+
+		if not self.__container.hasEditorTab():
+			return
+
+		language = self.__container.languages[str(self.__ui.Languages_comboBox.currentText())]
+		editor = self.__container.getCurrentEditor()
+		return self.__container.setEditorLanguage(editor, language)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __editor__cursorPositionChanged(self):
+		"""
+		This method is triggered when an editor cursor position is changed.
+		"""
+
+		if not self.__container.hasEditorTab():
+			return
+
+		editor = self.__container.getCurrentEditor()
+		self.__ui.Lines_Columns_label.setText("{0} : {1}".format(editor.getCursorLine(), editor.getCursorColumn()))
+
 class ScriptEditor(UiComponent):
 	"""
 	| This class is the :mod:`umbra.components.addons.scriptEditor.scriptEditor` Component Interface class.
@@ -96,7 +283,9 @@ class ScriptEditor(UiComponent):
 												highlighter=None,
 												completer=umbra.ui.completers.EnglishCompleter,
 												preInputAccelerators=(umbra.ui.inputAccelerators.completionPreEventInputAccelerators,),
-												postInputAccelerators=()),
+												postInputAccelerators=(),
+												indentMarker="\t",
+												commentMarker=None),
 							"Python" : PYTHON_LANGUAGE}
 
 		self.__defaultLanguage = "Text"
@@ -123,7 +312,6 @@ class ScriptEditor(UiComponent):
 		self.__menuBar = None
 
 		self.__fileSystemWatcher = None
-		self.__Lines_Columns_label = None
 		self.__Languages_comboBox = None
 
 	#***********************************************************************************************
@@ -822,36 +1010,6 @@ class ScriptEditor(UiComponent):
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("fileSystemWatcher"))
 
 	@property
-	def Lines_Columns_label(self):
-		"""
-		This method is the property for **self.__Lines_Columns_label** attribute.
-
-		:return: self.__Lines_Columns_label. ( QLabel )
-		"""
-
-		return self.__Lines_Columns_label
-
-	@Lines_Columns_label.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def Lines_Columns_label(self, value):
-		"""
-		This method is the setter method for **self.__Lines_Columns_label** attribute.
-
-		:param value: Attribute value. ( QLabel )
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("Lines_Columns_label"))
-
-	@Lines_Columns_label.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def Lines_Columns_label(self):
-		"""
-		This method is the deleter method for **self.__Lines_Columns_label** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("Lines_Columns_label"))
-
-	@property
 	def Languages_comboBox(self):
 		"""
 		This method is the property for **self.__Languages_comboBox** attribute.
@@ -955,10 +1113,9 @@ class ScriptEditor(UiComponent):
 
 		self.__fileSystemWatcher = QFileSystemWatcher(self)
 
-		self.__Lines_Columns_label_setUi()
-		self.__container.statusBar.addPermanentWidget(self.__Lines_Columns_label)
-		self.__Languages_comboBox_setUi()
-		self.__container.statusBar.addPermanentWidget(self.__Languages_comboBox)
+		self.Editor_Status = Editor_Status(self)
+
+		self.__container.statusBar.addPermanentWidget(self.Editor_Status.ui)
 
 		# Signals / Slots.
 		self.__container.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
@@ -966,7 +1123,6 @@ class ScriptEditor(UiComponent):
 		self.ui.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
 		self.ui.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
 		RuntimeGlobals.application.focusChanged.connect(self.__application__focusChanged)
-		self.__Languages_comboBox.activated.connect(self.__Languages_comboBox__activated)
 		self.datasChanged.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.recentFilesChanged.connect(self.__setRecentFilesActions)
 		self.__fileSystemWatcher.fileChanged.connect(self.__fileSystemWatcher__fileChanged)
@@ -1128,16 +1284,6 @@ class ScriptEditor(UiComponent):
 			self.__memoryHandlerStackDepth = memoryHandlerStackDepth
 
 	@core.executionTrace
-	def __Lines_Columns_label_setUi(self):
-		"""
-		This method sets the **Lines_Columns_label** Widget.
-		"""
-
-		self.__Lines_Columns_label = QLabel()
-		self.__Lines_Columns_label.setObjectName("Lines_Columns_label")
-		self.__Lines_Columns_label.setAlignment(Qt.AlignRight)
-
-	@core.executionTrace
 	def __Languages_comboBox_setUi(self):
 		"""
 		This method sets the **Languages_comboBox** Widget.
@@ -1146,21 +1292,6 @@ class ScriptEditor(UiComponent):
 		self.__Languages_comboBox = QComboBox()
 		self.__Languages_comboBox.setObjectName("Languages_comboBox")
 		self.__Languages_comboBox.addItems(self.__languages.keys())
-
-	@core.executionTrace
-	def __Languages_comboBox_setDefaultViewState(self):
-		"""
-		This method sets the **Languages_comboBox** Widget default View state.
-		"""
-
-		if not self.hasEditorTab():
-			return
-
-		editor = self.getCurrentEditor()
-		for i in range(self.__Languages_comboBox.count()):
-			if self.__Languages_comboBox.itemText(i) == editor.language.name:
-				self.__Languages_comboBox.setCurrentIndex(i)
-				return
 
 	@core.executionTrace
 	def __Script_Editor_tabWidget__tabCloseRequested(self, tabIndex):
@@ -1180,7 +1311,7 @@ class ScriptEditor(UiComponent):
 		:param tabIndex: Tab index. ( Integer )
 		"""
 
-		self.__Languages_comboBox_setDefaultViewState()
+		self.Editor_Status._Editor_Status__Languages_comboBox_setDefaultViewState()
 		self.__setWindowTitle()
 
 	@core.executionTrace
@@ -1196,15 +1327,13 @@ class ScriptEditor(UiComponent):
 			return
 
 		if isinstance(currentWidget, Editor):
-			self.__Lines_Columns_label.show()
-			self.__Languages_comboBox.show()
+			self.Editor_Status.ui.show()
 		else:
 			for object in umbra.ui.common.parentsWalker(currentWidget):
 				if object is self.__container.statusBar:
 					return
 
-			self.__Lines_Columns_label.hide()
-			self.__Languages_comboBox.hide()
+			self.Editor_Status.ui.hide()
 
 	@core.executionTrace
 	def __newFileAction__triggered(self, checked):
@@ -1571,19 +1700,7 @@ class ScriptEditor(UiComponent):
 		This method is triggered when an editor language is changed.
 		"""
 
-		self.__Languages_comboBox_setDefaultViewState()
-
-	@core.executionTrace
-	def __editor__cursorPositionChanged(self):
-		"""
-		This method is triggered when an editor cursor position is changed.
-		"""
-
-		if not self.hasEditorTab():
-			return
-
-		editor = self.getCurrentEditor()
-		self.__Lines_Columns_label.setText("{0} : {1}".format(editor.getCursorLine(), editor.getCursorColumn()))
+		self.Editor_Status._Editor_Status__Languages_comboBox_setDefaultViewState()
 
 	@core.executionTrace
 	def __fileSystemWatcher__fileChanged(self, file):
@@ -1594,21 +1711,6 @@ class ScriptEditor(UiComponent):
 		"""
 
 		self.__modifiedFiles.add(file)
-
-	@core.executionTrace
-	def __Languages_comboBox__activated(self, index):
-		"""
-		This method is called when the **Languages_comboBox** Widget is activated.
-
-		:param index: ComboBox activated item index. ( Integer )
-		"""
-
-		if not self.hasEditorTab():
-			return
-
-		language = self.__languages[str(self.Languages_comboBox.currentText())]
-		editor = self.getCurrentEditor()
-		return self.setEditorLanguage(editor, language)
 
 	@core.executionTrace
 	def __reloadModifiedFiles(self):
@@ -1866,7 +1968,7 @@ class ScriptEditor(UiComponent):
 		editor.languageChanged.connect(self.__editor__languageChanged)
 		editor.contentChanged.connect(self.__editor__contentChanged)
 		editor.fileChanged.connect(self.__editor__fileChanged)
-		editor.cursorPositionChanged.connect(self.__editor__cursorPositionChanged)
+		editor.cursorPositionChanged.connect(self.Editor_Status._Editor_Status__editor__cursorPositionChanged)
 		return tabIndex
 
 	@core.executionTrace

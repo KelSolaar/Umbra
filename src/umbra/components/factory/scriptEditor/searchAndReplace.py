@@ -83,15 +83,14 @@ class SearchAndReplace(QObject):
 
 		# --- Setting class attributes. ---
 		self.__container = container
-
-		self.__maximumStoredPatterns = 15
-
 		self.__uiPath = "ui/Search_And_Replace.ui"
 		self.__uiPath = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiPath)
 
 		self.__ui = uic.loadUi(self.__uiPath)
 		if "." in sys.path:
 			sys.path.remove(".")
+
+		self.__maximumStoredPatterns = 15
 
 		SearchAndReplace.initializeUi(self)
 
@@ -127,36 +126,6 @@ class SearchAndReplace(QObject):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("container"))
-
-	@property
-	def maximumStoredPatterns(self):
-		"""
-		This method is the property for **self.__maximumStoredPatterns** attribute.
-
-		:return: self.__maximumStoredPatterns. ( Integer )
-		"""
-
-		return self.__maximumStoredPatterns
-
-	@maximumStoredPatterns.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def maximumStoredPatterns(self, value):
-		"""
-		This method is the setter method for **self.__maximumStoredPatterns** attribute.
-
-		:param value: Attribute value. ( Integer )
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("maximumStoredPatterns"))
-
-	@maximumStoredPatterns.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def maximumStoredPatterns(self):
-		"""
-		This method is the deleter method for **self.__maximumStoredPatterns** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("maximumStoredPatterns"))
 
 	@property
 	def uiPath(self):
@@ -217,6 +186,36 @@ class SearchAndReplace(QObject):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("ui"))
+
+	@property
+	def maximumStoredPatterns(self):
+		"""
+		This method is the property for **self.__maximumStoredPatterns** attribute.
+
+		:return: self.__maximumStoredPatterns. ( Integer )
+		"""
+
+		return self.__maximumStoredPatterns
+
+	@maximumStoredPatterns.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def maximumStoredPatterns(self, value):
+		"""
+		This method is the setter method for **self.__maximumStoredPatterns** attribute.
+
+		:param value: Attribute value. ( Integer )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("maximumStoredPatterns"))
+
+	@maximumStoredPatterns.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def maximumStoredPatterns(self):
+		"""
+		This method is the deleter method for **self.__maximumStoredPatterns** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("maximumStoredPatterns"))
 
 	#***********************************************************************************************
 	#***	Class methods.

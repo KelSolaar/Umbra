@@ -1146,6 +1146,9 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:return: Method success. ( Boolean )		
 		"""
 
+		if not self.__commentMarker:
+			return True
+
 		cursor = self.textCursor()
 		cursor.beginEditBlock()
 		if not cursor.hasSelection():

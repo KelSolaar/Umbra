@@ -393,5 +393,5 @@ QToolTip {
 }
 
 #Lines_Columns_label {
-	margin: 2px 8px 2px 8px;
+	margin: 4px 8px 4px 8px;
 }
