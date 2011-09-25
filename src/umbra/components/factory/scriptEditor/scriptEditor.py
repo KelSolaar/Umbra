@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`ScriptEditor` Component Interface class and the :class:`Editor and :class:`SearchAndReplace` classes.
+	This module defines the :class:`ScriptEditor` Component Interface class.
 
 **Others:**
 
@@ -21,6 +21,7 @@ import code
 import logging
 import os
 import platform
+import re
 import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -30,14 +31,15 @@ from PyQt4.QtGui import *
 #***********************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import umbra.ui.highlighters
 import umbra.ui.common
+import umbra.ui.completers
 from manager.uiComponent import UiComponent
-from umbra.components.factory.scriptEditor.editor import Editor
+from umbra.components.factory.scriptEditor.editor import Editor, Language
 from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
 from umbra.globals.uiConstants import UiConstants
-from umbra.ui.highlighters import LoggingHighlighter
 
 #***********************************************************************************************
 #***	Module attributes.
@@ -87,6 +89,10 @@ class ScriptEditor(UiComponent):
 		self.__container = None
 		self.__settings = None
 		self.__settingsSection = None
+
+		self.__languages = {"Text" : Language(name="Text", extension="\.txt", highlighter=None, completer=umbra.ui.completers.EnglishCompleter, inputAcceleration=False),
+							"Python" : Language(name="Python", extension="\.py|\.pyw", highlighter=umbra.ui.highlighters.PythonHighlighter, completer=umbra.ui.completers.PythonCompleter, inputAcceleration=True)}
+		self.__defaultLanguage = "Text"
 
 		self.__files = []
 		self.__modifiedFiles = set()
@@ -263,6 +269,66 @@ class ScriptEditor(UiComponent):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("settingsSection"))
+
+	@property
+	def languages(self):
+		"""
+		This method is the property for **self.__languages** attribute.
+
+		:return: self.__languages. ( Dictionary )
+		"""
+
+		return self.__languages
+
+	@languages.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def languages(self, value):
+		"""
+		This method is the setter method for **self.__languages** attribute.
+
+		:param value: Attribute value. ( Dictionary )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("languages"))
+
+	@languages.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def languages(self):
+		"""
+		This method is the deleter method for **self.__languages** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("languages"))
+
+	@property
+	def defaultLanguage(self):
+		"""
+		This method is the property for ** self.__defaultLanguage ** attribute.
+
+		:return: self.__defaultLanguage. ( String )
+		"""
+
+		return self.__defaultLanguage
+
+	@defaultLanguage.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultLanguage(self, value):
+		"""
+		This method is the setter method for ** self.__defaultLanguage ** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("defaultLanguage"))
+
+	@defaultLanguage.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultLanguage(self):
+		"""
+		This method is the deleter method for ** self.__defaultLanguage ** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("defaultLanguage"))
 
 	@property
 	def files(self):
@@ -804,7 +870,7 @@ class ScriptEditor(UiComponent):
 		self.ui.menuBar_frame_gridLayout.addWidget(self.__menuBar)
 		self.__initializeMenuBar()
 
-		self.ui.Script_Editor_Output_plainTextEdit.highlighter = LoggingHighlighter(self.ui.Script_Editor_Output_plainTextEdit.document())
+		self.ui.Script_Editor_Output_plainTextEdit.highlighter = umbra.ui.highlighters.LoggingHighlighter(self.ui.Script_Editor_Output_plainTextEdit.document())
 		self.ui.Script_Editor_Output_plainTextEdit.setTabStopWidth(self.__indentWidth)
 		if platform.system() == "Windows" or platform.system() == "Microsoft":
 			fontFamily, fontSize = self.__defaultFontsSettings["Windows"]
@@ -1508,6 +1574,73 @@ class ScriptEditor(UiComponent):
 		return True
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def registerLanguage(self, language, description):
+		"""
+		This method registers provided language name and description in the :obj:`ScriptEditor.languages` class property.
+		
+		:param language: Language name to register. ( String )
+		:param description: Language description. ( Language )
+		:return: Method success. ( Boolean )
+		"""
+
+		self.__languages[language] = description
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, KeyError)
+	def unregisterLanguage(self, language):
+		"""
+		This method unregisters provided language name from the :obj:`ScriptEditor.languages` class property.
+		
+		:param language: Language name to unregister. ( String )
+		:return: Method success. ( Boolean )
+		"""
+
+		if language not in self.__languages.keys():
+			raise KeyError("{0} | '{1}' language isn't registered!".format(self.__class__.__name__, language))
+
+		del(self.__languages[language])
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, KeyError)
+	def getFileLanguage(self, file):
+		"""
+		This method returns the language of provided file.
+		
+		:param file: File to get language of. ( String )
+		:return: File language / description. ( Tuple )
+		"""
+
+		fileLanguage = fileDescription = None
+		for language, description in self.__languages.items():
+			if re.search(description.extension, file):
+				fileLanguage = language
+				fileDescription = description
+				break
+		if not fileLanguage or not fileDescription:
+			fileLanguage = self.__defaultLanguage
+			fileDescription = self.__languages[self.__defaultLanguage]
+
+		LOGGER.debug("> '{0}' file detected language: '{1}'.".format(file, fileLanguage))
+
+		return fileLanguage, fileDescription
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def setEditorLanguage(self, editor, language):
+		"""
+		This method sets provided editor language.
+		
+		:param editor: Editor to set language to. ( Editor )
+		:return: Method success. ( Boolean )
+		"""
+
+		editor.language = language
+		return editor.setAccelerators()
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
 	def getCurrentEditor(self):
 		"""
@@ -1520,6 +1653,21 @@ class ScriptEditor(UiComponent):
 			return
 
 		return self.ui.Script_Editor_tabWidget.currentWidget()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def findEditor(self, file):
+		"""
+		This method finds the :class:`Editor` instance associated with the provided file.
+
+		:param file: File to search editors for. ( String )
+		:return: Editor. ( Editor )
+		"""
+
+		for i in range(self.ui.Script_Editor_tabWidget.count()):
+			if not self.ui.Script_Editor_tabWidget.widget(i).file == file:
+				continue
+			return self.ui.Script_Editor_tabWidget.widget(i)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
@@ -1644,7 +1792,8 @@ class ScriptEditor(UiComponent):
 			return
 
 		LOGGER.info("{0} | Loading '{1}' file!".format(self.__class__.__name__, file))
-		editor = Editor()
+		language, description = self.getFileLanguage(file)
+		editor = Editor(parent=None, language=description)
 		if editor.loadFile(file):
 			self.addEditorTab(editor)
 			self.__storeRecentFile(file)

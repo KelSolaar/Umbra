@@ -404,7 +404,12 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 		self.__searchPattern = None
 
-		self.__symbolsPairs = {Qt.Key_BracketLeft : Qt.Key_BracketRight, Qt.Key_ParenLeft : Qt.Key_ParenRight, Qt.Key_BraceLeft : Qt.Key_BraceRight, Qt.Key_QuoteDbl : Qt.Key_QuoteDbl, Qt.Key_Apostrophe : Qt.Key_Apostrophe}
+		self.__symbolsPairs = {"(" : ")",
+								"[" : "]",
+								"{" : "}",
+								"\"" : "\"",
+								"'" : "'"}
+		self.__inputAcceleration = True
 
 		CodeEditor_QPlainTextEdit.initializeUi(self)
 
@@ -513,18 +518,18 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@property
 	def completer(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		This method is the property for **self.__completer** attribute.
 
-		:return: self.__container. ( QCompleter )
+		:return: self.__completer. ( QCompleter )
 		"""
 
-		return self.__container
+		return self.__completer
 
 	@completer.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def completer(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		This method is the setter method for **self.__completer** attribute.
 
 		:param value: Attribute value. ( QCompleter )
 		"""
@@ -535,7 +540,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def completer(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		This method is the deleter method for **self.__completer** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("completer"))
@@ -634,6 +639,38 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("symbolsPairs"))
 
+	@property
+	def inputAcceleration(self):
+		"""
+		This method is the property for **self.__inputAcceleration** attribute.
+
+		:return: self.__inputAcceleration. ( Boolean )
+		"""
+
+		return self.__inputAcceleration
+
+	@inputAcceleration.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def inputAcceleration(self, value):
+		"""
+		This method is the setter method for **self.__inputAcceleration** attribute.
+
+		:param value: Attribute value. ( Boolean )
+		"""
+
+		if value:
+			assert value in (True, False), "'{0}' attribute: '{1}' value is not 'True' or 'False'!".format("inputAcceleration", value)
+		self.__inputAcceleration = value
+
+	@inputAcceleration.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def inputAcceleration(self):
+		"""
+		This method is the deleter method for **self.__inputAcceleration** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("inputAcceleration"))
+
 	#***********************************************************************************************
 	#***	Class methods.
 	#***********************************************************************************************
@@ -720,21 +757,22 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 			self.unindent()
 			return
 
-		if event.key() in self.__symbolsPairs.keys():
-			cursor = self.textCursor()
-			cursor.beginEditBlock()
-			if not cursor.hasSelection():
-				cursor.insertText(event.text())
-				cursor.insertText(chr(self.__symbolsPairs[event.key()]))
-				cursor.movePosition(QTextCursor.Left, QTextCursor.MoveAnchor)
-			else:
-				selectionText = cursor.selectedText()
-				cursor.insertText(event.text())
-				cursor.insertText(selectionText)
-				cursor.insertText(chr(self.__symbolsPairs[event.key()]))
-			self.setTextCursor(cursor)
-			cursor.endEditBlock()
-			return
+		if self.__inputAcceleration:
+			if event.text() in self.__symbolsPairs.keys():
+				cursor = self.textCursor()
+				cursor.beginEditBlock()
+				if not cursor.hasSelection():
+					cursor.insertText(event.text())
+					cursor.insertText(self.__symbolsPairs[str(event.text())])
+					cursor.movePosition(QTextCursor.Left, QTextCursor.MoveAnchor)
+				else:
+					selectionText = cursor.selectedText()
+					cursor.insertText(event.text())
+					cursor.insertText(selectionText)
+					cursor.insertText(self.__symbolsPairs[str(event.text())])
+				self.setTextCursor(cursor)
+				cursor.endEditBlock()
+				return
 
 		if self.__completer and self.__completer.popup().isVisible():
 			if event.key() in (Qt.Key_Enter, Qt.Key_Return, Qt.Key_Escape, Qt.Key_Tab, Qt.Key_Backtab):
@@ -768,26 +806,41 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 		QPlainTextEdit.keyPressEvent(self, event)
 
-		if event.key() in (Qt.Key_Backspace,):
-			cursor = self.textCursor()
-			cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor)
-			selectedText = cursor.selectedText()
-			if not selectedText:
-				return
+		if self.__inputAcceleration:
+			if event.key() in (Qt.Key_Backspace,):
+				cursor = self.textCursor()
+				cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor)
+				selectedText = cursor.selectedText()
+				if not selectedText:
+					return
 
-			if ord(str(selectedText)) in self.__symbolsPairs.values():
-				cursor.deleteChar()
-				return
+				if str(selectedText) in self.__symbolsPairs.values():
+					cursor.deleteChar()
+					return
 
-		if event.key() in (Qt.Key_Enter, Qt.Key_Return):
-			cursor = self.textCursor()
-			block = cursor.block().previous()
-			if block.isValid():
-				indent = re.match(r"(\s*)", unicode(block.text())).group(1)
-				if str(block.text()).endswith(":"):
-					indent += self.__indentMarker
-				cursor.insertText(indent)
-				return
+			if event.key() in (Qt.Key_Enter, Qt.Key_Return):
+				cursor = self.textCursor()
+				block = cursor.block().previous()
+				if block.isValid():
+					indent = re.match(r"(\s*)", unicode(block.text())).group(1)
+					if str(block.text()).endswith(":"):
+						indent += self.__indentMarker
+					cursor.insertText(indent)
+					return
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def removeHighlighter(self):
+		"""
+		This method removes current highlighter.
+
+		:return: Method success. ( Boolean )		
+		"""
+
+		if self.highlighter:
+			self.highlighter.setParent(None)
+			self.highlighter = None
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -812,6 +865,20 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		# Signals / Slots.
 		self.__completer.activated.connect(self.__insertCompletion)
 
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def removeCompleter(self,):
+		"""
+		This method removes current completer.
+
+		:return: Method success. ( Boolean )		
+		"""
+
+		if self.__completer:
+			self.__completer.setParent(None)
+			self.__completer = None
 		return True
 
 	@core.executionTrace

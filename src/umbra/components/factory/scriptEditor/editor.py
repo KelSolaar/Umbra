@@ -20,7 +20,6 @@
 import logging
 import os
 import platform
-from PyQt4 import uic
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -34,8 +33,6 @@ import foundations.strings
 import umbra.ui.widgets.messageBox as messageBox
 import umbra.ui.common
 from umbra.globals.constants import Constants
-from umbra.ui.completers import PythonCompleter
-from umbra.ui.highlighters import PythonHighlighter
 from umbra.ui.widgets.codeEditor_QPlainTextEdit import CodeEditor_QPlainTextEdit
 
 #***********************************************************************************************
@@ -48,13 +45,28 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "Editor"]
+__all__ = ["LOGGER", "Language", "Editor"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
 #***********************************************************************************************
 #***	Module classes and definitions.
 #***********************************************************************************************
+class Language(core.Structure):
+	"""
+	This class represents a storage object for the :class:`Editor` class language description. 
+	"""
+
+	@core.executionTrace
+	def __init__(self, **kwargs):
+		"""
+		This method initializes the class.
+
+		:param \*\*kwargs: name, extension, highlighter, completer, inputAcceleration. ( Key / Value pairs )
+		"""
+
+		core.Structure.__init__(self, **kwargs)
+
 class Editor(CodeEditor_QPlainTextEdit):
 	"""
 	| This class defines the default editor used by the: **ScriptEditor** Component. 
@@ -67,14 +79,13 @@ class Editor(CodeEditor_QPlainTextEdit):
 	fileChanged = pyqtSignal()
 
 	@core.executionTrace
-	def __init__(self, parent=None, highlighter=PythonHighlighter, completer=PythonCompleter, file=None):
+	def __init__(self, parent=None, file=None, language=None):
 		"""
 		This method initializes the class.
 
 		:param parent: Widget parent. ( QObject )
-		:param highlighter: Highlighter object. ( QHighlighter )
-		:param completer: Completer object. ( QCompleter )
 		:param file: File path. ( String )
+		:param language: Editor language. ( Language )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -84,8 +95,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		# --- Setting class attributes. ---
 		self.__file = None
 		self.file = file
-		self.highlighter = highlighter(self.document())
-		self.setCompleter(completer())
+		self.__language = None
+		self.language = language
 
 		self.__indentWidth = 20
 		self.__defaultFontsSettings = {"Windows" : ("Consolas", 10), "Darwin" : ("Monaco", 12), "Linux" : ("Nimbus Mono L", 10)}
@@ -132,6 +143,38 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("file"))
+
+	@property
+	def language(self):
+		"""
+		This method is the property for **self.__language** attribute.
+
+		:return: self.__language. ( Language )
+		"""
+
+		return self.__language
+
+	@language.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def language(self, value):
+		"""
+		This method is the setter method for **self.__language** attribute.
+
+		:param value: Attribute value. ( Language )
+		"""
+
+		if value:
+			assert type(value) is Language, "'{0}' attribute: '{1}' type is not 'Language'!".format("language", value)
+		self.__language = value
+
+	@language.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def language(self):
+		"""
+		This method is the deleter method for **self.__language** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("language"))
 
 	@property
 	def indentWidth(self):
@@ -293,6 +336,9 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		:return: Method success. ( Boolean )		
 		"""
+
+		self.setAccelerators()
+
 		self.setAttribute(Qt.WA_DeleteOnClose)
 		self.setTabStopWidth(self.__indentWidth)
 		self.setWordWrapMode(QTextOption.NoWrap)
@@ -339,6 +385,27 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 
 		self.__setWindowTitle()
+
+	@core.executionTrace
+	def setAccelerators(self):
+		"""
+		This method sets editor accelerators (Highlighter, Completer).
+
+		:return: Method success. ( Boolean )
+		"""
+
+		if self.__language:
+			if self.__language.highlighter:
+				self.highlighter = self.__language.highlighter(self.document())
+			else:
+				self.removeHighlighter()
+			if self.__language.completer:
+				self.setCompleter(self.__language.completer())
+			else:
+				self.removeCompleter()
+
+			self.inputAcceleration = self.__language.inputAcceleration
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
