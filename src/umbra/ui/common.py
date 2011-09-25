@@ -59,7 +59,8 @@ __all__ = ["LOGGER",
 			"setWindowDefaultIcon",
 			"centerWidgetOnScreen",
 			"getTokensParser",
-			"storeLastBrowsedPath"]
+			"storeLastBrowsedPath",
+			"parentsWalker"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -268,3 +269,17 @@ def storeLastBrowsedPath(path):
 	RuntimeGlobals.lastBrowsedPath = lastBrowsedPath
 
 	return path
+
+@core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
+def parentsWalker(object):
+	"""
+	This definition is a generator used to retrieve the chain of parents of the provided :class:`QObject` instance.
+
+	:param object: Provided path. ( QObject )
+	:yield: Object parent. ( QObject )
+	"""
+
+	while object.parent():
+		object = object.parent()
+		yield object

@@ -36,7 +36,7 @@ import umbra.ui.completers
 import umbra.ui.highlighters
 import umbra.ui.inputAccelerators
 from manager.uiComponent import UiComponent
-from umbra.components.factory.scriptEditor.editor import Editor, Language
+from umbra.components.factory.scriptEditor.editor import Editor, Language, PYTHON_LANGUAGE
 from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
@@ -95,15 +95,12 @@ class ScriptEditor(UiComponent):
 												extension="\.txt",
 												highlighter=None,
 												completer=umbra.ui.completers.EnglishCompleter,
-												preInputAccelerators=(),
+												preInputAccelerators=(umbra.ui.inputAccelerators.completionPreEventInputAccelerators,),
 												postInputAccelerators=()),
-							"Python" : Language(name="Python",
-												extension="\.py|\.pyw",
-												highlighter=umbra.ui.highlighters.PythonHighlighter,
-												completer=umbra.ui.completers.PythonCompleter,
-												preInputAccelerators=(umbra.ui.inputAccelerators.indentationPreEventInputAccelerators, umbra.ui.inputAccelerators.pythonPreEventInputAccelerators, umbra.ui.inputAccelerators.completionPreEventInputAccelerators),
-												postInputAccelerators=(umbra.ui.inputAccelerators.pythonPostEventInputAccelerators,))}
+							"Python" : PYTHON_LANGUAGE}
+
 		self.__defaultLanguage = "Text"
+		self.__defaultScriptLanguage = "Python"
 
 		self.__files = []
 		self.__modifiedFiles = set()
@@ -126,7 +123,8 @@ class ScriptEditor(UiComponent):
 		self.__menuBar = None
 
 		self.__fileSystemWatcher = None
-		self.__Lines_Columns_QLabel = None
+		self.__Lines_Columns_label = None
+		self.__Languages_comboBox = None
 
 	#***********************************************************************************************
 	#***	Attributes properties.
@@ -340,6 +338,36 @@ class ScriptEditor(UiComponent):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("defaultLanguage"))
+
+	@property
+	def defaultScriptLanguage(self):
+		"""
+		This method is the property for ** self.__defaultScriptLanguage ** attribute.
+
+		:return: self.__defaultScriptLanguage. ( String )
+		"""
+
+		return self.__defaultScriptLanguage
+
+	@defaultScriptLanguage.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultScriptLanguage(self, value):
+		"""
+		This method is the setter method for ** self.__defaultScriptLanguage ** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("defaultScriptLanguage"))
+
+	@defaultScriptLanguage.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultScriptLanguage(self):
+		"""
+		This method is the deleter method for ** self.__defaultScriptLanguage ** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("defaultScriptLanguage"))
 
 	@property
 	def files(self):
@@ -794,34 +822,64 @@ class ScriptEditor(UiComponent):
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("fileSystemWatcher"))
 
 	@property
-	def Lines_Columns_QLabel(self):
+	def Lines_Columns_label(self):
 		"""
-		This method is the property for **self.__Lines_Columns_QLabel** attribute.
+		This method is the property for **self.__Lines_Columns_label** attribute.
 
-		:return: self.__Lines_Columns_QLabel. ( QLabel )
+		:return: self.__Lines_Columns_label. ( QLabel )
 		"""
 
-		return self.__Lines_Columns_QLabel
+		return self.__Lines_Columns_label
 
-	@Lines_Columns_QLabel.setter
+	@Lines_Columns_label.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def Lines_Columns_QLabel(self, value):
+	def Lines_Columns_label(self, value):
 		"""
-		This method is the setter method for **self.__Lines_Columns_QLabel** attribute.
+		This method is the setter method for **self.__Lines_Columns_label** attribute.
 
 		:param value: Attribute value. ( QLabel )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("Lines_Columns_QLabel"))
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("Lines_Columns_label"))
 
-	@Lines_Columns_QLabel.deleter
+	@Lines_Columns_label.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def Lines_Columns_QLabel(self):
+	def Lines_Columns_label(self):
 		"""
-		This method is the deleter method for **self.__Lines_Columns_QLabel** attribute.
+		This method is the deleter method for **self.__Lines_Columns_label** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("Lines_Columns_QLabel"))
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("Lines_Columns_label"))
+
+	@property
+	def Languages_comboBox(self):
+		"""
+		This method is the property for **self.__Languages_comboBox** attribute.
+
+		:return: self.__Languages_comboBox. ( QLabel )
+		"""
+
+		return self.__Languages_comboBox
+
+	@Languages_comboBox.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def Languages_comboBox(self, value):
+		"""
+		This method is the setter method for **self.__Languages_comboBox** attribute.
+
+		:param value: Attribute value. ( QLabel )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("Languages_comboBox"))
+
+	@Languages_comboBox.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def Languages_comboBox(self):
+		"""
+		This method is the deleter method for **self.__Languages_comboBox** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("Languages_comboBox"))
 
 	#***********************************************************************************************
 	#***	Class methods.
@@ -897,9 +955,10 @@ class ScriptEditor(UiComponent):
 
 		self.__fileSystemWatcher = QFileSystemWatcher(self)
 
-		self.__Lines_Columns_QLabel_setUi()
-
-		self.__container.statusBar.addPermanentWidget(self.__Lines_Columns_QLabel)
+		self.__Lines_Columns_label_setUi()
+		self.__container.statusBar.addPermanentWidget(self.__Lines_Columns_label)
+		self.__Languages_comboBox_setUi()
+		self.__container.statusBar.addPermanentWidget(self.__Languages_comboBox)
 
 		# Signals / Slots.
 		self.__container.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
@@ -907,6 +966,7 @@ class ScriptEditor(UiComponent):
 		self.ui.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
 		self.ui.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
 		RuntimeGlobals.application.focusChanged.connect(self.__application__focusChanged)
+		self.__Languages_comboBox.activated.connect(self.__Languages_comboBox__activated)
 		self.datasChanged.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.recentFilesChanged.connect(self.__setRecentFilesActions)
 		self.__fileSystemWatcher.fileChanged.connect(self.__fileSystemWatcher__fileChanged)
@@ -1047,7 +1107,7 @@ class ScriptEditor(UiComponent):
 	# @core.executionTrace
 	def __Script_Editor_Output_plainTextEdit_setDefaultViewState(self):
 		"""
-		This method sets the **Script_Editor_Output_plainTextEdit** Widget.
+		This method sets the **Script_Editor_Output_plainTextEdit** Widget default View state.
 		"""
 
 		self.ui.Script_Editor_Output_plainTextEdit.moveCursor(QTextCursor.End)
@@ -1068,19 +1128,44 @@ class ScriptEditor(UiComponent):
 			self.__memoryHandlerStackDepth = memoryHandlerStackDepth
 
 	@core.executionTrace
-	def __Lines_Columns_QLabel_setUi(self):
+	def __Lines_Columns_label_setUi(self):
 		"""
-		This method sets the **Lines_Columns_QLabel** Widget.
+		This method sets the **Lines_Columns_label** Widget.
 		"""
 
-		self.__Lines_Columns_QLabel = QLabel()
-		self.__Lines_Columns_QLabel.setObjectName("Lines_Columns_QLabel")
-		self.__Lines_Columns_QLabel.setAlignment(Qt.AlignRight)
+		self.__Lines_Columns_label = QLabel()
+		self.__Lines_Columns_label.setObjectName("Lines_Columns_label")
+		self.__Lines_Columns_label.setAlignment(Qt.AlignRight)
+
+	@core.executionTrace
+	def __Languages_comboBox_setUi(self):
+		"""
+		This method sets the **Languages_comboBox** Widget.
+		"""
+
+		self.__Languages_comboBox = QComboBox()
+		self.__Languages_comboBox.setObjectName("Languages_comboBox")
+		self.__Languages_comboBox.addItems(self.__languages.keys())
+
+	@core.executionTrace
+	def __Languages_comboBox_setDefaultViewState(self):
+		"""
+		This method sets the **Languages_comboBox** Widget default View state.
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		editor = self.getCurrentEditor()
+		for i in range(self.__Languages_comboBox.count()):
+			if self.__Languages_comboBox.itemText(i) == editor.language.name:
+				self.__Languages_comboBox.setCurrentIndex(i)
+				return
 
 	@core.executionTrace
 	def __Script_Editor_tabWidget__tabCloseRequested(self, tabIndex):
 		"""
-		This method is triggered by the **Script_Editor_tabWidget** widget when a tab is requested to be closed.
+		This method is triggered by the **Script_Editor_tabWidget** Widget when a tab is requested to be closed.
 
 		:param tabIndex: Tab index. ( Integer )
 		"""
@@ -1090,12 +1175,13 @@ class ScriptEditor(UiComponent):
 	@core.executionTrace
 	def __Script_Editor_tabWidget__currentChanged(self, tabIndex):
 		"""
-		This method is triggered by the **Script_Editor_tabWidget** widget when the current tab is changed.
+		This method is triggered by the **Script_Editor_tabWidget** Widget when the current tab is changed.
 
 		:param tabIndex: Tab index. ( Integer )
 		"""
 
-		return self.__setWindowTitle()
+		self.__Languages_comboBox_setDefaultViewState()
+		self.__setWindowTitle()
 
 	@core.executionTrace
 	def __application__focusChanged(self, previousWidget, currentWidget):
@@ -1110,9 +1196,15 @@ class ScriptEditor(UiComponent):
 			return
 
 		if isinstance(currentWidget, Editor):
-			self.__Lines_Columns_QLabel.show()
+			self.__Lines_Columns_label.show()
+			self.__Languages_comboBox.show()
 		else:
-			self.__Lines_Columns_QLabel.hide()
+			for object in umbra.ui.common.parentsWalker(currentWidget):
+				if object is self.__container.statusBar:
+					return
+
+			self.__Lines_Columns_label.hide()
+			self.__Languages_comboBox.hide()
 
 	@core.executionTrace
 	def __newFileAction__triggered(self, checked):
@@ -1215,8 +1307,10 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.hasEditorTab():
-			self.getCurrentEditor().undo()
+		if not self.hasEditorTab():
+			return
+
+		self.getCurrentEditor().undo()
 		return True
 
 	@core.executionTrace
@@ -1228,8 +1322,10 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.hasEditorTab():
-			self.getCurrentEditor().redo()
+		if not self.hasEditorTab():
+			return
+
+		self.getCurrentEditor().redo()
 		return True
 
 	@core.executionTrace
@@ -1273,8 +1369,10 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.hasEditorTab():
-			self.getCurrentEditor().paste()
+		if not self.hasEditorTab():
+			return
+
+		self.getCurrentEditor().paste()
 		return True
 
 	@core.executionTrace
@@ -1286,8 +1384,10 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.hasEditorTab():
-			self.getCurrentEditor().delete()
+		if not self.hasEditorTab():
+			return
+
+		self.getCurrentEditor().delete()
 		return True
 
 	@core.executionTrace
@@ -1337,8 +1437,10 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.hasEditorTab():
-			return self.getCurrentEditor().searchNext()
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().searchNext()
 
 	@core.executionTrace
 	def __searchPreviousAction__triggered(self, checked):
@@ -1349,8 +1451,10 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.hasEditorTab():
-			return self.getCurrentEditor().searchPrevious()
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().searchPrevious()
 
 	@core.executionTrace
 	def __indentSelectionAction__triggered(self, checked):
@@ -1361,8 +1465,10 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.hasEditorTab():
-			return self.getCurrentEditor().indent()
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().indent()
 
 	@core.executionTrace
 	def __unindentSelectionAction__triggered(self, checked):
@@ -1373,8 +1479,10 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.hasEditorTab():
-			return self.getCurrentEditor().unindent()
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().unindent()
 
 	@core.executionTrace
 	def __toggleCommentsAction__triggered(self, checked):
@@ -1385,8 +1493,10 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.hasEditorTab():
-			return self.getCurrentEditor().toggleComments()
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().toggleComments()
 
 	@core.executionTrace
 	def __evaluateSelectionAction__triggered(self, checked):
@@ -1419,8 +1529,10 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.hasEditorTab():
-			return self.getCurrentEditor().toggleWordWrap()
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().toggleWordWrap()
 
 	@core.executionTrace
 	def __toggleWhiteSpacesAction__triggered(self, checked):
@@ -1431,8 +1543,10 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.hasEditorTab():
-			return self.getCurrentEditor().toggleWhiteSpaces()
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().toggleWhiteSpaces()
 
 	@core.executionTrace
 	def __editor__contentChanged(self):
@@ -1441,6 +1555,7 @@ class ScriptEditor(UiComponent):
 		"""
 
 		self.__setEditorTabName(self.ui.Script_Editor_tabWidget.currentIndex())
+		self.__setWindowTitle()
 
 	@core.executionTrace
 	def __editor__fileChanged(self):
@@ -1451,14 +1566,24 @@ class ScriptEditor(UiComponent):
 		self.__setEditorTabName(self.ui.Script_Editor_tabWidget.currentIndex())
 
 	@core.executionTrace
+	def __editor__languageChanged(self):
+		"""
+		This method is triggered when an editor language is changed.
+		"""
+
+		self.__Languages_comboBox_setDefaultViewState()
+
+	@core.executionTrace
 	def __editor__cursorPositionChanged(self):
 		"""
 		This method is triggered when an editor cursor position is changed.
 		"""
 
-		if self.hasEditorTab():
-			editor = self.getCurrentEditor()
-			self.__Lines_Columns_QLabel.setText("{0} : {1}".format(editor.getCursorLine(), editor.getCursorColumn()))
+		if not self.hasEditorTab():
+			return
+
+		editor = self.getCurrentEditor()
+		self.__Lines_Columns_label.setText("{0} : {1}".format(editor.getCursorLine(), editor.getCursorColumn()))
 
 	@core.executionTrace
 	def __fileSystemWatcher__fileChanged(self, file):
@@ -1469,6 +1594,21 @@ class ScriptEditor(UiComponent):
 		"""
 
 		self.__modifiedFiles.add(file)
+
+	@core.executionTrace
+	def __Languages_comboBox__activated(self, index):
+		"""
+		This method is called when the **Languages_comboBox** Widget is activated.
+
+		:param index: ComboBox activated item index. ( Integer )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		language = self.__languages[str(self.Languages_comboBox.currentText())]
+		editor = self.getCurrentEditor()
+		return self.setEditorLanguage(editor, language)
 
 	@core.executionTrace
 	def __reloadModifiedFiles(self):
@@ -1648,8 +1788,7 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		editor.language = language
-		return editor.setAccelerators()
+		return editor.setLanguage(language)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
@@ -1714,7 +1853,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addEditorTab(self, editor):
 		"""
-		This method adds a new tab to the **Script_Editor_tabWidget** widget and sets provided editor as child widget.
+		This method adds a new tab to the **Script_Editor_tabWidget** Widget and sets provided editor as child widget.
 
 		:param editor: Editor. ( Editor )
 		:return: New tab index. ( Integer )
@@ -1724,6 +1863,7 @@ class ScriptEditor(UiComponent):
 		self.ui.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
 
 		# Signals / Slots.
+		editor.languageChanged.connect(self.__editor__languageChanged)
 		editor.contentChanged.connect(self.__editor__contentChanged)
 		editor.fileChanged.connect(self.__editor__fileChanged)
 		editor.cursorPositionChanged.connect(self.__editor__cursorPositionChanged)
@@ -1733,7 +1873,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeEditorTab(self, tabIndex):
 		"""
-		This method removes the **Script_Editor_tabWidget** widget tab with provided index.
+		This method removes the **Script_Editor_tabWidget** Widget tab with provided index.
 
 		:param tabIndex: Tab index. ( Integer )
 		:return: Method success. ( Boolean )
@@ -1761,7 +1901,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def hasEditorTab(self):
 		"""
-		This method returns if the **Script_Editor_tabWidget** widget has at least a tab.
+		This method returns if the **Script_Editor_tabWidget** Widget has at least a tab.
 
 		:return: Has tab. ( Boolean )
 		"""
@@ -1777,7 +1917,7 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		editor = Editor()
+		editor = Editor(parent=None, language=self.__languages[self.__defaultScriptLanguage])
 		LOGGER.info("{0} | Creating '{1}' file!".format(self.__class__.__name__, editor.getNextUntitledFileName()))
 		if editor.newFile():
 			self.addEditorTab(editor)
@@ -1863,13 +2003,16 @@ class ScriptEditor(UiComponent):
 		if editor.saveFileAs():
 			self.__storeRecentFile(editor.file)
 			self.__registerFile(editor.file)
+			language, description = self.getFileLanguage(editor.file)
+			if editor.language.name != language:
+				self.setEditorLanguage(editor, description)
 			return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def closeFile(self):
 		"""
- 		This method closes current :class:`Editor` instance file and removes the associated **Script_Editor_tabWidget** widget tab.
+ 		This method closes current :class:`Editor` instance file and removes the associated **Script_Editor_tabWidget** Widget tab.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -1892,7 +2035,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def closeAllFiles(self, leaveLastEditor=True):
 		"""
- 		This method closes every :class:`Editor` instances and removes their associated **Script_Editor_tabWidget** widget tabs.
+ 		This method closes every :class:`Editor` instances and removes their associated **Script_Editor_tabWidget** Widget tabs.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -1935,7 +2078,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def evaluateSelection(self):
 		"""
-		This method evaluates current **Script_Editor_tabWidget** widget tab editor selected content in the interactive console.
+		This method evaluates current **Script_Editor_tabWidget** Widget tab editor selected content in the interactive console.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -1952,7 +2095,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def evaluateScript(self):
 		"""
-		This method evaluates current **Script_Editor_tabWidget** widget tab editor content in the interactive console.
+		This method evaluates current **Script_Editor_tabWidget** Widget tab editor content in the interactive console.
 
 		:return: Method success. ( Boolean )
 		"""

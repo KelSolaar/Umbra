@@ -30,8 +30,11 @@ import foundations.core as core
 import foundations.exceptions
 import foundations.io as io
 import foundations.strings
-import umbra.ui.widgets.messageBox as messageBox
 import umbra.ui.common
+import umbra.ui.completers
+import umbra.ui.highlighters
+import umbra.ui.inputAccelerators
+import umbra.ui.widgets.messageBox as messageBox
 from umbra.globals.constants import Constants
 from umbra.ui.widgets.codeEditor_QPlainTextEdit import CodeEditor_QPlainTextEdit
 
@@ -45,7 +48,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "Language", "Editor"]
+__all__ = ["LOGGER", "Language", "PYTHON_LANGUAGE", "Editor"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -67,6 +70,19 @@ class Language(core.Structure):
 
 		core.Structure.__init__(self, **kwargs)
 
+#***********************************************************************************************
+#***	Module attributes.
+#***********************************************************************************************
+PYTHON_LANGUAGE = Language(name="Python",
+							extension="\.py|\.pyw",
+							highlighter=umbra.ui.highlighters.PythonHighlighter,
+							completer=umbra.ui.completers.PythonCompleter,
+							preInputAccelerators=(umbra.ui.inputAccelerators.indentationPreEventInputAccelerators, umbra.ui.inputAccelerators.pythonPreEventInputAccelerators, umbra.ui.inputAccelerators.completionPreEventInputAccelerators),
+							postInputAccelerators=(umbra.ui.inputAccelerators.pythonPostEventInputAccelerators,))
+
+#***********************************************************************************************
+#***	Module classes and definitions.
+#***********************************************************************************************
 class Editor(CodeEditor_QPlainTextEdit):
 	"""
 	| This class defines the default editor used by the: **ScriptEditor** Component. 
@@ -75,11 +91,12 @@ class Editor(CodeEditor_QPlainTextEdit):
 	__instanceId = 1
 
 	# Custom signals definitions.
+	languageChanged = pyqtSignal()
 	contentChanged = pyqtSignal()
 	fileChanged = pyqtSignal()
 
 	@core.executionTrace
-	def __init__(self, parent=None, file=None, language=None):
+	def __init__(self, parent=None, file=None, language=PYTHON_LANGUAGE):
 		"""
 		This method initializes the class.
 
@@ -95,8 +112,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		# --- Setting class attributes. ---
 		self.__file = None
 		self.file = file
-		self.__language = None
-		self.language = language
+		self.__language = language
 
 		self.__indentWidth = 20
 		self.__defaultFontsSettings = {"Windows" : ("Consolas", 10), "Darwin" : ("Monaco", 12), "Linux" : ("Nimbus Mono L", 10)}
@@ -163,9 +179,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param value: Attribute value. ( Language )
 		"""
 
-		if value:
-			assert type(value) is Language, "'{0}' attribute: '{1}' type is not 'Language'!".format("language", value)
-		self.__language = value
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("language"))
 
 	@language.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -337,7 +351,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:return: Method success. ( Boolean )		
 		"""
 
-		self.setAccelerators()
+		self.__setAccelerators()
 
 		self.setAttribute(Qt.WA_DeleteOnClose)
 		self.setTabStopWidth(self.__indentWidth)
@@ -387,11 +401,9 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.__setWindowTitle()
 
 	@core.executionTrace
-	def setAccelerators(self):
+	def __setAccelerators(self):
 		"""
-		This method sets editor language accelerators.
-
-		:return: Method success. ( Boolean )
+		This method sets the editor language accelerators.
 		"""
 
 		if self.__language:
@@ -405,6 +417,23 @@ class Editor(CodeEditor_QPlainTextEdit):
 				self.removeCompleter()
 			self.preInputAccelerators = self.__language.preInputAccelerators
 			self.postInputAccelerators = self.__language.postInputAccelerators
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def setLanguage(self, language):
+		"""
+		This method sets the editor language.
+
+		:param language: Language to set. ( Language )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not isinstance(language, Language):
+			raise foundations.exceptions.ProgrammingError("'{0}' type is not 'Language'!".format(language))
+
+		self.__language = language
+		self.__setAccelerators()
+		self.emit(SIGNAL("languageChanged()"))
 		return True
 
 	@core.executionTrace
