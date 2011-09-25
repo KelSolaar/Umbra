@@ -244,7 +244,7 @@ class Editor_Status(QObject):
 			return
 
 		editor = self.__container.getCurrentEditor()
-		self.__ui.Lines_Columns_label.setText("{0} : {1}".format(editor.getCursorLine(), editor.getCursorColumn()))
+		self.__ui.Lines_Columns_label.setText("Line {0} : Column {1}".format(editor.getCursorLine(), editor.getCursorColumn()))
 
 class ScriptEditor(UiComponent):
 	"""
@@ -278,15 +278,23 @@ class ScriptEditor(UiComponent):
 		self.__settings = None
 		self.__settingsSection = None
 
-		self.__languages = {"Text" : Language(name="Text",
+		self.__languages = {"Python" : PYTHON_LANGUAGE,
+							"Logging" : Language(name="Logging",
+												extension="\.log",
+												highlighter=umbra.ui.highlighters.LoggingHighlighter,
+												completer=None,
+												preInputAccelerators=(),
+												postInputAccelerators=(),
+												indentMarker="\t",
+												commentMarker=None),
+							"Text" : Language(name="Text",
 												extension="\.txt",
 												highlighter=None,
 												completer=umbra.ui.completers.EnglishCompleter,
 												preInputAccelerators=(umbra.ui.inputAccelerators.completionPreEventInputAccelerators,),
 												postInputAccelerators=(),
 												indentMarker="\t",
-												commentMarker=None),
-							"Python" : PYTHON_LANGUAGE}
+												commentMarker=None)}
 
 		self.__defaultLanguage = "Text"
 		self.__defaultScriptLanguage = "Python"
