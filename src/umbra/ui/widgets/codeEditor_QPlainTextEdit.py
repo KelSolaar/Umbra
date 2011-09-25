@@ -750,12 +750,18 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 				words.remove(completionPrefix)
 				self.__completer.updateModel(words)
 				self.__completer.setCompletionPrefix(completionPrefix)
-				popup = self.__completer.popup()
-				popup.setCurrentIndex(self.__completer.completionModel().index(0, 0))
+				if self.__completer.completionCount() == 1:
+					completion = self.__completer.completionModel().data(self.__completer.completionModel().index(0, 0)).toString()
+					cursor = self.textCursor()
+					cursor.insertText(completion[len(self.textUnderCursor()):])
+					self.setTextCursor(cursor)
+				else:
+					popup = self.__completer.popup()
+					popup.setCurrentIndex(self.__completer.completionModel().index(0, 0))
 
-				completerRectangle = self.cursorRect()
-				completerRectangle.setWidth(self.__completer.popup().sizeHintForColumn(0) + self.__completer.popup().verticalScrollBar().sizeHint().width())
-				self.__completer.complete(completerRectangle)
+					completerRectangle = self.cursorRect()
+					completerRectangle.setWidth(self.__completer.popup().sizeHintForColumn(0) + self.__completer.popup().verticalScrollBar().sizeHint().width())
+					self.__completer.complete(completerRectangle)
 		else:
 			if self.__completer:
 				self.__completer.popup().hide()
