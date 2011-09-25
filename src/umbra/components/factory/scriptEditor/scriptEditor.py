@@ -31,9 +31,10 @@ from PyQt4.QtGui import *
 #***********************************************************************************************
 import foundations.core as core
 import foundations.exceptions
-import umbra.ui.highlighters
 import umbra.ui.common
 import umbra.ui.completers
+import umbra.ui.highlighters
+import umbra.ui.inputAccelerators
 from manager.uiComponent import UiComponent
 from umbra.components.factory.scriptEditor.editor import Editor, Language
 from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace
@@ -90,8 +91,18 @@ class ScriptEditor(UiComponent):
 		self.__settings = None
 		self.__settingsSection = None
 
-		self.__languages = {"Text" : Language(name="Text", extension="\.txt", highlighter=None, completer=umbra.ui.completers.EnglishCompleter, inputAcceleration=False),
-							"Python" : Language(name="Python", extension="\.py|\.pyw", highlighter=umbra.ui.highlighters.PythonHighlighter, completer=umbra.ui.completers.PythonCompleter, inputAcceleration=True)}
+		self.__languages = {"Text" : Language(name="Text",
+												extension="\.txt",
+												highlighter=None,
+												completer=umbra.ui.completers.EnglishCompleter,
+												preInputAccelerators=(),
+												postInputAccelerators=()),
+							"Python" : Language(name="Python",
+												extension="\.py|\.pyw",
+												highlighter=umbra.ui.highlighters.PythonHighlighter,
+												completer=umbra.ui.completers.PythonCompleter,
+												preInputAccelerators=(umbra.ui.inputAccelerators.indentationPreEventInputAccelerators, umbra.ui.inputAccelerators.pythonPreEventInputAccelerators, umbra.ui.inputAccelerators.completionPreEventInputAccelerators),
+												postInputAccelerators=(umbra.ui.inputAccelerators.pythonPostEventInputAccelerators,))}
 		self.__defaultLanguage = "Text"
 
 		self.__files = []

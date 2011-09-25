@@ -62,7 +62,7 @@ class Language(core.Structure):
 		"""
 		This method initializes the class.
 
-		:param \*\*kwargs: name, extension, highlighter, completer, inputAcceleration. ( Key / Value pairs )
+		:param \*\*kwargs: name, extension, highlighter, completer, preInputAccelerators, postInputAccelerators. ( Key / Value pairs )
 		"""
 
 		core.Structure.__init__(self, **kwargs)
@@ -389,7 +389,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@core.executionTrace
 	def setAccelerators(self):
 		"""
-		This method sets editor accelerators (Highlighter, Completer).
+		This method sets editor language accelerators.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -403,8 +403,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 				self.setCompleter(self.__language.completer())
 			else:
 				self.removeCompleter()
-
-			self.inputAcceleration = self.__language.inputAcceleration
+			self.preInputAccelerators = self.__language.preInputAccelerators
+			self.postInputAccelerators = self.__language.postInputAccelerators
 		return True
 
 	@core.executionTrace

@@ -1,0 +1,170 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+**inputAccelerators.py**
+
+**Platform:**
+	Windows, Linux, Mac Os X.
+
+**Description:**
+	This module defines the Application input accelerators objects.
+
+**Others:**
+"""
+
+#***********************************************************************************************
+#***	External imports.
+#***********************************************************************************************
+import logging
+import re
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+
+#***********************************************************************************************
+#***	Internal imports.
+#***********************************************************************************************
+import foundations.core as core
+from umbra.globals.constants import Constants
+
+#***********************************************************************************************
+#***	Module attributes.
+#***********************************************************************************************
+__author__ = "Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2011 - Thomas Mansencal"
+__license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
+__maintainer__ = "Thomas Mansencal"
+__email__ = "thomas.mansencal@gmail.com"
+__status__ = "Production"
+
+__all__ = ["LOGGER", "DEFAULT_SYMBOLS_PAIRS", "indentationPreEventInputAccelerators", "completionPreEventInputAccelerators", "pythonPreEventInputAccelerators", "pythonPreEventInputAccelerators"]
+
+LOGGER = logging.getLogger(Constants.logger)
+
+DEFAULT_SYMBOLS_PAIRS = {"(" : ")",
+						"[" : "]",
+						"{" : "}",
+						"\"" : "\"",
+						"'" : "'"}
+
+#***********************************************************************************************
+#***	Module classes and definitions.
+#***********************************************************************************************
+@core.executionTrace
+def indentationPreEventInputAccelerators(container, event):
+	"""
+	This definition implements indentation pre event input accelerators.
+	
+	:return: Process event. ( Boolean )
+	"""
+
+	processEvent = True
+	if not hasattr(container, "indent") and hasattr(container, "unindent"):
+		return processEvent
+
+	if event.key() == Qt.Key_Tab:
+		processEvent = container.indent() and False
+	elif event.key() == Qt.Key_Backtab:
+		processEvent = container.unindent() and False
+	return processEvent
+
+@core.executionTrace
+def completionPreEventInputAccelerators(container, event):
+	"""
+	This definition implements completion pre event input accelerators.
+	
+	:return: Process event. ( Boolean )
+	"""
+
+	processEvent = True
+
+	if container.completer and container.completer.popup().isVisible():
+		if event.key() in (Qt.Key_Enter, Qt.Key_Return, Qt.Key_Escape, Qt.Key_Tab, Qt.Key_Backtab):
+			event.ignore()
+			processEvent = False
+			return processEvent
+
+	if event.modifiers() in (Qt.ControlModifier, Qt.MetaModifier) and event.key() == Qt.Key_Space:
+		if not container.completer:
+			processEvent = False
+			return processEvent
+
+		completionPrefix = container.textUnderCursor()
+		if completionPrefix.length() >= 1 :
+			words = container.getWords()
+			words.remove(completionPrefix)
+			container.completer.updateModel(words)
+			container.completer.setCompletionPrefix(completionPrefix)
+			if container.completer.completionCount() == 1:
+				completion = container.completer.completionModel().data(container.completer.completionModel().index(0, 0)).toString()
+				cursor = container.textCursor()
+				cursor.insertText(completion[len(container.textUnderCursor()):])
+				container.setTextCursor(cursor)
+			else:
+				popup = container.completer.popup()
+				popup.setCurrentIndex(container.completer.completionModel().index(0, 0))
+
+				completerRectangle = container.cursorRect()
+				completerRectangle.setWidth(container.completer.popup().sizeHintForColumn(0) + container.completer.popup().verticalScrollBar().sizeHint().width())
+				container.completer.complete(completerRectangle)
+	else:
+		if container.completer:
+			container.completer.popup().hide()
+	return processEvent
+
+@core.executionTrace
+def pythonPreEventInputAccelerators(container, event):
+	"""
+	This definition implements pythons pre event input accelerators.
+	
+	:return: Process event. ( Boolean )
+	"""
+
+	processEvent = True
+	if event.text() in DEFAULT_SYMBOLS_PAIRS.keys():
+		cursor = container.textCursor()
+		cursor.beginEditBlock()
+		if not cursor.hasSelection():
+			cursor.insertText(event.text())
+			cursor.insertText(DEFAULT_SYMBOLS_PAIRS[str(event.text())])
+			cursor.movePosition(QTextCursor.Left, QTextCursor.MoveAnchor)
+		else:
+			selectionText = cursor.selectedText()
+			cursor.insertText(event.text())
+			cursor.insertText(selectionText)
+			cursor.insertText(DEFAULT_SYMBOLS_PAIRS[str(event.text())])
+		container.setTextCursor(cursor)
+		cursor.endEditBlock()
+		processEvent = False
+
+	if event.key() in (Qt.Key_Backspace,):
+		cursor = container.textCursor()
+		cursor.movePosition(QTextCursor.Left, QTextCursor.KeepAnchor)
+		leftText = cursor.selectedText()
+		for i in range(2):
+			cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor)
+		rightText = cursor.selectedText()
+		if not rightText:
+			return processEvent
+
+		if str(leftText) in DEFAULT_SYMBOLS_PAIRS.keys() and str(rightText) in DEFAULT_SYMBOLS_PAIRS.values():
+			cursor.deleteChar()
+	return processEvent
+
+@core.executionTrace
+def pythonPostEventInputAccelerators(container, event):
+	"""
+	This definition implements pythons post event input accelerators.
+	
+	:return: Method success. ( Boolean )
+	"""
+
+	if event.key() in (Qt.Key_Enter, Qt.Key_Return):
+		cursor = container.textCursor()
+		block = cursor.block().previous()
+		if block.isValid():
+			indent = re.match(r"(\s*)", unicode(block.text())).group(1)
+			if str(block.text()).endswith(":"):
+				indent += container.indentMarker
+			cursor.insertText(indent)
+	return True

@@ -404,12 +404,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 		self.__searchPattern = None
 
-		self.__symbolsPairs = {"(" : ")",
-								"[" : "]",
-								"{" : "}",
-								"\"" : "\"",
-								"'" : "'"}
-		self.__inputAcceleration = True
+		self.__preInputAccelerators = []
+		self.__postInputAccelerators = []
 
 		CodeEditor_QPlainTextEdit.initializeUi(self)
 
@@ -610,66 +606,68 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("searchPattern"))
 
 	@property
-	def symbolsPairs(self):
+	def preInputAccelerators(self):
 		"""
-		This method is the property for **self.__symbolsPairs** attribute.
+		This method is the property for ** self.__preInputAccelerators ** attribute.
 
-		:return: self.__symbolsPairs. ( Dictionary )
-		"""
-
-		return self.__symbolsPairs
-
-	@symbolsPairs.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def symbolsPairs(self, value):
-		"""
-		This method is the setter method for **self.__symbolsPairs** attribute.
-
-		:param value: Attribute value. ( Dictionary )
+		:return: self.__preInputAccelerators. ( Tuple / List )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("symbolsPairs"))
+		return self.__preInputAccelerators
 
-	@symbolsPairs.deleter
+	@preInputAccelerators.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def symbolsPairs(self):
+	def preInputAccelerators(self, value):
 		"""
-		This method is the deleter method for **self.__symbolsPairs** attribute.
-		"""
+		This method is the setter method for ** self.__preInputAccelerators ** attribute.
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("symbolsPairs"))
-
-	@property
-	def inputAcceleration(self):
-		"""
-		This method is the property for **self.__inputAcceleration** attribute.
-
-		:return: self.__inputAcceleration. ( Boolean )
-		"""
-
-		return self.__inputAcceleration
-
-	@inputAcceleration.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def inputAcceleration(self, value):
-		"""
-		This method is the setter method for **self.__inputAcceleration** attribute.
-
-		:param value: Attribute value. ( Boolean )
+		:param value: Attribute value. ( Tuple / List )
 		"""
 
 		if value:
-			assert value in (True, False), "'{0}' attribute: '{1}' value is not 'True' or 'False'!".format("inputAcceleration", value)
-		self.__inputAcceleration = value
+			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format("preInputAccelerators", value)
+		self.__preInputAccelerators = value
 
-	@inputAcceleration.deleter
+	@preInputAccelerators.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def inputAcceleration(self):
+	def preInputAccelerators(self):
 		"""
-		This method is the deleter method for **self.__inputAcceleration** attribute.
+		This method is the deleter method for ** self.__preInputAccelerators ** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("inputAcceleration"))
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("preInputAccelerators"))
+
+	@property
+	def postInputAccelerators(self):
+		"""
+		This method is the property for ** self.__postInputAccelerators ** attribute.
+
+		:return: self.__postInputAccelerators. ( Tuple / List )
+		"""
+
+		return self.__postInputAccelerators
+
+	@postInputAccelerators.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def postInputAccelerators(self, value):
+		"""
+		This method is the setter method for ** self.__postInputAccelerators ** attribute.
+
+		:param value: Attribute value. ( Tuple / List )
+		"""
+
+		if value:
+			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format("postInputAccelerators", value)
+		self.__postInputAccelerators = value
+
+	@postInputAccelerators.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def postInputAccelerators(self):
+		"""
+		This method is the deleter method for ** self.__postInputAccelerators ** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("postInputAccelerators"))
 
 	#***********************************************************************************************
 	#***	Class methods.
@@ -750,83 +748,14 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param event: Event. ( QEvent )
 		"""
 
-		if event.key() == Qt.Key_Tab:
-			self.indent()
-			return
-		elif event.key() == Qt.Key_Backtab:
-			self.unindent()
-			return
+		processEvent = True
+		for accelerator in self.__preInputAccelerators:
+			processEvent *= accelerator(self, event)
 
-		if self.__inputAcceleration:
-			if event.text() in self.__symbolsPairs.keys():
-				cursor = self.textCursor()
-				cursor.beginEditBlock()
-				if not cursor.hasSelection():
-					cursor.insertText(event.text())
-					cursor.insertText(self.__symbolsPairs[str(event.text())])
-					cursor.movePosition(QTextCursor.Left, QTextCursor.MoveAnchor)
-				else:
-					selectionText = cursor.selectedText()
-					cursor.insertText(event.text())
-					cursor.insertText(selectionText)
-					cursor.insertText(self.__symbolsPairs[str(event.text())])
-				self.setTextCursor(cursor)
-				cursor.endEditBlock()
-				return
+		processEvent and QPlainTextEdit.keyPressEvent(self, event)
 
-		if self.__completer and self.__completer.popup().isVisible():
-			if event.key() in (Qt.Key_Enter, Qt.Key_Return, Qt.Key_Escape, Qt.Key_Tab, Qt.Key_Backtab):
-				event.ignore()
-				return
-
-		if event.modifiers() in (Qt.ControlModifier, Qt.MetaModifier) and event.key() == Qt.Key_Space:
-			if not self.__completer:
-				return
-			completionPrefix = self.textUnderCursor()
-			if completionPrefix.length() >= 1 :
-				words = self.getWords()
-				words.remove(completionPrefix)
-				self.__completer.updateModel(words)
-				self.__completer.setCompletionPrefix(completionPrefix)
-				if self.__completer.completionCount() == 1:
-					completion = self.__completer.completionModel().data(self.__completer.completionModel().index(0, 0)).toString()
-					cursor = self.textCursor()
-					cursor.insertText(completion[len(self.textUnderCursor()):])
-					self.setTextCursor(cursor)
-				else:
-					popup = self.__completer.popup()
-					popup.setCurrentIndex(self.__completer.completionModel().index(0, 0))
-
-					completerRectangle = self.cursorRect()
-					completerRectangle.setWidth(self.__completer.popup().sizeHintForColumn(0) + self.__completer.popup().verticalScrollBar().sizeHint().width())
-					self.__completer.complete(completerRectangle)
-		else:
-			if self.__completer:
-				self.__completer.popup().hide()
-
-		QPlainTextEdit.keyPressEvent(self, event)
-
-		if self.__inputAcceleration:
-			if event.key() in (Qt.Key_Backspace,):
-				cursor = self.textCursor()
-				cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor)
-				selectedText = cursor.selectedText()
-				if not selectedText:
-					return
-
-				if str(selectedText) in self.__symbolsPairs.values():
-					cursor.deleteChar()
-					return
-
-			if event.key() in (Qt.Key_Enter, Qt.Key_Return):
-				cursor = self.textCursor()
-				block = cursor.block().previous()
-				if block.isValid():
-					indent = re.match(r"(\s*)", unicode(block.text())).group(1)
-					if str(block.text()).endswith(":"):
-						indent += self.__indentMarker
-					cursor.insertText(indent)
-					return
+		for accelerator in self.__postInputAccelerators:
+			accelerator(self, event)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
