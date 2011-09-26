@@ -163,14 +163,18 @@ class Umbra(Ui_Type, Ui_Setup):
 	This class is the main class of the **Umbra** package.
 	"""
 
+	# Custom signals definitions.
+	layoutChanged = pyqtSignal(str)
+
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiSystemExitExceptionHandler, False, Exception)
-	def __init__(self, componentsPaths=None, requisiteComponents=None):
+	def __init__(self, componentsPaths=None, requisiteComponents=None, visibleComponents=None):
 		"""
 		This method initializes the class.
 
 		:param componentsPaths: Components componentsPaths. ( Tuple / List )
 		:param requisiteComponents: Requisite components names. ( Tuple / List )
+		:param visibleComponents: Visible components names. ( Tuple / List )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -185,6 +189,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		# --- Setting class attributes. ---
 		self.__componentsPaths = componentsPaths or []
 		self.__requisiteComponents = requisiteComponents or []
+		self.__visibleComponents = visibleComponents or []
 
 		self.__timer = None
 		self.__actionsManager = None
@@ -200,6 +205,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		self.__verbosityLevel = RuntimeGlobals.verbosityLevel
 		self.__parameters = RuntimeGlobals.parameters
 		self.__layoutsActiveLabels = None
+		self.__currentLayout = None
 		self.__customLayoutsMenu = None
 		self.__miscellaneousMenu = None
 		self.__workerThreads = []
@@ -388,6 +394,38 @@ class Umbra(Ui_Type, Ui_Setup):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("requisiteComponents"))
+
+	@property
+	def visibleComponents(self):
+		"""
+		This method is the property for **self.__visibleComponents** attribute.
+
+		:return: self.__visibleComponents. ( Tuple / List )
+		"""
+
+		return self.__visibleComponents
+
+	@visibleComponents.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def visibleComponents(self, value):
+		"""
+		This method is the setter method for **self.__visibleComponents** attribute.
+
+		:param value: Attribute value. ( Tuple / List )
+		"""
+
+		if value:
+			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format("visibleComponents", value)
+		self.__visibleComponents = value
+
+	@visibleComponents.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def visibleComponents(self):
+		"""
+		This method is the deleter method for **self.__visibleComponents** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("visibleComponents"))
 
 	@property
 	def actionsManager(self):
@@ -725,6 +763,36 @@ class Umbra(Ui_Type, Ui_Setup):
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("layoutsActiveLabels"))
 
 	@property
+	def currentLayout(self):
+		"""
+		This method is the property for **self.__currentLayout** attribute.
+
+		:return: self.__currentLayout. ( Tuple / List )
+		"""
+
+		return self.__currentLayout
+
+	@currentLayout.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def currentLayout(self, value):
+		"""
+		This method is the setter method for **self.__currentLayout** attribute.
+
+		:param value: Attribute value. ( Tuple / List )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("currentLayout"))
+
+	@currentLayout.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def currentLayout(self):
+		"""
+		This method is the deleter method for **self.__currentLayout** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("currentLayout"))
+
+	@property
 	def customLayoutsMenu(self):
 		"""
 		This method is the property for **self.__customLayoutsMenu** attribute.
@@ -744,7 +812,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		"""
 
 		if value:
-			assert issubclass(value.__class__, QMenu), "'{0}' attribute: '{1}' type is not 'QMenu'!".format("customLayoutsMenu", value)
+			assert isinstance(value, QMenu), "'{0}' attribute: '{1}' is not 'QMenu' class instance!".format("customLayoutsMenu", value)
 		self.__customLayoutsMenu = value
 
 	@customLayoutsMenu.deleter
@@ -776,7 +844,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		"""
 
 		if value:
-			assert issubclass(value.__class__, QMenu), "'{0}' attribute: '{1}' type is not 'QMenu'!".format("miscellaneousMenu", value)
+			assert isinstance(value, QMenu), "'{0}' attribute: '{1}' is not 'QMenu' class instance!".format("miscellaneousMenu", value)
 		self.__miscellaneousMenu = value
 
 	@miscellaneousMenu.deleter
@@ -1174,14 +1242,17 @@ class Umbra(Ui_Type, Ui_Setup):
 
 		LOGGER.debug("> Restoring layout '{0}'.".format(name))
 
-		visibleComponents = [ "core.databaseBrowser" ]
 		for component, profile in self.__componentsManager.components.items():
-			profile.categorie == "ui" and component not in visibleComponents and self.__componentsManager.getInterface(component).ui and self.__componentsManager.getInterface(component).ui.hide()
+			profile.categorie == "ui" and component not in self.__visibleComponents and self.__componentsManager.getInterface(component).ui and self.__componentsManager.getInterface(component).ui.hide()
 
 		self.centralwidget.setVisible(self.__settings.getKey("Layouts", "{0}_centralWidget".format(name)).toBool())
 		self.restoreState(self.__settings.getKey("Layouts", "{0}_windowState".format(name)).toByteArray())
 		self.__settings._datas.restoreGeometryOnLayoutChange and self.restoreGeometry(self.__settings.getKey("Layouts", "{0}_geometry".format(name)).toByteArray())
 		self.__setLayoutsActiveLabels(self.__settings.getKey("Layouts", "{0}_activeLabel".format(name)).toInt()[0])
+		self.__currentLayout = name
+
+		self.layoutChanged.emit(self.__currentLayout)
+
 		return True
 
 	@core.executionTrace
@@ -1256,7 +1327,7 @@ def getCommandLineParametersParser():
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(umbra.ui.common.uiStandaloneSystemExitExceptionHandler, False, umbra.exceptions.EngineConfigurationError)
-def run(engine, parameters, componentsPaths=None, requisiteComponents=None):
+def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visibleComponents=None):
 	"""
 	This definition is called when **Umbra** starts.
 
@@ -1264,6 +1335,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None):
 	:param parameters: Command line parameters. ( Tuple )
 	:param componentsPaths: Components componentsPaths. ( Tuple / List )
 	:param requisiteComponents: Requisite components names. ( Tuple / List )
+	:param visibleComponents: Visible components names. ( Tuple / List )
 	:return: Definition success. ( Boolean )
 	"""
 
@@ -1360,7 +1432,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None):
 		RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Initializing {0}.".format(Constants.applicationName, Constants.releaseVersion), textColor=Qt.white)
 		RuntimeGlobals.splashscreen.show()
 
-	RuntimeGlobals.ui = engine(componentsPaths, requisiteComponents)
+	RuntimeGlobals.ui = engine(componentsPaths, requisiteComponents, visibleComponents)
 	RuntimeGlobals.ui.show()
 	RuntimeGlobals.ui.raise_()
 
