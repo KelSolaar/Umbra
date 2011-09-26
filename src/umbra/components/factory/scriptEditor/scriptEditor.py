@@ -80,7 +80,7 @@ class Editor_Status(QObject):
 		# --- Setting class attributes. ---
 		self.__container = container
 
-		self.__maximumStoredPatterns = 15
+		self.__Lines_Columns_label_defaultText = "Line {0} : Column {1}"
 
 		self.__uiPath = "ui/Editor_Status.ui"
 		self.__uiPath = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiPath)
@@ -184,6 +184,36 @@ class Editor_Status(QObject):
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("ui"))
 
+	@property
+	def Lines_Columns_label_defaultText(self):
+		"""
+		This method is the property for **self.__Lines_Columns_label_defaultText** attribute.
+
+		:return: self.__Lines_Columns_label_defaultText. ( String )
+		"""
+
+		return self.__Lines_Columns_label_defaultText
+
+	@Lines_Columns_label_defaultText.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def Lines_Columns_label_defaultText(self, value):
+		"""
+		This method is the setter method for **self.__Lines_Columns_label_defaultText** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("Lines_Columns_label_defaultText"))
+
+	@Lines_Columns_label_defaultText.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def Lines_Columns_label_defaultText(self):
+		"""
+		This method is the deleter method for **self.__Lines_Columns_label_defaultText** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("Lines_Columns_label_defaultText"))
+
 	#***********************************************************************************************
 	#***	Class methods.
 	#***********************************************************************************************
@@ -197,6 +227,7 @@ class Editor_Status(QObject):
 		"""
 
 		self.__ui.Lines_Columns_label.setAlignment(Qt.AlignRight)
+		self.__ui.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(0, 0))
 		self.__ui.Languages_comboBox.addItems(self.__container.languages.keys())
 
 		# Signals / Slots.
@@ -244,7 +275,7 @@ class Editor_Status(QObject):
 			return
 
 		editor = self.__container.getCurrentEditor()
-		self.__ui.Lines_Columns_label.setText("Line {0} : Column {1}".format(editor.getCursorLine(), editor.getCursorColumn()))
+		self.__ui.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(editor.getCursorLine(), editor.getCursorColumn()))
 
 class ScriptEditor(UiComponent):
 	"""
@@ -1122,7 +1153,6 @@ class ScriptEditor(UiComponent):
 		self.__fileSystemWatcher = QFileSystemWatcher(self)
 
 		self.Editor_Status = Editor_Status(self)
-
 		self.__container.statusBar.addPermanentWidget(self.Editor_Status.ui)
 
 		# Signals / Slots.
@@ -1130,7 +1160,7 @@ class ScriptEditor(UiComponent):
 		self.__container.timer.timeout.connect(self.__reloadModifiedFiles)
 		self.ui.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
 		self.ui.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
-		RuntimeGlobals.application.focusChanged.connect(self.__application__focusChanged)
+		self.__container.layoutChanged.connect(self.__umbra__layoutChanged)
 		self.datasChanged.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.recentFilesChanged.connect(self.__setRecentFilesActions)
 		self.__fileSystemWatcher.fileChanged.connect(self.__fileSystemWatcher__fileChanged)
@@ -1323,33 +1353,14 @@ class ScriptEditor(UiComponent):
 		self.__setWindowTitle()
 
 	@core.executionTrace
-	def __application__focusChanged(self, previousWidget, currentWidget):
+	def __umbra__layoutChanged(self, currentLayout):
 		"""
-		This method is triggered by the Application when the widget focus is changed.
+		This method is triggered by the Application when the current layout is changed.
 
-		:param previousWidget: Widget that lost focus. ( QWidget )
-		:param currentWidget: Widget that gained focus. ( QWidget )
+		:param currentLayout: Current layout. ( String )
 		"""
 
-		if not currentWidget:
-			return
-
-		for object in umbra.ui.common.parentsWalker(currentWidget):
-			if object is self.__container.statusBar or object is self.ui:
-				self.Editor_Status.ui.show()
-				return
-		self.Editor_Status.ui.hide()
-#
-#			self.Editor_Status.ui.hide()
-#		if isinstance(currentWidget, Editor):
-#			self.Editor_Status.ui.show()
-#		else:
-#			for object in umbra.ui.common.parentsWalker(currentWidget):
-#				if object is self.__container.statusBar or object is self.ui:
-#					
-#					return
-#
-#			self.Editor_Status.ui.hide()
+		self.__setEditorStatusWidgetVisibility()
 
 	@core.executionTrace
 	def __newFileAction__triggered(self, checked):
@@ -1823,6 +1834,17 @@ class ScriptEditor(UiComponent):
 		"""
 
 		self.ui.Script_Editor_tabWidget.setTabText(tabIndex, self.ui.Script_Editor_tabWidget.widget(tabIndex).windowTitle())
+
+	@core.executionTrace
+	def __setEditorStatusWidgetVisibility(self):
+		"""
+		This method sets **Editor_Status** widget visibility.
+		"""
+
+		if self.ui.isHidden():
+			self.Editor_Status.ui.hide()
+		else:
+			self.Editor_Status.ui.show()
 
 	@core.executionTrace
 	def __getsLocals(self):
