@@ -1221,7 +1221,7 @@ class ScriptEditor(UiComponent):
 		self.__setRecentFilesActions()
 		self.__menuBar.addMenu(fileMenu)
 
-		self.__editMenu = QMenu("&Edit")
+		self.__editMenu = QMenu("&Edit", parent=self.__menuBar)
 		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Undo", shortcut=QKeySequence.Undo, slot=self.__undoAction__triggered))
 		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Redo", shortcut=QKeySequence.Redo, slot=self.__redoAction__triggered))
 		self.__editMenu.addSeparator()
@@ -1240,19 +1240,19 @@ class ScriptEditor(UiComponent):
 		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Toggle Comments", shortcut=Qt.ControlModifier + Qt.Key_Slash, slot=self.__toggleCommentsAction__triggered))
 		self.__menuBar.addMenu(self.__editMenu)
 
-		self.__searchMenu = QMenu("&Search")
+		self.__searchMenu = QMenu("&Search", parent=self.__menuBar)
 		self.__searchMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Search|Search And Replace ...", shortcut=Qt.ControlModifier + Qt.Key_F, slot=self.__searchAndReplaceAction__triggered))
 		self.__searchMenu.addSeparator()
 		self.__searchMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Search|Search Next", shortcut=Qt.ControlModifier + Qt.Key_K, slot=self.__searchNextAction__triggered))
 		self.__searchMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Search|Search Previous", shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.Key_K, slot=self.__searchPreviousAction__triggered))
 		self.__menuBar.addMenu(self.__searchMenu)
 
-		self.__commandMenu = QMenu("&Command")
+		self.__commandMenu = QMenu("&Command", parent=self.__menuBar)
 		self.__commandMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection", shortcut=Qt.ControlModifier + Qt.Key_Return, slot=self.__evaluateSelectionAction__triggered))
 		self.__commandMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script", shortcut=Qt.SHIFT + Qt.CTRL + Qt.Key_Return, slot=self.__evaluateScriptAction__triggered))
 		self.__menuBar.addMenu(self.__commandMenu)
 
-		self.__viewMenu = QMenu("&View")
+		self.__viewMenu = QMenu("&View", parent=self.__menuBar)
 		self.__viewMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&View|Toggle Word Wrap", slot=self.__toggleWordWrapAction__triggered))
 		self.__viewMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&View|Toggle White Spaces", slot=self.__toggleWhiteSpacesAction__triggered))
 		self.__menuBar.addMenu(self.__viewMenu)
@@ -1334,14 +1334,22 @@ class ScriptEditor(UiComponent):
 		if not currentWidget:
 			return
 
-		if isinstance(currentWidget, Editor):
-			self.Editor_Status.ui.show()
-		else:
-			for object in umbra.ui.common.parentsWalker(currentWidget):
-				if object is self.__container.statusBar:
-					return
-
-			self.Editor_Status.ui.hide()
+		for object in umbra.ui.common.parentsWalker(currentWidget):
+			if object is self.__container.statusBar or object is self.ui:
+				self.Editor_Status.ui.show()
+				return
+		self.Editor_Status.ui.hide()
+#
+#			self.Editor_Status.ui.hide()
+#		if isinstance(currentWidget, Editor):
+#			self.Editor_Status.ui.show()
+#		else:
+#			for object in umbra.ui.common.parentsWalker(currentWidget):
+#				if object is self.__container.statusBar or object is self.ui:
+#					
+#					return
+#
+#			self.Editor_Status.ui.hide()
 
 	@core.executionTrace
 	def __newFileAction__triggered(self, checked):
