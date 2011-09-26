@@ -1451,11 +1451,3 @@ def exit():
 
 	QApplication.exit()
 
-#***********************************************************************************************
-#***	Launcher.
-#***********************************************************************************************
-if __name__ == "__main__":
-	componentsPaths = []
-	for path in (os.path.join(umbra.__path__[0], Constants.factoryComponentsDirectory), os.path.join(os.getcwd(), umbra.__name__, Constants.factoryComponentsDirectory)):
-		os.path.exists(path) and componentsPaths.append(path)
-	run(Umbra, getCommandLineParametersParser().parse_args(sys.argv), componentsPaths, ("factory.scriptEditor", "factory.preferencesManager", "factory.componentsManagerUi"))
