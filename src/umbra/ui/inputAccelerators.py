@@ -126,13 +126,13 @@ def pythonPreEventInputAccelerators(container, event):
 		cursor.beginEditBlock()
 		if not cursor.hasSelection():
 			cursor.insertText(event.text())
-			cursor.insertText(DEFAULT_SYMBOLS_PAIRS[str(event.text())])
+			cursor.insertText(DEFAULT_SYMBOLS_PAIRS[unicode(event.text(), Constants.encodingFormat, Constants.encodingError)])
 			cursor.movePosition(QTextCursor.Left, QTextCursor.MoveAnchor)
 		else:
 			selectionText = cursor.selectedText()
 			cursor.insertText(event.text())
 			cursor.insertText(selectionText)
-			cursor.insertText(DEFAULT_SYMBOLS_PAIRS[str(event.text())])
+			cursor.insertText(DEFAULT_SYMBOLS_PAIRS[unicode(event.text(), Constants.encodingFormat, Constants.encodingError)])
 		container.setTextCursor(cursor)
 		cursor.endEditBlock()
 		processEvent = False
@@ -147,7 +147,7 @@ def pythonPreEventInputAccelerators(container, event):
 		if not rightText:
 			return processEvent
 
-		if str(leftText) in DEFAULT_SYMBOLS_PAIRS.keys() and str(rightText) in DEFAULT_SYMBOLS_PAIRS.values():
+		if unicode(leftText, Constants.encodingFormat, Constants.encodingError) in DEFAULT_SYMBOLS_PAIRS.keys() and unicode(rightText, Constants.encodingFormat, Constants.encodingError) in DEFAULT_SYMBOLS_PAIRS.values():
 			cursor.deleteChar()
 	return processEvent
 
@@ -164,7 +164,7 @@ def pythonPostEventInputAccelerators(container, event):
 		block = cursor.block().previous()
 		if block.isValid():
 			indent = re.match(r"(\s*)", unicode(block.text())).group(1)
-			if str(block.text()).endswith(":"):
+			if unicode(block.text(), Constants.encodingFormat, Constants.encodingError).endswith(":"):
 				indent += container.indentMarker
 			cursor.insertText(indent)
 	return True
