@@ -278,6 +278,10 @@ class LoggingHighlighter(Highlighter):
 
 		self.formats = Formats(default=getFormat(color=QColor(192, 192, 192)))
 
+		self.formats.quotation = getFormat(format=self.formats.default, italic=True)
+		self.formats.doubleQuotation = getFormat(format=self.formats.quotation)
+		self.formats.singleQuotation = getFormat(format=self.formats.quotation)
+
 		self.formats.loggingCritical = getFormat(format=self.formats.default, color=QColor(48, 48, 48), backgroundColor=QColor(255, 64, 64))
 		self.formats.loggingError = getFormat(format=self.formats.default, color=QColor(255, 64, 64))
 		self.formats.loggingWarning = getFormat(format=self.formats.default, color=QColor(255, 128, 0))
@@ -301,10 +305,15 @@ class LoggingHighlighter(Highlighter):
 		self.__multiLineDoubleString = QRegExp(r"\"\"\"|'''")
 
 		self.rules = Rules()
+
+		self.rules.loggingInfo = Rule(pattern=QRegExp(r"^INFO\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*INFO\s*:.*$"), format=self.formats.loggingInfo)
+
+		self.rules.doubleQuotation = Rule(pattern=QRegExp(r"\"([^\"\\]|\\.)*\""), format=self.formats.doubleQuotation)
+		self.rules.singleQuotation = Rule(pattern=QRegExp(r"'([^'\\]|\\.)*'"), format=self.formats.singleQuotation)
+
 		self.rules.loggingCritical = Rule(pattern=QRegExp(r"^CRITICAL\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*CRITICAL\s*:.*$"), format=self.formats.loggingCritical)
 		self.rules.loggingError = Rule(pattern=QRegExp(r"^ERROR\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*ERROR\s*:.*$"), format=self.formats.loggingError)
 		self.rules.loggingWarning = Rule(pattern=QRegExp(r"^WARNING\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*WARNING\s*:.*$"), format=self.formats.loggingWarning)
-		self.rules.loggingInfo = Rule(pattern=QRegExp(r"^INFO\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*INFO\s*:.*$"), format=self.formats.loggingInfo)
 		self.rules.loggingDebug = Rule(pattern=QRegExp(r"^DEBUG\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:.*$"), format=self.formats.loggingDebug)
 
 		self.rules.loggingDebugTraceIn = Rule(pattern=QRegExp(r"^DEBUG\s*:\s--->>>.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:\s--->>>.*$"), format=self.formats.loggingDebugTraceIn)
