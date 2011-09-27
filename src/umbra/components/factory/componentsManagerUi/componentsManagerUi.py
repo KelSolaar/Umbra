@@ -700,7 +700,7 @@ class ComponentsManagerUi(UiComponent):
 				LOGGER.debug("> Adding '{0}' Component to '{1}'.".format(name, "Components_Manager_Ui_treeView"))
 				pathStandardItem.appendRow([componentStandardItem, componentActivationStandardItem, componentCategorieStandardItem, componentRankStandardItem, componentVersionStandardItem])
 
-		self.emit(SIGNAL("modelChanged()"))
+		self.modelChanged.emit()
 
 	@core.executionTrace
 	def __Components_Manager_Ui_treeView_refreshModel(self):
@@ -963,7 +963,7 @@ class ComponentsManagerUi(UiComponent):
 			component.interface.addWidget()
 			component.interface.initializeUi()
 		LOGGER.info("{0} | '{1}' Component has been activated!".format(self.__class__.__name__, component.name))
-		self.emit(SIGNAL("modelPartialRefresh()"))
+		self.modelPartialRefresh.emit()
 		return True
 
 	@core.executionTrace
@@ -990,7 +990,7 @@ class ComponentsManagerUi(UiComponent):
 				component.interface.removeWidget()
 			component.interface.deactivate()
 			LOGGER.info("{0} | '{1}' Component has been deactivated!".format(self.__class__.__name__, component.name))
-			self.emit(SIGNAL("modelPartialRefresh()"))
+			self.modelPartialRefresh.emit()
 			return True
 		else:
 			raise manager.exceptions.ComponentDeactivationError("{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, component.name))
@@ -1018,7 +1018,7 @@ class ComponentsManagerUi(UiComponent):
 			if not component.interface.activated:
 				self.activateComponent(name)
 			LOGGER.info("{0} | '{1}' Component has been reloaded!".format(self.__class__.__name__, component.name))
-			self.emit(SIGNAL("modelPartialRefresh()"))
+			self.modelPartialRefresh.emit()
 			return True
 		else:
 			raise manager.exceptions.ComponentReloadError("{0} | '{1}' Component cannot be deactivated and won't be reloaded!".format(self.__class__.__name__, component.name))

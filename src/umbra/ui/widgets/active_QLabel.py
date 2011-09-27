@@ -388,7 +388,7 @@ class Active_QLabel(QLabel):
 		:param event: QEvent. ( QEvent )
 		"""
 
-		self.emit(SIGNAL("clicked()"))
+		self.clicked.emit()
 
 		if self.__checkable:
 			self.setChecked(True)

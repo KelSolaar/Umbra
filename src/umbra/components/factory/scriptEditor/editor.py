@@ -383,7 +383,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.document().setModified(False)
 		self.setWindowTitle("{0}".format(self.getFileShortName()))
 
-		self.emit(SIGNAL("fileChanged()"))
+		self.fileChanged.emit()
 
 	def __setWindowTitle(self):
 		"""
@@ -392,7 +392,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		titleTemplate = self.document().isModified() and "{0} *" or "{0}"
 		self.setWindowTitle(titleTemplate.format(self.getFileShortName()))
-		self.emit(SIGNAL("contentChanged()"))
+		self.contentChanged.emit()
 
 	@core.executionTrace
 	def __editor__contentsChanged(self):
@@ -440,7 +440,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		self.__language = language
 		self.__setLanguageDescription()
-		self.emit(SIGNAL("languageChanged()"))
+		self.languageChanged.emit()
 		return True
 
 	@core.executionTrace

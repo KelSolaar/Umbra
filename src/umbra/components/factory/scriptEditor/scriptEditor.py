@@ -66,19 +66,19 @@ class Editor_Status(QObject):
 	"""
 
 	@core.executionTrace
-	def __init__(self, container):
+	def __init__(self, parent=None):
 		"""
 		This method initializes the class.
 
-		:param container: Container. ( Object )
+		:param parent: Object parent. ( QObject )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		QObject.__init__(self)
+		QObject.__init__(self, parent)
 
 		# --- Setting class attributes. ---
-		self.__container = container
+		self.__container = parent
 
 		self.__Lines_Columns_label_defaultText = "Line {0} : Column {1}"
 
@@ -1811,7 +1811,7 @@ class ScriptEditor(UiComponent):
 		recentFiles.insert(0, file)
 		del recentFiles[self.__maximumRecentFiles:]
 		recentFiles = self.__settings.setKey(self.__settingsSection, "recentFiles", recentFiles.join(","))
-		self.emit(SIGNAL("recentFilesChanged()"))
+		self.recentFilesChanged.emit()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -2228,7 +2228,7 @@ class ScriptEditor(UiComponent):
 			return
 
 		if self.evaluateCode(str(editor.textCursor().selectedText().replace(QChar(QChar.ParagraphSeparator), QString("\n")))):
-			self.emit(SIGNAL("datasChanged()"))
+			self.datasChanged.emit()
 			return True
 
 	@core.executionTrace
@@ -2245,7 +2245,7 @@ class ScriptEditor(UiComponent):
 			return
 
 		if self.evaluateCode(str(editor.toPlainText())):
-			self.emit(SIGNAL("datasChanged()"))
+			self.datasChanged.emit()
 			return True
 
 	@core.executionTrace
