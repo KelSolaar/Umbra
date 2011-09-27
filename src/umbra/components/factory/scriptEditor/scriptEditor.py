@@ -227,7 +227,7 @@ class Editor_Status(QObject):
 		"""
 
 		self.__ui.Lines_Columns_label.setAlignment(Qt.AlignRight)
-		self.__ui.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(0, 0))
+		self.__ui.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(1, 1))
 		self.__ui.Languages_comboBox.addItems(self.__container.languages.keys())
 
 		# Signals / Slots.
@@ -275,7 +275,7 @@ class Editor_Status(QObject):
 			return
 
 		editor = self.__container.getCurrentEditor()
-		self.__ui.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(editor.getCursorLine(), editor.getCursorColumn()))
+		self.__ui.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(editor.getCursorLine() + 1, editor.getCursorColumn() + 1))
 
 class ScriptEditor(UiComponent):
 	"""
@@ -1158,9 +1158,10 @@ class ScriptEditor(UiComponent):
 		# Signals / Slots.
 		self.__container.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.__container.timer.timeout.connect(self.__reloadModifiedFiles)
+		self.__container.layoutChanged.connect(self.__application__layoutChanged)
 		self.ui.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
 		self.ui.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
-		self.__container.layoutChanged.connect(self.__umbra__layoutChanged)
+		self.ui.visibilityChanged.connect(self.__scriptEditor__visibilityChanged)
 		self.datasChanged.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.recentFilesChanged.connect(self.__setRecentFilesActions)
 		self.__fileSystemWatcher.fileChanged.connect(self.__fileSystemWatcher__fileChanged)
@@ -1353,14 +1354,24 @@ class ScriptEditor(UiComponent):
 		self.__setWindowTitle()
 
 	@core.executionTrace
-	def __umbra__layoutChanged(self, currentLayout):
+	def __application__layoutChanged(self, currentLayout):
 		"""
-		This method is triggered by the Application when the current layout is changed.
+		This method is triggered when the Application layout is changed.
 
 		:param currentLayout: Current layout. ( String )
 		"""
 
-		self.__setEditorStatusWidgetVisibility()
+		self.Editor_Status.ui.setVisible(not self.ui.isHidden())
+
+	@core.executionTrace
+	def __scriptEditor__visibilityChanged(self, visibility):
+		"""
+		This method is triggered when the **scriptEditor** Component visibility changed.
+
+		:param visibility: Widget visibility. ( Boolean )
+		"""
+
+		self.Editor_Status.ui.setVisible(visibility)
 
 	@core.executionTrace
 	def __newFileAction__triggered(self, checked):
@@ -1834,17 +1845,6 @@ class ScriptEditor(UiComponent):
 		"""
 
 		self.ui.Script_Editor_tabWidget.setTabText(tabIndex, self.ui.Script_Editor_tabWidget.widget(tabIndex).windowTitle())
-
-	@core.executionTrace
-	def __setEditorStatusWidgetVisibility(self):
-		"""
-		This method sets **Editor_Status** widget visibility.
-		"""
-
-		if self.ui.isHidden():
-			self.Editor_Status.ui.hide()
-		else:
-			self.Editor_Status.ui.show()
 
 	@core.executionTrace
 	def __getsLocals(self):
