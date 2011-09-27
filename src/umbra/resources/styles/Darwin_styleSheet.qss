@@ -1,5 +1,4 @@
-/* sIBL_GUI - Stylesheet - Darwin Os */
-/* sIBL_GUI - Stylesheet - Windows Os */
+/* Umbra - Stylesheet - Darwin Os */
 /* Application. */
 /* QWidget. */
 QWidget {
@@ -390,7 +389,14 @@ QDateTimeEdit::down-arrow, QDoubleSpinBox::down-arrow, QSpinBox::down-arrow  {
 }
 
 /* QGroupBox. */
+QGroupBox {
+	border: 1px solid rgb(40, 40, 40);
+	border-radius: 4px;
+	margin-top: 6px;
+}
+
 QGroupBox::title {
+	padding: 0 4px;
 	subcontrol-origin: margin;
 	subcontrol-position: top center;
 }
