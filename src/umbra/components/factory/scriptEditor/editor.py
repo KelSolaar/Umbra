@@ -20,6 +20,7 @@
 import logging
 import os
 import platform
+import re
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -96,6 +97,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	languageChanged = pyqtSignal()
 	contentChanged = pyqtSignal()
 	fileChanged = pyqtSignal()
+	contentDropped = pyqtSignal(list)
 
 	@core.executionTrace
 	def __init__(self, parent=None, file=None, language=PYTHON_LANGUAGE):
@@ -358,6 +360,9 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.setAttribute(Qt.WA_DeleteOnClose)
 		self.setTabStopWidth(self.__indentWidth)
 		self.setWordWrapMode(QTextOption.NoWrap)
+
+		self.setAcceptDrops(True)
+
 		if platform.system() == "Windows" or platform.system() == "Microsoft":
 			fontFamily, fontSize = self.__defaultFontsSettings["Windows"]
 		elif platform.system() == "Darwin":
@@ -369,6 +374,45 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.setFont(font)
 
 		return True
+
+	@core.executionTrace
+	def dragEnterEvent(self, event):
+		"""
+		This method defines the drag enter event behavior.
+
+		:param event: QEvent. ( QEvent )
+		"""
+
+		event.accept()
+
+	@core.executionTrace
+	def dragMoveEvent(self, event):
+		"""
+		This method defines the drag move event behavior.
+
+		:param event: QEvent. ( QEvent )
+		"""
+
+		event.accept()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, foundations.exceptions.DirectoryExistsError, foundations.exceptions.UserError)
+	def dropEvent(self, event):
+		"""
+		This method defines the drop event behavior.
+
+		:param event: QEvent. ( QEvent )
+		"""
+
+		if not event.mimeData().hasUrls():
+			return
+
+		files = []
+		LOGGER.debug("> Drag event urls list: '{0}'!".format(event.mimeData().urls()))
+		for url in event.mimeData().urls():
+			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and re.search("^\/[A-Z]:", str(url.path())) and str(url.path())[1:] or str(url.path())
+			files.append(path)
+		self.contentDropped.emit(files)
 
 	@core.executionTrace
 	def __setFile(self, file):

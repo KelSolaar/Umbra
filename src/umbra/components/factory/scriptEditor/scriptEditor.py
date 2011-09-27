@@ -1741,6 +1741,17 @@ class ScriptEditor(UiComponent):
 		self.Editor_Status._Editor_Status__Languages_comboBox_setDefaultViewState()
 
 	@core.executionTrace
+	def __editor__contentDropped(self, files):
+		"""
+		This method is triggered when content is dropped in an editor.
+		
+		:param files: Dropped files. ( List )
+		"""
+
+		for file in files:
+			self.loadFile(file)
+
+	@core.executionTrace
 	def __fileSystemWatcher__fileChanged(self, file):
 		"""
 		This method is triggered by the :obj:`fileSystemWatcher` class property when a file is modified.
@@ -2006,6 +2017,7 @@ class ScriptEditor(UiComponent):
 		editor.languageChanged.connect(self.__editor__languageChanged)
 		editor.contentChanged.connect(self.__editor__contentChanged)
 		editor.fileChanged.connect(self.__editor__fileChanged)
+		editor.contentDropped.connect(self.__editor__contentDropped)
 		editor.cursorPositionChanged.connect(self.Editor_Status._Editor_Status__editor__cursorPositionChanged)
 		return tabIndex
 
