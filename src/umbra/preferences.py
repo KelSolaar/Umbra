@@ -287,7 +287,7 @@ class Preferences():
 
 		for key in self.__defaultLayoutsSettings.allKeys():
 			if ignoredLayouts:
-				if (layout for layout in ignoredLayouts if layout in key):
+				if tuple((layout for layout in ignoredLayouts if layout in key)):
 					continue
 			self.__settings.setValue(key, self.__defaultLayoutsSettings.value(key))
 		return True
