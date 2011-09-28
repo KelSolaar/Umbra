@@ -47,14 +47,15 @@ LOGGER = logging.getLogger(Constants.logger)
 #***	Module classes and definitions.
 #***********************************************************************************************
 @core.executionTrace
-def messageBox(type, title, message, icon=None, buttons=QMessageBox.Ok):
+def messageBox(type, title, message, icon=None, buttons=QMessageBox.Ok, customButtons=None):
 	"""
 	This definition provides a fast GUI message box.
 
 	:param title: Current message title. ( String )
 	:param message: Message. ( String )
 	:param icon: Custom icon. ( QConstant )
-	:param buttons: Custom buttons. ( QConstant )
+	:param buttons: Standard buttons. ( QConstant )
+	:param customButtons: Custom buttons. ( Tuple / List )
 	:return: User choice. ( Integer )
 	"""
 
@@ -66,6 +67,9 @@ def messageBox(type, title, message, icon=None, buttons=QMessageBox.Ok):
 	messageBox = QMessageBox()
 	messageBox.setWindowTitle("{0} | {1}".format(Constants.applicationName, title))
 	messageBox.setText(message)
+
+	for button, role in customButtons or ():
+		messageBox.addButton(button, role)
 
 	message = message.split("\n")
 	if type == "Critical":
