@@ -165,6 +165,7 @@ class Umbra(Ui_Type, Ui_Setup):
 
 	# Custom signals definitions.
 	layoutChanged = pyqtSignal(str)
+	contentDropped = pyqtSignal(QEvent)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiSystemExitExceptionHandler, False, Exception)
@@ -181,6 +182,8 @@ class Umbra(Ui_Type, Ui_Setup):
 
 		Ui_Type.__init__(self)
 		Ui_Setup.__init__(self)
+
+		self.setAcceptDrops(True)
 
 		self.setupUi(self)
 
@@ -889,6 +892,39 @@ class Umbra(Ui_Type, Ui_Setup):
 	#***********************************************************************************************
 	#***	Class methods.
 	#***********************************************************************************************
+	@core.executionTrace
+	def dragEnterEvent(self, event):
+		"""
+		This method defines the drag enter event behavior.
+
+		:param event: QEvent. ( QEvent )
+		"""
+
+		LOGGER.debug("> Application drag event accepted!")
+		event.accept()
+
+	@core.executionTrace
+	def dragMoveEvent(self, event):
+		"""
+		This method defines the drag move event behavior.
+
+		:param event: QEvent. ( QEvent )
+		"""
+
+		LOGGER.debug("> Application drag move event accepted!")
+		event.accept()
+
+	@core.executionTrace
+	def dropEvent(self, event):
+		"""
+		This method defines the drop event behavior.
+
+		:param event: QEvent. ( QEvent )
+		"""
+
+		LOGGER.debug("> Application drop event accepted!")
+		self.contentDropped.emit(event)
+
 	@core.executionTrace
 	def __closeUi(self, event):
 		"""
