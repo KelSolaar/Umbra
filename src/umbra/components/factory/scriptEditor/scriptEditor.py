@@ -1159,6 +1159,7 @@ class ScriptEditor(UiComponent):
 		self.__container.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.__container.timer.timeout.connect(self.__reloadModifiedFiles)
 		self.__container.layoutChanged.connect(self.__application__layoutChanged)
+		self.__container.contentDropped.connect(self.__application__contentDropped)
 		self.ui.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
 		self.ui.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
 		self.ui.visibilityChanged.connect(self.__scriptEditor__visibilityChanged)
@@ -1362,6 +1363,24 @@ class ScriptEditor(UiComponent):
 		"""
 
 		self.Editor_Status.ui.setVisible(not self.ui.isHidden())
+
+	@core.executionTrace
+	def __application__contentDropped(self, event):
+		"""
+		This method is triggered when content is dropped in the Application.
+		
+		:param event: Event. ( QEvent )
+		"""
+
+		if not event.mimeData().hasUrls():
+			return
+
+		for url in event.mimeData().urls():
+			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and re.search("^\/[A-Z]:", str(url.path())) and str(url.path())[1:] or str(url.path())
+			if os.path.isdir(path):
+				continue
+
+			self.loadFile(path)
 
 	@core.executionTrace
 	def __scriptEditor__visibilityChanged(self, visibility):
@@ -1741,17 +1760,6 @@ class ScriptEditor(UiComponent):
 		self.Editor_Status._Editor_Status__Languages_comboBox_setDefaultViewState()
 
 	@core.executionTrace
-	def __editor__contentDropped(self, files):
-		"""
-		This method is triggered when content is dropped in an editor.
-		
-		:param files: Dropped files. ( List )
-		"""
-
-		for file in files:
-			self.loadFile(file)
-
-	@core.executionTrace
 	def __fileSystemWatcher__fileChanged(self, file):
 		"""
 		This method is triggered by the :obj:`fileSystemWatcher` class property when a file is modified.
@@ -2017,7 +2025,6 @@ class ScriptEditor(UiComponent):
 		editor.languageChanged.connect(self.__editor__languageChanged)
 		editor.contentChanged.connect(self.__editor__contentChanged)
 		editor.fileChanged.connect(self.__editor__fileChanged)
-		editor.contentDropped.connect(self.__editor__contentDropped)
 		editor.cursorPositionChanged.connect(self.Editor_Status._Editor_Status__editor__cursorPositionChanged)
 		return tabIndex
 
