@@ -1123,6 +1123,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		return spacer
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getLayoutsActiveLabels(self):
 		"""
 		This method returns the default layouts active labels widgets.
