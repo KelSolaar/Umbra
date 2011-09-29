@@ -2210,6 +2210,11 @@ class ScriptEditor(UiComponent):
 			self.ui.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
 			return True
 
+		currentEditor = self.getCurrentEditor()
+		if self.ui.Script_Editor_tabWidget.count() == 1 and currentEditor.isUntitled and not currentEditor.document().isModified():
+			self.__unregisterFile(currentEditor.file)
+			self.removeEditorTab(self.ui.Script_Editor_tabWidget.currentIndex())
+
 		LOGGER.info("{0} | Loading '{1}' file!".format(self.__class__.__name__, file))
 		language, description = self.getFileLanguage(file)
 		editor = Editor(parent=None, language=description)
