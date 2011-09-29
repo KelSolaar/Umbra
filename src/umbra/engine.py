@@ -900,7 +900,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		:param event: QEvent. ( QEvent )
 		"""
 
-		LOGGER.debug("> Application drag event accepted!")
+		LOGGER.debug("> Application drag enter event accepted!")
 		event.accept()
 
 	@core.executionTrace
@@ -1286,7 +1286,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		self.restoreState(self.__settings.getKey("Layouts", "{0}_windowState".format(name)).toByteArray())
 		self.__settings._datas.restoreGeometryOnLayoutChange and self.restoreGeometry(self.__settings.getKey("Layouts", "{0}_geometry".format(name)).toByteArray())
 		self.__setLayoutsActiveLabels(self.__settings.getKey("Layouts", "{0}_activeLabel".format(name)).toInt()[0])
-		self.__currentLayout = name
+		self.__currentLayout = self.__layoutsActiveLabels[self.__getCurrentLayoutActiveLabel()].layout
 
 		self.layoutChanged.emit(self.__currentLayout)
 
