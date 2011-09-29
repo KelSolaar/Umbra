@@ -283,6 +283,9 @@ class ScriptEditor_QTabWidget(QTabWidget):
 	| It provides support for drag'n'drop by reimplementing relevant methods.
 	"""
 
+	# Custom signals definitions.
+	contentDropped = pyqtSignal(QEvent)
+
 	@core.executionTrace
 	def __init__(self, container):
 		"""
@@ -344,11 +347,8 @@ class ScriptEditor_QTabWidget(QTabWidget):
 		:param event: QEvent. ( QEvent )
 		"""
 
-		if event.mimeData().hasFormat("application/x-qabstractitemmodeldatalist"):
-			LOGGER.debug("> '{0}' drag event type accepted!".format("application/x-qabstractitemmodeldatalist"))
-			event.accept()
-		else:
-			event.ignore()
+		LOGGER.debug("> '{0}' widget drag enter event accepted!".format(self.__class__.__name__))
+		event.accept()
 
 	@core.executionTrace
 	def dragMoveEvent(self, event):
@@ -358,7 +358,8 @@ class ScriptEditor_QTabWidget(QTabWidget):
 		:param event: QEvent. ( QEvent )
 		"""
 
-		pass
+		LOGGER.debug("> '{0}' widget drag move event accepted!".format(self.__class__.__name__))
+		event.accept()
 
 	@core.executionTrace
 	def dropEvent(self, event):
@@ -368,7 +369,8 @@ class ScriptEditor_QTabWidget(QTabWidget):
 		:param event: QEvent. ( QEvent )
 		"""
 
-		print event.mimeData().data("application/x-qabstractitemmodeldatalist")
+		LOGGER.debug("> '{0}' widget drop event accepted!".format(self.__class__.__name__))
+		self.contentDropped.emit(event)
 
 class ScriptEditor(UiComponent):
 	"""
@@ -1222,6 +1224,7 @@ class ScriptEditor(UiComponent):
 
 		self.ui.Script_Editor_tabWidget = ScriptEditor_QTabWidget(self.__container)
 		self.ui.Script_Editor_tabWidget_frame_gridLayout.addWidget(self.ui.Script_Editor_tabWidget, 0, 0)
+		self.__Script_Editor_tabWidget_setUi()
 
 		self.__recentFilesActions = []
 		for i in range(self.__maximumRecentFiles):
@@ -1418,6 +1421,15 @@ class ScriptEditor(UiComponent):
 				self.ui.Script_Editor_Output_plainTextEdit.insertPlainText(line)
 			self.__Script_Editor_Output_plainTextEdit_setDefaultViewState()
 			self.__memoryHandlerStackDepth = memoryHandlerStackDepth
+
+	@core.executionTrace
+	def __Script_Editor_tabWidget_setUi(self):
+		"""
+		This method sets the **Script_Editor_tabWidget** Widget.
+		"""
+
+		self.ui.Script_Editor_tabWidget.setTabsClosable(True)
+		self.ui.Script_Editor_tabWidget.setMovable(True)
 
 	@core.executionTrace
 	def __Languages_comboBox_setUi(self):
@@ -2195,7 +2207,7 @@ class ScriptEditor(UiComponent):
 		if tabIndex >= 0:
 			LOGGER.info("{0} | '{1}' is already loaded!".format(self.__class__.__name__, file))
 			self.ui.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
-			return
+			return True
 
 		LOGGER.info("{0} | Loading '{1}' file!".format(self.__class__.__name__, file))
 		language, description = self.getFileLanguage(file)
