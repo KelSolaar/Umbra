@@ -1449,6 +1449,7 @@ class ScriptEditor(UiComponent):
 		:param tabIndex: Tab index. ( Integer )
 		"""
 
+		self.ui.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
 		return self.closeFile()
 
 	@core.executionTrace
