@@ -609,7 +609,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@property
 	def preInputAccelerators(self):
 		"""
-		This method is the property for ** self.__preInputAccelerators ** attribute.
+		This method is the property for **self.__preInputAccelerators** attribute.
 
 		:return: self.__preInputAccelerators. ( Tuple / List )
 		"""
@@ -620,7 +620,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def preInputAccelerators(self, value):
 		"""
-		This method is the setter method for ** self.__preInputAccelerators ** attribute.
+		This method is the setter method for **self.__preInputAccelerators** attribute.
 
 		:param value: Attribute value. ( Tuple / List )
 		"""
@@ -633,7 +633,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def preInputAccelerators(self):
 		"""
-		This method is the deleter method for ** self.__preInputAccelerators ** attribute.
+		This method is the deleter method for **self.__preInputAccelerators** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("preInputAccelerators"))
@@ -641,7 +641,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@property
 	def postInputAccelerators(self):
 		"""
-		This method is the property for ** self.__postInputAccelerators ** attribute.
+		This method is the property for **self.__postInputAccelerators** attribute.
 
 		:return: self.__postInputAccelerators. ( Tuple / List )
 		"""
@@ -652,7 +652,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def postInputAccelerators(self, value):
 		"""
-		This method is the setter method for ** self.__postInputAccelerators ** attribute.
+		This method is the setter method for **self.__postInputAccelerators** attribute.
 
 		:param value: Attribute value. ( Tuple / List )
 		"""
@@ -665,7 +665,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def postInputAccelerators(self):
 		"""
-		This method is the deleter method for ** self.__postInputAccelerators ** attribute.
+		This method is the deleter method for **self.__postInputAccelerators** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("postInputAccelerators"))
