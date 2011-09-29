@@ -277,6 +277,99 @@ class Editor_Status(QObject):
 		editor = self.__container.getCurrentEditor()
 		self.__ui.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(editor.getCursorLine() + 1, editor.getCursorColumn() + 1))
 
+class ScriptEditor_QTabWidget(QTabWidget):
+	"""
+	| This class is a `QTabWidget <http://doc.qt.nokia.com/4.7/qtabwidget.html>`_ subclass used to display **ScriptEditor** editors.
+	| It provides support for drag'n'drop by reimplementing relevant methods.
+	"""
+
+	@core.executionTrace
+	def __init__(self, container):
+		"""
+		This method initializes the class.
+
+		:param container: Container to attach the Component to. ( QObject )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		QTabWidget.__init__(self, container)
+
+		self.setAcceptDrops(True)
+
+		# --- Setting class attributes. ---
+		self.__container = container
+
+	#***********************************************************************************************
+	#***	Attributes properties.
+	#***********************************************************************************************
+	@property
+	def container(self):
+		"""
+		This method is the property for **self.__container** attribute.
+
+		:return: self.__container. ( QObject )
+		"""
+
+		return self.__container
+
+	@container.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def container(self, value):
+		"""
+		This method is the setter method for **self.__container** attribute.
+
+		:param value: Attribute value. ( QObject )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("container"))
+
+	@container.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def container(self):
+		"""
+		This method is the deleter method for **self.__container** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("container"))
+
+	#***********************************************************************************************
+	#***	Class methods.
+	#***********************************************************************************************
+	@core.executionTrace
+	def dragEnterEvent(self, event):
+		"""
+		This method defines the drag enter event behavior.
+
+		:param event: QEvent. ( QEvent )
+		"""
+
+		if event.mimeData().hasFormat("application/x-qabstractitemmodeldatalist"):
+			LOGGER.debug("> '{0}' drag event type accepted!".format("application/x-qabstractitemmodeldatalist"))
+			event.accept()
+		else:
+			event.ignore()
+
+	@core.executionTrace
+	def dragMoveEvent(self, event):
+		"""
+		This method defines the drag move event behavior.
+
+		:param event: QEvent. ( QEvent )
+		"""
+
+		pass
+
+	@core.executionTrace
+	def dropEvent(self, event):
+		"""
+		This method defines the drop event behavior.
+
+		:param event: QEvent. ( QEvent )
+		"""
+
+		print event.mimeData().data("application/x-qabstractitemmodeldatalist")
+
 class ScriptEditor(UiComponent):
 	"""
 	| This class is the :mod:`umbra.components.addons.scriptEditor.scriptEditor` Component Interface class.
@@ -359,7 +452,7 @@ class ScriptEditor(UiComponent):
 	@property
 	def uiPath(self):
 		"""
-		This method is the property for ** self.__uiPath ** attribute.
+		This method is the property for **self.__uiPath** attribute.
 
 		:return: self.__uiPath. ( String )
 		"""
@@ -370,7 +463,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def uiPath(self, value):
 		"""
-		This method is the setter method for ** self.__uiPath ** attribute.
+		This method is the setter method for **self.__uiPath** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -381,7 +474,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def uiPath(self):
 		"""
-		This method is the deleter method for ** self.__uiPath ** attribute.
+		This method is the deleter method for **self.__uiPath** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("uiPath"))
@@ -389,7 +482,7 @@ class ScriptEditor(UiComponent):
 	@property
 	def dockArea(self):
 		"""
-		This method is the property for ** self.__dockArea ** attribute.
+		This method is the property for **self.__dockArea** attribute.
 
 		:return: self.__dockArea. ( Integer )
 		"""
@@ -400,7 +493,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def dockArea(self, value):
 		"""
-		This method is the setter method for ** self.__dockArea ** attribute.
+		This method is the setter method for **self.__dockArea** attribute.
 
 		:param value: Attribute value. ( Integer )
 		"""
@@ -411,7 +504,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def dockArea(self):
 		"""
-		This method is the deleter method for ** self.__dockArea ** attribute.
+		This method is the deleter method for **self.__dockArea** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("dockArea"))
@@ -419,7 +512,7 @@ class ScriptEditor(UiComponent):
 	@property
 	def container(self):
 		"""
-		This method is the property for ** self.__container ** attribute.
+		This method is the property for **self.__container** attribute.
 
 		:return: self.__container. ( QObject )
 		"""
@@ -430,7 +523,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
-		This method is the setter method for ** self.__container ** attribute.
+		This method is the setter method for **self.__container** attribute.
 
 		:param value: Attribute value. ( QObject )
 		"""
@@ -441,7 +534,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
-		This method is the deleter method for ** self.__container ** attribute.
+		This method is the deleter method for **self.__container** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("container"))
@@ -539,7 +632,7 @@ class ScriptEditor(UiComponent):
 	@property
 	def defaultLanguage(self):
 		"""
-		This method is the property for ** self.__defaultLanguage ** attribute.
+		This method is the property for **self.__defaultLanguage** attribute.
 
 		:return: self.__defaultLanguage. ( String )
 		"""
@@ -550,7 +643,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def defaultLanguage(self, value):
 		"""
-		This method is the setter method for ** self.__defaultLanguage ** attribute.
+		This method is the setter method for **self.__defaultLanguage** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -561,7 +654,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def defaultLanguage(self):
 		"""
-		This method is the deleter method for ** self.__defaultLanguage ** attribute.
+		This method is the deleter method for **self.__defaultLanguage** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("defaultLanguage"))
@@ -569,7 +662,7 @@ class ScriptEditor(UiComponent):
 	@property
 	def defaultScriptLanguage(self):
 		"""
-		This method is the property for ** self.__defaultScriptLanguage ** attribute.
+		This method is the property for **self.__defaultScriptLanguage** attribute.
 
 		:return: self.__defaultScriptLanguage. ( String )
 		"""
@@ -580,7 +673,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def defaultScriptLanguage(self, value):
 		"""
-		This method is the setter method for ** self.__defaultScriptLanguage ** attribute.
+		This method is the setter method for **self.__defaultScriptLanguage** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -591,7 +684,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def defaultScriptLanguage(self):
 		"""
-		This method is the deleter method for ** self.__defaultScriptLanguage ** attribute.
+		This method is the deleter method for **self.__defaultScriptLanguage** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("defaultScriptLanguage"))
@@ -659,7 +752,7 @@ class ScriptEditor(UiComponent):
 	@property
 	def defaultWindowTitle(self):
 		"""
-		This method is the property for ** self.__defaultWindowTitle ** attribute.
+		This method is the property for **self.__defaultWindowTitle** attribute.
 
 		:return: self.__defaultWindowTitle. ( String )
 		"""
@@ -670,7 +763,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def defaultWindowTitle(self, value):
 		"""
-		This method is the setter method for ** self.__defaultWindowTitle ** attribute.
+		This method is the setter method for **self.__defaultWindowTitle** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -681,7 +774,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def defaultWindowTitle(self):
 		"""
-		This method is the deleter method for ** self.__defaultWindowTitle ** attribute.
+		This method is the deleter method for **self.__defaultWindowTitle** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("defaultWindowTitle"))
@@ -689,7 +782,7 @@ class ScriptEditor(UiComponent):
 	@property
 	def defaultScriptEditorDirectory(self):
 		"""
-		This method is the property for ** self.__defaultScriptEditorDirectory ** attribute.
+		This method is the property for **self.__defaultScriptEditorDirectory** attribute.
 
 		:return: self.__defaultScriptEditorDirectory. ( String )
 		"""
@@ -700,7 +793,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def defaultScriptEditorDirectory(self, value):
 		"""
-		This method is the setter method for ** self.__defaultScriptEditorDirectory ** attribute.
+		This method is the setter method for **self.__defaultScriptEditorDirectory** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -711,7 +804,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def defaultScriptEditorDirectory(self):
 		"""
-		This method is the deleter method for ** self.__defaultScriptEditorDirectory ** attribute.
+		This method is the deleter method for **self.__defaultScriptEditorDirectory** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("defaultScriptEditorDirectory"))
@@ -719,7 +812,7 @@ class ScriptEditor(UiComponent):
 	@property
 	def defaultScriptEditorFile(self):
 		"""
-		This method is the property for ** self.__defaultScriptEditorFile ** attribute.
+		This method is the property for **self.__defaultScriptEditorFile** attribute.
 
 		:return: self.__defaultScriptEditorFile. ( String )
 		"""
@@ -730,7 +823,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def defaultScriptEditorFile(self, value):
 		"""
-		This method is the setter method for ** self.__defaultScriptEditorFile ** attribute.
+		This method is the setter method for **self.__defaultScriptEditorFile** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -741,7 +834,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def defaultScriptEditorFile(self):
 		"""
-		This method is the deleter method for ** self.__defaultScriptEditorFile ** attribute.
+		This method is the deleter method for **self.__defaultScriptEditorFile** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("defaultScriptEditorFile"))
@@ -749,7 +842,7 @@ class ScriptEditor(UiComponent):
 	@property
 	def scriptEditorFile(self):
 		"""
-		This method is the property for ** self.__scriptEditorFile ** attribute.
+		This method is the property for **self.__scriptEditorFile** attribute.
 
 		:return: self.__scriptEditorFile. ( String )
 		"""
@@ -760,7 +853,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def scriptEditorFile(self, value):
 		"""
-		This method is the setter method for ** self.__scriptEditorFile ** attribute.
+		This method is the setter method for **self.__scriptEditorFile** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -773,7 +866,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def scriptEditorFile(self):
 		"""
-		This method is the deleter method for ** self.__scriptEditorFile ** attribute.
+		This method is the deleter method for **self.__scriptEditorFile** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("scriptEditorFile"))
@@ -781,7 +874,7 @@ class ScriptEditor(UiComponent):
 	@property
 	def maximumRecentFiles(self):
 		"""
-		This method is the property for ** self.__maximumRecentFiles ** attribute.
+		This method is the property for **self.__maximumRecentFiles** attribute.
 
 		:return: self.__maximumRecentFiles. ( Integer )
 		"""
@@ -792,7 +885,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def maximumRecentFiles(self, value):
 		"""
-		This method is the setter method for ** self.__maximumRecentFiles ** attribute.
+		This method is the setter method for **self.__maximumRecentFiles** attribute.
 
 		:param value: Attribute value. ( Integer )
 		"""
@@ -803,7 +896,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def maximumRecentFiles(self):
 		"""
-		This method is the deleter method for ** self.__maximumRecentFiles ** attribute.
+		This method is the deleter method for **self.__maximumRecentFiles** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("maximumRecentFiles"))
@@ -811,7 +904,7 @@ class ScriptEditor(UiComponent):
 	@property
 	def recentFilesActions(self):
 		"""
-		This method is the property for ** self.__recentFilesActions ** attribute.
+		This method is the property for **self.__recentFilesActions** attribute.
 
 		:return: self.__recentFilesActions. ( List )
 		"""
@@ -822,7 +915,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def recentFilesActions(self, value):
 		"""
-		This method is the setter method for ** self.__recentFilesActions ** attribute.
+		This method is the setter method for **self.__recentFilesActions** attribute.
 
 		:param value: Attribute value. ( List )
 		"""
@@ -833,7 +926,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def recentFilesActions(self):
 		"""
-		This method is the deleter method for ** self.__recentFilesActions ** attribute.
+		This method is the deleter method for **self.__recentFilesActions** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("recentFilesActions"))
@@ -841,7 +934,7 @@ class ScriptEditor(UiComponent):
 	@property
 	def searchAndReplace(self):
 		"""
-		This method is the property for ** self.__searchAndReplace ** attribute.
+		This method is the property for **self.__searchAndReplace** attribute.
 
 		:return: self.__searchAndReplace. ( SearchAndReplace )
 		"""
@@ -852,7 +945,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def searchAndReplace(self, value):
 		"""
-		This method is the setter method for ** self.__searchAndReplace ** attribute.
+		This method is the setter method for **self.__searchAndReplace** attribute.
 
 		:param value: Attribute value. ( SearchAndReplace )
 		"""
@@ -863,7 +956,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def searchAndReplace(self):
 		"""
-		This method is the deleter method for ** self.__searchAndReplace ** attribute.
+		This method is the deleter method for **self.__searchAndReplace** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("searchAndReplace"))
@@ -931,7 +1024,7 @@ class ScriptEditor(UiComponent):
 	@property
 	def locals(self):
 		"""
-		This method is the property for ** self.__locals ** attribute.
+		This method is the property for **self.__locals** attribute.
 
 		:return: self.__locals. ( Dictionary )
 		"""
@@ -942,7 +1035,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def locals(self, value):
 		"""
-		This method is the setter method for ** self.__locals ** attribute.
+		This method is the setter method for **self.__locals** attribute.
 
 		:param value: Attribute value. ( Dictionary )
 		"""
@@ -953,7 +1046,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def locals(self):
 		"""
-		This method is the deleter method for ** self.__locals ** attribute.
+		This method is the deleter method for **self.__locals** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("locals"))
@@ -961,7 +1054,7 @@ class ScriptEditor(UiComponent):
 	@property
 	def memoryHandlerStackDepth(self):
 		"""
-		This method is the property for ** self.__memoryHandlerStackDepth ** attribute.
+		This method is the property for **self.__memoryHandlerStackDepth** attribute.
 
 		:return: self.__memoryHandlerStackDepth. ( Integer )
 		"""
@@ -972,7 +1065,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def memoryHandlerStackDepth(self, value):
 		"""
-		This method is the setter method for ** self.__memoryHandlerStackDepth ** attribute.
+		This method is the setter method for **self.__memoryHandlerStackDepth** attribute.
 
 		:param value: Attribute value. ( Integer )
 		"""
@@ -983,7 +1076,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def memoryHandlerStackDepth(self):
 		"""
-		This method is the deleter method for ** self.__memoryHandlerStackDepth ** attribute.
+		This method is the deleter method for **self.__memoryHandlerStackDepth** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("memoryHandlerStackDepth"))
@@ -991,7 +1084,7 @@ class ScriptEditor(UiComponent):
 	@property
 	def menuBar(self):
 		"""
-		This method is the property for ** self.__menuBar ** attribute.
+		This method is the property for **self.__menuBar** attribute.
 
 		:return: self.__menuBar. ( QToolbar )
 		"""
@@ -1002,7 +1095,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def menuBar(self, value):
 		"""
-		This method is the setter method for ** self.__menuBar ** attribute.
+		This method is the setter method for **self.__menuBar** attribute.
 
 		:param value: Attribute value. ( QToolbar )
 		"""
@@ -1013,7 +1106,7 @@ class ScriptEditor(UiComponent):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def menuBar(self):
 		"""
-		This method is the deleter method for ** self.__menuBar ** attribute.
+		This method is the deleter method for **self.__menuBar** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("menuBar"))
@@ -1126,6 +1219,9 @@ class ScriptEditor(UiComponent):
 		"""
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
+
+		self.ui.Script_Editor_tabWidget = ScriptEditor_QTabWidget(self.__container)
+		self.ui.Script_Editor_tabWidget_frame_gridLayout.addWidget(self.ui.Script_Editor_tabWidget, 0, 0)
 
 		self.__recentFilesActions = []
 		for i in range(self.__maximumRecentFiles):
