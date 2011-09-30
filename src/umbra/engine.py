@@ -815,7 +815,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		"""
 
 		if value:
-			assert isinstance(value, QMenu), "'{0}' attribute: '{1}' is not 'QMenu' class instance!".format("customLayoutsMenu", value)
+			assert type(value) is QMenu, "'{0}' attribute: '{1}' type is not 'QMenu'!".format("customLayoutsMenu", value)
 		self.__customLayoutsMenu = value
 
 	@customLayoutsMenu.deleter
@@ -847,7 +847,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		"""
 
 		if value:
-			assert isinstance(value, QMenu), "'{0}' attribute: '{1}' is not 'QMenu' class instance!".format("miscellaneousMenu", value)
+			assert type(value) is QMenu, "'{0}' attribute: '{1}' type is not 'QMenu'!".format("miscellaneousMenu", value)
 		self.__miscellaneousMenu = value
 
 	@miscellaneousMenu.deleter
