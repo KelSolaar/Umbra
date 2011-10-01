@@ -770,7 +770,6 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		if self.highlighter:
 			self.highlighter.setParent(None)
 			self.highlighter = None
-			QApplication.processEvents()
 		return True
 
 	@core.executionTrace

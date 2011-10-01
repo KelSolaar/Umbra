@@ -1460,6 +1460,11 @@ class ScriptEditor(UiComponent):
 		:param tabIndex: Tab index. ( Integer )
 		"""
 
+		# Ensure focus on **Editor_Status.ui.Languages_comboBox** is removed to avoid voodoo magic convolutions.
+		if QApplication.focusWidget() == self.Editor_Status.ui.Languages_comboBox:
+			self.Editor_Status.ui.Languages_comboBox.clearFocus()
+			QApplication.processEvents()
+
 		self.Editor_Status._Editor_Status__Languages_comboBox_setDefaultViewState()
 		self.__setWindowTitle()
 
