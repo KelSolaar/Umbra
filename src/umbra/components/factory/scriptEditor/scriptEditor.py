@@ -404,6 +404,8 @@ class ScriptEditor(UiComponent):
 		self.__settings = None
 		self.__settingsSection = None
 
+		self.__developmentLayout = "developmentCentric"
+
 		self.__languages = {"Python" : PYTHON_LANGUAGE,
 							"Logging" : Language(name="Logging",
 												extension="\.log",
@@ -600,6 +602,36 @@ class ScriptEditor(UiComponent):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("settingsSection"))
+
+	@property
+	def developmentLayout(self):
+		"""
+		This method is the property for **self.__developmentLayout** attribute.
+
+		:return: self.__developmentLayout. ( String )
+		"""
+
+		return self.__developmentLayout
+
+	@developmentLayout.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def developmentLayout(self, value):
+		"""
+		This method is the setter method for **self.__developmentLayout** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("developmentLayout"))
+
+	@developmentLayout.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def developmentLayout(self):
+		"""
+		This method is the deleter method for **self.__developmentLayout** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("developmentLayout"))
 
 	@property
 	def languages(self):
@@ -1261,6 +1293,7 @@ class ScriptEditor(UiComponent):
 		self.__container.contentDropped.connect(self.__application__contentDropped)
 		self.ui.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
 		self.ui.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
+		self.ui.Script_Editor_tabWidget.contentDropped.connect(self.__Script_Editor_tabWidget__contentDropped)
 		self.ui.visibilityChanged.connect(self.__scriptEditor__visibilityChanged)
 		self.datasChanged.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.recentFilesChanged.connect(self.__setRecentFilesActions)
@@ -1469,6 +1502,16 @@ class ScriptEditor(UiComponent):
 		self.__setWindowTitle()
 
 	@core.executionTrace
+	def __Script_Editor_tabWidget__contentDropped(self, event):
+		"""
+		This method is triggered when content is dropped in the **Script_Editor_tabWidget** Widget.
+
+		:param event: Event. ( QEvent )
+		"""
+
+		self.__handleContentDroppedEvent(event)
+
+	@core.executionTrace
 	def __application__layoutChanged(self, currentLayout):
 		"""
 		This method is triggered when the Application layout is changed.
@@ -1486,15 +1529,7 @@ class ScriptEditor(UiComponent):
 		:param event: Event. ( QEvent )
 		"""
 
-		if not event.mimeData().hasUrls():
-			return
-
-		for url in event.mimeData().urls():
-			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and re.search("^\/[A-Z]:", str(url.path())) and str(url.path())[1:] or str(url.path())
-			if os.path.isdir(path):
-				continue
-
-			self.loadFile(path)
+		self.__handleContentDroppedEvent(event)
 
 	@core.executionTrace
 	def __scriptEditor__visibilityChanged(self, visibility):
@@ -1956,6 +1991,26 @@ class ScriptEditor(UiComponent):
 		del recentFiles[self.__maximumRecentFiles:]
 		recentFiles = self.__settings.setKey(self.__settingsSection, "recentFiles", recentFiles.join(","))
 		self.recentFilesChanged.emit()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __handleContentDroppedEvent(self, event):
+		"""
+		This method handles dopped content event.
+		
+		:param event: Content dropped event. ( QEvent )
+		"""
+
+		if not event.mimeData().hasUrls():
+			return
+
+		for url in event.mimeData().urls():
+			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and re.search("^\/[A-Z]:", str(url.path())) and str(url.path())[1:] or str(url.path())
+			if os.path.isdir(path):
+				continue
+
+			if self.loadFile(path):
+				self.__container.currentLayout != self.__developmentLayout and self.__container.restoreLayout(self.__developmentLayout)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
