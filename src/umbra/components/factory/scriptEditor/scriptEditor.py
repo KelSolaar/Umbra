@@ -448,7 +448,8 @@ class ScriptEditor(UiComponent):
 		self.__menuBar = None
 
 		self.__fileSystemWatcher = None
-		self.__Languages_comboBox = None
+		self.__timer = None
+		self.__timerCycleMultiplier = 10
 
 	#***********************************************************************************************
 	#***	Attributes properties.
@@ -1176,34 +1177,64 @@ class ScriptEditor(UiComponent):
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("fileSystemWatcher"))
 
 	@property
-	def Languages_comboBox(self):
+	def timer(self):
 		"""
-		This method is the property for **self.__Languages_comboBox** attribute.
+		This method is the property for **self.__timer** attribute.
 
-		:return: self.__Languages_comboBox. ( QLabel )
+		:return: self.__timer. ( QTimer )
 		"""
 
-		return self.__Languages_comboBox
+		return self.__timer
 
-	@Languages_comboBox.setter
+	@timer.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def Languages_comboBox(self, value):
+	def timer(self, value):
 		"""
-		This method is the setter method for **self.__Languages_comboBox** attribute.
+		This method is the setter method for **self.__timer** attribute.
 
-		:param value: Attribute value. ( QLabel )
+		:param value: Attribute value. ( QTimer )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("Languages_comboBox"))
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("timer"))
 
-	@Languages_comboBox.deleter
+	@timer.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def Languages_comboBox(self):
+	def timer(self):
 		"""
-		This method is the deleter method for **self.__Languages_comboBox** attribute.
+		This method is the deleter method for **self.__timer** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("Languages_comboBox"))
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("timer"))
+
+	@property
+	def timerCycleMultiplier(self):
+		"""
+		This method is the property for **self.__timerCycleMultiplier** attribute.
+
+		:return: self.__timerCycleMultiplier. ( Float )
+		"""
+
+		return self.__timerCycleMultiplier
+
+	@timerCycleMultiplier.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def timerCycleMultiplier(self, value):
+		"""
+		This method is the setter method for **self.__timerCycleMultiplier** attribute.
+
+		:param value: Attribute value. ( Float )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("timerCycleMultiplier"))
+
+	@timerCycleMultiplier.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def timerCycleMultiplier(self):
+		"""
+		This method is the deleter method for **self.__timerCycleMultiplier** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("timerCycleMultiplier"))
 
 	#***********************************************************************************************
 	#***	Class methods.
@@ -1282,13 +1313,14 @@ class ScriptEditor(UiComponent):
 		self.__searchAndReplace = SearchAndReplace(self)
 
 		self.__fileSystemWatcher = QFileSystemWatcher(self)
+		self.__timer = QTimer(self)
+		self.__timer.start(Constants.defaultTimerCycle * self.__timerCycleMultiplier)
 
 		self.Editor_Status = Editor_Status(self)
 		self.__container.statusBar.addPermanentWidget(self.Editor_Status.ui)
 
 		# Signals / Slots.
 		self.__container.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
-		self.__container.timer.timeout.connect(self.__reloadModifiedFiles)
 		self.__container.layoutChanged.connect(self.__application__layoutChanged)
 		self.__container.contentDropped.connect(self.__application__contentDropped)
 		self.ui.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
@@ -1298,6 +1330,7 @@ class ScriptEditor(UiComponent):
 		self.datasChanged.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.recentFilesChanged.connect(self.__setRecentFilesActions)
 		self.__fileSystemWatcher.fileChanged.connect(self.__fileSystemWatcher__fileChanged)
+		self.__timer.timeout.connect(self.__reloadModifiedFiles)
 		return True
 
 	@core.executionTrace
@@ -1360,6 +1393,9 @@ class ScriptEditor(UiComponent):
 		"""
 
 		LOGGER.debug("> Calling '{0}' Component Framework 'onClose' method.".format(self.__class__.__name__))
+
+		self.__timer.stop()
+		self.__timer = None
 
 		return self.closeAllFiles(leaveLastEditor=False)
 
@@ -1463,16 +1499,6 @@ class ScriptEditor(UiComponent):
 
 		self.ui.Script_Editor_tabWidget.setTabsClosable(True)
 		self.ui.Script_Editor_tabWidget.setMovable(True)
-
-	@core.executionTrace
-	def __Languages_comboBox_setUi(self):
-		"""
-		This method sets the **Languages_comboBox** Widget.
-		"""
-
-		self.__Languages_comboBox = QComboBox()
-		self.__Languages_comboBox.setObjectName("Languages_comboBox")
-		self.__Languages_comboBox.addItems(self.__languages.keys())
 
 	@core.executionTrace
 	def __Script_Editor_tabWidget__tabCloseRequested(self, tabIndex):
