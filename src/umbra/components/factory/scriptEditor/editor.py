@@ -77,7 +77,7 @@ PYTHON_LANGUAGE = Language(name="Python",
 							extension="\.py|\.pyw",
 							highlighter=umbra.ui.highlighters.PythonHighlighter,
 							completer=umbra.ui.completers.PythonCompleter,
-							preInputAccelerators=(umbra.ui.inputAccelerators.indentationPreEventInputAccelerators, umbra.ui.inputAccelerators.pythonPreEventInputAccelerators, umbra.ui.inputAccelerators.completionPreEventInputAccelerators),
+							preInputAccelerators=(umbra.ui.inputAccelerators.indentationPreEventInputAccelerators, umbra.ui.inputAccelerators.symbolsExpandingPreEventInputAccelerators, umbra.ui.inputAccelerators.completionPreEventInputAccelerators),
 							postInputAccelerators=(umbra.ui.inputAccelerators.pythonPostEventInputAccelerators,),
 							indentMarker="\t",
 							commentMarker="#")
