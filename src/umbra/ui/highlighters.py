@@ -498,7 +498,7 @@ class PythonHighlighter(Highlighter):
 		self.formats.numericFloat = getFormat(format=self.formats.numericConstant)
 		self.formats.numericComplex = getFormat(format=self.formats.numericConstant)
 
-		self.formats.modifierGlobal = getFormat(format=self.formats.default, color=QColor(250, 240, 150))
+		self.formats.modifierGlobal = getFormat(format=self.formats.default, bold=True)
 		self.formats.modifierSpecialGlobal = getFormat(format=self.formats.modifierGlobal)
 
 		self.formats.operator = getFormat(format=self.formats.keyword)
@@ -507,10 +507,10 @@ class PythonHighlighter(Highlighter):
 		self.formats.operatorAssignementAugmented = getFormat(format=self.formats.operator)
 		self.formats.operatorArithmetic = getFormat(format=self.formats.operator)
 
-		self.formats.entity = getFormat(format=self.formats.default, color=QColor(155, 110, 165))
+		self.formats.entity = getFormat(format=self.formats.default, color=QColor(115, 135, 175))
 		self.formats.entityClass = getFormat(format=self.formats.entity)
 		self.formats.entityFunction = getFormat(format=self.formats.entity)
-		self.formats.entityDecorator = getFormat(format=self.formats.entity)
+		self.formats.entityDecorator = getFormat(format=self.formats.entity, italic=True)
 
 		self.formats.builtins = getFormat(format=self.formats.default, color=QColor(115, 135, 175))
 		self.formats.builtinsExceptions = getFormat(format=self.formats.builtins)
@@ -527,9 +527,9 @@ class PythonHighlighter(Highlighter):
 		self.formats.doubleQuotation = getFormat(format=self.formats.quotation)
 		self.formats.singleQuotation = getFormat(format=self.formats.quotation)
 
-		self.formats.singleLineComment = getFormat(format=self.formats.default, color=QColor(128, 128, 128))
+		self.formats.singleLineComment = getFormat(format=self.formats.default, color=QColor(96, 96, 96))
 
-		self.formats.multiLineString = getFormat(format=self.formats.default, color=QColor(205, 105, 75), italic=True)
+		self.formats.multiLineString = getFormat(format=self.formats.quotation)
 
 		return True
 
