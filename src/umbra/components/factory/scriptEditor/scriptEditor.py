@@ -53,16 +53,16 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "Editor_Status", "ScriptEditor"]
+__all__ = ["LOGGER", "EditorStatus", "LanguagesModel", "ScriptEditor"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
 #***********************************************************************************************
 #***	Module classes and definitions.
 #***********************************************************************************************
-class Editor_Status(QObject):
+class EditorStatus(QObject):
 	"""
-	| This class defines the **ScriptEditor** Component status bar widget. 
+	This class defines the **ScriptEditor** Component status bar widget. 
 	"""
 
 	@core.executionTrace
@@ -89,7 +89,7 @@ class Editor_Status(QObject):
 		if "." in sys.path:
 			sys.path.remove(".")
 
-		Editor_Status.initializeUi(self)
+		EditorStatus.initializeUi(self)
 
 	#***********************************************************************************************
 	#***	Attributes properties.
@@ -228,7 +228,7 @@ class Editor_Status(QObject):
 
 		self.__ui.Lines_Columns_label.setAlignment(Qt.AlignRight)
 		self.__ui.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(1, 1))
-		self.__ui.Languages_comboBox.addItems(self.__container.languages.keys())
+		self.__ui.Languages_comboBox.setModel(self.__container.languagesModel)
 
 		# Signals / Slots.
 		self.__ui.Languages_comboBox.activated.connect(self.__Languages_comboBox__activated)
@@ -260,7 +260,7 @@ class Editor_Status(QObject):
 		if not self.__container.hasEditorTab():
 			return
 
-		language = self.__container.languages[str(self.__ui.Languages_comboBox.currentText())]
+		language = self.__container.languagesModel.getLanguage(str(self.__ui.Languages_comboBox.currentText()))
 		editor = self.__container.getCurrentEditor()
 		return self.__container.setEditorLanguage(editor, language)
 
@@ -372,9 +372,169 @@ class ScriptEditor_QTabWidget(QTabWidget):
 		LOGGER.debug("> '{0}' widget drop event accepted!".format(self.__class__.__name__))
 		self.contentDropped.emit(event)
 
+class LanguagesModel(QAbstractListModel):
+	"""
+	This class is a `QAbstractListModel <http://doc.qt.nokia.com/4.7/qabstractListmodel.html>`_ subclass used to store **ScriptEditor** languages.
+	"""
+
+	@core.executionTrace
+	def __init__(self, parent=None, languages=None):
+		"""
+		This method initializes the class.
+
+		:param parent: Parent object. ( QObject )
+		:param languages: Languages. ( List )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		QAbstractListModel.__init__(self, parent)
+
+		# --- Setting class attributes. ---
+		self.__languages = []
+		self.languages = languages
+
+	#***********************************************************************************************
+	#***	Attributes properties.
+	#***********************************************************************************************
+	@property
+	def languages(self):
+		"""
+		This method is the property for **self.__languages** attribute.
+
+		:return: self.__languages. ( List )
+		"""
+
+		return self.__languages
+
+	@languages.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def languages(self, value):
+		"""
+		This method is the setter method for **self.__languages** attribute.
+
+		:param value: Attribute value. ( List )
+		"""
+
+		if value:
+			assert type(value) is list, "'{0}' attribute: '{1}' type is not 'list'!".format("languages", value)
+		self.__languages = value
+
+	@languages.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def languages(self):
+		"""
+		This method is the deleter method for **self.__languages** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("languages"))
+
+	#***********************************************************************************************
+	#***	Class methods.
+	#***********************************************************************************************
+	@core.executionTrace
+	def rowCount(self, parent=QModelIndex()):
+		"""
+		This method returns the model row count.
+
+		:param parent: Parent. ( QModelIndex )
+		:return: Row count. ( Integer )
+		"""
+
+		return len(self.__languages)
+
+	@core.executionTrace
+	def data(self, index, role=Qt.DisplayRole):
+		"""
+		This method returns the model data.
+
+		:param index: Index. ( QModelIndex )
+		:param role: Role. ( Integer )
+		:return: Data. ( QVariant )
+		"""
+
+		if not index.isValid():
+			return QVariant()
+
+		if role == Qt.DisplayRole:
+			return QVariant(self.__languages[index.row()].name)
+		return QVariant()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def registerLanguage(self, language):
+		"""
+		This method registers provided language in the :obj:`LanguagesModel.languages` class property.
+		
+		:param language: Language to register. ( Language )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not isinstance(language, Language):
+			raise foundations.exceptions.ProgrammingError("'{0}' is not a 'Language' instance!".format(language))
+
+		if self.getLanguage(language):
+			raise foundations.exceptions.ProgrammingError("'{0}' language is already registered!".format(language.name))
+
+		self.beginInsertRows(QModelIndex(), len(self.__languagesModel), len(self.__languagesModel))
+		self.__languagesModel.append(language)
+		self.endInsertRows()
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def unregisterLanguage(self, name):
+		"""
+		This method unregisters provided language name from the :obj:`LanguagesModel.languages` class property.
+		
+		:param name: Language to unregister. ( String )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.getLanguage(name):
+			raise foundations.exceptions.ProgrammingError("'{0}' language isn't registered!".format(name))
+
+		for i, language in enumerate(self.__languages):
+			if not language.name == name:
+				continue
+
+			self.beginRemoveRows(QModelIndex(), i, i)
+			del(self.__languages[i])
+			self.endRemoveRows()
+			return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getLanguage(self, name):
+		"""
+		This method returns the language associated with provided name.
+		
+		:param name: Language name. ( String )
+		:return: File language. ( Language )
+		"""
+
+		for language in self.__languages:
+			if language.name == name:
+				return language
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getFileLanguage(self, file):
+		"""
+		This method returns the language of provided file.
+		
+		:param file: File to get language of. ( String )
+		:return: File language. ( Language )
+		"""
+
+		for language in self.__languages:
+			if re.search(language.extension, file):
+				LOGGER.debug("> '{0}' file detected language: '{1}'.".format(file, language.name))
+				return language
+
 class ScriptEditor(UiComponent):
 	"""
-	| This class is the :mod:`umbra.components.addons.scriptEditor.scriptEditor` Component Interface class.
+	This class is the :mod:`umbra.components.addons.scriptEditor.scriptEditor` Component Interface class.
 	"""
 
 	# Custom signals definitions.
@@ -406,8 +566,8 @@ class ScriptEditor(UiComponent):
 
 		self.__developmentLayout = "developmentCentric"
 
-		self.__languages = {"Python" : PYTHON_LANGUAGE,
-							"Logging" : Language(name="Logging",
+		self.__languagesModel = LanguagesModel(self, [PYTHON_LANGUAGE,
+											Language(name="Logging",
 												extension="\.log",
 												highlighter=umbra.ui.highlighters.LoggingHighlighter,
 												completer=None,
@@ -415,14 +575,14 @@ class ScriptEditor(UiComponent):
 												postInputAccelerators=(),
 												indentMarker="\t",
 												commentMarker=None),
-							"Text" : Language(name="Text",
+											Language(name="Text",
 												extension="\.txt",
 												highlighter=None,
 												completer=umbra.ui.completers.EnglishCompleter,
 												preInputAccelerators=(umbra.ui.inputAccelerators.completionPreEventInputAccelerators,),
 												postInputAccelerators=(),
 												indentMarker="\t",
-												commentMarker=None)}
+												commentMarker=None)])
 
 		self.__defaultLanguage = "Text"
 		self.__defaultScriptLanguage = "Python"
@@ -635,34 +795,34 @@ class ScriptEditor(UiComponent):
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("developmentLayout"))
 
 	@property
-	def languages(self):
+	def languagesModel(self):
 		"""
-		This method is the property for **self.__languages** attribute.
+		This method is the property for **self.__languagesModel** attribute.
 
-		:return: self.__languages. ( Dictionary )
+		:return: self.__languagesModel. ( LanguagesModel )
 		"""
 
-		return self.__languages
+		return self.__languagesModel
 
-	@languages.setter
+	@languagesModel.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def languages(self, value):
+	def languagesModel(self, value):
 		"""
-		This method is the setter method for **self.__languages** attribute.
+		This method is the setter method for **self.__languagesModel** attribute.
 
-		:param value: Attribute value. ( Dictionary )
+		:param value: Attribute value. ( LanguagesModel )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("languages"))
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("languagesModel"))
 
-	@languages.deleter
+	@languagesModel.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def languages(self):
+	def languagesModel(self):
 		"""
-		This method is the deleter method for **self.__languages** attribute.
+		This method is the deleter method for **self.__languagesModel** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("languages"))
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("languagesModel"))
 
 	@property
 	def defaultLanguage(self):
@@ -1316,8 +1476,8 @@ class ScriptEditor(UiComponent):
 		self.__timer = QTimer(self)
 		self.__timer.start(Constants.defaultTimerCycle * self.__timerCycleMultiplier)
 
-		self.Editor_Status = Editor_Status(self)
-		self.__container.statusBar.addPermanentWidget(self.Editor_Status.ui)
+		self.EditorStatus = EditorStatus(self)
+		self.__container.statusBar.addPermanentWidget(self.EditorStatus.ui)
 
 		# Signals / Slots.
 		self.__container.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
@@ -1519,12 +1679,12 @@ class ScriptEditor(UiComponent):
 		:param tabIndex: Tab index. ( Integer )
 		"""
 
-		# Ensure focus on **Editor_Status.ui.Languages_comboBox** is removed to avoid voodoo magic convolutions.
-		if QApplication.focusWidget() == self.Editor_Status.ui.Languages_comboBox:
-			self.Editor_Status.ui.Languages_comboBox.clearFocus()
+		# Ensure focus on **EditorStatus.ui.Languages_comboBox** is removed to avoid voodoo magic convolutions.
+		if QApplication.focusWidget() == self.EditorStatus.ui.Languages_comboBox:
+			self.EditorStatus.ui.Languages_comboBox.clearFocus()
 			QApplication.processEvents()
 
-		self.Editor_Status._Editor_Status__Languages_comboBox_setDefaultViewState()
+		self.EditorStatus._EditorStatus__Languages_comboBox_setDefaultViewState()
 		self.__setWindowTitle()
 
 	@core.executionTrace
@@ -1545,7 +1705,7 @@ class ScriptEditor(UiComponent):
 		:param currentLayout: Current layout. ( String )
 		"""
 
-		self.Editor_Status.ui.setVisible(not self.ui.isHidden())
+		self.EditorStatus.ui.setVisible(not self.ui.isHidden())
 
 	@core.executionTrace
 	def __application__contentDropped(self, event):
@@ -1565,7 +1725,7 @@ class ScriptEditor(UiComponent):
 		:param visibility: Widget visibility. ( Boolean )
 		"""
 
-		self.Editor_Status.ui.setVisible(visibility)
+		self.EditorStatus.ui.setVisible(visibility)
 
 	@core.executionTrace
 	def __newFileAction__triggered(self, checked):
@@ -1932,7 +2092,7 @@ class ScriptEditor(UiComponent):
 		This method is triggered when an editor language is changed.
 		"""
 
-		self.Editor_Status._Editor_Status__Languages_comboBox_setDefaultViewState()
+		self.EditorStatus._EditorStatus__Languages_comboBox_setDefaultViewState()
 
 	@core.executionTrace
 	def __fileSystemWatcher__fileChanged(self, file):
@@ -2080,60 +2240,6 @@ class ScriptEditor(UiComponent):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def registerLanguage(self, language, description):
-		"""
-		This method registers provided language name and description in the :obj:`ScriptEditor.languages` class property.
-		
-		:param language: Language name to register. ( String )
-		:param description: Language description. ( Language )
-		:return: Method success. ( Boolean )
-		"""
-
-		self.__languages[language] = description
-		return True
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, KeyError)
-	def unregisterLanguage(self, language):
-		"""
-		This method unregisters provided language name from the :obj:`ScriptEditor.languages` class property.
-		
-		:param language: Language name to unregister. ( String )
-		:return: Method success. ( Boolean )
-		"""
-
-		if language not in self.__languages.keys():
-			raise KeyError("{0} | '{1}' language isn't registered!".format(self.__class__.__name__, language))
-
-		del(self.__languages[language])
-		return True
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, KeyError)
-	def getFileLanguage(self, file):
-		"""
-		This method returns the language of provided file.
-		
-		:param file: File to get language of. ( String )
-		:return: File language / description. ( Tuple )
-		"""
-
-		fileLanguage = fileDescription = None
-		for language, description in self.__languages.items():
-			if re.search(description.extension, file):
-				fileLanguage = language
-				fileDescription = description
-				break
-		if not fileLanguage or not fileDescription:
-			fileLanguage = self.__defaultLanguage
-			fileDescription = self.__languages[self.__defaultLanguage]
-
-		LOGGER.debug("> '{0}' file detected language: '{1}'.".format(file, fileLanguage))
-
-		return fileLanguage, fileDescription
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setEditorLanguage(self, editor, language):
 		"""
 		This method sets provided editor language.
@@ -2220,7 +2326,7 @@ class ScriptEditor(UiComponent):
 		editor.languageChanged.connect(self.__editor__languageChanged)
 		editor.contentChanged.connect(self.__editor__contentChanged)
 		editor.fileChanged.connect(self.__editor__fileChanged)
-		editor.cursorPositionChanged.connect(self.Editor_Status._Editor_Status__editor__cursorPositionChanged)
+		editor.cursorPositionChanged.connect(self.EditorStatus._EditorStatus__editor__cursorPositionChanged)
 		return tabIndex
 
 	@core.executionTrace
@@ -2271,7 +2377,7 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		editor = Editor(parent=None, language=self.__languages[self.__defaultScriptLanguage])
+		editor = Editor(parent=None, language=self.__languagesModel.getLanguage(self.__defaultScriptLanguage))
 		LOGGER.info("{0} | Creating '{1}' file!".format(self.__class__.__name__, editor.getNextUntitledFileName()))
 		if editor.newFile():
 			self.addEditorTab(editor)
@@ -2302,8 +2408,7 @@ class ScriptEditor(UiComponent):
 			self.removeEditorTab(self.ui.Script_Editor_tabWidget.currentIndex())
 
 		LOGGER.info("{0} | Loading '{1}' file!".format(self.__class__.__name__, file))
-		language, description = self.getFileLanguage(file)
-		editor = Editor(parent=None, language=description)
+		editor = Editor(parent=None, language=self.__languagesModel.getFileLanguage(file) or self.__languagesModel.getLanguage(self.__defaultLanguage))
 		if editor.loadFile(file):
 			self.addEditorTab(editor)
 			self.__storeRecentFile(file)
@@ -2362,9 +2467,9 @@ class ScriptEditor(UiComponent):
 		if editor.saveFileAs():
 			self.__storeRecentFile(editor.file)
 			self.__registerFile(editor.file)
-			language, description = self.getFileLanguage(editor.file)
-			if editor.language.name != language:
-				self.setEditorLanguage(editor, description)
+			language = self.__languagesModel.getFileLanguage(editor.file) or self.__languagesModel.getLanguage(self.__defaultLanguage)
+			if editor.language.name != language.name:
+				self.setEditorLanguage(editor, language)
 			return True
 
 	@core.executionTrace
