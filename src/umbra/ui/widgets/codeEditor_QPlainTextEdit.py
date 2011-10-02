@@ -783,7 +783,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if not issubclass(completer.__class__, QCompleter):
-			raise foundations.exceptions.ProgrammingError("'{1}' type is not a 'QCompleter' subclass!".format(completer))
+			raise foundations.exceptions.ProgrammingError("'{1}' is not a 'QCompleter' subclass!".format(completer))
 
 		# Signals / Slots.
 		if self.__completer:
