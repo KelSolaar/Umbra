@@ -247,7 +247,7 @@ class Highlighter(QSyntaxHighlighter):
 
 class LoggingHighlighter(Highlighter):
 	"""
-	This class is a :class:`Highlighter` subclass subclass providing syntax highlighting for Application logging documents.
+	This class is a :class:`Highlighter` subclass providing syntax highlighting for Application logging documents.
 	"""
 
 	@core.executionTrace
@@ -296,9 +296,6 @@ class LoggingHighlighter(Highlighter):
 
 		:return: Method success. ( Boolean )
 		"""
-
-		self.__multiLineSingleString = QRegExp(r"\"\"\"|'''")
-		self.__multiLineDoubleString = QRegExp(r"\"\"\"|'''")
 
 		self.rules = Rules()
 
