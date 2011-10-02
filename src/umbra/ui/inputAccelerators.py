@@ -113,9 +113,9 @@ def completionPreEventInputAccelerators(container, event):
 	return processEvent
 
 @core.executionTrace
-def pythonPreEventInputAccelerators(container, event):
+def symbolsExpandingPreEventInputAccelerators(container, event):
 	"""
-	This definition implements pythons pre event input accelerators.
+	This definition implements symbols expanding pre event input accelerators.
 	
 	:return: Process event. ( Boolean )
 	"""
