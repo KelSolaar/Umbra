@@ -85,8 +85,8 @@ def completionPreEventInputAccelerators(container, event):
 			return processEvent
 
 	if event.modifiers() in (Qt.ControlModifier, Qt.MetaModifier) and event.key() == Qt.Key_Space:
+		processEvent = False
 		if not container.completer:
-			processEvent = False
 			return processEvent
 
 		completionPrefix = container.textUnderCursor()
