@@ -476,8 +476,8 @@ class LanguagesModel(QAbstractListModel):
 		if self.getLanguage(language):
 			raise foundations.exceptions.ProgrammingError("'{0}' language is already registered!".format(language.name))
 
-		self.beginInsertRows(QModelIndex(), len(self.__languagesModel), len(self.__languagesModel))
-		self.__languagesModel.append(language)
+		self.beginInsertRows(QModelIndex(), len(self.__languages), len(self.__languages))
+		self.__languages.append(language)
 		self.endInsertRows()
 		return True
 
