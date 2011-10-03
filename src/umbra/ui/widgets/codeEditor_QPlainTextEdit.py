@@ -768,7 +768,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if self.highlighter:
-			self.highlighter.setParent(None)
+			self.highlighter.deleteLater()
 			self.highlighter = None
 		return True
 
@@ -809,7 +809,6 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		if self.__completer:
 			self.__completer.setParent(None)
 			self.__completer = None
-			QApplication.processEvents()
 		return True
 
 	@core.executionTrace
@@ -868,7 +867,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		words = []
-		block = self.firstVisibleBlock()
+		block = self.document().findBlockByLineNumber(0)
 		while block.isValid():
 			blockWords = foundations.strings.getWords(str(block.text()))
 			if blockWords:

@@ -87,7 +87,7 @@ PYTHON_LANGUAGE = Language(name="Python",
 #***********************************************************************************************
 class Editor(CodeEditor_QPlainTextEdit):
 	"""
-	| This class defines the default editor used by the: **ScriptEditor** Component. 
+	This class defines the default editor used by the: **ScriptEditor** Component. 
 	"""
 
 	__instanceId = 1

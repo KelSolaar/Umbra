@@ -228,6 +228,7 @@ class EditorStatus(QObject):
 
 		self.__ui.Lines_Columns_label.setAlignment(Qt.AlignRight)
 		self.__ui.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(1, 1))
+		self.__ui.Languages_comboBox.setFocusPolicy(Qt.NoFocus)
 		self.__ui.Languages_comboBox.setModel(self.__container.languagesModel)
 
 		# Signals / Slots.
@@ -243,10 +244,7 @@ class EditorStatus(QObject):
 			return
 
 		editor = self.__container.getCurrentEditor()
-		for i in range(self.__ui.Languages_comboBox.count()):
-			if self.__ui.Languages_comboBox.itemText(i) == editor.language.name:
-				self.__ui.Languages_comboBox.setCurrentIndex(i)
-				return
+		self.__ui.Languages_comboBox.setCurrentIndex(self.__ui.Languages_comboBox.findText(editor.language.name))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -1678,11 +1676,6 @@ class ScriptEditor(UiComponent):
 
 		:param tabIndex: Tab index. ( Integer )
 		"""
-
-		# Ensure focus on **EditorStatus.ui.Languages_comboBox** is removed to avoid voodoo magic convolutions.
-		if QApplication.focusWidget() == self.EditorStatus.ui.Languages_comboBox:
-			self.EditorStatus.ui.Languages_comboBox.clearFocus()
-			QApplication.processEvents()
 
 		self.EditorStatus._EditorStatus__Languages_comboBox_setDefaultViewState()
 		self.__setWindowTitle()
