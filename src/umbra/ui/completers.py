@@ -55,6 +55,8 @@ class PythonCompleter(QCompleter):
 	This class is a `QCompleter <http://doc.qt.nokia.com/4.7/qcompleter.html>`_ subclass used as a Python completion widget.
 	"""
 
+	__pythonTokens = None
+
 	@core.executionTrace
 	def __init__(self, parent=None):
 		"""
@@ -68,7 +70,7 @@ class PythonCompleter(QCompleter):
 		# --- Setting class attributes. ---
 		self.__setPythonTokens()
 
-		QCompleter.__init__(self, self.__pythonTokens, parent)
+		QCompleter.__init__(self, PythonCompleter._PythonCompleter__pythonTokens, parent)
 
 		self.setCaseSensitivity(Qt.CaseSensitive)
 		self.setCompletionMode(QCompleter.PopupCompletion)
@@ -79,31 +81,31 @@ class PythonCompleter(QCompleter):
 	@property
 	def pythonTokens(self):
 		"""
-		This method is the property for **self.__pythonTokens** attribute.
+		This method is the property for **PythonCompleter._PythonCompleter__pythonTokens** attribute.
 
-		:return: self.__pythonTokens. ( Tuple / List )
+		:return: PythonCompleter._PythonCompleter__pythonTokens. ( Tuple / List )
 		"""
 
-		return self.__pythonTokens
+		return PythonCompleter._PythonCompleter__pythonTokens
 
 	@pythonTokens.setter
 	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def pythonTokens(self, value):
 		"""
-		This method is the setter method for **self.__pythonTokens** attribute.
+		This method is the setter method for **PythonCompleter._PythonCompleter__pythonTokens** attribute.
 
 		:param value: Attribute value. ( Tuple / List )
 		"""
 
 		if value:
 			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format("pythonTokens", value)
-		self.__pythonTokens = value
+		PythonCompleter._PythonCompleter__pythonTokens = value
 
 	@pythonTokens.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def pythonTokens(self):
 		"""
-		This method is the deleter method for **self.__pythonTokens** attribute.
+		This method is the deleter method for **PythonCompleter._PythonCompleter__pythonTokens** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("pythonTokens"))
@@ -121,8 +123,11 @@ class PythonCompleter(QCompleter):
 		:return: Method success. ( Boolean )
 		"""
 
+		if PythonCompleter._PythonCompleter__pythonTokens:
+			return True
+
 		sections = umbra.ui.common.getTokensParser(PYTHON_TOKENS_FILE).sections
-		self.__pythonTokens = [token for section in sections["Tokens"].values() for token in section.split(splitter)]
+		PythonCompleter._PythonCompleter__pythonTokens = [token for section in sections["Tokens"].values() for token in section.split(splitter)]
 		return True
 
 	@core.executionTrace
@@ -135,8 +140,8 @@ class PythonCompleter(QCompleter):
 		:return: Method success. ( Boolean )
 		"""
 
-		extendedWords = self.__pythonTokens[:]
-		extendedWords.extend((word for word in set(words) if word not in self.__pythonTokens))
+		extendedWords = PythonCompleter._PythonCompleter__pythonTokens[:]
+		extendedWords.extend((word for word in set(words) if word not in PythonCompleter._PythonCompleter__pythonTokens))
 		self.setModel(QStringListModel(extendedWords))
 		return True
 
@@ -144,6 +149,8 @@ class EnglishCompleter(QCompleter):
 	"""
 	This class is a `QCompleter <http://doc.qt.nokia.com/4.7/qcompleter.html>`_ subclass used as an english text completion widget.
 	"""
+
+	__englishWords = None
 
 	@core.executionTrace
 	def __init__(self, parent=None):
@@ -158,7 +165,7 @@ class EnglishCompleter(QCompleter):
 		# --- Setting class attributes. ---
 		self.__setEnglishWords()
 
-		QCompleter.__init__(self, self.__englishWords, parent)
+		QCompleter.__init__(self, EnglishCompleter._EnglishCompleter__englishWords, parent)
 
 		self.setCaseSensitivity(Qt.CaseSensitive)
 		self.setCompletionMode(QCompleter.PopupCompletion)
@@ -174,7 +181,7 @@ class EnglishCompleter(QCompleter):
 		:return: self.__englishWords. ( Tuple / List )
 		"""
 
-		return self.__englishWords
+		return EnglishCompleter._EnglishCompleter__englishWords
 
 	@englishWords.setter
 	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
@@ -187,7 +194,7 @@ class EnglishCompleter(QCompleter):
 
 		if value:
 			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format("englishWords", value)
-		self.__englishWords = value
+		EnglishCompleter._EnglishCompleter__englishWords = value
 
 	@englishWords.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -210,10 +217,13 @@ class EnglishCompleter(QCompleter):
 		:return: Method success. ( Boolean )
 		"""
 
-		self.__englishWords = []
+		if EnglishCompleter._EnglishCompleter__englishWords:
+			return True
+
+		EnglishCompleter._EnglishCompleter__englishWords = []
 		with open(ENGLISH_WORDS_FILE, "r") as file:
 			for line in iter(file):
-				self.__englishWords.append(line.strip())
+				EnglishCompleter._EnglishCompleter__englishWords.append(line.strip())
 		return True
 
 	@core.executionTrace
@@ -226,7 +236,7 @@ class EnglishCompleter(QCompleter):
 		:return: Method success. ( Boolean )
 		"""
 
-		extendedWords = self.__englishWords[:]
-		extendedWords.extend((word for word in set(words) if word not in self.__englishWords))
+		extendedWords = EnglishCompleter._EnglishCompleter__englishWords[:]
+		extendedWords.extend((word for word in set(words) if word not in EnglishCompleter._EnglishCompleter__englishWords))
 		self.setModel(QStringListModel(extendedWords))
 		return True
