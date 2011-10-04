@@ -53,7 +53,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "EditorStatus", "ScriptEditor_QTabBar", "ScriptEditor_QTabWidget", "LanguagesModel", "ScriptEditor"]
+__all__ = ["LOGGER", "EditorStatus", "ScriptEditor_QTabWidget", "LanguagesModel", "ScriptEditor"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -228,10 +228,11 @@ class EditorStatus(QObject):
 
 		self.__ui.Lines_Columns_label.setAlignment(Qt.AlignRight)
 		self.__ui.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(1, 1))
+
 		self.__ui.Languages_comboBox.setModel(self.__container.languagesModel)
 
 		# Signals / Slots.
-		self.__ui.Languages_comboBox.activated.connect(self.__Languages_comboBox__activated)
+		self.__ui.Languages_comboBox.currentIndexChanged.connect(self.__Languages_comboBox__currentIndexChanged)
 
 	@core.executionTrace
 	def __Languages_comboBox_setDefaultViewState(self):
@@ -239,25 +240,38 @@ class EditorStatus(QObject):
 		This method sets the **Languages_comboBox** Widget default View state.
 		"""
 
+		print "__Languages_comboBox_setDefaultViewState"
+
 		if not self.__container.hasEditorTab():
 			return
 
 		editor = self.__container.getCurrentEditor()
-		self.__ui.Languages_comboBox.setCurrentIndex(self.__ui.Languages_comboBox.findText(editor.language.name))
+		index = self.__ui.Languages_comboBox.findText(editor.language.name)
+
+		if not index:
+			return
+
+		self.__ui.Languages_comboBox.setCurrentIndex(index)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def __Languages_comboBox__activated(self, index):
+	def __Languages_comboBox__currentIndexChanged(self, index):
 		"""
-		This method is called when the **Languages_comboBox** Widget is activated.
+		This method is called when the **Languages_comboBox** Widget current index is changed.
 
-		:param index: ComboBox activated item index. ( Integer )
+		:param index: ComboBox current item index. ( Integer )
 		"""
+
+		print "__Languages_comboBox__currentIndexChanged"
 
 		if not self.__container.hasEditorTab():
 			return
 
 		language = self.__container.languagesModel.getLanguage(str(self.__ui.Languages_comboBox.currentText()))
+		if not language:
+			return
+
+		print index, language.name
 		editor = self.__container.getCurrentEditor()
 		return self.__container.setEditorLanguage(editor, language, emitSignal=False)
 
@@ -273,36 +287,6 @@ class EditorStatus(QObject):
 
 		editor = self.__container.getCurrentEditor()
 		self.__ui.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(editor.getCursorLine() + 1, editor.getCursorColumn() + 1))
-
-class ScriptEditor_QTabBar(QTabBar):
-	"""
-	This class is a `QTabBar <http://doc.qt.nokia.com/4.7/QTabbar.html>`_ subclass used by the :class:`ScriptEditor` class.
-	"""
-
-	@core.executionTrace
-	def __init__(self, parent=None):
-		"""
-		This method initializes the class.
-
-		:param parent: Parent object. ( QObject )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		QTabBar.__init__(self, parent)
-
-	#***********************************************************************************************
-	#***	Class methods.
-	#***********************************************************************************************
-	@core.executionTrace
-	def wheelEvent(self, event):
-		"""
-		This method defines the wheel event behavior.
-
-		:param event: QEvent. ( QEvent )
-		"""
-
-		event.ignore()
 
 class ScriptEditor_QTabWidget(QTabWidget):
 	"""
@@ -324,8 +308,6 @@ class ScriptEditor_QTabWidget(QTabWidget):
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
 		QTabWidget.__init__(self, parent)
-
-		self.setTabBar(ScriptEditor_QTabBar(self))
 
 		self.setAcceptDrops(True)
 

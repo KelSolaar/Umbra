@@ -17,6 +17,7 @@
 #***********************************************************************************************
 #***	External imports.
 #***********************************************************************************************
+import gc
 import logging
 import re
 from PyQt4.QtCore import *
@@ -398,7 +399,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		self.commentMarker = commentMarker
 
 		self.__marginArea_LinesNumbers_widget = None
-		self.highlighter = None
+		self.__highlighter = None
 		self.__completer = None
 
 		self.__highlightColor = QColor(56, 56, 56)
@@ -511,6 +512,36 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("marginArea_LinesNumbers_widget"))
+
+	@property
+	def highlighter(self):
+		"""
+		This method is the property for **self.__highlighter** attribute.
+
+		:return: self.__highlighter. ( QSyntaxHighlighter )
+		"""
+
+		return self.__highlighter
+
+	@highlighter.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def highlighter(self, value):
+		"""
+		This method is the setter method for **self.__highlighter** attribute.
+
+		:param value: Attribute value. ( QSyntaxHighlighter )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("highlighter"))
+
+	@highlighter.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def highlighter(self):
+		"""
+		This method is the deleter method for **self.__highlighter** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("highlighter"))
 
 	@property
 	def completer(self):
@@ -759,6 +790,28 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 			accelerator(self, event)
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def setHighlighter(self, highlighter):
+		"""
+		This method sets provided highlighter as the current highlighter.
+
+		:param highlighter: Highlighter. ( QSyntaxHighlighter )
+		:return: Method success. ( Boolean )		
+		"""
+
+		print "setHighlighter"
+
+		if not issubclass(highlighter.__class__, QSyntaxHighlighter):
+			raise foundations.exceptions.ProgrammingError("'{1}' is not a 'QSyntaxHighlighter' subclass!".format(highlighter))
+
+		if self.__highlighter:
+			self.removeHighlighter()
+
+		self.__highlighter = highlighter
+
+		return True
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeHighlighter(self):
 		"""
@@ -767,9 +820,9 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:return: Method success. ( Boolean )		
 		"""
 
-		if self.highlighter:
-			self.highlighter.deleteLater()
-			self.highlighter = None
+		if self.__highlighter:
+			self.__highlighter.setParent(None)
+			self.__highlighter = None
 		return True
 
 	@core.executionTrace
@@ -782,12 +835,16 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:return: Method success. ( Boolean )		
 		"""
 
+		print "setCompleter"
+
 		if not issubclass(completer.__class__, QCompleter):
 			raise foundations.exceptions.ProgrammingError("'{1}' is not a 'QCompleter' subclass!".format(completer))
 
-		# Signals / Slots.
 		if self.__completer:
-			self.__completer.activated.disconnect(self.__insertCompletion)
+			self.removeCompleter()
+
+		print gc.get_count()
+		print gc.garbage
 
 		self.__completer = completer
 		self.__completer.setWidget(self)
@@ -799,7 +856,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def removeCompleter(self,):
+	def removeCompleter(self):
 		"""
 		This method removes current completer.
 
@@ -807,6 +864,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if self.__completer:
+			# Signals / Slots.
+#			self.__completer.activated.disconnect(self.__insertCompletion)
 			self.__completer.setParent(None)
 			self.__completer = None
 		return True
