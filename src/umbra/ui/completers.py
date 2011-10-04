@@ -62,7 +62,7 @@ class PythonCompleter(QCompleter):
 		"""
 		This method initializes the class.
 
-		:param parent: Widget parent. ( QObject )
+		:param parent: Object parent. ( QObject )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -157,7 +157,7 @@ class EnglishCompleter(QCompleter):
 		"""
 		This method initializes the class.
 
-		:param parent: Widget parent. ( QObject )
+		:param parent: Object parent. ( QObject )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
