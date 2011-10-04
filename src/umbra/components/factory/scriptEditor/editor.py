@@ -430,11 +430,12 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def setLanguage(self, language):
+	def setLanguage(self, language, emitSignal=True):
 		"""
 		This method sets the editor language.
 
 		:param language: Language to set. ( Language )
+		:param emitSignal: Emit signal. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
 
@@ -443,7 +444,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		self.__language = language
 		self.__setLanguageDescription()
-		self.languageChanged.emit()
+		emitSignal and self.languageChanged.emit()
 		return True
 
 	@core.executionTrace
@@ -589,7 +590,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def closeFile(self):
 		"""
-		This method close the editor file.
+		This method closes the editor file.
 
 		:return: Method success. ( Boolean )
 		"""

@@ -228,7 +228,6 @@ class EditorStatus(QObject):
 
 		self.__ui.Lines_Columns_label.setAlignment(Qt.AlignRight)
 		self.__ui.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(1, 1))
-		self.__ui.Languages_comboBox.setFocusPolicy(Qt.NoFocus)
 		self.__ui.Languages_comboBox.setModel(self.__container.languagesModel)
 
 		# Signals / Slots.
@@ -260,7 +259,7 @@ class EditorStatus(QObject):
 
 		language = self.__container.languagesModel.getLanguage(str(self.__ui.Languages_comboBox.currentText()))
 		editor = self.__container.getCurrentEditor()
-		return self.__container.setEditorLanguage(editor, language)
+		return self.__container.setEditorLanguage(editor, language, emitSignal=False)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -2233,15 +2232,16 @@ class ScriptEditor(UiComponent):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def setEditorLanguage(self, editor, language):
+	def setEditorLanguage(self, editor, language, emitSignal=True):
 		"""
 		This method sets provided editor language.
 		
 		:param editor: Editor to set language to. ( Editor )
+		:param emitSignal: Emit signal. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
 
-		return editor.setLanguage(language)
+		return editor.setLanguage(language, emitSignal)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
