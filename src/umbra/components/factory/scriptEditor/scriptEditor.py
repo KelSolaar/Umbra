@@ -53,7 +53,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "EditorStatus", "LanguagesModel", "ScriptEditor"]
+__all__ = ["LOGGER", "EditorStatus", "ScriptEditor_QTabBar", "ScriptEditor_QTabWidget", "LanguagesModel", "ScriptEditor"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -274,6 +274,36 @@ class EditorStatus(QObject):
 		editor = self.__container.getCurrentEditor()
 		self.__ui.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(editor.getCursorLine() + 1, editor.getCursorColumn() + 1))
 
+class ScriptEditor_QTabBar(QTabBar):
+	"""
+	This class is a `QTabBar <http://doc.qt.nokia.com/4.7/QTabbar.html>`_ subclass used by the :class:`ScriptEditor` class.
+	"""
+
+	@core.executionTrace
+	def __init__(self, parent=None):
+		"""
+		This method initializes the class.
+
+		:param parent: Parent object. ( QObject )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		QTabBar.__init__(self, parent)
+
+	#***********************************************************************************************
+	#***	Class methods.
+	#***********************************************************************************************
+	@core.executionTrace
+	def wheelEvent(self, event):
+		"""
+		This method defines the wheel event behavior.
+
+		:param event: QEvent. ( QEvent )
+		"""
+
+		event.ignore()
+
 class ScriptEditor_QTabWidget(QTabWidget):
 	"""
 	| This class is a `QTabWidget <http://doc.qt.nokia.com/4.7/qtabwidget.html>`_ subclass used to display **ScriptEditor** editors.
@@ -284,21 +314,23 @@ class ScriptEditor_QTabWidget(QTabWidget):
 	contentDropped = pyqtSignal(QEvent)
 
 	@core.executionTrace
-	def __init__(self, container):
+	def __init__(self, parent=None):
 		"""
 		This method initializes the class.
 
-		:param container: Container to attach the Component to. ( QObject )
+		:param parent: Parent object. ( QObject )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		QTabWidget.__init__(self, container)
+		QTabWidget.__init__(self, parent)
+
+		self.setTabBar(ScriptEditor_QTabBar(self))
 
 		self.setAcceptDrops(True)
 
 		# --- Setting class attributes. ---
-		self.__container = container
+		self.__container = parent
 
 	#***********************************************************************************************
 	#***	Attributes properties.
