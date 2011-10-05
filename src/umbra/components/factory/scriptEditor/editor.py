@@ -123,7 +123,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.__defaultFileName = "Untitled"
 		self.__defaultFileExtension = "py"
 
-		Editor.initializeUi(self)
+		Editor.__initializeUi(self)
 
 		file and self.loadFile(file)
 
@@ -346,11 +346,9 @@ class Editor(CodeEditor_QPlainTextEdit):
 	#***	Class methods.
 	#***********************************************************************************************
 	@core.executionTrace
-	def initializeUi(self):
+	def __initializeUi(self):
 		"""
-		This method initializes the widget ui.
-
-		:return: Method success. ( Boolean )		
+		This method initializes the Widget ui.
 		"""
 
 		self.__setLanguageDescription()
@@ -370,8 +368,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		font = QFont(fontFamily)
 		font.setPointSize(fontSize)
 		self.setFont(font)
-
-		return True
 
 	@core.executionTrace
 	def __setFile(self, file):

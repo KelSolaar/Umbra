@@ -408,7 +408,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		self.__preInputAccelerators = []
 		self.__postInputAccelerators = []
 
-		CodeEditor_QPlainTextEdit.initializeUi(self)
+		CodeEditor_QPlainTextEdit.__initializeUi(self)
 
 		self.__highlightCurrentLine()
 
@@ -704,11 +704,9 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	#***	Class methods.
 	#***********************************************************************************************
 	@core.executionTrace
-	def initializeUi(self):
+	def __initializeUi(self):
 		"""
-		This method initializes the widget ui.
-
-		:return: Method success. ( Boolean )		
+		This method initializes the Widget ui.
 		"""
 
 		self.__marginArea_LinesNumbers_widget = LinesNumbers_QWidget(self)
@@ -717,8 +715,6 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		self.blockCountChanged.connect(self.__marginArea_LinesNumbers_widget.setEditorViewportMargins)
 		self.updateRequest.connect(self.__marginArea_LinesNumbers_widget.updateRectangle)
 		self.cursorPositionChanged.connect(self.__highlightCurrentLine)
-
-		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

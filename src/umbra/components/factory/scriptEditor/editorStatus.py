@@ -77,7 +77,7 @@ class EditorStatus(QObject):
 		if "." in sys.path:
 			sys.path.remove(".")
 
-		EditorStatus.initializeUi(self)
+		EditorStatus.__initializeUi(self)
 
 	#***********************************************************************************************
 	#***	Attributes properties.
@@ -207,11 +207,9 @@ class EditorStatus(QObject):
 	#***********************************************************************************************
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def initializeUi(self):
+	def __initializeUi(self):
 		"""
 		This method initializes the Widget ui.
-
-		:return: Method success. ( Boolean )		
 		"""
 
 		self.__ui.Lines_Columns_label.setAlignment(Qt.AlignRight)

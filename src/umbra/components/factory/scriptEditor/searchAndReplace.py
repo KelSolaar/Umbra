@@ -92,7 +92,7 @@ class SearchAndReplace(QObject):
 
 		self.__maximumStoredPatterns = 15
 
-		SearchAndReplace.initializeUi(self)
+		SearchAndReplace.__initializeUi(self)
 
 	#***********************************************************************************************
 	#***	Attributes properties.
@@ -222,11 +222,9 @@ class SearchAndReplace(QObject):
 	#***********************************************************************************************
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def initializeUi(self):
+	def __initializeUi(self):
 		"""
 		This method initializes the Widget ui.
-
-		:return: Method success. ( Boolean )		
 		"""
 
 		umbra.ui.common.setWindowDefaultIcon(self.ui)
@@ -251,8 +249,6 @@ class SearchAndReplace(QObject):
 		self.__ui.Replace_pushButton.clicked.connect(self.__Replace_pushButton__clicked)
 		self.__ui.Replace_All_pushButton.clicked.connect(self.__Replace_All_pushButton__clicked)
 		self.__ui.Close_pushButton.clicked.connect(self.__Close_pushButton__clicked)
-
-		return True
 
 	@core.executionTrace
 	def __storeRecentPatterns(self, comboBox, settingsKey):
