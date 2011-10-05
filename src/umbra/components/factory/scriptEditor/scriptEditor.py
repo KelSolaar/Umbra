@@ -38,6 +38,7 @@ import umbra.ui.highlighters
 import umbra.ui.inputAccelerators
 from manager.uiComponent import UiComponent
 from umbra.components.factory.scriptEditor.editor import Editor, Language, PYTHON_LANGUAGE
+from umbra.components.factory.scriptEditor.editorStatus import EditorStatus
 from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
@@ -53,236 +54,13 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "EditorStatus", "ScriptEditor_QTabWidget", "LanguagesModel", "ScriptEditor"]
+__all__ = ["LOGGER", "ScriptEditor_QTabWidget", "LanguagesModel", "ScriptEditor"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
 #***********************************************************************************************
 #***	Module classes and definitions.
 #***********************************************************************************************
-class EditorStatus(QObject):
-	"""
-	This class defines the **ScriptEditor** Component status bar widget. 
-	"""
-
-	@core.executionTrace
-	def __init__(self, parent=None):
-		"""
-		This method initializes the class.
-
-		:param parent: Object parent. ( QObject )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		QObject.__init__(self, parent)
-
-		# --- Setting class attributes. ---
-		self.__container = parent
-
-		self.__Lines_Columns_label_defaultText = "Line {0} : Column {1}"
-
-		self.__uiPath = "ui/Editor_Status.ui"
-		self.__uiPath = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiPath)
-
-		self.__ui = uic.loadUi(self.__uiPath)
-		if "." in sys.path:
-			sys.path.remove(".")
-
-		EditorStatus.initializeUi(self)
-
-	#***********************************************************************************************
-	#***	Attributes properties.
-	#***********************************************************************************************
-	@property
-	def container(self):
-		"""
-		This method is the property for **self.__container** attribute.
-
-		:return: self.__container. ( QObject )
-		"""
-
-		return self.__container
-
-	@container.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def container(self, value):
-		"""
-		This method is the setter method for **self.__container** attribute.
-
-		:param value: Attribute value. ( QObject )
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("container"))
-
-	@container.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def container(self):
-		"""
-		This method is the deleter method for **self.__container** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("container"))
-
-	@property
-	def uiPath(self):
-		"""
-		This method is the property for **self.__uiPath** attribute.
-
-		:return: self.__uiPath. ( String )
-		"""
-
-		return self.__uiPath
-
-	@uiPath.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def uiPath(self, value):
-		"""
-		This method is the setter method for **self.__uiPath** attribute.
-
-		:param value: Attribute value. ( String )
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("uiPath"))
-
-	@uiPath.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def uiPath(self):
-		"""
-		This method is the deleter method for **self.__uiPath** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("uiPath"))
-
-	@property
-	def ui(self):
-		"""
-		This method is the property for **self.__ui** attribute.
-
-		:return: self.__ui. ( Object )
-		"""
-
-		return self.__ui
-
-	@ui.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def ui(self, value):
-		"""
-		This method is the setter method for **self.__ui** attribute.
-
-		:param value: Attribute value. ( Object )
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("ui"))
-
-	@ui.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def ui(self):
-		"""
-		This method is the deleter method for **self.__ui** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("ui"))
-
-	@property
-	def Lines_Columns_label_defaultText(self):
-		"""
-		This method is the property for **self.__Lines_Columns_label_defaultText** attribute.
-
-		:return: self.__Lines_Columns_label_defaultText. ( String )
-		"""
-
-		return self.__Lines_Columns_label_defaultText
-
-	@Lines_Columns_label_defaultText.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def Lines_Columns_label_defaultText(self, value):
-		"""
-		This method is the setter method for **self.__Lines_Columns_label_defaultText** attribute.
-
-		:param value: Attribute value. ( String )
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("Lines_Columns_label_defaultText"))
-
-	@Lines_Columns_label_defaultText.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def Lines_Columns_label_defaultText(self):
-		"""
-		This method is the deleter method for **self.__Lines_Columns_label_defaultText** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("Lines_Columns_label_defaultText"))
-
-	#***********************************************************************************************
-	#***	Class methods.
-	#***********************************************************************************************
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def initializeUi(self):
-		"""
-		This method initializes the Widget ui.
-
-		:return: Method success. ( Boolean )		
-		"""
-
-		self.__ui.Lines_Columns_label.setAlignment(Qt.AlignRight)
-		self.__ui.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(1, 1))
-
-		self.__ui.Languages_comboBox.setModel(self.__container.languagesModel)
-
-		# Signals / Slots.
-		self.__ui.Languages_comboBox.currentIndexChanged.connect(self.__Languages_comboBox__currentIndexChanged)
-
-	@core.executionTrace
-	def __Languages_comboBox_setDefaultViewState(self):
-		"""
-		This method sets the **Languages_comboBox** Widget default View state.
-		"""
-
-		if not self.__container.hasEditorTab():
-			return
-
-		editor = self.__container.getCurrentEditor()
-		index = self.__ui.Languages_comboBox.findText(editor.language.name)
-
-		if not index:
-			return
-
-		self.__ui.Languages_comboBox.setCurrentIndex(index)
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def __Languages_comboBox__currentIndexChanged(self, index):
-		"""
-		This method is called when the **Languages_comboBox** Widget current index is changed.
-
-		:param index: ComboBox current item index. ( Integer )
-		"""
-
-		if not self.__container.hasEditorTab():
-			return
-
-		language = self.__container.languagesModel.getLanguage(str(self.__ui.Languages_comboBox.currentText()))
-		if not language:
-			return
-
-		editor = self.__container.getCurrentEditor()
-		return self.__container.setEditorLanguage(editor, language, emitSignal=False)
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def __editor__cursorPositionChanged(self):
-		"""
-		This method is triggered when an editor cursor position is changed.
-		"""
-
-		if not self.__container.hasEditorTab():
-			return
-
-		editor = self.__container.getCurrentEditor()
-		self.__ui.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(editor.getCursorLine() + 1, editor.getCursorColumn() + 1))
-
 class ScriptEditor_QTabWidget(QTabWidget):
 	"""
 	| This class is a `QTabWidget <http://doc.qt.nokia.com/4.7/qtabwidget.html>`_ subclass used to display **ScriptEditor** editors.
@@ -1464,18 +1242,8 @@ class ScriptEditor(UiComponent):
 		self.ui.menuBar_frame_gridLayout.addWidget(self.__menuBar)
 		self.__initializeMenuBar()
 
-		self.ui.Script_Editor_Output_plainTextEdit.highlighter = umbra.ui.highlighters.LoggingHighlighter(self.ui.Script_Editor_Output_plainTextEdit.document())
-		self.ui.Script_Editor_Output_plainTextEdit.setTabStopWidth(self.__indentWidth)
-		if platform.system() == "Windows" or platform.system() == "Microsoft":
-			fontFamily, fontSize = self.__defaultFontsSettings["Windows"]
-		elif platform.system() == "Darwin":
-			fontFamily, fontSize = self.__defaultFontsSettings["Darwin"]
-		elif platform.system() == "Linux":
-			fontFamily, fontSize = self.__defaultFontsSettings["Linux"]
-		font = QFont(fontFamily)
-		font.setPointSize(fontSize)
-		self.ui.Script_Editor_Output_plainTextEdit.setFont(font)
-
+		self.__Script_Editor_Output_plainTextEdit_setUi()
+		
 		self.__searchAndReplace = SearchAndReplace(self)
 
 		self.__fileSystemWatcher = QFileSystemWatcher(self)
@@ -1629,9 +1397,18 @@ class ScriptEditor(UiComponent):
 		This method sets the **Script_Editor_Output_plainTextEdit** Widget.
 		"""
 
-		for line in self.__container.loggingSessionHandlerStream.stream:
-			self.ui.Script_Editor_Output_plainTextEdit.moveCursor(QTextCursor.End)
-			self.ui.Script_Editor_Output_plainTextEdit.insertPlainText(line)
+		self.ui.Script_Editor_Output_plainTextEdit.highlighter = umbra.ui.highlighters.LoggingHighlighter(self.ui.Script_Editor_Output_plainTextEdit.document())
+		self.ui.Script_Editor_Output_plainTextEdit.setTabStopWidth(self.__indentWidth)
+		self.ui.Script_Editor_Output_plainTextEdit.setWordWrapMode(QTextOption.NoWrap)
+		if platform.system() == "Windows" or platform.system() == "Microsoft":
+			fontFamily, fontSize = self.__defaultFontsSettings["Windows"]
+		elif platform.system() == "Darwin":
+			fontFamily, fontSize = self.__defaultFontsSettings["Darwin"]
+		elif platform.system() == "Linux":
+			fontFamily, fontSize = self.__defaultFontsSettings["Linux"]
+		font = QFont(fontFamily)
+		font.setPointSize(fontSize)
+		self.ui.Script_Editor_Output_plainTextEdit.setFont(font)
 		self.__Script_Editor_Output_plainTextEdit_setDefaultViewState()
 
 	# @core.executionTrace
@@ -1656,6 +1433,14 @@ class ScriptEditor(UiComponent):
 				self.ui.Script_Editor_Output_plainTextEdit.insertPlainText(line)
 			self.__Script_Editor_Output_plainTextEdit_setDefaultViewState()
 			self.__memoryHandlerStackDepth = memoryHandlerStackDepth
+
+	@core.executionTrace
+	def Script_Editor_Output_plainTextEdit_toggleWordWrap(self):
+		"""
+		This method toggles **Script_Editor_Output_plainTextEdit** Widget word wrap.
+		"""
+
+		self.ui.Script_Editor_Output_plainTextEdit.setWordWrapMode(not self.ui.Script_Editor_Output_plainTextEdit.wordWrapMode() and QTextOption.WordWrap or QTextOption.NoWrap)
 
 	@core.executionTrace
 	def __Script_Editor_tabWidget_setUi(self):
@@ -2050,11 +1835,13 @@ class ScriptEditor(UiComponent):
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
-
-		if not self.hasEditorTab():
-			return
-
-		return self.getCurrentEditor().toggleWordWrap()
+		
+		currentWidget = QApplication.focusWidget()
+		if currentWidget.objectName() == "Script_Editor_Output_plainTextEdit":
+			self.Script_Editor_Output_plainTextEdit_toggleWordWrap()
+		elif isinstance(QApplication.focusWidget(), Editor):
+			self.getCurrentEditor().toggleWordWrap()
+		return True
 
 	@core.executionTrace
 	def __toggleWhiteSpacesAction__triggered(self, checked):
