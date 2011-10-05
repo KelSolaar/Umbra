@@ -1372,6 +1372,8 @@ class ScriptEditor(UiComponent):
 		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Indent Selection", shortcut=Qt.Key_Tab, slot=self.__indentSelectionAction__triggered))
 		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Unindent Selection", shortcut=Qt.Key_Backtab, slot=self.__unindentSelectionAction__triggered))
 		self.__editMenu.addSeparator()
+		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Remove Trailing WhiteSpaces", slot=self.__removeTrailingWhiteSpacesAction__triggered))
+		self.__editMenu.addSeparator()
 		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Toggle Comments", shortcut=Qt.ControlModifier + Qt.Key_Slash, slot=self.__toggleCommentsAction__triggered))
 		self.__menuBar.addMenu(self.__editMenu)
 
@@ -1802,6 +1804,20 @@ class ScriptEditor(UiComponent):
 			return
 
 		return self.getCurrentEditor().unindent()
+
+	@core.executionTrace
+	def __removeTrailingWhiteSpacesAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Remove Trailing WhiteSpaces'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().removeTrailingWhiteSpaces()
 
 	@core.executionTrace
 	def __toggleCommentsAction__triggered(self, checked):

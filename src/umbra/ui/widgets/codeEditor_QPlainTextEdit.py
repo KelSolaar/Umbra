@@ -800,7 +800,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 		if not issubclass(highlighter.__class__, QSyntaxHighlighter):
 			raise foundations.exceptions.ProgrammingError("'{1}' is not a 'QSyntaxHighlighter' subclass!".format(highlighter))
-		
+
 		if self.__highlighter:
 			self.removeHighlighter()
 
@@ -920,7 +920,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		words = []
 		block = self.document().findBlockByLineNumber(0)
 		while block.isValid():
-			blockWords = foundations.strings.getWords(str(block.text()))
+			blockWords = foundations.strings.getWords(unicode(block.text(), Constants.encodingFormat, Constants.encodingError))
 			if blockWords:
 				words.extend(blockWords)
 			block = block.next()
@@ -989,8 +989,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		cursor.beginEditBlock()
 		if not cursor.hasSelection():
 			cursor.movePosition(QTextCursor.StartOfBlock)
-			line = str(self.document().findBlockByNumber(cursor\
-									  .blockNumber()).text())
+			line = unicode(self.document().findBlockByNumber(cursor.blockNumber()).text(), Constants.encodingFormat, Constants.encodingError)
 			indentMarker = re.match(r"({0})".format(self.__indentMarker), line)
 			if indentMarker:
 				for i in range(len(indentMarker.group(1))):
@@ -1202,8 +1201,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		cursor.beginEditBlock()
 		if not cursor.hasSelection():
 			cursor.movePosition(QTextCursor.StartOfBlock)
-			line = str(self.document().\
-				 findBlockByNumber(cursor.blockNumber()).text())
+			line = unicode(self.document().findBlockByNumber(cursor.blockNumber()).text(), Constants.encodingFormat, Constants.encodingError)
 			if line.startswith(self.__commentMarker):
 				cursor.deleteChar()
 			else:
@@ -1214,7 +1212,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 				blockCursor = self.textCursor()
 				blockCursor.setPosition(block.position())
 
-				if str(block.text()).startswith(self.__commentMarker):
+				if unicode(block.text()).startswith(self.__commentMarker, Constants.encodingFormat, Constants.encodingError):
 					blockCursor.deleteChar()
 				else:
 					blockCursor.insertText(self.__commentMarker)
@@ -1253,4 +1251,32 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		else:
 			textOption.setFlags(textOption.flags() | QTextOption.ShowTabsAndSpaces | QTextOption.ShowLineAndParagraphSeparators)
 		self.setDefaultTextOption(textOption)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def removeTrailingWhiteSpaces(self):
+		"""
+		This method removes document trailing white spaces.
+
+		:return: Method success. ( Boolean )		
+		"""
+
+		previousCursor = self.textCursor()
+		cursor = self.textCursor()
+
+		cursor.beginEditBlock()
+		block = self.document().findBlockByLineNumber(0)
+		while block.isValid():
+			cursor.setPosition(block.position())
+			if re.search(r"\s+$", block.text()):
+				cursor.movePosition(QTextCursor.EndOfBlock)
+				cursor.movePosition(QTextCursor.StartOfBlock, QTextCursor.KeepAnchor)
+				cursor.insertText(unicode(block.text(), Constants.encodingFormat, Constants.encodingError).rstrip())
+			block = block.next()
+		cursor.movePosition(QTextCursor.End, QTextCursor.MoveAnchor)
+		if not cursor.block().text().isEmpty():
+			cursor.insertText("\n")
+		cursor.endEditBlock()
+		self.setTextCursor(previousCursor)
 		return True
