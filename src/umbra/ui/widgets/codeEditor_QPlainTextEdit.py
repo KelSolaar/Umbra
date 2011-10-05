@@ -17,7 +17,6 @@
 #***********************************************************************************************
 #***	External imports.
 #***********************************************************************************************
-import gc
 import logging
 import re
 from PyQt4.QtCore import *
@@ -843,11 +842,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		if self.__completer:
 			self.removeCompleter()
 
-		print gc.get_count()
-		print gc.garbage
-
 		self.__completer = completer
-		self.__completer.setWidget(self)
+		self.__completer.setWidget(self.parent())
 
 		# Signals / Slots.
 		self.__completer.activated.connect(self.__insertCompletion)
@@ -865,7 +861,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 		if self.__completer:
 			# Signals / Slots.
-#			self.__completer.activated.disconnect(self.__insertCompletion)
+			self.__completer.activated.disconnect(self.__insertCompletion)
 			self.__completer.setParent(None)
 			self.__completer = None
 		return True

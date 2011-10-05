@@ -2384,7 +2384,7 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		editor = Editor(parent=None, language=self.__languagesModel.getLanguage(self.__defaultScriptLanguage))
+		editor = Editor(parent=self.ui, language=self.__languagesModel.getLanguage(self.__defaultScriptLanguage))
 		LOGGER.info("{0} | Creating '{1}' file!".format(self.__class__.__name__, editor.getNextUntitledFileName()))
 		if editor.newFile():
 			self.addEditorTab(editor)
@@ -2415,7 +2415,7 @@ class ScriptEditor(UiComponent):
 			self.removeEditorTab(self.ui.Script_Editor_tabWidget.currentIndex())
 
 		LOGGER.info("{0} | Loading '{1}' file!".format(self.__class__.__name__, file))
-		editor = Editor(parent=None, language=self.__languagesModel.getFileLanguage(file) or self.__languagesModel.getLanguage(self.__defaultLanguage))
+		editor = Editor(parent=self.ui, language=self.__languagesModel.getFileLanguage(file) or self.__languagesModel.getLanguage(self.__defaultLanguage))
 		if editor.loadFile(file):
 			self.addEditorTab(editor)
 			self.__storeRecentFile(file)
