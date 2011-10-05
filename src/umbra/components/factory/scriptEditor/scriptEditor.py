@@ -1243,7 +1243,7 @@ class ScriptEditor(UiComponent):
 		self.__initializeMenuBar()
 
 		self.__Script_Editor_Output_plainTextEdit_setUi()
-		
+
 		self.__searchAndReplace = SearchAndReplace(self)
 
 		self.__fileSystemWatcher = QFileSystemWatcher(self)
@@ -1346,6 +1346,7 @@ class ScriptEditor(UiComponent):
 		fileMenu.addSeparator()
 		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Save", shortcut=QKeySequence.Save, slot=self.__saveFileAction__triggered))
 		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Save As ...", shortcut=QKeySequence.SaveAs, slot=self.__saveFileAsAction__triggered))
+		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Save All", slot=self.__saveFileAllAction__triggered))
 		fileMenu.addSeparator()
 		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Close ...", shortcut=QKeySequence.Close, slot=self.__closeFileAction__triggered))
 		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Close All ...", shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.Key_W, slot=self.__closeAllFilesAction__triggered))
@@ -1568,6 +1569,17 @@ class ScriptEditor(UiComponent):
 		"""
 
 		return self.saveFileAs()
+
+	@core.executionTrace
+	def __saveFileAllAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Save All'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.saveAll()
 
 	@core.executionTrace
 	def __closeFileAction__triggered(self, checked):
@@ -1835,7 +1847,7 @@ class ScriptEditor(UiComponent):
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
-		
+
 		currentWidget = QApplication.focusWidget()
 		if currentWidget.objectName() == "Script_Editor_Output_plainTextEdit":
 			self.Script_Editor_Output_plainTextEdit_toggleWordWrap()
@@ -1994,7 +2006,7 @@ class ScriptEditor(UiComponent):
 		"""
 
 		if self.hasEditorTab():
-			self.ui.setWindowTitle("{0} - {1}".format(self.__defaultWindowTitle, self.ui.Script_Editor_tabWidget.currentWidget().file))
+			self.ui.setWindowTitle("{0} - {1}".format(self.__defaultWindowTitle, self.getCurrentEditor().file))
 		else:
 			self.ui.setWindowTitle("{0}".format(self.__defaultWindowTitle))
 
@@ -2232,12 +2244,13 @@ class ScriptEditor(UiComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.ui.Script_Editor_tabWidget.count():
-			editor = self.ui.Script_Editor_tabWidget.currentWidget()
+		if self.hasEditorTab():
+			editor = self.getCurrentEditor()
 			LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
 			self.__fileSystemWatcher.removePaths(self.__files)
 			editor.saveFile()
 			self.__fileSystemWatcher.addPaths(self.__files)
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -2263,6 +2276,26 @@ class ScriptEditor(UiComponent):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def saveAll(self):
+		"""
+		This method saves all :class:`Editor` instances files.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		self.__fileSystemWatcher.removePaths(self.__files)
+
+		success = True
+		for i in range(self.ui.Script_Editor_tabWidget.count()):
+			editor = self.ui.Script_Editor_tabWidget.widget(i)
+			LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
+			success *= editor.saveFile()
+
+		self.__fileSystemWatcher.addPaths(self.__files)
+		return success
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def closeFile(self):
 		"""
  		This method closes current :class:`Editor` instance file and removes the associated **Script_Editor_tabWidget** Widget tab.
@@ -2281,7 +2314,7 @@ class ScriptEditor(UiComponent):
 		self.__unregisterFile(editor.file)
 
 		if self.removeEditorTab(self.ui.Script_Editor_tabWidget.currentIndex()):
-			not self.ui.Script_Editor_tabWidget.count() and self.newFile()
+			not self.hasEditorTab() and self.newFile()
 			return True
 
 	@core.executionTrace
@@ -2302,7 +2335,7 @@ class ScriptEditor(UiComponent):
 			self.__unregisterFile(editor.file)
 
 			if self.removeEditorTab(self.ui.Script_Editor_tabWidget.currentIndex()):
-				if not self.ui.Script_Editor_tabWidget.count() and leaveLastEditor:
+				if not self.hasEditorTab() and leaveLastEditor:
 					self.newFile()
 		return True
 
