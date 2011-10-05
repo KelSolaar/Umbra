@@ -54,7 +54,7 @@ class EditorStatus(QObject):
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent=None):
+	def __init__(self, parent):
 		"""
 		This method initializes the class.
 

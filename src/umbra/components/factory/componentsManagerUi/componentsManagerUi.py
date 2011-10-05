@@ -31,7 +31,7 @@ import foundations.strings as strings
 import manager.exceptions
 import umbra.ui.common
 import umbra.ui.widgets.messageBox as messageBox
-from manager.uiComponent import UiComponent
+from manager.qwidgetComponent import QWidgetComponent
 from umbra.globals.constants import Constants
 
 #***********************************************************************************************
@@ -51,7 +51,7 @@ LOGGER = logging.getLogger(Constants.logger)
 #***********************************************************************************************
 #***	Module classes and definitions.
 #***********************************************************************************************
-class ComponentsManagerUi(UiComponent):
+class ComponentsManagerUi(QWidgetComponent):
 	"""
 	| This class is the :mod:`umbra.components.core.componentsManagerUi.componentsManagerUi` Component Interface class.
 	| It defines methods to interact with the :class:`manager.componentsManager.Manager` class Application instance Components.
@@ -73,7 +73,7 @@ class ComponentsManagerUi(UiComponent):
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		UiComponent.__init__(self, name=name, uiFile=uiFile)
+		QWidgetComponent.__init__(self, name=name, uiFile=uiFile)
 
 		# --- Setting class attributes. ---
 		self.deactivatable = False
@@ -553,7 +553,7 @@ class ComponentsManagerUi(UiComponent):
 
 		self.__settings = self.__container.settings
 
-		return UiComponent.activate(self)
+		return QWidgetComponent.activate(self)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -678,14 +678,14 @@ class ComponentsManagerUi(UiComponent):
 					continue
 
 				componentStandardItem = QStandardItem(QString(component.title))
-				iconPath = os.path.join(self.__uiResources, "{0}{1}".format(strings.getNiceName(component.categorie), self.__uiCategorieAffixe))
+				iconPath = os.path.join(self.__uiResources, "{0}{1}".format(component.categorie, self.__uiCategorieAffixe))
 				componentStandardItem.setIcon(QIcon(iconPath))
 
 				componentActivationStandardItem = QStandardItem(QString(str(component.interface.activated)))
 				iconPath = component.interface.activated and os.path.join(self.__uiResources, self.__uiActivatedImage) or os.path.join(self.__uiResources, self.__uiDeactivatedImage)
 				componentActivationStandardItem.setIcon(QIcon(iconPath))
 
-				componentCategorieStandardItem = QStandardItem(QString(component.categorie and strings.getNiceName(component.categorie) or ""))
+				componentCategorieStandardItem = QStandardItem(QString(component.categorie and component.categorie or ""))
 				componentCategorieStandardItem.setTextAlignment(Qt.AlignCenter)
 
 				componentRankStandardItem = QStandardItem(QString(component.rank or ""))
@@ -835,7 +835,7 @@ class ComponentsManagerUi(UiComponent):
 		if selectedComponents:
 			for item in selectedComponents:
 				content.append(self.__componentsInformationsText.format(item.name,
-																		strings.getNiceName(item.categorie),
+																		item.categorie,
 																		item.author,
 																		item.email,
 																		item.url,
@@ -957,9 +957,9 @@ class ComponentsManagerUi(UiComponent):
 		component = self.__container.componentsManager.components[name]
 		LOGGER.debug("> Attempting '{0}' Component activation.".format(component.name))
 		component.interface.activate(self.__container)
-		if component.categorie == "default":
+		if component.categorie in ("Default", "QObject"):
 			component.interface.initialize()
-		elif component.categorie == "ui":
+		elif component.categorie == "QWidget":
 			component.interface.addWidget()
 			component.interface.initializeUi()
 		LOGGER.info("{0} | '{1}' Component has been activated!".format(self.__class__.__name__, component.name))
@@ -983,9 +983,9 @@ class ComponentsManagerUi(UiComponent):
 
 		LOGGER.debug("> Attempting '{0}' Component deactivation.".format(component.name))
 		if component.interface.deactivatable:
-			if component.categorie == "default":
+			if component.categorie in ("Default", "QObject"):
 				component.interface.uninitialize()
-			elif component.categorie == "ui":
+			elif component.categorie == "QWidget":
 				component.interface.uninitializeUi()
 				component.interface.removeWidget()
 			component.interface.deactivate()

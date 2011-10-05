@@ -27,7 +27,7 @@ from PyQt4.QtGui import *
 #***********************************************************************************************
 import foundations.core as core
 import foundations.exceptions
-from manager.uiComponent import UiComponent
+from manager.qwidgetComponent import QWidgetComponent
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
 
@@ -48,7 +48,7 @@ LOGGER = logging.getLogger(Constants.logger)
 #***********************************************************************************************
 #***	Module classes and definitions.
 #***********************************************************************************************
-class PreferencesManager(UiComponent):
+class PreferencesManager(QWidgetComponent):
 	"""
 	| This class is the :mod:`umbra.components.core.preferencesManager.preferencesManager` Component Interface class.
 	| It exposes Application preferences inside a dedicated `QDockWidget <http://doc.qt.nokia.com/4.7/qdockwidget.html>`_ window.
@@ -65,7 +65,7 @@ class PreferencesManager(UiComponent):
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		UiComponent.__init__(self, name=name, uiFile=uiFile)
+		QWidgetComponent.__init__(self, name=name, uiFile=uiFile)
 
 		# --- Setting class attributes. ---
 		self.deactivatable = False
@@ -218,7 +218,7 @@ class PreferencesManager(UiComponent):
 
 		self.__settings = self.__container.settings
 
-		return UiComponent.activate(self)
+		return QWidgetComponent.activate(self)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)

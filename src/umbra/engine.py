@@ -250,9 +250,9 @@ class Umbra(Ui_Type, Ui_Setup):
 				setattr(self, "_{0}__{1}".format(self.__class__.__name__, Manager.getComponentAttributeName(component)), interface)
 				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component), textColor=Qt.white)
 				interface.activate(self)
-				if profile.categorie == "default":
+				if profile.categorie in ("Default", "QObject"):
 					interface.initialize()
-				elif profile.categorie == "ui":
+				elif profile.categorie == "QWidget":
 					interface.addWidget()
 					interface.initializeUi()
 			except Exception as error:
@@ -273,9 +273,9 @@ class Umbra(Ui_Type, Ui_Setup):
 
 				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component), textColor=Qt.white)
 				interface.activate(self)
-				if profile.categorie == "default":
+				if profile.categorie in ("Default", "QObject"):
 					interface.initialize()
-				elif profile.categorie == "ui":
+				elif profile.categorie == "QWidget":
 					interface.addWidget()
 					interface.initializeUi()
 			except Exception as error:
@@ -1280,7 +1280,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		LOGGER.debug("> Restoring layout '{0}'.".format(name))
 
 		for component, profile in self.__componentsManager.components.items():
-			profile.categorie == "ui" and component not in self.__visibleComponents and self.__componentsManager.getInterface(component).ui and self.__componentsManager.getInterface(component).ui.hide()
+			profile.categorie == "QWidget" and component not in self.__visibleComponents and self.__componentsManager.getInterface(component).ui and self.__componentsManager.getInterface(component).ui.hide()
 
 		self.centralwidget.setVisible(self.__settings.getKey("Layouts", "{0}_centralWidget".format(name)).toBool())
 		self.restoreState(self.__settings.getKey("Layouts", "{0}_windowState".format(name)).toByteArray())

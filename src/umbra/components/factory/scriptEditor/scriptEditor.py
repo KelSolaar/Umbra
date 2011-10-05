@@ -36,7 +36,7 @@ import umbra.ui.common
 import umbra.ui.completers
 import umbra.ui.highlighters
 import umbra.ui.inputAccelerators
-from manager.uiComponent import UiComponent
+from manager.qwidgetComponent import QWidgetComponent
 from umbra.components.factory.scriptEditor.editor import Editor, Language, PYTHON_LANGUAGE
 from umbra.components.factory.scriptEditor.editorStatus import EditorStatus
 from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace
@@ -71,7 +71,7 @@ class ScriptEditor_QTabWidget(QTabWidget):
 	contentDropped = pyqtSignal(QEvent)
 
 	@core.executionTrace
-	def __init__(self, parent=None):
+	def __init__(self, parent):
 		"""
 		This method initializes the class.
 
@@ -316,7 +316,7 @@ class LanguagesModel(QAbstractListModel):
 				LOGGER.debug("> '{0}' file detected language: '{1}'.".format(file, language.name))
 				return language
 
-class ScriptEditor(UiComponent):
+class ScriptEditor(QWidgetComponent):
 	"""
 	This class is the :mod:`umbra.components.addons.scriptEditor.scriptEditor` Component Interface class.
 	"""
@@ -336,7 +336,7 @@ class ScriptEditor(UiComponent):
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		UiComponent.__init__(self, name=name, uiFile=uiFile)
+		QWidgetComponent.__init__(self, name=name, uiFile=uiFile)
 
 		# --- Setting class attributes. ---
 		self.deactivatable = False
@@ -1206,7 +1206,7 @@ class ScriptEditor(UiComponent):
 		self.__getsLocals()
 		self.__console = code.InteractiveConsole(self.__locals)
 
-		return UiComponent.activate(self)
+		return QWidgetComponent.activate(self)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)

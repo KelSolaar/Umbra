@@ -70,19 +70,19 @@ class SearchAndReplace(QObject):
 	"""
 
 	@core.executionTrace
-	def __init__(self, container):
+	def __init__(self, parent):
 		"""
 		This method initializes the class.
 
-		:param container: Container. ( Object )
+		:param parent: Object parent. ( QObject )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		QObject.__init__(self)
+		QObject.__init__(self, parent)
 
 		# --- Setting class attributes. ---
-		self.__container = container
+		self.__container = parent
 		self.__uiPath = "ui/Search_And_Replace.ui"
 		self.__uiPath = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiPath)
 
