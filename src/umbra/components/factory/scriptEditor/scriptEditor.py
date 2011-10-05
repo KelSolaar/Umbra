@@ -240,8 +240,6 @@ class EditorStatus(QObject):
 		This method sets the **Languages_comboBox** Widget default View state.
 		"""
 
-		print "__Languages_comboBox_setDefaultViewState"
-
 		if not self.__container.hasEditorTab():
 			return
 
@@ -262,8 +260,6 @@ class EditorStatus(QObject):
 		:param index: ComboBox current item index. ( Integer )
 		"""
 
-		print "__Languages_comboBox__currentIndexChanged"
-
 		if not self.__container.hasEditorTab():
 			return
 
@@ -271,7 +267,6 @@ class EditorStatus(QObject):
 		if not language:
 			return
 
-		print index, language.name
 		editor = self.__container.getCurrentEditor()
 		return self.__container.setEditorLanguage(editor, language, emitSignal=False)
 

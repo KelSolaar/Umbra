@@ -798,11 +798,9 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:return: Method success. ( Boolean )		
 		"""
 
-		print "setHighlighter"
-
 		if not issubclass(highlighter.__class__, QSyntaxHighlighter):
 			raise foundations.exceptions.ProgrammingError("'{1}' is not a 'QSyntaxHighlighter' subclass!".format(highlighter))
-
+		
 		if self.__highlighter:
 			self.removeHighlighter()
 
@@ -820,7 +818,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if self.__highlighter:
-			self.__highlighter.setParent(None)
+			self.__highlighter.deleteLater()
 			self.__highlighter = None
 		return True
 
@@ -833,8 +831,6 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param completer: Completer. ( QCompleter )
 		:return: Method success. ( Boolean )		
 		"""
-
-		print "setCompleter"
 
 		if not issubclass(completer.__class__, QCompleter):
 			raise foundations.exceptions.ProgrammingError("'{1}' is not a 'QCompleter' subclass!".format(completer))
@@ -862,7 +858,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		if self.__completer:
 			# Signals / Slots.
 			self.__completer.activated.disconnect(self.__insertCompletion)
-			self.__completer.setParent(None)
+			self.__completer.deleteLater()
 			self.__completer = None
 		return True
 

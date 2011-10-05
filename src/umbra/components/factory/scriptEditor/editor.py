@@ -414,8 +414,15 @@ class Editor(CodeEditor_QPlainTextEdit):
 		if not self.__language:
 			return
 
-		self.__language.highlighter and	self.setHighlighter(self.__language.highlighter(self.document()))
-		self.__language.completer and self.setCompleter(self.__language.completer(self.parent()))
+		if self.__language.highlighter:
+			self.setHighlighter(self.__language.highlighter(self.document()))
+		else:
+			self.removeHighlighter()
+
+		if self.__language.completer:
+			self.setCompleter(self.__language.completer(self.parent()))
+		else:
+			self.removeCompleter()
 
 		self.indentMarker = self.__language.indentMarker
 		self.commentMarker = self.__language.commentMarker
