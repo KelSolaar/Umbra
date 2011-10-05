@@ -105,7 +105,6 @@ def completionPreEventInputAccelerators(container, event):
 				popup.setCurrentIndex(container.completer.completionModel().index(0, 0))
 
 				completerRectangle = container.cursorRect()
-				print completerRectangle.getCoords()
 				completerRectangle.setWidth(container.completer.popup().sizeHintForColumn(0) + container.completer.popup().verticalScrollBar().sizeHint().width())
 				container.completer.complete(completerRectangle)
 	else:
