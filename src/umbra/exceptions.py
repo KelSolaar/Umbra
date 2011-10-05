@@ -69,9 +69,9 @@ class AbstractActionsManagerError(foundations.exceptions.AbstractError):
 
 	pass
 
-class CategorieExistsError(AbstractActionsManagerError):
+class CategoryExistsError(AbstractActionsManagerError):
 	"""
-	This class is used for non existing categorie exceptions.
+	This class is used for non existing category exceptions.
 	"""
 
 	pass

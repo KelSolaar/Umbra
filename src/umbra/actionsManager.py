@@ -236,82 +236,82 @@ class ActionsManager(QObject):
 			return name
 
 	@foundations.exceptions.exceptionsHandler(None, False, KeyError)
-	def __getCategorie(self, categorie, name, vivify=False):
+	def __getCategory(self, category, name, vivify=False):
 		"""
-		This method gets recusively requested categorie, alternately if **vivify** argument is set, the categorie will be created.
+		This method gets recusively requested category, alternately if **vivify** argument is set, the category will be created.
 
-		:param categorie: Base categorie. ( Dictionary )
-		:param name: Categorie to retrieve or vivify. ( String )
-		:param vivify: Vivify missing parents in the chain to the requested categorie. ( Boolean )
-		:return: Requested categorie. ( Dictionary )
+		:param category: Base category. ( Dictionary )
+		:param name: Category to retrieve or vivify. ( String )
+		:param vivify: Vivify missing parents in the chain to the requested category. ( Boolean )
+		:return: Requested category. ( Dictionary )
 		"""
 
 		namespace = foundations.namespace.getNamespace(name, rootOnly=True)
 		name = foundations.namespace.removeNamespace(name, rootOnly=True)
 		if namespace:
-			if vivify and namespace not in categorie.keys():
-				categorie[namespace] = {}
-			return self.__getCategorie(categorie[namespace], name, vivify)
+			if vivify and namespace not in category.keys():
+				category[namespace] = {}
+			return self.__getCategory(category[namespace], name, vivify)
 		else:
-			if vivify and name not in categorie.keys():
-				categorie[name] = {}
-			return categorie[name]
+			if vivify and name not in category.keys():
+				category[name] = {}
+			return category[name]
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.CategorieExistsError)
-	def getCategorie(self, name, vivify=False):
+	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.CategoryExistsError)
+	def getCategory(self, name, vivify=False):
 		"""
-		This method returns requested categorie.
+		This method returns requested category.
 
-		:param name: Categorie to retrieve. ( String )
-		:param vivify: Vivify missing parents in the chain to the requested categorie. ( Boolean )
-		:return: Categorie. ( Dictionary )
+		:param name: Category to retrieve. ( String )
+		:param vivify: Vivify missing parents in the chain to the requested category. ( Boolean )
+		:return: Category. ( Dictionary )
 		"""
 
-		categorie = self.__getCategorie(self.__categories, name, vivify)
-		if isinstance(categorie, dict):
-			LOGGER.debug("> Categorie '{0}': '{1}'.".format(name, categorie))
-			return categorie
+		category = self.__getCategory(self.__categories, name, vivify)
+		if isinstance(category, dict):
+			LOGGER.debug("> Category '{0}': '{1}'.".format(name, category))
+			return category
 		else:
-			raise umbra.exceptions.CategorieExistsError("'{0}' categorie doesn't exists!".format(name))
+			raise umbra.exceptions.CategoryExistsError("'{0}' category doesn't exists!".format(name))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def addToCategorie(self, categorie, name, action):
+	def addToCategory(self, category, name, action):
 		"""
-		This method adds provided action to given categorie.
+		This method adds provided action to given category.
 
-		:param categorie: Categorie to store the action. ( String )
+		:param category: Category to store the action. ( String )
 		:param name: Action name. ( String )
 		:param action: Action object. ( QAction )
 		:return: Method success. ( Boolean )
 		"""
 
-		categorie = self.getCategorie(categorie, vivify=True)
-		if not isinstance(categorie, dict):
+		category = self.getCategory(category, vivify=True)
+		if not isinstance(category, dict):
 			return
 
-		categorie[name] = action
-		LOGGER.debug("> Added '{0}' action to '{1}' categorie!".format(categorie, name))
+		category[name] = action
+		LOGGER.debug("> Added '{0}' action to '{1}' category!".format(category, name))
 		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def removeFromCategorie(self, categorie, name):
+	def removeFromCategory(self, category, name):
 		"""
-		This method removes provided action from given categorie.
+		This method removes provided action from given category.
 
-		:param categorie: Categorie to remove the action from. ( String )
+		:param category: Category to remove the action from. ( String )
 		:param name: Action name. ( String )
 		:return: Method success. ( Boolean )
 		"""
 
-		categorie = self.getCategorie(categorie)
-		if not isinstance(categorie, dict):
+		category = self.getCategory(category)
+		if not isinstance(category, dict):
 			return
 
-		del(categorie[name])
-		LOGGER.debug("> Removed '{0}' action from '{1}' categorie!".format(categorie, name))
+		del(category[name])
+		LOGGER.debug("> Removed '{0}' action from '{1}' category!".format(category, name))
 		return True
 
 	@core.executionTrace
@@ -354,11 +354,11 @@ class ActionsManager(QObject):
 		settings.update(kwargs)
 
 		name = self.__normalizeName(name)
-		categorie = foundations.namespace.getNamespace(name)
+		category = foundations.namespace.getNamespace(name)
 		name = foundations.namespace.removeNamespace(name)
 
 		action = QAction(name, settings.parent or self)
-		self.addToCategorie(categorie, name, action)
+		self.addToCategory(category, name, action)
 
 		settings.icon and action.setIcon(settings.icon)
 		settings.iconText and action.setIconText(settings.iconText)
@@ -389,9 +389,9 @@ class ActionsManager(QObject):
 
 		action.triggered.disconnect(self.__actionsSignalsSlots.pop(action))
 
-		categorie = foundations.namespace.getNamespace(name)
+		category = foundations.namespace.getNamespace(name)
 		name = foundations.namespace.removeNamespace(name)
-		self.removeFromCategorie(categorie, name)
+		self.removeFromCategory(category, name)
 		return True
 
 	@core.executionTrace

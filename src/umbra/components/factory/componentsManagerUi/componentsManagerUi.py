@@ -82,7 +82,7 @@ class ComponentsManagerUi(QWidgetComponent):
 		self.__uiResources = "resources"
 		self.__uiActivatedImage = "Activated.png"
 		self.__uiDeactivatedImage = "Deactivated.png"
-		self.__uiCategorieAffixe = "_Categorie.png"
+		self.__uiCategoryAffixe = "_Category.png"
 		self.__dockArea = 1
 
 		self.__container = None
@@ -90,14 +90,14 @@ class ComponentsManagerUi(QWidgetComponent):
 
 		self.__model = None
 
-		self.__modelHeaders = [ "Components", "Activated", "Categorie", "Rank", "Version" ]
+		self.__modelHeaders = [ "Components", "Activated", "Category", "Rank", "Version" ]
 		self.__treeWidgetIndentation = 15
 		self.__treeViewInnerMargins = QMargins(0, 0, 0, 12)
 		self.__componentsInformationsDefaultText = "<center><h4>* * *</h4>Select Some Components to display related informations!<h4>* * *</h4></center>"
 		self.__componentsInformationsText = """
 											<h4><center>{0}</center></h4>
 											<p>
-											<b>Categorie:</b> {1}
+											<b>Category:</b> {1}
 											<br/>
 											<b>Author:</b> {2}
 											<br/>
@@ -234,34 +234,34 @@ class ComponentsManagerUi(QWidgetComponent):
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("uiDeactivatedImage"))
 
 	@property
-	def uiCategorieAffixe(self):
+	def uiCategoryAffixe(self):
 		"""
-		This method is the property for **self.__uiCategorieAffixe** attribute.
+		This method is the property for **self.__uiCategoryAffixe** attribute.
 
-		:return: self.__uiCategorieAffixe. ( String )
+		:return: self.__uiCategoryAffixe. ( String )
 		"""
 
-		return self.__uiCategorieAffixe
+		return self.__uiCategoryAffixe
 
-	@uiCategorieAffixe.setter
+	@uiCategoryAffixe.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def uiCategorieAffixe(self, value):
+	def uiCategoryAffixe(self, value):
 		"""
-		This method is the setter method for **self.__uiCategorieAffixe** attribute.
+		This method is the setter method for **self.__uiCategoryAffixe** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("uiCategorieAffixe"))
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("uiCategoryAffixe"))
 
-	@uiCategorieAffixe.deleter
+	@uiCategoryAffixe.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def uiCategorieAffixe(self):
+	def uiCategoryAffixe(self):
 		"""
-		This method is the deleter method for **self.__uiCategorieAffixe** attribute.
+		This method is the deleter method for **self.__uiCategoryAffixe** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("uiCategorieAffixe"))
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("uiCategoryAffixe"))
 
 	@property
 	def dockArea(self):
@@ -648,7 +648,7 @@ class ComponentsManagerUi(QWidgetComponent):
 		This method sets the **Components_Manager_Ui_treeView** Model.
 
 		Columns:
-		Collections | Activated | Categorie | Rank | Version
+		Collections | Activated | Category | Rank | Version
 
 		Rows:
 		* Path: { _type: "Path" }
@@ -678,15 +678,15 @@ class ComponentsManagerUi(QWidgetComponent):
 					continue
 
 				componentStandardItem = QStandardItem(QString(component.title))
-				iconPath = os.path.join(self.__uiResources, "{0}{1}".format(component.categorie, self.__uiCategorieAffixe))
+				iconPath = os.path.join(self.__uiResources, "{0}{1}".format(component.category, self.__uiCategoryAffixe))
 				componentStandardItem.setIcon(QIcon(iconPath))
 
 				componentActivationStandardItem = QStandardItem(QString(str(component.interface.activated)))
 				iconPath = component.interface.activated and os.path.join(self.__uiResources, self.__uiActivatedImage) or os.path.join(self.__uiResources, self.__uiDeactivatedImage)
 				componentActivationStandardItem.setIcon(QIcon(iconPath))
 
-				componentCategorieStandardItem = QStandardItem(QString(component.categorie and component.categorie or ""))
-				componentCategorieStandardItem.setTextAlignment(Qt.AlignCenter)
+				componentCategoryStandardItem = QStandardItem(QString(component.category and component.category or ""))
+				componentCategoryStandardItem.setTextAlignment(Qt.AlignCenter)
 
 				componentRankStandardItem = QStandardItem(QString(component.rank or ""))
 				componentRankStandardItem.setTextAlignment(Qt.AlignCenter)
@@ -698,7 +698,7 @@ class ComponentsManagerUi(QWidgetComponent):
 				componentStandardItem._type = "Component"
 
 				LOGGER.debug("> Adding '{0}' Component to '{1}'.".format(name, "Components_Manager_Ui_treeView"))
-				pathStandardItem.appendRow([componentStandardItem, componentActivationStandardItem, componentCategorieStandardItem, componentRankStandardItem, componentVersionStandardItem])
+				pathStandardItem.appendRow([componentStandardItem, componentActivationStandardItem, componentCategoryStandardItem, componentRankStandardItem, componentVersionStandardItem])
 
 		self.modelChanged.emit()
 
@@ -835,7 +835,7 @@ class ComponentsManagerUi(QWidgetComponent):
 		if selectedComponents:
 			for item in selectedComponents:
 				content.append(self.__componentsInformationsText.format(item.name,
-																		item.categorie,
+																		item.category,
 																		item.author,
 																		item.email,
 																		item.url,
@@ -957,9 +957,9 @@ class ComponentsManagerUi(QWidgetComponent):
 		component = self.__container.componentsManager.components[name]
 		LOGGER.debug("> Attempting '{0}' Component activation.".format(component.name))
 		component.interface.activate(self.__container)
-		if component.categorie in ("Default", "QObject"):
+		if component.category in ("Default", "QObject"):
 			component.interface.initialize()
-		elif component.categorie == "QWidget":
+		elif component.category == "QWidget":
 			component.interface.addWidget()
 			component.interface.initializeUi()
 		LOGGER.info("{0} | '{1}' Component has been activated!".format(self.__class__.__name__, component.name))
@@ -983,9 +983,9 @@ class ComponentsManagerUi(QWidgetComponent):
 
 		LOGGER.debug("> Attempting '{0}' Component deactivation.".format(component.name))
 		if component.interface.deactivatable:
-			if component.categorie in ("Default", "QObject"):
+			if component.category in ("Default", "QObject"):
 				component.interface.uninitialize()
-			elif component.categorie == "QWidget":
+			elif component.category == "QWidget":
 				component.interface.uninitializeUi()
 				component.interface.removeWidget()
 			component.interface.deactivate()
