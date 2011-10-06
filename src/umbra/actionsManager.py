@@ -19,6 +19,7 @@
 #***********************************************************************************************
 import logging
 import re
+import itertools
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -255,6 +256,20 @@ class ActionsManager(QObject):
 			if vivify and name not in category.keys():
 				category[name] = {}
 			return category[name]
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listActions(self):
+		"""
+		This method returns current actions list.
+
+		:return: Actions list. ( List )
+		"""
+
+		actions = []
+		for path, actionName, action in foundations.walkers.dictionariesWalker(self.__categories):
+			actions.append(self.__namespaceSplitter.join(itertools.chain(path, (actionName,))))
+		return sorted(actions)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.CategoryExistsError)
