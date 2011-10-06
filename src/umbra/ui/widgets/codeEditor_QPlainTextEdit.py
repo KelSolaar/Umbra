@@ -1036,6 +1036,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		else:
 			if settings.wrapAround:
 				previousCursor = self.textCursor()
+				cursor = self.textCursor()
 				if settings.backwardSearch:
 					cursor.movePosition(QTextCursor.End, QTextCursor.MoveAnchor)
 				else:
@@ -1201,7 +1202,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 				blockCursor = self.textCursor()
 				blockCursor.setPosition(block.position())
 
-				if unicode(block.text()).startswith(self.__commentMarker, Constants.encodingFormat, Constants.encodingError):
+				if unicode(block.text(), Constants.encodingFormat, Constants.encodingError).startswith(self.__commentMarker):
 					blockCursor.deleteChar()
 				else:
 					blockCursor.insertText(self.__commentMarker)
