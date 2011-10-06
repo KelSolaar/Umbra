@@ -272,8 +272,6 @@ class LoggingHighlighter(Highlighter):
 	def __setFormats(self):
 		"""
 		This method sets the highlighting formats.
-
-		:return: Method success. ( Boolean )
 		"""
 
 		self.formats = Formats(default=getFormat(color=QColor(192, 192, 192)))
@@ -287,14 +285,10 @@ class LoggingHighlighter(Highlighter):
 		self.formats.loggingDebugTraceIn = getFormat(format=self.formats.loggingDebug, color=QColor(128, 160, 192))
 		self.formats.loggingDebugTraceOut = getFormat(format=self.formats.loggingDebug, color=QColor(QColor(192, 160, 128)))
 
-		return True
-
 	@core.executionTrace
 	def __setRules(self):
 		"""
 		This method sets the highlighting rules.
-
-		:return: Method success. ( Boolean )
 		"""
 
 		self.rules = Rules()
@@ -307,8 +301,6 @@ class LoggingHighlighter(Highlighter):
 
 		self.rules.loggingDebugTraceIn = Rule(pattern=QRegExp(r"^DEBUG\s*:\s--->>>.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:\s--->>>.*$"), format=self.formats.loggingDebugTraceIn)
 		self.rules.loggingDebugTraceOut = Rule(pattern=QRegExp(r"^DEBUG\s*:\s---<<<.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:\s---<<<.*$"), format=self.formats.loggingDebugTraceOut)
-
-		return True
 
 	# @core.executionTrace
 	def highlightBlock(self, block):
@@ -447,38 +439,27 @@ class PythonHighlighter(Highlighter):
 	#***	Class methods.
 	#***********************************************************************************************
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __setPythonTokens(self):
 		"""
 		This method sets the Python tokens.
-
-		:return: Method success. ( Boolean )
 		"""
 
 		self.__pythonTokens = umbra.ui.common.getTokensParser(PYTHON_TOKENS_FILE)
-		return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __setKeywords(self, splitter="|"):
 		"""
 		This method sets the highlighting keywords.
 
 		:param splitters: Splitter character. ( String )
-		:return: Method success. ( Boolean )
 		"""
 
 		self.__keywords = self.__pythonTokens.getValue("keywords", "Tokens").split(splitter)
 
-		return True
-
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __setFormats(self):
 		"""
 		This method sets the highlighting formats.
-
-		:return: Method success. ( Boolean )
 		"""
 
 		self.formats = Formats(default=getFormat(color=QColor(192, 192, 192)))
@@ -528,15 +509,10 @@ class PythonHighlighter(Highlighter):
 
 		self.formats.multiLineString = getFormat(format=self.formats.quotation)
 
-		return True
-
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __setRules(self):
 		"""
 		This method sets the highlighting rules.
-
-		:return: Method success. ( Boolean )
 		"""
 
 		self.__multiLineSingleString = QRegExp(r"^\s*\"\"\"|\"\"\"\s*$")
@@ -583,8 +559,6 @@ class PythonHighlighter(Highlighter):
 		self.rules.singleQuotation = Rule(pattern=QRegExp(r"'([^'\\]|\\.)*'"), format=self.formats.singleQuotation)
 
 		self.rules.singleLineComment = Rule(pattern=QRegExp(r"#.*$\n?"), format=self.formats.singleLineComment)
-
-		return True
 
 	# @core.executionTrace
 	def highlightBlock(self, block):

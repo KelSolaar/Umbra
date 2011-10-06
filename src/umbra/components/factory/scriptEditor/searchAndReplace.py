@@ -221,7 +221,6 @@ class SearchAndReplace(QObject):
 	#***	Class methods.
 	#***********************************************************************************************
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __initializeUi(self):
 		"""
 		This method initializes the Widget ui.

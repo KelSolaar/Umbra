@@ -238,7 +238,6 @@ class EditorStatus(QObject):
 		self.__ui.Languages_comboBox.setCurrentIndex(index)
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __Languages_comboBox__currentIndexChanged(self, index):
 		"""
 		This method is called when the **Languages_comboBox** Widget current index is changed.
@@ -254,10 +253,9 @@ class EditorStatus(QObject):
 			return
 
 		editor = self.__container.getCurrentEditor()
-		return self.__container.setEditorLanguage(editor, language, emitSignal=False)
+		self.__container.setEditorLanguage(editor, language, emitSignal=False)
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __editor__cursorPositionChanged(self):
 		"""
 		This method is triggered when an editor cursor position is changed.

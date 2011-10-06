@@ -114,21 +114,18 @@ class PythonCompleter(QCompleter):
 	#***	Class methods.
 	#***********************************************************************************************
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __setPythonTokens(self, splitter="|"):
 		"""
 		This method sets the Python tokens.
 
 		:param splitters: Splitter character. ( String )
-		:return: Method success. ( Boolean )
 		"""
 
 		if PythonCompleter._PythonCompleter__pythonTokens:
-			return True
+			return
 
 		sections = umbra.ui.common.getTokensParser(PYTHON_TOKENS_FILE).sections
 		PythonCompleter._PythonCompleter__pythonTokens = [token for section in sections["Tokens"].values() for token in section.split(splitter)]
-		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -209,22 +206,18 @@ class EnglishCompleter(QCompleter):
 	#***	Class methods.
 	#***********************************************************************************************
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __setEnglishWords(self):
 		"""
 		This method sets the english words.
-
-		:return: Method success. ( Boolean )
 		"""
 
 		if EnglishCompleter._EnglishCompleter__englishWords:
-			return True
+			return
 
 		EnglishCompleter._EnglishCompleter__englishWords = []
 		with open(ENGLISH_WORDS_FILE, "r") as file:
 			for line in iter(file):
 				EnglishCompleter._EnglishCompleter__englishWords.append(line.strip())
-		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

@@ -847,12 +847,9 @@ class ComponentsManagerUi(QWidgetComponent):
 		self.ui.Components_Informations_textBrowser.setText(separator.join(content))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __storeDeactivatedComponents(self):
 		"""
 		This method stores deactivated Components in settings file.
-
-		:return: Method success. ( Boolean )
 		"""
 
 		deactivatedComponents = []
@@ -862,7 +859,6 @@ class ComponentsManagerUi(QWidgetComponent):
 
 		LOGGER.debug("> Storing '{0}' deactivated Components.".format(", ".join(deactivatedComponents)))
 		self.__settings.setKey("Settings", "deactivatedComponents", ",".join(deactivatedComponents))
-		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, manager.exceptions.ComponentActivationError)

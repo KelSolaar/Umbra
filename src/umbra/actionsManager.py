@@ -218,7 +218,6 @@ class ActionsManager(QObject):
 	#***	Class methods.
 	#***********************************************************************************************
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __normalizeName(self, name):
 		"""
 		This method normalizes provided action name.
@@ -235,7 +234,7 @@ class ActionsManager(QObject):
 			LOGGER.debug("> Name '{0}' is already normalized!".format(name))
 			return name
 
-	@foundations.exceptions.exceptionsHandler(None, False, KeyError)
+	@core.executionTrace
 	def __getCategory(self, category, name, vivify=False):
 		"""
 		This method gets recusively requested category, alternately if **vivify** argument is set, the category will be created.

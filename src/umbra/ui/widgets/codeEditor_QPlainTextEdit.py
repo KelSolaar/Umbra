@@ -717,12 +717,9 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		self.cursorPositionChanged.connect(self.__highlightCurrentLine)
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __highlightCurrentLine(self):
 		"""
 		This method highlights the current line.
-
-		:return: Method success. ( Boolean )		
 		"""
 
 		extraSelections = []
@@ -736,16 +733,13 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 			extraSelections.append(selection)
 
 		self.setExtraSelections(extraSelections)
-		return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __insertCompletion(self, completion):
 		"""
 		This method inserts the completion text in the current document.
 
 		:param completion: Completion text. ( QString )
-		:return: Method success. ( Boolean )		
 		"""
 
 		textCursor = self.textCursor()
@@ -754,7 +748,6 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		textCursor.movePosition(QTextCursor.EndOfWord)
 		textCursor.insertText(completion.right(extra))
 		self.setTextCursor(textCursor)
-		return True
 
 	@core.executionTrace
 	def resizeEvent(self, event):

@@ -1606,7 +1606,6 @@ class ScriptEditor(QWidgetComponent):
 		return self.closeAllFiles()
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __loadRecentFile__triggered(self, checked):
 		"""
 		This method is triggered by any recent file related action.
@@ -1953,7 +1952,6 @@ class ScriptEditor(QWidgetComponent):
 			self.__fileSystemWatcher.removePath(file)
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __setRecentFilesActions(self):
 		"""
 		This method sets the recent files actions.
@@ -1975,7 +1973,6 @@ class ScriptEditor(QWidgetComponent):
 			self.__recentFilesActions[i].setVisible(True)
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __storeRecentFile(self, file):
 		"""
 		This method stores provided recent file into the settings.
@@ -1995,7 +1992,6 @@ class ScriptEditor(QWidgetComponent):
 		self.recentFilesChanged.emit()
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __handleContentDroppedEvent(self, event):
 		"""
 		This method handles dopped content event.
@@ -2015,7 +2011,6 @@ class ScriptEditor(QWidgetComponent):
 				self.__container.currentLayout != self.__developmentLayout and self.__container.restoreLayout(self.__developmentLayout)
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __setWindowTitle(self):
 		"""
 		This method sets the **scriptEditor** Component window title.
@@ -2051,6 +2046,7 @@ class ScriptEditor(QWidgetComponent):
 
 		self.__locals[Constants.applicationName] = self.__container
 		self.__locals["componentsManager"] = self.__container.componentsManager
+		self.__locals["actionsManager"] = self.__container.actionsManager
 
 		return True
 

@@ -384,6 +384,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		self.fileChanged.emit()
 
+	@core.executionTrace
 	def __setWindowTitle(self):
 		"""
 		This method sets the editor window title.
