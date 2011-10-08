@@ -17,6 +17,7 @@
 #***********************************************************************************************
 #***	External imports.
 #***********************************************************************************************
+import functools
 import logging
 import os
 import platform
@@ -283,3 +284,30 @@ def parentsWalker(object):
 	while object.parent():
 		object = object.parent()
 		yield object
+
+def showWaitCursor(object):
+	"""
+	This decorator is used to show a wait cursor while processing.
+	
+	:param object: Object to decorate. ( Object )
+	:return: Object. ( Object )
+	"""
+
+	@functools.wraps(object)
+	def function(*args, **kwargs):
+		"""
+		This decorator is used to show a wait cursor while processing.
+
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Arguments. ( \* )
+		:return: Object. ( Object )
+		"""
+
+		QApplication.setOverrideCursor(Qt.WaitCursor)
+		try:
+			value = object(*args, **kwargs)
+		finally:
+			QApplication.restoreOverrideCursor()
+			return value
+
+	return function
