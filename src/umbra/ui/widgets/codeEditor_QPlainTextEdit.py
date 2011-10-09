@@ -28,6 +28,7 @@ from PyQt4.QtGui import *
 import foundations.core as core
 import foundations.exceptions
 import foundations.strings
+import umbra.exceptions
 from umbra.globals.constants import Constants
 
 #***********************************************************************************************
@@ -53,19 +54,24 @@ class LinesNumbers_QWidget(QWidget):
 	"""
 
 	@core.executionTrace
-	def __init__(self, editor):
+	def __init__(self, parent=None, *args, **kwargs):
 		"""
 		This method initializes the class.
 
-		:param editor: Editor to attach the widget to. ( QTextEdit / QPlainTextEdit )
+		:param parent: Object parent. ( QObject )
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Arguments. ( \* )
 		"""
+
+		if not parent:
+			raise umbra.exceptions.WidgetInitializationError("'{0}' Widget initialization requires a parent Widget!".format(self.__class__.__name__))
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		QWidget.__init__(self, editor)
+		QWidget.__init__(self, parent, *args, **kwargs)
 
 		# --- Setting class attributes. ---
-		self.__editor = editor
+		self.__editor = parent
 
 		self.__margin = 16
 		self.__separatorWidth = 2
@@ -378,18 +384,20 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent=None, indentMarker="\t", commentMarker="#"):
+	def __init__(self, parent=None, indentMarker="\t", commentMarker="#", *args, **kwargs):
 		"""
 		This method initializes the class.
 
 		:param parent: Widget parent. ( QObject )
 		:param indentMarker: Indentation marker. ( String )
 		:param commentMarker: Comment marker. ( String )
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Arguments. ( \* )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		QPlainTextEdit.__init__(self, parent)
+		QPlainTextEdit.__init__(self, parent, *args, **kwargs)
 
 		# --- Setting class attributes. ---
 		self.__indentMarker = None

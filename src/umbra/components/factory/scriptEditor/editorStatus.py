@@ -29,6 +29,8 @@ from PyQt4.QtGui import *
 #***********************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import foundations.ui.common
+import umbra.exceptions
 from umbra.globals.constants import Constants
 
 #***********************************************************************************************
@@ -41,41 +43,41 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "EditorStatus"]
+__all__ = ["LOGGER", "UI_FILE", "EditorStatus"]
 
 LOGGER = logging.getLogger(Constants.logger)
+
+UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Editor_Status.ui")
 
 #***********************************************************************************************
 #***	Module classes and definitions.
 #***********************************************************************************************
-class EditorStatus(QObject):
+class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
 	This class defines the **ScriptEditor** Component status bar widget. 
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent):
+	def __init__(self, parent=None, *args, **kwargs):
 		"""
 		This method initializes the class.
 
 		:param parent: Object parent. ( QObject )
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Arguments. ( \* )
 		"""
+
+		if not parent:
+			raise umbra.exceptions.WidgetInitializationError("'{0}' Widget initialization requires a parent Widget!".format(self.__class__.__name__))
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		QObject.__init__(self, parent)
+		super(EditorStatus, self).__init__(parent, *args, **kwargs)
 
 		# --- Setting class attributes. ---
 		self.__container = parent
 
 		self.__Lines_Columns_label_defaultText = "Line {0} : Column {1}"
-
-		self.__uiPath = "ui/Editor_Status.ui"
-		self.__uiPath = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiPath)
-
-		self.__ui = uic.loadUi(self.__uiPath)
-		if "." in sys.path:
-			sys.path.remove(".")
 
 		EditorStatus.__initializeUi(self)
 
@@ -111,66 +113,6 @@ class EditorStatus(QObject):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("container"))
-
-	@property
-	def uiPath(self):
-		"""
-		This method is the property for **self.__uiPath** attribute.
-
-		:return: self.__uiPath. ( String )
-		"""
-
-		return self.__uiPath
-
-	@uiPath.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def uiPath(self, value):
-		"""
-		This method is the setter method for **self.__uiPath** attribute.
-
-		:param value: Attribute value. ( String )
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("uiPath"))
-
-	@uiPath.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def uiPath(self):
-		"""
-		This method is the deleter method for **self.__uiPath** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("uiPath"))
-
-	@property
-	def ui(self):
-		"""
-		This method is the property for **self.__ui** attribute.
-
-		:return: self.__ui. ( Object )
-		"""
-
-		return self.__ui
-
-	@ui.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def ui(self, value):
-		"""
-		This method is the setter method for **self.__ui** attribute.
-
-		:param value: Attribute value. ( Object )
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("ui"))
-
-	@ui.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def ui(self):
-		"""
-		This method is the deleter method for **self.__ui** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("ui"))
 
 	@property
 	def Lines_Columns_label_defaultText(self):
@@ -212,13 +154,13 @@ class EditorStatus(QObject):
 		This method initializes the Widget ui.
 		"""
 
-		self.__ui.Lines_Columns_label.setAlignment(Qt.AlignRight)
-		self.__ui.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(1, 1))
+		self.Lines_Columns_label.setAlignment(Qt.AlignRight)
+		self.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(1, 1))
 
-		self.__ui.Languages_comboBox.setModel(self.__container.languagesModel)
+		self.Languages_comboBox.setModel(self.__container.languagesModel)
 
 		# Signals / Slots.
-		self.__ui.Languages_comboBox.currentIndexChanged.connect(self.__Languages_comboBox__currentIndexChanged)
+		self.Languages_comboBox.currentIndexChanged.connect(self.__Languages_comboBox__currentIndexChanged)
 
 	@core.executionTrace
 	def __Languages_comboBox_setDefaultViewState(self):
@@ -230,12 +172,9 @@ class EditorStatus(QObject):
 			return
 
 		editor = self.__container.getCurrentEditor()
-		index = self.__ui.Languages_comboBox.findText(editor.language.name)
+		index = self.Languages_comboBox.findText(editor.language.name)
 
-		if not index:
-			return
-
-		self.__ui.Languages_comboBox.setCurrentIndex(index)
+		self.Languages_comboBox.setCurrentIndex(index)
 
 	@core.executionTrace
 	def __Languages_comboBox__currentIndexChanged(self, index):
@@ -248,7 +187,7 @@ class EditorStatus(QObject):
 		if not self.__container.hasEditorTab():
 			return
 
-		language = self.__container.languagesModel.getLanguage(str(self.__ui.Languages_comboBox.currentText()))
+		language = self.__container.languagesModel.getLanguage(str(self.Languages_comboBox.currentText()))
 		if not language:
 			return
 
@@ -265,4 +204,4 @@ class EditorStatus(QObject):
 			return
 
 		editor = self.__container.getCurrentEditor()
-		self.__ui.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(editor.getCursorLine() + 1, editor.getCursorColumn() + 1))
+		self.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(editor.getCursorLine() + 1, editor.getCursorColumn() + 1))

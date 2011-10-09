@@ -1280,7 +1280,7 @@ class Umbra(Ui_Type, Ui_Setup):
 		LOGGER.debug("> Restoring layout '{0}'.".format(name))
 
 		for component, profile in self.__componentsManager.components.items():
-			profile.category == "QWidget" and component not in self.__visibleComponents and self.__componentsManager.getInterface(component).ui and self.__componentsManager.getInterface(component).ui.hide()
+			profile.category == "QWidget" and component not in self.__visibleComponents and self.__componentsManager.getInterface(component) and self.__componentsManager.getInterface(component).hide()
 
 		self.centralwidget.setVisible(self.__settings.getKey("Layouts", "{0}_centralWidget".format(name)).toBool())
 		self.restoreState(self.__settings.getKey("Layouts", "{0}_windowState".format(name)).toByteArray())

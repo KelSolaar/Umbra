@@ -27,11 +27,10 @@ from PyQt4.QtGui import *
 #***********************************************************************************************
 import foundations.core as core
 import foundations.exceptions
-import foundations.strings as strings
 import manager.exceptions
 import umbra.ui.common
 import umbra.ui.widgets.messageBox as messageBox
-from manager.qwidgetComponent import QWidgetComponent
+from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.globals.constants import Constants
 
 #***********************************************************************************************
@@ -44,14 +43,16 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "ComponentsManagerUi"]
+__all__ = ["LOGGER", "COMPONENT_UI_FILE", "ComponentsManagerUi"]
 
 LOGGER = logging.getLogger(Constants.logger)
+
+COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Components_Manager_Ui.ui")
 
 #***********************************************************************************************
 #***	Module classes and definitions.
 #***********************************************************************************************
-class ComponentsManagerUi(QWidgetComponent):
+class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
 	| This class is the :mod:`umbra.components.core.componentsManagerUi.componentsManagerUi` Component Interface class.
 	| It defines methods to interact with the :class:`manager.componentsManager.Manager` class Application instance Components.
@@ -63,22 +64,23 @@ class ComponentsManagerUi(QWidgetComponent):
 	modelPartialRefresh = pyqtSignal()
 
 	@core.executionTrace
-	def __init__(self, name=None, uiFile=None):
+	def __init__(self, parent=None, name=None, *args, **kwargs):
 		"""
 		This method initializes the class.
 
+		:param parent: Object parent. ( QObject )
 		:param name: Component name. ( String )
-		:param uiFile: Ui file. ( String )
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Arguments. ( \* )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		QWidgetComponent.__init__(self, name=name, uiFile=uiFile)
+		super(ComponentsManagerUi, self).__init__(parent, name, *args, **kwargs)
 
 		# --- Setting class attributes. ---
 		self.deactivatable = False
 
-		self.__uiPath = "ui/Components_Manager_Ui.ui"
 		self.__uiResources = "resources"
 		self.__uiActivatedImage = "Activated.png"
 		self.__uiDeactivatedImage = "Deactivated.png"
@@ -113,36 +115,6 @@ class ComponentsManagerUi(QWidgetComponent):
 	#***********************************************************************************************
 	#***	Attributes properties.
 	#***********************************************************************************************
-	@property
-	def uiPath(self):
-		"""
-		This method is the property for **self.__uiPath** attribute.
-
-		:return: self.__uiPath. ( String )
-		"""
-
-		return self.__uiPath
-
-	@uiPath.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def uiPath(self, value):
-		"""
-		This method is the setter method for **self.__uiPath** attribute.
-
-		:param value: Attribute value. ( String )
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("uiPath"))
-
-	@uiPath.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def uiPath(self):
-		"""
-		This method is the deleter method for **self.__uiPath** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("uiPath"))
-
 	@property
 	def uiResources(self):
 		"""
@@ -547,13 +519,13 @@ class ComponentsManagerUi(QWidgetComponent):
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
 
-		self.uiFile = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiPath)
 		self.__uiResources = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiResources)
 		self.__container = container
 
 		self.__settings = self.__container.settings
 
-		return QWidgetComponent.activate(self)
+		self.activated = True
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -578,19 +550,19 @@ class ComponentsManagerUi(QWidgetComponent):
 
 		self.__Components_Manager_Ui_treeView_setModel()
 
-		self.ui.Components_Manager_Ui_gridLayout.setContentsMargins(self.__treeViewInnerMargins)
+		self.Components_Manager_Ui_gridLayout.setContentsMargins(self.__treeViewInnerMargins)
 
-		self.ui.Components_Manager_Ui_treeView.setContextMenuPolicy(Qt.ActionsContextMenu)
+		self.Components_Manager_Ui_treeView.setContextMenuPolicy(Qt.ActionsContextMenu)
 		self.__Components_Manager_Ui_treeView_addActions()
 
 		self.__Components_Manager_Ui_treeView_setView()
 
-		self.ui.Components_Informations_textBrowser.setText(self.__componentsInformationsDefaultText)
+		self.Components_Informations_textBrowser.setText(self.__componentsInformationsDefaultText)
 
-		self.ui.Components_Manager_Ui_splitter.setSizes([ 16777215, 1 ])
+		self.Components_Manager_Ui_splitter.setSizes([ 16777215, 1 ])
 
 		# Signals / Slots.
-		self.ui.Components_Manager_Ui_treeView.selectionModel().selectionChanged.connect(self.__Components_Manager_Ui_treeView_selectionModel__selectionChanged)
+		self.Components_Manager_Ui_treeView.selectionModel().selectionChanged.connect(self.__Components_Manager_Ui_treeView_selectionModel__selectionChanged)
 		self.modelChanged.connect(self.__Components_Manager_Ui_treeView_refreshView)
 		self.modelRefresh.connect(self.__Components_Manager_Ui_treeView_refreshModel)
 		self.modelPartialRefresh.connect(self.__Components_Manager_Ui_treeView_setActivationsStatus)
@@ -616,7 +588,7 @@ class ComponentsManagerUi(QWidgetComponent):
 
 		LOGGER.debug("> Adding '{0}' Component Widget.".format(self.__class__.__name__))
 
-		self.__container.addDockWidget(Qt.DockWidgetArea(self.__dockArea), self.ui)
+		self.__container.addDockWidget(Qt.DockWidgetArea(self.__dockArea), self)
 
 		return True
 
@@ -720,14 +692,14 @@ class ComponentsManagerUi(QWidgetComponent):
 
 		LOGGER.debug("> Refreshing '{0}' ui!".format(self.__class__.__name__))
 
-		self.ui.Components_Manager_Ui_treeView.setAutoScroll(False)
-		self.ui.Components_Manager_Ui_treeView.setDragDropMode(QAbstractItemView.NoDragDrop)
-		self.ui.Components_Manager_Ui_treeView.setEditTriggers(QAbstractItemView.NoEditTriggers)
-		self.ui.Components_Manager_Ui_treeView.setIndentation(self.__treeWidgetIndentation)
-		self.ui.Components_Manager_Ui_treeView.setSelectionMode(QAbstractItemView.ExtendedSelection)
-		self.ui.Components_Manager_Ui_treeView.setSortingEnabled(True)
+		self.Components_Manager_Ui_treeView.setAutoScroll(False)
+		self.Components_Manager_Ui_treeView.setDragDropMode(QAbstractItemView.NoDragDrop)
+		self.Components_Manager_Ui_treeView.setEditTriggers(QAbstractItemView.NoEditTriggers)
+		self.Components_Manager_Ui_treeView.setIndentation(self.__treeWidgetIndentation)
+		self.Components_Manager_Ui_treeView.setSelectionMode(QAbstractItemView.ExtendedSelection)
+		self.Components_Manager_Ui_treeView.setSortingEnabled(True)
 
-		self.ui.Components_Manager_Ui_treeView.setModel(self.__model)
+		self.Components_Manager_Ui_treeView.setModel(self.__model)
 
 		self.__Components_Manager_Ui_treeView_setDefaultViewState()
 
@@ -739,11 +711,11 @@ class ComponentsManagerUi(QWidgetComponent):
 
 		LOGGER.debug("> Setting '{0}' default View state!".format("Components_Manager_Ui_treeView"))
 
-		self.ui.Components_Manager_Ui_treeView.expandAll()
+		self.Components_Manager_Ui_treeView.expandAll()
 		for column in range(len(self.__modelHeaders)):
-			self.ui.Components_Manager_Ui_treeView.resizeColumnToContents(column)
+			self.Components_Manager_Ui_treeView.resizeColumnToContents(column)
 
-		self.ui.Components_Manager_Ui_treeView.sortByColumn(0, Qt.AscendingOrder)
+		self.Components_Manager_Ui_treeView.sortByColumn(0, Qt.AscendingOrder)
 
 	@core.executionTrace
 	def __Components_Manager_Ui_treeView_setActivationsStatus(self):
@@ -773,18 +745,18 @@ class ComponentsManagerUi(QWidgetComponent):
 		This method sets the **Components_Manager_Ui_treeView** actions.
 		"""
 
-		self.ui.Components_Manager_Ui_treeView.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.ComponentsManagerUi|Activate Component(s)", slot=self.__Components_Manager_Ui_treeView_activateComponentsAction__triggered))
-		self.ui.Components_Manager_Ui_treeView.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.ComponentsManagerUi|Deactivate Component(s)", slot=self.__Components_Manager_Ui_treeView_deactivateComponentsAction__triggered))
+		self.Components_Manager_Ui_treeView.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.ComponentsManagerUi|Activate Component(s)", slot=self.__Components_Manager_Ui_treeView_activateComponentsAction__triggered))
+		self.Components_Manager_Ui_treeView.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.ComponentsManagerUi|Deactivate Component(s)", slot=self.__Components_Manager_Ui_treeView_deactivateComponentsAction__triggered))
 
-		separatorAction = QAction(self.ui.Components_Manager_Ui_treeView)
+		separatorAction = QAction(self.Components_Manager_Ui_treeView)
 		separatorAction.setSeparator(True)
-		self.ui.Components_Manager_Ui_treeView.addAction(separatorAction)
+		self.Components_Manager_Ui_treeView.addAction(separatorAction)
 
-		self.ui.Components_Manager_Ui_treeView.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.ComponentsManagerUi|Reload Component(s)", slot=self.__Components_Manager_Ui_treeView_reloadComponentsAction__triggered))
+		self.Components_Manager_Ui_treeView.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.ComponentsManagerUi|Reload Component(s)", slot=self.__Components_Manager_Ui_treeView_reloadComponentsAction__triggered))
 
-		separatorAction = QAction(self.ui.Components_Manager_Ui_treeView)
+		separatorAction = QAction(self.Components_Manager_Ui_treeView)
 		separatorAction.setSeparator(True)
-		self.ui.Components_Manager_Ui_treeView.addAction(separatorAction)
+		self.Components_Manager_Ui_treeView.addAction(separatorAction)
 
 	@core.executionTrace
 	def __Components_Manager_Ui_treeView_activateComponentsAction__triggered(self, checked):
@@ -844,7 +816,7 @@ class ComponentsManagerUi(QWidgetComponent):
 			content.append(self.__componentsInformationsDefaultText)
 
 		separator = len(content) == 1 and "" or "<p><center>* * *<center/></p>"
-		self.ui.Components_Informations_textBrowser.setText(separator.join(content))
+		self.Components_Informations_textBrowser.setText(separator.join(content))
 
 	@core.executionTrace
 	def __storeDeactivatedComponents(self):
@@ -1028,7 +1000,7 @@ class ComponentsManagerUi(QWidgetComponent):
 		:return: View selected items. ( List )
 		"""
 
-		selectedIndexes = self.ui.Components_Manager_Ui_treeView.selectedIndexes()
+		selectedIndexes = self.Components_Manager_Ui_treeView.selectedIndexes()
 		return rowsRootOnly and [item for item in set((self.__model.itemFromIndex(self.__model.sibling(index.row(), 0, index)) for index in selectedIndexes))] or [self.__model.itemFromIndex(index) for index in selectedIndexes]
 
 	@core.executionTrace

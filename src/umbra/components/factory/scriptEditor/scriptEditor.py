@@ -23,7 +23,6 @@ import os
 import platform
 import re
 import sys
-from PyQt4 import uic
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -36,7 +35,7 @@ import umbra.ui.common
 import umbra.ui.completers
 import umbra.ui.highlighters
 import umbra.ui.inputAccelerators
-from manager.qwidgetComponent import QWidgetComponent
+from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.components.factory.scriptEditor.editor import Editor, Language, PYTHON_LANGUAGE
 from umbra.components.factory.scriptEditor.editorStatus import EditorStatus
 from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace
@@ -54,9 +53,11 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "ScriptEditor_QTabWidget", "LanguagesModel", "ScriptEditor"]
+__all__ = ["LOGGER", "COMPONENT_UI_FILE", "ScriptEditor_QTabWidget", "LanguagesModel", "ScriptEditor"]
 
 LOGGER = logging.getLogger(Constants.logger)
+
+COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Script_Editor.ui")
 
 #***********************************************************************************************
 #***	Module classes and definitions.
@@ -316,7 +317,7 @@ class LanguagesModel(QAbstractListModel):
 				LOGGER.debug("> '{0}' file detected language: '{1}'.".format(file, language.name))
 				return language
 
-class ScriptEditor(QWidgetComponent):
+class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
 	This class is the :mod:`umbra.components.addons.scriptEditor.scriptEditor` Component Interface class.
 	"""
@@ -326,22 +327,23 @@ class ScriptEditor(QWidgetComponent):
 	recentFilesChanged = pyqtSignal()
 
 	@core.executionTrace
-	def __init__(self, name=None, uiFile=None):
+	def __init__(self, parent=None, name=None, *args, **kwargs):
 		"""
 		This method initializes the class.
 
+		:param parent: Object parent. ( QObject )
 		:param name: Component name. ( String )
-		:param uiFile: Ui file. ( String )
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Arguments. ( \* )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		QWidgetComponent.__init__(self, name=name, uiFile=uiFile)
+		super(ScriptEditor, self).__init__(parent, name, *args, **kwargs)
 
 		# --- Setting class attributes. ---
 		self.deactivatable = False
 
-		self.__uiPath = "ui/Script_Editor.ui"
 		self.__dockArea = 8
 
 		self.__container = None
@@ -398,36 +400,6 @@ class ScriptEditor(QWidgetComponent):
 	#***********************************************************************************************
 	#***	Attributes properties.
 	#***********************************************************************************************
-	@property
-	def uiPath(self):
-		"""
-		This method is the property for **self.__uiPath** attribute.
-
-		:return: self.__uiPath. ( String )
-		"""
-
-		return self.__uiPath
-
-	@uiPath.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def uiPath(self, value):
-		"""
-		This method is the setter method for **self.__uiPath** attribute.
-
-		:param value: Attribute value. ( String )
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("uiPath"))
-
-	@uiPath.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def uiPath(self):
-		"""
-		This method is the deleter method for **self.__uiPath** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("uiPath"))
-
 	@property
 	def dockArea(self):
 		"""
@@ -1194,7 +1166,6 @@ class ScriptEditor(QWidgetComponent):
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
 
-		self.uiFile = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiPath)
 		self.__container = container
 		self.__settings = self.__container.settings
 		self.__settingsSection = self.name
@@ -1206,7 +1177,8 @@ class ScriptEditor(QWidgetComponent):
 		self.__getsLocals()
 		self.__console = code.InteractiveConsole(self.__locals)
 
-		return QWidgetComponent.activate(self)
+		self.activated = True
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -1229,8 +1201,8 @@ class ScriptEditor(QWidgetComponent):
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
 
-		self.ui.Script_Editor_tabWidget = ScriptEditor_QTabWidget(self.__container)
-		self.ui.Script_Editor_tabWidget_frame_gridLayout.addWidget(self.ui.Script_Editor_tabWidget, 0, 0)
+		self.Script_Editor_tabWidget = ScriptEditor_QTabWidget(self.__container)
+		self.Script_Editor_tabWidget_frame_gridLayout.addWidget(self.Script_Editor_tabWidget, 0, 0)
 		self.__Script_Editor_tabWidget_setUi()
 
 		self.__recentFilesActions = []
@@ -1239,28 +1211,28 @@ class ScriptEditor(QWidgetComponent):
 
 		self.__menuBar = QMenuBar()
 		self.__menuBar.setNativeMenuBar(False)
-		self.ui.menuBar_frame_gridLayout.addWidget(self.__menuBar)
+		self.menuBar_frame_gridLayout.addWidget(self.__menuBar)
 		self.__initializeMenuBar()
 
 		self.__Script_Editor_Output_plainTextEdit_setUi()
 
-		self.__searchAndReplace = SearchAndReplace(self)
+		self.__searchAndReplace = SearchAndReplace(self, Qt.Window)
 
 		self.__fileSystemWatcher = QFileSystemWatcher(self)
 		self.__timer = QTimer(self)
 		self.__timer.start(Constants.defaultTimerCycle * self.__timerCycleMultiplier)
 
 		self.EditorStatus = EditorStatus(self)
-		self.__container.statusBar.addPermanentWidget(self.EditorStatus.ui)
+		self.__container.statusBar.addPermanentWidget(self.EditorStatus)
 
 		# Signals / Slots.
 		self.__container.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.__container.layoutChanged.connect(self.__application__layoutChanged)
 		self.__container.contentDropped.connect(self.__application__contentDropped)
-		self.ui.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
-		self.ui.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
-		self.ui.Script_Editor_tabWidget.contentDropped.connect(self.__Script_Editor_tabWidget__contentDropped)
-		self.ui.visibilityChanged.connect(self.__scriptEditor__visibilityChanged)
+		self.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
+		self.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
+		self.Script_Editor_tabWidget.contentDropped.connect(self.__Script_Editor_tabWidget__contentDropped)
+		self.visibilityChanged.connect(self.__scriptEditor__visibilityChanged)
 		self.datasChanged.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.recentFilesChanged.connect(self.__setRecentFilesActions)
 		self.__fileSystemWatcher.fileChanged.connect(self.__fileSystemWatcher__fileChanged)
@@ -1288,7 +1260,7 @@ class ScriptEditor(QWidgetComponent):
 
 		LOGGER.debug("> Adding '{0}' Component Widget.".format(self.__class__.__name__))
 
-		self.__container.addDockWidget(Qt.DockWidgetArea(self.__dockArea), self.ui)
+		self.__container.addDockWidget(Qt.DockWidgetArea(self.__dockArea), self)
 
 		return True
 
@@ -1302,8 +1274,8 @@ class ScriptEditor(QWidgetComponent):
 
 		LOGGER.debug("> Removing '{0}' Component Widget.".format(self.__class__.__name__))
 
-		self.__container.removeDockWidget(self.ui)
-		self.ui.setParent(None)
+		self.__container.removeDockWidget(self)
+		self.setParent(None)
 
 		return True
 
@@ -1400,9 +1372,9 @@ class ScriptEditor(QWidgetComponent):
 		This method sets the **Script_Editor_Output_plainTextEdit** Widget.
 		"""
 
-		self.ui.Script_Editor_Output_plainTextEdit.highlighter = umbra.ui.highlighters.LoggingHighlighter(self.ui.Script_Editor_Output_plainTextEdit.document())
-		self.ui.Script_Editor_Output_plainTextEdit.setTabStopWidth(self.__indentWidth)
-		self.ui.Script_Editor_Output_plainTextEdit.setWordWrapMode(QTextOption.NoWrap)
+		self.Script_Editor_Output_plainTextEdit.highlighter = umbra.ui.highlighters.LoggingHighlighter(self.Script_Editor_Output_plainTextEdit.document())
+		self.Script_Editor_Output_plainTextEdit.setTabStopWidth(self.__indentWidth)
+		self.Script_Editor_Output_plainTextEdit.setWordWrapMode(QTextOption.NoWrap)
 		if platform.system() == "Windows" or platform.system() == "Microsoft":
 			fontFamily, fontSize = self.__defaultFontsSettings["Windows"]
 		elif platform.system() == "Darwin":
@@ -1411,7 +1383,7 @@ class ScriptEditor(QWidgetComponent):
 			fontFamily, fontSize = self.__defaultFontsSettings["Linux"]
 		font = QFont(fontFamily)
 		font.setPointSize(fontSize)
-		self.ui.Script_Editor_Output_plainTextEdit.setFont(font)
+		self.Script_Editor_Output_plainTextEdit.setFont(font)
 		self.__Script_Editor_Output_plainTextEdit_setDefaultViewState()
 
 	# @core.executionTrace
@@ -1420,8 +1392,8 @@ class ScriptEditor(QWidgetComponent):
 		This method sets the **Script_Editor_Output_plainTextEdit** Widget default View state.
 		"""
 
-		self.ui.Script_Editor_Output_plainTextEdit.moveCursor(QTextCursor.End)
-		self.ui.Script_Editor_Output_plainTextEdit.ensureCursorVisible()
+		self.Script_Editor_Output_plainTextEdit.moveCursor(QTextCursor.End)
+		self.Script_Editor_Output_plainTextEdit.ensureCursorVisible()
 
 	# @core.executionTrace
 	def __Script_Editor_Output_plainTextEdit_refreshUi(self):
@@ -1432,8 +1404,8 @@ class ScriptEditor(QWidgetComponent):
 		memoryHandlerStackDepth = len(self.__container.loggingSessionHandlerStream.stream)
 		if memoryHandlerStackDepth != self.__memoryHandlerStackDepth:
 			for line in self.__container.loggingSessionHandlerStream.stream[self.__memoryHandlerStackDepth:memoryHandlerStackDepth]:
-				self.ui.Script_Editor_Output_plainTextEdit.moveCursor(QTextCursor.End)
-				self.ui.Script_Editor_Output_plainTextEdit.insertPlainText(line)
+				self.Script_Editor_Output_plainTextEdit.moveCursor(QTextCursor.End)
+				self.Script_Editor_Output_plainTextEdit.insertPlainText(line)
 			self.__Script_Editor_Output_plainTextEdit_setDefaultViewState()
 			self.__memoryHandlerStackDepth = memoryHandlerStackDepth
 
@@ -1443,7 +1415,7 @@ class ScriptEditor(QWidgetComponent):
 		This method toggles **Script_Editor_Output_plainTextEdit** Widget word wrap.
 		"""
 
-		self.ui.Script_Editor_Output_plainTextEdit.setWordWrapMode(not self.ui.Script_Editor_Output_plainTextEdit.wordWrapMode() and QTextOption.WordWrap or QTextOption.NoWrap)
+		self.Script_Editor_Output_plainTextEdit.setWordWrapMode(not self.Script_Editor_Output_plainTextEdit.wordWrapMode() and QTextOption.WordWrap or QTextOption.NoWrap)
 
 	@core.executionTrace
 	def __Script_Editor_tabWidget_setUi(self):
@@ -1451,8 +1423,8 @@ class ScriptEditor(QWidgetComponent):
 		This method sets the **Script_Editor_tabWidget** Widget.
 		"""
 
-		self.ui.Script_Editor_tabWidget.setTabsClosable(True)
-		self.ui.Script_Editor_tabWidget.setMovable(True)
+		self.Script_Editor_tabWidget.setTabsClosable(True)
+		self.Script_Editor_tabWidget.setMovable(True)
 
 	@core.executionTrace
 	def __Script_Editor_tabWidget__tabCloseRequested(self, tabIndex):
@@ -1462,7 +1434,7 @@ class ScriptEditor(QWidgetComponent):
 		:param tabIndex: Tab index. ( Integer )
 		"""
 
-		self.ui.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
+		self.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
 		return self.closeFile()
 
 	@core.executionTrace
@@ -1494,7 +1466,7 @@ class ScriptEditor(QWidgetComponent):
 		:param currentLayout: Current layout. ( String )
 		"""
 
-		self.EditorStatus.ui.setVisible(not self.ui.isHidden())
+		self.EditorStatus.setVisible(not self.isHidden())
 
 	@core.executionTrace
 	def __application__contentDropped(self, event):
@@ -1514,7 +1486,7 @@ class ScriptEditor(QWidgetComponent):
 		:param visibility: Widget visibility. ( Boolean )
 		"""
 
-		self.EditorStatus.ui.setVisible(visibility)
+		self.EditorStatus.setVisible(visibility)
 
 	@core.executionTrace
 	def __newFileAction__triggered(self, checked):
@@ -1659,7 +1631,7 @@ class ScriptEditor(QWidgetComponent):
 
 		currentWidget = QApplication.focusWidget()
 		if currentWidget.objectName() == "Script_Editor_Output_plainTextEdit":
-			self.ui.Script_Editor_Output_plainTextEdit.copy()
+			self.Script_Editor_Output_plainTextEdit.copy()
 		elif isinstance(QApplication.focusWidget(), Editor):
 			self.getCurrentEditor().cut()
 		return True
@@ -1675,7 +1647,7 @@ class ScriptEditor(QWidgetComponent):
 
 		currentWidget = QApplication.focusWidget()
 		if currentWidget.objectName() == "Script_Editor_Output_plainTextEdit":
-			self.ui.Script_Editor_Output_plainTextEdit.copy()
+			self.Script_Editor_Output_plainTextEdit.copy()
 		elif isinstance(QApplication.focusWidget(), Editor):
 			self.getCurrentEditor().copy()
 		return True
@@ -1721,7 +1693,7 @@ class ScriptEditor(QWidgetComponent):
 
 		currentWidget = QApplication.focusWidget()
 		if currentWidget.objectName() == "Script_Editor_Output_plainTextEdit":
-			self.ui.Script_Editor_Output_plainTextEdit.selectAll()
+			self.Script_Editor_Output_plainTextEdit.selectAll()
 		elif isinstance(QApplication.focusWidget(), Editor):
 			self.getCurrentEditor().selectAll()
 		return True
@@ -1890,7 +1862,7 @@ class ScriptEditor(QWidgetComponent):
 		This method is triggered when an editor content is changed.
 		"""
 
-		self.__setEditorTabName(self.ui.Script_Editor_tabWidget.currentIndex())
+		self.__setEditorTabName(self.Script_Editor_tabWidget.currentIndex())
 		self.__setWindowTitle()
 
 	@core.executionTrace
@@ -1899,7 +1871,7 @@ class ScriptEditor(QWidgetComponent):
 		This method is triggered when an editor file is changed.
 		"""
 
-		self.__setEditorTabName(self.ui.Script_Editor_tabWidget.currentIndex())
+		self.__setEditorTabName(self.Script_Editor_tabWidget.currentIndex())
 
 	@core.executionTrace
 	def __editor__languageChanged(self):
@@ -2017,9 +1989,9 @@ class ScriptEditor(QWidgetComponent):
 		"""
 
 		if self.hasEditorTab():
-			self.ui.setWindowTitle("{0} - {1}".format(self.__defaultWindowTitle, self.getCurrentEditor().file))
+			self.setWindowTitle("{0} - {1}".format(self.__defaultWindowTitle, self.getCurrentEditor().file))
 		else:
-			self.ui.setWindowTitle("{0}".format(self.__defaultWindowTitle))
+			self.setWindowTitle("{0}".format(self.__defaultWindowTitle))
 
 	@core.executionTrace
 	def __setEditorTabName(self, tabIndex):
@@ -2029,7 +2001,7 @@ class ScriptEditor(QWidgetComponent):
 		:param tabIndex: Index of the tab containing the editor. ( Integer )
 		"""
 
-		self.ui.Script_Editor_tabWidget.setTabText(tabIndex, self.ui.Script_Editor_tabWidget.widget(tabIndex).windowTitle())
+		self.Script_Editor_tabWidget.setTabText(tabIndex, self.Script_Editor_tabWidget.widget(tabIndex).windowTitle())
 
 	@core.executionTrace
 	def __getsLocals(self):
@@ -2075,7 +2047,7 @@ class ScriptEditor(QWidgetComponent):
 		if not self.hasEditorTab():
 			return
 
-		return self.ui.Script_Editor_tabWidget.currentWidget()
+		return self.Script_Editor_tabWidget.currentWidget()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -2087,10 +2059,10 @@ class ScriptEditor(QWidgetComponent):
 		:return: Editor. ( Editor )
 		"""
 
-		for i in range(self.ui.Script_Editor_tabWidget.count()):
-			if not self.ui.Script_Editor_tabWidget.widget(i).file == file:
+		for i in range(self.Script_Editor_tabWidget.count()):
+			if not self.Script_Editor_tabWidget.widget(i).file == file:
 				continue
-			return self.ui.Script_Editor_tabWidget.widget(i)
+			return self.Script_Editor_tabWidget.widget(i)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
@@ -2120,7 +2092,8 @@ class ScriptEditor(QWidgetComponent):
 		:note: This method may require user interaction.
 		"""
 
-		return self.__searchAndReplace.show()
+		self.__searchAndReplace.show()
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -2132,8 +2105,8 @@ class ScriptEditor(QWidgetComponent):
 		:return: New tab index. ( Integer )
 		"""
 
-		tabIndex = self.ui.Script_Editor_tabWidget.addTab(editor, editor.getFileShortName())
-		self.ui.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
+		tabIndex = self.Script_Editor_tabWidget.addTab(editor, editor.getFileShortName())
+		self.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
 
 		# Signals / Slots.
 		editor.languageChanged.connect(self.__editor__languageChanged)
@@ -2152,7 +2125,7 @@ class ScriptEditor(QWidgetComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		self.ui.Script_Editor_tabWidget.removeTab(tabIndex)
+		self.Script_Editor_tabWidget.removeTab(tabIndex)
 		return True
 
 	@core.executionTrace
@@ -2165,8 +2138,8 @@ class ScriptEditor(QWidgetComponent):
 		:return: Tab index. ( Editor )
 		"""
 
-		for i in range(self.ui.Script_Editor_tabWidget.count()):
-			if not self.ui.Script_Editor_tabWidget.widget(i).file == file:
+		for i in range(self.Script_Editor_tabWidget.count()):
+			if not self.Script_Editor_tabWidget.widget(i).file == file:
 				continue
 			return i
 
@@ -2179,7 +2152,7 @@ class ScriptEditor(QWidgetComponent):
 		:return: Has tab. ( Boolean )
 		"""
 
-		return self.ui.Script_Editor_tabWidget.count() and True or False
+		return self.Script_Editor_tabWidget.count() and True or False
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -2190,7 +2163,7 @@ class ScriptEditor(QWidgetComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		editor = Editor(parent=self.ui, language=self.__languagesModel.getLanguage(self.__defaultScriptLanguage))
+		editor = Editor(parent=self, language=self.__languagesModel.getLanguage(self.__defaultScriptLanguage))
 		LOGGER.info("{0} | Creating '{1}' file!".format(self.__class__.__name__, editor.getNextUntitledFileName()))
 		if editor.newFile():
 			self.addEditorTab(editor)
@@ -2212,16 +2185,16 @@ class ScriptEditor(QWidgetComponent):
 		tabIndex = self.findEditorTab(file)
 		if tabIndex >= 0:
 			LOGGER.info("{0} | '{1}' is already loaded!".format(self.__class__.__name__, file))
-			self.ui.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
+			self.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
 			return True
 
 		currentEditor = self.getCurrentEditor()
-		if self.ui.Script_Editor_tabWidget.count() == 1 and currentEditor.isUntitled and not currentEditor.document().isModified():
+		if self.Script_Editor_tabWidget.count() == 1 and currentEditor.isUntitled and not currentEditor.document().isModified():
 			self.__unregisterFile(currentEditor.file)
-			self.removeEditorTab(self.ui.Script_Editor_tabWidget.currentIndex())
+			self.removeEditorTab(self.Script_Editor_tabWidget.currentIndex())
 
 		LOGGER.info("{0} | Loading '{1}' file!".format(self.__class__.__name__, file))
-		editor = Editor(parent=self.ui, language=self.__languagesModel.getFileLanguage(file) or self.__languagesModel.getLanguage(self.__defaultLanguage))
+		editor = Editor(parent=self, language=self.__languagesModel.getFileLanguage(file) or self.__languagesModel.getLanguage(self.__defaultLanguage))
 		if editor.loadFile(file):
 			self.addEditorTab(editor)
 			self.__storeRecentFile(file)
@@ -2244,7 +2217,7 @@ class ScriptEditor(QWidgetComponent):
 		tabIndex = self.findEditorTab(file)
 		if tabIndex >= 0:
 			LOGGER.info("{0} | Reloading '{1}' file!".format(self.__class__.__name__, file))
-			editor = self.ui.Script_Editor_tabWidget.widget(tabIndex)
+			editor = self.Script_Editor_tabWidget.widget(tabIndex)
 			return editor.reloadFile()
 
 	@core.executionTrace
@@ -2298,8 +2271,8 @@ class ScriptEditor(QWidgetComponent):
 		self.__fileSystemWatcher.removePaths(self.__files)
 
 		success = True
-		for i in range(self.ui.Script_Editor_tabWidget.count()):
-			editor = self.ui.Script_Editor_tabWidget.widget(i)
+		for i in range(self.Script_Editor_tabWidget.count()):
+			editor = self.Script_Editor_tabWidget.widget(i)
 			LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
 			success *= editor.saveFile()
 
@@ -2325,7 +2298,7 @@ class ScriptEditor(QWidgetComponent):
 
 		self.__unregisterFile(editor.file)
 
-		if self.removeEditorTab(self.ui.Script_Editor_tabWidget.currentIndex()):
+		if self.removeEditorTab(self.Script_Editor_tabWidget.currentIndex()):
 			not self.hasEditorTab() and self.newFile()
 			return True
 
@@ -2338,15 +2311,15 @@ class ScriptEditor(QWidgetComponent):
 		:return: Method success. ( Boolean )
 		"""
 
-		for i in range(self.ui.Script_Editor_tabWidget.count(), 0, -1):
-			editor = self.ui.Script_Editor_tabWidget.widget(i - 1)
+		for i in range(self.Script_Editor_tabWidget.count(), 0, -1):
+			editor = self.Script_Editor_tabWidget.widget(i - 1)
 			LOGGER.info("{0} | Closing '{1}' file!".format(self.__class__.__name__, editor.file))
 			if not editor.closeFile():
 				return
 
 			self.__unregisterFile(editor.file)
 
-			if self.removeEditorTab(self.ui.Script_Editor_tabWidget.currentIndex()):
+			if self.removeEditorTab(self.Script_Editor_tabWidget.currentIndex()):
 				if not self.hasEditorTab() and leaveLastEditor:
 					self.newFile()
 		return True

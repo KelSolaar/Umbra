@@ -62,6 +62,20 @@ class ResourceExistsError(foundations.exceptions.AbstractOsError):
 
 	pass
 
+class AbstractWidgetError(foundations.exceptions.AbstractError):
+	"""
+	This class is the abstract base class for Widget related exceptions.
+	"""
+
+	pass
+
+class WidgetInitializationError(AbstractWidgetError):
+	"""
+	This class is used for Widget initialization exceptions.
+	"""
+
+	pass
+
 class AbstractActionsManagerError(foundations.exceptions.AbstractError):
 	"""
 	This class is the abstract base class for :class:`ActionsManager` related exceptions.

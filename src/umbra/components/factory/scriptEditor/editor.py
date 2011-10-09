@@ -98,18 +98,20 @@ class Editor(CodeEditor_QPlainTextEdit):
 	fileChanged = pyqtSignal()
 
 	@core.executionTrace
-	def __init__(self, parent=None, file=None, language=PYTHON_LANGUAGE):
+	def __init__(self, parent=None, file=None, language=PYTHON_LANGUAGE, *args, **kwargs):
 		"""
 		This method initializes the class.
 
-		:param parent: Widget parent. ( QObject )
+		:param parent: Object parent. ( QObject )
 		:param file: File path. ( String )
 		:param language: Editor language. ( Language )
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Arguments. ( \* )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		CodeEditor_QPlainTextEdit.__init__(self, parent)
+		CodeEditor_QPlainTextEdit.__init__(self, parent, *args, **kwargs)
 
 		# --- Setting class attributes. ---
 		self.__file = None

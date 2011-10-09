@@ -30,6 +30,7 @@ from PyQt4.QtGui import *
 #***********************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import foundations.ui.common
 import umbra.ui.common
 from umbra.globals.constants import Constants
 
@@ -43,9 +44,11 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "SearchAndReplace"]
+__all__ = ["LOGGER", "UI_FILE", "SearchAndReplace"]
 
 LOGGER = logging.getLogger(Constants.logger)
+
+UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Search_And_Replace.ui")
 
 #***********************************************************************************************
 #***	Module classes and definitions.
@@ -62,33 +65,32 @@ def _keyPressEvent(self, container, event):
 	if event.key() in (Qt.Key_Enter, Qt.Key_Return):
 		container.search()
 	elif event.key() in (Qt.Key_Escape,):
-		container.ui.close()
+		container.close()
 
-class SearchAndReplace(QObject):
+class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
-	| This class defines the default search and replace dialog used by the **ScriptEditor** Component. 
+	This class defines the default search and replace dialog used by the **ScriptEditor** Component. 
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent):
+	def __init__(self, parent=None, *args, **kwargs):
 		"""
 		This method initializes the class.
 
 		:param parent: Object parent. ( QObject )
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Arguments. ( \* )
 		"""
+
+		if not parent:
+			raise umbra.exceptions.WidgetInitializationError("'{0}' Widget initialization requires a parent Widget!".format(self.__class__.__name__))
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		QObject.__init__(self, parent)
+		super(SearchAndReplace, self).__init__(parent, *args, **kwargs)
 
 		# --- Setting class attributes. ---
 		self.__container = parent
-		self.__uiPath = "ui/Search_And_Replace.ui"
-		self.__uiPath = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiPath)
-
-		self.__ui = uic.loadUi(self.__uiPath)
-		if "." in sys.path:
-			sys.path.remove(".")
 
 		self.__maximumStoredPatterns = 15
 
@@ -126,66 +128,6 @@ class SearchAndReplace(QObject):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("container"))
-
-	@property
-	def uiPath(self):
-		"""
-		This method is the property for **self.__uiPath** attribute.
-
-		:return: self.__uiPath. ( String )
-		"""
-
-		return self.__uiPath
-
-	@uiPath.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def uiPath(self, value):
-		"""
-		This method is the setter method for **self.__uiPath** attribute.
-
-		:param value: Attribute value. ( String )
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("uiPath"))
-
-	@uiPath.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def uiPath(self):
-		"""
-		This method is the deleter method for **self.__uiPath** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("uiPath"))
-
-	@property
-	def ui(self):
-		"""
-		This method is the property for **self.__ui** attribute.
-
-		:return: self.__ui. ( Object )
-		"""
-
-		return self.__ui
-
-	@ui.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def ui(self, value):
-		"""
-		This method is the setter method for **self.__ui** attribute.
-
-		:param value: Attribute value. ( Object )
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("ui"))
-
-	@ui.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def ui(self):
-		"""
-		This method is the deleter method for **self.__ui** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("ui"))
 
 	@property
 	def maximumStoredPatterns(self):
@@ -226,28 +168,28 @@ class SearchAndReplace(QObject):
 		This method initializes the Widget ui.
 		"""
 
-		umbra.ui.common.setWindowDefaultIcon(self.ui)
+		umbra.ui.common.setWindowDefaultIcon(self)
 
-		self.__ui.Wrap_Around_checkBox.setChecked(True)
+		self.Wrap_Around_checkBox.setChecked(True)
 
-		for widget in self.__ui.findChildren(QWidget, QRegExp(".*")):
+		for widget in self.findChildren(QWidget, QRegExp(".*")):
 			widget.keyPressEvent = functools.partial(_keyPressEvent, widget, self)
 
 		recentSearchPatterns = self.__container.settings.getKey(self.__container.settingsSection, "recentSearchPatterns").toString().split(",")
 		if recentSearchPatterns:
 			for i in range(min(self.__maximumStoredPatterns, len(recentSearchPatterns))):
-				self.__ui.Search_comboBox.addItem(recentSearchPatterns[i])
+				self.Search_comboBox.addItem(recentSearchPatterns[i])
 
 		recentReplaceWithPatterns = self.__container.settings.getKey(self.__container.settingsSection, "recentReplaceWithPatterns").toString().split(",")
 		if recentReplaceWithPatterns:
 			for i in range(min(self.__maximumStoredPatterns, len(recentReplaceWithPatterns))):
-				self.__ui.Search_comboBox.addItem(recentReplaceWithPatterns[i])
+				self.Search_comboBox.addItem(recentReplaceWithPatterns[i])
 
 		# Signals / Slots.
-		self.__ui.Search_pushButton.clicked.connect(self.__Search_pushButton__clicked)
-		self.__ui.Replace_pushButton.clicked.connect(self.__Replace_pushButton__clicked)
-		self.__ui.Replace_All_pushButton.clicked.connect(self.__Replace_All_pushButton__clicked)
-		self.__ui.Close_pushButton.clicked.connect(self.__Close_pushButton__clicked)
+		self.Search_pushButton.clicked.connect(self.__Search_pushButton__clicked)
+		self.Replace_pushButton.clicked.connect(self.__Replace_pushButton__clicked)
+		self.Replace_All_pushButton.clicked.connect(self.__Replace_All_pushButton__clicked)
+		self.Close_pushButton.clicked.connect(self.__Close_pushButton__clicked)
 
 	@core.executionTrace
 	def __storeRecentPatterns(self, comboBox, settingsKey):
@@ -275,7 +217,7 @@ class SearchAndReplace(QObject):
 		This method stores recent **Search_comboBox** Widget patterns.
 		"""
 
-		self.__storeRecentPatterns(self.__ui.Search_comboBox, "recentSearchPatterns")
+		self.__storeRecentPatterns(self.Search_comboBox, "recentSearchPatterns")
 
 	@core.executionTrace
 	def __storeRecentReplaceWithPatterns(self):
@@ -283,7 +225,7 @@ class SearchAndReplace(QObject):
 		This method stores recent **Replace_With_comboBox** Widget patterns.
 		"""
 
-		self.__storeRecentPatterns(self.__ui.Replace_With_comboBox, "recentReplaceWithPatterns")
+		self.__storeRecentPatterns(self.Replace_With_comboBox, "recentReplaceWithPatterns")
 
 	@core.executionTrace
 	def __Search_pushButton__clicked(self, checked):
@@ -323,7 +265,7 @@ class SearchAndReplace(QObject):
 		:param checked: Checked state. ( Boolean )
 		"""
 
-		self.__ui.close()
+		self.close()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -334,9 +276,9 @@ class SearchAndReplace(QObject):
 		:return: Method success. ( Boolean )
 		"""
 
-		self.__ui.show()
-		self.__ui.raise_()
-		self.__ui.Search_comboBox.setFocus()
+		super(SearchAndReplace, self).show()
+		self.raise_()
+		self.Search_comboBox.setFocus()
 
 		return True
 
@@ -352,16 +294,16 @@ class SearchAndReplace(QObject):
 		self.__storeRecentSearchPatterns()
 
 		editor = self.__container.getCurrentEditor()
-		searchPattern = self.__ui.Search_comboBox.currentText()
+		searchPattern = self.Search_comboBox.currentText()
 
 		if not editor or not searchPattern:
 			return
 
-		return editor.search(searchPattern, **{"caseSensitive" : self.__ui.Case_Sensitive_checkBox.isChecked(),
-												"wholeWord" : self.__ui.Whole_Word_checkBox.isChecked(),
-												"regularExpressions" : self.__ui.Regular_Expressions_checkBox.isChecked(),
-												"backwardSearch" : self.__ui.Backward_Search_checkBox.isChecked(),
-												"wrapAround" : self.__ui.Wrap_Around_checkBox.isChecked()})
+		return editor.search(searchPattern, **{"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
+												"wholeWord" : self.Whole_Word_checkBox.isChecked(),
+												"regularExpressions" : self.Regular_Expressions_checkBox.isChecked(),
+												"backwardSearch" : self.Backward_Search_checkBox.isChecked(),
+												"wrapAround" : self.Wrap_Around_checkBox.isChecked()})
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -375,17 +317,17 @@ class SearchAndReplace(QObject):
 		self.__storeRecentReplaceWithPatterns()
 
 		editor = self.__container.getCurrentEditor()
-		searchPattern = self.__ui.Search_comboBox.currentText()
-		replacementPattern = self.__ui.Replace_With_comboBox.currentText()
+		searchPattern = self.Search_comboBox.currentText()
+		replacementPattern = self.Replace_With_comboBox.currentText()
 
 		if not editor or not searchPattern:
 			return
 
-		return editor.replace(searchPattern, replacementPattern, **{"caseSensitive" : self.__ui.Case_Sensitive_checkBox.isChecked(),
-																	"wholeWord" : self.__ui.Whole_Word_checkBox.isChecked(),
-																	"regularExpressions" : self.__ui.Regular_Expressions_checkBox.isChecked(),
-																	"backwardSearch" : self.__ui.Backward_Search_checkBox.isChecked(),
-																	"wrapAround" : self.__ui.Wrap_Around_checkBox.isChecked()})
+		return editor.replace(searchPattern, replacementPattern, **{"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
+																	"wholeWord" : self.Whole_Word_checkBox.isChecked(),
+																	"regularExpressions" : self.Regular_Expressions_checkBox.isChecked(),
+																	"backwardSearch" : self.Backward_Search_checkBox.isChecked(),
+																	"wrapAround" : self.Wrap_Around_checkBox.isChecked()})
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -399,14 +341,14 @@ class SearchAndReplace(QObject):
 		self.__storeRecentReplaceWithPatterns()
 
 		editor = self.__container.getCurrentEditor()
-		searchPattern = self.__ui.Search_comboBox.currentText()
-		replacementPattern = self.__ui.Replace_With_comboBox.currentText()
+		searchPattern = self.Search_comboBox.currentText()
+		replacementPattern = self.Replace_With_comboBox.currentText()
 
 		if not editor or not searchPattern:
 			return
 
-		return editor.replaceAll(searchPattern, replacementPattern, **{"caseSensitive" : self.__ui.Case_Sensitive_checkBox.isChecked(),
-																		"wholeWord" : self.__ui.Whole_Word_checkBox.isChecked(),
-																		"regularExpressions" : self.__ui.Regular_Expressions_checkBox.isChecked(),
+		return editor.replaceAll(searchPattern, replacementPattern, **{"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
+																		"wholeWord" : self.Whole_Word_checkBox.isChecked(),
+																		"regularExpressions" : self.Regular_Expressions_checkBox.isChecked(),
 																		"backwardSearch" : False,
 																		"wrapAround" : True})

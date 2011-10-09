@@ -27,7 +27,7 @@ from PyQt4.QtGui import *
 #***********************************************************************************************
 import foundations.core as core
 import foundations.exceptions
-from manager.qwidgetComponent import QWidgetComponent
+from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
 
@@ -41,36 +41,39 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "PreferencesManager"]
+__all__ = ["LOGGER", "COMPONENT_UI_FILE", "PreferencesManager"]
 
 LOGGER = logging.getLogger(Constants.logger)
+
+COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Preferences_Manager.ui")
 
 #***********************************************************************************************
 #***	Module classes and definitions.
 #***********************************************************************************************
-class PreferencesManager(QWidgetComponent):
+class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
 	| This class is the :mod:`umbra.components.core.preferencesManager.preferencesManager` Component Interface class.
 	| It exposes Application preferences inside a dedicated `QDockWidget <http://doc.qt.nokia.com/4.7/qdockwidget.html>`_ window.
 	"""
 
 	@core.executionTrace
-	def __init__(self, name=None, uiFile=None):
+	def __init__(self, parent=None, name=None, *args, **kwargs):
 		"""
 		This method initializes the class.
 
+		:param parent: Object parent. ( QObject )
 		:param name: Component name. ( String )
-		:param uiFile: Ui file. ( String )
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Arguments. ( \* )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		QWidgetComponent.__init__(self, name=name, uiFile=uiFile)
+		super(PreferencesManager, self).__init__(parent, name, *args, **kwargs)
 
 		# --- Setting class attributes. ---
 		self.deactivatable = False
 
-		self.__uiPath = "ui/Preferences_Manager.ui"
 		self.__dockArea = 2
 
 		self.__container = None
@@ -79,36 +82,6 @@ class PreferencesManager(QWidgetComponent):
 	#***********************************************************************************************
 	#***	Attributes properties.
 	#***********************************************************************************************
-	@property
-	def uiPath(self):
-		"""
-		This method is the property for **self.__uiPath** attribute.
-
-		:return: self.__uiPath. ( String )
-		"""
-
-		return self.__uiPath
-
-	@uiPath.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def uiPath(self, value):
-		"""
-		This method is the setter method for **self.__uiPath** attribute.
-
-		:param value: Attribute value. ( String )
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("uiPath"))
-
-	@uiPath.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def uiPath(self):
-		"""
-		This method is the deleter method for **self.__uiPath** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("uiPath"))
-
 	@property
 	def dockArea(self):
 		"""
@@ -213,12 +186,12 @@ class PreferencesManager(QWidgetComponent):
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
 
-		self.uiFile = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiPath)
 		self.__container = container
 
 		self.__settings = self.__container.settings
 
-		return QWidgetComponent.activate(self)
+		self.activated = True
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -244,9 +217,9 @@ class PreferencesManager(QWidgetComponent):
 		self.__Restore_Geometry_On_Layout_Change_checkBox_setUi()
 
 		# Signals / Slots.
-		self.ui.Logging_Formatters_comboBox.activated.connect(self.__Logging_Formatters_comboBox__activated)
-		self.ui.Verbose_Level_comboBox.activated.connect(self.__Verbose_Level_comboBox__activated)
-		self.ui.Restore_Geometry_On_Layout_Change_checkBox.stateChanged.connect(self.__Restore_Geometry_On_Layout_Change_checkBox__stateChanged)
+		self.Logging_Formatters_comboBox.activated.connect(self.__Logging_Formatters_comboBox__activated)
+		self.Verbose_Level_comboBox.activated.connect(self.__Verbose_Level_comboBox__activated)
+		self.Restore_Geometry_On_Layout_Change_checkBox.stateChanged.connect(self.__Restore_Geometry_On_Layout_Change_checkBox__stateChanged)
 
 		return True
 
@@ -269,7 +242,7 @@ class PreferencesManager(QWidgetComponent):
 
 		LOGGER.debug("> Adding '{0}' Component Widget.".format(self.__class__.__name__))
 
-		self.__container.addDockWidget(Qt.DockWidgetArea(self.__dockArea), self.ui)
+		self.__container.addDockWidget(Qt.DockWidgetArea(self.__dockArea), self)
 
 		return True
 
@@ -288,12 +261,12 @@ class PreferencesManager(QWidgetComponent):
 		This method fills **Logging_Formatter_comboBox** Widget.
 		"""
 
-		self.ui.Logging_Formatters_comboBox.clear()
+		self.Logging_Formatters_comboBox.clear()
 		LOGGER.debug("> Available logging formatters: '{0}'.".format(", ".join(RuntimeGlobals.loggingFormatters.keys())))
-		self.ui.Logging_Formatters_comboBox.insertItems(0, QStringList (RuntimeGlobals.loggingFormatters.keys()))
+		self.Logging_Formatters_comboBox.insertItems(0, QStringList (RuntimeGlobals.loggingFormatters.keys()))
 		loggingFormatter = self.__settings.getKey("Settings", "loggingFormatter").toString()
 		self.__container.loggingActiveFormatter = loggingFormatter and loggingFormatter or Constants.loggingDefaultFormatter
-		self.ui.Logging_Formatters_comboBox.setCurrentIndex(self.ui.Logging_Formatters_comboBox.findText(self.__container.loggingActiveFormatter, Qt.MatchExactly))
+		self.Logging_Formatters_comboBox.setCurrentIndex(self.Logging_Formatters_comboBox.findText(self.__container.loggingActiveFormatter, Qt.MatchExactly))
 
 	@core.executionTrace
 	def __Logging_Formatters_comboBox__activated(self, index):
@@ -303,11 +276,11 @@ class PreferencesManager(QWidgetComponent):
 		:param index: ComboBox activated item index. ( Integer )
 		"""
 
-		formatter = str(self.ui.Logging_Formatters_comboBox.currentText())
+		formatter = str(self.Logging_Formatters_comboBox.currentText())
 		LOGGER.debug("> Setting logging formatter: '{0}'.".format(formatter))
 		RuntimeGlobals.loggingActiveFormatter = formatter
 		self.setLoggingFormatter()
-		self.__settings.setKey("Settings", "loggingFormatter", self.ui.Logging_Formatters_comboBox.currentText())
+		self.__settings.setKey("Settings", "loggingFormatter", self.Logging_Formatters_comboBox.currentText())
 
 	@core.executionTrace
 	def __Verbose_Level_comboBox_setUi(self):
@@ -315,11 +288,11 @@ class PreferencesManager(QWidgetComponent):
 		This method fills **Verbose_Level_ComboBox** Widget.
 		"""
 
-		self.ui.Verbose_Level_comboBox.clear()
+		self.Verbose_Level_comboBox.clear()
 		LOGGER.debug("> Available verbose levels: '{0}'.".format(Constants.verbosityLabels))
-		self.ui.Verbose_Level_comboBox.insertItems(0, QStringList (Constants.verbosityLabels))
+		self.Verbose_Level_comboBox.insertItems(0, QStringList (Constants.verbosityLabels))
 		self.__container.verbosityLevel = self.__settings.getKey("Settings", "verbosityLevel").toInt()[0]
-		self.ui.Verbose_Level_comboBox.setCurrentIndex(self.__container.verbosityLevel)
+		self.Verbose_Level_comboBox.setCurrentIndex(self.__container.verbosityLevel)
 
 	@core.executionTrace
 	def __Verbose_Level_comboBox__activated(self, index):
@@ -329,10 +302,10 @@ class PreferencesManager(QWidgetComponent):
 		:param index: ComboBox activated item index. ( Integer )
 		"""
 
-		LOGGER.debug("> Setting verbose level: '{0}'.".format(self.ui.Verbose_Level_comboBox.currentText()))
-		self.__container.verbosityLevel = int(self.ui.Verbose_Level_comboBox.currentIndex())
-		core.setVerbosityLevel(int(self.ui.Verbose_Level_comboBox.currentIndex()))
-		self.__settings.setKey("Settings", "verbosityLevel", self.ui.Verbose_Level_comboBox.currentIndex())
+		LOGGER.debug("> Setting verbose level: '{0}'.".format(self.Verbose_Level_comboBox.currentText()))
+		self.__container.verbosityLevel = int(self.Verbose_Level_comboBox.currentIndex())
+		core.setVerbosityLevel(int(self.Verbose_Level_comboBox.currentIndex()))
+		self.__settings.setKey("Settings", "verbosityLevel", self.Verbose_Level_comboBox.currentIndex())
 
 	@core.executionTrace
 	def __Restore_Geometry_On_Layout_Change_checkBox_setUi(self):
@@ -345,7 +318,7 @@ class PreferencesManager(QWidgetComponent):
 
 		restoreGeometryOnLayoutChange = self.__settings.getKey("Settings", "restoreGeometryOnLayoutChange").toInt()[0]
 		LOGGER.debug("> Setting '{0}' with value '{1}'.".format("Restore_Geometry_On_Layout_Change_checkBox", restoreGeometryOnLayoutChange))
-		self.ui.Restore_Geometry_On_Layout_Change_checkBox.setCheckState(restoreGeometryOnLayoutChange)
+		self.Restore_Geometry_On_Layout_Change_checkBox.setCheckState(restoreGeometryOnLayoutChange)
 		self.__container.settings._datas.restoreGeometryOnLayoutChange = restoreGeometryOnLayoutChange and True or False
 
 	@core.executionTrace
@@ -356,7 +329,7 @@ class PreferencesManager(QWidgetComponent):
 		:param state: Checkbox state. ( Integer )
 		"""
 
-		restoreGeometryOnLayoutChange = self.ui.Restore_Geometry_On_Layout_Change_checkBox.checkState()
+		restoreGeometryOnLayoutChange = self.Restore_Geometry_On_Layout_Change_checkBox.checkState()
 		LOGGER.debug("> Restore geometry on layout change state: '{0}'.".format(restoreGeometryOnLayoutChange))
 		self.__settings.setKey("Settings", "restoreGeometryOnLayoutChange", restoreGeometryOnLayoutChange)
 		self.__container.settings._datas.restoreGeometryOnLayoutChange = restoreGeometryOnLayoutChange and True or False
