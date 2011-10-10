@@ -75,6 +75,7 @@ import foundations.core as core
 import foundations.exceptions
 import foundations.io as io
 import foundations.strings
+import foundations.ui.common
 import manager.exceptions
 import umbra.actionsManager
 import umbra.exceptions
@@ -99,8 +100,6 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-			"Ui_Setup",
-			"Ui_Type",
 			"SESSION_HEADER_TEXT",
 			"SESSION_FOOTER_TEXT",
 			"Umbra",
@@ -122,27 +121,11 @@ RuntimeGlobals.loggingFormatters = {"Default" :core.LOGGING_DEFAULT_FORMATTER,
 									"Extended" : core.LOGGING_EXTENDED_FORMATTER,
 									"Standard" : core.LOGGING_STANDARD_FORMATTER}
 
-class Ui_Setup():
-	"""
-	This class defines the Application ui setup methods.
-	"""
-
-	pass
-
-class Ui_Type():
-	"""
-	This class defines the Application ui type base class ( `QMainWindow <http://doc.qt.nokia.com/4.7/qmainwindow.html>`_ ).
-	"""
-
-	pass
-
 for path in (os.path.join(umbra.__path__[0], Constants.resourcesDirectory), os.path.join(os.getcwd(), umbra.__name__, Constants.resourcesDirectory)):
 	(os.path.exists(path) and not path in RuntimeGlobals.resourcesPaths) and RuntimeGlobals.resourcesPaths.append(path)
 
 RuntimeGlobals.uiFile = umbra.ui.common.getResourcePath(UiConstants.uiFile)
-if os.path.exists(RuntimeGlobals.uiFile):
-	Ui_Setup, Ui_Type = uic.loadUiType(RuntimeGlobals.uiFile)
-else:
+if not os.path.exists(RuntimeGlobals.uiFile):
 	umbra.ui.common.uiStandaloneSystemExitExceptionHandler(foundations.exceptions.FileExistsError("'{0}' ui file is not available, {1} will now close!".format(UiConstants.uiFile, Constants.applicationName)), Constants.applicationName)
 
 SESSION_HEADER_TEXT = ("{0} | Copyright ( C ) 2008 - 2011 Thomas Mansencal - thomas.mansencal@gmail.com".format(Constants.applicationName),
@@ -158,7 +141,7 @@ SESSION_FOOTER_TEXT = ("{0} | Closing interface! ".format(Constants.applicationN
 #***********************************************************************************************
 #***	Module classes and definitions.
 #***********************************************************************************************
-class Umbra(Ui_Type, Ui_Setup):
+class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	"""
 	This class is the main class of the **Umbra** package.
 	"""
@@ -169,23 +152,22 @@ class Umbra(Ui_Type, Ui_Setup):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiSystemExitExceptionHandler, False, Exception)
-	def __init__(self, componentsPaths=None, requisiteComponents=None, visibleComponents=None):
+	def __init__(self, parent=None, componentsPaths=None, requisiteComponents=None, visibleComponents=None, *args, **kwargs):
 		"""
 		This method initializes the class.
 
 		:param componentsPaths: Components componentsPaths. ( Tuple / List )
 		:param requisiteComponents: Requisite components names. ( Tuple / List )
 		:param visibleComponents: Visible components names. ( Tuple / List )
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Arguments. ( \* )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		Ui_Type.__init__(self)
-		Ui_Setup.__init__(self)
+		super(Umbra, self).__init__(parent, *args, **kwargs)
 
 		self.setAcceptDrops(True)
-
-		self.setupUi(self)
 
 		self.closeEvent = self.__closeUi
 
@@ -1469,7 +1451,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 		RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Initializing {0}.".format(Constants.applicationName, Constants.releaseVersion), textColor=Qt.white)
 		RuntimeGlobals.splashscreen.show()
 
-	RuntimeGlobals.ui = engine(componentsPaths, requisiteComponents, visibleComponents)
+	RuntimeGlobals.ui = engine(None, componentsPaths, requisiteComponents, visibleComponents)
 	RuntimeGlobals.ui.show()
 	RuntimeGlobals.ui.raise_()
 
