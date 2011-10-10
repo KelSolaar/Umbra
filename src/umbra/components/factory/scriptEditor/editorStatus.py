@@ -58,7 +58,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent=None, *args, **kwargs):
+	def __init__(self, parent, *args, **kwargs):
 		"""
 		This method initializes the class.
 
@@ -66,9 +66,6 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:param \*args: Arguments. ( \* )
 		:param \*\*kwargs: Arguments. ( \* )
 		"""
-
-		if not parent:
-			raise umbra.exceptions.WidgetInitializationError("'{0}' Widget initialization requires a parent Widget!".format(self.__class__.__name__))
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
