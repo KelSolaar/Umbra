@@ -27,7 +27,6 @@ import platform
 import re
 import sys
 import time
-from PyQt4 import uic
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -52,7 +51,10 @@ _setApplicationPackageDirectory()
 #***********************************************************************************************
 import foundations.globals.constants
 import manager.globals.constants
+import umbra.globals.constants
 from umbra.globals.constants import Constants
+from umbra.globals.runtimeGlobals import RuntimeGlobals
+from umbra.globals.uiConstants import UiConstants
 
 def _overrideDependenciesGlobals():
 	"""
@@ -66,6 +68,19 @@ def _overrideDependenciesGlobals():
 	return True
 
 _overrideDependenciesGlobals()
+
+def _extendResourcesPaths():
+	"""
+	This definition extend resources paths.
+
+	:return: Definition success. ( Boolean )
+	"""
+
+	for path in (os.path.join(umbra.__path__[0], Constants.resourcesDirectory), os.path.join(os.getcwd(), umbra.__name__, Constants.resourcesDirectory)):
+		(os.path.exists(path) and not path in RuntimeGlobals.resourcesPaths) and RuntimeGlobals.resourcesPaths.append(path)
+	return True
+
+_extendResourcesPaths()
 
 #***********************************************************************************************
 #***	Internal imports.
@@ -83,9 +98,8 @@ import umbra.ui.common
 import umbra.ui.widgets.messageBox as messageBox
 from foundations.streamObject import StreamObject
 from manager.componentsManager import Manager
-from umbra.globals.runtimeGlobals import RuntimeGlobals
-from umbra.globals.uiConstants import UiConstants
 from umbra.preferences import Preferences
+from umbra.processing import Processing
 from umbra.ui.widgets.active_QLabel import Active_QLabel
 from umbra.ui.widgets.delayed_QSplashScreen import Delayed_QSplashScreen
 
@@ -120,9 +134,6 @@ if not hasattr(sys, "frozen") or not (platform.system() == "Windows" or platform
 RuntimeGlobals.loggingFormatters = {"Default" :core.LOGGING_DEFAULT_FORMATTER,
 									"Extended" : core.LOGGING_EXTENDED_FORMATTER,
 									"Standard" : core.LOGGING_STANDARD_FORMATTER}
-
-for path in (os.path.join(umbra.__path__[0], Constants.resourcesDirectory), os.path.join(os.getcwd(), umbra.__name__, Constants.resourcesDirectory)):
-	(os.path.exists(path) and not path in RuntimeGlobals.resourcesPaths) and RuntimeGlobals.resourcesPaths.append(path)
 
 RuntimeGlobals.uiFile = umbra.ui.common.getResourcePath(UiConstants.uiFile)
 if not os.path.exists(RuntimeGlobals.uiFile):
@@ -212,6 +223,11 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		# Setting window title and toolBar.
 		self.setWindowTitle("{0} - {1}".format(Constants.applicationName, Constants.releaseVersion))
 		self.initializeToolBar()
+
+		# Setting processing widget.
+		self.Application_Progress_Status_processing = Processing(self, Qt.Window)
+		self.statusBar.addPermanentWidget(self.Application_Progress_Status_processing)
+		self.Application_Progress_Status_processing.show()
 
 		# --- Initializing Components Manager. ---
 		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Initializing Components manager.".format(self.__class__.__name__, Constants.releaseVersion), textColor=Qt.white, waitTime=0.25)

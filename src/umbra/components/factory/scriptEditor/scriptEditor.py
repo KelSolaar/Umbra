@@ -1222,8 +1222,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__timer = QTimer(self)
 		self.__timer.start(Constants.defaultTimerCycle * self.__timerCycleMultiplier)
 
-		self.EditorStatus = EditorStatus(self)
-		self.__container.statusBar.addPermanentWidget(self.EditorStatus)
+		self.Editor_Status_editorStatus = EditorStatus(self)
+		self.__container.statusBar.insertPermanentWidget(0, self.Editor_Status_editorStatus)
 
 		# Signals / Slots.
 		self.__container.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
@@ -1445,7 +1445,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param tabIndex: Tab index. ( Integer )
 		"""
 
-		self.EditorStatus._EditorStatus__Languages_comboBox_setDefaultViewState()
+		self.Editor_Status_editorStatus._EditorStatus__Languages_comboBox_setDefaultViewState()
 		self.__setWindowTitle()
 
 	@core.executionTrace
@@ -1466,7 +1466,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param currentLayout: Current layout. ( String )
 		"""
 
-		self.EditorStatus.setVisible(not self.isHidden())
+		self.Editor_Status_editorStatus.setVisible(not self.isHidden())
 
 	@core.executionTrace
 	def __application__contentDropped(self, event):
@@ -1486,7 +1486,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param visibility: Widget visibility. ( Boolean )
 		"""
 
-		self.EditorStatus.setVisible(visibility)
+		self.Editor_Status_editorStatus.setVisible(visibility)
 
 	@core.executionTrace
 	def __newFileAction__triggered(self, checked):
@@ -1879,7 +1879,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is triggered when an editor language is changed.
 		"""
 
-		self.EditorStatus._EditorStatus__Languages_comboBox_setDefaultViewState()
+		self.Editor_Status_editorStatus._EditorStatus__Languages_comboBox_setDefaultViewState()
 
 	@core.executionTrace
 	def __fileSystemWatcher__fileChanged(self, file):
@@ -2112,7 +2112,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		editor.languageChanged.connect(self.__editor__languageChanged)
 		editor.contentChanged.connect(self.__editor__contentChanged)
 		editor.fileChanged.connect(self.__editor__fileChanged)
-		editor.cursorPositionChanged.connect(self.EditorStatus._EditorStatus__editor__cursorPositionChanged)
+		editor.cursorPositionChanged.connect(self.Editor_Status_editorStatus._EditorStatus__editor__cursorPositionChanged)
 		return tabIndex
 
 	@core.executionTrace

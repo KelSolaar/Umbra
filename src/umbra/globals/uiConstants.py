@@ -37,6 +37,9 @@ class UiConstants():
 	uiFile = "Umbra.ui"
 	"""Application ui file: '**Umbra.ui**' ( String )"""
 
+	processingUiFile = "Processing.ui"
+	"""Processing ui file: '**Processing.ui**' ( String )"""
+
 	windowsStylesheetFile = "styles/Windows_styleSheet.qss"
 	"""Application Windows Os stylesheet file: '**styles/Windows_styleSheet.qss**' ( String )"""
 	darwinStylesheetFile = "styles/Darwin_styleSheet.qss"

@@ -50,6 +50,7 @@ class UiConstantsTestCase(unittest.TestCase):
 		"""
 
 		requiredAttributes = ("uiFile",
+								"processingUiFile",
 								"windowsStylesheetFile",
 								"darwinStylesheetFile",
 								"linuxStylesheetFile",
@@ -85,6 +86,13 @@ class UiConstantsTestCase(unittest.TestCase):
 			self.assertIn(attribute, UiConstants.__dict__)
 
 	def testUiFileAttribute(self):
+		"""
+		This method tests :attr:`umbra.globals.uiConstants.UiConstants.processingUiFile` attribute.
+		"""
+
+		self.assertRegexpMatches(UiConstants.processingUiFile, "\w+")
+
+	def testProcessingUiFileAttribute(self):
 		"""
 		This method tests :attr:`umbra.globals.uiConstants.UiConstants.uiFile` attribute.
 		"""
