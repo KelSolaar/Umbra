@@ -60,7 +60,7 @@ class LinesNumbers_QWidget(QWidget):
 
 		:param parent: Object parent. ( QObject )
 		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \* )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -389,7 +389,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param indentMarker: Indentation marker. ( String )
 		:param commentMarker: Comment marker. ( String )
 		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \* )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
