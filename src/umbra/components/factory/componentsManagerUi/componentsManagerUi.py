@@ -81,7 +81,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		# --- Setting class attributes. ---
 		self.deactivatable = False
 
-		self.__uiResources = "resources"
+		self.__uiResourcesDirectory = "resources"
 		self.__uiActivatedImage = "Activated.png"
 		self.__uiDeactivatedImage = "Deactivated.png"
 		self.__uiCategoryAffixe = "_Category.png"
@@ -116,34 +116,34 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	#***	Attributes properties.
 	#***********************************************************************************************
 	@property
-	def uiResources(self):
+	def uiResourcesDirectory(self):
 		"""
-		This method is the property for **self.__uiResources** attribute.
+		This method is the property for **self.__uiResourcesDirectory** attribute.
 
-		:return: self.__uiResources. ( String )
+		:return: self.__uiResourcesDirectory. ( String )
 		"""
 
-		return self.__uiResources
+		return self.__uiResourcesDirectory
 
-	@uiResources.setter
+	@uiResourcesDirectory.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def uiResources(self, value):
+	def uiResourcesDirectory(self, value):
 		"""
-		This method is the setter method for **self.__uiResources** attribute.
+		This method is the setter method for **self.__uiResourcesDirectory** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("uiResources"))
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("uiResourcesDirectory"))
 
-	@uiResources.deleter
+	@uiResourcesDirectory.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def uiResources(self):
+	def uiResourcesDirectory(self):
 		"""
-		This method is the deleter method for **self.__uiResources** attribute.
+		This method is the deleter method for **self.__uiResourcesDirectory** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("uiResources"))
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("uiResourcesDirectory"))
 
 	@property
 	def uiActivatedImage(self):
@@ -519,7 +519,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
 
-		self.__uiResources = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiResources)
+		self.__uiResourcesDirectory = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiResourcesDirectory)
 		self.__container = container
 
 		self.__settings = self.__container.settings
@@ -650,11 +650,11 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 					continue
 
 				componentStandardItem = QStandardItem(QString(component.title))
-				iconPath = os.path.join(self.__uiResources, "{0}{1}".format(component.category, self.__uiCategoryAffixe))
+				iconPath = os.path.join(self.__uiResourcesDirectory, "{0}{1}".format(component.category, self.__uiCategoryAffixe))
 				componentStandardItem.setIcon(QIcon(iconPath))
 
 				componentActivationStandardItem = QStandardItem(QString(str(component.interface.activated)))
-				iconPath = component.interface.activated and os.path.join(self.__uiResources, self.__uiActivatedImage) or os.path.join(self.__uiResources, self.__uiDeactivatedImage)
+				iconPath = component.interface.activated and os.path.join(self.__uiResourcesDirectory, self.__uiActivatedImage) or os.path.join(self.__uiResourcesDirectory, self.__uiDeactivatedImage)
 				componentActivationStandardItem.setIcon(QIcon(iconPath))
 
 				componentCategoryStandardItem = QStandardItem(QString(component.category and component.category or ""))
@@ -728,7 +728,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				componentStandardItem = self.__model.item(i).child(j, 0)
 				componentActivationStandardItem = self.__model.item(i).child(j, 1)
 				componentActivationStandardItem.setText(str(componentStandardItem._datas.interface.activated))
-				iconPath = componentStandardItem._datas.interface.activated and os.path.join(self.__uiResources, self.__uiActivatedImage) or os.path.join(self.__uiResources, self.__uiDeactivatedImage)
+				iconPath = componentStandardItem._datas.interface.activated and os.path.join(self.__uiResourcesDirectory, self.__uiActivatedImage) or os.path.join(self.__uiResourcesDirectory, self.__uiDeactivatedImage)
 				componentActivationStandardItem.setIcon(QIcon(iconPath))
 
 	@core.executionTrace
