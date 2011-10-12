@@ -62,6 +62,9 @@ class RuntimeGlobals():
 	loggingFile = None
 	"""Application logging file."""
 
+	engine = None
+	"""Application engine instance."""
+
 	application = None
 	"""Application instance."""
 	userApplicationDatasDirectory = None
@@ -72,8 +75,6 @@ class RuntimeGlobals():
 
 	uiFile = None
 	"""Application ui file."""
-	ui = None
-	"""Application ui instance."""
 
 	settingsFile = None
 	"""Application settings file."""

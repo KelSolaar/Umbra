@@ -177,11 +177,11 @@ def showProcessing(message=str()):
 			:param \*\*kwargs: Keywords arguments. ( \* )
 			"""
 
-			RuntimeGlobals.ui.startProcessing(message, 0, warning=False)
+			RuntimeGlobals.engine.startProcessing(message, 0, warning=False)
 			try:
 				return object(*args, **kwargs)
 			finally:
-				RuntimeGlobals.ui.stopProcessing(warning=False)
+				RuntimeGlobals.engine.stopProcessing(warning=False)
 		return function
 	return wrapper
 
@@ -1635,9 +1635,9 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 		RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Initializing {0}.".format(Constants.applicationName, Constants.releaseVersion), textColor=Qt.white)
 		RuntimeGlobals.splashscreen.show()
 
-	RuntimeGlobals.ui = engine(None, componentsPaths, requisiteComponents, visibleComponents)
-	RuntimeGlobals.ui.show()
-	RuntimeGlobals.ui.raise_()
+	RuntimeGlobals.engine = engine(None, componentsPaths, requisiteComponents, visibleComponents)
+	RuntimeGlobals.engine.show()
+	RuntimeGlobals.engine.raise_()
 
 	return sys.exit(RuntimeGlobals.application.exec_())
 
