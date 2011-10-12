@@ -227,7 +227,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		# Setting processing widget.
 		self.Application_Progress_Status_processing = Processing(self, Qt.Window)
 		self.statusBar.addPermanentWidget(self.Application_Progress_Status_processing)
-		self.Application_Progress_Status_processing.show()
+		self.Application_Progress_Status_processing.hide()
 
 		# --- Initializing Components Manager. ---
 		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Initializing Components manager.".format(self.__class__.__name__, Constants.releaseVersion), textColor=Qt.white, waitTime=0.25)
@@ -1319,6 +1319,70 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		LOGGER.debug("> Storing startup layout.")
 
 		return self.storeLayout(UiConstants.startupLayout)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def processEvents(self, flags=QEventLoop.AllEvents):
+		"""
+		This method process Application events.
+
+		:param flags: Events flags. ( Integer )
+		:return: Method success. ( Boolean )
+		"""
+
+		QApplication.processEvents(flags)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def startProcessing(self, label, steps):
+		"""
+		This method registers the start of a processing operation.
+
+		:param label: Operation description. ( String )
+		:param steps: Operation steps. ( Integer )
+		:return: Method success. ( Boolean )
+		"""
+
+		LOGGER.debug("> Starting processing operation!")
+
+		self.Application_Progress_Status_processing.Processing_label.setText(label)
+		self.Application_Progress_Status_processing.Processing_progressBar.setRange(0, steps)
+		self.Application_Progress_Status_processing.Processing_progressBar.setValue(0)
+		self.Application_Progress_Status_processing.show()
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def stepProcessing(self):
+		"""
+		This method steps the processing operation progress indicator.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		LOGGER.debug("> Stepping processing operation!")
+
+		self.Application_Progress_Status_processing.Processing_progressBar.setValue(self.Application_Progress_Status_processing.Processing_progressBar.value() + 1)
+		self.processEvents()
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def stopProcessing(self):
+		"""
+		This method registers the end of a processing operation.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		LOGGER.debug("> Stopping processing operation!")
+
+		self.Application_Progress_Status_processing.Processing_label.setText(QString())
+		self.Application_Progress_Status_processing.Processing_progressBar.setRange(0, 100)
+		self.Application_Progress_Status_processing.Processing_progressBar.setValue(24)
+		self.Application_Progress_Status_processing.hide()
+		return True
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(umbra.ui.common.uiStandaloneSystemExitExceptionHandler, False, OSError)
