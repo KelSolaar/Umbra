@@ -152,6 +152,39 @@ SESSION_FOOTER_TEXT = ("{0} | Closing interface! ".format(Constants.applicationN
 #***********************************************************************************************
 #***	Module classes and definitions.
 #***********************************************************************************************
+def showProcessing(message=str()):
+	"""
+	This decorator is used for a processing operation.
+	
+	:param message: Operation description. ( String )
+	:return: Object. ( Object )
+	"""
+
+	def wrapper(object):
+		"""
+		This decorator is used for a processing operation.
+
+		:param object: Object to decorate. ( Object )
+		:return: Object. ( Object )
+		"""
+
+		@functools.wraps(object)
+		def function(*args, **kwargs):
+			"""
+			This decorator is used for a processing operation.
+
+			:param \*args: Arguments. ( \* )
+			:param \*\*kwargs: Keywords arguments. ( \* )
+			"""
+
+			RuntimeGlobals.ui.startProcessing(message, 0, warning=False)
+			try:
+				return object(*args, **kwargs)
+			finally:
+				RuntimeGlobals.ui.stopProcessing(warning=False)
+		return function
+	return wrapper
+
 class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	"""
 	This class is the main class of the **Umbra** package.
@@ -205,6 +238,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__customLayoutsMenu = None
 		self.__miscellaneousMenu = None
 		self.__workerThreads = []
+		self.__isProcessing = False
 
 		# --- Initializing timer. ---
 		self.__timer = QTimer(self)
@@ -887,6 +921,36 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("workerThreads"))
 
+	@property
+	def isProcessing(self):
+		"""
+		This method is the property for **self.__isProcessing** attribute.
+
+		:return: self.__isProcessing. ( Boolean )
+		"""
+
+		return self.__isProcessing
+
+	@isProcessing.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def isProcessing(self, value):
+		"""
+		This method is the setter method for **self.__isProcessing** attribute.
+
+		:param value: Attribute value. ( Boolean )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("isProcessing"))
+
+	@isProcessing.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def isProcessing(self):
+		"""
+		This method is the deleter method for **self.__isProcessing** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("isProcessing"))
+
 	#***********************************************************************************************
 	#***	Class methods.
 	#***********************************************************************************************
@@ -1335,31 +1399,64 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def startProcessing(self, label, steps):
+	def setProcessingMessage(self, message):
 		"""
 		This method registers the start of a processing operation.
 
-		:param label: Operation description. ( String )
-		:param steps: Operation steps. ( Integer )
+		:param message: Operation description. ( String )
 		:return: Method success. ( Boolean )
 		"""
 
-		LOGGER.debug("> Starting processing operation!")
+		if not self.__isProcessing:
+			LOGGER.warning("!> {0} | Engine not processing, 'setProcessingMessage' request has been ignored!".format(self.__class__.__name__))
+			return
 
-		self.Application_Progress_Status_processing.Processing_label.setText(label)
-		self.Application_Progress_Status_processing.Processing_progressBar.setRange(0, steps)
-		self.Application_Progress_Status_processing.Processing_progressBar.setValue(0)
-		self.Application_Progress_Status_processing.show()
+		LOGGER.debug("> Setting processing message!")
+
+		self.Application_Progress_Status_processing.Processing_label.setText(message)
+		self.processEvents()
 		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def stepProcessing(self):
+	def startProcessing(self, message, steps, warning=True):
+		"""
+		This method registers the start of a processing operation.
+
+		:param message: Operation description. ( String )
+		:param steps: Operation steps. ( Integer )
+		:param warning: Emit warning message. ( Integer )
+		:return: Method success. ( Boolean )
+		"""
+
+		if self.__isProcessing:
+			if warning:
+				LOGGER.warning("!> {0} | Engine is already processing, 'startProcessing' request has been ignored!".format(self.__class__.__name__))
+			return
+
+		LOGGER.debug("> Starting processing operation!")
+
+		self.__isProcessing = True
+		self.Application_Progress_Status_processing.Processing_progressBar.setRange(0, steps)
+		self.Application_Progress_Status_processing.Processing_progressBar.setValue(0)
+		self.Application_Progress_Status_processing.show()
+		self.setProcessingMessage(message)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def stepProcessing(self, warning=True):
 		"""
 		This method steps the processing operation progress indicator.
 
+		:param warning: Emit warning message. ( Integer )
 		:return: Method success. ( Boolean )
 		"""
+
+		if not self.__isProcessing:
+			if warning:
+				LOGGER.warning("!> {0} | Engine is not processing, 'stepProcessing' request has been ignored!".format(self.__class__.__name__))
+			return
 
 		LOGGER.debug("> Stepping processing operation!")
 
@@ -1369,15 +1466,22 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def stopProcessing(self):
+	def stopProcessing(self, warning=True):
 		"""
 		This method registers the end of a processing operation.
 
+		:param warning: Emit warning message. ( Integer )
 		:return: Method success. ( Boolean )
 		"""
 
+		if not self.__isProcessing:
+			if warning:
+				LOGGER.warning("!> {0} | Engine is not processing, 'stopProcessing' request has been ignored!".format(self.__class__.__name__))
+			return
+
 		LOGGER.debug("> Stopping processing operation!")
 
+		self.__isProcessing = False
 		self.Application_Progress_Status_processing.Processing_label.setText(QString())
 		self.Application_Progress_Status_processing.Processing_progressBar.setRange(0, 100)
 		self.Application_Progress_Status_processing.Processing_progressBar.setValue(24)
