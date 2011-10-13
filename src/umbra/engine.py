@@ -185,6 +185,32 @@ def showProcessing(message=str()):
 		return function
 	return wrapper
 
+def encapsulateProcessing(object):
+	"""
+	This decorator is used to encapsulate a processing operation.
+
+	:param object: Object to decorate. ( Object )
+	:return: Object. ( Object )
+	"""
+
+	@functools.wraps(object)
+	def function(*args, **kwargs):
+		"""
+		This decorator is used to encapsulate a processing operation.
+
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \* )
+		"""
+
+		RuntimeGlobals.engine._Umbra__storeProcessingState()
+		RuntimeGlobals.engine.stopProcessing(warning=False)
+		try:
+			return object(*args, **kwargs)
+		finally:
+			RuntimeGlobals.engine.stopProcessing(warning=False)
+			RuntimeGlobals.engine._Umbra__restoreProcessingState()
+	return function
+
 class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	"""
 	This class is the main class of the **Umbra** package.
@@ -239,6 +265,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__miscellaneousMenu = None
 		self.__workerThreads = []
 		self.__isProcessing = False
+
+		self.__processingState = None
 
 		# --- Initializing timer. ---
 		self.__timer = QTimer(self)
@@ -1083,6 +1111,31 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		for index_ in range(len(self.__layoutsActiveLabels)):
 			self.__layoutsActiveLabels[index_].object.setChecked(index == index_ and True or False)
 
+	def __storeProcessingState(self):
+		"""
+		This method stores the processing state.
+		"""
+
+		steps = self.Application_Progress_Status_processing.Processing_progressBar.maximum()
+		value = self.Application_Progress_Status_processing.Processing_progressBar.value()
+		message = self.Application_Progress_Status_processing.Processing_label.text()
+		state = self.__isProcessing
+
+		self.__processingState = steps, value, message, state
+
+	def __restoreProcessingState(self):
+		"""
+		This method restores the processing state.
+		"""
+
+		steps, value, message, state = self.__processingState
+
+		self.Application_Progress_Status_processing.Processing_progressBar.setRange(0, steps)
+		self.Application_Progress_Status_processing.Processing_progressBar.setValue(value)
+		self.setProcessingMessage(message, warning=False)
+		self.__isProcessing = state
+		state and self.Application_Progress_Status_processing.show()
+
 	@core.executionTrace
 	def layoutActiveLabel__clicked(self, activeLabel):
 		"""
@@ -1399,16 +1452,17 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def setProcessingMessage(self, message):
+	def setProcessingMessage(self, message, warning=True):
 		"""
 		This method registers the start of a processing operation.
 
 		:param message: Operation description. ( String )
+		:param warning: Emit warning message. ( Integer )
 		:return: Method success. ( Boolean )
 		"""
 
 		if not self.__isProcessing:
-			LOGGER.warning("!> {0} | Engine not processing, 'setProcessingMessage' request has been ignored!".format(self.__class__.__name__))
+			warning and LOGGER.warning("!> {0} | Engine not processing, 'setProcessingMessage' request has been ignored!".format(self.__class__.__name__))
 			return
 
 		LOGGER.debug("> Setting processing message!")
@@ -1430,8 +1484,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		"""
 
 		if self.__isProcessing:
-			if warning:
-				LOGGER.warning("!> {0} | Engine is already processing, 'startProcessing' request has been ignored!".format(self.__class__.__name__))
+			warning and	LOGGER.warning("!> {0} | Engine is already processing, 'startProcessing' request has been ignored!".format(self.__class__.__name__))
 			return
 
 		LOGGER.debug("> Starting processing operation!")
@@ -1454,8 +1507,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		"""
 
 		if not self.__isProcessing:
-			if warning:
-				LOGGER.warning("!> {0} | Engine is not processing, 'stepProcessing' request has been ignored!".format(self.__class__.__name__))
+			warning and	LOGGER.warning("!> {0} | Engine is not processing, 'stepProcessing' request has been ignored!".format(self.__class__.__name__))
 			return
 
 		LOGGER.debug("> Stepping processing operation!")
@@ -1475,8 +1527,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		"""
 
 		if not self.__isProcessing:
-			if warning:
-				LOGGER.warning("!> {0} | Engine is not processing, 'stopProcessing' request has been ignored!".format(self.__class__.__name__))
+			warning and	LOGGER.warning("!> {0} | Engine is not processing, 'stopProcessing' request has been ignored!".format(self.__class__.__name__))
 			return
 
 		LOGGER.debug("> Stopping processing operation!")
