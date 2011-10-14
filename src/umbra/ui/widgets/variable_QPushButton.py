@@ -121,7 +121,7 @@ class Variable_QPushButton(QPushButton):
 		This method is the deleter method for **self.__state** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("state"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "state"))
 
 	@property
 	def colors(self):
@@ -155,7 +155,7 @@ class Variable_QPushButton(QPushButton):
 		This method is the deleter method for **self.__colors** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("colors"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "colors"))
 
 	@property
 	def labels(self):
@@ -189,7 +189,7 @@ class Variable_QPushButton(QPushButton):
 		This method is the deleter method for **self.__labels** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("labels"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "labels"))
 
 	@property
 	def parent(self):
@@ -218,7 +218,7 @@ class Variable_QPushButton(QPushButton):
 		This method is the deleter method for **self.__parent** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("parent"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "parent"))
 
 	#***********************************************************************************************
 	#***	Class methods.

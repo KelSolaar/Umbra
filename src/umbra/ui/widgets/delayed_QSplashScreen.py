@@ -104,7 +104,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 		This method is the deleter method for **self.__waitTime** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("waitTime"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "waitTime"))
 
 	#***********************************************************************************************
 	#***	Class methods.

@@ -116,7 +116,7 @@ class Search_QLineEdit(QLineEdit):
 		This method is the deleter method for **self.__uiClearImage** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("uiClearImage"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiClearImage"))
 
 	@property
 	def uiClearClickedImage(self):
@@ -149,7 +149,7 @@ class Search_QLineEdit(QLineEdit):
 		This method is the deleter method for **self.__uiClearClickedImage** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("uiClearClickedImage"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiClearClickedImage"))
 
 	@property
 	def parent(self):
@@ -178,7 +178,7 @@ class Search_QLineEdit(QLineEdit):
 		This method is the deleter method for **self.__parent** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("parent"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "parent"))
 
 	@property
 	def clearButton(self):
@@ -199,7 +199,7 @@ class Search_QLineEdit(QLineEdit):
 		:param value: Attribute value. ( QPushButton )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("clearButton"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "clearButton"))
 
 	@clearButton.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -208,7 +208,7 @@ class Search_QLineEdit(QLineEdit):
 		This method is the deleter method for **self.__clearButton** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("clearButton"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "clearButton"))
 
 	#***********************************************************************************************
 	#***	Class methods.

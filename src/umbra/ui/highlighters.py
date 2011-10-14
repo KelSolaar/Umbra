@@ -177,7 +177,7 @@ class Highlighter(QSyntaxHighlighter):
 		This method is the deleter method for **self.__formats** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("formats"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "formats"))
 
 	@property
 	def rules(self):
@@ -209,7 +209,7 @@ class Highlighter(QSyntaxHighlighter):
 		This method is the deleter method for **self.__rules** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("rules"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "rules"))
 
 	#***********************************************************************************************
 	#***	Class methods.
@@ -369,7 +369,7 @@ class PythonHighlighter(Highlighter):
 		This method is the deleter method for **self.__multiLineSingleString** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("multiLineSingleString"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "multiLineSingleString"))
 
 	@property
 	def multiLineDoubleString(self):
@@ -401,7 +401,7 @@ class PythonHighlighter(Highlighter):
 		This method is the deleter method for **self.__multiLineDoubleString** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("multiLineDoubleString"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "multiLineDoubleString"))
 
 	@property
 	def pythonTokens(self):
@@ -433,7 +433,7 @@ class PythonHighlighter(Highlighter):
 		This method is the deleter method for **self.__pythonTokens** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("pythonTokens"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "pythonTokens"))
 
 	#***********************************************************************************************
 	#***	Class methods.

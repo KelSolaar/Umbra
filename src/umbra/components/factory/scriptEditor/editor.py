@@ -162,7 +162,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method is the deleter method for **self.__file** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("file"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "file"))
 
 	@property
 	def language(self):
@@ -183,7 +183,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param value: Attribute value. ( Language )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("language"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "language"))
 
 	@language.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -192,7 +192,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method is the deleter method for **self.__language** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("language"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "language"))
 
 	@property
 	def indentWidth(self):
@@ -213,7 +213,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param value: Attribute value. ( Integer )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("indentWidth"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "indentWidth"))
 
 	@indentWidth.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -222,7 +222,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method is the deleter method for **self.__indentWidth** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("indentWidth"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "indentWidth"))
 
 	@property
 	def defaultFontsSettings(self):
@@ -243,7 +243,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param value: Attribute value. ( Dictionary )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("defaultFontsSettings"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultFontsSettings"))
 
 	@defaultFontsSettings.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -252,7 +252,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method is the deleter method for **self.__defaultFontsSettings** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("defaultFontsSettings"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultFontsSettings"))
 
 	@property
 	def isUntitled(self):
@@ -273,7 +273,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param value: Attribute value. ( Boolean )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("isUntitled"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "isUntitled"))
 
 	@isUntitled.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -282,7 +282,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method is the deleter method for **self.__isUntitled** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("isUntitled"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "isUntitled"))
 
 	@property
 	def defaultFileName(self):
@@ -303,7 +303,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("defaultFileName"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultFileName"))
 
 	@defaultFileName.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -312,7 +312,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method is the deleter method for **self.__defaultFileName** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("defaultFileName"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultFileName"))
 
 	@property
 	def defaultFileExtension(self):
@@ -333,7 +333,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("defaultFileExtension"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultFileExtension"))
 
 	@defaultFileExtension.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -342,7 +342,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method is the deleter method for **self.__defaultFileExtension** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("defaultFileExtension"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultFileExtension"))
 
 	#***********************************************************************************************
 	#***	Class methods.

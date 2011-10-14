@@ -117,7 +117,7 @@ class ActionsManager(QObject):
 		This method is the deleter method for **self.__namespaceSplitter** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("namespaceSplitter"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "namespaceSplitter"))
 
 	@property
 	def rootNamespace(self):
@@ -149,7 +149,7 @@ class ActionsManager(QObject):
 		This method is the deleter method for **self.__rootNamespace** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("rootNamespace"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "rootNamespace"))
 
 	@property
 	def defaultNamespace(self):
@@ -181,7 +181,7 @@ class ActionsManager(QObject):
 		This method is the deleter method for **self.__defaultNamespace** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("defaultNamespace"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultNamespace"))
 
 	@property
 	def categories(self):
@@ -213,7 +213,7 @@ class ActionsManager(QObject):
 		This method is the deleter method for **self.__categories** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("categories"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "categories"))
 
 	#***********************************************************************************************
 	#***	Class methods.

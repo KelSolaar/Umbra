@@ -109,7 +109,7 @@ class LinesNumbers_QWidget(QWidget):
 		This method is the deleter method for **self.__editor** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("editor"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "editor"))
 
 	@property
 	def margin(self):
@@ -142,7 +142,7 @@ class LinesNumbers_QWidget(QWidget):
 		This method is the deleter method for **self.__margin** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("margin"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "margin"))
 
 	@property
 	def separatorWidth(self):
@@ -175,7 +175,7 @@ class LinesNumbers_QWidget(QWidget):
 		This method is the deleter method for **self.__separatorWidth** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("separatorWidth"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "separatorWidth"))
 
 	@property
 	def backgroundColor(self):
@@ -207,7 +207,7 @@ class LinesNumbers_QWidget(QWidget):
 		This method is the deleter method for **self.__backgroundColor** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("backgroundColor"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "backgroundColor"))
 
 	@property
 	def color(self):
@@ -239,7 +239,7 @@ class LinesNumbers_QWidget(QWidget):
 		This method is the deleter method for **self.__color** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("color"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "color"))
 
 	@property
 	def separatorColor(self):
@@ -271,7 +271,7 @@ class LinesNumbers_QWidget(QWidget):
 		This method is the deleter method for **self.__separatorColor** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("separatorColor"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "separatorColor"))
 
 	#***********************************************************************************************
 	#***	Class methods.
@@ -451,7 +451,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__indentMarker** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("indentMarker"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "indentMarker"))
 
 	@property
 	def commentMarker(self):
@@ -483,7 +483,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__commentMarker** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("commentMarker"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "commentMarker"))
 
 	@property
 	def marginArea_LinesNumbers_widget(self):
@@ -515,7 +515,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__marginArea_LinesNumbers_widget** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("marginArea_LinesNumbers_widget"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "marginArea_LinesNumbers_widget"))
 
 	@property
 	def highlighter(self):
@@ -536,7 +536,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param value: Attribute value. ( QSyntaxHighlighter )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("highlighter"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "highlighter"))
 
 	@highlighter.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -545,7 +545,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__highlighter** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("highlighter"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "highlighter"))
 
 	@property
 	def completer(self):
@@ -566,7 +566,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param value: Attribute value. ( QCompleter )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("completer"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "completer"))
 
 	@completer.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -575,7 +575,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__completer** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("completer"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "completer"))
 
 	@property
 	def highlightColor(self):
@@ -607,7 +607,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__highlightColor** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("highlightColor"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "highlightColor"))
 
 	@property
 	def searchPattern(self):
@@ -639,7 +639,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__searchPattern** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("searchPattern"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchPattern"))
 
 	@property
 	def preInputAccelerators(self):
@@ -671,7 +671,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__preInputAccelerators** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("preInputAccelerators"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "preInputAccelerators"))
 
 	@property
 	def postInputAccelerators(self):
@@ -703,7 +703,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__postInputAccelerators** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("postInputAccelerators"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "postInputAccelerators"))
 
 	#***********************************************************************************************
 	#***	Class methods.

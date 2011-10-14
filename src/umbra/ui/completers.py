@@ -108,7 +108,7 @@ class PythonCompleter(QCompleter):
 		This method is the deleter method for **PythonCompleter._PythonCompleter__pythonTokens** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("pythonTokens"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "pythonTokens"))
 
 	#***********************************************************************************************
 	#***	Class methods.
@@ -200,7 +200,7 @@ class EnglishCompleter(QCompleter):
 		This method is the deleter method for **self.__englishWords** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("englishWords"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "englishWords"))
 
 	#***********************************************************************************************
 	#***	Class methods.
