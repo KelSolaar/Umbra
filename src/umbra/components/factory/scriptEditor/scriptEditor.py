@@ -31,8 +31,8 @@ from PyQt4.QtGui import *
 #***********************************************************************************************
 import foundations.core as core
 import foundations.exceptions
-import umbra.ui.common
 import umbra.ui.completers
+import umbra.engine
 import umbra.ui.highlighters
 import umbra.ui.inputAccelerators
 from manager.qwidgetComponent import QWidgetComponentFactory
@@ -1318,7 +1318,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		fileMenu.addSeparator()
 		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Save", shortcut=QKeySequence.Save, slot=self.__saveFileAction__triggered))
 		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Save As ...", shortcut=QKeySequence.SaveAs, slot=self.__saveFileAsAction__triggered))
-		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Save All", slot=self.__saveFileAllAction__triggered))
+		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Save All", slot=self.__saveAllFilesAction__triggered))
 		fileMenu.addSeparator()
 		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Close ...", shortcut=QKeySequence.Close, slot=self.__closeFileAction__triggered))
 		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Close All ...", shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.Key_W, slot=self.__closeAllFilesAction__triggered))
@@ -1545,7 +1545,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return self.saveFileAs()
 
 	@core.executionTrace
-	def __saveFileAllAction__triggered(self, checked):
+	def __saveAllFilesAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Save All'** action.
 
@@ -1553,7 +1553,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		return self.saveAll()
+		return self.saveAllFiles()
 
 	@core.executionTrace
 	def __closeFileAction__triggered(self, checked):
@@ -1964,6 +1964,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.recentFilesChanged.emit()
 
 	@core.executionTrace
+	@umbra.engine.encapsulateProcessing
 	def __handleContentDroppedEvent(self, event):
 		"""
 		This method handles dopped content event.
@@ -1974,6 +1975,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not event.mimeData().hasUrls():
 			return
 
+		urls = event.mimeData().urls()
+
+		self.__container.startProcessing("Loading Files ...", len(urls))
 		for url in event.mimeData().urls():
 			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and re.search("^\/[A-Z]:", str(url.path())) and str(url.path())[1:] or str(url.path())
 			if os.path.isdir(path):
@@ -1981,6 +1985,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 			if self.loadFile(path):
 				self.__container.currentLayout != self.__developmentLayout and self.__container.restoreLayout(self.__developmentLayout)
+			self.__container.stepProcessing()
+		self.__container.stopProcessing()
 
 	@core.executionTrace
 	def __setWindowTitle(self):
@@ -2261,7 +2267,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def saveAll(self):
+	@umbra.engine.encapsulateProcessing
+	def saveAllFiles(self):
 		"""
 		This method saves all :class:`Editor` instances files.
 
@@ -2270,11 +2277,17 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__fileSystemWatcher.removePaths(self.__files)
 
+		editorsCount = self.Script_Editor_tabWidget.count()
+
+		self.__container.startProcessing("Saving All Files ...", editorsCount)
 		success = True
-		for i in range(self.Script_Editor_tabWidget.count()):
+		for i in range(editorsCount):
 			editor = self.Script_Editor_tabWidget.widget(i)
-			LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
-			success *= editor.saveFile()
+			if editor.document().isModified():
+				LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
+				success *= editor.saveFile()
+			self.__container.stepProcessing()
+		self.__container.stopProcessing()
 
 		self.__fileSystemWatcher.addPaths(self.__files)
 		return success
@@ -2304,6 +2317,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@umbra.engine.encapsulateProcessing
 	def closeAllFiles(self, leaveLastEditor=True):
 		"""
  		This method closes every :class:`Editor` instances and removes their associated **Script_Editor_tabWidget** Widget tabs.
@@ -2311,7 +2325,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		for i in range(self.Script_Editor_tabWidget.count(), 0, -1):
+		editorsCount = self.Script_Editor_tabWidget.count()
+		self.__container.startProcessing("Closing All Files ...", editorsCount)
+		for i in range(editorsCount, 0, -1):
 			editor = self.Script_Editor_tabWidget.widget(i - 1)
 			LOGGER.info("{0} | Closing '{1}' file!".format(self.__class__.__name__, editor.file))
 			if not editor.closeFile():
@@ -2322,6 +2338,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			if self.removeEditorTab(self.Script_Editor_tabWidget.currentIndex()):
 				if not self.hasEditorTab() and leaveLastEditor:
 					self.newFile()
+			self.__container.stepProcessing()
+		self.__container.stopProcessing()
 		return True
 
 	@core.executionTrace

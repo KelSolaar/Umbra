@@ -28,6 +28,7 @@ from PyQt4.QtGui import *
 import foundations.core as core
 import foundations.exceptions
 import manager.exceptions
+import umbra.engine
 import umbra.ui.common
 import umbra.ui.widgets.messageBox as messageBox
 from manager.qwidgetComponent import QWidgetComponentFactory
@@ -834,6 +835,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, manager.exceptions.ComponentActivationError)
+	@umbra.engine.encapsulateProcessing
 	def activateComponents_ui(self):
 		"""
 		This method activates user selected Components.
@@ -843,15 +845,22 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:note: This method may require user interaction.
 		"""
 
+		selectedComponents = self.getSelectedComponents()
+
+		self.__container.startProcessing("Activating Components ...", len(selectedComponents))
 		activationFailedComponents = []
-		for component in self.getSelectedComponents():
+		for component in selectedComponents:
 			if not component.interface.activated:
 				success = self.activateComponent(component.name) or False
 				if not success:
 					activationFailedComponents.append(component)
 			else:
 				messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component is already activated!".format(self.__class__.__name__, component.name))
+			self.__container.stepProcessing()
+		self.__container.stopProcessing()
+
 		self.__storeDeactivatedComponents()
+
 		if not activationFailedComponents:
 			return True
 		else:
@@ -859,6 +868,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, manager.exceptions.ComponentDeactivationError)
+	@umbra.engine.encapsulateProcessing
 	def deactivateComponents_ui(self):
 		"""
 		This method deactivates user selected Components.
@@ -868,8 +878,11 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:note: This method may require user interaction.
 		"""
 
+		selectedComponents = self.getSelectedComponents()
+
+		self.__container.startProcessing("Deactivating Components ...", len(selectedComponents))
 		deactivationFailedComponents = []
-		for component in self.getSelectedComponents():
+		for component in selectedComponents:
 			if component.interface.activated:
 				if component.interface.deactivatable:
 					success = self.deactivateComponent(component.name) or False
@@ -879,7 +892,11 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 					messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, component.name))
 			else:
 				messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component is already deactivated!".format(self.__class__.__name__, component.name))
+			self.__container.stepProcessing()
+		self.__container.stopProcessing()
+
 		self.__storeDeactivatedComponents()
+
 		if not deactivationFailedComponents:
 			return True
 		else:
@@ -887,6 +904,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, manager.exceptions.ComponentReloadError)
+	@umbra.engine.encapsulateProcessing
 	def reloadComponents_ui(self):
 		"""
 		This method reloads user selected Components.
@@ -896,14 +914,20 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:note: This method may require user interaction.
 		"""
 
+		selectedComponents = self.getSelectedComponents()
+
+		self.__container.startProcessing("Reloading Components ...", len(selectedComponents))
 		reloadFailedComponents = []
-		for component in self.getSelectedComponents():
+		for component in selectedComponents:
 			if component.interface.deactivatable:
 				success = self.reloadComponent(component.name) or False
 				if not success:
 					reloadFailedComponents.append(component)
 			else:
 				messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component cannot be deactivated and won't be reloaded!".format(self.__class__.__name__, component.name))
+			self.__container.stepProcessing()
+		self.__container.stopProcessing()
+
 		if not reloadFailedComponents:
 			return True
 		else:
