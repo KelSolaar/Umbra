@@ -346,7 +346,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__dockArea = 8
 
-		self.__container = None
+		self.__engine = None
 		self.__settings = None
 		self.__settingsSection = None
 
@@ -431,34 +431,34 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("dockArea"))
 
 	@property
-	def container(self):
+	def engine(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		This method is the property for **self.__engine** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__engine. ( QObject )
 		"""
 
-		return self.__container
+		return self.__engine
 
-	@container.setter
+	@engine.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def container(self, value):
+	def engine(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		This method is the setter method for **self.__engine** attribute.
 
 		:param value: Attribute value. ( QObject )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("container"))
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("engine"))
 
-	@container.deleter
+	@engine.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def container(self):
+	def engine(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		This method is the deleter method for **self.__engine** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("container"))
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("engine"))
 
 	@property
 	def settings(self):
@@ -1156,21 +1156,21 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	#***	Class methods.
 	#***********************************************************************************************
 	@core.executionTrace
-	def activate(self, container):
+	def activate(self, engine):
 		"""
 		This method activates the Component.
 
-		:param container: Container to attach the Component to. ( QObject )
+		:param engine: Container to attach the Component to. ( QObject )
 		:return: Method success. ( Boolean )
 		"""
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
 
-		self.__container = container
-		self.__settings = self.__container.settings
+		self.__engine = engine
+		self.__settings = self.__engine.settings
 		self.__settingsSection = self.name
 
-		self.__defaultScriptEditorDirectory = os.path.join(self.__container.userApplicationDatasDirectory, Constants.ioDirectory, self.__defaultScriptEditorDirectory)
+		self.__defaultScriptEditorDirectory = os.path.join(self.__engine.userApplicationDatasDirectory, Constants.ioDirectory, self.__defaultScriptEditorDirectory)
 		not os.path.exists(self.__defaultScriptEditorDirectory) and os.makedirs(self.__defaultScriptEditorDirectory)
 		self.__defaultScriptEditorFile = os.path.join(self.__defaultScriptEditorDirectory, self.__defaultScriptEditorFile)
 
@@ -1201,7 +1201,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
 
-		self.Script_Editor_tabWidget = ScriptEditor_QTabWidget(self.__container)
+		self.Script_Editor_tabWidget = ScriptEditor_QTabWidget(self.__engine)
 		self.Script_Editor_tabWidget_frame_gridLayout.addWidget(self.Script_Editor_tabWidget, 0, 0)
 		self.__Script_Editor_tabWidget_setUi()
 
@@ -1223,12 +1223,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__timer.start(Constants.defaultTimerCycle * self.__timerCycleMultiplier)
 
 		self.Editor_Status_editorStatus = EditorStatus(self)
-		self.__container.statusBar.insertPermanentWidget(0, self.Editor_Status_editorStatus)
+		self.__engine.statusBar.insertPermanentWidget(0, self.Editor_Status_editorStatus)
 
 		# Signals / Slots.
-		self.__container.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
-		self.__container.layoutChanged.connect(self.__application__layoutChanged)
-		self.__container.contentDropped.connect(self.__application__contentDropped)
+		self.__engine.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
+		self.__engine.layoutChanged.connect(self.__application__layoutChanged)
+		self.__engine.contentDropped.connect(self.__application__contentDropped)
 		self.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
 		self.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
 		self.Script_Editor_tabWidget.contentDropped.connect(self.__Script_Editor_tabWidget__contentDropped)
@@ -1253,28 +1253,28 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def addWidget(self):
 		"""
-		This method adds the Component Widget to the container.
+		This method adds the Component Widget to the engine.
 
 		:return: Method success. ( Boolean )
 		"""
 
 		LOGGER.debug("> Adding '{0}' Component Widget.".format(self.__class__.__name__))
 
-		self.__container.addDockWidget(Qt.DockWidgetArea(self.__dockArea), self)
+		self.__engine.addDockWidget(Qt.DockWidgetArea(self.__dockArea), self)
 
 		return True
 
 	@core.executionTrace
 	def removeWidget(self):
 		"""
-		This method removes the Component Widget from the container.
+		This method removes the Component Widget from the engine.
 
 		:return: Method success. ( Boolean )
 		"""
 
 		LOGGER.debug("> Removing '{0}' Component Widget.".format(self.__class__.__name__))
 
-		self.__container.removeDockWidget(self)
+		self.__engine.removeDockWidget(self)
 		self.setParent(None)
 
 		return True
@@ -1312,16 +1312,16 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		fileMenu = QMenu("&File", parent=self.__menuBar)
-		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&New", shortcut=QKeySequence.New, slot=self.__newFileAction__triggered))
-		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Load ...", shortcut=QKeySequence.Open, slot=self.__loadFileAction__triggered))
-		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Source ...", slot=self.__sourceFileAction__triggered))
+		fileMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&New", shortcut=QKeySequence.New, slot=self.__newFileAction__triggered))
+		fileMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Load ...", shortcut=QKeySequence.Open, slot=self.__loadFileAction__triggered))
+		fileMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Source ...", slot=self.__sourceFileAction__triggered))
 		fileMenu.addSeparator()
-		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Save", shortcut=QKeySequence.Save, slot=self.__saveFileAction__triggered))
-		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Save As ...", shortcut=QKeySequence.SaveAs, slot=self.__saveFileAsAction__triggered))
-		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Save All", slot=self.__saveAllFilesAction__triggered))
+		fileMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Save", shortcut=QKeySequence.Save, slot=self.__saveFileAction__triggered))
+		fileMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Save As ...", shortcut=QKeySequence.SaveAs, slot=self.__saveFileAsAction__triggered))
+		fileMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Save All", slot=self.__saveAllFilesAction__triggered))
 		fileMenu.addSeparator()
-		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Close ...", shortcut=QKeySequence.Close, slot=self.__closeFileAction__triggered))
-		fileMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Close All ...", shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.Key_W, slot=self.__closeAllFilesAction__triggered))
+		fileMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Close ...", shortcut=QKeySequence.Close, slot=self.__closeFileAction__triggered))
+		fileMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Close All ...", shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.Key_W, slot=self.__closeAllFilesAction__triggered))
 		fileMenu.addSeparator()
 		for action in self.__recentFilesActions:
 			fileMenu.addAction(action)
@@ -1329,41 +1329,41 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__menuBar.addMenu(fileMenu)
 
 		self.__editMenu = QMenu("&Edit", parent=self.__menuBar)
-		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Undo", shortcut=QKeySequence.Undo, slot=self.__undoAction__triggered))
-		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Redo", shortcut=QKeySequence.Redo, slot=self.__redoAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Undo", shortcut=QKeySequence.Undo, slot=self.__undoAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Redo", shortcut=QKeySequence.Redo, slot=self.__redoAction__triggered))
 		self.__editMenu.addSeparator()
-		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Cu&t", shortcut=QKeySequence.Cut, slot=self.__cutAction__triggered))
-		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Copy", shortcut=QKeySequence.Copy, slot=self.__copyAction__triggered))
-		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Paste", shortcut=QKeySequence.Paste, slot=self.__pasteAction__triggered))
-		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete", slot=self.__deleteAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Cu&t", shortcut=QKeySequence.Cut, slot=self.__cutAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Copy", shortcut=QKeySequence.Copy, slot=self.__copyAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Paste", shortcut=QKeySequence.Paste, slot=self.__pasteAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete", slot=self.__deleteAction__triggered))
 		self.__editMenu.addSeparator()
-		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Select All", shortcut=QKeySequence.SelectAll, slot=self.__selectAllAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Select All", shortcut=QKeySequence.SelectAll, slot=self.__selectAllAction__triggered))
 		self.__editMenu.addSeparator()
-		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Goto Line ...", shortcut=Qt.ControlModifier + Qt.Key_L, slot=self.__gotoLineAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Goto Line ...", shortcut=Qt.ControlModifier + Qt.Key_L, slot=self.__gotoLineAction__triggered))
 		self.__editMenu.addSeparator()
-		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Indent Selection", shortcut=Qt.Key_Tab, slot=self.__indentSelectionAction__triggered))
-		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Unindent Selection", shortcut=Qt.Key_Backtab, slot=self.__unindentSelectionAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Indent Selection", shortcut=Qt.Key_Tab, slot=self.__indentSelectionAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Unindent Selection", shortcut=Qt.Key_Backtab, slot=self.__unindentSelectionAction__triggered))
 		self.__editMenu.addSeparator()
-		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Remove Trailing WhiteSpaces", slot=self.__removeTrailingWhiteSpacesAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Remove Trailing WhiteSpaces", slot=self.__removeTrailingWhiteSpacesAction__triggered))
 		self.__editMenu.addSeparator()
-		self.__editMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Toggle Comments", shortcut=Qt.ControlModifier + Qt.Key_Slash, slot=self.__toggleCommentsAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Toggle Comments", shortcut=Qt.ControlModifier + Qt.Key_Slash, slot=self.__toggleCommentsAction__triggered))
 		self.__menuBar.addMenu(self.__editMenu)
 
 		self.__searchMenu = QMenu("&Search", parent=self.__menuBar)
-		self.__searchMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Search|Search And Replace ...", shortcut=Qt.ControlModifier + Qt.Key_F, slot=self.__searchAndReplaceAction__triggered))
+		self.__searchMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Search|Search And Replace ...", shortcut=Qt.ControlModifier + Qt.Key_F, slot=self.__searchAndReplaceAction__triggered))
 		self.__searchMenu.addSeparator()
-		self.__searchMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Search|Search Next", shortcut=Qt.ControlModifier + Qt.Key_K, slot=self.__searchNextAction__triggered))
-		self.__searchMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Search|Search Previous", shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.Key_K, slot=self.__searchPreviousAction__triggered))
+		self.__searchMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Search|Search Next", shortcut=Qt.ControlModifier + Qt.Key_K, slot=self.__searchNextAction__triggered))
+		self.__searchMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Search|Search Previous", shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.Key_K, slot=self.__searchPreviousAction__triggered))
 		self.__menuBar.addMenu(self.__searchMenu)
 
 		self.__commandMenu = QMenu("&Command", parent=self.__menuBar)
-		self.__commandMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection", shortcut=Qt.ControlModifier + Qt.Key_Return, slot=self.__evaluateSelectionAction__triggered))
-		self.__commandMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script", shortcut=Qt.SHIFT + Qt.CTRL + Qt.Key_Return, slot=self.__evaluateScriptAction__triggered))
+		self.__commandMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection", shortcut=Qt.ControlModifier + Qt.Key_Return, slot=self.__evaluateSelectionAction__triggered))
+		self.__commandMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script", shortcut=Qt.SHIFT + Qt.CTRL + Qt.Key_Return, slot=self.__evaluateScriptAction__triggered))
 		self.__menuBar.addMenu(self.__commandMenu)
 
 		self.__viewMenu = QMenu("&View", parent=self.__menuBar)
-		self.__viewMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&View|Toggle Word Wrap", slot=self.__toggleWordWrapAction__triggered))
-		self.__viewMenu.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&View|Toggle White Spaces", slot=self.__toggleWhiteSpacesAction__triggered))
+		self.__viewMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&View|Toggle Word Wrap", slot=self.__toggleWordWrapAction__triggered))
+		self.__viewMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&View|Toggle White Spaces", slot=self.__toggleWhiteSpacesAction__triggered))
 		self.__menuBar.addMenu(self.__viewMenu)
 
 	# @core.executionTrace
@@ -1401,9 +1401,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method updates the **Script_Editor_Output_plainTextEdit** Widget.
 		"""
 
-		memoryHandlerStackDepth = len(self.__container.loggingSessionHandlerStream.stream)
+		memoryHandlerStackDepth = len(self.__engine.loggingSessionHandlerStream.stream)
 		if memoryHandlerStackDepth != self.__memoryHandlerStackDepth:
-			for line in self.__container.loggingSessionHandlerStream.stream[self.__memoryHandlerStackDepth:memoryHandlerStackDepth]:
+			for line in self.__engine.loggingSessionHandlerStream.stream[self.__memoryHandlerStackDepth:memoryHandlerStackDepth]:
 				self.Script_Editor_Output_plainTextEdit.moveCursor(QTextCursor.End)
 				self.Script_Editor_Output_plainTextEdit.insertPlainText(line)
 			self.__Script_Editor_Output_plainTextEdit_setDefaultViewState()
@@ -1977,16 +1977,16 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		urls = event.mimeData().urls()
 
-		self.__container.startProcessing("Loading Files ...", len(urls))
+		self.__engine.startProcessing("Loading Files ...", len(urls))
 		for url in event.mimeData().urls():
 			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and re.search("^\/[A-Z]:", str(url.path())) and str(url.path())[1:] or str(url.path())
 			if os.path.isdir(path):
 				continue
 
 			if self.loadFile(path):
-				self.__container.currentLayout != self.__developmentLayout and self.__container.restoreLayout(self.__developmentLayout)
-			self.__container.stepProcessing()
-		self.__container.stopProcessing()
+				self.__engine.currentLayout != self.__developmentLayout and self.__engine.restoreLayout(self.__developmentLayout)
+			self.__engine.stepProcessing()
+		self.__engine.stopProcessing()
 
 	@core.executionTrace
 	def __setWindowTitle(self):
@@ -2022,9 +2022,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		for globals in (Constants, RuntimeGlobals, UiConstants):
 			self.__locals[globals.__name__] = globals
 
-		self.__locals[Constants.applicationName] = self.__container
-		self.__locals["componentsManager"] = self.__container.componentsManager
-		self.__locals["actionsManager"] = self.__container.actionsManager
+		self.__locals[Constants.applicationName] = self.__engine
+		self.__locals["componentsManager"] = self.__engine.componentsManager
+		self.__locals["actionsManager"] = self.__engine.actionsManager
 
 		return True
 
@@ -2279,15 +2279,15 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		editorsCount = self.Script_Editor_tabWidget.count()
 
-		self.__container.startProcessing("Saving All Files ...", editorsCount)
+		self.__engine.startProcessing("Saving All Files ...", editorsCount)
 		success = True
 		for i in range(editorsCount):
 			editor = self.Script_Editor_tabWidget.widget(i)
 			if editor.document().isModified():
 				LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
 				success *= editor.saveFile()
-			self.__container.stepProcessing()
-		self.__container.stopProcessing()
+			self.__engine.stepProcessing()
+		self.__engine.stopProcessing()
 
 		self.__fileSystemWatcher.addPaths(self.__files)
 		return success
@@ -2326,7 +2326,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		editorsCount = self.Script_Editor_tabWidget.count()
-		self.__container.startProcessing("Closing All Files ...", editorsCount)
+		self.__engine.startProcessing("Closing All Files ...", editorsCount)
 		for i in range(editorsCount, 0, -1):
 			editor = self.Script_Editor_tabWidget.widget(i - 1)
 			LOGGER.info("{0} | Closing '{1}' file!".format(self.__class__.__name__, editor.file))
@@ -2338,8 +2338,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			if self.removeEditorTab(self.Script_Editor_tabWidget.currentIndex()):
 				if not self.hasEditorTab() and leaveLastEditor:
 					self.newFile()
-			self.__container.stepProcessing()
-		self.__container.stopProcessing()
+			self.__engine.stepProcessing()
+		self.__engine.stopProcessing()
 		return True
 
 	@core.executionTrace

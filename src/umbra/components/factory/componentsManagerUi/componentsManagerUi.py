@@ -88,7 +88,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__uiCategoryAffixe = "_Category.png"
 		self.__dockArea = 1
 
-		self.__container = None
+		self.__engine = None
 		self.__settings = None
 
 		self.__model = None
@@ -267,34 +267,34 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("dockArea"))
 
 	@property
-	def container(self):
+	def engine(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		This method is the property for **self.__engine** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__engine. ( QObject )
 		"""
 
-		return self.__container
+		return self.__engine
 
-	@container.setter
+	@engine.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def container(self, value):
+	def engine(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		This method is the setter method for **self.__engine** attribute.
 
 		:param value: Attribute value. ( QObject )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("container"))
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is read only!".format("engine"))
 
-	@container.deleter
+	@engine.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def container(self):
+	def engine(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		This method is the deleter method for **self.__engine** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("container"))
+		raise foundations.exceptions.ProgrammingError("'{0}' attribute is not deletable!".format("engine"))
 
 	@property
 	def settings(self):
@@ -510,20 +510,20 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	#***	Class methods.
 	#***********************************************************************************************
 	@core.executionTrace
-	def activate(self, container):
+	def activate(self, engine):
 		"""
 		This method activates the Component.
 
-		:param container: Container to attach the Component to. ( QObject )
+		:param engine: Engine to attach the Component to. ( QObject )
 		:return: Method success. ( Boolean )
 		"""
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
 
 		self.__uiResourcesDirectory = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiResourcesDirectory)
-		self.__container = container
+		self.__engine = engine
 
-		self.__settings = self.__container.settings
+		self.__settings = self.__engine.settings
 
 		self.activated = True
 		return True
@@ -582,14 +582,14 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def addWidget(self):
 		"""
-		This method adds the Component Widget to the container.
+		This method adds the Component Widget to the engine.
 
 		:return: Method success. ( Boolean )		
 		"""
 
 		LOGGER.debug("> Adding '{0}' Component Widget.".format(self.__class__.__name__))
 
-		self.__container.addDockWidget(Qt.DockWidgetArea(self.__dockArea), self)
+		self.__engine.addDockWidget(Qt.DockWidgetArea(self.__dockArea), self)
 
 		return True
 
@@ -597,7 +597,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def removeWidget(self):
 		"""
-		This method removes the Component Widget from the container.
+		This method removes the Component Widget from the engine.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("'{0}' Component Widget cannot be removed!".format(self.name))
@@ -635,8 +635,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__model.setHorizontalHeaderLabels(self.__modelHeaders)
 		self.__model.setColumnCount(len(self.__modelHeaders))
 
-		for path in self.__container.componentsManager.paths:
-			components = {name : component for name, component in self.__container.componentsManager.components.items() if os.path.normpath(path) in os.path.normpath(component.path)}
+		for path in self.__engine.componentsManager.paths:
+			components = {name : component for name, component in self.__engine.componentsManager.components.items() if os.path.normpath(path) in os.path.normpath(component.path)}
 			if not components:
 				break
 
@@ -746,14 +746,14 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method sets the **Components_Manager_Ui_treeView** actions.
 		"""
 
-		self.Components_Manager_Ui_treeView.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.ComponentsManagerUi|Activate Component(s)", slot=self.__Components_Manager_Ui_treeView_activateComponentsAction__triggered))
-		self.Components_Manager_Ui_treeView.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.ComponentsManagerUi|Deactivate Component(s)", slot=self.__Components_Manager_Ui_treeView_deactivateComponentsAction__triggered))
+		self.Components_Manager_Ui_treeView.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.ComponentsManagerUi|Activate Component(s)", slot=self.__Components_Manager_Ui_treeView_activateComponentsAction__triggered))
+		self.Components_Manager_Ui_treeView.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.ComponentsManagerUi|Deactivate Component(s)", slot=self.__Components_Manager_Ui_treeView_deactivateComponentsAction__triggered))
 
 		separatorAction = QAction(self.Components_Manager_Ui_treeView)
 		separatorAction.setSeparator(True)
 		self.Components_Manager_Ui_treeView.addAction(separatorAction)
 
-		self.Components_Manager_Ui_treeView.addAction(self.__container.actionsManager.registerAction("Actions|Umbra|Components|factory.ComponentsManagerUi|Reload Component(s)", slot=self.__Components_Manager_Ui_treeView_reloadComponentsAction__triggered))
+		self.Components_Manager_Ui_treeView.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.ComponentsManagerUi|Reload Component(s)", slot=self.__Components_Manager_Ui_treeView_reloadComponentsAction__triggered))
 
 		separatorAction = QAction(self.Components_Manager_Ui_treeView)
 		separatorAction.setSeparator(True)
@@ -847,7 +847,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		selectedComponents = self.getSelectedComponents()
 
-		self.__container.startProcessing("Activating Components ...", len(selectedComponents))
+		self.__engine.startProcessing("Activating Components ...", len(selectedComponents))
 		activationFailedComponents = []
 		for component in selectedComponents:
 			if not component.interface.activated:
@@ -856,8 +856,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 					activationFailedComponents.append(component)
 			else:
 				messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component is already activated!".format(self.__class__.__name__, component.name))
-			self.__container.stepProcessing()
-		self.__container.stopProcessing()
+			self.__engine.stepProcessing()
+		self.__engine.stopProcessing()
 
 		self.__storeDeactivatedComponents()
 
@@ -880,7 +880,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		selectedComponents = self.getSelectedComponents()
 
-		self.__container.startProcessing("Deactivating Components ...", len(selectedComponents))
+		self.__engine.startProcessing("Deactivating Components ...", len(selectedComponents))
 		deactivationFailedComponents = []
 		for component in selectedComponents:
 			if component.interface.activated:
@@ -892,8 +892,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 					messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, component.name))
 			else:
 				messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component is already deactivated!".format(self.__class__.__name__, component.name))
-			self.__container.stepProcessing()
-		self.__container.stopProcessing()
+			self.__engine.stepProcessing()
+		self.__engine.stopProcessing()
 
 		self.__storeDeactivatedComponents()
 
@@ -916,7 +916,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		selectedComponents = self.getSelectedComponents()
 
-		self.__container.startProcessing("Reloading Components ...", len(selectedComponents))
+		self.__engine.startProcessing("Reloading Components ...", len(selectedComponents))
 		reloadFailedComponents = []
 		for component in selectedComponents:
 			if component.interface.deactivatable:
@@ -925,8 +925,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 					reloadFailedComponents.append(component)
 			else:
 				messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component cannot be deactivated and won't be reloaded!".format(self.__class__.__name__, component.name))
-			self.__container.stepProcessing()
-		self.__container.stopProcessing()
+			self.__engine.stepProcessing()
+		self.__engine.stopProcessing()
 
 		if not reloadFailedComponents:
 			return True
@@ -943,12 +943,12 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not name in self.__container.componentsManager.components.keys():
+		if not name in self.__engine.componentsManager.components.keys():
 			raise manager.exceptions.ComponentExistsError("'{0}' Component isn't registered in the Components Manager!".format(name))
 
-		component = self.__container.componentsManager.components[name]
+		component = self.__engine.componentsManager.components[name]
 		LOGGER.debug("> Attempting '{0}' Component activation.".format(component.name))
-		component.interface.activate(self.__container)
+		component.interface.activate(self.__engine)
 		if component.category in ("Default", "QObject"):
 			component.interface.initialize()
 		elif component.category == "QWidget":
@@ -968,10 +968,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not name in self.__container.componentsManager.components.keys():
+		if not name in self.__engine.componentsManager.components.keys():
 			raise manager.exceptions.ComponentExistsError("'{0}' Component isn't registered in the Components Manager!".format(name))
 
-		component = self.__container.componentsManager.components[name]
+		component = self.__engine.componentsManager.components[name]
 
 		LOGGER.debug("> Attempting '{0}' Component deactivation.".format(component.name))
 		if component.interface.deactivatable:
@@ -997,16 +997,16 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not name in self.__container.componentsManager.components.keys():
+		if not name in self.__engine.componentsManager.components.keys():
 			raise manager.exceptions.ComponentExistsError("'{0}' Component isn't registered in the Components Manager!".format(name))
 
-		component = self.__container.componentsManager.components[name]
+		component = self.__engine.componentsManager.components[name]
 
 		LOGGER.debug("> Attempting '{0}' Component reload.".format(component.name))
 		if component.interface.deactivatable:
 			if component.interface.activated:
 				self.deactivateComponent(name)
-			self.__container.componentsManager.reloadComponent(component.name)
+			self.__engine.componentsManager.reloadComponent(component.name)
 			if not component.interface.activated:
 				self.activateComponent(name)
 			LOGGER.info("{0} | '{1}' Component has been reloaded!".format(self.__class__.__name__, component.name))
