@@ -237,9 +237,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		super(Umbra, self).__init__(parent, *args, **kwargs)
 
-		self.setAcceptDrops(True)
-
-		self.closeEvent = self.__closeUi
+		# Engine binding to global variable.
+		RuntimeGlobals.engine = self
 
 		# --- Setting class attributes. ---
 		self.__componentsPaths = componentsPaths or []
@@ -281,6 +280,12 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		# Visual style initialization.
 		self.setVisualStyle()
 		umbra.ui.common.setWindowDefaultIcon(self)
+
+		# Various ui initializations.
+		self.setAcceptDrops(True)
+
+		# Various methods reimplementations.
+		self.closeEvent = self.__closeUi
 
 		# Setting window title and toolBar.
 		self.setWindowTitle("{0} - {1}".format(Constants.applicationName, Constants.releaseVersion))
