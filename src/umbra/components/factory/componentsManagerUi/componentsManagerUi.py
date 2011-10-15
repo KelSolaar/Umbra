@@ -535,7 +535,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method deactivates the Component.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' Component cannot be deactivated!".format(self.__name))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, self.__name))
 
 	@core.executionTrace
 	def initializeUi(self):
@@ -577,7 +577,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method uninitializes the Component ui.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' Component ui cannot be uninitialized!".format(self.name))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' Component ui cannot be uninitialized!".format(self.__class__.__name__, self.name))
 
 	@core.executionTrace
 	def addWidget(self):
@@ -600,7 +600,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method removes the Component Widget from the engine.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' Component Widget cannot be removed!".format(self.name))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' Component Widget cannot be removed!".format(self.__class__.__name__, self.name))
 
 	@core.executionTrace
 	def onStartup(self):
@@ -944,7 +944,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not name in self.__engine.componentsManager.components.keys():
-			raise manager.exceptions.ComponentExistsError("'{0}' Component isn't registered in the Components Manager!".format(name))
+			raise manager.exceptions.ComponentExistsError("{0} | '{1}' Component isn't registered in the Components Manager!".format(self.__class__.__name__, name))
 
 		component = self.__engine.componentsManager.components[name]
 		LOGGER.debug("> Attempting '{0}' Component activation.".format(component.name))
@@ -969,7 +969,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not name in self.__engine.componentsManager.components.keys():
-			raise manager.exceptions.ComponentExistsError("'{0}' Component isn't registered in the Components Manager!".format(name))
+			raise manager.exceptions.ComponentExistsError("{0} | '{0}' Component isn't registered in the Components Manager!".format(self.__class__.__name__, name))
 
 		component = self.__engine.componentsManager.components[name]
 
@@ -998,7 +998,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not name in self.__engine.componentsManager.components.keys():
-			raise manager.exceptions.ComponentExistsError("'{0}' Component isn't registered in the Components Manager!".format(name))
+			raise manager.exceptions.ComponentExistsError("{0} | '{1}' Component isn't registered in the Components Manager!".format(self.__class__.__name__, name))
 
 		component = self.__engine.componentsManager.components[name]
 

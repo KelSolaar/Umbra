@@ -793,7 +793,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if not issubclass(highlighter.__class__, QSyntaxHighlighter):
-			raise foundations.exceptions.ProgrammingError("'{1}' is not a 'QSyntaxHighlighter' subclass!".format(highlighter))
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' is not a 'QSyntaxHighlighter' subclass!".format(self.__class__.__name__, highlighter))
 
 		if self.__highlighter:
 			self.removeHighlighter()
@@ -827,7 +827,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if not issubclass(completer.__class__, QCompleter):
-			raise foundations.exceptions.ProgrammingError("'{1}' is not a 'QCompleter' subclass!".format(completer))
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' is not a 'QCompleter' subclass!".format(self.__class__.__name__, completer))
 
 		if self.__completer:
 			self.removeCompleter()

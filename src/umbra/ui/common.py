@@ -18,6 +18,7 @@
 #***	External imports.
 #***********************************************************************************************
 import functools
+import inspect
 import logging
 import os
 import platform
@@ -198,7 +199,7 @@ def getResourcePath(name):
 			LOGGER.debug("> '{0}' resource path: '{1}'.".format(name, path))
 			return path
 
-	raise umbra.exceptions.ResourceExistsError("No resource file path found for '{0}' name!".format(name))
+	raise umbra.exceptions.ResourceExistsError("{0} | No resource file path found for '{0}' name!".format(inspect.getmodulename(__file__), name))
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -246,7 +247,7 @@ def getTokensParser(tokensFile):
 	"""
 
 	if not os.path.exists(tokensFile):
-		raise foundations.exceptions.FileExistsError("'{0}' tokens file doesn't exists!".format(tokensFile))
+		raise foundations.exceptions.FileExistsError("{0} | '{1}' tokens file doesn't exists!".format(inspect.getmodulename(__file__), tokensFile))
 
 	sectionsFileParser = SectionsFileParser(tokensFile)
 	sectionsFileParser.read() and sectionsFileParser.parse(orderedDictionary=False)

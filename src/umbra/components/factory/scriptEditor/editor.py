@@ -440,7 +440,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 
 		if not isinstance(language, Language):
-			raise foundations.exceptions.ProgrammingError("'{0}' type is not 'Language'!".format(language))
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' type is not 'Language'!".format(self.__class__.__name__, language))
 
 		self.__language = language
 		self.__setLanguageDescription()

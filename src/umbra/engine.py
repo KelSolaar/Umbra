@@ -20,6 +20,7 @@
 #***	External imports.
 #***********************************************************************************************
 import functools
+import inspect
 import logging
 import os
 import optparse
@@ -1560,10 +1561,10 @@ def setUserApplicationDatasDirectory(path):
 	if io.setDirectory(userApplicationDatasDirectory):
 		for directory in Constants.preferencesDirectories:
 			if not io.setDirectory(os.path.join(userApplicationDatasDirectory, directory)):
-				raise OSError("'{0}' directory creation failed , {1} will now close!".format(os.path.join(userApplicationDatasDirectory, directory), Constants.applicationName))
+				raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(inspect.getmodulename(__file__), os.path.join(userApplicationDatasDirectory, directory), Constants.applicationName))
 		return True
 	else:
-		raise OSError("'{0}' directory creation failed , {1} will now close!".format(userApplicationDatasDirectory, Constants.applicationName))
+		raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(inspect.getmodulename(__file__), userApplicationDatasDirectory, Constants.applicationName))
 
 @core.executionTrace
 def getCommandLineParametersParser():
@@ -1620,7 +1621,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 		RuntimeGlobals.userApplicationDatasDirectory = foundations.common.getUserApplicationDatasDirectory()
 
 	if not setUserApplicationDatasDirectory(RuntimeGlobals.userApplicationDatasDirectory):
-		raise umbra.exceptions.EngineConfigurationError("'{0}' user Application datas directory is not available, {1} will now close!".format(RuntimeGlobals.userApplicationDatasDirectory, Constants.applicationName))
+		raise umbra.exceptions.EngineConfigurationError("{0} | '{1}' user Application datas directory is not available, '{2}' will now close!".format(inspect.getmodulename(__file__), RuntimeGlobals.userApplicationDatasDirectory, Constants.applicationName))
 
 	LOGGER.debug("> Application python interpreter: '{0}'".format(sys.executable))
 	LOGGER.debug("> Application startup location: '{0}'".format(os.getcwd()))
@@ -1632,14 +1633,14 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	try:
 		os.path.exists(RuntimeGlobals.loggingFile) and os.remove(RuntimeGlobals.loggingFile)
 	except:
-		raise umbra.exceptions.EngineConfigurationError("{0} Logging file is currently locked by another process, {1} will now close!".format(RuntimeGlobals.loggingFile, Constants.applicationName))
+		raise umbra.exceptions.EngineConfigurationError("{0} | '{1}' Logging file is currently locked by another process, '{2}' will now close!".format(inspect.getmodulename(__file__), RuntimeGlobals.loggingFile, Constants.applicationName))
 
 	try:
 		RuntimeGlobals.loggingFileHandler = logging.FileHandler(RuntimeGlobals.loggingFile)
 		RuntimeGlobals.loggingFileHandler.setFormatter(RuntimeGlobals.loggingFormatters[Constants.loggingDefaultFormatter])
 		LOGGER.addHandler(RuntimeGlobals.loggingFileHandler)
 	except:
-		raise umbra.exceptions.EngineConfigurationError("{0} Logging file is not available, {1} will now close!".format(RuntimeGlobals.loggingFile, Constants.applicationName))
+		raise umbra.exceptions.EngineConfigurationError("{0} | '{1}' Logging file is not available, '{2}' will now close!".format(inspect.getmodulename(__file__), RuntimeGlobals.loggingFile, Constants.applicationName))
 
 	# Retrieving Framework verbose level from settings file.
 	LOGGER.debug("> Initializing {0}!".format(Constants.applicationName))

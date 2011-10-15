@@ -223,7 +223,7 @@ class Highlighter(QSyntaxHighlighter):
 		:param block: Text block. ( QString )
 		"""
 
-		raise NotImplementedError("'{0}' must be implemented by '{1}' subclasses!".format(self.highlightBlock.__name__, self.__class__.__name__))
+		raise NotImplementedError("{0} | '{1}' must be implemented by '{2}' subclasses!".format(self.__class__.__name__, self.highlightBlock.__name__, self.__class__.__name__))
 
 	# @core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

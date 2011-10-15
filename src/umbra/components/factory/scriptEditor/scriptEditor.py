@@ -256,10 +256,10 @@ class LanguagesModel(QAbstractListModel):
 		"""
 
 		if not isinstance(language, Language):
-			raise foundations.exceptions.ProgrammingError("'{0}' is not a 'Language' instance!".format(language))
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' is not a 'Language' instance!".format(self.__class__.__name__, language))
 
 		if self.getLanguage(language):
-			raise foundations.exceptions.ProgrammingError("'{0}' language is already registered!".format(language.name))
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' language is already registered!".format(self.__class__.__name__, language.name))
 
 		self.beginInsertRows(QModelIndex(), len(self.__languages), len(self.__languages))
 		self.__languages.append(language)
@@ -277,7 +277,7 @@ class LanguagesModel(QAbstractListModel):
 		"""
 
 		if not self.getLanguage(name):
-			raise foundations.exceptions.ProgrammingError("'{0}' language isn't registered!".format(name))
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' language isn't registered!".format(self.__class__.__name__, name))
 
 		for i, language in enumerate(self.__languages):
 			if not language.name == name:
@@ -1189,7 +1189,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' Component cannot be deactivated!".format(self.__name))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, self.__name))
 
 	@core.executionTrace
 	def initializeUi(self):
@@ -1248,7 +1248,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("'{0}' Component ui cannot be uninitialized!".format(self.name))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' Component ui cannot be uninitialized!".format(self.__class__.__name__, self.name))
 
 	@core.executionTrace
 	def addWidget(self):

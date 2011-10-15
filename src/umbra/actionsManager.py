@@ -287,7 +287,7 @@ class ActionsManager(QObject):
 			LOGGER.debug("> Category '{0}': '{1}'.".format(name, category))
 			return category
 		else:
-			raise umbra.exceptions.CategoryExistsError("'{0}' category doesn't exists!".format(name))
+			raise umbra.exceptions.CategoryExistsError("{0} | '{1}' category doesn't exists!".format(self.__class__.__name__, name))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -343,7 +343,7 @@ class ActionsManager(QObject):
 			if name == foundations.namespace.setNamespace(self.__namespaceSplitter.join(path), actionName):
 				LOGGER.debug("> Retrieved action for '{0}' action name!".format(name))
 				return action
-		raise umbra.exceptions.ActionExistsError("'{0}' action isn't registered!".format(name))
+		raise umbra.exceptions.ActionExistsError("{0} | '{0}' action isn't registered!".format(self.__class__.__name__, name))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
