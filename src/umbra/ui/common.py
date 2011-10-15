@@ -185,11 +185,12 @@ def uiStandaloneSystemExitExceptionHandler(exception, origin, *args, **kwargs):
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.ResourceExistsError)
-def getResourcePath(name):
+def getResourcePath(name, raiseException=False):
 	"""
 	This definition returns the resource file path matching the provided name.
 
 	:param name: Resource name. ( String )
+	:param raiseException: Raise the exception. ( Boolean )
 	:return: Resource path. ( String )
 	"""
 
@@ -199,7 +200,8 @@ def getResourcePath(name):
 			LOGGER.debug("> '{0}' resource path: '{1}'.".format(name, path))
 			return path
 
-	raise umbra.exceptions.ResourceExistsError("{0} | No resource file path found for '{0}' name!".format(inspect.getmodulename(__file__), name))
+	if raiseException:
+		raise umbra.exceptions.ResourceExistsError("{0} | No resource file path found for '{0}' name!".format(inspect.getmodulename(__file__), name))
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)

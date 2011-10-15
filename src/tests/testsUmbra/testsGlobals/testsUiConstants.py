@@ -54,6 +54,9 @@ class UiConstantsTestCase(unittest.TestCase):
 								"windowsStylesheetFile",
 								"darwinStylesheetFile",
 								"linuxStylesheetFile",
+								"windowsFullScreenStylesheetFile",
+								"darwinFullScreenStylesheetFile",
+								"linuxFullScreenStylesheetFile",
 								"windowsStyle",
 								"darwinStyle",
 								"linuxStyle",
@@ -119,6 +122,27 @@ class UiConstantsTestCase(unittest.TestCase):
 		"""
 
 		self.assertRegexpMatches(UiConstants.linuxStylesheetFile, "\w+")
+
+	def testWindowsFullScreenStylesheetFileAttribute(self):
+		"""
+		This method tests :attr:`umbra.globals.uiConstants.UiConstants.windowsFullScreenStylesheetFile` attribute.
+		"""
+
+		self.assertRegexpMatches(UiConstants.windowsFullScreenStylesheetFile, "\w+")
+
+	def testDarwinFullScreenStylesheetFileAttribute(self):
+		"""
+		This method tests :attr:`umbra.globals.uiConstants.UiConstants.darwinFullScreenStylesheetFile` attribute.
+		"""
+
+		self.assertRegexpMatches(UiConstants.darwinFullScreenStylesheetFile, "\w+")
+
+	def testLinuxFullScreenStylesheetFileAttribute(self):
+		"""
+		This method tests :attr:`umbra.globals.uiConstants.UiConstants.linuxFullScreenStylesheetFile` attribute.
+		"""
+
+		self.assertRegexpMatches(UiConstants.linuxFullScreenStylesheetFile, "\w+")
 
 	def testWindowsStyleAttribute(self):
 		"""

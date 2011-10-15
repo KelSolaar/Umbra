@@ -1182,24 +1182,34 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
-	def setVisualStyle(self):
+	def setVisualStyle(self, fullScreenStyle=False):
 		"""
 		This method sets the Application visual style.
 		
+		:param fullScreenStyle: Use fullscreen stylesheet file. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
 
 		LOGGER.debug("> Setting Application visual style.")
+		platformStyles = {"Windows":(("Windows", "Microsoft"), UiConstants.windowsStyle, UiConstants.windowsStylesheetFile, UiConstants.windowsFullScreenStylesheetFile),
+						"Darwin":(("Darwin",), UiConstants.darwinStyle, UiConstants.darwinStylesheetFile, UiConstants.darwinFullScreenStylesheetFile),
+						"Linux":(("Linux",), UiConstants.linuxStyle, UiConstants.linuxStylesheetFile, UiConstants.linuxFullScreenStylesheetFile)}
 
-		if platform.system() == "Windows" or platform.system() == "Microsoft":
-			RuntimeGlobals.application.setStyle(UiConstants.windowsStyle)
-			styleSheetFile = io.File(umbra.ui.common.getResourcePath(UiConstants.windowsStylesheetFile))
-		elif platform.system() == "Darwin":
-			RuntimeGlobals.application.setStyle(UiConstants.darwinStyle)
-			styleSheetFile = io.File(umbra.ui.common.getResourcePath(UiConstants.darwinStylesheetFile))
-		elif platform.system() == "Linux":
-			RuntimeGlobals.application.setStyle(UiConstants.linuxStyle)
-			styleSheetFile = io.File(umbra.ui.common.getResourcePath(UiConstants.linuxStylesheetFile))
+		styleSheetFile = None
+		for platformStyle, settings in platformStyles.items():
+			LOGGER.debug("> Setting '{0}' visual style.".format(platformStyle))
+			platformSystems, style, styleSheeFile, fullScreenStyleSheetFile = settings
+			if platform.system() in platformSystems:
+				RuntimeGlobals.application.setStyle(style)
+				styleSheetPath = umbra.ui.common.getResourcePath(styleSheeFile)
+				if fullScreenStyle:
+					fullScreenStyleSheetPath = umbra.ui.common.getResourcePath(fullScreenStyleSheetFile, raiseException=False)
+					styleSheetPath = fullScreenStyleSheetPath or styleSheetPath
+				styleSheetFile = io.File(styleSheetPath)
+				break
+
+		if not styleSheetFile:
+			raise foundations.exceptions.FileExistsError("{0} | No stylesheet file found, visual style will not be applied!".format(self.__class__.__name__))
 
 		if os.path.exists(styleSheetFile.file):
 			LOGGER.debug("> Reading style sheet file: '{0}'.".format(styleSheetFile.file))
@@ -1214,6 +1224,39 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 			return True
 		else:
 			raise foundations.exceptions.FileExistsError("{0} | '{1}' stylesheet file is not available, visual style will not be applied!".format(self.__class__.__name__, styleSheetFile.file))
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def isFullScreen(self):
+		"""
+		This method retruns if Application is in fullscreen state.
+
+		:return: FullScreen state. ( Boolean )
+		"""
+
+		return self.windowState().__int__() == 4 and True or False
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def toggleFullScreen(self, *args):
+		"""
+		This method toggles Application fullscreen state.
+
+		:param \*args: Arguments. ( \* )
+		:return: Method success. ( Boolean )
+		"""
+
+		LOGGER.debug("> Toggling FullScreen state.")
+
+		if self.isFullScreen():
+			self.setUnifiedTitleAndToolBarOnMac(True)
+			self.setVisualStyle(fullScreenStyle=False)
+			self.showNormal()
+		else:
+			self.setUnifiedTitleAndToolBarOnMac(False)
+			self.setVisualStyle(fullScreenStyle=True)
+			self.showFullScreen()
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -1295,6 +1338,10 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		for index, shortcut, name in userLayouts:
 			self.__customLayoutsMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Layouts|Store layout {0}".format(index), shortcut=Qt.CTRL + shortcut, slot=functools.partial(self.storeLayout, name)))
+
+		self.__customLayoutsMenu.addSeparator()
+
+		self.__customLayoutsMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Layouts|Toggle FullScreen", shortcut=Qt.ControlModifier + Qt.SHIFT + Qt.Key_F, slot=self.toggleFullScreen))
 
 		layoutActiveLabel.setMenu(self.__customLayoutsMenu)
 		return layoutActiveLabel
