@@ -1215,7 +1215,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 			LOGGER.debug("> Reading style sheet file: '{0}'.".format(styleSheetFile.file))
 			styleSheetFile.read()
 			for i, line in enumerate(styleSheetFile.content):
-				search = re.search("url\((?P<url>.*)\)", line)
+				search = re.search(r"url\((?P<url>.*)\)", line)
 				if not search:
 					continue
 

@@ -1979,7 +1979,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__engine.startProcessing("Loading Files ...", len(urls))
 		for url in event.mimeData().urls():
-			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and re.search("^\/[A-Z]:", str(url.path())) and str(url.path())[1:] or str(url.path())
+			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and re.search(r"^\/[A-Z]:", str(url.path())) and str(url.path())[1:] or str(url.path())
 			if os.path.isdir(path):
 				continue
 

@@ -441,7 +441,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 		if value:
 			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("indentMarker", value)
-			assert re.search("\s", value), "'{0}' attribute: '{1}' is not a whitespace character!".format("indentMarker", value)
+			assert re.search(r"\s", value), "'{0}' attribute: '{1}' is not a whitespace character!".format("indentMarker", value)
 		self.__indentMarker = value
 
 	@indentMarker.deleter
