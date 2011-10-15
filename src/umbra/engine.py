@@ -327,7 +327,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		# --- Activating others Components. ---
 		deactivatedComponents = self.__settings.getKey("Settings", "deactivatedComponents").toString().split(",")
-		for component in self.__componentsManager.getComponents():
+		for component in self.__componentsManager.listComponents():
 			try:
 				if component in deactivatedComponents:
 					continue
@@ -355,7 +355,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 			RuntimeGlobals.splashscreen.hide()
 
 		# --- Running onStartup components methods. ---
-		for component in self.__componentsManager.getComponents():
+		for component in self.__componentsManager.listComponents():
 			try:
 				interface = self.__componentsManager.getInterface(component)
 				if not interface:
@@ -1030,7 +1030,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		"""
 
 		# --- Running onClose components methods. ---
-		for component in self.__componentsManager.getComponents():
+		for component in self.__componentsManager.listComponents():
 			interface = self.__componentsManager.getInterface(component)
 			if not interface:
 				continue
