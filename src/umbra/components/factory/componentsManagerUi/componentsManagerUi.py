@@ -60,7 +60,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
 
 	# Custom signals definitions.
-	modelChanged = pyqtSignal()
+	changed = pyqtSignal()
 	modelRefresh = pyqtSignal()
 	modelPartialRefresh = pyqtSignal()
 
@@ -564,7 +564,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		# Signals / Slots.
 		self.Components_Manager_Ui_treeView.selectionModel().selectionChanged.connect(self.__Components_Manager_Ui_treeView_selectionModel__selectionChanged)
-		self.modelChanged.connect(self.__Components_Manager_Ui_treeView_refreshView)
+		self.changed.connect(self.__Components_Manager_Ui_treeView_refreshView)
 		self.modelRefresh.connect(self.__Components_Manager_Ui_treeView_refreshModel)
 		self.modelPartialRefresh.connect(self.__Components_Manager_Ui_treeView_setActivationsStatus)
 
@@ -673,7 +673,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				LOGGER.debug("> Adding '{0}' Component to '{1}'.".format(name, "Components_Manager_Ui_treeView"))
 				pathStandardItem.appendRow([componentStandardItem, componentActivationStandardItem, componentCategoryStandardItem, componentRankStandardItem, componentVersionStandardItem])
 
-		self.modelChanged.emit()
+		self.changed.emit()
 
 	@core.executionTrace
 	def __Components_Manager_Ui_treeView_refreshModel(self):
@@ -864,7 +864,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not activationFailedComponents:
 			return True
 		else:
-			raise manager.exceptions.ComponentActivationError("{0} | Exception(s) raised while activating '{1}' Component(s)!".format(self.__class__.__name__, ", ". join(activationFailedComponents)))
+			raise manager.exceptions.ComponentActivationError("{0} | Exception(s) raised while activating '{1}' Component(s)!".format(self.__class__.__name__, ", ". join((activationFailedComponent.name for activationFailedComponent in activationFailedComponents))))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, manager.exceptions.ComponentDeactivationError)
@@ -900,7 +900,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not deactivationFailedComponents:
 			return True
 		else:
-			raise manager.exceptions.ComponentDeactivationError("{0} | Exception(s) raised while deactivating '{1}' Component(s)!".format(self.__class__.__name__, ", ". join(deactivationFailedComponents)))
+			raise manager.exceptions.ComponentDeactivationError("{0} | Exception(s) raised while deactivating '{1}' Component(s)!".format(self.__class__.__name__, ", ". join((deactivationFailedComponent.name for deactivationFailedComponent in deactivationFailedComponents))))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, manager.exceptions.ComponentReloadError)
@@ -931,7 +931,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not reloadFailedComponents:
 			return True
 		else:
-			raise manager.exceptions.ComponentReloadError("{0} | Exception(s) raised while reloading '{1}' Component(s)!".format(self.__class__.__name__, ", ". join(reloadFailedComponents)))
+			raise manager.exceptions.ComponentReloadError("{0} | Exception(s) raised while reloading '{1}' Component(s)!".format(self.__class__.__name__, ", ". join((reloadFailedComponent.name for reloadFailedComponent in reloadFailedComponents))))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, manager.exceptions.ComponentExistsError, Exception)
