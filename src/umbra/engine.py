@@ -1252,6 +1252,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 			self.setUnifiedTitleAndToolBarOnMac(True)
 			self.setVisualStyle(fullScreenStyle=False)
 			self.showNormal()
+			# TODO: Remove hack that ensure toolBar is repainted.
+			self.resize(self.size().width() + 1, self.size().height() + 1)
 		else:
 			self.setUnifiedTitleAndToolBarOnMac(False)
 			self.setVisualStyle(fullScreenStyle=True)
