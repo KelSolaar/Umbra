@@ -1174,7 +1174,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		not os.path.exists(self.__defaultScriptEditorDirectory) and os.makedirs(self.__defaultScriptEditorDirectory)
 		self.__defaultScriptEditorFile = os.path.join(self.__defaultScriptEditorDirectory, self.__defaultScriptEditorFile)
 
-		self.__getsLocals()
+		self.__setLocals()
 		self.__console = code.InteractiveConsole(self.__locals)
 
 		self.activated = True
@@ -2010,9 +2010,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Script_Editor_tabWidget.setTabText(tabIndex, self.Script_Editor_tabWidget.widget(tabIndex).windowTitle())
 
 	@core.executionTrace
-	def __getsLocals(self):
+	def __setLocals(self):
 		"""
-		This method gets the locals for the interactive console.
+		This method sets the locals for the interactive console.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -2023,6 +2023,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.__locals[globals.__name__] = globals
 
 		self.__locals[Constants.applicationName] = self.__engine
+		self.__locals["application"] = self.__engine
 		self.__locals["componentsManager"] = self.__engine.componentsManager
 		self.__locals["actionsManager"] = self.__engine.actionsManager
 
