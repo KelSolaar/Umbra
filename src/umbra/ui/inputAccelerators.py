@@ -92,7 +92,7 @@ def completionPreEventInputAccelerators(container, event):
 		completionPrefix = container.textUnderCursor()
 		if completionPrefix.length() >= 1 :
 			words = container.getWords()
-			words.remove(completionPrefix)
+			completionPrefix in words and words.remove(completionPrefix)
 			container.completer.updateModel(words)
 			container.completer.setCompletionPrefix(completionPrefix)
 			if container.completer.completionCount() == 1:
