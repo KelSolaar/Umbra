@@ -394,4 +394,4 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 																		"wholeWord" : self.Whole_Word_checkBox.isChecked(),
 																		"regularExpressions" : self.Regular_Expressions_checkBox.isChecked(),
 																		"backwardSearch" : False,
-																		"wrapAround" : True})
+																		"wrapAround" : False})

@@ -17,6 +17,7 @@
 #***********************************************************************************************
 #***	External imports.
 #***********************************************************************************************
+import functools
 import logging
 import re
 from PyQt4.QtCore import *
@@ -41,7 +42,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "LinesNumbers_QWidget", "CodeEditor_QPlainTextEdit"]
+__all__ = ["LOGGER", "LinesNumbers_QWidget", "anchorTextCursor", "CodeEditor_QPlainTextEdit"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -374,6 +375,41 @@ class LinesNumbers_QWidget(QWidget):
 
 		self.setGeometry(self.__editor.contentsRect().left(), self.__editor.contentsRect().top(), self.__getWidth(), self.__editor.contentsRect().height())
 		return True
+
+def anchorTextCursor(object):
+	"""
+	This decorator is used to anchor the text cursor position.
+	
+	:param object: Object to decorate. ( Object )
+	:return: Object. ( Object )
+	"""
+
+	@functools.wraps(object)
+	def function(*args, **kwargs):
+		"""
+		This decorator is used to anchor the text cursor position.
+
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \* )
+		:return: Object. ( Object )
+		"""
+
+		editor = textCursor = horizontalScrollBarSliderPosition = verticalScrollBarSliderPosition = None
+		if args:
+			if hasattr(args[0], "textCursor"):
+				editor = args[0]
+				textCursor = editor.textCursor()
+				horizontalScrollBarSliderPosition = editor.horizontalScrollBar().sliderPosition()
+				verticalScrollBarSliderPosition = editor.verticalScrollBar().sliderPosition()
+		value = object(*args, **kwargs)
+
+		if editor and textCursor:
+			editor.setTextCursor(textCursor)
+			editor.horizontalScrollBar().setSliderPosition(horizontalScrollBarSliderPosition)
+			editor.verticalScrollBar().setSliderPosition(verticalScrollBarSliderPosition)
+		return value
+
+	return function
 
 class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	"""
@@ -1119,9 +1155,14 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@anchorTextCursor
 	def replaceAll(self, pattern, replacementPattern, **kwargs):
 		"""
-		This method replaces every provided pattern occurences in the document with the replacement pattern.
+		| This method replaces every provided pattern occurences in the document with the replacement pattern.
+		
+		.. warning::
+
+			Initializing **wrapAround** keyword to **True** leads to infinite recursion loop if the search pattern and the replacementPattern are the same.
 
 		:param pattern: Pattern to replace. ( String )
 		:param replacementPattern: Replacement pattern. ( String )
@@ -1129,9 +1170,6 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:return: Method success. ( Boolean )		
 		"""
 
-		kwargs["wrapAround"] = False
-
-		previousCursor = self.textCursor()
 		editCursor = self.textCursor()
 		editCursor.beginEditBlock()
 
@@ -1140,7 +1178,6 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 		while True:
 			if not self.search(pattern, **kwargs):
-				self.setTextCursor(previousCursor)
 				break
 
 			cursor = self.textCursor()
@@ -1258,6 +1295,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@anchorTextCursor
 	def removeTrailingWhiteSpaces(self):
 		"""
 		This method removes document trailing white spaces.
