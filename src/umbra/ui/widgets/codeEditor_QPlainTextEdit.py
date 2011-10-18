@@ -285,7 +285,7 @@ class LinesNumbers_QWidget(QWidget):
 		:return: Size hint. ( QSize )
 		"""
 
-		return QSize(self.__getWidth(), 0)
+		return QSize(self.getWidth(), 0)
 
 	@core.executionTrace
 	def paintEvent(self, event):
@@ -322,7 +322,7 @@ class LinesNumbers_QWidget(QWidget):
 			blockNumber += 1
 
 	@core.executionTrace
-	def __getWidth(self):
+	def getWidth(self):
 		"""
 		This method returns the Widget target width.
 
@@ -341,7 +341,7 @@ class LinesNumbers_QWidget(QWidget):
 		:return: Method success. ( Boolean )
 		"""
 
-		self.__editor.setViewportMargins(self.__getWidth(), 0, 0, 0)
+		self.__editor.setViewportMargins(self.getWidth(), 0, 0, 0)
 		return True
 
 	@core.executionTrace
@@ -373,7 +373,7 @@ class LinesNumbers_QWidget(QWidget):
 		:return: Method success. ( Boolean )
 		"""
 
-		self.setGeometry(self.__editor.contentsRect().left(), self.__editor.contentsRect().top(), self.__getWidth(), self.__editor.contentsRect().height())
+		self.setGeometry(self.__editor.contentsRect().left(), self.__editor.contentsRect().top(), self.getWidth(), self.__editor.contentsRect().height())
 		return True
 
 def anchorTextCursor(object):
@@ -812,7 +812,10 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		for accelerator in self.__preInputAccelerators:
 			processEvent *= accelerator(self, event)
 
-		processEvent and QPlainTextEdit.keyPressEvent(self, event)
+		if not processEvent:
+			return
+
+		QPlainTextEdit.keyPressEvent(self, event)
 
 		for accelerator in self.__postInputAccelerators:
 			accelerator(self, event)
@@ -868,7 +871,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 			self.removeCompleter()
 
 		self.__completer = completer
-		self.__completer.setWidget(self.parent())
+		self.__completer.setWidget(self)
 
 		# Signals / Slots.
 		self.__completer.activated.connect(self.__insertCompletion)
@@ -1007,7 +1010,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:return: Word under cursor. ( QString )		
 		"""
 
-		textUnderCursor = self.textUnderCursor()	
+		textUnderCursor = self.textUnderCursor()
 		search = re.match(r"\w+", unicode(textUnderCursor, Constants.encodingFormat, Constants.encodingError))
 		if search:
 			return textUnderCursor
@@ -1114,7 +1117,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 			flags = flags | QTextDocument.FindWholeWords
 		if settings.backwardSearch:
 			flags = flags | QTextDocument.FindBackward
-		
+
 		cursor = self.textCursor()
 		if settings.regularExpressions:
 			cursor = self.document().find(QRegExp(pattern), cursor, flags)

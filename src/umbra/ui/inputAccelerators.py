@@ -78,11 +78,12 @@ def completionPreEventInputAccelerators(container, event):
 
 	processEvent = True
 
-	if container.completer and container.completer.popup().isVisible():
-		if event.key() in (Qt.Key_Enter, Qt.Key_Return, Qt.Key_Escape, Qt.Key_Tab, Qt.Key_Backtab):
-			event.ignore()
-			processEvent = False
-			return processEvent
+	if container.completer:
+		if container.completer.popup().isVisible():
+			if event.key() in (Qt.Key_Enter, Qt.Key_Return, Qt.Key_Escape, Qt.Key_Tab, Qt.Key_Backtab):
+				event.ignore()
+				processEvent = False
+				return processEvent
 
 	if event.modifiers() in (Qt.ControlModifier, Qt.MetaModifier) and event.key() == Qt.Key_Space:
 		processEvent = False
@@ -108,6 +109,7 @@ def completionPreEventInputAccelerators(container, event):
 				popup.setCurrentIndex(container.completer.completionModel().index(0, 0))
 
 				completerRectangle = container.cursorRect()
+				hasattr(container, "marginArea_LinesNumbers_widget") and completerRectangle.moveTo(completerRectangle.topLeft().x() + container.marginArea_LinesNumbers_widget.getWidth(), completerRectangle.topLeft().y())
 				completerRectangle.setWidth(container.completer.popup().sizeHintForColumn(0) + container.completer.popup().verticalScrollBar().sizeHint().width())
 				container.completer.complete(completerRectangle)
 	else:
