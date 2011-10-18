@@ -160,6 +160,26 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	#***	Class methods.
 	#***********************************************************************************************
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def show(self):
+		"""
+		This method shows the Widget.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		editor = self.__container.getCurrentEditor()
+		if editor:
+			selectedText = editor.textCursor().selectedText()
+			selectedText and self.insertSearchPattern(selectedText)
+			
+		super(SearchAndReplace, self).show()
+		self.raise_()
+		self.Search_comboBox.setFocus()
+
+		return True
+
+	@core.executionTrace
 	def __initializeUi(self):
 		"""
 		This method initializes the Widget ui.
@@ -180,49 +200,13 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		recentReplaceWithPatterns = self.__container.settings.getKey(self.__container.settingsSection, "recentReplaceWithPatterns").toString().split(",")
 		if recentReplaceWithPatterns:
 			for i in range(min(self.__maximumStoredPatterns, len(recentReplaceWithPatterns))):
-				self.Search_comboBox.addItem(recentReplaceWithPatterns[i])
+				self.Replace_With_comboBox.addItem(recentReplaceWithPatterns[i])
 
 		# Signals / Slots.
 		self.Search_pushButton.clicked.connect(self.__Search_pushButton__clicked)
 		self.Replace_pushButton.clicked.connect(self.__Replace_pushButton__clicked)
 		self.Replace_All_pushButton.clicked.connect(self.__Replace_All_pushButton__clicked)
 		self.Close_pushButton.clicked.connect(self.__Close_pushButton__clicked)
-
-	@core.executionTrace
-	def __storeRecentPatterns(self, comboBox, settingsKey):
-		"""
-		This method stores provided :class:`QComboBox` patterns.
-		
-		:param comboBox: QComboBox. ( QComboBox )
-		:param settingsKey: Associated settings key. ( String )
-		"""
-
-		currentText = comboBox.currentText()
-		if currentText:
-			isNotRegistered = True
-			for i in range(comboBox.count()):
-				if comboBox.itemText(i) == currentText:
-					isNotRegistered = False
-					break
-			isNotRegistered and comboBox.insertItem(0, currentText)
-
-		self.__container.settings.setKey(self.__container.settingsSection, settingsKey, ",".join((str(comboBox.itemText(i)) for i in range(min(self.__maximumStoredPatterns, comboBox.count())) if comboBox.itemText(i))))
-
-	@core.executionTrace
-	def __storeRecentSearchPatterns(self):
-		"""
-		This method stores recent **Search_comboBox** Widget patterns.
-		"""
-
-		self.__storeRecentPatterns(self.Search_comboBox, "recentSearchPatterns")
-
-	@core.executionTrace
-	def __storeRecentReplaceWithPatterns(self):
-		"""
-		This method stores recent **Replace_With_comboBox** Widget patterns.
-		"""
-
-		self.__storeRecentPatterns(self.Replace_With_comboBox, "recentReplaceWithPatterns")
 
 	@core.executionTrace
 	def __Search_pushButton__clicked(self, checked):
@@ -265,18 +249,80 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.close()
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def show(self):
+	def __storeRecentPatterns(self, comboBox, settingsKey):
 		"""
-		This method shows the Widget.
+		This method stores provided :class:`QComboBox` class patterns.
+		
+		:param comboBox: QComboBox. ( QComboBox )
+		:param settingsKey: Associated settings key. ( String )
+		"""
 
+		currentText = comboBox.currentText()
+		if currentText:
+			isNotRegistered = True
+			for i in range(comboBox.count()):
+				if comboBox.itemText(i) == currentText:
+					isNotRegistered = False
+					break
+			isNotRegistered and comboBox.insertItem(0, currentText)
+
+		self.__container.settings.setKey(self.__container.settingsSection, settingsKey, ",".join((str(comboBox.itemText(i)) for i in range(min(self.__maximumStoredPatterns, comboBox.count())) if comboBox.itemText(i))))
+
+	@core.executionTrace
+	def __storeRecentSearchPatterns(self):
+		"""
+		This method stores recent **Search_comboBox** Widget patterns.
+		"""
+
+		self.__storeRecentPatterns(self.Search_comboBox, "recentSearchPatterns")
+
+	@core.executionTrace
+	def __storeRecentReplaceWithPatterns(self):
+		"""
+		This method stores recent **Replace_With_comboBox** Widget patterns.
+		"""
+
+		self.__storeRecentPatterns(self.Replace_With_comboBox, "recentReplaceWithPatterns")
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __insertPattern(self, pattern, comboBox, patternsStorageMethod):
+		"""
+		This method inserts provided pattern in the provided :class:`QComboBox` class Widget.
+
+		:param pattern: Search pattern. ( String )
+		:param comboBox: Target comboBox. ( QComboBox )
+		:param patternsStorageMethod: Patterns storage method. ( Object )
+		"""
+
+		comboBox.insertItem(0, pattern)
+		comboBox.setCurrentIndex(0)		
+		patternsStorageMethod()
+		
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def insertSearchPattern(self, pattern):
+		"""
+		This method inserts provided pattern in the **Search_comboBox**.
+
+		:param pattern: Search pattern. ( String )
 		:return: Method success. ( Boolean )
 		"""
+		
+		self.__insertPattern(pattern, self.Search_comboBox, self.__storeRecentSearchPatterns)
+		return True
 
-		super(SearchAndReplace, self).show()
-		self.raise_()
-		self.Search_comboBox.setFocus()
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def insertReplaceWithPattern(self, pattern):
+		"""
+		This method inserts provided pattern in the **Replace_With_comboBox**.
 
+		:param pattern: Search pattern. ( String )
+		:return: Method success. ( Boolean )
+		"""
+		
+		self.__insertPattern(pattern, self.Search_comboBox, self.__storeRecentReplaceWithPatterns)
 		return True
 
 	@core.executionTrace
