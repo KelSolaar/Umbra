@@ -994,9 +994,28 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:return: Text under cursor. ( QString )		
 		"""
 
-		textCursor = self.textCursor()
-		textCursor.select(QTextCursor.WordUnderCursor)
-		return textCursor.selectedText()
+		cursor = self.textCursor()
+		cursor.select(QTextCursor.WordUnderCursor)
+		return cursor.selectedText()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def wordUnderCursor(self):
+		"""
+		This method returns the word under cursor.
+
+		:return: Word under cursor. ( QString )		
+		"""
+
+		textUnderCursor = self.textUnderCursor()	
+		search = re.match(r"\w+", unicode(textUnderCursor, Constants.encodingFormat, Constants.encodingError))
+		if search:
+			return textUnderCursor
+		else:
+			cursor = self.textCursor()
+			cursor.movePosition(QTextCursor.PreviousWord, QTextCursor.MoveAnchor)
+			cursor.movePosition(QTextCursor.NextWord, QTextCursor.KeepAnchor)
+			return cursor.selectedText()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

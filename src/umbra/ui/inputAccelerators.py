@@ -89,7 +89,7 @@ def completionPreEventInputAccelerators(container, event):
 		if not container.completer:
 			return processEvent
 
-		completionPrefix = container.textUnderCursor()
+		completionPrefix = container.wordUnderCursor()
 		if completionPrefix.length() >= 1 :
 			words = container.getWords()
 			completionPrefix in words and words.remove(completionPrefix)
@@ -98,7 +98,10 @@ def completionPreEventInputAccelerators(container, event):
 			if container.completer.completionCount() == 1:
 				completion = container.completer.completionModel().data(container.completer.completionModel().index(0, 0)).toString()
 				cursor = container.textCursor()
-				cursor.insertText(completion[len(container.textUnderCursor()):])
+				if completionPrefix != container.textUnderCursor():
+					cursor.movePosition(QTextCursor.PreviousWord, QTextCursor.MoveAnchor)
+				cursor.movePosition(QTextCursor.EndOfWord, QTextCursor.MoveAnchor)
+				cursor.insertText(completion[len(completionPrefix):])
 				container.setTextCursor(cursor)
 			else:
 				popup = container.completer.popup()
