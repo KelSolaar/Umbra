@@ -1929,7 +1929,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method sets the recent files actions.
 		"""
 
-		recentFiles = [recentFile for recentFile in self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",") if os.path.exists(recentFile)]
+		recentFiles = [str(recentFile) for recentFile in self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",") if os.path.exists(recentFile)]
 		if not recentFiles:
 			return
 
@@ -1952,15 +1952,15 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param file: File to store. ( String )
 		"""
 
-		recentFiles = [recentFile for recentFile in self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",") if os.path.exists(recentFile)]
+		recentFiles = [str(recentFile) for recentFile in self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",") if os.path.exists(recentFile)]
 		if not recentFiles:
-			recentFiles = QStringList()
+			recentFiles = []
 
 		if file in recentFiles:
-			recentFiles.removeAt(recentFiles.indexOf(file))
+			recentFiles.pop(recentFiles.index(file))
 		recentFiles.insert(0, file)
 		del recentFiles[self.__maximumRecentFiles:]
-		recentFiles = self.__settings.setKey(self.__settingsSection, "recentFiles", recentFiles.join(","))
+		recentFiles = self.__settings.setKey(self.__settingsSection, "recentFiles", ",".join(recentFiles))
 		self.recentFilesChanged.emit()
 
 	@core.executionTrace
