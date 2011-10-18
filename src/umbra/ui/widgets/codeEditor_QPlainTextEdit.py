@@ -394,19 +394,16 @@ def anchorTextCursor(object):
 		:return: Object. ( Object )
 		"""
 
-		editor = textCursor = horizontalScrollBarSliderPosition = verticalScrollBarSliderPosition = None
 		if args:
-			if hasattr(args[0], "textCursor"):
-				editor = args[0]
-				textCursor = editor.textCursor()
-				horizontalScrollBarSliderPosition = editor.horizontalScrollBar().sliderPosition()
-				verticalScrollBarSliderPosition = editor.verticalScrollBar().sliderPosition()
+			if hasattr(args[0], "storeTextCursorAnchor"):
+				args[0].storeTextCursorAnchor()
+
 		value = object(*args, **kwargs)
 
-		if editor and textCursor:
-			editor.setTextCursor(textCursor)
-			editor.horizontalScrollBar().setSliderPosition(horizontalScrollBarSliderPosition)
-			editor.verticalScrollBar().setSliderPosition(verticalScrollBarSliderPosition)
+		if args:
+			if hasattr(args[0], "restoreTextCursorAnchor"):
+				args[0].storeTextCursorAnchor()
+
 		return value
 
 	return function
@@ -449,9 +446,9 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		self.__preInputAccelerators = []
 		self.__postInputAccelerators = []
 
-		CodeEditor_QPlainTextEdit.__initializeUi(self)
+		self.__textCursorAnchor = None
 
-		self.__highlightCurrentLine()
+		CodeEditor_QPlainTextEdit.__initializeUi(self)
 
 	#***********************************************************************************************
 	#***	Attributes properties.
@@ -752,6 +749,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 		self.__marginArea_LinesNumbers_widget = LinesNumbers_QWidget(self)
 
+		self.__highlightCurrentLine()
+
 		# Signals / Slots.
 		self.blockCountChanged.connect(self.__marginArea_LinesNumbers_widget.setEditorViewportMargins)
 		self.updateRequest.connect(self.__marginArea_LinesNumbers_widget.updateRectangle)
@@ -918,6 +917,36 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def storeTextCursorAnchor(self):
+		"""
+		This method stores the text cursor anchor.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		self.__textCursorAnchor = (self.textCursor(), self.horizontalScrollBar().sliderPosition(), self.verticalScrollBar().sliderPosition())
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def restoreTextCursorAnchor(self):
+		"""
+		This method restores the text cursor anchor.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.__textCursorAnchor:
+			return
+
+		textCursor, horizontalScrollBarSliderPosition, verticalScrollBarSliderPosition = self.__textCursorAnchor
+		self.setTextCursor(textCursor)
+		self.horizontalScrollBar().setSliderPosition(horizontalScrollBarSliderPosition)
+		self.verticalScrollBar().setSliderPosition(verticalScrollBarSliderPosition)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getCursorLine(self):
 		"""
 		This method returns the text cursor line.
@@ -1066,7 +1095,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 			flags = flags | QTextDocument.FindWholeWords
 		if settings.backwardSearch:
 			flags = flags | QTextDocument.FindBackward
-
+		
 		cursor = self.textCursor()
 		if settings.regularExpressions:
 			cursor = self.document().find(QRegExp(pattern), cursor, flags)
@@ -1074,9 +1103,10 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 			cursor = self.document().find(pattern, cursor, flags)
 		if not cursor.isNull():
 			self.setTextCursor(cursor)
+			return True
 		else:
 			if settings.wrapAround:
-				previousCursor = self.textCursor()
+				self.storeTextCursorAnchor()
 				cursor = self.textCursor()
 				if settings.backwardSearch:
 					cursor.movePosition(QTextCursor.End, QTextCursor.MoveAnchor)
@@ -1084,9 +1114,10 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 					cursor.movePosition(QTextCursor.Start, QTextCursor.MoveAnchor)
 				self.setTextCursor(cursor)
 				settings.wrapAround = False
-				self.search(pattern, **settings)
-				self.textCursor().isNull() and self.setTextCursor(previousCursor)
-		return True
+				if self.search(pattern, **settings):
+					return True
+				else:
+					self.restoreTextCursorAnchor()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -1138,8 +1169,9 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:return: Method success. ( Boolean )		
 		"""
 
-		if not self.search(pattern, **kwargs):
-			return
+		if self.textCursor().selectedText() != pattern:
+			if not self.search(pattern, **kwargs):
+				return
 
 		cursor = self.textCursor()
 		cursor.beginEditBlock()
@@ -1303,7 +1335,6 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:return: Method success. ( Boolean )		
 		"""
 
-		previousCursor = self.textCursor()
 		cursor = self.textCursor()
 
 		cursor.beginEditBlock()
@@ -1319,5 +1350,4 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		if not cursor.block().text().isEmpty():
 			cursor.insertText("\n")
 		cursor.endEditBlock()
-		self.setTextCursor(previousCursor)
 		return True
