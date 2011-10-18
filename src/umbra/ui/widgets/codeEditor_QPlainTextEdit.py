@@ -1129,10 +1129,18 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:return: Method success. ( Boolean )		
 		"""
 
+		kwargs["wrapAround"] = False
+
+		previousCursor = self.textCursor()
 		editCursor = self.textCursor()
 		editCursor.beginEditBlock()
+
+		editCursor.movePosition(QTextCursor.Start, QTextCursor.MoveAnchor)
+		self.setTextCursor(editCursor)
+
 		while True:
 			if not self.search(pattern, **kwargs):
+				self.setTextCursor(previousCursor)
 				break
 
 			cursor = self.textCursor()
@@ -1175,7 +1183,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		cursor = self.textCursor()
-		cursor.setPosition(0, QTextCursor.MoveAnchor)
+		cursor.movePosition(QTextCursor.Start, QTextCursor.MoveAnchor)
 		cursor.movePosition(QTextCursor.Down, QTextCursor.MoveAnchor, line - 1)
 		self.setTextCursor(cursor)
 		return True
