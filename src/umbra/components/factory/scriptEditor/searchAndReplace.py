@@ -266,7 +266,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 					break
 			isNotRegistered and comboBox.insertItem(0, currentText)
 
-		self.__container.settings.setKey(self.__container.settingsSection, settingsKey, ",".join((str(comboBox.itemText(i)) for i in range(min(self.__maximumStoredPatterns, comboBox.count())) if comboBox.itemText(i))))
+		self.__container.settings.setKey(self.__container.settingsSection, settingsKey, ",".join((unicode(comboBox.itemText(i), Constants.encodingFormat, Constants.encodingError) for i in range(min(self.__maximumStoredPatterns, comboBox.count())) if comboBox.itemText(i))))
 
 	@core.executionTrace
 	def __storeRecentSearchPatterns(self):
