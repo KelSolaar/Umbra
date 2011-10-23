@@ -60,7 +60,7 @@ class DefaultNode(AbstractCompositeNode):
 		This method initializes the class.
 
 		:param name: Node name.  ( String )
-		:param parent: Node parent. ( AbstractNode / AbstractCompositeNode )
+		:param parent: Node parent. ( AbstractCompositeNode )
 		:param children: Children. ( List )
 		:param \*\*kwargs: Keywords arguments. ( \* )
 		"""
@@ -70,12 +70,25 @@ class DefaultNode(AbstractCompositeNode):
 		AbstractCompositeNode.__init__(self, name, parent, children, **kwargs)
 
 class GraphModel(QAbstractItemModel):
+	"""
+	This class is a `QAbstractItemModel <http://doc.qt.nokia.com/4.7/qabstractitemmodel.html>`_ subclass providing a graph model.
+	"""
 
 	@core.executionTrace
 	def __init__(self, parent=None, rootNode=None, headers=None):
+		"""
+		This method initializes the class.
+
+		:param parent: Object parent. ( QObject )
+		:param rootNode: Root node. ( AbstractCompositeNode )
+		:param headers: Headers. ( OrderedDict )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
 		QAbstractItemModel.__init__(self, parent)
 
+		# --- Setting class attributes. ---
 		self.__rootNode = None
 		self.rootNode = rootNode or DefaultNode(name="InvisibleRootNode")
 		self.__headers = None
