@@ -29,7 +29,6 @@ from PyQt4.QtGui import *
 import foundations.core as core
 import foundations.exceptions
 import foundations.strings
-import umbra.exceptions
 from umbra.globals.constants import Constants
 
 #***********************************************************************************************
