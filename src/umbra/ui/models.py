@@ -50,8 +50,6 @@ LOGGER = logging.getLogger(Constants.logger)
 class GraphModelAttribute(Attribute):
 	"""
 	This class represents a storage object for the :class:`GraphModelNode` class attributes.
- 
-	:note: Each time the :obj:`GraphModelAttribute.value attribute is set, :obj:`GraphModelAttribute.roles attribute **Qt.DisplayRole** and **Qt.EditRole** keys values will be updated accordingly, however modifying those keys values will not update the :obj:`GraphModelAttribute.value attribute.
 	"""
 
 	@core.executionTrace
@@ -73,7 +71,7 @@ class GraphModelAttribute(Attribute):
 		self.__roles = None
 		self.roles = roles or {Qt.DisplayRole : value, Qt.EditRole : value}
 		self.__flags = None
-		self.flags = flags or 0
+		self.flags = flags or Qt.ItemIsSelectable | Qt.ItemIsEditable | Qt.ItemIsEnabled
 
 	#***********************************************************************************************
 	#***	Attributes properties.
@@ -97,7 +95,6 @@ class GraphModelAttribute(Attribute):
 		:param value: Attribute value. ( Object )
 		"""
 
-		hasattr(self, "_GraphModelAttribute__roles") and self.__roles.update({Qt.DisplayRole : value, Qt.EditRole : value})
 		self["value"] = value
 
 	@value.deleter
@@ -146,7 +143,7 @@ class GraphModelAttribute(Attribute):
 		"""
 		This method is the property for **self.__flags** attribute.
 	
-		:return: self.__flags. ( Dictionary )
+		:return: self.__flags. ( Integer )
 		"""
 
 		return self.__flags
@@ -157,11 +154,11 @@ class GraphModelAttribute(Attribute):
 		"""
 		This method is the setter method for **self.__flags** attribute.
 	
-		:param value: Attribute value. ( Dictionary )
+		:param value: Attribute value. ( Integer )
 		"""
 
 		if value:
-			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("flags", value)
+			assert hasattr(value, "__int__"), "'{0}' attribute: '{1}' type is not 'int'!".format("flags", value)
 		self.__flags = value
 
 	@flags.deleter
@@ -186,8 +183,6 @@ def getGraphModelNode(object):
 	class GraphModelNode(AbstractCompositeNode):
 		"""
 		This class is built by the :def:`getGraphModelNode` definition.
-
-		:note: Each time the :obj:`GraphModelNode.name attribute is set, :obj:`GraphModelNode.roles attribute **Qt.DisplayRole** and **Qt.EditRole** keys values will be updated accordingly, however modifying those keys values will not update the :obj:`GraphModelNode.name attribute.
 		"""
 
 		__family = "GraphModelNode"
@@ -213,7 +208,7 @@ def getGraphModelNode(object):
 			self.__roles = None
 			self.roles = roles or {Qt.DisplayRole : name, Qt.EditRole : name}
 			self.__flags = None
-			self.flags = flags or 0
+			self.flags = flags or Qt.ItemIsSelectable | Qt.ItemIsEditable | Qt.ItemIsEnabled
 
 		#***********************************************************************************************
 		#***	Attributes properties.
@@ -239,7 +234,6 @@ def getGraphModelNode(object):
 
 			if value:
 				assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("name", value)
-			hasattr(self, "_GraphModelNode__roles") and self.__roles.update({Qt.DisplayRole : value, Qt.EditRole : value})
 			self.__name = value
 
 		@name.deleter
@@ -287,8 +281,8 @@ def getGraphModelNode(object):
 		def flags(self):
 			"""
 			This method is the property for **self.__flags** attribute.
-	
-			:return: self.__flags. ( Dictionary )
+		
+			:return: self.__flags. ( Integer )
 			"""
 
 			return self.__flags
@@ -298,12 +292,12 @@ def getGraphModelNode(object):
 		def flags(self, value):
 			"""
 			This method is the setter method for **self.__flags** attribute.
-	
-			:param value: Attribute value. ( Dictionary )
+		
+			:param value: Attribute value. ( Integer )
 			"""
 
 			if value:
-				assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("flags", value)
+				assert hasattr(value, "__int__"), "'{0}' attribute: '{1}' type is not 'int'!".format("flags", value)
 			self.__flags = value
 
 		@flags.deleter
@@ -486,7 +480,7 @@ class GraphModel(QAbstractItemModel):
 		if not index.isValid():
 			return QVariant()
 
-		node = index.internalPointer()
+		node = self.getNode(index)
 		if index.column() == 0:
 			return node.roles.get(role, None) or QVariant()
 		else:
@@ -505,21 +499,26 @@ class GraphModel(QAbstractItemModel):
 		:return: Method success. ( Boolean )
 		"""
 
-		if index.isValid():
-			if role == Qt.EditRole:
-				value = str(value.toString())
-				node = index.internalPointer()
-				if index.column() == 0:
-					node.name = value
-					self.dataChanged.emit(index, index)
-					return True
-				else:
-					attribute = self.getAttribute(node, index.column())
-					if attribute:
-						attribute.value = value
-						self.dataChanged.emit(index, index)
-						return True
-		return False
+		if not index.isValid():
+			return False
+
+		node = self.getNode(index)
+		if role == Qt.DisplayRole or role == Qt.EditRole:
+			value = unicode(value.toString(), Constants.encodingFormat, Constants.encodingError)
+			roles = {Qt.DisplayRole : value, Qt.EditRole : value}
+		else:
+			roles = {role : value}
+
+		if index.column() == 0:
+			node.roles.update(roles)
+			node.name = value
+		else:
+			attribute = self.getAttribute(node, index.column())
+			attribute.roles.update(roles)
+			attribute.value = value
+
+		self.dataChanged.emit(index, index)
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -549,7 +548,15 @@ class GraphModel(QAbstractItemModel):
 		:return: Flags. ( Qt.ItemFlags )
 		"""
 
-		return Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable
+		if not index.isValid():
+			return Qt.NoItemFlags
+
+		node = self.getNode(index)
+		if index.column() == 0:
+			return node.flags
+		else:
+			attribute = self.getAttribute(node, index.column())
+			return attribute.flags
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -560,6 +567,9 @@ class GraphModel(QAbstractItemModel):
 		:param index: Index. ( QModelIndex )
 		:return: Parent. ( QModelIndex )
 		"""
+
+		if not index.isValid():
+			return QModelIndex()
 
 		node = self.getNode(index)
 		parentNode = node.parent
@@ -637,11 +647,9 @@ class GraphModel(QAbstractItemModel):
 		:return: Node. ( AbstractCompositeNode )
 		"""
 
-		if index.isValid():
-			node = index.internalPointer()
-			if node:
-				return node
-		return self.__rootNode
+		if not index.isValid():
+			return self.__rootNode
+		return index.internalPointer() or self.__rootNode
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
