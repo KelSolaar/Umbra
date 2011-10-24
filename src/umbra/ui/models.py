@@ -53,10 +53,11 @@ class GraphModelAttribute(Attribute):
 	"""
 
 	@core.executionTrace
-	def __init__(self, value=None, roles=None, flags=None, **kwargs):
+	def __init__(self, name=None, value=None, roles=None, flags=None, **kwargs):
 		"""
 		This method initializes the class.
 
+		:param name: Attribute name. ( String )
 		:param value: Attribute value. ( Object )
 		:param roles: Roles. ( Dictionary )
 		:param flags: Flags. ( Qt.ItemFlag )
@@ -65,7 +66,7 @@ class GraphModelAttribute(Attribute):
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		Attribute.__init__(self, value, **kwargs)
+		Attribute.__init__(self, name, value, **kwargs)
 
 		# --- Setting class attributes. ---
 		self.__roles = None
@@ -76,36 +77,6 @@ class GraphModelAttribute(Attribute):
 	#***********************************************************************************************
 	#***	Attributes properties.
 	#***********************************************************************************************
-	@property
-	def value(self):
-		"""
-		This method is the property for **self.__value** attribute.
-
-		:return: Value. ( Object )
-		"""
-
-		return self["value"]
-
-	@value.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def value(self, value):
-		"""
-		This method is the setter method for **self.__value** attribute.
-
-		:param value: Attribute value. ( Object )
-		"""
-
-		self["value"] = value
-
-	@value.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def value(self):
-		"""
-		This method is the deleter method for **self.__value** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "value"))
-
 	@property
 	def roles(self):
 		"""
@@ -208,7 +179,9 @@ def getGraphModelNode(object):
 			self.__roles = None
 			self.roles = roles or {Qt.DisplayRole : name, Qt.EditRole : name}
 			self.__flags = None
-			self.flags = flags or Qt.ItemIsSelectable | Qt.ItemIsEditable | Qt.ItemIsEnabled
+			self.flags = flags or Qt.ItemIsSelectable | Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsDragEnabled
+
+			self.__dbObject = object
 
 		#***********************************************************************************************
 		#***	Attributes properties.
@@ -316,7 +289,7 @@ def getGraphModelNode(object):
 		roles = {Qt.DisplayRole : value,
 				Qt.EditRole : value}
 		flags = {}
-		attributes[attribute] = GraphModelAttribute(value, roles, flags)
+		attributes[attribute] = GraphModelAttribute(attribute, value, roles, flags)
 
 	return GraphModelNode, attributes
 
@@ -394,7 +367,7 @@ class GraphModel(QAbstractItemModel):
 		"""
 
 		if value:
-			assert issubclass(value.__class__, AbstractCompositeNode), "'{0}' attribute: '{1}' is not a '{2}' subclass!".format("rootNode", value, AbstractCompositeNode.__class__.__name__)
+			assert issubclass(value.__class__, AbstractCompositeNode), "'{0}' attribute: '{1}' is not a '{2}' subclass!".format("rootNode", value, AbstractCompositeNode.__name__)
 		self.__rootNode = value
 
 	@rootNode.deleter
