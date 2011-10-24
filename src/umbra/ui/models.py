@@ -349,13 +349,13 @@ class GraphModel(QAbstractItemModel):
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent=None, rootNode=None, headers=None):
+	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None):
 		"""
 		This method initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param rootNode: Root node. ( AbstractCompositeNode )
-		:param headers: Headers. ( OrderedDict )
+		:param horizontalHeaders: Headers. ( OrderedDict )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -365,8 +365,8 @@ class GraphModel(QAbstractItemModel):
 		# --- Setting class attributes. ---
 		self.__rootNode = None
 		self.rootNode = rootNode or DefaultNode(name="InvisibleRootNode")
-		self.__headers = None
-		self.headers = headers or OrderedDict([("Graph Model", "graphModel")])
+		self.__horizontalHeaders = None
+		self.horizontalHeaders = horizontalHeaders or OrderedDict([("Graph Model", "graphModel")])
 
 	#***********************************************************************************************
 	#***	Attributes properties.
@@ -404,36 +404,36 @@ class GraphModel(QAbstractItemModel):
 		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "rootNode"))
 
 	@property
-	def headers(self):
+	def horizontalHeaders(self):
 		"""
-		This method is the property for **self.__headers** attribute.
+		This method is the property for **self.__horizontalHeaders** attribute.
 
-		:return: self.__headers. ( OrderedDict )
+		:return: self.__horizontalHeaders. ( OrderedDict )
 		"""
 
-		return self.__headers
+		return self.__horizontalHeaders
 
-	@headers.setter
+	@horizontalHeaders.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def headers(self, value):
+	def horizontalHeaders(self, value):
 		"""
-		This method is the setter method for **self.__headers** attribute.
+		This method is the setter method for **self.__horizontalHeaders** attribute.
 
 		:param value: Attribute value. ( OrderedDict )
 		"""
 
 		if value:
-			assert type(value) is OrderedDict, "'{0}' attribute: '{1}' type is not 'OrderedDict'!".format("headers", value)
-		self.__headers = value
+			assert type(value) is OrderedDict, "'{0}' attribute: '{1}' type is not 'OrderedDict'!".format("horizontalHeaders", value)
+		self.__horizontalHeaders = value
 
-	@headers.deleter
+	@horizontalHeaders.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def headers(self):
+	def horizontalHeaders(self):
 		"""
-		This method is the deleter method for **self.__headers** attribute.
+		This method is the deleter method for **self.__horizontalHeaders** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "headers"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "horizontalHeaders"))
 
 	#***********************************************************************************************
 	#***	Class methods.
@@ -464,7 +464,7 @@ class GraphModel(QAbstractItemModel):
 		:return: Column count. ( Integer )
 		"""
 
-		return len(self.__headers.keys())
+		return len(self.__horizontalHeaders.keys())
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -534,8 +534,8 @@ class GraphModel(QAbstractItemModel):
 
 		if role == Qt.DisplayRole:
 			if orientation == Qt.Horizontal:
-				if section < len(self.__headers.keys()):
-					return self.__headers.keys()[section]
+				if section < len(self.__horizontalHeaders.keys()):
+					return self.__horizontalHeaders.keys()[section]
 		return QVariant()
 
 	@core.executionTrace
@@ -662,5 +662,5 @@ class GraphModel(QAbstractItemModel):
 		:return: Attribute. ( Attribute )
 		"""
 
-		if column > 0 and column < len(self.__headers.keys()):
-			return node.get(self.__headers[self.__headers.keys()[column]], None)
+		if column > 0 and column < len(self.__horizontalHeaders.keys()):
+			return node.get(self.__horizontalHeaders[self.__horizontalHeaders.keys()[column]], None)
