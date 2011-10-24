@@ -349,13 +349,14 @@ class GraphModel(QAbstractItemModel):
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None):
+	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None, verticalHeaders=None):
 		"""
 		This method initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param rootNode: Root node. ( AbstractCompositeNode )
 		:param horizontalHeaders: Headers. ( OrderedDict )
+		:param verticalHeaders: Headers. ( OrderedDict )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -367,6 +368,8 @@ class GraphModel(QAbstractItemModel):
 		self.rootNode = rootNode or DefaultNode(name="InvisibleRootNode")
 		self.__horizontalHeaders = None
 		self.horizontalHeaders = horizontalHeaders or OrderedDict([("Graph Model", "graphModel")])
+		self.__verticalHeaders = None
+		self.verticalHeaders = verticalHeaders or OrderedDict()
 
 	#***********************************************************************************************
 	#***	Attributes properties.
@@ -434,6 +437,38 @@ class GraphModel(QAbstractItemModel):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "horizontalHeaders"))
+
+	@property
+	def verticalHeaders(self):
+		"""
+		This method is the property for **self.__verticalHeaders** attribute.
+
+		:return: self.__verticalHeaders. ( OrderedDict )
+		"""
+
+		return self.__verticalHeaders
+
+	@verticalHeaders.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def verticalHeaders(self, value):
+		"""
+		This method is the setter method for **self.__verticalHeaders** attribute.
+
+		:param value: Attribute value. ( OrderedDict )
+		"""
+
+		if value:
+			assert type(value) is OrderedDict, "'{0}' attribute: '{1}' type is not 'OrderedDict'!".format("verticalHeaders", value)
+		self.__verticalHeaders = value
+
+	@verticalHeaders.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def verticalHeaders(self):
+		"""
+		This method is the deleter method for **self.__verticalHeaders** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "verticalHeaders"))
 
 	#***********************************************************************************************
 	#***	Class methods.
@@ -536,6 +571,9 @@ class GraphModel(QAbstractItemModel):
 			if orientation == Qt.Horizontal:
 				if section < len(self.__horizontalHeaders.keys()):
 					return self.__horizontalHeaders.keys()[section]
+			elif orientation == Qt.Vertical:
+				if section < len(self.__verticalHeaders.keys()):
+					return self.__verticalHeaders.keys()[section]
 		return QVariant()
 
 	@core.executionTrace
