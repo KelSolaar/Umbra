@@ -660,7 +660,7 @@ class GraphModel(QAbstractItemModel):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def index(self, row, column, parent=QModelIndex()):
+	def index(self, row, column=0, parent=QModelIndex()):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.index` method.
 		
@@ -671,9 +671,9 @@ class GraphModel(QAbstractItemModel):
 		"""
 
 		parentNode = self.getNode(parent)
-		childItem = parentNode.child(row)
-		if childItem:
-			return self.createIndex(row, column, childItem)
+		child = parentNode.child(row)
+		if child:
+			return self.createIndex(row, column, child)
 		else:
 			return QModelIndex()
 
