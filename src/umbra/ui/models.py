@@ -143,11 +143,11 @@ class GraphModelAttribute(Attribute):
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
-def getGraphModelNode(object):
+def getGraphModelNode(dbItem):
 	"""
 	This definition is a class factory creating :class:`GraphModelNode` classes using given database object.
 
-	:param object: Database object. ( Object )
+	:param dbItem: Database item. ( Object )
 	:return: GraphModelNode class. ( GraphModelNode )
 	"""
 
@@ -181,7 +181,7 @@ def getGraphModelNode(object):
 			self.__flags = None
 			self.flags = flags or Qt.ItemIsSelectable | Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsDragEnabled
 
-			self.__dbObject = object
+			self.__dbItem = dbItem
 
 		#***********************************************************************************************
 		#***	Attributes properties.
@@ -282,10 +282,80 @@ def getGraphModelNode(object):
 
 			raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "flags"))
 
+		@property
+		def dbItem(self):
+			"""
+			This method is the property for **self.__dbItem** attribute.
+	
+			:return: self.__dbItem. ( Object )
+			"""
+
+			return self.__dbItem
+
+		@dbItem.setter
+		@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+		def dbItem(self, value):
+			"""
+			This method is the setter method for **self.__dbItem** attribute.
+	
+			:param value: Attribute value. ( Object )
+			"""
+
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "dbItem"))
+
+		@dbItem.deleter
+		@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+		def dbItem(self):
+			"""
+			This method is the deleter method for **self.__dbItem** attribute.
+			"""
+
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "dbItem"))
+
+		#***********************************************************************************************
+		#***	Class methods.
+		#***********************************************************************************************
+		@core.executionTrace
+		@foundations.exceptions.exceptionsHandler(None, False, Exception)
+		def synchronizeNodeAttributes(self):
+			"""
+			This method synchronizes the node attributes from the dbItem.
+			
+			:return: Method success. ( Boolean )
+			"""
+
+			for column in self.__dbItem.__table__.columns:
+				attribute = column.key
+				value = getattr(dbItem, attribute)
+				if not attribute in self.keys():
+					break
+
+				if issubclass(self[attribute].__class__, GraphModelAttribute):
+						self[attribute] = value
+			return True
+
+		@core.executionTrace
+		@foundations.exceptions.exceptionsHandler(None, False, Exception)
+		def synchronizeDbItem(self):
+			"""
+			This method synchronizes the dbItem from the node attributes.
+
+			:return: Method success. ( Boolean )
+			"""
+
+			for column in self.__dbItem.__table__.columns:
+				attribute = column.key
+				if not attribute in self.keys():
+					break
+
+				if issubclass(self[attribute].__class__, GraphModelAttribute):
+						setattr(self.__dbItem, attribute, self[attribute].value)
+			return True
+
 	attributes = {}
-	for column in object.__table__.columns:
+	for column in dbItem.__table__.columns:
 		attribute = column.key
-		value = getattr(object, attribute)
+		value = getattr(dbItem, attribute)
 		roles = {Qt.DisplayRole : value,
 				Qt.EditRole : value}
 		flags = {}
