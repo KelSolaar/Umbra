@@ -516,8 +516,8 @@ class GraphModel(QAbstractItemModel):
 	#***********************************************************************************************
 	#***	Class methods.
 	#***********************************************************************************************
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def rowCount(self, parent=QModelIndex()):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.rowCount` method.
@@ -532,8 +532,8 @@ class GraphModel(QAbstractItemModel):
 			parentNode = parent.internalPointer()
 		return parentNode.childrenCount()
 
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def columnCount(self, parent=QModelIndex()):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.columnCount` method.
@@ -544,8 +544,8 @@ class GraphModel(QAbstractItemModel):
 
 		return len(self.__horizontalHeaders.keys())
 
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def data(self, index, role=Qt.DisplayRole):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.data` method.
@@ -598,8 +598,8 @@ class GraphModel(QAbstractItemModel):
 		self.dataChanged.emit(index, index)
 		return True
 
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def headerData(self, section, orientation, role=Qt.DisplayRole):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.headerData` method.
@@ -619,8 +619,8 @@ class GraphModel(QAbstractItemModel):
 					return self.__verticalHeaders.keys()[section]
 		return QVariant()
 
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def flags(self, index):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.flags` method.
@@ -639,8 +639,8 @@ class GraphModel(QAbstractItemModel):
 			attribute = self.getAttribute(node, index.column())
 			return attribute.flags
 
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def parent(self, index):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.parent` method.
@@ -658,8 +658,8 @@ class GraphModel(QAbstractItemModel):
 			return QModelIndex()
 		return self.createIndex(parentNode.row(), 0, parentNode)
 
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def index(self, row, column=0, parent=QModelIndex()):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.index` method.
@@ -718,8 +718,8 @@ class GraphModel(QAbstractItemModel):
 		self.endRemoveRows()
 		return success
 
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getNode(self, index):
 		"""
 		This method returns the node at given index.
@@ -732,8 +732,8 @@ class GraphModel(QAbstractItemModel):
 			return self.__rootNode
 		return index.internalPointer() or self.__rootNode
 
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getAttribute(self, node, column):
 		"""
 		This method returns the given node attribute associated to the given column.
