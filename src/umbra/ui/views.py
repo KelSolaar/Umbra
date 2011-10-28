@@ -39,13 +39,31 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "ReadOnlyFilter", "Abstract_QListView"]
+__all__ = ["LOGGER", "getViewSelectedNodes", "ReadOnlyFilter", "Abstract_QListView", "Abstract_QTreeView"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
 #***********************************************************************************************
 #***	Module classes and definitions.
 #***********************************************************************************************
+@core.executionTrace
+def getViewSelectedNodes(view):
+	"""
+	This method returns the given View selected nodes.
+
+	:param view: View. ( QWidget )
+	:return: View selected nodes. ( Dictionary )
+	"""
+
+	nodes = {}
+	for index in view.selectedIndexes():
+		node = view.model().getNode(index)
+		if not node in nodes.keys():
+			nodes[node] = []
+		attribute = view.model().getAttribute(node, index.column())
+		attribute and nodes[node].append(attribute)
+	return nodes
+
 class ReadOnlyFilter(QObject):
 	"""
 	This class is a `QObject <http://doc.qt.nokia.com/4.7/qobject.html>`_ subclass used as an event filter for the :class:`Abstract_QListView` class.
@@ -154,14 +172,81 @@ class Abstract_QListView(QListView):
 		:return: View selected nodes. ( Dictionary )
 		"""
 
-		if not self.model():
-			return
+		return getViewSelectedNodes(self)
 
-		nodes = {}
-		for index in self.selectedIndexes():
-			node = self.model().getNode(index)
-			if not node in nodes.keys():
-				nodes[node] = []
-			attribute = self.model().getAttribute(node, index.column())
-			attribute and nodes[node].append(attribute)
-		return nodes
+class Abstract_QTreeView(QTreeView):
+	"""
+	This class is a `QTreeView <http://doc.qt.nokia.com/4.7/qtreeview.html>`_ subclass used as base by others Application views classes.
+	"""
+
+	@core.executionTrace
+	def __init__(self, parent=None, readOnly=False):
+		"""
+		This method initializes the class.
+
+		:param parent: Object parent. ( QObject )
+		:param readOnly: View is read only. ( Boolean )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		QTreeView.__init__(self, parent)
+
+		# --- Setting class attributes. ---
+		self.__readOnly = readOnly
+
+		Abstract_QTreeView.__initializeUi(self)
+
+	#***********************************************************************************************
+	#***	Attributes properties.
+	#***********************************************************************************************
+	@property
+	def readOnly(self):
+		"""
+		This method is the property for **self.__readOnly** attribute.
+
+		:return: self.__readOnly. ( Boolean )
+		"""
+
+		return self.__readOnly
+
+	@readOnly.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def readOnly(self, value):
+		"""
+		This method is the setter method for **self.__readOnly** attribute.
+
+		:param value: Attribute value. ( Boolean )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "readOnly"))
+
+	@readOnly.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def readOnly(self):
+		"""
+		This method is the deleter method for **self.__readOnly** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "readOnly"))
+
+	#***********************************************************************************************
+	#***	Class methods.
+	#***********************************************************************************************
+	@core.executionTrace
+	def __initializeUi(self):
+		"""
+		This method initializes the Widget ui.
+		"""
+
+		self.viewport().installEventFilter(ReadOnlyFilter(self))
+
+	@core.executionTrace
+	def getSelectedNodes(self):
+		"""
+		This method returns the selected nodes.
+
+		:return: View selected nodes. ( Dictionary )
+		"""
+
+		return getViewSelectedNodes(self)
