@@ -53,12 +53,15 @@ class Search_QLineEdit(QLineEdit):
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent=None, uiClearImage=None, uiClearClickedImage=None):
+	def __init__(self, parent=None, uiSearchImage=None, uiSearchClickedImage=None, uiClearImage=None, uiClearClickedImage=None):
 		"""
 		This method initializes the class.
 
 		:param parent: Widget parent. ( QObject )
-		:param uiClearImage: Icon path. ( String )
+		:param uiSearchImage: Search button image path. ( String )
+		:param uiSearchClickedImage: Search button clicked image path. ( String )
+		:param uiClearImage: Clear button image path. ( String )
+		:param uiClearClickedImage: Clear button clicked image path. ( String )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -66,6 +69,10 @@ class Search_QLineEdit(QLineEdit):
 		QLineEdit.__init__(self, parent)
 
 		# --- Setting class attributes. ---
+		self.__uiSearchImage = None
+		self.uiSearchImage = uiSearchImage
+		self.__uiSearchClickedImage = None
+		self.uiSearchClickedImage = uiSearchClickedImage
 		self.__uiClearImage = None
 		self.uiClearImage = uiClearImage
 		self.__uiClearClickedImage = None
@@ -73,9 +80,13 @@ class Search_QLineEdit(QLineEdit):
 		self.__parent = None
 		self.parent = parent
 
+		self.__searchButton = QToolButton(self)
+		self.__searchButton.setObjectName("Search_Field_button")
+
 		self.__clearButton = QToolButton(self)
 		self.__clearButton.setObjectName("Clear_Field_button")
-		self.__setClearButtonStyle()
+
+		Search_QLineEdit.__initializeUi(self)
 		self.__setClearButtonVisibility(self.text())
 
 		# Signals / Slots.
@@ -85,6 +96,72 @@ class Search_QLineEdit(QLineEdit):
 	#***********************************************************************************************
 	#***	Attributes properties.
 	#***********************************************************************************************
+	@property
+	def uiSearchImage(self):
+		"""
+		This method is the property for **self.__uiSearchImage** attribute.
+
+		:return: self.__uiSearchImage. ( String )
+		"""
+
+		return self.__uiSearchImage
+
+	@uiSearchImage.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def uiSearchImage(self, value):
+		"""
+		This method is the setter method for **self.__uiSearchImage** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		if value:
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("uiSearchImage", value)
+			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("uiSearchImage", value)
+		self.__uiSearchImage = value
+
+	@uiSearchImage.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def uiSearchImage(self):
+		"""
+		This method is the deleter method for **self.__uiSearchImage** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiSearchImage"))
+
+	@property
+	def uiSearchClickedImage(self):
+		"""
+		This method is the property for **self.__uiSearchClickedImage** attribute.
+
+		:return: self.__uiSearchClickedImage. ( String )
+		"""
+
+		return self.__uiSearchClickedImage
+
+	@uiSearchClickedImage.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def uiSearchClickedImage(self, value):
+		"""
+		This method is the setter method for **self.__uiSearchClickedImage** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		if value:
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("uiSearchClickedImage", value)
+			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("uiSearchClickedImage", value)
+		self.__uiSearchClickedImage = value
+
+	@uiSearchClickedImage.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def uiSearchClickedImage(self):
+		"""
+		This method is the deleter method for **self.__uiSearchClickedImage** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiSearchClickedImage"))
+
 	@property
 	def uiClearImage(self):
 		"""
@@ -181,6 +258,36 @@ class Search_QLineEdit(QLineEdit):
 		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "parent"))
 
 	@property
+	def searchButton(self):
+		"""
+		This method is the property for **self.__searchButton** attribute.
+
+		:return: self.__searchButton. ( QPushButton )
+		"""
+
+		return self.__searchButton
+
+	@searchButton.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def searchButton(self, value):
+		"""
+		This method is the setter method for **self.__searchButton** attribute.
+
+		:param value: Attribute value. ( QPushButton )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "searchButton"))
+
+	@searchButton.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def searchButton(self):
+		"""
+		This method is the deleter method for **self.__searchButton** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchButton"))
+
+	@property
 	def clearButton(self):
 		"""
 		This method is the property for **self.__clearButton** attribute.
@@ -223,30 +330,34 @@ class Search_QLineEdit(QLineEdit):
 
 		size = self.__clearButton.sizeHint()
 		frameWidth = self.style().pixelMetric(QStyle.PM_DefaultFrameWidth)
-		self.__clearButton.move(self.rect().right() - frameWidth - size.width() + 1, (self.rect().bottom() - size.height()) / 2 + 1);
+		self.__searchButton.move(self.rect().left() + frameWidth, (self.rect().bottom() - size.height()) / 2 + frameWidth / 2);
+		self.__clearButton.move(self.rect().right() - frameWidth - size.width(), (self.rect().bottom() - size.height()) / 2 + frameWidth / 2);
 
 	@core.executionTrace
-	def __setClearButtonStyle(self):
+	def __initializeUi(self):
 		"""
-		This method sets the clear button style.
+		This method initializes the Widget ui.
 		"""
 
-		self.__clearButton.setCursor(Qt.ArrowCursor)
-		if self.__uiClearImage and self.__uiClearClickedImage:
-			pixmap = QPixmap(self.__uiClearImage)
-			clickedPixmap = QPixmap(self.__uiClearClickedImage)
-			self.__clearButton.setStyleSheet("QToolButton { border: none; padding: 0px; }");
-			self.__clearButton.setIcon(QIcon(pixmap))
-			self.__clearButton.setMaximumSize(pixmap.size())
+		buttons = {self.__searchButton : (self.__uiSearchImage, self.__uiSearchClickedImage, "Search"),
+					self.__clearButton : (self.__uiClearImage, self.__uiClearClickedImage, "Clear")}
+		for button, data in buttons.items():
+			image, clickedImage, text = data
+			if image and clickedImage:
+				pixmap = QPixmap(image)
+				clickedPixmap = QPixmap(clickedImage)
+				button.setStyleSheet("QToolButton { border: none; padding: 0px; }");
+				button.setIcon(QIcon(pixmap))
+				button.setMaximumSize(pixmap.size())
 
-			# Signals / Slots.
-			self.__clearButton.pressed.connect(functools.partial(self.__clearButton.setIcon, QIcon(clickedPixmap)))
-			self.__clearButton.released.connect(functools.partial(self.__clearButton.setIcon, QIcon(pixmap)))
-		else:
-			self.__clearButton.setText("Clear")
+				# Signals / Slots.
+				button.pressed.connect(functools.partial(button.setIcon, QIcon(clickedPixmap)))
+				button.released.connect(functools.partial(button.setIcon, QIcon(pixmap)))
+			else:
+				button.setText(text)
 
 		frameWidth = self.style().pixelMetric(QStyle.PM_DefaultFrameWidth)
-		self.setStyleSheet(QString("QLineEdit { padding-right: " + str(self.__clearButton.sizeHint().width() + frameWidth)) + "px; }")
+		self.setStyleSheet(QString("QLineEdit { padding-left: " + str(self.__searchButton.sizeHint().width() + frameWidth) + "px; padding-right: " + str(self.__clearButton.sizeHint().width() + frameWidth)) + "px; }")
 		self.setMinimumSize(max(self.minimumSizeHint().width(), self.__clearButton.sizeHint().height() + frameWidth * 2), max(self.minimumSizeHint().height(), self.__clearButton.sizeHint().height() + frameWidth * 2));
 
 	@core.executionTrace
@@ -254,7 +365,7 @@ class Search_QLineEdit(QLineEdit):
 		"""
 		This method sets the clear button visibility.
 
-		:param text: Current text. ( QString )
+		:param text: Current field text. ( QString )
 		"""
 
 		if text:
