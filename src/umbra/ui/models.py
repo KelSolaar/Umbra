@@ -677,6 +677,26 @@ class GraphModel(QAbstractItemModel):
 		else:
 			return QModelIndex()
 
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def sort(self, column, order=Qt.AscendingOrder):
+		"""
+		This method reimplements the :meth:`QAbstractItemModel.sort` method.
+		
+		:param column: Column. ( Integer )
+		:param order: Order. ( Qt.SortOrder )
+		"""
+
+		if column > self.columnCount():
+			return
+
+		self.beginResetModel()
+		if column == 0:
+			self.__rootNode.sortChildren(reverseOrder=order)
+		else:
+			self.__rootNode.sortChildren(attribute=self.__horizontalHeaders[self.__horizontalHeaders.keys()[column]], reverseOrder=order)
+		self.endResetModel()
+
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def insertRows(self, row, count, parent=QModelIndex()):
