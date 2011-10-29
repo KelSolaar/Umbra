@@ -357,6 +357,7 @@ class ActionsManager(QObject):
 		"""
 
 		settings = core.Structure(**{"parent" : None,
+									"text" : None,
 									"icon" : None,
 									"iconText" : None,
 									"statusTip" : None,
@@ -374,6 +375,7 @@ class ActionsManager(QObject):
 		action = QAction(name, settings.parent or self)
 		self.addToCategory(category, name, action)
 
+		settings.text and action.setText(settings.text)
 		settings.icon and action.setIcon(settings.icon)
 		settings.iconText and action.setIconText(settings.iconText)
 		settings.statusTip and action.setStatusTip(settings.statusTip)

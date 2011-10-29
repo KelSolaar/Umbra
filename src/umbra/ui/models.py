@@ -151,6 +151,8 @@ def getGraphModelNode(dbItem):
 	:return: GraphModelNode class. ( GraphModelNode )
 	"""
 
+	defaultFlags = Qt.ItemIsSelectable | Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsDragEnabled
+
 	class GraphModelNode(AbstractCompositeNode):
 		"""
 		This class is built by the :def:`getGraphModelNode` definition.
@@ -179,7 +181,7 @@ def getGraphModelNode(dbItem):
 			self.__roles = None
 			self.roles = roles or {Qt.DisplayRole : name, Qt.EditRole : name}
 			self.__flags = None
-			self.flags = flags or Qt.ItemIsSelectable | Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsDragEnabled
+			self.flags = flags or defaultFlags
 
 			self.__dbItem = dbItem
 
@@ -358,7 +360,7 @@ def getGraphModelNode(dbItem):
 		value = getattr(dbItem, attribute)
 		roles = {Qt.DisplayRole : value,
 				Qt.EditRole : value}
-		flags = {}
+		flags = defaultFlags
 		attributes[attribute] = GraphModelAttribute(attribute, value, roles, flags)
 
 	return GraphModelNode, attributes

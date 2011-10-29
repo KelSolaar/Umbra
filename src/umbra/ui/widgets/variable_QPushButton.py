@@ -75,9 +75,6 @@ class Variable_QPushButton(QPushButton):
 		self.__labels = None
 		self.labels = labels
 
-		self.__parent = None
-		self.parent = parent
-
 		# Initializing the button
 		self.setCheckable(True)
 		if self.__state:
@@ -190,35 +187,6 @@ class Variable_QPushButton(QPushButton):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "labels"))
-
-	@property
-	def parent(self):
-		"""
-		This method is the property for **self.__parent** attribute.
-
-		:return: self.__parent. ( QObject )
-		"""
-
-		return self.__parent
-
-	@parent.setter
-	def parent(self, value):
-		"""
-		This method is the setter method for **self.__parent** attribute.
-
-		:param value: Attribute value. ( QObject )
-		"""
-
-		self.__parent = value
-
-	@parent.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def parent(self):
-		"""
-		This method is the deleter method for **self.__parent** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "parent"))
 
 	#***********************************************************************************************
 	#***	Class methods.

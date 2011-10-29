@@ -29,6 +29,7 @@ from PyQt4.QtGui import *
 import foundations.core as core
 import foundations.exceptions
 from umbra.globals.constants import Constants
+from umbra.ui.widgets.active_QLabel import Active_QLabel
 
 #***********************************************************************************************
 #***	Module attributes.
@@ -77,14 +78,15 @@ class Search_QLineEdit(QLineEdit):
 		self.uiClearImage = uiClearImage
 		self.__uiClearClickedImage = None
 		self.uiClearClickedImage = uiClearClickedImage
-		self.__parent = None
-		self.parent = parent
 
-		self.__searchButton = QToolButton(self)
-		self.__searchButton.setObjectName("Search_Field_button")
+		self.__searchActiveLabel = Active_QLabel(self, QPixmap(uiSearchImage), QPixmap(uiSearchImage), QPixmap(uiSearchClickedImage))
+		self.__searchActiveLabel.setObjectName("Search_Field_activeLabel")
 
 		self.__clearButton = QToolButton(self)
 		self.__clearButton.setObjectName("Clear_Field_button")
+
+		self.__completer = QCompleter()
+		self.__completerVisibleItemsCount = 16
 
 		Search_QLineEdit.__initializeUi(self)
 		self.__setClearButtonVisibility(self.text())
@@ -229,63 +231,34 @@ class Search_QLineEdit(QLineEdit):
 		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiClearClickedImage"))
 
 	@property
-	def parent(self):
+	def searchActiveLabel(self):
 		"""
-		This method is the property for **self.__parent** attribute.
+		This method is the property for **self.__searchActiveLabel** attribute.
 
-		:return: self.__parent. ( QObject )
-		"""
-
-		return self.__parent
-
-	@parent.setter
-	def parent(self, value):
-		"""
-		This method is the setter method for **self.__parent** attribute.
-
-		:param value: Attribute value. ( QObject )
+		:return: self.__searchActiveLabel. ( QPushButton )
 		"""
 
-		self.__parent = value
+		return self.__searchActiveLabel
 
-	@parent.deleter
+	@searchActiveLabel.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def parent(self):
+	def searchActiveLabel(self, value):
 		"""
-		This method is the deleter method for **self.__parent** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "parent"))
-
-	@property
-	def searchButton(self):
-		"""
-		This method is the property for **self.__searchButton** attribute.
-
-		:return: self.__searchButton. ( QPushButton )
-		"""
-
-		return self.__searchButton
-
-	@searchButton.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def searchButton(self, value):
-		"""
-		This method is the setter method for **self.__searchButton** attribute.
+		This method is the setter method for **self.__searchActiveLabel** attribute.
 
 		:param value: Attribute value. ( QPushButton )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "searchButton"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "searchActiveLabel"))
 
-	@searchButton.deleter
+	@searchActiveLabel.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def searchButton(self):
+	def searchActiveLabel(self):
 		"""
-		This method is the deleter method for **self.__searchButton** attribute.
+		This method is the deleter method for **self.__searchActiveLabel** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchButton"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchActiveLabel"))
 
 	@property
 	def clearButton(self):
@@ -317,21 +290,82 @@ class Search_QLineEdit(QLineEdit):
 
 		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "clearButton"))
 
+	@property
+	def completer(self):
+		"""
+		This method is the property for **self.__completer** attribute.
+
+		:return: self.__completer. ( QCompleter )
+		"""
+
+		return self.__completer
+
+	@completer.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def completer(self, value):
+		"""
+		This method is the setter method for **self.__completer** attribute.
+
+		:param value: Attribute value. ( QCompleter )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "completer"))
+
+	@completer.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def completer(self):
+		"""
+		This method is the deleter method for **self.__completer** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "completer"))
+
+	@property
+	def completerVisibleItemsCount(self):
+		"""
+		This method is the property for **self.__completerVisibleItemsCount** attribute.
+
+		:return: self.__completerVisibleItemsCount. ( Integer )
+		"""
+
+		return self.__completerVisibleItemsCount
+
+	@completerVisibleItemsCount.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def completerVisibleItemsCount(self, value):
+		"""
+		This method is the setter method for **self.__completerVisibleItemsCount** attribute.
+
+		:param value: Attribute value. ( Integer )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "completerVisibleItemsCount"))
+
+	@completerVisibleItemsCount.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def completerVisibleItemsCount(self):
+		"""
+		This method is the deleter method for **self.__completerVisibleItemsCount** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "completerVisibleItemsCount"))
+
 	#***********************************************************************************************
 	#***	Class methods.
 	#***********************************************************************************************
 	@core.executionTrace
 	def resizeEvent(self, event):
 		"""
-		This method overloads the **Search_QLineEdit** Widget resize event.
+		This method reimplements the :meth:`QLineEdit.QResizeEvent` method.
 
 		:param event: Resize event. ( QResizeEvent )
 		"""
 
-		size = self.__clearButton.sizeHint()
 		frameWidth = self.style().pixelMetric(QStyle.PM_DefaultFrameWidth)
-		self.__searchButton.move(self.rect().left() + frameWidth, (self.rect().bottom() - size.height()) / 2 + frameWidth / 2);
-		self.__clearButton.move(self.rect().right() - frameWidth - size.width(), (self.rect().bottom() - size.height()) / 2 + frameWidth / 2);
+		searchActiveLabelSize = self.__searchActiveLabel.sizeHint()
+		self.__searchActiveLabel.move(self.rect().left() + frameWidth, (self.rect().bottom() - searchActiveLabelSize.height()) / 2 + frameWidth / 2);
+		clearButtonSize = self.__clearButton.sizeHint()
+		self.__clearButton.move(self.rect().right() - frameWidth - clearButtonSize.width(), (self.rect().bottom() - clearButtonSize.height()) / 2 + frameWidth / 2);
 
 	@core.executionTrace
 	def __initializeUi(self):
@@ -339,26 +373,27 @@ class Search_QLineEdit(QLineEdit):
 		This method initializes the Widget ui.
 		"""
 
-		buttons = {self.__searchButton : (self.__uiSearchImage, self.__uiSearchClickedImage, "Search"),
-					self.__clearButton : (self.__uiClearImage, self.__uiClearClickedImage, "Clear")}
-		for button, data in buttons.items():
-			image, clickedImage, text = data
-			if image and clickedImage:
-				pixmap = QPixmap(image)
-				clickedPixmap = QPixmap(clickedImage)
-				button.setStyleSheet("QToolButton { border: none; padding: 0px; }");
-				button.setIcon(QIcon(pixmap))
-				button.setMaximumSize(pixmap.size())
+		self.__clearButton.setCursor(Qt.ArrowCursor)
+		if self.__uiClearImage and self.__uiClearClickedImage:
+			pixmap = QPixmap(self.__uiClearImage)
+			clickedPixmap = QPixmap(self.__uiClearClickedImage)
+			self.__clearButton.setStyleSheet("QToolButton { border: none; padding: 0px; }");
+			self.__clearButton.setIcon(QIcon(pixmap))
+			self.__clearButton.setMaximumSize(pixmap.size())
 
-				# Signals / Slots.
-				button.pressed.connect(functools.partial(button.setIcon, QIcon(clickedPixmap)))
-				button.released.connect(functools.partial(button.setIcon, QIcon(pixmap)))
-			else:
-				button.setText(text)
+			# Signals / Slots.
+			self.__clearButton.pressed.connect(functools.partial(self.__clearButton.setIcon, QIcon(clickedPixmap)))
+			self.__clearButton.released.connect(functools.partial(self.__clearButton.setIcon, QIcon(pixmap)))
+		else:
+			self.__clearButton.setText("Clear")
 
 		frameWidth = self.style().pixelMetric(QStyle.PM_DefaultFrameWidth)
-		self.setStyleSheet(QString("QLineEdit { padding-left: " + str(self.__searchButton.sizeHint().width() + frameWidth) + "px; padding-right: " + str(self.__clearButton.sizeHint().width() + frameWidth)) + "px; }")
+		self.setStyleSheet(QString("QLineEdit { padding-left: " + str(self.__searchActiveLabel.sizeHint().width() + frameWidth) + "px; padding-right: " + str(self.__clearButton.sizeHint().width() + frameWidth)) + "px; }")
 		self.setMinimumSize(max(self.minimumSizeHint().width(), self.__clearButton.sizeHint().height() + frameWidth * 2), max(self.minimumSizeHint().height(), self.__clearButton.sizeHint().height() + frameWidth * 2));
+
+		self.__completer.setCaseSensitivity(Qt.CaseInsensitive)
+		self.__completer.setCompletionMode(QCompleter.UnfilteredPopupCompletion)
+		self.__completer.setMaxVisibleItems(self.__completerVisibleItemsCount)
 
 	@core.executionTrace
 	def __setClearButtonVisibility(self, text):

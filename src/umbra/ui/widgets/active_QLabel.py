@@ -83,9 +83,6 @@ class Active_QLabel(QLabel):
 		self.__checked = None
 		self.checked = checked
 
-		self.__parent = None
-		self.parent = parent
-
 		self.__menu = None
 
 		self.__checked and self.setPixmap(self.__activePixmap) or self.setPixmap(self.__defaultPixmap)
@@ -113,7 +110,7 @@ class Active_QLabel(QLabel):
 		"""
 
 		if value:
-			assert type(value) is QPixmap, "'{0}' attribute: '{1}' type is not 'QPixmap'!".format("checked", value)
+			assert type(value) is QPixmap, "'{0}' attribute: '{1}' type is not 'QPixmap'!".format("defaultPixmap", value)
 		self.__defaultPixmap = value
 
 	@defaultPixmap.deleter
@@ -145,7 +142,7 @@ class Active_QLabel(QLabel):
 		"""
 
 		if value:
-			assert type(value) is QPixmap, "'{0}' attribute: '{1}' type is not 'QPixmap'!".format("checked", value)
+			assert type(value) is QPixmap, "'{0}' attribute: '{1}' type is not 'QPixmap'!".format("hoverPixmap", value)
 		self.__hoverPixmap = value
 
 	@hoverPixmap.deleter
@@ -177,7 +174,7 @@ class Active_QLabel(QLabel):
 		"""
 
 		if value:
-			assert type(value) is QPixmap, "'{0}' attribute: '{1}' type is not 'QPixmap'!".format("checked", value)
+			assert type(value) is QPixmap, "'{0}' attribute: '{1}' type is not 'QPixmap'!".format("activePixmap", value)
 		self.__activePixmap = value
 
 	@activePixmap.deleter
@@ -254,35 +251,6 @@ class Active_QLabel(QLabel):
 		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "checked"))
 
 	@property
-	def parent(self):
-		"""
-		This method is the property for **self.__parent** attribute.
-
-		:return: self.__parent. ( QObject )
-		"""
-
-		return self.__parent
-
-	@parent.setter
-	def parent(self, value):
-		"""
-		This method is the setter method for **self.__parent** attribute.
-
-		:param value: Attribute value. ( QObject )
-		"""
-
-		self.__parent = value
-
-	@parent.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def parent(self):
-		"""
-		This method is the deleter method for **self.__parent** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "parent"))
-
-	@property
 	def menu(self):
 		"""
 		This method is the property for **self.__menu** attribute.
@@ -350,9 +318,12 @@ class Active_QLabel(QLabel):
 
 		self.__menu = menu
 
+		if not self.parent():
+			return
+
 		# Propagating actions to parent.
 		for action in self.__menu.actions():
-			not action.shortcut().isEmpty() and self.__parent.addAction(action)
+			not action.shortcut().isEmpty() and self.parent().addAction(action)
 
 	@core.executionTrace
 	def enterEvent(self, event):
