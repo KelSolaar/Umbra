@@ -143,11 +143,10 @@ class GraphModelAttribute(Attribute):
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
-def getGraphModelNode(dbItem):
+def getGraphModelNode():
 	"""
-	This definition is a class factory creating :class:`GraphModelNode` classes using given database object.
+	This definition is a class factory creating :class:`GraphModelNode` classes.
 
-	:param dbItem: Database item. ( Object )
 	:return: GraphModelNode class. ( GraphModelNode )
 	"""
 
@@ -183,43 +182,9 @@ def getGraphModelNode(dbItem):
 			self.__flags = None
 			self.flags = flags or defaultFlags
 
-			self.__dbItem = dbItem
-
 		#***********************************************************************************************
 		#***	Attributes properties.
 		#***********************************************************************************************
-		@property
-		def name(self):
-			"""
-			This method is the property for **self.__name** attribute.
-	
-			:return: self.__name. ( String )
-			"""
-
-			return self.__name
-
-		@name.setter
-		@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-		def name(self, value):
-			"""
-			This method is the setter method for **self.__name** attribute.
-	
-			:param value: Attribute value. ( String )
-			"""
-
-			if value:
-				assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("name", value)
-			self.__name = value
-
-		@name.deleter
-		@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-		def name(self):
-			"""
-			This method is the deleter method for **self.__name** attribute.
-			"""
-
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "name"))
-
 		@property
 		def roles(self):
 			"""
@@ -284,86 +249,7 @@ def getGraphModelNode(dbItem):
 
 			raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "flags"))
 
-		@property
-		def dbItem(self):
-			"""
-			This method is the property for **self.__dbItem** attribute.
-	
-			:return: self.__dbItem. ( Object )
-			"""
-
-			return self.__dbItem
-
-		@dbItem.setter
-		@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-		def dbItem(self, value):
-			"""
-			This method is the setter method for **self.__dbItem** attribute.
-	
-			:param value: Attribute value. ( Object )
-			"""
-
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "dbItem"))
-
-		@dbItem.deleter
-		@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-		def dbItem(self):
-			"""
-			This method is the deleter method for **self.__dbItem** attribute.
-			"""
-
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "dbItem"))
-
-		#***********************************************************************************************
-		#***	Class methods.
-		#***********************************************************************************************
-		@core.executionTrace
-		@foundations.exceptions.exceptionsHandler(None, False, Exception)
-		def synchronizeNodeAttributes(self):
-			"""
-			This method synchronizes the node attributes from the dbItem.
-			
-			:return: Method success. ( Boolean )
-			"""
-
-			for column in self.__dbItem.__table__.columns:
-				attribute = column.key
-				value = getattr(dbItem, attribute)
-				if not attribute in self.keys():
-					break
-
-				if issubclass(self[attribute].__class__, GraphModelAttribute):
-						self[attribute] = value
-			return True
-
-		@core.executionTrace
-		@foundations.exceptions.exceptionsHandler(None, False, Exception)
-		def synchronizeDbItem(self):
-			"""
-			This method synchronizes the dbItem from the node attributes.
-
-			:return: Method success. ( Boolean )
-			"""
-
-			for column in self.__dbItem.__table__.columns:
-				attribute = column.key
-				if not attribute in self.keys():
-					break
-
-				if issubclass(self[attribute].__class__, GraphModelAttribute):
-						setattr(self.__dbItem, attribute, self[attribute].value)
-			return True
-
-	attributes = {}
-	for column in dbItem.__table__.columns:
-		attribute = column.key
-		value = getattr(dbItem, attribute)
-		roles = {Qt.DisplayRole : value,
-				Qt.EditRole : value}
-		flags = defaultFlags
-		attributes[attribute] = GraphModelAttribute(attribute, value, roles, flags)
-
-	return GraphModelNode, attributes
+	return GraphModelNode
 
 class DefaultNode(AbstractCompositeNode):
 	"""
@@ -562,10 +448,10 @@ class GraphModel(QAbstractItemModel):
 
 		node = self.getNode(index)
 		if index.column() == 0:
-			return node.roles.get(role, None) or QVariant()
+			return hasattr(node, "roles") and node.roles.get(role, None) or QVariant()
 		else:
 			attribute = self.getAttribute(node, index.column())
-			return attribute.roles.get(role, None) or QVariant()
+			return attribute and hasattr(attribute, "roles") and attribute.roles.get(role, QVariant()) or QVariant()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -590,12 +476,14 @@ class GraphModel(QAbstractItemModel):
 			roles = {role : value}
 
 		if index.column() == 0:
-			node.roles.update(roles)
-			node.name = value
+			if (node and hasattr(node, "roles")):
+				node.roles.update(roles)
+				node.name = value
 		else:
 			attribute = self.getAttribute(node, index.column())
-			attribute.roles.update(roles)
-			attribute.value = value
+			if (attribute and hasattr(attribute, "roles")):
+				attribute.roles.update(roles)
+				attribute.value = value
 
 		self.dataChanged.emit(index, index)
 		return True
@@ -636,10 +524,10 @@ class GraphModel(QAbstractItemModel):
 
 		node = self.getNode(index)
 		if index.column() == 0:
-			return node.flags
+			return hasattr(node, "flags") and node.flags or Qt.NoItemFlags
 		else:
 			attribute = self.getAttribute(node, index.column())
-			return attribute.flags
+			return attribute and hasattr(attribute, "flags") and attribute.flags or Qt.NoItemFlags
 
 	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -767,3 +655,28 @@ class GraphModel(QAbstractItemModel):
 
 		if column > 0 and column < len(self.__horizontalHeaders.keys()):
 			return node.get(self.__horizontalHeaders[self.__horizontalHeaders.keys()[column]], None)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getNodeIndex(self, node):
+		"""
+		This method returns given node index.
+		
+		:param node: Node. ( AbstractCompositeNode )
+		:return: Index. ( QModelIndex )
+		"""
+
+		return self.createIndex(node.row(), 0, node)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def findChildren(self, pattern=".*", flags=0):
+		"""
+		This method finds the children matching the given patten.
+		
+		:param pattern: Matching pattern. ( String )
+		:param flags: Matching regex flags. ( Integer )
+		:return: Matching children. ( List )
+		"""
+
+		return self.__rootNode.findChildren(pattern, flags)

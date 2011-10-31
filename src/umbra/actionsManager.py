@@ -360,6 +360,8 @@ class ActionsManager(QObject):
 									"text" : None,
 									"icon" : None,
 									"iconText" : None,
+									"checkable" : None,
+									"checked" : None,
 									"statusTip" : None,
 									"whatsThis" : None,
 									"toolTip" : None,
@@ -378,6 +380,8 @@ class ActionsManager(QObject):
 		settings.text and action.setText(settings.text)
 		settings.icon and action.setIcon(settings.icon)
 		settings.iconText and action.setIconText(settings.iconText)
+		settings.checkable and action.setCheckable(settings.checkable)
+		settings.checked and action.setChecked(settings.checked)
 		settings.statusTip and action.setStatusTip(settings.statusTip)
 		settings.whatsThis and action.setWhatsThis(settings.whatsThis)
 		settings.toolTip and action.setToolTip(settings.toolTip)

@@ -86,6 +86,7 @@ class Search_QLineEdit(QLineEdit):
 		self.__clearButton.setObjectName("Clear_Field_button")
 
 		self.__completer = QCompleter()
+		self.setCompleter(self.__completer)
 		self.__completerVisibleItemsCount = 16
 
 		Search_QLineEdit.__initializeUi(self)

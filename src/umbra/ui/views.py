@@ -47,6 +47,7 @@ LOGGER = logging.getLogger(Constants.logger)
 #***	Module classes and definitions.
 #***********************************************************************************************
 @core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
 def getViewSelectedNodes(view):
 	"""
 	This method returns the given View selected nodes.
@@ -165,6 +166,7 @@ class Abstract_QListView(QListView):
 		self.viewport().installEventFilter(ReadOnlyFilter(self))
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getSelectedNodes(self):
 		"""
 		This method returns the selected nodes.
@@ -242,6 +244,7 @@ class Abstract_QTreeView(QTreeView):
 		self.viewport().installEventFilter(ReadOnlyFilter(self))
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getSelectedNodes(self):
 		"""
 		This method returns the selected nodes.
