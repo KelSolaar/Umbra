@@ -436,10 +436,20 @@ class GraphModel(QAbstractItemModel):
 
 		node = self.getNode(index)
 		if index.column() == 0:
-			return hasattr(node, "roles") and role == Qt.DecorationRole and QIcon(node.roles.get(role, str())) or node.roles.get(role, None) or QVariant()
+			if hasattr(node, "roles"):
+				if role == Qt.DecorationRole:
+					return QIcon(node.roles.get(role, str()))
+				else:
+					return node.roles.get(role, QVariant())
 		else:
 			attribute = self.getAttribute(node, index.column())
-			return attribute and hasattr(attribute, "roles") and role == Qt.DecorationRole and QIcon(attribute.roles.get(role, str())) or attribute.roles.get(role, QVariant()) or QVariant()
+			if attribute:
+				if hasattr(attribute, "roles"):
+					if role == Qt.DecorationRole:
+						return QIcon(attribute.roles.get(role, str()))
+					else:
+						return attribute.roles.get(role, QVariant())
+		return QVariant()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -626,12 +636,12 @@ class GraphModel(QAbstractItemModel):
 		"""
 
 		types = QStringList()
-		types.append("application/x-graphmodel")
+		types.append("application/x-umbragraphmodeldatalist")
 		return types
 
 	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def mimeData(self, indexes ):
+	def mimeData(self, indexes):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.mimeData` method.
 		
@@ -639,10 +649,9 @@ class GraphModel(QAbstractItemModel):
 		:return: MimeData. ( QMimeData )
 		"""
 
-		byteStream = pickle.dumps([self.getNode(index) for index in indexes] , pickle.HIGHEST_PROTOCOL)
+		byteStream = pickle.dumps([self.getNode(index) for index in indexes], pickle.HIGHEST_PROTOCOL)
 		mimeData = QMimeData()
-		mimeData.setData("application/x-graphmodel", byteStream)
-		print mimeData
+		mimeData.setData("application/x-umbragraphmodeldatalist", byteStream)
 		return mimeData
 
 	# @core.executionTrace
