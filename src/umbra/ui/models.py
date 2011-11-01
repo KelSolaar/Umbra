@@ -18,6 +18,7 @@
 #***	External imports.
 #***********************************************************************************************
 import logging
+import pickle
 from collections import OrderedDict
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -614,6 +615,35 @@ class GraphModel(QAbstractItemModel):
 			success *= parentNode.removeChild(row)
 		self.endRemoveRows()
 		return success
+
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def mimeTypes(self):
+		"""
+		This method reimplements the :meth:`QAbstractItemModel.mimeTypes` method.
+		
+		:return: Mime types. ( QStringList )
+		"""
+
+		types = QStringList()
+		types.append("application/x-graphmodel")
+		return types
+
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def mimeData(self, indexes ):
+		"""
+		This method reimplements the :meth:`QAbstractItemModel.mimeData` method.
+		
+		:param indexes: Indexes. ( QModelIndexList )
+		:return: MimeData. ( QMimeData )
+		"""
+
+		byteStream = pickle.dumps([self.getNode(index) for index in indexes] , pickle.HIGHEST_PROTOCOL)
+		mimeData = QMimeData()
+		mimeData.setData("application/x-graphmodel", byteStream)
+		print mimeData
+		return mimeData
 
 	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
