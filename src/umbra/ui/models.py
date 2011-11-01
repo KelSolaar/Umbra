@@ -435,10 +435,10 @@ class GraphModel(QAbstractItemModel):
 
 		node = self.getNode(index)
 		if index.column() == 0:
-			return hasattr(node, "roles") and node.roles.get(role, None) or QVariant()
+			return hasattr(node, "roles") and role == Qt.DecorationRole and QIcon(node.roles.get(role, str())) or node.roles.get(role, None) or QVariant()
 		else:
 			attribute = self.getAttribute(node, index.column())
-			return attribute and hasattr(attribute, "roles") and attribute.roles.get(role, QVariant()) or QVariant()
+			return attribute and hasattr(attribute, "roles") and role == Qt.DecorationRole and QIcon(attribute.roles.get(role, str())) or attribute.roles.get(role, QVariant()) or QVariant()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
