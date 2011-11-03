@@ -625,7 +625,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		Rows:
 		* Path: { _type: "Path" }
-		** Component: { _type: "Component", _datas: profile }
+		** Component: { _type: "Component", _data: profile }
 		"""
 
 		LOGGER.debug("> Setting up '{0}' Model!".format("Components_Manager_Ui_treeView"))
@@ -667,7 +667,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				componentVersionStandardItem = QStandardItem(QString(component.version or ""))
 				componentVersionStandardItem.setTextAlignment(Qt.AlignCenter)
 
-				componentStandardItem._datas = component
+				componentStandardItem._data = component
 				componentStandardItem._type = "Component"
 
 				LOGGER.debug("> Adding '{0}' Component to '{1}'.".format(name, "Components_Manager_Ui_treeView"))
@@ -728,8 +728,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			for j in range(self.__model.item(i).rowCount()):
 				componentStandardItem = self.__model.item(i).child(j, 0)
 				componentActivationStandardItem = self.__model.item(i).child(j, 1)
-				componentActivationStandardItem.setText(str(componentStandardItem._datas.interface.activated))
-				iconPath = componentStandardItem._datas.interface.activated and os.path.join(self.__uiResourcesDirectory, self.__uiActivatedImage) or os.path.join(self.__uiResourcesDirectory, self.__uiDeactivatedImage)
+				componentActivationStandardItem.setText(str(componentStandardItem._data.interface.activated))
+				iconPath = componentStandardItem._data.interface.activated and os.path.join(self.__uiResourcesDirectory, self.__uiActivatedImage) or os.path.join(self.__uiResourcesDirectory, self.__uiDeactivatedImage)
 				componentActivationStandardItem.setIcon(QIcon(iconPath))
 
 	@core.executionTrace
@@ -828,7 +828,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		deactivatedComponents = []
 		for component in self.__model.findItems(".*", Qt.MatchRegExp | Qt.MatchRecursive, 0):
 			if component._type == "Component":
-				component._datas.interface.activated or deactivatedComponents.append(component._datas.name)
+				component._data.interface.activated or deactivatedComponents.append(component._data.name)
 
 		LOGGER.debug("> Storing '{0}' deactivated Components.".format(", ".join(deactivatedComponents)))
 		self.__settings.setKey("Settings", "deactivatedComponents", ",".join(deactivatedComponents))
@@ -1035,5 +1035,5 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: View selected Components. ( List )
 		"""
 
-		selectedComponents = [item._datas for item in self.getSelectedItems() if item._type == "Component"]
+		selectedComponents = [item._data for item in self.getSelectedItems() if item._type == "Component"]
 		return selectedComponents and selectedComponents or []

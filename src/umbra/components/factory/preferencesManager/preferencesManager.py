@@ -319,7 +319,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		restoreGeometryOnLayoutChange = self.__settings.getKey("Settings", "restoreGeometryOnLayoutChange").toInt()[0]
 		LOGGER.debug("> Setting '{0}' with value '{1}'.".format("Restore_Geometry_On_Layout_Change_checkBox", restoreGeometryOnLayoutChange))
 		self.Restore_Geometry_On_Layout_Change_checkBox.setCheckState(restoreGeometryOnLayoutChange)
-		self.__engine.settings._datas.restoreGeometryOnLayoutChange = restoreGeometryOnLayoutChange and True or False
+		self.__engine.settings._data.restoreGeometryOnLayoutChange = restoreGeometryOnLayoutChange and True or False
 
 	@core.executionTrace
 	def __Restore_Geometry_On_Layout_Change_checkBox__stateChanged(self, state):
@@ -332,7 +332,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		restoreGeometryOnLayoutChange = self.Restore_Geometry_On_Layout_Change_checkBox.checkState()
 		LOGGER.debug("> Restore geometry on layout change state: '{0}'.".format(restoreGeometryOnLayoutChange))
 		self.__settings.setKey("Settings", "restoreGeometryOnLayoutChange", restoreGeometryOnLayoutChange)
-		self.__engine.settings._datas.restoreGeometryOnLayoutChange = restoreGeometryOnLayoutChange and True or False
+		self.__engine.settings._data.restoreGeometryOnLayoutChange = restoreGeometryOnLayoutChange and True or False
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

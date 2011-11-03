@@ -118,7 +118,7 @@ __all__ = ["LOGGER",
 			"SESSION_HEADER_TEXT",
 			"SESSION_FOOTER_TEXT",
 			"Umbra",
-			"setUserApplicationDatasDirectory",
+			"setUserApplicationDataDirectory",
 			"getCommandLineParametersParser",
 			"run",
 			"exit"]
@@ -249,14 +249,14 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__timer = None
 		self.__actionsManager = None
 		self.__componentsManager = None
-		self.__userApplicationDatasDirectory = RuntimeGlobals.userApplicationDatasDirectory
+		self.__userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory
 		self.__loggingSessionHandler = RuntimeGlobals.loggingSessionHandler
 		self.__loggingFileHandler = RuntimeGlobals.loggingFileHandler
 		self.__loggingConsoleHandler = RuntimeGlobals.loggingConsoleHandler
 		self.__loggingSessionHandlerStream = RuntimeGlobals.loggingSessionHandlerStream
 		self.__loggingActiveFormatter = RuntimeGlobals.loggingActiveFormatter
 		self.__settings = RuntimeGlobals.settings
-		self.__settings._datas = core.Structure(restoreGeometryOnLayoutChange=True)
+		self.__settings._data = core.Structure(restoreGeometryOnLayoutChange=True)
 		self.__verbosityLevel = RuntimeGlobals.verbosityLevel
 		self.__parameters = RuntimeGlobals.parameters
 		self.__layoutsActiveLabels = None
@@ -557,34 +557,34 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "componentsManager"))
 
 	@property
-	def userApplicationDatasDirectory(self):
+	def userApplicationDataDirectory(self):
 		"""
-		This method is the property for **self.__userApplicationDatasDirectory** attribute.
+		This method is the property for **self.__userApplicationDataDirectory** attribute.
 
-		:return: self.__userApplicationDatasDirectory. ( String )
+		:return: self.__userApplicationDataDirectory. ( String )
 		"""
 
-		return self.__userApplicationDatasDirectory
+		return self.__userApplicationDataDirectory
 
-	@userApplicationDatasDirectory.setter
+	@userApplicationDataDirectory.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def userApplicationDatasDirectory(self, value):
+	def userApplicationDataDirectory(self, value):
 		"""
-		This method is the setter method for **self.__userApplicationDatasDirectory** attribute.
+		This method is the setter method for **self.__userApplicationDataDirectory** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "userApplicationDatasDirectory"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "userApplicationDataDirectory"))
 
-	@userApplicationDatasDirectory.deleter
+	@userApplicationDataDirectory.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def userApplicationDatasDirectory(self):
+	def userApplicationDataDirectory(self):
 		"""
-		This method is the deleter method for **self.__userApplicationDatasDirectory** attribute.
+		This method is the deleter method for **self.__userApplicationDataDirectory** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "userApplicationDatasDirectory"))
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "userApplicationDataDirectory"))
 
 	@property
 	def loggingSessionHandler(self):
@@ -1454,7 +1454,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		self.centralwidget.setVisible(self.__settings.getKey("Layouts", "{0}_centralWidget".format(name)).toBool())
 		self.restoreState(self.__settings.getKey("Layouts", "{0}_windowState".format(name)).toByteArray())
-		self.__settings._datas.restoreGeometryOnLayoutChange and self.restoreGeometry(self.__settings.getKey("Layouts", "{0}_geometry".format(name)).toByteArray())
+		self.__settings._data.restoreGeometryOnLayoutChange and self.restoreGeometry(self.__settings.getKey("Layouts", "{0}_geometry".format(name)).toByteArray())
 		self.__setLayoutsActiveLabels(self.__settings.getKey("Layouts", "{0}_activeLabel".format(name)).toInt()[0])
 		self.__currentLayout = self.__layoutsActiveLabels[self.__getCurrentLayoutActiveLabel()].layout
 
@@ -1474,7 +1474,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		LOGGER.debug("> Restoring startup layout.")
 
 		if self.restoreLayout(UiConstants.startupLayout):
-			not self.__settings._datas.restoreGeometryOnLayoutChange and self.restoreGeometry(self.__settings.getKey("Layouts", "{0}_geometry".format(UiConstants.startupLayout)).toByteArray())
+			not self.__settings._data.restoreGeometryOnLayoutChange and self.restoreGeometry(self.__settings.getKey("Layouts", "{0}_geometry".format(UiConstants.startupLayout)).toByteArray())
 			return True
 		else:
 			raise Exception("{0} | Exception raised while restoring startup layout!".format(self.__class__.__name__))
@@ -1596,24 +1596,24 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(umbra.ui.common.uiStandaloneSystemExitExceptionHandler, False, OSError)
-def setUserApplicationDatasDirectory(path):
+def setUserApplicationDataDirectory(path):
 	"""
-	This definition sets the Application datas directory.
+	This definition sets the Application data directory.
 
 	:param path: Starting point for the directories tree creation. ( String )
 	:return: Definition success. ( Boolean )
 	"""
 
-	userApplicationDatasDirectory = RuntimeGlobals.userApplicationDatasDirectory
+	userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory
 
-	LOGGER.debug("> Current Application datas directory '{0}'.".format(userApplicationDatasDirectory))
-	if io.setDirectory(userApplicationDatasDirectory):
+	LOGGER.debug("> Current Application data directory '{0}'.".format(userApplicationDataDirectory))
+	if io.setDirectory(userApplicationDataDirectory):
 		for directory in Constants.preferencesDirectories:
-			if not io.setDirectory(os.path.join(userApplicationDatasDirectory, directory)):
-				raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(inspect.getmodulename(__file__), os.path.join(userApplicationDatasDirectory, directory), Constants.applicationName))
+			if not io.setDirectory(os.path.join(userApplicationDataDirectory, directory)):
+				raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(inspect.getmodulename(__file__), os.path.join(userApplicationDataDirectory, directory), Constants.applicationName))
 		return True
 	else:
-		raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(inspect.getmodulename(__file__), userApplicationDatasDirectory, Constants.applicationName))
+		raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(inspect.getmodulename(__file__), userApplicationDataDirectory, Constants.applicationName))
 
 @core.executionTrace
 def getCommandLineParametersParser():
@@ -1629,7 +1629,7 @@ def getCommandLineParametersParser():
 	parser.add_option("-a", "--about", action="store_true", default=False, dest="about", help="'Display Application about message.'")
 	parser.add_option("-v", "--verbose", action="store", type="int", dest="verbosityLevel", help="'Application verbosity levels: 0 = Critical | 1 = Error | 2 = Warning | 3 = Info | 4 = Debug.'")
 	parser.add_option("-f", "--loggingFormatter", action="store", type="string", dest="loggingFormater", help="'Application logging formatter: '{0}'.'".format(", ".join(sorted(RuntimeGlobals.loggingFormatters.keys()))))
-	parser.add_option("-u", "--userApplicationDatasDirectory", action="store", type="string", dest="userApplicationDatasDirectory", help="'User Application datas directory'.")
+	parser.add_option("-u", "--userApplicationDataDirectory", action="store", type="string", dest="userApplicationDataDirectory", help="'User Application data directory'.")
 	parser.add_option("-s", "--hideSplashScreen", action="store_true", default=False, dest="hideSplashScreen", help="'Hide splashscreen'.")
 
 	return parser
@@ -1663,21 +1663,21 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	# Setting application verbose level.
 	LOGGER.setLevel(logging.DEBUG)
 
-	# Setting user application datas directory.
-	if RuntimeGlobals.parameters.userApplicationDatasDirectory:
-		RuntimeGlobals.userApplicationDatasDirectory = RuntimeGlobals.parameters.userApplicationDatasDirectory
+	# Setting user application data directory.
+	if RuntimeGlobals.parameters.userApplicationDataDirectory:
+		RuntimeGlobals.userApplicationDataDirectory = RuntimeGlobals.parameters.userApplicationDataDirectory
 	else:
-		RuntimeGlobals.userApplicationDatasDirectory = foundations.common.getUserApplicationDatasDirectory()
+		RuntimeGlobals.userApplicationDataDirectory = foundations.common.getUserApplicationDataDirectory()
 
-	if not setUserApplicationDatasDirectory(RuntimeGlobals.userApplicationDatasDirectory):
-		raise umbra.exceptions.EngineConfigurationError("{0} | '{1}' user Application datas directory is not available, '{2}' will now close!".format(inspect.getmodulename(__file__), RuntimeGlobals.userApplicationDatasDirectory, Constants.applicationName))
+	if not setUserApplicationDataDirectory(RuntimeGlobals.userApplicationDataDirectory):
+		raise umbra.exceptions.EngineConfigurationError("{0} | '{1}' user Application data directory is not available, '{2}' will now close!".format(inspect.getmodulename(__file__), RuntimeGlobals.userApplicationDataDirectory, Constants.applicationName))
 
 	LOGGER.debug("> Application python interpreter: '{0}'".format(sys.executable))
 	LOGGER.debug("> Application startup location: '{0}'".format(os.getcwd()))
-	LOGGER.debug("> Session user Application datas directory: '{0}'".format(RuntimeGlobals.userApplicationDatasDirectory))
+	LOGGER.debug("> Session user Application data directory: '{0}'".format(RuntimeGlobals.userApplicationDataDirectory))
 
 	# Getting the logging file path.
-	RuntimeGlobals.loggingFile = os.path.join(RuntimeGlobals.userApplicationDatasDirectory, Constants.loggingDirectory, Constants.loggingFile)
+	RuntimeGlobals.loggingFile = os.path.join(RuntimeGlobals.userApplicationDataDirectory, Constants.loggingDirectory, Constants.loggingFile)
 
 	try:
 		os.path.exists(RuntimeGlobals.loggingFile) and os.remove(RuntimeGlobals.loggingFile)
@@ -1693,7 +1693,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 
 	# Retrieving Framework verbose level from settings file.
 	LOGGER.debug("> Initializing {0}!".format(Constants.applicationName))
-	RuntimeGlobals.settingsFile = os.path.join(RuntimeGlobals.userApplicationDatasDirectory, Constants.settingsDirectory, Constants.settingsFile)
+	RuntimeGlobals.settingsFile = os.path.join(RuntimeGlobals.userApplicationDataDirectory, Constants.settingsDirectory, Constants.settingsFile)
 
 	RuntimeGlobals.settings = Preferences(RuntimeGlobals.settingsFile)
 

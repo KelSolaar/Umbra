@@ -62,7 +62,7 @@ class RuntimeGlobalsTestCase(unittest.TestCase):
 								"loggingFile",
 								"engine",
 								"application",
-								"userApplicationDatasDirectory",
+								"userApplicationDataDirectory",
 								"resourcesPaths",
 								"uiFile",
 								"settingsFile",

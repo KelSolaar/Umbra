@@ -67,8 +67,8 @@ class RuntimeGlobals():
 
 	application = None
 	"""Application instance."""
-	userApplicationDatasDirectory = None
-	"""Application user datas directory."""
+	userApplicationDataDirectory = None
+	"""Application user data directory."""
 
 	resourcesPaths = []
 	"""Resources paths."""

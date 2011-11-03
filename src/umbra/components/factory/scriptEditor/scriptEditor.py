@@ -323,7 +323,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
 
 	# Custom signals definitions.
-	datasChanged = pyqtSignal()
+	dataChanged = pyqtSignal()
 	recentFilesChanged = pyqtSignal()
 
 	@core.executionTrace
@@ -1170,7 +1170,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings = self.__engine.settings
 		self.__settingsSection = self.name
 
-		self.__defaultScriptEditorDirectory = os.path.join(self.__engine.userApplicationDatasDirectory, Constants.ioDirectory, self.__defaultScriptEditorDirectory)
+		self.__defaultScriptEditorDirectory = os.path.join(self.__engine.userApplicationDataDirectory, Constants.ioDirectory, self.__defaultScriptEditorDirectory)
 		not os.path.exists(self.__defaultScriptEditorDirectory) and os.makedirs(self.__defaultScriptEditorDirectory)
 		self.__defaultScriptEditorFile = os.path.join(self.__defaultScriptEditorDirectory, self.__defaultScriptEditorFile)
 
@@ -1233,7 +1233,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
 		self.Script_Editor_tabWidget.contentDropped.connect(self.__Script_Editor_tabWidget__contentDropped)
 		self.visibilityChanged.connect(self.__scriptEditor__visibilityChanged)
-		self.datasChanged.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
+		self.dataChanged.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.recentFilesChanged.connect(self.__setRecentFilesActions)
 		self.__fileSystemWatcher.fileChanged.connect(self.__fileSystemWatcher__fileChanged)
 		self.__timer.timeout.connect(self.__reloadModifiedFiles)
@@ -1586,7 +1586,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		file = self.sender()._datas
+		file = self.sender()._data
 		if os.path.exists(file):
 			return self.loadFile(file)
 
@@ -1941,7 +1941,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				continue
 
 			self.__recentFilesActions[i].setText("{0} {1}".format(i + 1, os.path.basename(str(recentFiles[i]))))
-			self.__recentFilesActions[i]._datas = str(recentFiles[i])
+			self.__recentFilesActions[i]._data = str(recentFiles[i])
 			self.__recentFilesActions[i].setVisible(True)
 
 	@core.executionTrace
@@ -2378,7 +2378,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		if self.evaluateCode(str(editor.textCursor().selectedText().replace(QChar(QChar.ParagraphSeparator), QString("\n")))):
-			self.datasChanged.emit()
+			self.dataChanged.emit()
 			return True
 
 	@core.executionTrace
@@ -2395,7 +2395,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		if self.evaluateCode(str(editor.toPlainText())):
-			self.datasChanged.emit()
+			self.dataChanged.emit()
 			return True
 
 	@core.executionTrace
