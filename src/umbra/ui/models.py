@@ -147,7 +147,7 @@ class GraphModelNode(AbstractCompositeNode):
 	This class factory defines :class:`GraphModel` class base node object.
 	"""
 
-	__family = "GraphModelNode"
+	__family = "GraphModel"
 
 	@core.executionTrace
 	def __init__(self, name=None, parent=None, children=None, roles=None, flags=None, ** kwargs):
