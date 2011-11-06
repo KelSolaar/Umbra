@@ -1184,6 +1184,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__editMenu.addSeparator()
 		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Indent Selection", shortcut=Qt.Key_Tab, slot=self.__indentSelectionAction__triggered))
 		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Unindent Selection", shortcut=Qt.Key_Backtab, slot=self.__unindentSelectionAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Convert Indentation To Tabs", slot=self.__convertIndentationToTabsAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Convert Indentation To Spaces", slot=self.__convertIndentationToSpacesAction__triggered))
 		self.__editMenu.addSeparator()
 		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Remove Trailing WhiteSpaces", slot=self.__removeTrailingWhiteSpacesAction__triggered))
 		self.__editMenu.addSeparator()
@@ -1616,6 +1618,34 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		return self.getCurrentEditor().unindent()
+
+	@core.executionTrace
+	def __convertIndentationToTabsAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Convert Identation To Tabs'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().convertIndentationToTabs()
+
+	@core.executionTrace
+	def __convertIndentationToSpacesAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Convert Identation To Spaces'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().convertIndentationToSpaces()
 
 	@core.executionTrace
 	def __removeTrailingWhiteSpacesAction__triggered(self, checked):

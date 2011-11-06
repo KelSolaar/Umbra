@@ -413,12 +413,13 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent=None, indentMarker="\t", commentMarker="#", *args, **kwargs):
+	def __init__(self, parent=None, indentMarker="\t", indentWidth=4, commentMarker="#", *args, **kwargs):
 		"""
 		This method initializes the class.
 
 		:param parent: Widget parent. ( QObject )
 		:param indentMarker: Indentation marker. ( String )
+		:param indentWidth: Indentation spaces count. ( Integer )
 		:param commentMarker: Comment marker. ( String )
 		:param \*args: Arguments. ( \* )
 		:param \*\*kwargs: Keywords arguments. ( \* )
@@ -431,6 +432,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		# --- Setting class attributes. ---
 		self.__indentMarker = None
 		self.indentMarker = indentMarker
+		self.__indentWidth = None
+		self.indentWidth = indentWidth
 		self.__commentMarker = None
 		self.commentMarker = commentMarker
 
@@ -484,6 +487,38 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "indentMarker"))
+
+	@property
+	def indentWidth(self):
+		"""
+		This method is the property for **self.__indentWidth** attribute.
+
+		:return: self.__indentWidth. ( String )
+		"""
+
+		return self.__indentWidth
+
+	@indentWidth.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def indentWidth(self, value):
+		"""
+		This method is the setter method for **self.__indentWidth** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		if value:
+			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("indentWidth", value)
+		self.__indentWidth = value
+
+	@indentWidth.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def indentWidth(self):
+		"""
+		This method is the deleter method for **self.__indentWidth** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "indentWidth"))
 
 	@property
 	def commentMarker(self):
@@ -1364,5 +1399,59 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		cursor.movePosition(QTextCursor.End, QTextCursor.MoveAnchor)
 		if not cursor.block().text().isEmpty():
 			cursor.insertText("\n")
+		cursor.endEditBlock()
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@anchorTextCursor
+	def convertIndentationToTabs(self):
+		"""
+		This method converts document indentation to tabs.
+
+		:return: Method success. ( Boolean )		
+		"""
+
+		cursor = self.textCursor()
+
+		cursor.beginEditBlock()
+		block = self.document().findBlockByLineNumber(0)
+		while block.isValid():
+			cursor.setPosition(block.position())
+			search = re.match(r"^ +", block.text())
+			if search:
+				cursor.movePosition(QTextCursor.StartOfBlock, QTextCursor.MoveAnchor)
+				searchLength = len(search.group(0))
+				for i in range(searchLength):
+					cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor)
+				cursor.insertText(self.__indentMarker * (searchLength / self.__indentWidth))
+			block = block.next()
+		cursor.endEditBlock()
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@anchorTextCursor
+	def convertIndentationToSpaces(self):
+		"""
+		This method converts document indentation to spaces.
+
+		:return: Method success. ( Boolean )		
+		"""
+
+		cursor = self.textCursor()
+
+		cursor.beginEditBlock()
+		block = self.document().findBlockByLineNumber(0)
+		while block.isValid():
+			cursor.setPosition(block.position())
+			search = re.match(r"^\t+", block.text())
+			if search:
+				cursor.movePosition(QTextCursor.StartOfBlock, QTextCursor.MoveAnchor)
+				searchLength = len(search.group(0))
+				for i in range(searchLength):
+					cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor)
+				cursor.insertText(" " * (searchLength * self.__indentWidth))
+			block = block.next()
 		cursor.endEditBlock()
 		return True

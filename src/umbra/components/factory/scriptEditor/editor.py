@@ -118,8 +118,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.file = file
 		self.__language = language
 
-		self.__indentWidth = 20
 		self.__defaultFontsSettings = {"Windows" : ("Consolas", 10), "Darwin" : ("Monaco", 12), "Linux" : ("Nimbus Mono L", 10)}
+		self.__tabWidth = None
 
 		self.__isUntitled = True
 		self.__defaultFileName = "Untitled"
@@ -195,36 +195,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "language"))
 
 	@property
-	def indentWidth(self):
-		"""
-		This method is the property for **self.__indentWidth** attribute.
-
-		:return: self.__indentWidth. ( Integer )
-		"""
-
-		return self.__indentWidth
-
-	@indentWidth.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def indentWidth(self, value):
-		"""
-		This method is the setter method for **self.__indentWidth** attribute.
-
-		:param value: Attribute value. ( Integer )
-		"""
-
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "indentWidth"))
-
-	@indentWidth.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def indentWidth(self):
-		"""
-		This method is the deleter method for **self.__indentWidth** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "indentWidth"))
-
-	@property
 	def defaultFontsSettings(self):
 		"""
 		This method is the property for **self.__defaultFontsSettings** attribute.
@@ -253,6 +223,36 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 
 		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultFontsSettings"))
+
+	@property
+	def tabWidth(self):
+		"""
+		This method is the property for **self.__tabWidth** attribute.
+
+		:return: self.__tabWidth. ( Integer )
+		"""
+
+		return self.__tabWidth
+
+	@tabWidth.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def tabWidth(self, value):
+		"""
+		This method is the setter method for **self.__tabWidth** attribute.
+
+		:param value: Attribute value. ( Integer )
+		"""
+
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "tabWidth"))
+
+	@tabWidth.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def tabWidth(self):
+		"""
+		This method is the deleter method for **self.__tabWidth** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "tabWidth"))
 
 	@property
 	def isUntitled(self):
@@ -356,7 +356,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.__setLanguageDescription()
 
 		self.setAttribute(Qt.WA_DeleteOnClose)
-		self.setTabStopWidth(self.__indentWidth)
 		self.setWordWrapMode(QTextOption.NoWrap)
 
 		self.setAcceptDrops(True)
@@ -370,6 +369,9 @@ class Editor(CodeEditor_QPlainTextEdit):
 		font = QFont(fontFamily)
 		font.setPointSize(fontSize)
 		self.setFont(font)
+
+		self.__tabWidth = self.fontMetrics().width(" " * self.indentWidth)
+		self.setTabStopWidth(self.__tabWidth)
 
 	@core.executionTrace
 	def __setFile(self, file):
