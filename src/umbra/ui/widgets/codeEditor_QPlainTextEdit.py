@@ -1219,9 +1219,9 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:return: Method success. ( Boolean )		
 		"""
 
-		if self.textCursor().selectedText() != pattern:
-			if not self.search(pattern, **kwargs):
-				return
+		if not self.textCursor().selectedText():
+			self.search(pattern, **kwargs)
+			return
 
 		cursor = self.textCursor()
 		cursor.beginEditBlock()
@@ -1233,6 +1233,9 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 		cursor.insertText(replacementPattern)
 		cursor.endEditBlock()
+
+		self.search(pattern, **kwargs)
+
 		return True
 
 	@core.executionTrace
