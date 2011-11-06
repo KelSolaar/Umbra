@@ -51,6 +51,7 @@ DEFAULT_SYMBOLS_PAIRS = {"(" : ")",
 #***	Module classes and definitions.
 #***********************************************************************************************
 @core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
 def indentationPreEventInputAccelerators(container, event):
 	"""
 	This definition implements indentation pre event input accelerators.
@@ -69,6 +70,7 @@ def indentationPreEventInputAccelerators(container, event):
 	return processEvent
 
 @core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
 def performCompletion(container):
 	"""
 	This definition performs the completion on given container.
@@ -100,6 +102,7 @@ def performCompletion(container):
 			container.completer.complete(completerRectangle)
 
 @core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
 def completionPreEventInputAccelerators(container, event):
 	"""
 	This definition implements completion pre event input accelerators.
@@ -126,6 +129,7 @@ def completionPreEventInputAccelerators(container, event):
 	return processEvent
 
 @core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
 def completionPostEventInputAccelerators(container, event):
 	"""
 	This definition implements completion post event input accelerators.
@@ -139,6 +143,7 @@ def completionPostEventInputAccelerators(container, event):
 	return True
 
 @core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
 def symbolsExpandingPreEventInputAccelerators(container, event):
 	"""
 	This definition implements symbols expanding pre event input accelerators.
@@ -178,6 +183,7 @@ def symbolsExpandingPreEventInputAccelerators(container, event):
 	return processEvent
 
 @core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
 def pythonPostEventInputAccelerators(container, event):
 	"""
 	This definition implements pythons post event input accelerators.

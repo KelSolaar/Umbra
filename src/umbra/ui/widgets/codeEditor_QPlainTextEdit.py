@@ -321,6 +321,7 @@ class LinesNumbers_QWidget(QWidget):
 			blockNumber += 1
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getWidth(self):
 		"""
 		This method returns the Widget target width.

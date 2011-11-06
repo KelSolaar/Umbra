@@ -206,6 +206,7 @@ class Preferences():
 	#***	Class methods.
 	#***********************************************************************************************
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setKey(self, section, key, value):
 		"""
 		This method stores given key in settings file.
@@ -222,6 +223,7 @@ class Preferences():
 		self.__settings.endGroup()
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getKey(self, section, key):
 		"""
 		This method gets key value from settings file.

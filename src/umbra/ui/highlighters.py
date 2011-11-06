@@ -51,6 +51,7 @@ PYTHON_TOKENS_FILE = umbra.ui.common.getResourcePath(UiConstants.pythonTokensFil
 #***	Module classes and definitions.
 #***********************************************************************************************
 @core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
 def getFormat(**kwargs):
 	"""
 	This definition returns a `QTextCharFormat <http://doc.qt.nokia.com/4.7/qtextcharformat.html>`_ format.

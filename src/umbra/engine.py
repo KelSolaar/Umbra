@@ -1143,7 +1143,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		state and self.Application_Progress_Status_processing.show()
 
 	@core.executionTrace
-	def layoutActiveLabel__clicked(self, activeLabel):
+	def __layoutActiveLabel__clicked(self, activeLabel):
 		"""
 		This method is triggered when a layout **Active_QLabel** Widget is clicked.
 		"""
@@ -1155,7 +1155,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 			layoutActivelabel.layout is not activeLabel and layoutActivelabel.object.setChecked(False)
 
 	@core.executionTrace
-	def helpDisplayMiscAction__triggered(self, checked):
+	def __helpDisplayMiscAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|ToolBar|Miscellaneous|Help content ...'** action.
 
@@ -1168,7 +1168,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		return True
 
 	@core.executionTrace
-	def apiDisplayMiscAction__triggered(self, checked):
+	def __apiDisplayMiscAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|ToolBar|Miscellaneous|Api content ...'** action.
 
@@ -1312,7 +1312,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		# Signals / Slots.
 		for layoutActiveLabel in self.__layoutsActiveLabels:
-			layoutActiveLabel.object.clicked.connect(functools.partial(self.layoutActiveLabel__clicked, layoutActiveLabel.layout))
+			layoutActiveLabel.object.clicked.connect(functools.partial(self.__layoutActiveLabel__clicked, layoutActiveLabel.layout))
 
 		return True
 
@@ -1364,8 +1364,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		self.__miscellaneousMenu = QMenu("Miscellaneous", miscellaneousActiveLabel)
 
-		self.__miscellaneousMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Miscellaneous|Help content ...", shortcut="F1", slot=self.helpDisplayMiscAction__triggered))
-		self.__miscellaneousMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Miscellaneous|Api content ...", slot=self.apiDisplayMiscAction__triggered))
+		self.__miscellaneousMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Miscellaneous|Help content ...", shortcut="F1", slot=self.__helpDisplayMiscAction__triggered))
+		self.__miscellaneousMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Miscellaneous|Api content ...", slot=self.__apiDisplayMiscAction__triggered))
 		self.__miscellaneousMenu.addSeparator()
 
 		miscellaneousActiveLabel.setMenu(self.__miscellaneousMenu)
@@ -1386,6 +1386,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		return spacer
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def initializeToolBar(self):
 		"""
 		This method initializes Application toolBar.
@@ -1616,6 +1617,7 @@ def setUserApplicationDataDirectory(path):
 		raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(inspect.getmodulename(__file__), userApplicationDataDirectory, Constants.applicationName))
 
 @core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
 def getCommandLineParametersParser():
 	"""
 	This definition returns the command line parameters parser.
@@ -1759,4 +1761,3 @@ def exit():
 	foundations.common.removeLoggingHandler(LOGGER, RuntimeGlobals.loggingConsoleHandler)
 
 	QApplication.exit()
-
