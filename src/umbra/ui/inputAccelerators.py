@@ -25,6 +25,7 @@ from PyQt4.QtGui import *
 #***	Internal imports.
 #***********************************************************************************************
 import foundations.core as core
+import foundations.exceptions
 from umbra.globals.constants import Constants
 
 #***********************************************************************************************
