@@ -38,6 +38,7 @@ import umbra.ui.inputAccelerators
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.components.factory.scriptEditor.editor import Editor, Language, PYTHON_LANGUAGE
 from umbra.components.factory.scriptEditor.editorStatus import EditorStatus
+from umbra.components.factory.scriptEditor.models import LanguagesModel
 from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
@@ -53,7 +54,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "COMPONENT_UI_FILE", "ScriptEditor_QTabWidget", "LanguagesModel", "ScriptEditor"]
+__all__ = ["LOGGER", "COMPONENT_UI_FILE", "ScriptEditor_QTabWidget", "ScriptEditor"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -156,166 +157,6 @@ class ScriptEditor_QTabWidget(QTabWidget):
 
 		LOGGER.debug("> '{0}' widget drop event accepted!".format(self.__class__.__name__))
 		self.contentDropped.emit(event)
-
-class LanguagesModel(QAbstractListModel):
-	"""
-	This class is a `QAbstractListModel <http://doc.qt.nokia.com/4.7/qabstractListmodel.html>`_ subclass used to store **ScriptEditor** languages.
-	"""
-
-	@core.executionTrace
-	def __init__(self, parent=None, languages=None):
-		"""
-		This method initializes the class.
-
-		:param parent: Parent object. ( QObject )
-		:param languages: Languages. ( List )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		QAbstractListModel.__init__(self, parent)
-
-		# --- Setting class attributes. ---
-		self.__languages = []
-		self.languages = languages
-
-	#***********************************************************************************************
-	#***	Attributes properties.
-	#***********************************************************************************************
-	@property
-	def languages(self):
-		"""
-		This method is the property for **self.__languages** attribute.
-
-		:return: self.__languages. ( List )
-		"""
-
-		return self.__languages
-
-	@languages.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def languages(self, value):
-		"""
-		This method is the setter method for **self.__languages** attribute.
-
-		:param value: Attribute value. ( List )
-		"""
-
-		if value:
-			assert type(value) is list, "'{0}' attribute: '{1}' type is not 'list'!".format("languages", value)
-		self.__languages = value
-
-	@languages.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def languages(self):
-		"""
-		This method is the deleter method for **self.__languages** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "languages"))
-
-	#***********************************************************************************************
-	#***	Class methods.
-	#***********************************************************************************************
-	@core.executionTrace
-	def rowCount(self, parent=QModelIndex()):
-		"""
-		This method returns the Model row count.
-
-		:param parent: Parent. ( QModelIndex )
-		:return: Row count. ( Integer )
-		"""
-
-		return len(self.__languages)
-
-	@core.executionTrace
-	def data(self, index, role=Qt.DisplayRole):
-		"""
-		This method returns the Model data.
-
-		:param index: Index. ( QModelIndex )
-		:param role: Role. ( Integer )
-		:return: Data. ( QVariant )
-		"""
-
-		if not index.isValid():
-			return QVariant()
-
-		if role == Qt.DisplayRole:
-			return QVariant(self.__languages[index.row()].name)
-		return QVariant()
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def registerLanguage(self, language):
-		"""
-		This method registers provided language in the :obj:`LanguagesModel.languages` class property.
-		
-		:param language: Language to register. ( Language )
-		:return: Method success. ( Boolean )
-		"""
-
-		if not isinstance(language, Language):
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' is not a 'Language' instance!".format(self.__class__.__name__, language))
-
-		if self.getLanguage(language):
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' language is already registered!".format(self.__class__.__name__, language.name))
-
-		self.beginInsertRows(QModelIndex(), len(self.__languages), len(self.__languages))
-		self.__languages.append(language)
-		self.endInsertRows()
-		return True
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def unregisterLanguage(self, name):
-		"""
-		This method unregisters provided language name from the :obj:`LanguagesModel.languages` class property.
-		
-		:param name: Language to unregister. ( String )
-		:return: Method success. ( Boolean )
-		"""
-
-		if not self.getLanguage(name):
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' language isn't registered!".format(self.__class__.__name__, name))
-
-		for i, language in enumerate(self.__languages):
-			if not language.name == name:
-				continue
-
-			self.beginRemoveRows(QModelIndex(), i, i)
-			del(self.__languages[i])
-			self.endRemoveRows()
-			return True
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getLanguage(self, name):
-		"""
-		This method returns the language associated with provided name.
-		
-		:param name: Language name. ( String )
-		:return: File language. ( Language )
-		"""
-
-		for language in self.__languages:
-			if language.name == name:
-				return language
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getFileLanguage(self, file):
-		"""
-		This method returns the language of provided file.
-		
-		:param file: File to get language of. ( String )
-		:return: File language. ( Language )
-		"""
-
-		for language in self.__languages:
-			if re.search(language.extension, file):
-				LOGGER.debug("> '{0}' file detected language: '{1}'.".format(file, language.name))
-				return language
 
 class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
