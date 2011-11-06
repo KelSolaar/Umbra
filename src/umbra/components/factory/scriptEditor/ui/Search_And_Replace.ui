@@ -84,7 +84,7 @@
      <item>
       <widget class="QPushButton" name="Search_pushButton">
        <property name="statusTip">
-        <string>Search Push Button: Searchs occurences of provided search pattern.</string>
+        <string>Search Push Button: Searchs occurences of given search pattern.</string>
        </property>
        <property name="text">
         <string>Search</string>
@@ -94,7 +94,7 @@
      <item>
       <widget class="QPushButton" name="Replace_pushButton">
        <property name="statusTip">
-        <string>Replace Push Button: Replaces the first search occurence with provided replacement pattern.</string>
+        <string>Replace Push Button: Replaces the first search occurence with given replacement pattern.</string>
        </property>
        <property name="text">
         <string>Replace</string>
@@ -104,7 +104,7 @@
      <item>
       <widget class="QPushButton" name="Replace_All_pushButton">
        <property name="statusTip">
-        <string>Replace All Push Button: Replace all search results occurences with provided replacement pattern.</string>
+        <string>Replace All Push Button: Replace all search results occurences with given replacement pattern.</string>
        </property>
        <property name="text">
         <string>Replace All</string>

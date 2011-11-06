@@ -347,7 +347,7 @@ class LinesNumbers_QWidget(QWidget):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def updateRectangle(self, rectangle, scrollY):
 		"""
-		This method updates the provided widget rectangle.
+		This method updates the given widget rectangle.
 		
 		:param rectangle: Rectangle to update. ( QRect )
 		:param scrollY: Amount of pixels the viewport was scrolled. ( Integer )
@@ -823,7 +823,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def setHighlighter(self, highlighter):
 		"""
-		This method sets provided highlighter as the current highlighter.
+		This method sets given highlighter as the current highlighter.
 
 		:param highlighter: Highlighter. ( QSyntaxHighlighter )
 		:return: Method success. ( Boolean )		
@@ -857,7 +857,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def setCompleter(self, completer):
 		"""
-		This method sets provided completer as the current completer.
+		This method sets given completer as the current completer.
 
 		:param completer: Completer. ( QCompleter )
 		:return: Method success. ( Boolean )		
@@ -908,7 +908,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setDefaultTextOption(self, textOption):
 		"""
-		This method sets default text option using provided flag.
+		This method sets default text option using given flag.
 
 		:param textOption: Text option. ( QTextOption )
 		:return: Method success. ( Boolean )		
@@ -1087,7 +1087,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def search(self, pattern, **kwargs):
 		"""
-		This method searchs provided pattern in the document.
+		This method searchs given pattern in the document.
 
 		:param pattern: Pattern to search for. ( String )
 		:param \*\*kwargs: Format settings. ( Key / Value pairs )
@@ -1176,7 +1176,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def replace(self, pattern, replacementPattern, **kwargs):
 		"""
-		This method replaces current provided pattern occurence in the document with the replacement pattern.
+		This method replaces current given pattern occurence in the document with the replacement pattern.
 
 		:param pattern: Pattern to replace. ( String )
 		:param replacementPattern: Replacement pattern. ( String )
@@ -1205,7 +1205,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@anchorTextCursor
 	def replaceAll(self, pattern, replacementPattern, **kwargs):
 		"""
-		| This method replaces every provided pattern occurences in the document with the replacement pattern.
+		| This method replaces every given pattern occurences in the document with the replacement pattern.
 		
 		.. warning::
 
@@ -1261,7 +1261,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def gotoLine(self, line):
 		"""
-		This method moves the text cursor to provided line.
+		This method moves the text cursor to given line.
 
 		:return: Method success. ( Boolean )		
 		"""

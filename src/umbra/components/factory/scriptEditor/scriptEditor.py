@@ -1744,7 +1744,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __registerFile(self, file):
 		"""
-		This method registers provided file in the :obj:`ScriptEditor.files` class property.
+		This method registers given file in the :obj:`ScriptEditor.files` class property.
 		
 		:param file: File to register. ( String )
 		"""
@@ -1755,7 +1755,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __unregisterFile(self, file):
 		"""
-		This method unregisters provided file in the :obj:`ScriptEditor.files` class property.
+		This method unregisters given file in the :obj:`ScriptEditor.files` class property.
 		
 		:param file: File to unregister. ( String )
 		"""
@@ -1788,7 +1788,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __storeRecentFile(self, file):
 		"""
-		This method stores provided recent file into the settings.
+		This method stores given recent file into the settings.
 		
 		:param file: File to store. ( String )
 		"""
@@ -1874,7 +1874,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setEditorLanguage(self, editor, language, emitSignal=True):
 		"""
-		This method sets provided editor language.
+		This method sets given editor language.
 		
 		:param editor: Editor to set language to. ( Editor )
 		:param emitSignal: Emit signal. ( Boolean )
@@ -1901,7 +1901,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def findEditor(self, file):
 		"""
-		This method finds the :class:`Editor` instance associated with the provided file.
+		This method finds the :class:`Editor` instance associated with the given file.
 
 		:param file: File to search editors for. ( String )
 		:return: Editor. ( Editor )
@@ -1947,7 +1947,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addEditorTab(self, editor):
 		"""
-		This method adds a new tab to the **Script_Editor_tabWidget** Widget and sets provided editor as child widget.
+		This method adds a new tab to the **Script_Editor_tabWidget** Widget and sets given editor as child widget.
 
 		:param editor: Editor. ( Editor )
 		:return: New tab index. ( Integer )
@@ -1967,7 +1967,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeEditorTab(self, tabIndex):
 		"""
-		This method removes the **Script_Editor_tabWidget** Widget tab with provided index.
+		This method removes the **Script_Editor_tabWidget** Widget tab with given index.
 
 		:param tabIndex: Tab index. ( Integer )
 		:return: Method success. ( Boolean )
@@ -1980,7 +1980,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def findEditorTab(self, file):
 		"""
-		This method finds the :class:`Editor` instance tab associated with the provided file.
+		This method finds the :class:`Editor` instance tab associated with the given file.
 
 		:param file: File to search editors for. ( String )
 		:return: Tab index. ( Editor )
@@ -2021,7 +2021,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def loadFile(self, file):
 		"""
-		This method reads and loads provided file into a new :class:`Editor` instance with its associated tab or sets the focus on an existing tab if the file is already loaded.
+		This method reads and loads given file into a new :class:`Editor` instance with its associated tab or sets the focus on an existing tab if the file is already loaded.
 
 		:param file: File to load. ( String )
 		:return: Method success. ( Boolean )
@@ -2053,7 +2053,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def reloadFile(self, file):
 		"""
-		This method reloads provided file into its associated tab.
+		This method reloads given file into its associated tab.
 
 		:param file: File to reload. ( String )
 		:return: Method success. ( Boolean )
@@ -2243,7 +2243,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def evaluateCode(self, code):
 		"""
-		This method evaluates provided code in the interactive console.
+		This method evaluates given code in the interactive console.
 
 		:param code: Code to evaluate. ( String )
 		:return: Method success. ( Boolean )

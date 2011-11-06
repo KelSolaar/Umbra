@@ -251,7 +251,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@core.executionTrace
 	def __storeRecentPatterns(self, comboBox, settingsKey):
 		"""
-		This method stores provided :class:`QComboBox` class patterns.
+		This method stores given :class:`QComboBox` class patterns.
 		
 		:param comboBox: QComboBox. ( QComboBox )
 		:param settingsKey: Associated settings key. ( String )
@@ -288,7 +288,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __insertPattern(self, pattern, comboBox, patternsStorageMethod):
 		"""
-		This method inserts provided pattern in the provided :class:`QComboBox` class Widget.
+		This method inserts given pattern in the given :class:`QComboBox` class Widget.
 
 		:param pattern: Search pattern. ( String )
 		:param comboBox: Target comboBox. ( QComboBox )
@@ -303,7 +303,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def insertSearchPattern(self, pattern):
 		"""
-		This method inserts provided pattern in the **Search_comboBox**.
+		This method inserts given pattern in the **Search_comboBox**.
 
 		:param pattern: Search pattern. ( String )
 		:return: Method success. ( Boolean )
@@ -316,7 +316,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def insertReplaceWithPattern(self, pattern):
 		"""
-		This method inserts provided pattern in the **Replace_With_comboBox**.
+		This method inserts given pattern in the **Replace_With_comboBox**.
 
 		:param pattern: Search pattern. ( String )
 		:return: Method success. ( Boolean )

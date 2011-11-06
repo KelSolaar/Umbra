@@ -498,7 +498,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def loadFile(self, file):
 		"""
-		This method reads and loads provided file into the editor.
+		This method reads and loads given file into the editor.
 
 		:param File: File to load. ( String )
 		:return: Method success. ( Boolean )
@@ -572,7 +572,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def writeFile(self, file):
 		"""
-		This method writes the editor content into provided file.
+		This method writes the editor content into given file.
 
 		:param file: File to write. ( String )
 		:return: Method success. ( Boolean )

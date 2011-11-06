@@ -208,7 +208,7 @@ class Preferences():
 	@core.executionTrace
 	def setKey(self, section, key, value):
 		"""
-		This method stores provided key in settings file.
+		This method stores given key in settings file.
 
 		:param section: Current section to save the key into. ( String )
 		:param key: Current key to save. ( String )

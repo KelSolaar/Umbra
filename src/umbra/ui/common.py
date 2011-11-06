@@ -187,7 +187,7 @@ def uiStandaloneSystemExitExceptionHandler(exception, origin, *args, **kwargs):
 @foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.ResourceExistsError)
 def getResourcePath(name, raiseException=False):
 	"""
-	This definition returns the resource file path matching the provided name.
+	This definition returns the resource file path matching the given name.
 
 	:param name: Resource name. ( String )
 	:param raiseException: Raise the exception. ( Boolean )
@@ -207,7 +207,7 @@ def getResourcePath(name, raiseException=False):
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def setWindowDefaultIcon(window):
 	"""
-	This method sets the Application icon to the provided window.
+	This method sets the Application icon to the given window.
 
 	:param window: Window. ( QWidget )
 	:return: Definition success. ( Boolean )
@@ -225,7 +225,7 @@ def setWindowDefaultIcon(window):
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def centerWidgetOnScreen(widget, screen=None):
 	"""
-	This definition centers the provided Widget middle of the screen.
+	This definition centers the given Widget middle of the screen.
 
 	:param widget: Current Widget. ( QWidget )
 	:param screen: Screen used for centering. ( Integer )
@@ -278,7 +278,7 @@ def storeLastBrowsedPath(path):
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def parentsWalker(object):
 	"""
-	This definition is a generator used to retrieve the chain of parents of the provided :class:`QObject` instance.
+	This definition is a generator used to retrieve the chain of parents of the given :class:`QObject` instance.
 
 	:param object: Provided path. ( QObject )
 	:yield: Object parent. ( QObject )

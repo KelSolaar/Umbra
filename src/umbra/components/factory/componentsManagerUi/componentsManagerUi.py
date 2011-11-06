@@ -828,7 +828,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, manager.exceptions.ComponentExistsError, Exception)
 	def activateComponent(self, name):
 		"""
-		This method activates provided Component.
+		This method activates given Component.
 
 		:param name: Component name. ( String )
 		:return: Method success. ( Boolean )
@@ -853,7 +853,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, manager.exceptions.ComponentExistsError, manager.exceptions.ComponentDeactivationError)
 	def deactivateComponent(self, name):
 		"""
-		This method deactivates provided Component.
+		This method deactivates given Component.
 
 		:param name: Component name. ( String )
 		:return: Method success. ( Boolean )
@@ -882,7 +882,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, manager.exceptions.ComponentExistsError, manager.exceptions.ComponentReloadError)
 	def reloadComponent(self, name):
 		"""
-		This method reloads provided Component.
+		This method reloads given Component.
 
 		:param name: Component name. ( String )
 		:return: Method success. ( Boolean )

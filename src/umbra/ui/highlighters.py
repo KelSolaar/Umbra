@@ -218,7 +218,7 @@ class Highlighter(QSyntaxHighlighter):
 	@foundations.exceptions.exceptionsHandler(None, False, NotImplementedError)
 	def highlightBlock(self, block):
 		"""
-		This method highlights provided text block.
+		This method highlights given text block.
 
 		:param block: Text block. ( QString )
 		"""
@@ -229,7 +229,7 @@ class Highlighter(QSyntaxHighlighter):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def highlightText(self, text, start, end):
 		"""
-		This method highlights provided text.
+		This method highlights given text.
 
 		:param text: Text. ( QString )
 		:param start: Text start index. ( Integer )
@@ -305,7 +305,7 @@ class LoggingHighlighter(Highlighter):
 	# @core.executionTrace
 	def highlightBlock(self, block):
 		"""
-		This method highlights provided text block.
+		This method highlights given text block.
 
 		:param block: Text block. ( QString )
 		"""
@@ -563,7 +563,7 @@ class PythonHighlighter(Highlighter):
 	# @core.executionTrace
 	def highlightBlock(self, block):
 		"""
-		This method highlights provided text block.
+		This method highlights given text block.
 
 		:param block: Text block. ( QString )
 		"""
@@ -577,7 +577,7 @@ class PythonHighlighter(Highlighter):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def highlightMultilineBlock(self, block, pattern, state, format):
 		"""
-		This method highlights provided multiline text block.
+		This method highlights given multiline text block.
 
 		:param block: Text block. ( QString )
 		:param pattern: Regex pattern. ( QRegExp )

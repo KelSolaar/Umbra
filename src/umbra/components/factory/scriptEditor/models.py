@@ -154,7 +154,7 @@ class LanguagesModel(QAbstractListModel):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def registerLanguage(self, language):
 		"""
-		This method registers provided language in the :obj:`LanguagesModel.languages` class property.
+		This method registers given language in the :obj:`LanguagesModel.languages` class property.
 		
 		:param language: Language to register. ( Language )
 		:return: Method success. ( Boolean )
@@ -174,7 +174,7 @@ class LanguagesModel(QAbstractListModel):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def unregisterLanguage(self, name):
 		"""
-		This method unregisters provided language name from the :obj:`LanguagesModel.languages` class property.
+		This method unregisters given language name from the :obj:`LanguagesModel.languages` class property.
 		
 		:param name: Language to unregister. ( String )
 		:return: Method success. ( Boolean )
@@ -195,7 +195,7 @@ class LanguagesModel(QAbstractListModel):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getLanguage(self, name):
 		"""
-		This method returns the language associated with provided name.
+		This method returns the language associated with given name.
 		
 		:param name: Language name. ( String )
 		:return: File language. ( Language )
@@ -209,7 +209,7 @@ class LanguagesModel(QAbstractListModel):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getFileLanguage(self, file):
 		"""
-		This method returns the language of provided file.
+		This method returns the language of given file.
 		
 		:param file: File to get language of. ( String )
 		:return: File language. ( Language )

@@ -221,7 +221,7 @@ class ActionsManager(QObject):
 	@core.executionTrace
 	def __normalizeName(self, name):
 		"""
-		This method normalizes provided action name.
+		This method normalizes given action name.
 
 		:param name: Action name. ( String )
 		:return: Normalized name. ( Boolean )
@@ -293,7 +293,7 @@ class ActionsManager(QObject):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addToCategory(self, category, name, action):
 		"""
-		This method adds provided action to given category.
+		This method adds given action to given category.
 
 		:param category: Category to store the action. ( String )
 		:param name: Action name. ( String )
@@ -313,7 +313,7 @@ class ActionsManager(QObject):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeFromCategory(self, category, name):
 		"""
-		This method removes provided action from given category.
+		This method removes given action from given category.
 
 		:param category: Category to remove the action from. ( String )
 		:param name: Action name. ( String )
@@ -349,7 +349,7 @@ class ActionsManager(QObject):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def registerAction(self, name, **kwargs):
 		"""
-		This method registers provided action name, optional arguments like a parent, icon, slot etc ... can be provided.
+		This method registers given action name, optional arguments like a parent, icon, slot etc ... can be given.
 
 		:param name: Action to register. ( String )
 		:param \*\*kwargs: Keywords arguments. ( \* )
@@ -396,7 +396,7 @@ class ActionsManager(QObject):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def unregisterAction(self, name):
 		"""
-		This method unregisters provided action name.
+		This method unregisters given action name.
 
 		:param name: Action to register. ( String )
 		:return: Method success. ( Boolean )
@@ -418,7 +418,7 @@ class ActionsManager(QObject):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def isShortcutInUse(self, shortcut):
 		"""
-		This method returns if provided action shortcut is in use.
+		This method returns if given action shortcut is in use.
 
 		:param name: Action shortcut. ( String )
 		:return: Is shortcut in use. ( Boolean )
@@ -433,7 +433,7 @@ class ActionsManager(QObject):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getShortcut(self, name):
 		"""
-		This method returns provided action shortcut.
+		This method returns given action shortcut.
 
 		:param name: Action to retrieve the shortcut. ( String )
 		:return: Action shortcut. ( String )
@@ -450,7 +450,7 @@ class ActionsManager(QObject):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setShortcut(self, name, shortcut):
 		"""
-		This method sets provided action shortcut.
+		This method sets given action shortcut.
 
 		:param name: Action to set the shortcut. ( String )
 		:param shortcut: Shortcut to set. ( String )
