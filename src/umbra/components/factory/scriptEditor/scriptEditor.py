@@ -207,7 +207,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 												highlighter=None,
 												completer=umbra.ui.completers.EnglishCompleter,
 												preInputAccelerators=(umbra.ui.inputAccelerators.completionPreEventInputAccelerators,),
-												postInputAccelerators=(),
+												postInputAccelerators=(umbra.ui.inputAccelerators.completionPostEventInputAccelerators,),
 												indentMarker="\t",
 												commentMarker=None)])
 

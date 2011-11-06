@@ -37,7 +37,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "DEFAULT_SYMBOLS_PAIRS", "indentationPreEventInputAccelerators", "completionPreEventInputAccelerators", "pythonPreEventInputAccelerators", "pythonPreEventInputAccelerators"]
+__all__ = ["LOGGER", "DEFAULT_SYMBOLS_PAIRS", "indentationPreEventInputAccelerators", "performCompletion", "completionPreEventInputAccelerators", "completionPostEventInputAccelerators", "pythonPreEventInputAccelerators", "pythonPreEventInputAccelerators"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -69,6 +69,37 @@ def indentationPreEventInputAccelerators(container, event):
 	return processEvent
 
 @core.executionTrace
+def performCompletion(container):
+	"""
+	This definition performs the completion on given container.
+	
+	:return: Process event. ( Boolean )
+	"""
+
+	completionPrefix = container.wordUnderCursor()
+	if completionPrefix.length() >= 1 :
+		words = container.getWords()
+		completionPrefix in words and words.remove(completionPrefix)
+		container.completer.updateModel(words)
+		container.completer.setCompletionPrefix(completionPrefix)
+		if container.completer.completionCount() == 1:
+			completion = container.completer.completionModel().data(container.completer.completionModel().index(0, 0)).toString()
+			cursor = container.textCursor()
+			if completionPrefix != container.textUnderCursor():
+				cursor.movePosition(QTextCursor.PreviousWord, QTextCursor.MoveAnchor)
+			cursor.movePosition(QTextCursor.EndOfWord, QTextCursor.MoveAnchor)
+			cursor.insertText(completion[len(completionPrefix):])
+			container.setTextCursor(cursor)
+		else:
+			popup = container.completer.popup()
+			popup.setCurrentIndex(container.completer.completionModel().index(0, 0))
+
+			completerRectangle = container.cursorRect()
+			hasattr(container, "marginArea_LinesNumbers_widget") and completerRectangle.moveTo(completerRectangle.topLeft().x() + container.marginArea_LinesNumbers_widget.getWidth(), completerRectangle.topLeft().y())
+			completerRectangle.setWidth(container.completer.popup().sizeHintForColumn(0) + container.completer.popup().verticalScrollBar().sizeHint().width())
+			container.completer.complete(completerRectangle)
+
+@core.executionTrace
 def completionPreEventInputAccelerators(container, event):
 	"""
 	This definition implements completion pre event input accelerators.
@@ -90,32 +121,22 @@ def completionPreEventInputAccelerators(container, event):
 		if not container.completer:
 			return processEvent
 
-		completionPrefix = container.wordUnderCursor()
-		if completionPrefix.length() >= 1 :
-			words = container.getWords()
-			completionPrefix in words and words.remove(completionPrefix)
-			container.completer.updateModel(words)
-			container.completer.setCompletionPrefix(completionPrefix)
-			if container.completer.completionCount() == 1:
-				completion = container.completer.completionModel().data(container.completer.completionModel().index(0, 0)).toString()
-				cursor = container.textCursor()
-				if completionPrefix != container.textUnderCursor():
-					cursor.movePosition(QTextCursor.PreviousWord, QTextCursor.MoveAnchor)
-				cursor.movePosition(QTextCursor.EndOfWord, QTextCursor.MoveAnchor)
-				cursor.insertText(completion[len(completionPrefix):])
-				container.setTextCursor(cursor)
-			else:
-				popup = container.completer.popup()
-				popup.setCurrentIndex(container.completer.completionModel().index(0, 0))
+		performCompletion(container)
 
-				completerRectangle = container.cursorRect()
-				hasattr(container, "marginArea_LinesNumbers_widget") and completerRectangle.moveTo(completerRectangle.topLeft().x() + container.marginArea_LinesNumbers_widget.getWidth(), completerRectangle.topLeft().y())
-				completerRectangle.setWidth(container.completer.popup().sizeHintForColumn(0) + container.completer.popup().verticalScrollBar().sizeHint().width())
-				container.completer.complete(completerRectangle)
-	else:
-		if container.completer:
-			container.completer.popup().hide()
 	return processEvent
+
+@core.executionTrace
+def completionPostEventInputAccelerators(container, event):
+	"""
+	This definition implements completion post event input accelerators.
+	
+	:return: Process event. ( Boolean )
+	"""
+
+	if container.completer:
+		if container.completer.popup().isVisible():
+			performCompletion(container)
+	return True
 
 @core.executionTrace
 def symbolsExpandingPreEventInputAccelerators(container, event):
