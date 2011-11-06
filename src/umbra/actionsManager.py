@@ -343,7 +343,7 @@ class ActionsManager(QObject):
 			if name == foundations.namespace.setNamespace(self.__namespaceSplitter.join(path), actionName):
 				LOGGER.debug("> Retrieved action for '{0}' action name!".format(name))
 				return action
-		raise umbra.exceptions.ActionExistsError("{0} | '{0}' action isn't registered!".format(self.__class__.__name__, name))
+		raise umbra.exceptions.ActionExistsError("{0} | '{1}' action isn't registered!".format(self.__class__.__name__, name))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

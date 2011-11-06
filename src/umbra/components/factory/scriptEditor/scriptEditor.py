@@ -220,7 +220,7 @@ class LanguagesModel(QAbstractListModel):
 	@core.executionTrace
 	def rowCount(self, parent=QModelIndex()):
 		"""
-		This method returns the model row count.
+		This method returns the Model row count.
 
 		:param parent: Parent. ( QModelIndex )
 		:return: Row count. ( Integer )
@@ -231,7 +231,7 @@ class LanguagesModel(QAbstractListModel):
 	@core.executionTrace
 	def data(self, index, role=Qt.DisplayRole):
 		"""
-		This method returns the model data.
+		This method returns the Model data.
 
 		:param index: Index. ( QModelIndex )
 		:param role: Role. ( Integer )

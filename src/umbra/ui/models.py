@@ -656,6 +656,19 @@ class GraphModel(QAbstractItemModel):
 
 	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def clear(self):
+		"""
+		This method clears the Model.
+		
+		:return: Method success. ( Boolean )
+		"""
+
+		self.beginResetModel()
+		self.rootNode.children = []
+		self.endResetModel()
+
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getNode(self, index):
 		"""
 		This method returns the node at given index.
@@ -693,6 +706,20 @@ class GraphModel(QAbstractItemModel):
 		"""
 
 		return self.createIndex(node.row(), 0, node)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getAttributeIndex(self, node, column):
+		"""
+		This method returns given node attribute index.
+		
+		:param node: Node. ( AbstractCompositeNode )
+		:param column: Attribute column. ( Integer )
+		:return: Index. ( QModelIndex )
+		"""
+
+		if column > 0 and column < len(self.__horizontalHeaders.keys()):
+			return self.createIndex(node.row(), column, node)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
