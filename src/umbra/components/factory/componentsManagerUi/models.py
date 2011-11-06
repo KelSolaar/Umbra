@@ -212,6 +212,7 @@ class ComponentNode(umbra.ui.models.GraphModelNode):
 			self[attribute] = umbra.ui.models.GraphModelAttribute(attribute, value, roles, attributesFlags)
 
 		self.synchronizeToolTip()
+
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def synchronizeToolTip(self):
