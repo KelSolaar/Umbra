@@ -38,7 +38,14 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "DEFAULT_SYMBOLS_PAIRS", "indentationPreEventInputAccelerators", "performCompletion", "completionPreEventInputAccelerators", "completionPostEventInputAccelerators", "pythonPreEventInputAccelerators", "pythonPreEventInputAccelerators"]
+__all__ = ["LOGGER",
+			"DEFAULT_SYMBOLS_PAIRS",
+			"indentationPreEventInputAccelerators",
+			"performCompletion",
+			"completionPreEventInputAccelerators",
+			"completionPostEventInputAccelerators",
+			"pythonPreEventInputAccelerators",
+			"pythonPreEventInputAccelerators"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -57,6 +64,8 @@ def indentationPreEventInputAccelerators(container, event):
 	"""
 	This definition implements indentation pre event input accelerators.
 	
+	:param container: Document container. ( QWidget )
+	:param event: Event being handled. ( QEvent )
 	:return: Process event. ( Boolean )
 	"""
 
@@ -75,7 +84,8 @@ def indentationPreEventInputAccelerators(container, event):
 def performCompletion(container):
 	"""
 	This definition performs the completion on given container.
-	
+
+	:param container: Document container. ( QWidget )
 	:return: Process event. ( Boolean )
 	"""
 
@@ -107,7 +117,9 @@ def performCompletion(container):
 def completionPreEventInputAccelerators(container, event):
 	"""
 	This definition implements completion pre event input accelerators.
-	
+
+	:param container: Document container. ( QWidget )
+	:param event: Event being handled. ( QEvent )
 	:return: Process event. ( Boolean )
 	"""
 
@@ -134,7 +146,9 @@ def completionPreEventInputAccelerators(container, event):
 def completionPostEventInputAccelerators(container, event):
 	"""
 	This definition implements completion post event input accelerators.
-	
+
+	:param container: Document container. ( QWidget )
+	:param event: Event being handled. ( QEvent )	
 	:return: Process event. ( Boolean )
 	"""
 
@@ -148,7 +162,9 @@ def completionPostEventInputAccelerators(container, event):
 def symbolsExpandingPreEventInputAccelerators(container, event):
 	"""
 	This definition implements symbols expanding pre event input accelerators.
-	
+
+	:param container: Document container. ( QWidget )
+	:param event: Event being handled. ( QEvent )
 	:return: Process event. ( Boolean )
 	"""
 
@@ -189,6 +205,8 @@ def pythonPostEventInputAccelerators(container, event):
 	"""
 	This definition implements pythons post event input accelerators.
 	
+	:param container: Document container. ( QWidget )
+	:param event: Event being handled. ( QEvent )
 	:return: Method success. ( Boolean )
 	"""
 

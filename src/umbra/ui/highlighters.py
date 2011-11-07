@@ -41,7 +41,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "PYTHON_TOKENS_FILE" , "getFormat" , "Rule", "Formats", "Highlighter", "LoggingHighlighter", "PythonHighlighter"]
+__all__ = ["LOGGER", "PYTHON_TOKENS_FILE" , "getFormat" , "Rule", "Rules", "Formats", "Highlighter", "LoggingHighlighter", "PythonHighlighter"]
 
 LOGGER = logging.getLogger(Constants.logger)
 

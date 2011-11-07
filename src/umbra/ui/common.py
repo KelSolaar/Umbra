@@ -211,7 +211,7 @@ def getResourcePath(name, raiseException=False):
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def setWindowDefaultIcon(window):
 	"""
-	This method sets the Application icon to the given window.
+	This method sets the default Application icon to the given window.
 
 	:param window: Window. ( QWidget )
 	:return: Definition success. ( Boolean )
@@ -229,7 +229,7 @@ def setWindowDefaultIcon(window):
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def centerWidgetOnScreen(widget, screen=None):
 	"""
-	This definition centers the given Widget middle of the screen.
+	This definition centers the given Widget on the screen.
 
 	:param widget: Current Widget. ( QWidget )
 	:param screen: Screen used for centering. ( Integer )

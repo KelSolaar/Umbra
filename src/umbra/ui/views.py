@@ -67,7 +67,7 @@ def getViewSelectedNodes(view):
 
 class ReadOnlyFilter(QObject):
 	"""
-	This class is a `QObject <http://doc.qt.nokia.com/4.7/qobject.html>`_ subclass used as an event filter for the :class:`Abstract_QListView` class.
+	This class is a `QObject <http://doc.qt.nokia.com/4.7/qobject.html>`_ subclass used as an event filter for the :class:`Abstract_QListView` and :class:`Abstract_QTreeView` classes.
 	"""
 
 	@core.executionTrace
@@ -143,7 +143,9 @@ class Abstract_QListView(QListView):
 		:param value: Attribute value. ( Boolean )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "readOnly"))
+		if value:
+			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format("readOnly", value)
+		self.__readOnly = value
 
 	@readOnly.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -221,7 +223,9 @@ class Abstract_QTreeView(QTreeView):
 		:param value: Attribute value. ( Boolean )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "readOnly"))
+		if value:
+			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format("readOnly", value)
+		self.__readOnly = value
 
 	@readOnly.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)

@@ -8,7 +8,8 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the Application completers classes.
+	| This module defines the Application completers classes.
+	| Each completer class completion list is initialized only once per session at the first class instantiation.
 
 **Others:**
 

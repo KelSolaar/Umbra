@@ -242,7 +242,7 @@ class GraphModelNode(AbstractCompositeNode):
 class DefaultNode(AbstractCompositeNode):
 	"""
 	| This class defines the default node used in :class:`GraphModel` class model.
-	| Usually this node is used as an invisible root for graphs.
+	| This simple node is used as an invisible root node for :class:`GraphModel` class models.
 	"""
 
 	__family = "Default"
@@ -264,7 +264,10 @@ class DefaultNode(AbstractCompositeNode):
 
 class GraphModel(QAbstractItemModel):
 	"""
-	This class is a `QAbstractItemModel <http://doc.qt.nokia.com/4.7/qabstractitemmodel.html>`_ subclass providing a graph model.
+	| This class is a `QAbstractItemModel <http://doc.qt.nokia.com/4.7/qabstractitemmodel.html>`_ subclass providing a graph model.
+	| The model provided by this object is very generic and abstract making it compatible with major Qt views ( QListView, QTreeView, QTableView, QComboBox ).
+
+	:note: Execution tracing and exceptions handling decorators have been disabled on this class to provide maximum execution speed.
 	"""
 
 	@core.executionTrace
@@ -711,7 +714,7 @@ class GraphModel(QAbstractItemModel):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getAttributeIndex(self, node, column):
 		"""
-		This method returns given node attribute index.
+		This method returns given node attribute index at given column.
 		
 		:param node: Node. ( AbstractCompositeNode )
 		:param column: Attribute column. ( Integer )

@@ -285,9 +285,6 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		# Various ui initializations.
 		self.setAcceptDrops(True)
 
-		# Various methods reimplementations.
-		self.closeEvent = self.__closeUi
-
 		# Setting window title and toolBar.
 		self.setWindowTitle("{0} - {1}".format(Constants.applicationName, Constants.releaseVersion))
 		self.initializeToolBar()
@@ -991,7 +988,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	@core.executionTrace
 	def dragEnterEvent(self, event):
 		"""
-		This method defines the drag enter event behavior.
+		This method reimplements the :meth:`QWidget.dragEnterEvent` method.
 
 		:param event: QEvent. ( QEvent )
 		"""
@@ -1002,7 +999,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	@core.executionTrace
 	def dragMoveEvent(self, event):
 		"""
-		This method defines the drag move event behavior.
+		This method reimplements the :meth:`QWidget.dragMoveEvent` method.
 
 		:param event: QEvent. ( QEvent )
 		"""
@@ -1013,7 +1010,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	@core.executionTrace
 	def dropEvent(self, event):
 		"""
-		This method defines the drop event behavior.
+		This method reimplements the :meth:`QWidget.dropEvent` method.
 
 		:param event: QEvent. ( QEvent )
 		"""
@@ -1022,9 +1019,9 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.contentDropped.emit(event)
 
 	@core.executionTrace
-	def __closeUi(self, event):
+	def closeEvent(self, event):
 		"""
-		This method is called when close event is fired.
+		This method reimplements the :meth:`QWidget.closeEvent` method.
 
 		:param event: QEvent. ( QEvent )
 		"""
@@ -1071,7 +1068,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	@core.executionTrace
 	def __componentsInstantiationCallback(self, profile):
 		"""
-		This method is a callback for the Components instantiation.
+		This method is a callback for Components instantiation.
 
 		:param profile: Component Profile. ( Profile )
 		"""
@@ -1229,7 +1226,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def isFullScreen(self):
 		"""
-		This method retruns if Application is in fullscreen state.
+		This method returns if Application is in fullscreen state.
 
 		:return: FullScreen state. ( Boolean )
 		"""
@@ -1389,7 +1386,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def initializeToolBar(self):
 		"""
-		This method initializes Application toolBar.
+		This method initializes the Application toolBar.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -1510,7 +1507,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setProcessingMessage(self, message, warning=True):
 		"""
-		This method registers the start of a processing operation.
+		This method sets the processing operation message.
 
 		:param message: Operation description. ( String )
 		:param warning: Emit warning message. ( Integer )
