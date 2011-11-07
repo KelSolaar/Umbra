@@ -68,6 +68,8 @@ class Language(core.Structure):
 		:param \*\*kwargs: name, extension, highlighter, completer, preInputAccelerators, postInputAccelerators. ( Key / Value pairs )
 		"""
 
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
 		core.Structure.__init__(self, **kwargs)
 
 #***********************************************************************************************

@@ -91,6 +91,8 @@ class Rule(core.Structure):
 		:param \*\*kwargs: pattern, format. ( Key / Value pairs )
 		"""
 
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
 		core.Structure.__init__(self, **kwargs)
 
 class Rules(core.OrderedStructure):
@@ -121,6 +123,8 @@ class Formats(core.Structure):
 
 		:param \*\*kwargs: name. ( Key / Value pairs )
 		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
 		core.Structure.__init__(self, **kwargs)
 

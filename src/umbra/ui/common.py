@@ -82,6 +82,8 @@ class LayoutActiveLabel(core.Structure):
 		:param \*\*kwargs: name, object, layout, shortcut. ( Key / Value pairs )
 		"""
 
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
 		core.Structure.__init__(self, **kwargs)
 
 class Icon(core.Structure):
@@ -96,6 +98,8 @@ class Icon(core.Structure):
 
 		:param kwargs: path ( Key / Value pairs )
 		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
 		core.Structure.__init__(self, **kwargs)
 
