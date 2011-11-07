@@ -28,7 +28,8 @@ from PyQt4.QtGui import *
 #***********************************************************************************************
 import foundations.core as core
 import foundations.exceptions
-from foundations.dag import Attribute, AbstractCompositeNode
+from foundations.dag import AbstractCompositeNode
+from foundations.dag import Attribute
 from umbra.globals.constants import Constants
 
 #***********************************************************************************************

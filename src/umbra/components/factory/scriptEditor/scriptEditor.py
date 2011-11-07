@@ -36,7 +36,9 @@ import umbra.engine
 import umbra.ui.highlighters
 import umbra.ui.inputAccelerators
 from manager.qwidgetComponent import QWidgetComponentFactory
-from umbra.components.factory.scriptEditor.editor import Editor, Language, PYTHON_LANGUAGE
+from umbra.components.factory.scriptEditor.editor import Editor
+from umbra.components.factory.scriptEditor.editor import Language
+from umbra.components.factory.scriptEditor.editor import PYTHON_LANGUAGE
 from umbra.components.factory.scriptEditor.editorStatus import EditorStatus
 from umbra.components.factory.scriptEditor.models import LanguagesModel
 from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace

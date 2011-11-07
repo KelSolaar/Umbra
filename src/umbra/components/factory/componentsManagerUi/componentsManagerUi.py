@@ -35,7 +35,9 @@ import umbra.ui.common
 import umbra.ui.widgets.messageBox as messageBox
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.globals.constants import Constants
-from umbra.components.factory.componentsManagerUi.models import PathNode, ComponentNode, ComponentsModel
+from umbra.components.factory.componentsManagerUi.models import ComponentsModel
+from umbra.components.factory.componentsManagerUi.models import ComponentNode
+from umbra.components.factory.componentsManagerUi.models import PathNode
 from umbra.components.factory.componentsManagerUi.views import Components_QTreeView
 
 #***********************************************************************************************
