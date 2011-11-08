@@ -186,7 +186,7 @@ class EnglishCompleter(QCompleter):
 	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def englishWords(self, value):
 		"""
-		This method is the setter method for **self.__englishWords** attribute.
+		This method is the setter method for **EnglishCompleter._EnglishCompleter__englishWords** attribute.
 
 		:param value: Attribute value. ( Tuple / List )
 		"""
@@ -199,7 +199,7 @@ class EnglishCompleter(QCompleter):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def englishWords(self):
 		"""
-		This method is the deleter method for **self.__englishWords** attribute.
+		This method is the deleter method for **EnglishCompleter._EnglishCompleter__englishWords** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "englishWords"))
