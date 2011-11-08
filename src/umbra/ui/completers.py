@@ -101,6 +101,8 @@ class PythonCompleter(QCompleter):
 
 		if value:
 			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format("pythonTokens", value)
+			for element in value:
+				assert type(element) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("pythonTokens", element)				
 		PythonCompleter._PythonCompleter__pythonTokens = value
 
 	@pythonTokens.deleter
@@ -193,6 +195,8 @@ class EnglishCompleter(QCompleter):
 
 		if value:
 			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format("englishWords", value)
+			for element in value:
+				assert type(element) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("englishWords", element)				
 		EnglishCompleter._EnglishCompleter__englishWords = value
 
 	@englishWords.deleter

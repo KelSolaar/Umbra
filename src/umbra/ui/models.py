@@ -105,6 +105,8 @@ class GraphModelAttribute(Attribute):
 
 		if value:
 			assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("roles", value)
+			for key in value.keys():
+				assert type(key) is Qt.ItemDataRole, "'{0}' attribute: '{1}' type is not 'Qt.ItemDataRole'!".format("roles", key)
 		self.__roles = value
 
 	@roles.deleter
@@ -202,6 +204,8 @@ class GraphModelNode(AbstractCompositeNode):
 
 		if value:
 			assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("roles", value)
+			for key in value.keys():
+				assert type(key) is Qt.ItemDataRole, "'{0}' attribute: '{1}' type is not 'Qt.ItemDataRole'!".format("roles", key)
 		self.__roles = value
 
 	@roles.deleter

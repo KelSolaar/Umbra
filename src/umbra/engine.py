@@ -494,6 +494,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		if value:
 			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format("visibleComponents", value)
+			for element in value:
+				assert type(element) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("visibleComponents", element)
 		self.__visibleComponents = value
 
 	@visibleComponents.deleter
@@ -829,6 +831,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		if value:
 			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format("layoutsActiveLabels", value)
+			for element in value:
+				assert type(element) is umbra.ui.common.LayoutActiveLabel, "'{0}' attribute: '{1}' type is not 'umbra.ui.common.LayoutActiveLabel'!".format("layoutsActiveLabels", element)
 		self.__layoutsActiveLabels = value
 
 	@layoutsActiveLabels.deleter
