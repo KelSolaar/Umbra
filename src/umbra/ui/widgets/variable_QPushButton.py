@@ -109,7 +109,7 @@ class Variable_QPushButton(QPushButton):
 		"""
 
 		if value:
-			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format("activated", value)
+			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format("state", value)
 		self.__state = value
 
 	@state.deleter

@@ -509,7 +509,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 		This method is the property for **self.__indentWidth** attribute.
 
-		:return: self.__indentWidth. ( String )
+		:return: self.__indentWidth. ( Integer )
 		"""
 
 		return self.__indentWidth
@@ -520,7 +520,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 		This method is the setter method for **self.__indentWidth** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value. ( Integer )
 		"""
 
 		if value:
