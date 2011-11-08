@@ -22,8 +22,9 @@
 import logging
 import re
 import itertools
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4.QtCore import QObject
+from PyQt4.QtGui import QAction
+from PyQt4.QtGui import QKeySequence
 
 #***********************************************************************************************
 #***	Internal imports.

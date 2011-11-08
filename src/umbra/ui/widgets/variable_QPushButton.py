@@ -18,8 +18,9 @@
 #***	External imports.
 #***********************************************************************************************
 import logging
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4.QtGui import QColor
+from PyQt4.QtGui import QPalette
+from PyQt4.QtGui import QPushButton
 
 #***********************************************************************************************
 #***	Internal imports.

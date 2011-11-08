@@ -23,8 +23,24 @@ import os
 import platform
 import re
 import sys
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4.QtCore import QChar
+from PyQt4.QtCore import QEvent
+from PyQt4.QtCore import QFileSystemWatcher
+from PyQt4.QtCore import QString
+from PyQt4.QtCore import QTimer
+from PyQt4.QtCore import Qt
+from PyQt4.QtCore import pyqtSignal
+from PyQt4.QtGui import QAction
+from PyQt4.QtGui import QApplication
+from PyQt4.QtGui import QFileDialog
+from PyQt4.QtGui import QFont
+from PyQt4.QtGui import QInputDialog
+from PyQt4.QtGui import QKeySequence
+from PyQt4.QtGui import QMenu
+from PyQt4.QtGui import QMenuBar
+from PyQt4.QtGui import QTabWidget
+from PyQt4.QtGui import QTextCursor
+from PyQt4.QtGui import QTextOption
 
 #***********************************************************************************************
 #***	Internal imports.

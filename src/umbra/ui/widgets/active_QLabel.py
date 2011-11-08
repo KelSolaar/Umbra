@@ -18,8 +18,10 @@
 #***	External imports.
 #***********************************************************************************************
 import logging
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4.QtCore import pyqtSignal
+from PyQt4.QtGui import QCursor
+from PyQt4.QtGui import QLabel
+from PyQt4.QtGui import QPixmap
 
 #***********************************************************************************************
 #***	Internal imports.

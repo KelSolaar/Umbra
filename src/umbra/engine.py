@@ -28,8 +28,20 @@ import platform
 import re
 import sys
 import time
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4.QtCore import QEvent
+from PyQt4.QtCore import QEventLoop
+from PyQt4.QtCore import QSize
+from PyQt4.QtCore import QString
+from PyQt4.QtCore import QTimer
+from PyQt4.QtCore import QUrl
+from PyQt4.QtCore import Qt
+from PyQt4.QtCore import pyqtSignal
+from PyQt4.QtGui import QApplication
+from PyQt4.QtGui import QDesktopServices
+from PyQt4.QtGui import QLabel
+from PyQt4.QtGui import QMenu
+from PyQt4.QtGui import QPixmap
+from PyQt4.QtGui import QSizePolicy
 
 #***********************************************************************************************
 #***	Path manipulations.

@@ -19,8 +19,9 @@
 #***	External imports.
 #***********************************************************************************************
 import logging
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4.QtCore import Qt
+from PyQt4.QtGui import QCompleter
+from PyQt4.QtGui import QStringListModel
 
 #***********************************************************************************************
 #***	Internal imports.

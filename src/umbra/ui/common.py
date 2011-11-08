@@ -22,8 +22,9 @@ import inspect
 import logging
 import os
 import platform
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4.QtCore import Qt
+from PyQt4.QtGui import QApplication
+from PyQt4.QtGui import QIcon
 
 #***********************************************************************************************
 #***	Internal imports.

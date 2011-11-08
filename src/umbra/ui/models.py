@@ -20,8 +20,13 @@
 import logging
 import pickle
 from collections import OrderedDict
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4.QtCore import QAbstractItemModel
+from PyQt4.QtCore import QMimeData
+from PyQt4.QtCore import QModelIndex
+from PyQt4.QtCore import QStringList
+from PyQt4.QtCore import QVariant
+from PyQt4.QtCore import Qt
+from PyQt4.QtGui import QIcon
 
 #***********************************************************************************************
 #***	Internal imports.

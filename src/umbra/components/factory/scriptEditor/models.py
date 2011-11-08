@@ -19,8 +19,10 @@
 #***********************************************************************************************
 import logging
 import re
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4.QtCore import QAbstractListModel
+from PyQt4.QtCore import QModelIndex
+from PyQt4.QtCore import QVariant
+from PyQt4.QtCore import Qt
 
 #***********************************************************************************************
 #***	Internal imports.

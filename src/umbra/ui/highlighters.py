@@ -18,8 +18,11 @@
 #***	External imports.
 #***********************************************************************************************
 import logging
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4.QtCore import QRegExp
+from PyQt4.QtGui import QColor
+from PyQt4.QtGui import QFont
+from PyQt4.QtGui import QSyntaxHighlighter
+from PyQt4.QtGui import QTextCharFormat
 
 #***********************************************************************************************
 #***	Internal imports.

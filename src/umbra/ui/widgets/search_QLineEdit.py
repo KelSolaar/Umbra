@@ -20,8 +20,14 @@
 import functools
 import logging
 import os
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4.QtCore import QString
+from PyQt4.QtCore import Qt
+from PyQt4.QtGui import QCompleter
+from PyQt4.QtGui import QIcon
+from PyQt4.QtGui import QLineEdit
+from PyQt4.QtGui import QPixmap
+from PyQt4.QtGui import QStyle
+from PyQt4.QtGui import QToolButton
 
 #***********************************************************************************************
 #***	Internal imports.

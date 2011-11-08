@@ -22,8 +22,9 @@ import logging
 import os
 import sys
 from PyQt4 import uic
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4.QtCore import QRegExp
+from PyQt4.QtCore import Qt
+from PyQt4.QtGui import QWidget
 
 #***********************************************************************************************
 #***	Internal imports.
