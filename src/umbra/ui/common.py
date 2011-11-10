@@ -172,7 +172,9 @@ def uiSystemExitExceptionHandler(exception, origin, *args, **kwargs):
 	"""
 
 	uiExtendedExceptionHandler(exception, origin, *args, **kwargs)
-	foundations.common.exit(1, LOGGER, [RuntimeGlobals.loggingSessionHandler, RuntimeGlobals.loggingFileHandler, RuntimeGlobals.loggingConsoleHandler])
+	foundations.common.exit(1, LOGGER, [RuntimeGlobals.loggingSessionHandler,
+										RuntimeGlobals.loggingFileHandler,
+										RuntimeGlobals.loggingConsoleHandler])
 
 @core.executionTrace
 def uiStandaloneSystemExitExceptionHandler(exception, origin, *args, **kwargs):
@@ -186,7 +188,9 @@ def uiStandaloneSystemExitExceptionHandler(exception, origin, *args, **kwargs):
 	"""
 
 	uiStandaloneExtendedExceptionHandler(exception, origin, *args, **kwargs)
-	foundations.common.exit(1, LOGGER, [RuntimeGlobals.loggingSessionHandler, RuntimeGlobals.loggingFileHandler, RuntimeGlobals.loggingConsoleHandler])
+	foundations.common.exit(1, LOGGER, [RuntimeGlobals.loggingSessionHandler,
+										RuntimeGlobals.loggingFileHandler,
+										RuntimeGlobals.loggingConsoleHandler])
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.ResourceExistsError)
@@ -206,7 +210,8 @@ def getResourcePath(name, raiseException=False):
 			return path
 
 	if raiseException:
-		raise umbra.exceptions.ResourceExistsError("{0} | No resource file path found for '{0}' name!".format(inspect.getmodulename(__file__), name))
+		raise umbra.exceptions.ResourceExistsError(
+		"{0} | No resource file path found for '{0}' name!".format(inspect.getmodulename(__file__), name))
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -254,7 +259,8 @@ def getTokensParser(tokensFile):
 	"""
 
 	if not os.path.exists(tokensFile):
-		raise foundations.exceptions.FileExistsError("{0} | '{1}' tokens file doesn't exists!".format(inspect.getmodulename(__file__), tokensFile))
+		raise foundations.exceptions.FileExistsError("{0} | '{1}' tokens file doesn't exists!".format(
+		inspect.getmodulename(__file__), tokensFile))
 
 	sectionsFileParser = SectionsFileParser(tokensFile)
 	sectionsFileParser.read() and sectionsFileParser.parse(orderedDictionary=False)

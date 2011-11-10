@@ -96,7 +96,8 @@ def performCompletion(container):
 		container.completer.updateModel(words)
 		container.completer.setCompletionPrefix(completionPrefix)
 		if container.completer.completionCount() == 1:
-			completion = container.completer.completionModel().data(container.completer.completionModel().index(0, 0)).toString()
+			completion = container.completer.completionModel().data(
+						container.completer.completionModel().index(0, 0)).toString()
 			cursor = container.textCursor()
 			if completionPrefix != container.textUnderCursor():
 				cursor.movePosition(QTextCursor.PreviousWord, QTextCursor.MoveAnchor)
@@ -108,8 +109,11 @@ def performCompletion(container):
 			popup.setCurrentIndex(container.completer.completionModel().index(0, 0))
 
 			completerRectangle = container.cursorRect()
-			hasattr(container, "marginArea_LinesNumbers_widget") and completerRectangle.moveTo(completerRectangle.topLeft().x() + container.marginArea_LinesNumbers_widget.getWidth(), completerRectangle.topLeft().y())
-			completerRectangle.setWidth(container.completer.popup().sizeHintForColumn(0) + container.completer.popup().verticalScrollBar().sizeHint().width())
+			hasattr(container, "marginArea_LinesNumbers_widget") and completerRectangle.moveTo(
+			completerRectangle.topLeft().x() + container.marginArea_LinesNumbers_widget.getWidth(),
+			completerRectangle.topLeft().y())
+			completerRectangle.setWidth(container.completer.popup().sizeHintForColumn(0) + \
+			container.completer.popup().verticalScrollBar().sizeHint().width())
 			container.completer.complete(completerRectangle)
 
 @core.executionTrace
@@ -174,13 +178,17 @@ def symbolsExpandingPreEventInputAccelerators(container, event):
 		cursor.beginEditBlock()
 		if not cursor.hasSelection():
 			cursor.insertText(event.text())
-			cursor.insertText(DEFAULT_SYMBOLS_PAIRS[unicode(event.text(), Constants.encodingFormat, Constants.encodingError)])
+			cursor.insertText(DEFAULT_SYMBOLS_PAIRS[unicode(event.text(),
+															Constants.encodingFormat,
+															Constants.encodingError)])
 			cursor.movePosition(QTextCursor.Left, QTextCursor.MoveAnchor)
 		else:
 			selectionText = cursor.selectedText()
 			cursor.insertText(event.text())
 			cursor.insertText(selectionText)
-			cursor.insertText(DEFAULT_SYMBOLS_PAIRS[unicode(event.text(), Constants.encodingFormat, Constants.encodingError)])
+			cursor.insertText(DEFAULT_SYMBOLS_PAIRS[unicode(event.text(),
+															Constants.encodingFormat,
+															Constants.encodingError)])
 		container.setTextCursor(cursor)
 		cursor.endEditBlock()
 		processEvent = False
@@ -195,7 +203,8 @@ def symbolsExpandingPreEventInputAccelerators(container, event):
 		if not rightText:
 			return processEvent
 
-		if unicode(leftText, Constants.encodingFormat, Constants.encodingError) in DEFAULT_SYMBOLS_PAIRS.keys() and unicode(rightText, Constants.encodingFormat, Constants.encodingError) in DEFAULT_SYMBOLS_PAIRS.values():
+		if unicode(leftText, Constants.encodingFormat, Constants.encodingError) in DEFAULT_SYMBOLS_PAIRS.keys() and \
+		unicode(rightText, Constants.encodingFormat, Constants.encodingError) in DEFAULT_SYMBOLS_PAIRS.values():
 			cursor.deleteChar()
 	return processEvent
 

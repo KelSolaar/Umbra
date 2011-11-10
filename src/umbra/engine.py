@@ -77,7 +77,8 @@ def _overrideDependenciesGlobals():
 	"""
 
 	foundations.globals.constants.Constants.logger = manager.globals.constants.Constants.logger = Constants.logger
-	foundations.globals.constants.Constants.applicationDirectory = manager.globals.constants.Constants.applicationDirectory = Constants.applicationDirectory
+	foundations.globals.constants.Constants.applicationDirectory = \
+	manager.globals.constants.Constants.applicationDirectory = Constants.applicationDirectory
 	return True
 
 _overrideDependenciesGlobals()
@@ -89,8 +90,10 @@ def _extendResourcesPaths():
 	:return: Definition success. ( Boolean )
 	"""
 
-	for path in (os.path.join(umbra.__path__[0], Constants.resourcesDirectory), os.path.join(os.getcwd(), umbra.__name__, Constants.resourcesDirectory)):
-		(os.path.exists(path) and not path in RuntimeGlobals.resourcesPaths) and RuntimeGlobals.resourcesPaths.append(path)
+	for path in (os.path.join(umbra.__path__[0], Constants.resourcesDirectory),
+				os.path.join(os.getcwd(), umbra.__name__, Constants.resourcesDirectory)):
+		(os.path.exists(path) and not path in RuntimeGlobals.resourcesPaths) and \
+		RuntimeGlobals.resourcesPaths.append(path)
 	return True
 
 _extendResourcesPaths()
@@ -150,12 +153,15 @@ RuntimeGlobals.loggingFormatters = {"Default" :core.LOGGING_DEFAULT_FORMATTER,
 
 RuntimeGlobals.uiFile = umbra.ui.common.getResourcePath(UiConstants.uiFile)
 if not os.path.exists(RuntimeGlobals.uiFile):
-	umbra.ui.common.uiStandaloneSystemExitExceptionHandler(foundations.exceptions.FileExistsError("'{0}' ui file is not available, {1} will now close!".format(UiConstants.uiFile, Constants.applicationName)), Constants.applicationName)
+	umbra.ui.common.uiStandaloneSystemExitExceptionHandler(
+	foundations.exceptions.FileExistsError("'{0}' ui file is not available, {1} will now close!".format(
+	UiConstants.uiFile, Constants.applicationName)), Constants.applicationName)
 
-SESSION_HEADER_TEXT = ("{0} | Copyright ( C ) 2008 - 2011 Thomas Mansencal - thomas.mansencal@gmail.com".format(Constants.applicationName),
-			"{0} | This software is released under terms of GNU GPL V3 license.".format(Constants.applicationName),
-			"{0} | http://www.gnu.org/licenses/ ".format(Constants.applicationName),
-			"{0} | Version: {1}".format(Constants.applicationName, Constants.releaseVersion))
+SESSION_HEADER_TEXT = ("{0} | Copyright ( C ) 2008 - 2011 Thomas Mansencal - thomas.mansencal@gmail.com".format(
+					Constants.applicationName),
+				"{0} | This software is released under terms of GNU GPL V3 license.".format(Constants.applicationName),
+				"{0} | http://www.gnu.org/licenses/ ".format(Constants.applicationName),
+				"{0} | Version: {1}".format(Constants.applicationName, Constants.releaseVersion))
 
 SESSION_FOOTER_TEXT = ("{0} | Closing interface! ".format(Constants.applicationName),
 				Constants.loggingSeparators,
@@ -235,7 +241,13 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiSystemExitExceptionHandler, False, Exception)
-	def __init__(self, parent=None, componentsPaths=None, requisiteComponents=None, visibleComponents=None, *args, **kwargs):
+	def __init__(self,
+				parent=None,
+				componentsPaths=None,
+				requisiteComponents=None,
+				visibleComponents=None,
+				*args,
+				**kwargs):
 		"""
 		This method initializes the class.
 
@@ -285,7 +297,10 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__timer.start(Constants.defaultTimerCycle)
 
 		# --- Initializing application. ---
-		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Initializing interface.".format(self.__class__.__name__, Constants.releaseVersion), textColor=Qt.white, waitTime=0.25)
+		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage(
+		"{0} - {1} | Initializing interface.".format(self.__class__.__name__, Constants.releaseVersion),
+		textColor=Qt.white,
+		waitTime=0.25)
 
 		# --- Initializing Actions Manager. ---
 		self.__actionsManager = umbra.actionsManager.ActionsManager(self)
@@ -307,13 +322,18 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.Application_Progress_Status_processing.hide()
 
 		# --- Initializing Components Manager. ---
-		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Initializing Components manager.".format(self.__class__.__name__, Constants.releaseVersion), textColor=Qt.white, waitTime=0.25)
+		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage(
+		"{0} - {1} | Initializing Components manager.".format(self.__class__.__name__, Constants.releaseVersion),
+		textColor=Qt.white,
+		waitTime=0.25)
 
 		self.__componentsManager = Manager(componentsPaths)
 		self.__componentsManager.registerComponents()
 
 		if not self.__componentsManager.components:
-			messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Components Manager has no Components!".format(self.__class__.__name__, Constants.applicationName))
+			messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Components Manager has no Components!".format(
+			self.__class__.__name__,
+			Constants.applicationName))
 
 		self.__componentsManager.instantiateComponents(self.__componentsInstantiationCallback)
 
@@ -322,8 +342,11 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 			try:
 				profile = self.__componentsManager.components[component]
 				interface = self.__componentsManager.getInterface(component)
-				setattr(self, "_{0}__{1}".format(self.__class__.__name__, Manager.getComponentAttributeName(component)), interface)
-				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component), textColor=Qt.white)
+				setattr(self, "_{0}__{1}".format(self.__class__.__name__, Manager.getComponentAttributeName(component)),
+																											interface)
+				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage(
+				"{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component),
+				textColor=Qt.white)
 				interface.activate(self)
 				if profile.category in ("Default", "QObject"):
 					interface.initialize()
@@ -332,7 +355,9 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 					interface.initializeUi()
 			except Exception as error:
 				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
-				umbra.ui.common.uiSystemExitExceptionHandler(manager.exceptions.ComponentActivationError("'{0}' Component failed to activate!\nException raised: {1}".format(component, error)), self.__class__.__name__)
+				umbra.ui.common.uiSystemExitExceptionHandler(manager.exceptions.ComponentActivationError(
+				"'{0}' Component failed to activate!\nException raised: {1}".format(component, error)),
+				self.__class__.__name__)
 
 		# --- Activating others Components. ---
 		deactivatedComponents = self.__settings.getKey("Settings", "deactivatedComponents").toString().split(",")
@@ -346,7 +371,9 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 				if interface.activated:
 					continue
 
-				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component), textColor=Qt.white)
+				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage(
+				"{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component),
+				textColor=Qt.white)
 				interface.activate(self)
 				if profile.category in ("Default", "QObject"):
 					interface.initialize()
@@ -355,12 +382,16 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 					interface.initializeUi()
 			except Exception as error:
 				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
-				umbra.ui.common.uiExtendedExceptionHandler(manager.exceptions.ComponentActivationError("'{0}' Component failed to activate, unexpected behavior may occur!\nException raised: {1}".format(component, error)), self.__class__.__name__)
+				umbra.ui.common.uiExtendedExceptionHandler(manager.exceptions.ComponentActivationError(
+				"'{0}' Component failed to activate, unexpected behavior may occur!\nException raised: {1}".format(
+				component, error)), self.__class__.__name__)
 
 		# Hiding splashscreen.
 		LOGGER.debug("> Hiding splashscreen.")
 		if RuntimeGlobals.splashscreen:
-			RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Initialization done.".format(self.__class__.__name__, Constants.releaseVersion), textColor=Qt.white)
+			RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Initialization done.".format(
+			self.__class__.__name__, Constants.releaseVersion),
+			textColor=Qt.white)
 			RuntimeGlobals.splashscreen.hide()
 
 		# --- Running onStartup components methods. ---
@@ -374,7 +405,9 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 					hasattr(interface, "onStartup") and interface.onStartup()
 			except Exception as error:
 				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
-				umbra.ui.common.uiExtendedExceptionHandler(Exception("'{0}' Component 'onStartup' method raised an exception, unexpected behavior may occur!\nException raised: {1}".format(component, error)), self.__class__.__name__)
+				umbra.ui.common.uiExtendedExceptionHandler(
+				Exception("'{0}' Component 'onStartup' method raised an exception, \
+				unexpected behavior may occur!\nException raised: {1}".format(component, error)), self.__class__.__name__)
 
 		self.__setLayoutsActiveLabelsShortcuts()
 
@@ -402,7 +435,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( QTimer )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "timer"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "timer"))
 
 	@timer.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -411,7 +445,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__timer** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "timer"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "timer"))
 
 	@property
 	def componentsPaths(self):
@@ -432,7 +467,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( Tuple / List )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "componentsPaths"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "componentsPaths"))
 
 	@componentsPaths.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -441,7 +477,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__componentsPaths** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "componentsPaths"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "componentsPaths"))
 
 	@property
 	def requisiteComponents(self):
@@ -462,7 +499,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( Tuple / List )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "requisiteComponents"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "requisiteComponents"))
 
 	@requisiteComponents.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -471,7 +509,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__requisiteComponents** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "requisiteComponents"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "requisiteComponents"))
 
 	@property
 	def visibleComponents(self):
@@ -493,9 +532,11 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		"""
 
 		if value:
-			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format("visibleComponents", value)
+			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
+			"visibleComponents", value)
 			for element in value:
-				assert type(element) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("visibleComponents", element)
+				assert type(element) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+				"visibleComponents", element)
 		self.__visibleComponents = value
 
 	@visibleComponents.deleter
@@ -505,7 +546,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__visibleComponents** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "visibleComponents"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "visibleComponents"))
 
 	@property
 	def actionsManager(self):
@@ -526,7 +568,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( ActionsManager )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "actionsManager"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "actionsManager"))
 
 	@actionsManager.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -535,7 +578,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__actionsManager** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "actionsManager"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "actionsManager"))
 
 	@property
 	def componentsManager(self):
@@ -556,7 +600,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( ComponentsManager )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "componentsManager"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "componentsManager"))
 
 	@componentsManager.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -565,7 +610,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__componentsManager** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "componentsManager"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "componentsManager"))
 
 	@property
 	def userApplicationDataDirectory(self):
@@ -586,7 +632,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "userApplicationDataDirectory"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "userApplicationDataDirectory"))
 
 	@userApplicationDataDirectory.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -595,7 +642,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__userApplicationDataDirectory** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "userApplicationDataDirectory"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "userApplicationDataDirectory"))
 
 	@property
 	def loggingSessionHandler(self):
@@ -616,7 +664,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( Handler )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingSessionHandler"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingSessionHandler"))
 
 	@loggingSessionHandler.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -625,7 +674,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__loggingSessionHandler** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingSessionHandler"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingSessionHandler"))
 
 	@property
 	def loggingFileHandler(self):
@@ -646,7 +696,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( Handler )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingFileHandler"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingFileHandler"))
 
 	@loggingFileHandler.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -655,7 +706,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__loggingFileHandler** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingFileHandler"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingFileHandler"))
 
 	@property
 	def loggingConsoleHandler(self):
@@ -676,7 +728,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( Handler )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingConsoleHandler"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingConsoleHandler"))
 
 	@loggingConsoleHandler.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -685,7 +738,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__loggingConsoleHandler** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingConsoleHandler"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingConsoleHandler"))
 
 	@property
 	def loggingSessionHandlerStream(self):
@@ -706,7 +760,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( StreamObject )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingSessionHandlerStream"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingSessionHandlerStream"))
 
 	@loggingSessionHandlerStream.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -715,7 +770,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__loggingSessionHandlerStream** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingSessionHandlerStream"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingSessionHandlerStream"))
 
 	@property
 	def settings(self):
@@ -736,7 +792,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( QSettings )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
 	@settings.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -745,7 +802,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__settings** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
 	@property
 	def verbosityLevel(self):
@@ -768,7 +826,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		if value:
 			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("verbosityLevel", value)
-			assert value >= 0 and value <= 4, "'{0}' attribute: Value need to be exactly beetween 0 and 4!".format("verbosityLevel")
+			assert value >= 0 and value <= 4, "'{0}' attribute: Value need to be exactly beetween 0 and 4!".format(
+			"verbosityLevel")
 		self.__verbosityLevel = value
 
 	@verbosityLevel.deleter
@@ -778,7 +837,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__verbosityLevel** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "verbosityLevel"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "verbosityLevel"))
 
 	@property
 	def parameters(self):
@@ -799,7 +859,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( Object )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "parameters"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "parameters"))
 
 	@parameters.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -808,7 +869,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__parameters** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "parameters"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "parameters"))
 
 	@property
 	def layoutsActiveLabels(self):
@@ -830,9 +892,11 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		"""
 
 		if value:
-			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format("layoutsActiveLabels", value)
+			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
+			"layoutsActiveLabels", value)
 			for element in value:
-				assert type(element) is umbra.ui.common.LayoutActiveLabel, "'{0}' attribute: '{1}' type is not 'umbra.ui.common.LayoutActiveLabel'!".format("layoutsActiveLabels", element)
+				assert type(element) is umbra.ui.common.LayoutActiveLabel, "'{0}' attribute: '{1}' type is not \
+				'umbra.ui.common.LayoutActiveLabel'!".format("layoutsActiveLabels", element)
 		self.__layoutsActiveLabels = value
 
 	@layoutsActiveLabels.deleter
@@ -842,7 +906,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__layoutsActiveLabels** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "layoutsActiveLabels"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "layoutsActiveLabels"))
 
 	@property
 	def currentLayout(self):
@@ -863,7 +928,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( Tuple / List )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "currentLayout"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "currentLayout"))
 
 	@currentLayout.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -872,7 +938,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__currentLayout** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "currentLayout"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "currentLayout"))
 
 	@property
 	def customLayoutsMenu(self):
@@ -904,7 +971,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__customLayoutsMenu** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "customLayoutsMenu"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "customLayoutsMenu"))
 
 	@property
 	def miscellaneousMenu(self):
@@ -936,7 +1004,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__miscellaneousMenu** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "miscellaneousMenu"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "miscellaneousMenu"))
 
 	@property
 	def workerThreads(self):
@@ -957,7 +1026,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( List )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "workerThreads"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "workerThreads"))
 
 	@workerThreads.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -966,7 +1036,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__workerThreads** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "workerThreads"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "workerThreads"))
 
 	@property
 	def isProcessing(self):
@@ -987,7 +1058,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( Boolean )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "isProcessing"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "isProcessing"))
 
 	@isProcessing.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -996,7 +1068,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		This method is the deleter method for **self.__isProcessing** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "isProcessing"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "isProcessing"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -1089,7 +1162,9 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param profile: Component Profile. ( Profile )
 		"""
 
-		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Instantiating {2} Component.".format(self.__class__.__name__, Constants.releaseVersion, profile.name), textColor=Qt.white)
+		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage(
+		"{0} - {1} | Instantiating {2} Component.".format(self.__class__.__name__, Constants.releaseVersion, profile.name),
+		textColor=Qt.white)
 
 	@core.executionTrace
 	def __setLayoutsActiveLabelsShortcuts(self):
@@ -1100,7 +1175,11 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		LOGGER.debug("> Setting layouts Active_QLabels shortcuts.")
 
 		for layoutActiveLabel in self.__layoutsActiveLabels:
-			self.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Layouts|{0}".format(layoutActiveLabel.name), shortcut=layoutActiveLabel.shortcut, shortcutContext=Qt.ApplicationShortcut, slot=functools.partial(self.restoreLayout, layoutActiveLabel.layout)))
+			self.addAction(self.__actionsManager.registerAction(
+			"Actions|Umbra|ToolBar|Layouts|{0}".format(layoutActiveLabel.name),
+			shortcut=layoutActiveLabel.shortcut,
+			shortcutContext=Qt.ApplicationShortcut,
+			slot=functools.partial(self.restoreLayout, layoutActiveLabel.layout)))
 
 	@core.executionTrace
 	def __getCurrentLayoutActiveLabel(self):
@@ -1204,9 +1283,18 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		"""
 
 		LOGGER.debug("> Setting Application visual style.")
-		platformStyles = {"Windows":(("Windows", "Microsoft"), UiConstants.windowsStyle, UiConstants.windowsStylesheetFile, UiConstants.windowsFullScreenStylesheetFile),
-						"Darwin":(("Darwin",), UiConstants.darwinStyle, UiConstants.darwinStylesheetFile, UiConstants.darwinFullScreenStylesheetFile),
-						"Linux":(("Linux",), UiConstants.linuxStyle, UiConstants.linuxStylesheetFile, UiConstants.linuxFullScreenStylesheetFile)}
+		platformStyles = {"Windows":(("Windows", "Microsoft"),
+		 							UiConstants.windowsStyle,
+									UiConstants.windowsStylesheetFile,
+									UiConstants.windowsFullScreenStylesheetFile),
+						"Darwin":(("Darwin",),
+								UiConstants.darwinStyle,
+								UiConstants.darwinStylesheetFile,
+								UiConstants.darwinFullScreenStylesheetFile),
+						"Linux":(("Linux",),
+								UiConstants.linuxStyle,
+								UiConstants.linuxStylesheetFile,
+								UiConstants.linuxFullScreenStylesheetFile)}
 
 		styleSheetFile = None
 		for platformStyle, settings in platformStyles.items():
@@ -1216,13 +1304,15 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 				RuntimeGlobals.application.setStyle(style)
 				styleSheetPath = umbra.ui.common.getResourcePath(styleSheeFile)
 				if fullScreenStyle:
-					fullScreenStyleSheetPath = umbra.ui.common.getResourcePath(fullScreenStyleSheetFile, raiseException=False)
+					fullScreenStyleSheetPath = umbra.ui.common.getResourcePath(fullScreenStyleSheetFile,
+																				raiseException=False)
 					styleSheetPath = fullScreenStyleSheetPath or styleSheetPath
 				styleSheetFile = io.File(styleSheetPath)
 				break
 
 		if not styleSheetFile:
-			raise foundations.exceptions.FileExistsError("{0} | No stylesheet file found, visual style will not be applied!".format(self.__class__.__name__))
+			raise foundations.exceptions.FileExistsError(
+			"{0} | No stylesheet file found, visual style will not be applied!".format(self.__class__.__name__))
 
 		if os.path.exists(styleSheetFile.file):
 			LOGGER.debug("> Reading style sheet file: '{0}'.".format(styleSheetFile.file))
@@ -1232,11 +1322,14 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 				if not search:
 					continue
 
-				styleSheetFile.content[i] = line.replace(search.group("url"), foundations.strings.toForwardSlashes(umbra.ui.common.getResourcePath(search.group("url"))))
+				styleSheetFile.content[i] = line.replace(search.group("url"),
+				foundations.strings.toForwardSlashes(umbra.ui.common.getResourcePath(search.group("url"))))
 			RuntimeGlobals.application.setStyleSheet(QString("".join(styleSheetFile.content)))
 			return True
 		else:
-			raise foundations.exceptions.FileExistsError("{0} | '{1}' stylesheet file is not available, visual style will not be applied!".format(self.__class__.__name__, styleSheetFile.file))
+			raise foundations.exceptions.FileExistsError(
+			"{0} | '{1}' stylesheet file is not available, visual style will not be applied!".format(
+			self.__class__.__name__, styleSheetFile.file))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -1310,22 +1403,33 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:return: Method success. ( Boolean )
 		"""
 
-		developmentActiveLabel = Active_QLabel(self, QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentIcon)),
-													QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentHoverIcon)),
-													QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentActiveIcon)), True)
+		developmentActiveLabel = Active_QLabel(self,
+											QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentIcon)),
+											QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentHoverIcon)),
+											QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentActiveIcon)),
+											True)
 		developmentActiveLabel.setObjectName("Development_activeLabel")
 
-		preferencesActiveLabel = Active_QLabel(self, QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesIcon)),
-													QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesHoverIcon)),
-													QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesActiveIcon)), True)
+		preferencesActiveLabel = Active_QLabel(self,
+											QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesIcon)),
+											QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesHoverIcon)),
+											QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesActiveIcon)),
+											True)
 		preferencesActiveLabel.setObjectName("Preferences_activeLabel")
 
-		self.__layoutsActiveLabels = (umbra.ui.common.LayoutActiveLabel(name="Development", object=developmentActiveLabel, layout="developmentCentric", shortcut=Qt.Key_9),
-									umbra.ui.common.LayoutActiveLabel(name="Preferences", object=preferencesActiveLabel, layout="preferencesCentric", shortcut=Qt.Key_0))
+		self.__layoutsActiveLabels = (umbra.ui.common.LayoutActiveLabel(name="Development",
+																		object=developmentActiveLabel,
+																		layout="developmentCentric",
+																		shortcut=Qt.Key_9),
+									umbra.ui.common.LayoutActiveLabel(name="Preferences",
+																	object=preferencesActiveLabel,
+																	layout="preferencesCentric",
+																	shortcut=Qt.Key_0))
 
 		# Signals / Slots.
 		for layoutActiveLabel in self.__layoutsActiveLabels:
-			layoutActiveLabel.object.clicked.connect(functools.partial(self.__layoutActiveLabel__clicked, layoutActiveLabel.layout))
+			layoutActiveLabel.object.clicked.connect(functools.partial(self.__layoutActiveLabel__clicked,
+																		layoutActiveLabel.layout))
 
 		return True
 
@@ -1345,18 +1449,31 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		self.__customLayoutsMenu = QMenu("Layouts", layoutActiveLabel)
 
-		userLayouts = (("1", Qt.Key_1, "one"), ("2", Qt.Key_2, "two"), ("3", Qt.Key_3, "three"), ("4", Qt.Key_4, "four"), ("5", Qt.Key_5, "five"))
+		userLayouts = (("1", Qt.Key_1, "one"),
+						("2", Qt.Key_2, "two"),
+						("3", Qt.Key_3, "three"),
+						("4", Qt.Key_4, "four"),
+						("5", Qt.Key_5, "five"))
 		for index, shortcut, name in userLayouts:
-			self.__customLayoutsMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Layouts|Restore layout {0}".format(index), shortcut=shortcut, slot=functools.partial(self.restoreLayout, name)))
+			self.__customLayoutsMenu.addAction(self.__actionsManager.registerAction(
+			"Actions|Umbra|ToolBar|Layouts|Restore layout {0}".format(index),
+			shortcut=shortcut,
+			slot=functools.partial(self.restoreLayout, name)))
 
 		self.__customLayoutsMenu.addSeparator()
 
 		for index, shortcut, name in userLayouts:
-			self.__customLayoutsMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Layouts|Store layout {0}".format(index), shortcut=Qt.CTRL + shortcut, slot=functools.partial(self.storeLayout, name)))
+			self.__customLayoutsMenu.addAction(self.__actionsManager.registerAction(
+			"Actions|Umbra|ToolBar|Layouts|Store layout {0}".format(index),
+			shortcut=Qt.CTRL + shortcut,
+			slot=functools.partial(self.storeLayout, name)))
 
 		self.__customLayoutsMenu.addSeparator()
 
-		self.__customLayoutsMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Layouts|Toggle FullScreen", shortcut=Qt.ControlModifier + Qt.SHIFT + Qt.Key_F, slot=self.toggleFullScreen))
+		self.__customLayoutsMenu.addAction(self.__actionsManager.registerAction(
+		"Actions|Umbra|ToolBar|Layouts|Toggle FullScreen",
+		shortcut=Qt.ControlModifier + Qt.SHIFT + Qt.Key_F,
+		slot=self.toggleFullScreen))
 
 		layoutActiveLabel.setMenu(self.__customLayoutsMenu)
 		return layoutActiveLabel
@@ -1370,15 +1487,21 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:return: Miscellaneous active label. ( Active_QLabel )
 		"""
 
-		miscellaneousActiveLabel = Active_QLabel(self, QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousIcon)),
-										QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousHoverIcon)),
-										QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousActiveIcon)))
+		miscellaneousActiveLabel = Active_QLabel(self,
+											QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousIcon)),
+											QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousHoverIcon)),
+											QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousActiveIcon)))
 		miscellaneousActiveLabel.setObjectName("Miscellaneous_activeLabel")
 
 		self.__miscellaneousMenu = QMenu("Miscellaneous", miscellaneousActiveLabel)
 
-		self.__miscellaneousMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Miscellaneous|Help content ...", shortcut="F1", slot=self.__helpDisplayMiscAction__triggered))
-		self.__miscellaneousMenu.addAction(self.__actionsManager.registerAction("Actions|Umbra|ToolBar|Miscellaneous|Api content ...", slot=self.__apiDisplayMiscAction__triggered))
+		self.__miscellaneousMenu.addAction(self.__actionsManager.registerAction(
+		"Actions|Umbra|ToolBar|Miscellaneous|Help content ...",
+		shortcut="F1",
+		slot=self.__helpDisplayMiscAction__triggered))
+		self.__miscellaneousMenu.addAction(self.__actionsManager.registerAction(
+		"Actions|Umbra|ToolBar|Miscellaneous|Api content ...",
+		slot=self.__apiDisplayMiscAction__triggered))
 		self.__miscellaneousMenu.addSeparator()
 
 		miscellaneousActiveLabel.setMenu(self.__miscellaneousMenu)
@@ -1464,11 +1587,13 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		LOGGER.debug("> Restoring layout '{0}'.".format(name))
 
 		for component, profile in self.__componentsManager.components.items():
-			profile.category == "QWidget" and component not in self.__visibleComponents and self.__componentsManager.getInterface(component) and self.__componentsManager.getInterface(component).hide()
+			profile.category == "QWidget" and component not in self.__visibleComponents and \
+			self.__componentsManager.getInterface(component) and self.__componentsManager.getInterface(component).hide()
 
 		self.centralwidget.setVisible(self.__settings.getKey("Layouts", "{0}_centralWidget".format(name)).toBool())
 		self.restoreState(self.__settings.getKey("Layouts", "{0}_windowState".format(name)).toByteArray())
-		self.__settings._data.restoreGeometryOnLayoutChange and self.restoreGeometry(self.__settings.getKey("Layouts", "{0}_geometry".format(name)).toByteArray())
+		self.__settings._data.restoreGeometryOnLayoutChange and \
+		self.restoreGeometry(self.__settings.getKey("Layouts", "{0}_geometry".format(name)).toByteArray())
 		self.__setLayoutsActiveLabels(self.__settings.getKey("Layouts", "{0}_activeLabel".format(name)).toInt()[0])
 		self.__currentLayout = self.__layoutsActiveLabels[self.__getCurrentLayoutActiveLabel()].layout
 
@@ -1488,7 +1613,9 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		LOGGER.debug("> Restoring startup layout.")
 
 		if self.restoreLayout(UiConstants.startupLayout):
-			not self.__settings._data.restoreGeometryOnLayoutChange and self.restoreGeometry(self.__settings.getKey("Layouts", "{0}_geometry".format(UiConstants.startupLayout)).toByteArray())
+			not self.__settings._data.restoreGeometryOnLayoutChange and \
+			self.restoreGeometry(self.__settings.getKey("Layouts",
+														"{0}_geometry".format(UiConstants.startupLayout)).toByteArray())
 			return True
 		else:
 			raise Exception("{0} | Exception raised while restoring startup layout!".format(self.__class__.__name__))
@@ -1531,7 +1658,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		"""
 
 		if not self.__isProcessing:
-			warning and LOGGER.warning("!> {0} | Engine not processing, 'setProcessingMessage' request has been ignored!".format(self.__class__.__name__))
+			warning and LOGGER.warning("!> {0} | Engine not processing, \
+			'setProcessingMessage' request has been ignored!".format(self.__class__.__name__))
 			return
 
 		LOGGER.debug("> Setting processing message!")
@@ -1553,7 +1681,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		"""
 
 		if self.__isProcessing:
-			warning and	LOGGER.warning("!> {0} | Engine is already processing, 'startProcessing' request has been ignored!".format(self.__class__.__name__))
+			warning and	LOGGER.warning("!> {0} | Engine is already processing, \
+			'startProcessing' request has been ignored!".format(self.__class__.__name__))
 			return
 
 		LOGGER.debug("> Starting processing operation!")
@@ -1576,12 +1705,14 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		"""
 
 		if not self.__isProcessing:
-			warning and	LOGGER.warning("!> {0} | Engine is not processing, 'stepProcessing' request has been ignored!".format(self.__class__.__name__))
+			warning and	LOGGER.warning("!> {0} | Engine is not processing, \
+			'stepProcessing' request has been ignored!".format(self.__class__.__name__))
 			return
 
 		LOGGER.debug("> Stepping processing operation!")
 
-		self.Application_Progress_Status_processing.Processing_progressBar.setValue(self.Application_Progress_Status_processing.Processing_progressBar.value() + 1)
+		self.Application_Progress_Status_processing.Processing_progressBar.setValue(
+		self.Application_Progress_Status_processing.Processing_progressBar.value() + 1)
 		self.processEvents()
 		return True
 
@@ -1596,7 +1727,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		"""
 
 		if not self.__isProcessing:
-			warning and	LOGGER.warning("!> {0} | Engine is not processing, 'stopProcessing' request has been ignored!".format(self.__class__.__name__))
+			warning and	LOGGER.warning("!> {0} | Engine is not processing, \
+			'stopProcessing' request has been ignored!".format(self.__class__.__name__))
 			return
 
 		LOGGER.debug("> Stopping processing operation!")
@@ -1624,10 +1756,13 @@ def setUserApplicationDataDirectory(path):
 	if io.setDirectory(userApplicationDataDirectory):
 		for directory in Constants.preferencesDirectories:
 			if not io.setDirectory(os.path.join(userApplicationDataDirectory, directory)):
-				raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(inspect.getmodulename(__file__), os.path.join(userApplicationDataDirectory, directory), Constants.applicationName))
+				raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(
+				inspect.getmodulename(__file__), os.path.join(userApplicationDataDirectory, directory),
+															Constants.applicationName))
 		return True
 	else:
-		raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(inspect.getmodulename(__file__), userApplicationDataDirectory, Constants.applicationName))
+		raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(
+		inspect.getmodulename(__file__), userApplicationDataDirectory, Constants.applicationName))
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -1638,19 +1773,54 @@ def getCommandLineParametersParser():
 	:return: Parser. ( Parser )
 	"""
 
-	parser = optparse.OptionParser(formatter=optparse.IndentedHelpFormatter (indent_increment=2, max_help_position=8, width=128, short_first=1), add_help_option=None)
+	parser = optparse.OptionParser(formatter=optparse.IndentedHelpFormatter(indent_increment=2,
+																			max_help_position=8,
+																			width=128,
+																			short_first=1),
+																			add_help_option=None)
 
-	parser.add_option("-h", "--help", action="help", help="'Display this help message and exit.'")
-	parser.add_option("-a", "--about", action="store_true", default=False, dest="about", help="'Display Application about message.'")
-	parser.add_option("-v", "--verbose", action="store", type="int", dest="verbosityLevel", help="'Application verbosity levels: 0 = Critical | 1 = Error | 2 = Warning | 3 = Info | 4 = Debug.'")
-	parser.add_option("-f", "--loggingFormatter", action="store", type="string", dest="loggingFormater", help="'Application logging formatter: '{0}'.'".format(", ".join(sorted(RuntimeGlobals.loggingFormatters.keys()))))
-	parser.add_option("-u", "--userApplicationDataDirectory", action="store", type="string", dest="userApplicationDataDirectory", help="'User Application data directory'.")
-	parser.add_option("-s", "--hideSplashScreen", action="store_true", default=False, dest="hideSplashScreen", help="'Hide splashscreen'.")
+	parser.add_option("-h",
+					"--help",
+					action="help",
+					help="'Display this help message and exit.'")
+	parser.add_option("-a",
+					"--about",
+					action="store_true",
+					default=False,
+					dest="about",
+					help="'Display Application about message.'")
+	parser.add_option("-v",
+					"--verbose",
+					action="store",
+					type="int",
+					dest="verbosityLevel",
+					help="'Application verbosity levels: 0 = Critical | 1 = Error | 2 = Warning | 3 = Info | 4 = Debug.'")
+	parser.add_option("-f",
+					"--loggingFormatter",
+					action="store",
+					type="string",
+					dest="loggingFormater",
+					help="'Application logging formatter: '{0}'.'".format(
+					", ".join(sorted(RuntimeGlobals.loggingFormatters.keys()))))
+	parser.add_option("-u",
+					"--userApplicationDataDirectory",
+					action="store",
+					type="string",
+					dest="userApplicationDataDirectory",
+					help="'User Application data directory'.")
+	parser.add_option("-s",
+					"--hideSplashScreen",
+					action="store_true",
+					default=False,
+					dest="hideSplashScreen",
+					help="'Hide splashscreen'.")
 
 	return parser
 
 @core.executionTrace
-@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiStandaloneSystemExitExceptionHandler, False, umbra.exceptions.EngineConfigurationError)
+@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiStandaloneSystemExitExceptionHandler,
+										False,
+										umbra.exceptions.EngineConfigurationError)
 def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visibleComponents=None):
 	"""
 	This definition is called when **Umbra** starts.
@@ -1685,30 +1855,41 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 		RuntimeGlobals.userApplicationDataDirectory = foundations.common.getUserApplicationDataDirectory()
 
 	if not setUserApplicationDataDirectory(RuntimeGlobals.userApplicationDataDirectory):
-		raise umbra.exceptions.EngineConfigurationError("{0} | '{1}' user Application data directory is not available, '{2}' will now close!".format(inspect.getmodulename(__file__), RuntimeGlobals.userApplicationDataDirectory, Constants.applicationName))
+		raise umbra.exceptions.EngineConfigurationError(
+		"{0} | '{1}' user Application data directory is not available, '{2}' will now close!".format(
+		inspect.getmodulename(__file__), RuntimeGlobals.userApplicationDataDirectory, Constants.applicationName))
 
 	LOGGER.debug("> Application python interpreter: '{0}'".format(sys.executable))
 	LOGGER.debug("> Application startup location: '{0}'".format(os.getcwd()))
 	LOGGER.debug("> Session user Application data directory: '{0}'".format(RuntimeGlobals.userApplicationDataDirectory))
 
 	# Getting the logging file path.
-	RuntimeGlobals.loggingFile = os.path.join(RuntimeGlobals.userApplicationDataDirectory, Constants.loggingDirectory, Constants.loggingFile)
+	RuntimeGlobals.loggingFile = os.path.join(RuntimeGlobals.userApplicationDataDirectory,
+											Constants.loggingDirectory,
+											Constants.loggingFile)
 
 	try:
 		os.path.exists(RuntimeGlobals.loggingFile) and os.remove(RuntimeGlobals.loggingFile)
 	except:
-		raise umbra.exceptions.EngineConfigurationError("{0} | '{1}' Logging file is currently locked by another process, '{2}' will now close!".format(inspect.getmodulename(__file__), RuntimeGlobals.loggingFile, Constants.applicationName))
+		raise umbra.exceptions.EngineConfigurationError(
+		"{0} | '{1}' Logging file is currently locked by another process, '{2}' will now close!".format(
+		inspect.getmodulename(__file__), RuntimeGlobals.loggingFile, Constants.applicationName))
 
 	try:
 		RuntimeGlobals.loggingFileHandler = logging.FileHandler(RuntimeGlobals.loggingFile)
 		RuntimeGlobals.loggingFileHandler.setFormatter(RuntimeGlobals.loggingFormatters[Constants.loggingDefaultFormatter])
 		LOGGER.addHandler(RuntimeGlobals.loggingFileHandler)
 	except:
-		raise umbra.exceptions.EngineConfigurationError("{0} | '{1}' Logging file is not available, '{2}' will now close!".format(inspect.getmodulename(__file__), RuntimeGlobals.loggingFile, Constants.applicationName))
+		raise umbra.exceptions.EngineConfigurationError(
+		"{0} | '{1}' Logging file is not available, '{2}' will now close!".format(inspect.getmodulename(__file__),
+																				RuntimeGlobals.loggingFile,
+																				Constants.applicationName))
 
 	# Retrieving Framework verbose level from settings file.
 	LOGGER.debug("> Initializing {0}!".format(Constants.applicationName))
-	RuntimeGlobals.settingsFile = os.path.join(RuntimeGlobals.userApplicationDataDirectory, Constants.settingsDirectory, Constants.settingsFile)
+	RuntimeGlobals.settingsFile = os.path.join(RuntimeGlobals.userApplicationDataDirectory,
+												Constants.settingsDirectory,
+												Constants.settingsFile)
 
 	RuntimeGlobals.settings = Preferences(RuntimeGlobals.settingsFile)
 
@@ -1718,12 +1899,14 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	os.path.exists(RuntimeGlobals.settingsFile) or RuntimeGlobals.settings.setDefaultPreferences()
 
 	LOGGER.debug("> Retrieving stored verbose level.")
-	RuntimeGlobals.verbosityLevel = RuntimeGlobals.parameters.verbosityLevel and RuntimeGlobals.parameters.verbosityLevel or RuntimeGlobals.settings.getKey("Settings", "verbosityLevel").toInt()[0]
+	RuntimeGlobals.verbosityLevel = RuntimeGlobals.parameters.verbosityLevel and \
+	RuntimeGlobals.parameters.verbosityLevel or RuntimeGlobals.settings.getKey("Settings", "verbosityLevel").toInt()[0]
 	LOGGER.debug("> Setting logger verbosity level to: '{0}'.".format(RuntimeGlobals.verbosityLevel))
 	core.setVerbosityLevel(RuntimeGlobals.verbosityLevel)
 
 	LOGGER.debug("> Retrieving stored logging formatter.")
-	loggingFormatter = RuntimeGlobals.parameters.loggingFormater and RuntimeGlobals.parameters.loggingFormater or str(RuntimeGlobals.settings.getKey("Settings", "loggingFormatter").toString())
+	loggingFormatter = RuntimeGlobals.parameters.loggingFormater and RuntimeGlobals.parameters.loggingFormater or \
+	str(RuntimeGlobals.settings.getKey("Settings", "loggingFormatter").toString())
 	loggingFormatter = loggingFormatter in RuntimeGlobals.loggingFormatters.keys() and loggingFormatter or None
 	RuntimeGlobals.loggingActiveFormatter = loggingFormatter and loggingFormatter or Constants.loggingDefaultFormatter
 	LOGGER.debug("> Setting logging formatter: '{0}'.".format(RuntimeGlobals.loggingActiveFormatter))
@@ -1733,7 +1916,8 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	# Starting the session handler.
 	RuntimeGlobals.loggingSessionHandlerStream = StreamObject()
 	RuntimeGlobals.loggingSessionHandler = logging.StreamHandler(RuntimeGlobals.loggingSessionHandlerStream)
-	RuntimeGlobals.loggingSessionHandler.setFormatter(RuntimeGlobals.loggingFormatters[RuntimeGlobals.loggingActiveFormatter])
+	RuntimeGlobals.loggingSessionHandler.setFormatter(
+	RuntimeGlobals.loggingFormatters[RuntimeGlobals.loggingActiveFormatter])
 	LOGGER.addHandler(RuntimeGlobals.loggingSessionHandler)
 
 	LOGGER.info(Constants.loggingSeparators)
@@ -1753,7 +1937,9 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 
 		RuntimeGlobals.splashscreenImage = QPixmap(umbra.ui.common.getResourcePath(UiConstants.splashScreenImage))
 		RuntimeGlobals.splashscreen = Delayed_QSplashScreen(RuntimeGlobals.splashscreenImage)
-		RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Initializing {0}.".format(Constants.applicationName, Constants.releaseVersion), textColor=Qt.white)
+		RuntimeGlobals.splashscreen.setMessage(
+		"{0} - {1} | Initializing {0}.".format(Constants.applicationName, Constants.releaseVersion),
+		textColor=Qt.white)
 		RuntimeGlobals.splashscreen.show()
 
 	RuntimeGlobals.engine = engine(None, componentsPaths, requisiteComponents, visibleComponents)

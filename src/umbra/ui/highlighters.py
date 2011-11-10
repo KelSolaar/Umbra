@@ -44,7 +44,15 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "PYTHON_TOKENS_FILE" , "getFormat" , "Rule", "Rules", "Formats", "Highlighter", "LoggingHighlighter", "PythonHighlighter"]
+__all__ = ["LOGGER",
+			"PYTHON_TOKENS_FILE",
+			"getFormat",
+			"Rule",
+			"Rules",
+			"Formats",
+			"Highlighter",
+			"LoggingHighlighter",
+			"PythonHighlighter"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -133,7 +141,8 @@ class Formats(core.Structure):
 
 class Highlighter(QSyntaxHighlighter):
 	"""
-	This class is a `QSyntaxHighlighter <http://doc.qt.nokia.com/4.7/qsyntaxhighlighter.html>`_ subclass used as a base for highlighters classes.
+	This class is a `QSyntaxHighlighter <http://doc.qt.nokia.com/4.7/qsyntaxhighlighter.html>`_ subclass used
+	as a base for highlighters classes.
 	"""
 
 	@core.executionTrace
@@ -185,7 +194,8 @@ class Highlighter(QSyntaxHighlighter):
 		This method is the deleter method for **self.__formats** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "formats"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "formats"))
 
 	@property
 	def rules(self):
@@ -217,7 +227,8 @@ class Highlighter(QSyntaxHighlighter):
 		This method is the deleter method for **self.__rules** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "rules"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "rules"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -231,7 +242,9 @@ class Highlighter(QSyntaxHighlighter):
 		:param block: Text block. ( QString )
 		"""
 
-		raise NotImplementedError("{0} | '{1}' must be implemented by '{2}' subclasses!".format(self.__class__.__name__, self.highlightBlock.__name__, self.__class__.__name__))
+		raise NotImplementedError("{0} | '{1}' must be implemented by '{2}' subclasses!".format(self.__class__.__name__,
+		 																					self.highlightBlock.__name__,
+																							self.__class__.__name__))
 
 	# @core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -284,14 +297,21 @@ class LoggingHighlighter(Highlighter):
 
 		self.formats = Formats(default=getFormat(color=QColor(192, 192, 192)))
 
-		self.formats.loggingCritical = getFormat(format=self.formats.default, color=QColor(48, 48, 48), backgroundColor=QColor(255, 64, 64))
-		self.formats.loggingError = getFormat(format=self.formats.default, color=QColor(255, 64, 64))
-		self.formats.loggingWarning = getFormat(format=self.formats.default, color=QColor(255, 128, 0))
+		self.formats.loggingCritical = getFormat(format=self.formats.default,
+												color=QColor(48, 48, 48),
+												backgroundColor=QColor(255, 64, 64))
+		self.formats.loggingError = getFormat(format=self.formats.default,
+											color=QColor(255, 64, 64))
+		self.formats.loggingWarning = getFormat(format=self.formats.default,
+												color=QColor(255, 128, 0))
 		self.formats.loggingInfo = getFormat(format=self.formats.default)
-		self.formats.loggingDebug = getFormat(format=self.formats.default, italic=True)
+		self.formats.loggingDebug = getFormat(format=self.formats.default,
+											italic=True)
 
-		self.formats.loggingDebugTraceIn = getFormat(format=self.formats.loggingDebug, color=QColor(128, 160, 192))
-		self.formats.loggingDebugTraceOut = getFormat(format=self.formats.loggingDebug, color=QColor(QColor(192, 160, 128)))
+		self.formats.loggingDebugTraceIn = getFormat(format=self.formats.loggingDebug,
+													color=QColor(128, 160, 192))
+		self.formats.loggingDebugTraceOut = getFormat(format=self.formats.loggingDebug,
+													color=QColor(QColor(192, 160, 128)))
 
 	@core.executionTrace
 	def __setRules(self):
@@ -301,14 +321,28 @@ class LoggingHighlighter(Highlighter):
 
 		self.rules = Rules()
 
-		self.rules.loggingInfo = Rule(pattern=QRegExp(r"^INFO\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*INFO\s*:.*$"), format=self.formats.loggingInfo)
-		self.rules.loggingCritical = Rule(pattern=QRegExp(r"^CRITICAL\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*CRITICAL\s*:.*$"), format=self.formats.loggingCritical)
-		self.rules.loggingError = Rule(pattern=QRegExp(r"^ERROR\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*ERROR\s*:.*$"), format=self.formats.loggingError)
-		self.rules.loggingWarning = Rule(pattern=QRegExp(r"^WARNING\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*WARNING\s*:.*$"), format=self.formats.loggingWarning)
-		self.rules.loggingDebug = Rule(pattern=QRegExp(r"^DEBUG\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:.*$"), format=self.formats.loggingDebug)
+		self.rules.loggingInfo = Rule(pattern=QRegExp(
+								r"^INFO\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*INFO\s*:.*$"),
+								format=self.formats.loggingInfo)
+		self.rules.loggingCritical = Rule(pattern=QRegExp(
+									r"^CRITICAL\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*CRITICAL\s*:.*$"),
+									format=self.formats.loggingCritical)
+		self.rules.loggingError = Rule(pattern=QRegExp(
+								r"^ERROR\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*ERROR\s*:.*$"),
+								format=self.formats.loggingError)
+		self.rules.loggingWarning = Rule(pattern=QRegExp(
+									r"^WARNING\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*WARNING\s*:.*$"),
+									format=self.formats.loggingWarning)
+		self.rules.loggingDebug = Rule(pattern=QRegExp(
+								r"^DEBUG\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:.*$"),
+								format=self.formats.loggingDebug)
 
-		self.rules.loggingDebugTraceIn = Rule(pattern=QRegExp(r"^DEBUG\s*:\s--->>>.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:\s--->>>.*$"), format=self.formats.loggingDebugTraceIn)
-		self.rules.loggingDebugTraceOut = Rule(pattern=QRegExp(r"^DEBUG\s*:\s---<<<.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:\s---<<<.*$"), format=self.formats.loggingDebugTraceOut)
+		self.rules.loggingDebugTraceIn = Rule(pattern=QRegExp(
+								r"^DEBUG\s*:\s--->>>.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:\s--->>>.*$"),
+								format=self.formats.loggingDebugTraceIn)
+		self.rules.loggingDebugTraceOut = Rule(pattern=QRegExp(
+								r"^DEBUG\s*:\s---<<<.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:\s---<<<.*$"),
+								format=self.formats.loggingDebugTraceOut)
 
 	# @core.executionTrace
 	def highlightBlock(self, block):
@@ -367,7 +401,8 @@ class PythonHighlighter(Highlighter):
 		"""
 
 		if value:
-			assert type(value) is QRegExp, "'{0}' attribute: '{1}' type is not 'QRegExp'!".format("multiLineSingleString", value)
+			assert type(value) is QRegExp, "'{0}' attribute: '{1}' type is not 'QRegExp'!".format(
+			"multiLineSingleString", value)
 		self.__multiLineSingleString = value
 
 	@multiLineSingleString.deleter
@@ -377,7 +412,8 @@ class PythonHighlighter(Highlighter):
 		This method is the deleter method for **self.__multiLineSingleString** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "multiLineSingleString"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "multiLineSingleString"))
 
 	@property
 	def multiLineDoubleString(self):
@@ -399,7 +435,8 @@ class PythonHighlighter(Highlighter):
 		"""
 
 		if value:
-			assert type(value) is QRegExp, "'{0}' attribute: '{1}' type is not 'QRegExp'!".format("multiLineDoubleString", value)
+			assert type(value) is QRegExp, "'{0}' attribute: '{1}' type is not 'QRegExp'!".format(
+			"multiLineDoubleString", value)
 		self.__multiLineDoubleString = value
 
 	@multiLineDoubleString.deleter
@@ -409,7 +446,8 @@ class PythonHighlighter(Highlighter):
 		This method is the deleter method for **self.__multiLineDoubleString** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "multiLineDoubleString"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "multiLineDoubleString"))
 
 	@property
 	def pythonTokens(self):
@@ -431,7 +469,8 @@ class PythonHighlighter(Highlighter):
 		"""
 
 		if value:
-			assert type(value) is SectionsFileParser, "'{0}' attribute: '{1}' type is not 'SectionsFileParser'!".format("pythonTokens", value)
+			assert type(value) is SectionsFileParser, "'{0}' attribute: '{1}' type is not 'SectionsFileParser'!".format(
+			"pythonTokens", value)
 		self.__pythonTokens = value
 
 	@pythonTokens.deleter
@@ -441,7 +480,8 @@ class PythonHighlighter(Highlighter):
 		This method is the deleter method for **self.__pythonTokens** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "pythonTokens"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "pythonTokens"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -527,46 +567,105 @@ class PythonHighlighter(Highlighter):
 		self.__multiLineDoubleString = QRegExp(r"^\s*'''|'''\s*$")
 
 		self.rules = Rules()
-		self.rules.keyword = Rule(pattern=QRegExp(r"\b({0})\b".format(self.__pythonTokens.getValue("keywords", "Tokens"))), format=self.formats.keyword)
+		self.rules.keyword = Rule(pattern=QRegExp(r"\b({0})\b".format(
+		self.__pythonTokens.getValue("keywords", "Tokens"))), format=self.formats.keyword)
 
-		self.rules.numericIntegerDecimal = Rule(pattern=QRegExp(r"\b[-+]?[1-9]+\d*|0\b"), format=self.formats.numericIntegerDecimal)
-		self.rules.numericIntegerLongDecimal = Rule(pattern=QRegExp(r"\b([-+]?[1-9]+\d*|0)L\b"), format=self.formats.numericIntegerLongDecimal)
-		self.rules.numericIntegerLongHexadecimal = Rule(pattern=QRegExp(r"\b[-+]?0x[a-fA-F\d]+L\b"), format=self.formats.numericIntegerLongHexadecimal)
-		self.rules.numericIntegerHexadecimal = Rule(pattern=QRegExp(r"\b[-+]?0x[a-fA-F\d]+\b"), format=self.formats.numericIntegerHexadecimal)
-		self.rules.numericIntegerLongHexadecimal = Rule(pattern=QRegExp(r"\b[-+]?0x[a-fA-F\d]+L\b"), format=self.formats.numericIntegerLongHexadecimal)
-		self.rules.numericIntegerOctal = Rule(pattern=QRegExp(r"\b[-+]?0[0-7]+\b"), format=self.formats.numericIntegerOctal)
-		self.rules.numericIntegerLongOctal = Rule(pattern=QRegExp(r"\b[-+]?0[0-7]+L\b"), format=self.formats.numericIntegerLongOctal)
-		self.rules.numericFloat = Rule(pattern=QRegExp(r"[-+]?\d*\.?\d+([eE][-+]?\d+)?"), format=self.formats.numericFloat)
-		self.rules.numericComplex = Rule(pattern=QRegExp(r"[-+]?\d*\.?\d+([eE][-+]?\d+)?\s*\s*[-+]?\d*\.?\d+([eE][-+]?\d+)?[jJ]"), format=self.formats.numericComplex)
+		self.rules.numericIntegerDecimal = Rule(pattern=QRegExp(
+										r"\b[-+]?[1-9]+\d*|0\b"),
+										format=self.formats.numericIntegerDecimal)
+		self.rules.numericIntegerLongDecimal = Rule(pattern=QRegExp(
+												r"\b([-+]?[1-9]+\d*|0)L\b"),
+												format=self.formats.numericIntegerLongDecimal)
+		self.rules.numericIntegerLongHexadecimal = Rule(pattern=QRegExp(
+													r"\b[-+]?0x[a-fA-F\d]+L\b"),
+													format=self.formats.numericIntegerLongHexadecimal)
+		self.rules.numericIntegerHexadecimal = Rule(pattern=QRegExp(
+												r"\b[-+]?0x[a-fA-F\d]+\b"),
+												format=self.formats.numericIntegerHexadecimal)
+		self.rules.numericIntegerLongHexadecimal = Rule(pattern=QRegExp(
+													r"\b[-+]?0x[a-fA-F\d]+L\b"),
+													format=self.formats.numericIntegerLongHexadecimal)
+		self.rules.numericIntegerOctal = Rule(pattern=QRegExp(
+										r"\b[-+]?0[0-7]+\b"),
+										format=self.formats.numericIntegerOctal)
+		self.rules.numericIntegerLongOctal = Rule(pattern=QRegExp(
+											r"\b[-+]?0[0-7]+L\b"),
+											format=self.formats.numericIntegerLongOctal)
+		self.rules.numericFloat = Rule(pattern=QRegExp(
+								r"[-+]?\d*\.?\d+([eE][-+]?\d+)?"),
+								format=self.formats.numericFloat)
+		self.rules.numericComplex = Rule(pattern=QRegExp(
+									r"[-+]?\d*\.?\d+([eE][-+]?\d+)?\s*\s*[-+]?\d*\.?\d+([eE][-+]?\d+)?[jJ]"),
+									format=self.formats.numericComplex)
 
-		self.rules.modifierGlobal = Rule(pattern=QRegExp(r"\b(global)\b"), format=self.formats.modifierGlobal)
-		self.rules.modifierSpecialGlobal = Rule(pattern=QRegExp(r"\b[A-Z_]+\b"), format=self.formats.modifierSpecialGlobal)
+		self.rules.modifierGlobal = Rule(pattern=QRegExp(
+									r"\b(global)\b"),
+									format=self.formats.modifierGlobal)
+		self.rules.modifierSpecialGlobal = Rule(pattern=QRegExp(
+											r"\b[A-Z_]+\b"),
+											format=self.formats.modifierSpecialGlobal)
 
-		self.rules.operatorComparison = Rule(pattern=QRegExp(r"<\=|>\=|\=\=|<|>|\!\="), format=self.formats.operatorComparison)
-		self.rules.operatorAssignement = Rule(pattern=QRegExp(r"\="), format=self.formats.operatorAssignement)
-		self.rules.operatorAssignementAugmented = Rule(pattern=QRegExp(r"\+\=|-\=|\*\=|/\=|//\=|%\=|&\=|\|\=|\^\=|>>\=|<<\=|\*\*\="), format=self.formats.operatorAssignementAugmented)
-		self.rules.operatorArithmetic = Rule(pattern=QRegExp(r"\+|\-|\*|\*\*|/|//|%|<<|>>|&|\||\^|~"), format=self.formats.operatorArithmetic)
+		self.rules.operatorComparison = Rule(pattern=QRegExp(
+										r"<\=|>\=|\=\=|<|>|\!\="),
+										format=self.formats.operatorComparison)
+		self.rules.operatorAssignement = Rule(pattern=QRegExp(
+										r"\="),
+										format=self.formats.operatorAssignement)
+		self.rules.operatorAssignementAugmented = Rule(pattern=QRegExp(
+												r"\+\=|-\=|\*\=|/\=|//\=|%\=|&\=|\|\=|\^\=|>>\=|<<\=|\*\*\="),
+												format=self.formats.operatorAssignementAugmented)
+		self.rules.operatorArithmetic = Rule(pattern=QRegExp(
+										r"\+|\-|\*|\*\*|/|//|%|<<|>>|&|\||\^|~"),
+										format=self.formats.operatorArithmetic)
 
 		# This rules don't work: QRegExp lacks of lookbehind support.		
-		self.rules.entityClass = Rule(pattern=QRegExp(r"(?<=class\s)\w+(?=\s?\(\)\s?:)"), format=self.formats.entityClass)
-		self.rules.entityFunction = Rule(pattern=QRegExp(r"(?<=def\s)\w+(?=\s?\(\)\s?:)"), format=self.formats.entityFunction)
+		self.rules.entityClass = Rule(pattern=QRegExp(
+								r"(?<=class\s)\w+(?=\s?\(\)\s?:)"),
+								format=self.formats.entityClass)
+		self.rules.entityFunction = Rule(pattern=QRegExp(
+									r"(?<=def\s)\w+(?=\s?\(\)\s?:)"),
+									format=self.formats.entityFunction)
 
-		self.rules.entityDecorator = Rule(pattern=QRegExp(r"@[\w\.]+"), format=self.formats.entityDecorator)
+		self.rules.entityDecorator = Rule(pattern=QRegExp(
+									r"@[\w\.]+"),
+									format=self.formats.entityDecorator)
 
-		self.rules.builtinsExceptions = Rule(pattern=QRegExp(r"\b({0})\b".format(self.__pythonTokens.getValue("builtinsExceptions", "Tokens"))), format=self.formats.builtinsExceptions)
-		self.rules.builtinsFunctions = Rule(pattern=QRegExp(r"\b({0})\b".format(self.__pythonTokens.getValue("builtinsFunctions", "Tokens"))), format=self.formats.builtinsFunctions)
-		self.rules.builtinsMiscellaneous = Rule(pattern=QRegExp(r"\b({0})\b".format(self.__pythonTokens.getValue("builtinsMiscellaneous", "Tokens"))), format=self.formats.builtinsMiscellaneous)
-		self.rules.builtinsObjectMethods = Rule(pattern=QRegExp(r"\b({0})\b".format(self.__pythonTokens.getValue("builtinsObjectMethods", "Tokens"))), format=self.formats.builtinsObjectMethods)
-		self.rules.magicMethods = Rule(pattern=QRegExp(r"\b({0})\b".format(self.__pythonTokens.getValue("magicMethods", "Tokens"))), format=self.formats.magicMethods)
+		self.rules.builtinsExceptions = Rule(pattern=QRegExp(
+									r"\b({0})\b".format(self.__pythonTokens.getValue("builtinsExceptions", "Tokens"))),
+									format=self.formats.builtinsExceptions)
+		self.rules.builtinsFunctions = Rule(pattern=QRegExp(
+									r"\b({0})\b".format(self.__pythonTokens.getValue("builtinsFunctions", "Tokens"))),
+									format=self.formats.builtinsFunctions)
+		self.rules.builtinsMiscellaneous = Rule(pattern=QRegExp(
+									r"\b({0})\b".format(self.__pythonTokens.getValue("builtinsMiscellaneous", "Tokens"))),
+									format=self.formats.builtinsMiscellaneous)
+		self.rules.builtinsObjectMethods = Rule(pattern=QRegExp(
+									r"\b({0})\b".format(self.__pythonTokens.getValue("builtinsObjectMethods", "Tokens"))),
+									format=self.formats.builtinsObjectMethods)
+		self.rules.magicMethods = Rule(pattern=QRegExp(
+									r"\b({0})\b".format(self.__pythonTokens.getValue("magicMethods", "Tokens"))),
+		 							format=self.formats.magicMethods)
 
-		self.rules.magicObject = Rule(pattern=QRegExp(r"\b(?:(?!({0}|{1}|{2}))__\w+__)\b".format(self.__pythonTokens.getValue("builtinsMiscellaneous", "Tokens"), self.__pythonTokens.getValue("builtinsObjectMethods", "Tokens"), self.__pythonTokens.getValue("magicMethods", "Tokens"))), format=self.formats.magicObject)
+		self.rules.magicObject = Rule(pattern=QRegExp(
+			r"\b(?:(?!({0}|{1}|{2}))__\w+__)\b".format(self.__pythonTokens.getValue("builtinsMiscellaneous", "Tokens"), 
+			self.__pythonTokens.getValue("builtinsObjectMethods", "Tokens"),
+			self.__pythonTokens.getValue("magicMethods", "Tokens"))),
+			format=self.formats.magicObject)
 
-		self.rules.decoratorArgument = Rule(pattern=QRegExp(r"\bself\b"), format=self.formats.decoratorArgument)
+		self.rules.decoratorArgument = Rule(pattern=QRegExp(
+										r"\bself\b"),
+										format=self.formats.decoratorArgument)
 
-		self.rules.doubleQuotation = Rule(pattern=QRegExp(r"\"([^\"\\]|\\.)*\""), format=self.formats.doubleQuotation)
-		self.rules.singleQuotation = Rule(pattern=QRegExp(r"'([^'\\]|\\.)*'"), format=self.formats.singleQuotation)
+		self.rules.doubleQuotation = Rule(pattern=QRegExp(
+									r"\"([^\"\\]|\\.)*\""),
+									format=self.formats.doubleQuotation)
+		self.rules.singleQuotation = Rule(pattern=QRegExp(
+									r"'([^'\\]|\\.)*'"),
+									format=self.formats.singleQuotation)
 
-		self.rules.singleLineComment = Rule(pattern=QRegExp(r"#.*$\n?"), format=self.formats.singleLineComment)
+		self.rules.singleLineComment = Rule(pattern=QRegExp(
+									r"#.*$\n?"),
+									format=self.formats.singleLineComment)
 
 	# @core.executionTrace
 	def highlightBlock(self, block):
@@ -579,7 +678,8 @@ class PythonHighlighter(Highlighter):
 		self.highlightText(block, 0, len(block))
 		self.setCurrentBlockState(0)
 
-		not self.highlightMultilineBlock(block, self.__multiLineSingleString, 1, self.formats.multiLineString) and self.highlightMultilineBlock(block, self.__multiLineDoubleString, 2, self.formats.multiLineString)
+		not self.highlightMultilineBlock(block, self.__multiLineSingleString, 1, self.formats.multiLineString) and \
+		self.highlightMultilineBlock(block, self.__multiLineDoubleString, 2, self.formats.multiLineString)
 
 	# @core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

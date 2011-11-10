@@ -96,7 +96,8 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:param value: Attribute value. ( QObject )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -105,7 +106,8 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		This method is the deleter method for **self.__container** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
 	@property
 	def Lines_Columns_label_defaultText(self):
@@ -126,7 +128,8 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "Lines_Columns_label_defaultText"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "Lines_Columns_label_defaultText"))
 
 	@Lines_Columns_label_defaultText.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -135,7 +138,8 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		This method is the deleter method for **self.__Lines_Columns_label_defaultText** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "Lines_Columns_label_defaultText"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "Lines_Columns_label_defaultText"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -197,4 +201,5 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			return
 
 		editor = self.__container.getCurrentEditor()
-		self.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(editor.getCursorLine() + 1, editor.getCursorColumn() + 1))
+		self.Lines_Columns_label.setText(self.__Lines_Columns_label_defaultText.format(editor.getCursorLine() + 1,
+																						editor.getCursorColumn() + 1))

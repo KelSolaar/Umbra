@@ -83,7 +83,8 @@ COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Script_Editor
 #**********************************************************************************************************************
 class ScriptEditor_QTabWidget(QTabWidget):
 	"""
-	| This class is a `QTabWidget <http://doc.qt.nokia.com/4.7/qtabwidget.html>`_ subclass used to display **ScriptEditor** editors.
+	| This class is a `QTabWidget <http://doc.qt.nokia.com/4.7/qtabwidget.html>`_ subclass used
+	to display **ScriptEditor** editors.
 	| It provides support for drag'n'drop by reimplementing relevant methods.
 	"""
 
@@ -129,7 +130,8 @@ class ScriptEditor_QTabWidget(QTabWidget):
 		:param value: Attribute value. ( QObject )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -138,7 +140,8 @@ class ScriptEditor_QTabWidget(QTabWidget):
 		This method is the deleter method for **self.__container** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -246,7 +249,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__searchAndReplace = None
 
 		self.__indentWidth = 20
-		self.__defaultFontsSettings = {"Windows" : ("Consolas", 10), "Darwin" : ("Monaco", 12), "Linux" : ("Nimbus Mono L", 10)}
+		self.__defaultFontsSettings = {"Windows" : ("Consolas", 10),
+										"Darwin" : ("Monaco", 12),
+										"Linux" : ("Nimbus Mono L", 10)}
 
 		self.__locals = None
 		self.__memoryHandlerStackDepth = None
@@ -278,7 +283,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( Integer )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "dockArea"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "dockArea"))
 
 	@dockArea.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -287,7 +293,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__dockArea** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "dockArea"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "dockArea"))
 
 	@property
 	def engine(self):
@@ -308,7 +315,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( QObject )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "engine"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "engine"))
 
 	@engine.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -317,7 +325,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__engine** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "engine"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "engine"))
 
 	@property
 	def settings(self):
@@ -338,7 +347,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( QSettings )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
 	@settings.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -347,7 +357,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__settings** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
 	@property
 	def settingsSection(self):
@@ -368,7 +379,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settingsSection"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settingsSection"))
 
 	@settingsSection.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -377,7 +389,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__settingsSection** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settingsSection"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settingsSection"))
 
 	@property
 	def developmentLayout(self):
@@ -398,7 +411,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "developmentLayout"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "developmentLayout"))
 
 	@developmentLayout.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -407,7 +421,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__developmentLayout** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "developmentLayout"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "developmentLayout"))
 
 	@property
 	def languagesModel(self):
@@ -428,7 +443,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( LanguagesModel )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "languagesModel"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "languagesModel"))
 
 	@languagesModel.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -437,7 +453,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__languagesModel** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "languagesModel"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "languagesModel"))
 
 	@property
 	def defaultLanguage(self):
@@ -458,7 +475,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultLanguage"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultLanguage"))
 
 	@defaultLanguage.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -467,7 +485,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__defaultLanguage** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultLanguage"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultLanguage"))
 
 	@property
 	def defaultScriptLanguage(self):
@@ -488,7 +507,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultScriptLanguage"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultScriptLanguage"))
 
 	@defaultScriptLanguage.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -497,7 +517,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__defaultScriptLanguage** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultScriptLanguage"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultScriptLanguage"))
 
 	@property
 	def files(self):
@@ -518,7 +539,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( List )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "files"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "files"))
 
 	@files.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -527,7 +549,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__files** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "files"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "files"))
 
 	@property
 	def modifiedFiles(self):
@@ -548,7 +571,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( Set )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "modifiedFiles"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "modifiedFiles"))
 
 	@modifiedFiles.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -557,7 +581,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__modifiedFiles** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "modifiedFiles"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "modifiedFiles"))
 
 	@property
 	def defaultWindowTitle(self):
@@ -578,7 +603,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultWindowTitle"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultWindowTitle"))
 
 	@defaultWindowTitle.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -587,7 +613,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__defaultWindowTitle** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultWindowTitle"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultWindowTitle"))
 
 	@property
 	def defaultScriptEditorDirectory(self):
@@ -608,7 +635,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultScriptEditorDirectory"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultScriptEditorDirectory"))
 
 	@defaultScriptEditorDirectory.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -617,7 +645,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__defaultScriptEditorDirectory** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultScriptEditorDirectory"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultScriptEditorDirectory"))
 
 	@property
 	def defaultScriptEditorFile(self):
@@ -638,7 +667,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultScriptEditorFile"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultScriptEditorFile"))
 
 	@defaultScriptEditorFile.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -647,7 +677,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__defaultScriptEditorFile** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultScriptEditorFile"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultScriptEditorFile"))
 
 	@property
 	def scriptEditorFile(self):
@@ -669,7 +700,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if value:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("scriptEditorFile", value)
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			"scriptEditorFile", value)
 		self.__scriptEditorFile = value
 
 	@scriptEditorFile.deleter
@@ -679,7 +711,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__scriptEditorFile** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "scriptEditorFile"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "scriptEditorFile"))
 
 	@property
 	def maximumRecentFiles(self):
@@ -700,7 +733,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( Integer )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "maximumRecentFiles"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "maximumRecentFiles"))
 
 	@maximumRecentFiles.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -709,7 +743,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__maximumRecentFiles** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "maximumRecentFiles"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "maximumRecentFiles"))
 
 	@property
 	def recentFilesActions(self):
@@ -730,7 +765,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( List )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "recentFilesActions"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "recentFilesActions"))
 
 	@recentFilesActions.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -739,7 +775,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__recentFilesActions** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "recentFilesActions"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "recentFilesActions"))
 
 	@property
 	def searchAndReplace(self):
@@ -760,7 +797,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( SearchAndReplace )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "searchAndReplace"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "searchAndReplace"))
 
 	@searchAndReplace.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -769,7 +807,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__searchAndReplace** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchAndReplace"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchAndReplace"))
 
 	@property
 	def indentWidth(self):
@@ -790,7 +829,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( Integer )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "indentWidth"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "indentWidth"))
 
 	@indentWidth.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -799,7 +839,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__indentWidth** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "indentWidth"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "indentWidth"))
 
 	@property
 	def defaultFontsSettings(self):
@@ -820,7 +861,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( Dictionary )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultFontsSettings"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultFontsSettings"))
 
 	@defaultFontsSettings.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -829,7 +871,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__defaultFontsSettings** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultFontsSettings"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultFontsSettings"))
 
 	@property
 	def locals(self):
@@ -850,7 +893,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( Dictionary )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "locals"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "locals"))
 
 	@locals.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -859,7 +903,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__locals** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "locals"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "locals"))
 
 	@property
 	def memoryHandlerStackDepth(self):
@@ -880,7 +925,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( Integer )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "memoryHandlerStackDepth"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "memoryHandlerStackDepth"))
 
 	@memoryHandlerStackDepth.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -889,7 +935,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__memoryHandlerStackDepth** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "memoryHandlerStackDepth"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "memoryHandlerStackDepth"))
 
 	@property
 	def menuBar(self):
@@ -910,7 +957,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( QToolbar )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "menuBar"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "menuBar"))
 
 	@menuBar.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -919,7 +967,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__menuBar** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "menuBar"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "menuBar"))
 
 	@property
 	def fileSystemWatcher(self):
@@ -940,7 +989,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( QFileSystemWatcher )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "fileSystemWatcher"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "fileSystemWatcher"))
 
 	@fileSystemWatcher.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -949,7 +999,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__fileSystemWatcher** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "fileSystemWatcher"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "fileSystemWatcher"))
 
 	@property
 	def timer(self):
@@ -970,7 +1021,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( QTimer )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "timer"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "timer"))
 
 	@timer.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -979,7 +1031,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__timer** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "timer"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "timer"))
 
 	@property
 	def timerCycleMultiplier(self):
@@ -1000,7 +1053,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( Float )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "timerCycleMultiplier"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "timerCycleMultiplier"))
 
 	@timerCycleMultiplier.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -1009,7 +1063,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__timerCycleMultiplier** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "timerCycleMultiplier"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "timerCycleMultiplier"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -1030,7 +1085,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings = self.__engine.settings
 		self.__settingsSection = self.name
 
-		self.__defaultScriptEditorDirectory = os.path.join(self.__engine.userApplicationDataDirectory, Constants.ioDirectory, self.__defaultScriptEditorDirectory)
+		self.__defaultScriptEditorDirectory = os.path.join(self.__engine.userApplicationDataDirectory,
+															Constants.ioDirectory,
+															self.__defaultScriptEditorDirectory)
 		not os.path.exists(self.__defaultScriptEditorDirectory) and os.makedirs(self.__defaultScriptEditorDirectory)
 		self.__defaultScriptEditorFile = os.path.join(self.__defaultScriptEditorDirectory, self.__defaultScriptEditorFile)
 
@@ -1049,7 +1106,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, self.__name))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, self.__name))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -1068,7 +1126,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__recentFilesActions = []
 		for i in range(self.__maximumRecentFiles):
-			self.__recentFilesActions.append(QAction(self.__menuBar, visible=False, triggered=self.__loadRecentFile__triggered))
+			self.__recentFilesActions.append(QAction(self.__menuBar,
+													visible=False,
+													triggered=self.__loadRecentFile__triggered))
 
 		self.__menuBar = QMenuBar()
 		self.__menuBar.setNativeMenuBar(False)
@@ -1109,7 +1169,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' Component ui cannot be uninitialized!".format(self.__class__.__name__, self.name))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' Component ui cannot be uninitialized!".format(self.__class__.__name__, self.name))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -1177,16 +1238,38 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		fileMenu = QMenu("&File", parent=self.__menuBar)
-		fileMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&New", shortcut=QKeySequence.New, slot=self.__newFileAction__triggered))
-		fileMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Load ...", shortcut=QKeySequence.Open, slot=self.__loadFileAction__triggered))
-		fileMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Source ...", slot=self.__sourceFileAction__triggered))
+		fileMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&File|&New",
+		shortcut=QKeySequence.New,
+		slot=self.__newFileAction__triggered))
+		fileMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&File|&Load ...",
+		shortcut=QKeySequence.Open,
+		slot=self.__loadFileAction__triggered))
+		fileMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&File|Source ...",
+		slot=self.__sourceFileAction__triggered))
 		fileMenu.addSeparator()
-		fileMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|&Save", shortcut=QKeySequence.Save, slot=self.__saveFileAction__triggered))
-		fileMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Save As ...", shortcut=QKeySequence.SaveAs, slot=self.__saveFileAsAction__triggered))
-		fileMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Save All", slot=self.__saveAllFilesAction__triggered))
+		fileMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&File|&Save",
+		shortcut=QKeySequence.Save,
+		slot=self.__saveFileAction__triggered))
+		fileMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&File|Save As ...",
+		shortcut=QKeySequence.SaveAs,
+		slot=self.__saveFileAsAction__triggered))
+		fileMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&File|Save All",
+		slot=self.__saveAllFilesAction__triggered))
 		fileMenu.addSeparator()
-		fileMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Close ...", shortcut=QKeySequence.Close, slot=self.__closeFileAction__triggered))
-		fileMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&File|Close All ...", shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.Key_W, slot=self.__closeAllFilesAction__triggered))
+		fileMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&File|Close ...",
+		shortcut=QKeySequence.Close,
+		slot=self.__closeFileAction__triggered))
+		fileMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&File|Close All ...",
+		shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.Key_W,
+		slot=self.__closeAllFilesAction__triggered))
 		fileMenu.addSeparator()
 		for action in self.__recentFilesActions:
 			fileMenu.addAction(action)
@@ -1194,43 +1277,100 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__menuBar.addMenu(fileMenu)
 
 		self.__editMenu = QMenu("&Edit", parent=self.__menuBar)
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Undo", shortcut=QKeySequence.Undo, slot=self.__undoAction__triggered))
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Redo", shortcut=QKeySequence.Redo, slot=self.__redoAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Edit|&Undo",
+		shortcut=QKeySequence.Undo,
+		slot=self.__undoAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Edit|&Redo",
+		shortcut=QKeySequence.Redo,
+		slot=self.__redoAction__triggered))
 		self.__editMenu.addSeparator()
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Cu&t", shortcut=QKeySequence.Cut, slot=self.__cutAction__triggered))
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Copy", shortcut=QKeySequence.Copy, slot=self.__copyAction__triggered))
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|&Paste", shortcut=QKeySequence.Paste, slot=self.__pasteAction__triggered))
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete", slot=self.__deleteAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Cu&t",
+		shortcut=QKeySequence.Cut,
+		slot=self.__cutAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Edit|&Copy",
+		shortcut=QKeySequence.Copy,
+		slot=self.__copyAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Edit|&Paste",
+		shortcut=QKeySequence.Paste,
+		slot=self.__pasteAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete",
+		slot=self.__deleteAction__triggered))
 		self.__editMenu.addSeparator()
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Select All", shortcut=QKeySequence.SelectAll, slot=self.__selectAllAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Select All",
+		shortcut=QKeySequence.SelectAll,
+		slot=self.__selectAllAction__triggered))
 		self.__editMenu.addSeparator()
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Goto Line ...", shortcut=Qt.ControlModifier + Qt.Key_L, slot=self.__gotoLineAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Goto Line ...",
+		shortcut=Qt.ControlModifier + Qt.Key_L,
+		slot=self.__gotoLineAction__triggered))
 		self.__editMenu.addSeparator()
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Indent Selection", shortcut=Qt.Key_Tab, slot=self.__indentSelectionAction__triggered))
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Unindent Selection", shortcut=Qt.Key_Backtab, slot=self.__unindentSelectionAction__triggered))
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Convert Indentation To Tabs", slot=self.__convertIndentationToTabsAction__triggered))
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Convert Indentation To Spaces", slot=self.__convertIndentationToSpacesAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Indent Selection",
+		shortcut=Qt.Key_Tab,
+		slot=self.__indentSelectionAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Unindent Selection",
+		shortcut=Qt.Key_Backtab,
+		slot=self.__unindentSelectionAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Convert Indentation To Tabs",
+		slot=self.__convertIndentationToTabsAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Convert Indentation To Spaces",
+		slot=self.__convertIndentationToSpacesAction__triggered))
 		self.__editMenu.addSeparator()
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Remove Trailing WhiteSpaces", slot=self.__removeTrailingWhiteSpacesAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Remove Trailing WhiteSpaces",
+		slot=self.__removeTrailingWhiteSpacesAction__triggered))
 		self.__editMenu.addSeparator()
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Edit|Toggle Comments", shortcut=Qt.ControlModifier + Qt.Key_Slash, slot=self.__toggleCommentsAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Toggle Comments",
+		shortcut=Qt.ControlModifier + Qt.Key_Slash,
+		slot=self.__toggleCommentsAction__triggered))
 		self.__menuBar.addMenu(self.__editMenu)
 
 		self.__searchMenu = QMenu("&Search", parent=self.__menuBar)
-		self.__searchMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Search|Search And Replace ...", shortcut=Qt.ControlModifier + Qt.Key_F, slot=self.__searchAndReplaceAction__triggered))
+		self.__searchMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Search|Search And Replace ...",
+		shortcut=Qt.ControlModifier + Qt.Key_F,
+		slot=self.__searchAndReplaceAction__triggered))
 		self.__searchMenu.addSeparator()
-		self.__searchMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Search|Search Next", shortcut=Qt.ControlModifier + Qt.Key_K, slot=self.__searchNextAction__triggered))
-		self.__searchMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Search|Search Previous", shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.Key_K, slot=self.__searchPreviousAction__triggered))
+		self.__searchMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Search|Search Next",
+		shortcut=Qt.ControlModifier + Qt.Key_K,
+		slot=self.__searchNextAction__triggered))
+		self.__searchMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Search|Search Previous",
+		shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.Key_K,
+		slot=self.__searchPreviousAction__triggered))
 		self.__menuBar.addMenu(self.__searchMenu)
 
 		self.__commandMenu = QMenu("&Command", parent=self.__menuBar)
-		self.__commandMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection", shortcut=Qt.ControlModifier + Qt.Key_Return, slot=self.__evaluateSelectionAction__triggered))
-		self.__commandMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script", shortcut=Qt.SHIFT + Qt.CTRL + Qt.Key_Return, slot=self.__evaluateScriptAction__triggered))
+		self.__commandMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection",
+		shortcut=Qt.ControlModifier + Qt.Key_Return,
+		slot=self.__evaluateSelectionAction__triggered))
+		self.__commandMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script",
+		shortcut=Qt.SHIFT + Qt.CTRL + Qt.Key_Return,
+		slot=self.__evaluateScriptAction__triggered))
 		self.__menuBar.addMenu(self.__commandMenu)
 
 		self.__viewMenu = QMenu("&View", parent=self.__menuBar)
-		self.__viewMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&View|Toggle Word Wrap", slot=self.__toggleWordWrapAction__triggered))
-		self.__viewMenu.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.scriptEditor|&View|Toggle White Spaces", slot=self.__toggleWhiteSpacesAction__triggered))
+		self.__viewMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&View|Toggle Word Wrap",
+		slot=self.__toggleWordWrapAction__triggered))
+		self.__viewMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&View|Toggle White Spaces",
+		slot=self.__toggleWhiteSpacesAction__triggered))
 		self.__menuBar.addMenu(self.__viewMenu)
 
 	# @core.executionTrace
@@ -1239,7 +1379,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method sets the **Script_Editor_Output_plainTextEdit** Widget.
 		"""
 
-		self.Script_Editor_Output_plainTextEdit.highlighter = umbra.ui.highlighters.LoggingHighlighter(self.Script_Editor_Output_plainTextEdit.document())
+		self.Script_Editor_Output_plainTextEdit.highlighter = umbra.ui.highlighters.LoggingHighlighter(
+																	self.Script_Editor_Output_plainTextEdit.document())
 		self.Script_Editor_Output_plainTextEdit.setTabStopWidth(self.__indentWidth)
 		self.Script_Editor_Output_plainTextEdit.setWordWrapMode(QTextOption.NoWrap)
 		if platform.system() == "Windows" or platform.system() == "Microsoft":
@@ -1270,7 +1411,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		memoryHandlerStackDepth = len(self.__engine.loggingSessionHandlerStream.stream)
 		if memoryHandlerStackDepth != self.__memoryHandlerStackDepth:
-			for line in self.__engine.loggingSessionHandlerStream.stream[self.__memoryHandlerStackDepth:memoryHandlerStackDepth]:
+			for line in self.__engine.loggingSessionHandlerStream.stream[
+			self.__memoryHandlerStackDepth:memoryHandlerStackDepth]:
 				self.Script_Editor_Output_plainTextEdit.moveCursor(QTextCursor.End)
 				self.Script_Editor_Output_plainTextEdit.insertPlainText(line)
 			self.__Script_Editor_Output_plainTextEdit_setDefaultViewState()
@@ -1282,7 +1424,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method toggles **Script_Editor_Output_plainTextEdit** Widget word wrap.
 		"""
 
-		self.Script_Editor_Output_plainTextEdit.setWordWrapMode(not self.Script_Editor_Output_plainTextEdit.wordWrapMode() and QTextOption.WordWrap or QTextOption.NoWrap)
+		self.Script_Editor_Output_plainTextEdit.setWordWrapMode(
+		not self.Script_Editor_Output_plainTextEdit.wordWrapMode() and QTextOption.WordWrap or QTextOption.NoWrap)
 
 	@core.executionTrace
 	def __Script_Editor_tabWidget_setUi(self):
@@ -1579,7 +1722,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __searchAndReplaceAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Search|Search And Replace ...'** action.
+		This method is triggered by
+		**'Actions|Umbra|Components|factory.scriptEditor|&Search|Search And Replace ...'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
@@ -1646,7 +1790,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __convertIndentationToTabsAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Convert Identation To Tabs'** action.
+		This method is triggered by
+		**'Actions|Umbra|Components|factory.scriptEditor|&Edit|Convert Identation To Tabs'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
@@ -1660,7 +1805,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __convertIndentationToSpacesAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Convert Identation To Spaces'** action.
+		This method is triggered by
+		**'Actions|Umbra|Components|factory.scriptEditor|&Edit|Convert Identation To Spaces'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
@@ -1674,7 +1820,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __removeTrailingWhiteSpacesAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Remove Trailing WhiteSpaces'** action.
+		This method is triggered by
+		**'Actions|Umbra|Components|factory.scriptEditor|&Edit|Remove Trailing WhiteSpaces'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
@@ -1702,7 +1849,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __evaluateSelectionAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection'** action.
+		This method is triggered by
+		**'Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
@@ -1824,7 +1972,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method sets the recent files actions.
 		"""
 
-		recentFiles = [str(recentFile) for recentFile in self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",") if os.path.exists(recentFile)]
+		recentFiles = [str(recentFile) 
+					for recentFile in self.__settings.getKey(self.__settingsSection,"recentFiles").toString().split(",")
+						if os.path.exists(recentFile)]
 		if not recentFiles:
 			return
 
@@ -1847,7 +1997,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param file: File to store. ( String )
 		"""
 
-		recentFiles = [str(recentFile) for recentFile in self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",") if os.path.exists(recentFile)]
+		recentFiles = [str(recentFile)
+					for recentFile in self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",")
+					if os.path.exists(recentFile)]
 		if not recentFiles:
 			recentFiles = []
 
@@ -1874,12 +2026,14 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__engine.startProcessing("Loading Files ...", len(urls))
 		for url in event.mimeData().urls():
-			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and re.search(r"^\/[A-Z]:", str(url.path())) and str(url.path())[1:] or str(url.path())
+			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and \
+			re.search(r"^\/[A-Z]:", str(url.path())) and str(url.path())[1:] or str(url.path())
 			if os.path.isdir(path):
 				continue
 
 			if self.loadFile(path):
-				self.__engine.currentLayout != self.__developmentLayout and self.__engine.restoreLayout(self.__developmentLayout)
+				self.__engine.currentLayout != self.__developmentLayout and \
+				self.__engine.restoreLayout(self.__developmentLayout)
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
 
@@ -1977,7 +2131,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:note: This method may require user interaction.
 		"""
 
-		file = umbra.ui.common.storeLastBrowsedPath((QFileDialog.getOpenFileName(self, "Load File:", RuntimeGlobals.lastBrowsedPath)))
+		file = umbra.ui.common.storeLastBrowsedPath((QFileDialog.getOpenFileName(self,
+																				"Load File:",
+																				RuntimeGlobals.lastBrowsedPath)))
 		if not file:
 			return
 
@@ -2075,14 +2231,16 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def loadFile(self, file):
 		"""
-		This method reads and loads given file into a new :class:`Editor` instance with its associated tab or sets the focus on an existing tab if the file is already loaded.
+		This method reads and loads given file into a new :class:`Editor` instance
+		with its associated tab or sets the focus on an existing tab if the file is already loaded.
 
 		:param file: File to load. ( String )
 		:return: Method success. ( Boolean )
 		"""
 
 		if not os.path.exists(file):
-			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(self.__class__.__name__, file))
+			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(
+			self.__class__.__name__, file))
 
 		tabIndex = self.findEditorTab(file)
 		if tabIndex >= 0:
@@ -2091,12 +2249,14 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return True
 
 		currentEditor = self.getCurrentEditor()
-		if self.Script_Editor_tabWidget.count() == 1 and currentEditor.isUntitled and not currentEditor.document().isModified():
+		if self.Script_Editor_tabWidget.count() == 1 and currentEditor.isUntitled and \
+		not currentEditor.document().isModified():
 			self.__unregisterFile(currentEditor.file)
 			self.removeEditorTab(self.Script_Editor_tabWidget.currentIndex())
 
 		LOGGER.info("{0} | Loading '{1}' file!".format(self.__class__.__name__, file))
-		editor = Editor(parent=self, language=self.__languagesModel.getFileLanguage(file) or self.__languagesModel.getLanguage(self.__defaultLanguage))
+		editor = Editor(parent=self, language=self.__languagesModel.getFileLanguage(file) or \
+		self.__languagesModel.getLanguage(self.__defaultLanguage))
 		if editor.loadFile(file):
 			self.addEditorTab(editor)
 			self.__storeRecentFile(file)
@@ -2114,7 +2274,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not os.path.exists(file):
-			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(self.__class__.__name__, file))
+			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(
+			self.__class__.__name__, file))
 
 		tabIndex = self.findEditorTab(file)
 		if tabIndex >= 0:
@@ -2156,7 +2317,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if editor.saveFileAs():
 			self.__storeRecentFile(editor.file)
 			self.__registerFile(editor.file)
-			language = self.__languagesModel.getFileLanguage(editor.file) or self.__languagesModel.getLanguage(self.__defaultLanguage)
+			language = self.__languagesModel.getFileLanguage(editor.file) or \
+					self.__languagesModel.getLanguage(self.__defaultLanguage)
 			if editor.language.name != language.name:
 				self.setEditorLanguage(editor, language)
 			return True
@@ -2192,7 +2354,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def closeFile(self):
 		"""
- 		This method closes current :class:`Editor` instance file and removes the associated **Script_Editor_tabWidget** Widget tab.
+ 		This method closes current :class:`Editor` instance file
+		and removes the associated **Script_Editor_tabWidget** Widget tab.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -2216,7 +2379,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@umbra.engine.encapsulateProcessing
 	def closeAllFiles(self, leaveLastEditor=True):
 		"""
- 		This method closes every :class:`Editor` instances and removes their associated **Script_Editor_tabWidget** Widget tabs.
+ 		This method closes every :class:`Editor` instances
+		and removes their associated **Script_Editor_tabWidget** Widget tabs.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -2263,7 +2427,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def evaluateSelection(self):
 		"""
-		This method evaluates current **Script_Editor_tabWidget** Widget tab editor selected content in the interactive console.
+		This method evaluates current **Script_Editor_tabWidget** Widget tab editor
+		selected content in the interactive console.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -2272,7 +2437,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor:
 			return
 
-		if self.evaluateCode(str(editor.textCursor().selectedText().replace(QChar(QChar.ParagraphSeparator), QString("\n")))):
+		if self.evaluateCode(str(editor.textCursor().selectedText().replace(QChar(QChar.ParagraphSeparator),
+																			QString("\n")))):
 			self.dataChanged.emit()
 			return True
 

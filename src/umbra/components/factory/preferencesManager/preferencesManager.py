@@ -53,7 +53,8 @@ COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Preferences_M
 class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
 	| This class is the :mod:`umbra.components.core.preferencesManager.preferencesManager` Component Interface class.
-	| It exposes Application preferences inside a dedicated `QDockWidget <http://doc.qt.nokia.com/4.7/qdockwidget.html>`_ window.
+	| It exposes Application preferences inside
+	a dedicated `QDockWidget <http://doc.qt.nokia.com/4.7/qdockwidget.html>`_ window.
 	"""
 
 	@core.executionTrace
@@ -101,7 +102,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( Integer )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "dockArea"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "dockArea"))
 
 	@dockArea.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -110,7 +112,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__dockArea** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "dockArea"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "dockArea"))
 
 	@property
 	def engine(self):
@@ -131,7 +134,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( QObject )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "engine"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "engine"))
 
 	@engine.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -140,7 +144,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__engine** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "engine"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "engine"))
 
 	@property
 	def settings(self):
@@ -161,7 +166,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( QSettings )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
 	@settings.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -170,7 +176,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__settings** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -201,7 +208,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method deactivates the Component.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, self.__name))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, self.__name))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -221,7 +229,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		# Signals / Slots.
 		self.Logging_Formatters_comboBox.activated.connect(self.__Logging_Formatters_comboBox__activated)
 		self.Verbose_Level_comboBox.activated.connect(self.__Verbose_Level_comboBox__activated)
-		self.Restore_Geometry_On_Layout_Change_checkBox.stateChanged.connect(self.__Restore_Geometry_On_Layout_Change_checkBox__stateChanged)
+		self.Restore_Geometry_On_Layout_Change_checkBox.stateChanged.connect(
+		self.__Restore_Geometry_On_Layout_Change_checkBox__stateChanged)
 
 		return True
 
@@ -232,7 +241,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method uninitializes the Component ui.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' Component ui cannot be uninitialized!".format(self.__class__.__name__, self.name))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' Component ui cannot be uninitialized!".format(self.__class__.__name__, self.name))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -256,7 +266,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method removes the Component Widget from the engine.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' Component Widget cannot be removed!".format(self.__class__.__name__, self.name))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' Component Widget cannot be removed!".format(self.__class__.__name__, self.name))
 
 	@core.executionTrace
 	def __Logging_Formatters_comboBox_setUi(self):
@@ -269,7 +280,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Logging_Formatters_comboBox.insertItems(0, QStringList (RuntimeGlobals.loggingFormatters.keys()))
 		loggingFormatter = self.__settings.getKey("Settings", "loggingFormatter").toString()
 		self.__engine.loggingActiveFormatter = loggingFormatter and loggingFormatter or Constants.loggingDefaultFormatter
-		self.Logging_Formatters_comboBox.setCurrentIndex(self.Logging_Formatters_comboBox.findText(self.__engine.loggingActiveFormatter, Qt.MatchExactly))
+		self.Logging_Formatters_comboBox.setCurrentIndex(self.Logging_Formatters_comboBox.findText(
+		self.__engine.loggingActiveFormatter, Qt.MatchExactly))
 
 	@core.executionTrace
 	def __Logging_Formatters_comboBox__activated(self, index):
@@ -317,10 +329,12 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		# Adding settings key if it doesn't exists.
-		self.__settings.getKey("Settings", "restoreGeometryOnLayoutChange").isNull() and self.__settings.setKey("Settings", "restoreGeometryOnLayoutChange", Qt.Unchecked)
+		self.__settings.getKey("Settings", "restoreGeometryOnLayoutChange").isNull() and \
+		self.__settings.setKey("Settings", "restoreGeometryOnLayoutChange", Qt.Unchecked)
 
 		restoreGeometryOnLayoutChange = self.__settings.getKey("Settings", "restoreGeometryOnLayoutChange").toInt()[0]
-		LOGGER.debug("> Setting '{0}' with value '{1}'.".format("Restore_Geometry_On_Layout_Change_checkBox", restoreGeometryOnLayoutChange))
+		LOGGER.debug("> Setting '{0}' with value '{1}'.".format("Restore_Geometry_On_Layout_Change_checkBox",
+																restoreGeometryOnLayoutChange))
 		self.Restore_Geometry_On_Layout_Change_checkBox.setCheckState(restoreGeometryOnLayoutChange)
 		self.__engine.settings._data.restoreGeometryOnLayoutChange = restoreGeometryOnLayoutChange and True or False
 
@@ -344,5 +358,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method sets the logging formatter.
 		"""
 
-		for handler in (RuntimeGlobals.loggingConsoleHandler, RuntimeGlobals.loggingFileHandler, RuntimeGlobals.loggingSessionHandler):
+		for handler in (RuntimeGlobals.loggingConsoleHandler,
+						RuntimeGlobals.loggingFileHandler,
+						RuntimeGlobals.loggingSessionHandler):
 			handler and handler.setFormatter(RuntimeGlobals.loggingFormatters[RuntimeGlobals.loggingActiveFormatter])

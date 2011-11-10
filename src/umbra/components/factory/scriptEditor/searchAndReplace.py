@@ -116,7 +116,8 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:param value: Attribute value. ( QObject )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -125,7 +126,8 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		This method is the deleter method for **self.__container** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
 	@property
 	def maximumStoredPatterns(self):
@@ -146,7 +148,8 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:param value: Attribute value. ( Integer )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "maximumStoredPatterns"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "maximumStoredPatterns"))
 
 	@maximumStoredPatterns.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -155,7 +158,8 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		This method is the deleter method for **self.__maximumStoredPatterns** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "maximumStoredPatterns"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "maximumStoredPatterns"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -193,12 +197,14 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		for widget in self.findChildren(QWidget, QRegExp(".*")):
 			widget.keyPressEvent = functools.partial(_keyPressEvent, widget, self)
 
-		recentSearchPatterns = self.__container.settings.getKey(self.__container.settingsSection, "recentSearchPatterns").toString().split(",")
+		recentSearchPatterns = self.__container.settings.getKey(self.__container.settingsSection,
+																"recentSearchPatterns").toString().split(",")
 		if recentSearchPatterns:
 			for i in range(min(self.__maximumStoredPatterns, len(recentSearchPatterns))):
 				self.Search_comboBox.addItem(recentSearchPatterns[i])
 
-		recentReplaceWithPatterns = self.__container.settings.getKey(self.__container.settingsSection, "recentReplaceWithPatterns").toString().split(",")
+		recentReplaceWithPatterns = self.__container.settings.getKey(self.__container.settingsSection,
+																	"recentReplaceWithPatterns").toString().split(",")
 		if recentReplaceWithPatterns:
 			for i in range(min(self.__maximumStoredPatterns, len(recentReplaceWithPatterns))):
 				self.Replace_With_comboBox.addItem(recentReplaceWithPatterns[i])
@@ -267,7 +273,13 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 					break
 			isNotRegistered and comboBox.insertItem(0, currentText)
 
-		self.__container.settings.setKey(self.__container.settingsSection, settingsKey, ",".join((unicode(comboBox.itemText(i), Constants.encodingFormat, Constants.encodingError) for i in range(min(self.__maximumStoredPatterns, comboBox.count())) if comboBox.itemText(i))))
+		self.__container.settings.setKey(self.__container.settingsSection,
+										settingsKey,
+										",".join((unicode(comboBox.itemText(i),
+														Constants.encodingFormat,
+														Constants.encodingError)
+										for i in range(min(self.__maximumStoredPatterns, comboBox.count()))
+										if comboBox.itemText(i))))
 
 	@core.executionTrace
 	def __storeRecentSearchPatterns(self):
@@ -367,11 +379,13 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if not editor or not searchPattern:
 			return
 
-		return editor.replace(searchPattern, replacementPattern, **{"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
-																	"wholeWord" : self.Whole_Word_checkBox.isChecked(),
-																	"regularExpressions" : self.Regular_Expressions_checkBox.isChecked(),
-																	"backwardSearch" : self.Backward_Search_checkBox.isChecked(),
-																	"wrapAround" : self.Wrap_Around_checkBox.isChecked()})
+		return editor.replace(searchPattern,
+							replacementPattern,
+							**{"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
+								"wholeWord" : self.Whole_Word_checkBox.isChecked(),
+								"regularExpressions" : self.Regular_Expressions_checkBox.isChecked(),
+								"backwardSearch" : self.Backward_Search_checkBox.isChecked(),
+								"wrapAround" : self.Wrap_Around_checkBox.isChecked()})
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -391,8 +405,10 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if not editor or not searchPattern:
 			return
 
-		return editor.replaceAll(searchPattern, replacementPattern, **{"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
-																		"wholeWord" : self.Whole_Word_checkBox.isChecked(),
-																		"regularExpressions" : self.Regular_Expressions_checkBox.isChecked(),
-																		"backwardSearch" : False,
-																		"wrapAround" : False})
+		return editor.replaceAll(searchPattern,
+								replacementPattern,
+								**{"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
+									"wholeWord" : self.Whole_Word_checkBox.isChecked(),
+									"regularExpressions" : self.Regular_Expressions_checkBox.isChecked(),
+									"backwardSearch" : False,
+									"wrapAround" : False})

@@ -116,7 +116,8 @@ class GraphModelAttribute(Attribute):
 		This method is the deleter method for **self.__roles** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "roles"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "roles"))
 
 	@property
 	def flags(self):
@@ -148,7 +149,8 @@ class GraphModelAttribute(Attribute):
 		This method is the deleter method for **self.__flags** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "flags"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "flags"))
 
 class GraphModelNode(AbstractCompositeNode):
 	"""
@@ -158,7 +160,7 @@ class GraphModelNode(AbstractCompositeNode):
 	__family = "GraphModel"
 
 	@core.executionTrace
-	def __init__(self, name=None, parent=None, children=None, roles=None, flags=None, ** kwargs):
+	def __init__(self, name=None, parent=None, children=None, roles=None, flags=None, **kwargs):
 		"""
 		This method initializes the class.
 
@@ -215,7 +217,8 @@ class GraphModelNode(AbstractCompositeNode):
 		This method is the deleter method for **self.__roles** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "roles"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "roles"))
 
 	@property
 	def flags(self):
@@ -247,7 +250,8 @@ class GraphModelNode(AbstractCompositeNode):
 		This method is the deleter method for **self.__flags** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "flags"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "flags"))
 
 class DefaultNode(AbstractCompositeNode):
 	"""
@@ -274,10 +278,13 @@ class DefaultNode(AbstractCompositeNode):
 
 class GraphModel(QAbstractItemModel):
 	"""
-	| This class is a `QAbstractItemModel <http://doc.qt.nokia.com/4.7/qabstractitemmodel.html>`_ subclass providing a graph model.
-	| The model provided by this object is very generic and abstract making it compatible with major Qt views ( QListView, QTreeView, QTableView, QComboBox ).
+	| This class is a `QAbstractItemModel <http://doc.qt.nokia.com/4.7/qabstractitemmodel.html>`_ subclass
+	providing a graph model.
+	| The model provided by this object is very generic and abstract making it compatible with major Qt Views
+	( QListView, QTreeView, QTableView, QComboBox ).
 
-	:note: Execution tracing and exceptions handling decorators have been disabled on this class to provide maximum execution speed.
+	:note: Execution tracing and exceptions handling decorators have been disabled on this class
+	to provide maximum execution speed.
 	"""
 
 	@core.executionTrace
@@ -326,7 +333,8 @@ class GraphModel(QAbstractItemModel):
 		"""
 
 		if value:
-			assert issubclass(value.__class__, AbstractCompositeNode), "'{0}' attribute: '{1}' is not a '{2}' subclass!".format("rootNode", value, AbstractCompositeNode.__name__)
+			assert issubclass(value.__class__, AbstractCompositeNode), "'{0}' attribute: '{1}' is not a \
+			'{2}' subclass!".format("rootNode", value, AbstractCompositeNode.__name__)
 		self.__rootNode = value
 
 	@rootNode.deleter
@@ -336,7 +344,8 @@ class GraphModel(QAbstractItemModel):
 		This method is the deleter method for **self.__rootNode** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "rootNode"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "rootNode"))
 
 	@property
 	def horizontalHeaders(self):
@@ -358,7 +367,8 @@ class GraphModel(QAbstractItemModel):
 		"""
 
 		if value:
-			assert type(value) is OrderedDict, "'{0}' attribute: '{1}' type is not 'OrderedDict'!".format("horizontalHeaders", value)
+			assert type(value) is OrderedDict, "'{0}' attribute: '{1}' type is not 'OrderedDict'!".format(
+			"horizontalHeaders", value)
 		self.__horizontalHeaders = value
 
 	@horizontalHeaders.deleter
@@ -368,7 +378,8 @@ class GraphModel(QAbstractItemModel):
 		This method is the deleter method for **self.__horizontalHeaders** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "horizontalHeaders"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "horizontalHeaders"))
 
 	@property
 	def verticalHeaders(self):
@@ -390,7 +401,8 @@ class GraphModel(QAbstractItemModel):
 		"""
 
 		if value:
-			assert type(value) is OrderedDict, "'{0}' attribute: '{1}' type is not 'OrderedDict'!".format("verticalHeaders", value)
+			assert type(value) is OrderedDict, "'{0}' attribute: '{1}' type is not 'OrderedDict'!".format(
+			"verticalHeaders", value)
 		self.__verticalHeaders = value
 
 	@verticalHeaders.deleter
@@ -400,7 +412,8 @@ class GraphModel(QAbstractItemModel):
 		This method is the deleter method for **self.__verticalHeaders** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "verticalHeaders"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "verticalHeaders"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -595,7 +608,8 @@ class GraphModel(QAbstractItemModel):
 		if column == 0:
 			self.__rootNode.sortChildren(reverseOrder=order)
 		else:
-			self.__rootNode.sortChildren(attribute=self.__horizontalHeaders[self.__horizontalHeaders.keys()[column]], reverseOrder=order)
+			self.__rootNode.sortChildren(attribute=self.__horizontalHeaders[self.__horizontalHeaders.keys()[column]],
+										reverseOrder=order)
 		self.endResetModel()
 
 	@core.executionTrace

@@ -201,7 +201,8 @@ class UiConstantsTestCase(unittest.TestCase):
 		"""
 
 		self.assertRegexpMatches(UiConstants.splashScreenImage, "\w+")
-		self.assertRegexpMatches(UiConstants.splashScreenImage, "\.[bB][mM][pP]$|\.[jJ][pP][eE][gG]$|\.[jJ][pP][gG]|\.[pP][nN][gG]$")
+		self.assertRegexpMatches(UiConstants.splashScreenImage,
+								"\.[bB][mM][pP]$|\.[jJ][pP][eE][gG]$|\.[jJ][pP][gG]|\.[pP][nN][gG]$")
 
 	def testLogoImageAttribute(self):
 		"""

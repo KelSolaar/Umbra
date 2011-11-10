@@ -54,7 +54,8 @@ ENGLISH_WORDS_FILE = umbra.ui.common.getResourcePath("others/English_Words.rc")
 #**********************************************************************************************************************
 class PythonCompleter(QCompleter):
 	"""
-	This class is a `QCompleter <http://doc.qt.nokia.com/4.7/qcompleter.html>`_ subclass used as a Python completion widget.
+	This class is a `QCompleter <http://doc.qt.nokia.com/4.7/qcompleter.html>`_ subclass used
+	as a Python completion widget.
 	"""
 
 	__pythonTokens = None
@@ -100,9 +101,11 @@ class PythonCompleter(QCompleter):
 		"""
 
 		if value:
-			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format("pythonTokens", value)
+			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
+			"pythonTokens", value)
 			for element in value:
-				assert type(element) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("pythonTokens", element)				
+				assert type(element) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+				"pythonTokens", element)				
 		PythonCompleter._PythonCompleter__pythonTokens = value
 
 	@pythonTokens.deleter
@@ -112,7 +115,8 @@ class PythonCompleter(QCompleter):
 		This method is the deleter method for **PythonCompleter._PythonCompleter__pythonTokens** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "pythonTokens"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "pythonTokens"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -129,7 +133,8 @@ class PythonCompleter(QCompleter):
 			return
 
 		sections = umbra.ui.common.getTokensParser(PYTHON_TOKENS_FILE).sections
-		PythonCompleter._PythonCompleter__pythonTokens = [token for section in sections["Tokens"].values() for token in section.split(splitter)]
+		PythonCompleter._PythonCompleter__pythonTokens = [token for section in sections["Tokens"].values()
+														for token in section.split(splitter)]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -148,7 +153,8 @@ class PythonCompleter(QCompleter):
 
 class EnglishCompleter(QCompleter):
 	"""
-	This class is a `QCompleter <http://doc.qt.nokia.com/4.7/qcompleter.html>`_ subclass used as an english text completion widget.
+	This class is a `QCompleter <http://doc.qt.nokia.com/4.7/qcompleter.html>`_ subclass used
+	as an english text completion widget.
 	"""
 
 	__englishWords = None
@@ -194,9 +200,11 @@ class EnglishCompleter(QCompleter):
 		"""
 
 		if value:
-			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format("englishWords", value)
+			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
+			"englishWords", value)
 			for element in value:
-				assert type(element) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("englishWords", element)				
+				assert type(element) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+				"englishWords", element)				
 		EnglishCompleter._EnglishCompleter__englishWords = value
 
 	@englishWords.deleter
@@ -206,7 +214,8 @@ class EnglishCompleter(QCompleter):
 		This method is the deleter method for **EnglishCompleter._EnglishCompleter__englishWords** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "englishWords"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "englishWords"))
 
 	#******************************************************************************************************************
 	#***	Class methods.

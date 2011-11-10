@@ -8,7 +8,8 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor` Component Interface class Models.
+	This module defines the :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Component Interface class Models.
 
 **Others:**
 
@@ -51,7 +52,8 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 class LanguagesModel(QAbstractListModel):
 	"""
-	This class is a `QAbstractListModel <http://doc.qt.nokia.com/4.7/qabstractListmodel.html>`_ subclass used to store **ScriptEditor** languages.
+	This class is a `QAbstractListModel <http://doc.qt.nokia.com/4.7/qabstractListmodel.html>`_ subclass used
+	to store **ScriptEditor** languages.
 	"""
 
 	@core.executionTrace
@@ -106,7 +108,8 @@ class LanguagesModel(QAbstractListModel):
 		This method is the deleter method for **self.__languages** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "languages"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "languages"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -165,10 +168,12 @@ class LanguagesModel(QAbstractListModel):
 		"""
 
 		if not isinstance(language, Language):
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' is not a 'Language' instance!".format(self.__class__.__name__, language))
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' is not a 'Language' instance!".format(
+			self.__class__.__name__, language))
 
 		if self.getLanguage(language):
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' language is already registered!".format(self.__class__.__name__, language.name))
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' language is already registered!".format(
+			self.__class__.__name__, language.name))
 
 		self.__languages.append(language)
 		self.sortLanguages()
@@ -185,7 +190,8 @@ class LanguagesModel(QAbstractListModel):
 		"""
 
 		if not self.getLanguage(name):
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' language isn't registered!".format(self.__class__.__name__, name))
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' language isn't registered!".format(
+			self.__class__.__name__, name))
 
 		for i, language in enumerate(self.__languages):
 			if not language.name == name:
@@ -223,4 +229,3 @@ class LanguagesModel(QAbstractListModel):
 			if re.search(language.extension, file):
 				LOGGER.debug("> '{0}' file detected language: '{1}'.".format(file, language.name))
 				return language
-

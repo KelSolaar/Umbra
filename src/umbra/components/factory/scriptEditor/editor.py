@@ -69,7 +69,8 @@ class Language(core.Structure):
 		"""
 		This method initializes the class.
 
-		:param \*\*kwargs: name, extension, highlighter, completer, preInputAccelerators, postInputAccelerators. ( Key / Value pairs )
+		:param \*\*kwargs: name, extension, highlighter, completer, preInputAccelerators,postInputAccelerators.
+		( Key / Value pairs )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -83,8 +84,11 @@ PYTHON_LANGUAGE = Language(name="Python",
 							extension="\.py|\.pyw",
 							highlighter=umbra.ui.highlighters.PythonHighlighter,
 							completer=umbra.ui.completers.PythonCompleter,
-							preInputAccelerators=(umbra.ui.inputAccelerators.indentationPreEventInputAccelerators, umbra.ui.inputAccelerators.symbolsExpandingPreEventInputAccelerators, umbra.ui.inputAccelerators.completionPreEventInputAccelerators),
-							postInputAccelerators=(umbra.ui.inputAccelerators.completionPostEventInputAccelerators, umbra.ui.inputAccelerators.pythonPostEventInputAccelerators,),
+							preInputAccelerators=(umbra.ui.inputAccelerators.indentationPreEventInputAccelerators,
+												umbra.ui.inputAccelerators.symbolsExpandingPreEventInputAccelerators,
+												umbra.ui.inputAccelerators.completionPreEventInputAccelerators),
+							postInputAccelerators=(umbra.ui.inputAccelerators.completionPostEventInputAccelerators,
+												umbra.ui.inputAccelerators.pythonPostEventInputAccelerators,),
 							indentMarker="\t",
 							commentMarker="#")
 
@@ -124,7 +128,9 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.file = file
 		self.__language = language
 
-		self.__defaultFontsSettings = {"Windows" : ("Consolas", 10), "Darwin" : ("Monaco", 12), "Linux" : ("Nimbus Mono L", 10)}
+		self.__defaultFontsSettings = {"Windows" : ("Consolas", 10),
+										"Darwin" : ("Monaco", 12),
+										"Linux" : ("Nimbus Mono L", 10)}
 		self.__tabWidth = None
 
 		self.__isUntitled = True
@@ -168,7 +174,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method is the deleter method for **self.__file** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "file"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "file"))
 
 	@property
 	def language(self):
@@ -189,7 +196,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param value: Attribute value. ( Language )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "language"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "language"))
 
 	@language.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -198,7 +206,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method is the deleter method for **self.__language** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "language"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "language"))
 
 	@property
 	def defaultFontsSettings(self):
@@ -219,7 +228,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param value: Attribute value. ( Dictionary )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultFontsSettings"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultFontsSettings"))
 
 	@defaultFontsSettings.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -228,7 +238,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method is the deleter method for **self.__defaultFontsSettings** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultFontsSettings"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultFontsSettings"))
 
 	@property
 	def tabWidth(self):
@@ -249,7 +260,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param value: Attribute value. ( Integer )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "tabWidth"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "tabWidth"))
 
 	@tabWidth.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -258,7 +270,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method is the deleter method for **self.__tabWidth** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "tabWidth"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "tabWidth"))
 
 	@property
 	def isUntitled(self):
@@ -279,7 +292,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param value: Attribute value. ( Boolean )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "isUntitled"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "isUntitled"))
 
 	@isUntitled.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -288,7 +302,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method is the deleter method for **self.__isUntitled** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "isUntitled"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "isUntitled"))
 
 	@property
 	def defaultFileName(self):
@@ -309,7 +324,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultFileName"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultFileName"))
 
 	@defaultFileName.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -318,7 +334,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method is the deleter method for **self.__defaultFileName** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultFileName"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultFileName"))
 
 	@property
 	def defaultFileExtension(self):
@@ -339,7 +356,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultFileExtension"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultFileExtension"))
 
 	@defaultFileExtension.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -348,7 +366,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method is the deleter method for **self.__defaultFileExtension** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultFileExtension"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultFileExtension"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -448,7 +467,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 
 		if not isinstance(language, Language):
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' type is not 'Language'!".format(self.__class__.__name__, language))
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' type is not 'Language'!".format(
+			self.__class__.__name__, language))
 
 		self.__language = language
 		self.__setLanguageDescription()
@@ -513,7 +533,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 
 		if not os.path.exists(file):
-			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(self.__class__.__name__, file))
+			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(self.__class__.__name__,
+																									file))
 
 		LOGGER.debug("> Loading '{0}' file.".format(file))
 		reader = io.File(file)
@@ -534,7 +555,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 
 		if not os.path.exists(self.__file):
-			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(self.__class__.__name__, self.__file))
+			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(
+			self.__class__.__name__, self.__file))
 
 		LOGGER.debug("> Reloading '{0}' file.".format(self.__file))
 		reader = io.File(self.__file)
@@ -607,7 +629,9 @@ class Editor(CodeEditor_QPlainTextEdit):
 			LOGGER.debug("> Closing '{0}' file.".format(self.__file))
 			return True
 
-		choice = messageBox.messageBox("Warning", "Warning", "'{0}' document has been modified!\nWould you like to save your changes?".format(self.getFileShortName()), buttons=QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+		choice = messageBox.messageBox("Warning", "Warning",
+		"'{0}' document has been modified!\nWould you like to save your changes?".format(self.getFileShortName()),
+		buttons=QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
 		if choice == QMessageBox.Save:
 			if self.saveFile():
 				LOGGER.debug("> Closing '{0}' file.".format(self.__file))

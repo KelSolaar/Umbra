@@ -48,11 +48,17 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 class Variable_QPushButton(QPushButton):
 	"""
-	This class is a `QPushButton <http://doc.qt.nokia.com/4.7/qpushbutton.html>`_ subclass providing a button with different colors and labels depending on its clicked state.
+	This class is a `QPushButton <http://doc.qt.nokia.com/4.7/qpushbutton.html>`_ subclass providing
+	a button with different colors and labels depending on its clicked state.
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent=None, state=True, colors=(QColor(240, 240, 240), QColor(160, 160, 160)), labels=("Yes", "Noe")):
+	def __init__(self, 
+				parent=None, 
+				state=True, 
+				colors=(QColor(240, 240, 240), 
+				QColor(160, 160, 160)),
+				labels=("Yes", "No")):
 		"""
 		This method initializes the class.
 
@@ -119,7 +125,8 @@ class Variable_QPushButton(QPushButton):
 		This method is the deleter method for **self.__state** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "state"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "state"))
 
 	@property
 	def colors(self):
@@ -143,7 +150,8 @@ class Variable_QPushButton(QPushButton):
 			assert type(value) is tuple, "'{0}' attribute: '{1}' type is not 'tuple'!".format("colors", value)
 			assert len(value) == 2, "'{0}' attribute: '{1}' length should be '2'!".format("colors", value)
 			for index in range(len(value)):
-				assert type(value[index]) is QColor, "'{0}' attribute element '{1}': '{2}' type is not 'QColor'!".format("colors", index, value)
+				assert type(value[index]) is QColor, "'{0}' attribute element '{1}': '{2}' type is not 'QColor'!".format(
+				"colors", index, value)
 		self.__colors = value
 
 	@colors.deleter
@@ -153,7 +161,8 @@ class Variable_QPushButton(QPushButton):
 		This method is the deleter method for **self.__colors** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "colors"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "colors"))
 
 	@property
 	def labels(self):
@@ -177,7 +186,8 @@ class Variable_QPushButton(QPushButton):
 			assert type(value) is tuple, "'{0}' attribute: '{1}' type is not 'tuple'!".format("labels", value)
 			assert len(value) == 2, "'{0}' attribute: '{1}' length should be '2'!".format("labels", value)
 			for index in range(len(value)):
-				assert type(value[index]) in (str, unicode), "'{0}' attribute element '{1}': '{2}' type is not 'str' or 'unicode'!".format("labels", index, value)
+				assert type(value[index]) in (str, unicode), "'{0}' attribute element '{1}': '{2}' type is not 'str' or \
+				'unicode'!".format("labels", index, value)
 		self.__labels = value
 
 	@labels.deleter
@@ -187,7 +197,8 @@ class Variable_QPushButton(QPushButton):
 		This method is the deleter method for **self.__labels** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "labels"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "labels"))
 
 	#******************************************************************************************************************
 	#***	Class methods.

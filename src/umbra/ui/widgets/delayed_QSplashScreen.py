@@ -49,7 +49,8 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 class Delayed_QSplashScreen(QSplashScreen):
 	"""
-	This class is a `QSplashScreen <http://doc.qt.nokia.com/4.7/qsplashscreen.html>`_ subclass providing delayed messages capabilities.
+	This class is a `QSplashScreen <http://doc.qt.nokia.com/4.7/qsplashscreen.html>`_ subclass providing
+	delayed messages capabilities.
 	"""
 
 	@core.executionTrace
@@ -94,7 +95,8 @@ class Delayed_QSplashScreen(QSplashScreen):
 		"""
 
 		if value:
-			assert type(value) in (int, float), "'{0}' attribute: '{1}' type is not 'int' or 'float'!".format("waitTime", value)
+			assert type(value) in (int, float), "'{0}' attribute: '{1}' type is not 'int' or 'float'!".format(
+			"waitTime", value)
 			assert value > 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("waitTime", value)
 		self.__waitTime = value
 
@@ -105,7 +107,8 @@ class Delayed_QSplashScreen(QSplashScreen):
 		This method is the deleter method for **self.__waitTime** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "waitTime"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "waitTime"))
 
 	#******************************************************************************************************************
 	#***	Class methods.

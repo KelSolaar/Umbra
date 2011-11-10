@@ -69,7 +69,8 @@ def getViewSelectedNodes(view):
 
 class ReadOnlyFilter(QObject):
 	"""
-	This class is a `QObject <http://doc.qt.nokia.com/4.7/qobject.html>`_ subclass used as an event filter for the :class:`Abstract_QListView` and :class:`Abstract_QTreeView` classes.
+	This class is a `QObject <http://doc.qt.nokia.com/4.7/qobject.html>`_ subclass used as an event filter
+	for the :class:`Abstract_QListView` and :class:`Abstract_QTreeView` classes.
 	"""
 
 	@core.executionTrace
@@ -90,7 +91,9 @@ class ReadOnlyFilter(QObject):
 		return False
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, foundations.exceptions.UserError)
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler,
+											False,
+											foundations.exceptions.UserError)
 	def __raiseUserError(self, view) :
 		"""
 		This method raises an error if the given view has been set read only and the user attempted to edit its content.
@@ -98,11 +101,13 @@ class ReadOnlyFilter(QObject):
 		:param view: View. ( QWidget )
 		"""
 
-		raise foundations.exceptions.UserError("{0} | Cannot perform action, '{1}' View has been set read only!".format(self.__class__.__name__, view.objectName() or view))
+		raise foundations.exceptions.UserError("{0} | Cannot perform action, '{1}' View has been set read only!".format(
+		self.__class__.__name__, view.objectName() or view))
 
 class Abstract_QListView(QListView):
 	"""
-	This class is a `QListView <http://doc.qt.nokia.com/4.7/qlistview.html>`_ subclass used as base by others Application views classes.
+	This class is a `QListView <http://doc.qt.nokia.com/4.7/qlistview.html>`_ subclass used as base
+	by others Application views classes.
 	"""
 
 	@core.executionTrace
@@ -156,7 +161,8 @@ class Abstract_QListView(QListView):
 		This method is the deleter method for **self.__readOnly** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "readOnly"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "readOnly"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -182,7 +188,8 @@ class Abstract_QListView(QListView):
 
 class Abstract_QTreeView(QTreeView):
 	"""
-	This class is a `QTreeView <http://doc.qt.nokia.com/4.7/qtreeview.html>`_ subclass used as base by others Application views classes.
+	This class is a `QTreeView <http://doc.qt.nokia.com/4.7/qtreeview.html>`_ subclass used as base
+	by others Application views classes.
 	"""
 
 	@core.executionTrace
@@ -236,7 +243,8 @@ class Abstract_QTreeView(QTreeView):
 		This method is the deleter method for **self.__readOnly** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "readOnly"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "readOnly"))
 
 	#******************************************************************************************************************
 	#***	Class methods.

@@ -8,7 +8,8 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`umbra.components.factory.componentsManagerUi.componentsManagerUi.ComponentsManagerUi` Component Interface class Views.
+	This module defines the :class:`umbra.components.factory.componentsManagerUi.componentsManagerUi.ComponentsManagerUi`
+	Component Interface class Views.
 
 **Others:**
 
@@ -97,7 +98,8 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		:param value: Attribute value. ( QObject )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -106,7 +108,8 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		This method is the deleter method for **self.__container** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
 	@property
 	def treeViewIndentation(self):
@@ -127,7 +130,8 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		:param value: Attribute value. ( Integer )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "treeViewIndentation"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "treeViewIndentation"))
 
 	@treeViewIndentation.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -136,7 +140,8 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		This method is the deleter method for **self.__treeViewIndentation** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "treeViewIndentation"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "treeViewIndentation"))
 
 	#******************************************************************************************************************
 	#***	Class methods.

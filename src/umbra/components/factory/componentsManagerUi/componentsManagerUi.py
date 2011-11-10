@@ -64,7 +64,8 @@ COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Components_Ma
 class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
 	| This class is the :mod:`umbra.components.core.componentsManagerUi.componentsManagerUi` Component Interface class.
-	| It defines methods to interact with the :class:`manager.componentsManager.Manager` class Application instance Components.
+	| It defines methods to interact with
+	the :class:`manager.componentsManager.Manager` class Application instance Components.
 	"""
 
 	# Custom signals definitions.
@@ -107,7 +108,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 										("Version", "version")])
 
 		self.__treeViewInnerMargins = QMargins(0, 0, 0, 12)
-		self.__componentsInformationsDefaultText = "<center><h4>* * *</h4>Select Some Components to display related informations!<h4>* * *</h4></center>"
+		self.__componentsInformationsDefaultText = \
+		"<center><h4>* * *</h4>Select Some Components to display related informations!<h4>* * *</h4></center>"
 		self.__componentsInformationsText = """
 											<h4><center>{0}</center></h4>
 											<p>
@@ -115,9 +117,11 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 											<br/>
 											<b>Author:</b> {2}
 											<br/>
-											<b>Email:</b> <a href="mailto:{3}"><span style=" text-decoration: underline; color:#e0e0e0;">{3}</span></a>
+											<b>Email:</b> <a href="mailto:{3}">
+											<span style=" text-decoration: underline; color:#e0e0e0;">{3}</span></a>
 											<br/>
-											<b>Url:</b> <a href="{4}"><span style=" text-decoration: underline; color:#e0e0e0;">{4}</span></a>
+											<b>Url:</b> <a href="{4}">
+											<span style=" text-decoration: underline; color:#e0e0e0;">{4}</span></a>
 											<p>
 											<b>Description:</b> {5}
 											</p>
@@ -146,7 +150,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "uiResourcesDirectory"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "uiResourcesDirectory"))
 
 	@uiResourcesDirectory.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -155,7 +160,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__uiResourcesDirectory** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiResourcesDirectory"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiResourcesDirectory"))
 
 	@property
 	def uiActivatedImage(self):
@@ -176,7 +182,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "uiActivatedImage"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "uiActivatedImage"))
 
 	@uiActivatedImage.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -185,7 +192,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__uiActivatedImage** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiActivatedImage"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiActivatedImage"))
 
 	@property
 	def uiDeactivatedImage(self):
@@ -206,7 +214,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "uiDeactivatedImage"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "uiDeactivatedImage"))
 
 	@uiDeactivatedImage.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -215,7 +224,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__uiDeactivatedImage** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiDeactivatedImage"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiDeactivatedImage"))
 
 	@property
 	def uiCategoryAffixe(self):
@@ -236,7 +246,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "uiCategoryAffixe"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "uiCategoryAffixe"))
 
 	@uiCategoryAffixe.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -245,7 +256,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__uiCategoryAffixe** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiCategoryAffixe"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiCategoryAffixe"))
 
 	@property
 	def dockArea(self):
@@ -266,7 +278,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( Integer )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "dockArea"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "dockArea"))
 
 	@dockArea.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -275,7 +288,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__dockArea** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "dockArea"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "dockArea"))
 
 	@property
 	def engine(self):
@@ -296,7 +310,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( QObject )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "engine"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "engine"))
 
 	@engine.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -305,7 +320,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__engine** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "engine"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "engine"))
 
 	@property
 	def settings(self):
@@ -326,7 +342,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( QSettings )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
 	@settings.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -335,7 +352,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__settings** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
 	@property
 	def model(self):
@@ -356,7 +374,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( QStandardItemModel )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "model"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "model"))
 
 	@model.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -365,7 +384,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__model** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "model"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "model"))
 
 	@property
 	def view(self):
@@ -386,7 +406,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( QWidget )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "view"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "view"))
 
 	@view.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -395,7 +416,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__view** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "view"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "view"))
 
 	@property
 	def headers(self):
@@ -416,7 +438,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( List )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "headers"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "headers"))
 
 	@headers.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -425,7 +448,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__headers** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "headers"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "headers"))
 
 	@property
 	def treeViewInnerMargins(self):
@@ -446,7 +470,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( Integer )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "treeViewInnerMargins"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "treeViewInnerMargins"))
 
 	@treeViewInnerMargins.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -455,7 +480,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__treeViewInnerMargins** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "treeViewInnerMargins"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "treeViewInnerMargins"))
 
 	@property
 	def componentsInformationsDefaultText(self):
@@ -476,7 +502,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "componentsInformationsDefaultText"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "componentsInformationsDefaultText"))
 
 	@componentsInformationsDefaultText.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -485,7 +512,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__componentsInformationsDefaultText** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "componentsInformationsDefaultText"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "componentsInformationsDefaultText"))
 
 	@property
 	def componentsInformationsText(self):
@@ -506,7 +534,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( String )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "componentsInformationsText"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "componentsInformationsText"))
 
 	@componentsInformationsText.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -515,7 +544,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is the deleter method for **self.__componentsInformationsText** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "componentsInformationsText"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "componentsInformationsText"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -532,7 +562,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
 
-		self.__uiResourcesDirectory = os.path.join(os.path.dirname(core.getModule(self).__file__), self.__uiResourcesDirectory)
+		self.__uiResourcesDirectory = os.path.join(os.path.dirname(core.getModule(self).__file__),
+													self.__uiResourcesDirectory)
 		self.__engine = engine
 
 		self.__settings = self.__engine.settings
@@ -547,7 +578,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method deactivates the Component.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, self.__name))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, self.__name))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -589,7 +621,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method uninitializes the Component ui.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' Component ui cannot be uninitialized!".format(self.__class__.__name__, self.name))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' Component ui cannot be uninitialized!".format(self.__class__.__name__, self.name))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -613,7 +646,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method removes the Component Widget from the engine.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' Component Widget cannot be removed!".format(self.__class__.__name__, self.name))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' Component Widget cannot be removed!".format(self.__class__.__name__, self.name))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -645,14 +679,20 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method sets the **Components_Manager_Ui_treeView** actions.
 		"""
 
-		self.Components_Manager_Ui_treeView.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.ComponentsManagerUi|Activate Component(s)", slot=self.__view_activateComponentsAction__triggered))
-		self.Components_Manager_Ui_treeView.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.ComponentsManagerUi|Deactivate Component(s)", slot=self.__view_deactivateComponentsAction__triggered))
+		self.Components_Manager_Ui_treeView.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.ComponentsManagerUi|Activate Component(s)",
+		slot=self.__view_activateComponentsAction__triggered))
+		self.Components_Manager_Ui_treeView.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.ComponentsManagerUi|Deactivate Component(s)",
+		slot=self.__view_deactivateComponentsAction__triggered))
 
 		separatorAction = QAction(self.Components_Manager_Ui_treeView)
 		separatorAction.setSeparator(True)
 		self.Components_Manager_Ui_treeView.addAction(separatorAction)
 
-		self.Components_Manager_Ui_treeView.addAction(self.__engine.actionsManager.registerAction("Actions|Umbra|Components|factory.ComponentsManagerUi|Reload Component(s)", slot=self.__view_reloadComponentsAction__triggered))
+		self.Components_Manager_Ui_treeView.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.ComponentsManagerUi|Reload Component(s)",
+		slot=self.__view_reloadComponentsAction__triggered))
 
 		separatorAction = QAction(self.Components_Manager_Ui_treeView)
 		separatorAction.setSeparator(True)
@@ -672,7 +712,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __view_deactivateComponentsAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.ComponentsManagerUi|Deactivate Component(s)'** action.
+		This method is triggered by
+		**'Actions|Umbra|Components|factory.ComponentsManagerUi|Deactivate Component(s)'** action.
 
 		:param checked: Action checked state. ( Boolean )
 		:return: Method success. ( Boolean )
@@ -733,7 +774,9 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings.setKey("Settings", "deactivatedComponents", ",".join(deactivatedComponents))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, manager.exceptions.ComponentActivationError)
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler,
+											False,
+											manager.exceptions.ComponentActivationError)
 	@umbra.engine.encapsulateProcessing
 	def activateComponents_ui(self):
 		"""
@@ -754,7 +797,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				if not success:
 					activationFailedComponents.append(component)
 			else:
-				messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component is already activated!".format(self.__class__.__name__, component.name))
+				messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component is already activated!".format(
+				self.__class__.__name__, component.name))
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
 
@@ -763,10 +807,14 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not activationFailedComponents:
 			return True
 		else:
-			raise manager.exceptions.ComponentActivationError("{0} | Exception(s) raised while activating '{1}' Component(s)!".format(self.__class__.__name__, ", ". join((activationFailedComponent.name for activationFailedComponent in activationFailedComponents))))
+			raise manager.exceptions.ComponentActivationError(
+			"{0} | Exception(s) raised while activating '{1}' Component(s)!".format(self.__class__.__name__,
+			", ". join((activationFailedComponent.name for activationFailedComponent in activationFailedComponents))))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, manager.exceptions.ComponentDeactivationError)
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler,
+											False,
+											manager.exceptions.ComponentDeactivationError)
 	@umbra.engine.encapsulateProcessing
 	def deactivateComponents_ui(self):
 		"""
@@ -788,9 +836,11 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 					if not success:
 						deactivationFailedComponents.append(component)
 				else:
-					messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, component.name))
+					messageBox.messageBox("Warning", "Warning",
+					"{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, component.name))
 			else:
-				messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component is already deactivated!".format(self.__class__.__name__, component.name))
+				messageBox.messageBox("Warning", "Warning",
+				"{0} | '{1}' Component is already deactivated!".format(self.__class__.__name__, component.name))
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
 
@@ -799,10 +849,15 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not deactivationFailedComponents:
 			return True
 		else:
-			raise manager.exceptions.ComponentDeactivationError("{0} | Exception(s) raised while deactivating '{1}' Component(s)!".format(self.__class__.__name__, ", ". join((deactivationFailedComponent.name for deactivationFailedComponent in deactivationFailedComponents))))
+			raise manager.exceptions.ComponentDeactivationError(
+			"{0} | Exception(s) raised while deactivating '{1}' Component(s)!".format(self.__class__.__name__,
+			", ". join((deactivationFailedComponent.name
+			for deactivationFailedComponent in deactivationFailedComponents))))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, manager.exceptions.ComponentReloadError)
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler,
+											False,
+											manager.exceptions.ComponentReloadError)
 	@umbra.engine.encapsulateProcessing
 	def reloadComponents_ui(self):
 		"""
@@ -823,14 +878,18 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				if not success:
 					reloadFailedComponents.append(component)
 			else:
-				messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component cannot be deactivated and won't be reloaded!".format(self.__class__.__name__, component.name))
+				messageBox.messageBox("Warning", "Warning",
+				"{0} | '{1}' Component cannot be deactivated and won't be reloaded!".format(self.__class__.__name__,
+																							component.name))
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
 
 		if not reloadFailedComponents:
 			return True
 		else:
-			raise manager.exceptions.ComponentReloadError("{0} | Exception(s) raised while reloading '{1}' Component(s)!".format(self.__class__.__name__, ", ". join((reloadFailedComponent.name for reloadFailedComponent in reloadFailedComponents))))
+			raise manager.exceptions.ComponentReloadError(
+			"{0} | Exception(s) raised while reloading '{1}' Component(s)!".format(self.__class__.__name__,
+			", ". join((reloadFailedComponent.name for reloadFailedComponent in reloadFailedComponents))))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, manager.exceptions.ComponentExistsError, Exception)
@@ -843,7 +902,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not name in self.__engine.componentsManager.components.keys():
-			raise manager.exceptions.ComponentExistsError("{0} | '{1}' Component isn't registered in the Components Manager!".format(self.__class__.__name__, name))
+			raise manager.exceptions.ComponentExistsError(
+			"{0} | '{1}' Component isn't registered in the Components Manager!".format(self.__class__.__name__, name))
 
 		component = self.__engine.componentsManager.components[name]
 		LOGGER.debug("> Attempting '{0}' Component activation.".format(component.name))
@@ -858,7 +918,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, manager.exceptions.ComponentExistsError, manager.exceptions.ComponentDeactivationError)
+	@foundations.exceptions.exceptionsHandler(None,
+											False,
+											manager.exceptions.ComponentExistsError,
+											manager.exceptions.ComponentDeactivationError)
 	def deactivateComponent(self, name):
 		"""
 		This method deactivates given Component.
@@ -868,7 +931,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not name in self.__engine.componentsManager.components.keys():
-			raise manager.exceptions.ComponentExistsError("{0} | '{0}' Component isn't registered in the Components Manager!".format(self.__class__.__name__, name))
+			raise manager.exceptions.ComponentExistsError(
+			"{0} | '{0}' Component isn't registered in the Components Manager!".format(self.__class__.__name__, name))
 
 		component = self.__engine.componentsManager.components[name]
 
@@ -884,10 +948,14 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.modelRefresh.emit()
 			return True
 		else:
-			raise manager.exceptions.ComponentDeactivationError("{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, component.name))
+			raise manager.exceptions.ComponentDeactivationError(
+			"{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, component.name))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, manager.exceptions.ComponentExistsError, manager.exceptions.ComponentReloadError)
+	@foundations.exceptions.exceptionsHandler(None,
+											False,
+											manager.exceptions.ComponentExistsError,
+											manager.exceptions.ComponentReloadError)
 	def reloadComponent(self, name):
 		"""
 		This method reloads given Component.
@@ -897,7 +965,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not name in self.__engine.componentsManager.components.keys():
-			raise manager.exceptions.ComponentExistsError("{0} | '{1}' Component isn't registered in the Components Manager!".format(self.__class__.__name__, name))
+			raise manager.exceptions.ComponentExistsError(
+			"{0} | '{1}' Component isn't registered in the Components Manager!".format(self.__class__.__name__, name))
 
 		component = self.__engine.componentsManager.components[name]
 
@@ -912,7 +981,9 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.modelRefresh.emit()
 			return True
 		else:
-			raise manager.exceptions.ComponentReloadError("{0} | '{1}' Component cannot be deactivated and won't be reloaded!".format(self.__class__.__name__, component.name))
+			raise manager.exceptions.ComponentReloadError(
+			"{0} | '{1}' Component cannot be deactivated and won't be reloaded!".format(self.__class__.__name__,
+																						component.name))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -926,11 +997,16 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		rootNode = umbra.ui.models.DefaultNode(name="InvisibleRootNode")
 
 		for path in self.__engine.componentsManager.paths:
-			components = {name : component for name, component in self.__engine.componentsManager.components.items() if os.path.normpath(path) in os.path.normpath(component.path)}
+			components = {name : component
+						for name, component in self.__engine.componentsManager.components.items()
+						if os.path.normpath(path) in os.path.normpath(component.path)}
 			if not components:
 				break
 
-			pathNode = PathNode(name=os.path.basename(path).title(), parent=rootNode, nodeFlags=nodeFlags, attributesFlags=attributesFlags,
+			pathNode = PathNode(name=os.path.basename(path).title(),
+								parent=rootNode,
+								nodeFlags=nodeFlags,
+								attributesFlags=attributesFlags,
 								activated=umbra.ui.models.GraphModelAttribute(name="activated", flags=attributesFlags),
 								category=umbra.ui.models.GraphModelAttribute(name="category", flags=attributesFlags),
 								rank=umbra.ui.models.GraphModelAttribute(name="rank", flags=attributesFlags),
@@ -940,11 +1016,19 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				if not component.interface:
 					continue
 
-				componentNode = ComponentNode(component, name=component.title, parent=pathNode, nodeFlags=nodeFlags, attributesFlags=attributesFlags,
-											activated=umbra.ui.models.GraphModelAttribute(name="activated", flags=attributesFlags,
-																						roles={Qt.DisplayRole: str(component.interface.activated),
-																								Qt.DecorationRole:os.path.join(self.__uiResourcesDirectory, component.interface.activated and self.__uiActivatedImage or self.__uiDeactivatedImage)}))
-				componentNode.roles[Qt.DecorationRole] = os.path.join(self.__uiResourcesDirectory, "{0}{1}".format(component.category, self.__uiCategoryAffixe))
+				componentNode = ComponentNode(component,
+										name=component.title,
+										parent=pathNode,
+										nodeFlags=nodeFlags,
+										attributesFlags=attributesFlags,
+										activated=umbra.ui.models.GraphModelAttribute(name="activated",
+										flags=attributesFlags,
+										roles={Qt.DisplayRole: str(component.interface.activated),
+										Qt.DecorationRole:os.path.join(self.__uiResourcesDirectory,
+																component.interface.activated and \
+																self.__uiActivatedImage or self.__uiDeactivatedImage)}))
+				componentNode.roles[Qt.DecorationRole] = os.path.join(self.__uiResourcesDirectory,
+															"{0}{1}".format(component.category, self.__uiCategoryAffixe))
 
 		rootNode.sortChildren()
 

@@ -99,7 +99,8 @@ class Preferences():
 		"""
 
 		if value:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("preferencesFile", value)
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			"preferencesFile", value)
 			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("preferencesFile", value)
 		self.__preferencesFile = value
 
@@ -110,7 +111,8 @@ class Preferences():
 		This method is the deleter method for **self.__preferencesFile** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "preferencesFile"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "preferencesFile"))
 
 	@property
 	def settings(self):
@@ -131,7 +133,8 @@ class Preferences():
 		:param value: Attribute value. ( QSettings )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
 	@settings.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -140,7 +143,8 @@ class Preferences():
 		This method is the deleter method for **self.__settings** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
 	@property
 	def defaultSettings(self):
@@ -161,7 +165,8 @@ class Preferences():
 		:param value: Attribute value. ( QSettings )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultSettings"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultSettings"))
 
 	@defaultSettings.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -170,7 +175,8 @@ class Preferences():
 		This method is the deleter method for **self.__defaultSettings** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultSettings"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultSettings"))
 
 	@property
 	def defaultLayoutsSettings(self):
@@ -191,7 +197,8 @@ class Preferences():
 		:param value: Attribute value. ( QSettings )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultLayoutsSettings"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultLayoutsSettings"))
 
 	@defaultLayoutsSettings.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -200,7 +207,8 @@ class Preferences():
 		This method is the deleter method for **self.__defaultLayoutsSettings** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultLayoutsSettings"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultLayoutsSettings"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -258,7 +266,8 @@ class Preferences():
 		"""
 
 		LOGGER.debug("> Accessing '{0}' default layouts settings file!".format(UiConstants.layoutsFile))
-		self.__defaultLayoutsSettings = QSettings(umbra.ui.common.getResourcePath(UiConstants.layoutsFile), QSettings.IniFormat)
+		self.__defaultLayoutsSettings = QSettings(umbra.ui.common.getResourcePath(UiConstants.layoutsFile),
+												QSettings.IniFormat)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

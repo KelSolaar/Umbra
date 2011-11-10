@@ -8,7 +8,8 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`umbra.components.factory.componentsManagerUi.componentsManagerUi.ComponentsManagerUi` Component Interface class Models.
+	This module defines the :class:`umbra.components.factory.componentsManagerUi.componentsManagerUi.ComponentsManagerUi`
+	Component Interface class Models.
 
 **Others:**
 
@@ -47,13 +48,22 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 class PathNode(umbra.ui.models.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.components.factory.componentsManagerUi.componentsManagerUi.ComponentsManagerUi` Component Interface class Model path node.
+	This class factory defines
+	:class:`umbra.components.factory.componentsManagerUi.componentsManagerUi.ComponentsManagerUi`
+	Component Interface class Model path node.
 	"""
 
 	__family = "Category"
 
 	@core.executionTrace
-	def __init__(self, name=None, parent=None, children=None, roles=None, nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled), attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled), ** kwargs):
+	def __init__(self,
+				name=None,
+				parent=None,
+				children=None,
+				roles=None,
+				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+				**kwargs):
 		"""
 		This method initializes the class.
 
@@ -87,13 +97,23 @@ class PathNode(umbra.ui.models.GraphModelNode):
 
 class ComponentNode(umbra.ui.models.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.components.factory.componentsManagerUi.componentsManagerUi.ComponentsManagerUi` Component Interface class Model component node.
+	This class factory defines
+	:class:`umbra.components.factory.componentsManagerUi.componentsManagerUi.ComponentsManagerUi`
+	Component Interface class Model component node.
 	"""
 
 	__family = "Component"
 
 	@core.executionTrace
-	def __init__(self, component, name=None, parent=None, children=None, roles=None, nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled), attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled), ** kwargs):
+	def __init__(self,
+				component,
+				name=None,
+				parent=None,
+				children=None,
+				roles=None,
+				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+				**kwargs):
 		"""
 		This method initializes the class.
 
@@ -146,7 +166,8 @@ class ComponentNode(umbra.ui.models.GraphModelNode):
 		:param value: Attribute value. ( Component / QWidgetComponent / QObjectComponent )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "component"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "component"))
 
 	@component.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -155,7 +176,8 @@ class ComponentNode(umbra.ui.models.GraphModelNode):
 		This method is the deleter method for **self.__component** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "component"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "component"))
 
 	@property
 	def toolTipText(self):
@@ -177,7 +199,8 @@ class ComponentNode(umbra.ui.models.GraphModelNode):
 		"""
 
 		if value:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("toolTipText", value)
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			"toolTipText", value)
 		self.__toolTipText = value
 
 	@toolTipText.deleter
@@ -187,7 +210,8 @@ class ComponentNode(umbra.ui.models.GraphModelNode):
 		This method is the deleter method for **self.__toolTipText** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "toolTipText"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "toolTipText"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -231,7 +255,9 @@ class ComponentNode(umbra.ui.models.GraphModelNode):
 
 class ComponentsModel(umbra.ui.models.GraphModel):
 	"""
-	This class defines the Model used the by :class:`umbra.components.factory.componentsManagerUi.componentsManagerUi.ComponentsManagerUi` Component Interface class. 
+	This class defines the Model used the by
+	:class:`umbra.components.factory.componentsManagerUi.componentsManagerUi.ComponentsManagerUi`
+	Component Interface class. 
 	"""
 
 	@core.executionTrace

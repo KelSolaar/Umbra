@@ -95,7 +95,8 @@ def messageBox(type, title, message, icon=None, buttons=QMessageBox.Ok, customBu
 			messageBox.setIcon(icon)
 		else:
 			messageBox.setIcon(QMessageBox.Critical)
-		RuntimeGlobals.loggingSessionHandlerStream and messageBox.setDetailedText("".join(RuntimeGlobals.loggingSessionHandlerStream.stream))
+		RuntimeGlobals.loggingSessionHandlerStream and \
+		messageBox.setDetailedText("".join(RuntimeGlobals.loggingSessionHandlerStream.stream))
 		textEdit = messageBox.findChild(QTextEdit)
 		if textEdit:
 			textEdit.setCurrentFont(QFont("Courier"))

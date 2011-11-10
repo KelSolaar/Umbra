@@ -108,9 +108,11 @@ class ActionsManager(QObject):
 		"""
 
 		if value:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("namespaceSplitter", value)
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			"namespaceSplitter", value)
 			assert len(value) == 1, "'{0}' attribute: '{1}' has multiples characters!".format("namespaceSplitter", value)
-			assert not re.search(r"\w", value), "'{0}' attribute: '{1}' is an alphanumeric character!".format("namespaceSplitter", value)
+			assert not re.search(r"\w", value), "'{0}' attribute: '{1}' is an alphanumeric character!".format(
+			"namespaceSplitter", value)
 		self.__namespaceSplitter = value
 
 	@namespaceSplitter.deleter
@@ -120,7 +122,8 @@ class ActionsManager(QObject):
 		This method is the deleter method for **self.__namespaceSplitter** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "namespaceSplitter"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "namespaceSplitter"))
 
 	@property
 	def rootNamespace(self):
@@ -142,7 +145,8 @@ class ActionsManager(QObject):
 		"""
 
 		if value:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("rootNamespace", value)
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			"rootNamespace", value)
 		self.__rootNamespace = value
 
 	@rootNamespace.deleter
@@ -152,7 +156,8 @@ class ActionsManager(QObject):
 		This method is the deleter method for **self.__rootNamespace** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "rootNamespace"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "rootNamespace"))
 
 	@property
 	def defaultNamespace(self):
@@ -174,7 +179,8 @@ class ActionsManager(QObject):
 		"""
 
 		if value:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("defaultNamespace", value)
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			"defaultNamespace", value)
 		self.__defaultNamespace = value
 
 	@defaultNamespace.deleter
@@ -184,7 +190,8 @@ class ActionsManager(QObject):
 		This method is the deleter method for **self.__defaultNamespace** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultNamespace"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultNamespace"))
 
 	@property
 	def categories(self):
@@ -219,7 +226,8 @@ class ActionsManager(QObject):
 		This method is the deleter method for **self.__categories** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "categories"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "categories"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -234,7 +242,8 @@ class ActionsManager(QObject):
 		"""
 
 		if not name.startswith(self.__rootNamespace):
-			name = foundations.namespace.setNamespace(self.__rootNamespace, foundations.namespace.setNamespace(self.__defaultNamespace, name))
+			name = foundations.namespace.setNamespace(self.__rootNamespace,
+													foundations.namespace.setNamespace(self.__defaultNamespace, name))
 			LOGGER.debug("> Normalized name: '{0}'.".format(name))
 			return name
 		else:
@@ -244,7 +253,8 @@ class ActionsManager(QObject):
 	@core.executionTrace
 	def __getCategory(self, category, name, vivify=False):
 		"""
-		This method gets recusively requested category, alternately if **vivify** argument is set, the category will be created.
+		This method gets recusively requested category, alternately if **vivify** argument is set,
+		the category will be created.
 
 		:param category: Base category. ( Dictionary )
 		:param name: Category to retrieve or vivify. ( String )
@@ -293,7 +303,8 @@ class ActionsManager(QObject):
 			LOGGER.debug("> Category '{0}': '{1}'.".format(name, category))
 			return category
 		else:
-			raise umbra.exceptions.CategoryExistsError("{0} | '{1}' category doesn't exists!".format(self.__class__.__name__, name))
+			raise umbra.exceptions.CategoryExistsError("{0} | '{1}' category doesn't exists!".format
+			(self.__class__.__name__, name))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -349,7 +360,8 @@ class ActionsManager(QObject):
 			if name == foundations.namespace.setNamespace(self.__namespaceSplitter.join(path), actionName):
 				LOGGER.debug("> Retrieved action for '{0}' action name!".format(name))
 				return action
-		raise umbra.exceptions.ActionExistsError("{0} | '{1}' action isn't registered!".format(self.__class__.__name__, name))
+		raise umbra.exceptions.ActionExistsError("{0} | '{1}' action isn't registered!".format(self.__class__.__name__,
+																								name))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

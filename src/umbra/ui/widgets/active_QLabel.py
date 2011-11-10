@@ -49,14 +49,21 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 class Active_QLabel(QLabel):
 	"""
-	This class is a `QLabel <http://doc.qt.nokia.com/4.7/qlabel.html>`_ subclass providing a clickable label with hovering capabilities.
+	This class is a `QLabel <http://doc.qt.nokia.com/4.7/qlabel.html>`_ subclass providing
+	a clickable label with hovering capabilities.
 	"""
 
 	# Custom signals definitions.
 	clicked = pyqtSignal()
 
 	@core.executionTrace
-	def __init__(self, parent=None, defaultPixmap=None, hoverPixmap=None, activePixmap=None, checkable=False, checked=False):
+	def __init__(self,
+				parent=None,
+				defaultPixmap=None,
+				hoverPixmap=None,
+				activePixmap=None,
+				checkable=False,
+				checked=False):
 		"""
 		This method initializes the class.
 
@@ -122,7 +129,8 @@ class Active_QLabel(QLabel):
 		This method is the deleter method for **self.__defaultPixmap** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultPixmap"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultPixmap"))
 
 	@property
 	def hoverPixmap(self):
@@ -154,7 +162,8 @@ class Active_QLabel(QLabel):
 		This method is the deleter method for **self.__hoverPixmap** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "hoverPixmap"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "hoverPixmap"))
 
 	@property
 	def activePixmap(self):
@@ -186,7 +195,8 @@ class Active_QLabel(QLabel):
 		This method is the deleter method for **self.__activePixmap** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "activePixmap"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "activePixmap"))
 
 	@property
 	def checkable(self):
@@ -218,7 +228,8 @@ class Active_QLabel(QLabel):
 		This method is the deleter method for **self.__checkable** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "checkable"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "checkable"))
 
 	@property
 	def checked(self):
@@ -250,7 +261,8 @@ class Active_QLabel(QLabel):
 		This method is the deleter method for **self.__checked** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "checked"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "checked"))
 
 	@property
 	def menu(self):
@@ -271,7 +283,8 @@ class Active_QLabel(QLabel):
 		:param value: Attribute value. ( QMenu )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "menu "))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "menu "))
 
 	@menu.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -280,7 +293,8 @@ class Active_QLabel(QLabel):
 		This method is the deleter method for **self.__menu** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "menu"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "menu"))
 
 	#******************************************************************************************************************
 	#***	Class methods.

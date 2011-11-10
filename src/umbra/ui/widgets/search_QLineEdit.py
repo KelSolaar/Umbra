@@ -56,11 +56,17 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 class Search_QLineEdit(QLineEdit):
 	"""
-	This class is a `QLineEdit <http://doc.qt.nokia.com/4.7/qlinedit.html>`_ subclass providing a search field with clearing capabilities.
+	This class is a `QLineEdit <http://doc.qt.nokia.com/4.7/qlinedit.html>`_ subclass providing
+	a search field with clearing capabilities.
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent=None, uiSearchImage=None, uiSearchClickedImage=None, uiClearImage=None, uiClearClickedImage=None):
+	def __init__(self,
+				parent=None,
+				uiSearchImage=None,
+				uiSearchClickedImage=None,
+				uiClearImage=None,
+				uiClearClickedImage=None):
 		"""
 		This method initializes the class.
 
@@ -85,7 +91,10 @@ class Search_QLineEdit(QLineEdit):
 		self.__uiClearClickedImage = None
 		self.uiClearClickedImage = uiClearClickedImage
 
-		self.__searchActiveLabel = Active_QLabel(self, QPixmap(uiSearchImage), QPixmap(uiSearchImage), QPixmap(uiSearchClickedImage))
+		self.__searchActiveLabel = Active_QLabel(self,
+												QPixmap(uiSearchImage),
+												QPixmap(uiSearchImage),
+												QPixmap(uiSearchClickedImage))
 		self.__searchActiveLabel.setObjectName("Search_Field_activeLabel")
 
 		self.__clearButton = QToolButton(self)
@@ -125,7 +134,8 @@ class Search_QLineEdit(QLineEdit):
 		"""
 
 		if value:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("uiSearchImage", value)
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			"uiSearchImage", value)
 			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("uiSearchImage", value)
 		self.__uiSearchImage = value
 
@@ -136,7 +146,8 @@ class Search_QLineEdit(QLineEdit):
 		This method is the deleter method for **self.__uiSearchImage** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiSearchImage"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiSearchImage"))
 
 	@property
 	def uiSearchClickedImage(self):
@@ -158,8 +169,10 @@ class Search_QLineEdit(QLineEdit):
 		"""
 
 		if value:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("uiSearchClickedImage", value)
-			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("uiSearchClickedImage", value)
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			"uiSearchClickedImage", value)
+			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format(
+			"uiSearchClickedImage", value)
 		self.__uiSearchClickedImage = value
 
 	@uiSearchClickedImage.deleter
@@ -169,7 +182,8 @@ class Search_QLineEdit(QLineEdit):
 		This method is the deleter method for **self.__uiSearchClickedImage** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiSearchClickedImage"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiSearchClickedImage"))
 
 	@property
 	def uiClearImage(self):
@@ -191,8 +205,10 @@ class Search_QLineEdit(QLineEdit):
 		"""
 
 		if value:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("uiClearImage", value)
-			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("uiClearImage", value)
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			"uiClearImage", value)
+			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format(
+			"uiClearImage", value)
 		self.__uiClearImage = value
 
 	@uiClearImage.deleter
@@ -202,7 +218,8 @@ class Search_QLineEdit(QLineEdit):
 		This method is the deleter method for **self.__uiClearImage** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiClearImage"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiClearImage"))
 
 	@property
 	def uiClearClickedImage(self):
@@ -224,8 +241,10 @@ class Search_QLineEdit(QLineEdit):
 		"""
 
 		if value:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("uiClearClickedImage", value)
-			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("uiClearClickedImage", value)
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			"uiClearClickedImage", value)
+			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format(
+			"uiClearClickedImage", value)
 		self.__uiClearClickedImage = value
 
 	@uiClearClickedImage.deleter
@@ -235,7 +254,8 @@ class Search_QLineEdit(QLineEdit):
 		This method is the deleter method for **self.__uiClearClickedImage** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiClearClickedImage"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "uiClearClickedImage"))
 
 	@property
 	def searchActiveLabel(self):
@@ -256,7 +276,8 @@ class Search_QLineEdit(QLineEdit):
 		:param value: Attribute value. ( QPushButton )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "searchActiveLabel"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "searchActiveLabel"))
 
 	@searchActiveLabel.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -265,7 +286,8 @@ class Search_QLineEdit(QLineEdit):
 		This method is the deleter method for **self.__searchActiveLabel** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchActiveLabel"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchActiveLabel"))
 
 	@property
 	def clearButton(self):
@@ -286,7 +308,8 @@ class Search_QLineEdit(QLineEdit):
 		:param value: Attribute value. ( QPushButton )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "clearButton"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "clearButton"))
 
 	@clearButton.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -295,7 +318,8 @@ class Search_QLineEdit(QLineEdit):
 		This method is the deleter method for **self.__clearButton** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "clearButton"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "clearButton"))
 
 	@property
 	def completer(self):
@@ -316,7 +340,8 @@ class Search_QLineEdit(QLineEdit):
 		:param value: Attribute value. ( QCompleter )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "completer"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "completer"))
 
 	@completer.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -325,7 +350,8 @@ class Search_QLineEdit(QLineEdit):
 		This method is the deleter method for **self.__completer** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "completer"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "completer"))
 
 	@property
 	def completerVisibleItemsCount(self):
@@ -346,7 +372,8 @@ class Search_QLineEdit(QLineEdit):
 		:param value: Attribute value. ( Integer )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "completerVisibleItemsCount"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "completerVisibleItemsCount"))
 
 	@completerVisibleItemsCount.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -355,7 +382,8 @@ class Search_QLineEdit(QLineEdit):
 		This method is the deleter method for **self.__completerVisibleItemsCount** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "completerVisibleItemsCount"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "completerVisibleItemsCount"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -370,9 +398,11 @@ class Search_QLineEdit(QLineEdit):
 
 		frameWidth = self.style().pixelMetric(QStyle.PM_DefaultFrameWidth)
 		searchActiveLabelSize = self.__searchActiveLabel.sizeHint()
-		self.__searchActiveLabel.move(self.rect().left() + frameWidth, (self.rect().bottom() - searchActiveLabelSize.height()) / 2 + frameWidth / 2);
+		self.__searchActiveLabel.move(self.rect().left() + frameWidth,
+		(self.rect().bottom() - searchActiveLabelSize.height()) / 2 + frameWidth / 2);
 		clearButtonSize = self.__clearButton.sizeHint()
-		self.__clearButton.move(self.rect().right() - frameWidth - clearButtonSize.width(), (self.rect().bottom() - clearButtonSize.height()) / 2 + frameWidth / 2);
+		self.__clearButton.move(self.rect().right() - frameWidth - clearButtonSize.width(),
+		(self.rect().bottom() - clearButtonSize.height()) / 2 + frameWidth / 2);
 
 	@core.executionTrace
 	def __initializeUi(self):
@@ -395,8 +425,10 @@ class Search_QLineEdit(QLineEdit):
 			self.__clearButton.setText("Clear")
 
 		frameWidth = self.style().pixelMetric(QStyle.PM_DefaultFrameWidth)
-		self.setStyleSheet(QString("QLineEdit { padding-left: " + str(self.__searchActiveLabel.sizeHint().width() + frameWidth) + "px; padding-right: " + str(self.__clearButton.sizeHint().width() + frameWidth)) + "px; }")
-		self.setMinimumSize(max(self.minimumSizeHint().width(), self.__clearButton.sizeHint().height() + frameWidth * 2), max(self.minimumSizeHint().height(), self.__clearButton.sizeHint().height() + frameWidth * 2));
+		self.setStyleSheet(QString("QLineEdit { padding-left: " + str(self.__searchActiveLabel.sizeHint().width() + \
+		frameWidth) + "px; padding-right: " + str(self.__clearButton.sizeHint().width() + frameWidth)) + "px; }")
+		self.setMinimumSize(max(self.minimumSizeHint().width(), self.__clearButton.sizeHint().height() + frameWidth * 2),
+		 					max(self.minimumSizeHint().height(), self.__clearButton.sizeHint().height() + frameWidth * 2))
 
 		self.__completer.setCaseSensitivity(Qt.CaseInsensitive)
 		self.__completer.setCompletionMode(QCompleter.UnfilteredPopupCompletion)

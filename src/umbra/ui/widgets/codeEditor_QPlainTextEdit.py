@@ -11,7 +11,8 @@
 	This module defines the :class:`LinesNumbers_QWidget` and :class:`CodeEditor_QPlainTextEdit` classes.
 
 **Others:**
-	Portions of the code from codeeditor.py by Roberto Alsina: http://lateral.netmanagers.com.ar/weblog/posts/BB832.html and KhtEditor.py by Benoit Hervier: http://khertan.net/khteditor
+	Portions of the code from codeeditor.py by Roberto Alsina: http://lateral.netmanagers.com.ar/weblog/posts/BB832.html
+	and KhtEditor.py by Benoit Hervier: http://khertan.net/khteditor
 """
 
 #**********************************************************************************************************************
@@ -124,7 +125,8 @@ class LinesNumbers_QWidget(QWidget):
 		This method is the deleter method for **self.__editor** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "editor"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "editor"))
 
 	@property
 	def margin(self):
@@ -157,7 +159,8 @@ class LinesNumbers_QWidget(QWidget):
 		This method is the deleter method for **self.__margin** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "margin"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "margin"))
 
 	@property
 	def separatorWidth(self):
@@ -190,7 +193,8 @@ class LinesNumbers_QWidget(QWidget):
 		This method is the deleter method for **self.__separatorWidth** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "separatorWidth"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "separatorWidth"))
 
 	@property
 	def backgroundColor(self):
@@ -222,7 +226,8 @@ class LinesNumbers_QWidget(QWidget):
 		This method is the deleter method for **self.__backgroundColor** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "backgroundColor"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "backgroundColor"))
 
 	@property
 	def color(self):
@@ -254,7 +259,8 @@ class LinesNumbers_QWidget(QWidget):
 		This method is the deleter method for **self.__color** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "color"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "color"))
 
 	@property
 	def separatorColor(self):
@@ -286,7 +292,8 @@ class LinesNumbers_QWidget(QWidget):
 		This method is the deleter method for **self.__separatorColor** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "separatorColor"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "separatorColor"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -328,7 +335,10 @@ class LinesNumbers_QWidget(QWidget):
 		while block.isValid() and top <= event.rect().bottom():
 			if block.isVisible() and bottom >= event.rect().top():
 				number = str(blockNumber + 1)
-				painter.drawText(-self.__margin / 4, top, self.width(), self.__editor.fontMetrics().height(), Qt.AlignRight, number)
+				painter.drawText(-self.__margin / 4,
+								top,
+								self.width(),
+								self.__editor.fontMetrics().height(), Qt.AlignRight, number)
 			block = block.next()
 
 			top = bottom
@@ -388,7 +398,10 @@ class LinesNumbers_QWidget(QWidget):
 		:return: Method success. ( Boolean )
 		"""
 
-		self.setGeometry(self.__editor.contentsRect().left(), self.__editor.contentsRect().top(), self.getWidth(), self.__editor.contentsRect().height())
+		self.setGeometry(self.__editor.contentsRect().left(),
+						self.__editor.contentsRect().top(),
+						self.getWidth(),
+						self.__editor.contentsRect().height())
 		return True
 
 def anchorTextCursor(object):
@@ -425,7 +438,8 @@ def anchorTextCursor(object):
 
 class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	"""
-	This class is a `QPlainTextEdit <http://doc.qt.nokia.com/4.7/qplaintextedit.html>`_ subclass providing a code editor base class.
+	This class is a `QPlainTextEdit <http://doc.qt.nokia.com/4.7/qplaintextedit.html>`_ subclass providing
+	a code editor base class.
 	"""
 
 	@core.executionTrace
@@ -491,8 +505,10 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if value:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("indentMarker", value)
-			assert re.search(r"\s", value), "'{0}' attribute: '{1}' is not a whitespace character!".format("indentMarker", value)
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			"indentMarker", value)
+			assert re.search(r"\s", value), "'{0}' attribute: '{1}' is not a whitespace character!".format(
+			"indentMarker", value)
 		self.__indentMarker = value
 
 	@indentMarker.deleter
@@ -502,7 +518,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__indentMarker** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "indentMarker"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "indentMarker"))
 
 	@property
 	def indentWidth(self):
@@ -534,7 +551,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__indentWidth** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "indentWidth"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "indentWidth"))
 
 	@property
 	def commentMarker(self):
@@ -556,7 +574,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if value:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("commentMarker", value)
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			"commentMarker", value)
 		self.__commentMarker = value
 
 	@commentMarker.deleter
@@ -566,7 +585,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__commentMarker** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "commentMarker"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "commentMarker"))
 
 	@property
 	def marginArea_LinesNumbers_widget(self):
@@ -588,7 +608,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if value:
-			assert type(value) is LinesNumbers_QWidget, "'{0}' attribute: '{1}' type is not 'LinesNumbers_QWidget'!".format("checked", value)
+			assert type(value) is LinesNumbers_QWidget, "'{0}' attribute: '{1}' type is not \
+			'LinesNumbers_QWidget'!".format("checked", value)
 		self.__marginArea_LinesNumbers_widget = value
 
 	@marginArea_LinesNumbers_widget.deleter
@@ -598,7 +619,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__marginArea_LinesNumbers_widget** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "marginArea_LinesNumbers_widget"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "marginArea_LinesNumbers_widget"))
 
 	@property
 	def highlighter(self):
@@ -619,7 +641,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param value: Attribute value. ( QSyntaxHighlighter )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "highlighter"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "highlighter"))
 
 	@highlighter.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -628,7 +651,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__highlighter** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "highlighter"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "highlighter"))
 
 	@property
 	def completer(self):
@@ -649,7 +673,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param value: Attribute value. ( QCompleter )
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "completer"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "completer"))
 
 	@completer.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -658,7 +683,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__completer** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "completer"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "completer"))
 
 	@property
 	def highlightColor(self):
@@ -690,7 +716,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__highlightColor** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "highlightColor"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "highlightColor"))
 
 	@property
 	def searchPattern(self):
@@ -712,7 +739,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if value:
-			assert type(value) in (str, unicode, QString), "'{0}' attribute: '{1}' type is not 'str', 'unicode' or 'QString'!".format("searchPattern", value)
+			assert type(value) in (str, unicode, QString), "'{0}' attribute: '{1}' type is not 'str', 'unicode' or \
+			'QString'!".format("searchPattern", value)
 		self.__searchPattern = value
 
 	@searchPattern.deleter
@@ -722,7 +750,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__searchPattern** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchPattern"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchPattern"))
 
 	@property
 	def preInputAccelerators(self):
@@ -744,7 +773,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if value:
-			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format("preInputAccelerators", value)
+			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
+			"preInputAccelerators", value)
 		self.__preInputAccelerators = value
 
 	@preInputAccelerators.deleter
@@ -754,7 +784,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__preInputAccelerators** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "preInputAccelerators"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "preInputAccelerators"))
 
 	@property
 	def postInputAccelerators(self):
@@ -776,7 +807,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if value:
-			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format("postInputAccelerators", value)
+			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
+			"postInputAccelerators", value)
 		self.__postInputAccelerators = value
 
 	@postInputAccelerators.deleter
@@ -786,7 +818,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method is the deleter method for **self.__postInputAccelerators** attribute.
 		"""
 
-		raise foundations.exceptions.ProgrammingError("{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "postInputAccelerators"))
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "postInputAccelerators"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -881,7 +914,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if not issubclass(highlighter.__class__, QSyntaxHighlighter):
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' is not a 'QSyntaxHighlighter' subclass!".format(self.__class__.__name__, highlighter))
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' is not a 'QSyntaxHighlighter' subclass!".format(
+			self.__class__.__name__, highlighter))
 
 		if self.__highlighter:
 			self.removeHighlighter()
@@ -915,7 +949,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if not issubclass(completer.__class__, QCompleter):
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' is not a 'QCompleter' subclass!".format(self.__class__.__name__, completer))
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' is not a 'QCompleter' subclass!".format(
+			self.__class__.__name__, completer))
 
 		if self.__completer:
 			self.removeCompleter()
@@ -977,7 +1012,9 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:return: Method success. ( Boolean )
 		"""
 
-		self.__textCursorAnchor = (self.textCursor(), self.horizontalScrollBar().sliderPosition(), self.verticalScrollBar().sliderPosition())
+		self.__textCursorAnchor = (self.textCursor(),
+								self.horizontalScrollBar().sliderPosition(),
+								self.verticalScrollBar().sliderPosition())
 		return True
 
 	@core.executionTrace
@@ -1032,7 +1069,9 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		words = []
 		block = self.document().findBlockByLineNumber(0)
 		while block.isValid():
-			blockWords = foundations.strings.getWords(unicode(block.text(), Constants.encodingFormat, Constants.encodingError))
+			blockWords = foundations.strings.getWords(unicode(block.text(),
+																Constants.encodingFormat,
+																Constants.encodingError))
 			if blockWords:
 				words.extend(blockWords)
 			block = block.next()
@@ -1114,7 +1153,9 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		cursor.beginEditBlock()
 		if not cursor.hasSelection():
 			cursor.movePosition(QTextCursor.StartOfBlock)
-			line = unicode(self.document().findBlockByNumber(cursor.blockNumber()).text(), Constants.encodingFormat, Constants.encodingError)
+			line = unicode(self.document().findBlockByNumber(cursor.blockNumber()).text(),
+							Constants.encodingFormat,
+							Constants.encodingError)
 			indentMarker = re.match(r"({0})".format(self.__indentMarker), line)
 			if indentMarker:
 				for i in range(len(indentMarker.group(1))):
@@ -1263,7 +1304,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		
 		.. warning::
 
-			Initializing **wrapAround** keyword to **True** leads to infinite recursion loop if the search pattern and the replacementPattern are the same.
+			Initializing **wrapAround** keyword to **True** leads to infinite recursion loop
+			if the search pattern and the replacementPattern are the same.
 
 		:param pattern: Pattern to replace. ( String )
 		:param replacementPattern: Replacement pattern. ( String )
@@ -1342,7 +1384,9 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		cursor.beginEditBlock()
 		if not cursor.hasSelection():
 			cursor.movePosition(QTextCursor.StartOfBlock)
-			line = unicode(self.document().findBlockByNumber(cursor.blockNumber()).text(), Constants.encodingFormat, Constants.encodingError)
+			line = unicode(self.document().findBlockByNumber(cursor.blockNumber()).text(),
+							Constants.encodingFormat,
+							Constants.encodingError)
 			if line.startswith(self.__commentMarker):
 				cursor.deleteChar()
 			else:
@@ -1353,7 +1397,9 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 				blockCursor = self.textCursor()
 				blockCursor.setPosition(block.position())
 
-				if unicode(block.text(), Constants.encodingFormat, Constants.encodingError).startswith(self.__commentMarker):
+				if unicode(block.text(),
+							Constants.encodingFormat,
+							Constants.encodingError).startswith(self.__commentMarker):
 					blockCursor.deleteChar()
 				else:
 					blockCursor.insertText(self.__commentMarker)
@@ -1390,7 +1436,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 			textOption = QTextOption()
 			textOption.setTabStop(self.tabStopWidth())
 		else:
-			textOption.setFlags(textOption.flags() | QTextOption.ShowTabsAndSpaces | QTextOption.ShowLineAndParagraphSeparators)
+			textOption.setFlags(
+			textOption.flags() | QTextOption.ShowTabsAndSpaces | QTextOption.ShowLineAndParagraphSeparators)
 		self.setDefaultTextOption(textOption)
 		return True
 
