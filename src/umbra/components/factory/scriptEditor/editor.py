@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`Editor class.
+	This module defines the :class:`Editor class and others helper objects.
 
 **Others:**
 
@@ -40,6 +40,7 @@ import umbra.ui.highlighters
 import umbra.ui.inputAccelerators
 import umbra.ui.widgets.messageBox as messageBox
 from umbra.globals.constants import Constants
+from umbra.globals.uiConstants import UiConstants
 from umbra.ui.widgets.codeEditor_QPlainTextEdit import CodeEditor_QPlainTextEdit
 
 #**********************************************************************************************************************
@@ -52,9 +53,24 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "Language", "PYTHON_LANGUAGE", "Editor"]
+__all__ = ["LOGGER", "PYTHON_GRAMMAR_FILE", "LANGUAGES_CAPABILITIES", "Language", "getObjectFromLanguageCapability", "getLanguageDescription", "getPythonLanguage", "PYTHON_LANGUAGE", "Editor"]
 
 LOGGER = logging.getLogger(Constants.logger)
+
+PYTHON_GRAMMAR_FILE = umbra.ui.common.getResourcePath(UiConstants.pythonGrammarFile)
+
+LANGUAGES_ACCELERATORS = {"DefaultHighlighter" : umbra.ui.highlighters.DefaultHighlighter,
+						"DefaultCompleter" : umbra.ui.completers.DefaultCompleter,
+						"indentationPreEventInputAccelerators" :
+						umbra.ui.inputAccelerators.indentationPreEventInputAccelerators,
+						"completionPreEventInputAccelerators" :
+						umbra.ui.inputAccelerators.completionPreEventInputAccelerators,
+						"completionPostEventInputAccelerators" :
+						umbra.ui.inputAccelerators.completionPostEventInputAccelerators,
+						"symbolsExpandingPreEventInputAccelerators" :
+						umbra.ui.inputAccelerators.symbolsExpandingPreEventInputAccelerators,
+						"pythonPostEventInputAccelerators" :
+						umbra.ui.inputAccelerators.pythonPostEventInputAccelerators}
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -69,28 +85,61 @@ class Language(core.Structure):
 		"""
 		This method initializes the class.
 
-		:param \*\*kwargs: name, extension, highlighter, completer, preInputAccelerators,postInputAccelerators.
-		( Key / Value pairs )
+		:param \*\*kwargs: name, extensions. ( Key / Value pairs )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
 		core.Structure.__init__(self, **kwargs)
 
+@core.executionTrace
+def getObjectFromLanguageAccelerators(accelerator):
+	"""
+	This definition returns the object associated to given accelerator.
+
+	:param accelerator: Accelerator. ( String )
+	:return: Object. ( Object )
+	"""
+
+	return LANGUAGES_ACCELERATORS.get(accelerator)
+
+@core.executionTrace
+def getLanguageDescription(file, theme=umbra.ui.highlighters.DEFAULT_THEME):
+	"""
+	This definition gets the language description from given language grammar file.
+
+	:param file: Language grammar. ( String )
+	:return: Language description. ( Language )
+	"""
+
+	sectionParser = umbra.ui.common.getSectionsFileParser(file)
+	return Language(name=sectionParser.getValue("Name", "Language"),
+				extensions=sectionParser.getValue("Extensions", "Language"),
+				highlighter=getObjectFromLanguageAccelerators(sectionParser.getValue("Highlighter", "Accelerators")),
+				completer=getObjectFromLanguageAccelerators(sectionParser.getValue("Completer", "Accelerators")),
+				preInputAccelerators=[getObjectFromLanguageAccelerators(accelerator)
+				for accelerator in sectionParser.getValue("PreInputAccelerators", "Accelerators").split("|")],
+				postInputAccelerators=[getObjectFromLanguageAccelerators(accelerator)
+				for accelerator in sectionParser.getValue("PostInputAccelerators", "Accelerators").split("|")],
+				indentMarker=sectionParser.getValue("IndentMarker", "Syntax"),
+				commentMarker=sectionParser.getValue("CommentMarker", "Syntax"),
+				parser=sectionParser,
+				theme=theme)
+
+@core.executionTrace
+def getPythonLanguage():
+	"""
+	This definition returns the Python language description.
+
+	:return: Python language description. ( Language )
+	"""
+
+	return getLanguageDescription(PYTHON_GRAMMAR_FILE)
+
 #**********************************************************************************************************************
 #***	Module attributes.
 #**********************************************************************************************************************
-PYTHON_LANGUAGE = Language(name="Python",
-							extension="\.py|\.pyw",
-							highlighter=umbra.ui.highlighters.PythonHighlighter,
-							completer=umbra.ui.completers.PythonCompleter,
-							preInputAccelerators=(umbra.ui.inputAccelerators.indentationPreEventInputAccelerators,
-												umbra.ui.inputAccelerators.symbolsExpandingPreEventInputAccelerators,
-												umbra.ui.inputAccelerators.completionPreEventInputAccelerators),
-							postInputAccelerators=(umbra.ui.inputAccelerators.completionPostEventInputAccelerators,
-												umbra.ui.inputAccelerators.pythonPostEventInputAccelerators,),
-							indentMarker="\t",
-							commentMarker="#")
+PYTHON_LANGUAGE = getPythonLanguage()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -408,7 +457,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		self.__file = file
 		self.__isUntitled = False
-		self.document().setModified(False)
+		self.setModified(False)
 		self.setWindowTitle("{0}".format(self.getFileShortName()))
 
 		self.fileChanged.emit()
@@ -419,7 +468,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method sets the editor window title.
 		"""
 
-		titleTemplate = self.document().isModified() and "{0} *" or "{0}"
+		titleTemplate = self.isModified() and "{0} *" or "{0}"
 		self.setWindowTitle(titleTemplate.format(self.getFileShortName()))
 		self.contentChanged.emit()
 
@@ -441,12 +490,14 @@ class Editor(CodeEditor_QPlainTextEdit):
 			return
 
 		if self.__language.highlighter:
-			self.setHighlighter(self.__language.highlighter(self.document()))
+			self.setHighlighter(self.__language.highlighter(self.document(),
+															self.__language.parser,
+															self.__language.theme))
 		else:
 			self.removeHighlighter()
 
 		if self.__language.completer:
-			self.setCompleter(self.__language.completer(self.parent()))
+			self.setCompleter(self.__language.completer(self.parent(), self.__language.parser))
 		else:
 			self.removeCompleter()
 
@@ -612,7 +663,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		writer = io.File(file)
 		writer.content = [self.toPlainText()]
 		if writer.write():
-			self.document().setModified(False)
+			self.setModified(False)
 			self.__setWindowTitle()
 			return True
 
@@ -625,7 +676,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not self.document().isModified():
+		if not self.isModified():
 			LOGGER.debug("> Closing '{0}' file.".format(self.__file))
 			return True
 

@@ -92,8 +92,8 @@ def _extendResourcesPaths():
 
 	for path in (os.path.join(umbra.__path__[0], Constants.resourcesDirectory),
 				os.path.join(os.getcwd(), umbra.__name__, Constants.resourcesDirectory)):
-		(os.path.exists(path) and not path in RuntimeGlobals.resourcesPaths) and \
-		RuntimeGlobals.resourcesPaths.append(path)
+		(os.path.exists(path) and not path in RuntimeGlobals.resourcesDirectories) and \
+		RuntimeGlobals.resourcesDirectories.append(path)
 	return True
 
 _extendResourcesPaths()

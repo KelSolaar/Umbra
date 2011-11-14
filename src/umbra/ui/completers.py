@@ -9,7 +9,7 @@
 
 **Description:**
 	| This module defines the Application completers classes.
-	| Each completer class completion list is initialized only once per session at the first class instantiation.
+	| Each completer class completion list is initialized only once per session and cached at the first class instantiation.
 
 **Others:**
 
@@ -29,8 +29,8 @@ from PyQt4.QtGui import QStringListModel
 import foundations.core as core
 import foundations.exceptions
 import umbra.ui.common
+from foundations.parsers import SectionsFileParser
 from umbra.globals.constants import Constants
-from umbra.globals.uiConstants import UiConstants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -42,26 +42,25 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "PYTHON_TOKENS_FILE" , "ENGLISH_WORDS_FILE", "PythonCompleter", "EnglishCompleter"]
+__all__ = ["LOGGER", "ENGLISH_WORDS_FILE", "DefaultCompleter", "EnglishCompleter"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
-PYTHON_TOKENS_FILE = umbra.ui.common.getResourcePath(UiConstants.pythonTokensFile)
 ENGLISH_WORDS_FILE = umbra.ui.common.getResourcePath("others/English_Words.rc")
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class PythonCompleter(QCompleter):
+class DefaultCompleter(QCompleter):
 	"""
 	This class is a `QCompleter <http://doc.qt.nokia.com/4.7/qcompleter.html>`_ subclass used
-	as a Python completion widget.
+	as a completion widget.
 	"""
 
-	__pythonTokens = None
+	__tokens = {}
 
 	@core.executionTrace
-	def __init__(self, parent=None):
+	def __init__(self, parent=None, parser=None):
 		"""
 		This method initializes the class.
 
@@ -71,9 +70,15 @@ class PythonCompleter(QCompleter):
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
 		# --- Setting class attributes. ---
-		self.__setPythonTokens()
+		self.__parser = None
+		self.parser = parser
 
-		QCompleter.__init__(self, PythonCompleter._PythonCompleter__pythonTokens, parent)
+		self.__language = self.__parser.getValue("Name", "Language")
+
+		self.__setTokens()
+
+		QCompleter.__init__(self,
+		DefaultCompleter._DefaultCompleter__tokens[self.__language], parent)
 
 		self.setCaseSensitivity(Qt.CaseSensitive)
 		self.setCompletionMode(QCompleter.PopupCompletion)
@@ -82,59 +87,119 @@ class PythonCompleter(QCompleter):
 	#***	Attributes properties.
 	#******************************************************************************************************************
 	@property
-	def pythonTokens(self):
+	def parser(self):
 		"""
-		This method is the property for **PythonCompleter._PythonCompleter__pythonTokens** attribute.
+		This method is the property for **self.__parser** attribute.
 
-		:return: PythonCompleter._PythonCompleter__pythonTokens. ( Tuple / List )
+		:return: self.__parser. ( String )
 		"""
 
-		return PythonCompleter._PythonCompleter__pythonTokens
+		return self.__parser
 
-	@pythonTokens.setter
+	@parser.setter
 	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def pythonTokens(self, value):
+	def parser(self, value):
 		"""
-		This method is the setter method for **PythonCompleter._PythonCompleter__pythonTokens** attribute.
+		This method is the setter method for **self.__parser** attribute.
 
-		:param value: Attribute value. ( Tuple / List )
+		:param value: Attribute value. ( String )
 		"""
 
 		if value:
-			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
-			"pythonTokens", value)
-			for element in value:
-				assert type(element) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
-				"pythonTokens", element)				
-		PythonCompleter._PythonCompleter__pythonTokens = value
+			assert type(value) is SectionsFileParser, "'{0}' attribute: '{1}' type is not 'SectionsFileParser'!".format("parser", value)
+		self.__parser = value
 
-	@pythonTokens.deleter
+	@parser.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def pythonTokens(self):
+	def parser(self):
 		"""
-		This method is the deleter method for **PythonCompleter._PythonCompleter__pythonTokens** attribute.
+		This method is the deleter method for **self.__parser** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "pythonTokens"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "parser"))
+
+	@property
+	def language(self):
+		"""
+		This method is the property for **self.__language** attribute.
+
+		:return: self.__language. ( String )
+		"""
+
+		return self.__language
+
+	@language.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def language(self, value):
+		"""
+		This method is the setter method for **self.__language** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "language"))
+
+	@language.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def language(self):
+		"""
+		This method is the deleter method for **self.__language** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "language"))
+
+	@property
+	def tokens(self):
+		"""
+		This method is the property for **DefaultCompleter._DefaultCompleter__tokens** attribute.
+
+		:return: DefaultCompleter._DefaultCompleter__tokens. ( Dictionary )
+		"""
+
+		return DefaultCompleter._PythonCompleter__tokens
+
+	@tokens.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def tokens(self, value):
+		"""
+		This method is the setter method for **DefaultCompleter._DefaultCompleter__tokens** attribute.
+
+		:param value: Attribute value. ( Dictionary )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "tokens"))
+
+	@tokens.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def tokens(self):
+		"""
+		This method is the deleter method for **DefaultCompleter._DefaultCompleter__tokens** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "tokens"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
 	@core.executionTrace
-	def __setPythonTokens(self, splitter="|"):
+	def __setTokens(self, splitter="|"):
 		"""
-		This method sets the Python tokens.
+		This method sets the tokens.
 
 		:param splitters: Splitter character. ( String )
 		"""
 
-		if PythonCompleter._PythonCompleter__pythonTokens:
+		if DefaultCompleter._DefaultCompleter__tokens.get(self.__language):
 			return
 
-		sections = umbra.ui.common.getTokensParser(PYTHON_TOKENS_FILE).sections
-		PythonCompleter._PythonCompleter__pythonTokens = [token for section in sections["Tokens"].values()
-														for token in section.split(splitter)]
+		sections = self.__parser.sections
+		DefaultCompleter._DefaultCompleter__tokens[self.__language] = [token for attribute in sections["Tokens"].values()
+																for token in attribute.split(splitter)]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -146,8 +211,9 @@ class PythonCompleter(QCompleter):
 		:return: Method success. ( Boolean )
 		"""
 
-		extendedWords = PythonCompleter._PythonCompleter__pythonTokens[:]
-		extendedWords.extend((word for word in set(words) if word not in PythonCompleter._PythonCompleter__pythonTokens))
+		extendedWords = DefaultCompleter._DefaultCompleter__tokens[self.__language][:]
+		extendedWords.extend((word for word in set(words)
+							if word not in DefaultCompleter._DefaultCompleter__tokens[self.__language]))
 		self.setModel(QStringListModel(extendedWords))
 		return True
 
@@ -204,7 +270,7 @@ class EnglishCompleter(QCompleter):
 			"englishWords", value)
 			for element in value:
 				assert type(element) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
-				"englishWords", element)				
+				"englishWords", element)
 		EnglishCompleter._EnglishCompleter__englishWords = value
 
 	@englishWords.deleter

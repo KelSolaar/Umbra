@@ -44,7 +44,7 @@ __all__ = ["LOGGER",
 			"performCompletion",
 			"completionPreEventInputAccelerators",
 			"completionPostEventInputAccelerators",
-			"pythonPreEventInputAccelerators",
+			"symbolsExpandingPreEventInputAccelerators",
 			"pythonPreEventInputAccelerators"]
 
 LOGGER = logging.getLogger(Constants.logger)

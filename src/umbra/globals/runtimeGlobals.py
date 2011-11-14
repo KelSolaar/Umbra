@@ -70,7 +70,7 @@ class RuntimeGlobals():
 	userApplicationDataDirectory = None
 	"""Application user data directory."""
 
-	resourcesPaths = []
+	resourcesDirectories = []
 	"""Resources paths."""
 
 	uiFile = None

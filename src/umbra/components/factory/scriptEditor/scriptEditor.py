@@ -47,14 +47,13 @@ from PyQt4.QtGui import QTextOption
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
-import umbra.ui.completers
+import foundations.walkers
 import umbra.engine
+import umbra.ui.common
 import umbra.ui.highlighters
-import umbra.ui.inputAccelerators
 from manager.qwidgetComponent import QWidgetComponentFactory
+from umbra.components.factory.scriptEditor.editor import getLanguageDescription
 from umbra.components.factory.scriptEditor.editor import Editor
-from umbra.components.factory.scriptEditor.editor import Language
-from umbra.components.factory.scriptEditor.editor import PYTHON_LANGUAGE
 from umbra.components.factory.scriptEditor.editorStatus import EditorStatus
 from umbra.components.factory.scriptEditor.models import LanguagesModel
 from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace
@@ -214,23 +213,29 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__developmentLayout = "developmentCentric"
 
-		self.__languagesModel = LanguagesModel(self, [PYTHON_LANGUAGE,
-											Language(name="Logging",
-												extension="\.log",
-												highlighter=umbra.ui.highlighters.LoggingHighlighter,
-												completer=None,
-												preInputAccelerators=(),
-												postInputAccelerators=(),
-												indentMarker="\t",
-												commentMarker=None),
-											Language(name="Text",
-												extension="\.txt",
-												highlighter=None,
-												completer=umbra.ui.completers.EnglishCompleter,
-												preInputAccelerators=(umbra.ui.inputAccelerators.completionPreEventInputAccelerators,),
-												postInputAccelerators=(umbra.ui.inputAccelerators.completionPostEventInputAccelerators,),
-												indentMarker="\t",
-												commentMarker=None)])
+		self.__grammarsDirectory = "grammars"
+		self.__extension = "grc"
+
+		self.__languagesMode = None
+
+#		self.__languagesModel = LanguagesModel(self,
+#							[PYTHON_LANGUAGE,
+#							Language(name="Logging",
+#								extension="\.log",
+#								highlighter=umbra.ui.highlighters.LoggingHighlighter,
+#								completer=None,
+#								preInputAccelerators=(),
+#								postInputAccelerators=(),
+#								indentMarker="\t",
+#								commentMarker=None),
+#							Language(name="Text",
+#								extension="\.txt",
+#								highlighter=None,
+#								completer=umbra.ui.completers.EnglishCompleter,
+#								preInputAccelerators=(umbra.ui.inputAccelerators.completionPreEventInputAccelerators,),
+#								postInputAccelerators=(umbra.ui.inputAccelerators.completionPostEventInputAccelerators,),
+#								indentMarker="\t",
+#								commentMarker=None)])
 
 		self.__defaultLanguage = "Text"
 		self.__defaultScriptLanguage = "Python"
@@ -423,6 +428,70 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "developmentLayout"))
+
+	@property
+	def grammarsDirectory(self):
+		"""
+		This method is the property for **self.__grammarsDirectory** attribute.
+
+		:return: self.__grammarsDirectory. ( String )
+		"""
+
+		return self.__grammarsDirectory
+
+	@grammarsDirectory.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def grammarsDirectory(self, value):
+		"""
+		This method is the setter method for **self.__grammarsDirectory** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "grammarsDirectory"))
+
+	@grammarsDirectory.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def grammarsDirectory(self):
+		"""
+		This method is the deleter method for **self.__grammarsDirectory** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "grammarsDirectory"))
+
+	@property
+	def extension(self):
+		"""
+		This method is the property for **self.__extension** attribute.
+
+		:return: self.__extension. ( String )
+		"""
+
+		return self.__extension
+
+	@extension.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def extension(self, value):
+		"""
+		This method is the setter method for **self.__extension** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "extension"))
+
+	@extension.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def extension(self):
+		"""
+		This method is the deleter method for **self.__extension** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "extension"))
 
 	@property
 	def languagesModel(self):
@@ -1142,6 +1211,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__fileSystemWatcher = QFileSystemWatcher(self)
 		self.__timer = QTimer(self)
 		self.__timer.start(Constants.defaultTimerCycle * self.__timerCycleMultiplier)
+
+		self.__initializeLanguagesModel()
 
 		self.Editor_Status_editorStatus = EditorStatus(self)
 		self.__engine.statusBar.insertPermanentWidget(0, self.Editor_Status_editorStatus)
@@ -1944,6 +2015,21 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.reloadFile(self.__modifiedFiles.pop())
 
 	@core.executionTrace
+	def __initializeLanguagesModel(self):
+		"""
+		This method initializes given file in the :obj:`ScriptEditor.languagesModel` class property.
+		"""
+
+		languages = []
+		for directory in RuntimeGlobals.resourcesDirectories:
+			osWalker = foundations.walkers.OsWalker(directory)
+			osWalker.walk(("\.{0}$".format(self.__extension),), ("\._",))
+			for file in osWalker.files.values():
+				languages.append(getLanguageDescription(file))
+
+		self.__languagesModel = LanguagesModel(self, languages)
+
+	@core.executionTrace
 	def __registerFile(self, file):
 		"""
 		This method registers given file in the :obj:`ScriptEditor.files` class property.
@@ -1972,8 +2058,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method sets the recent files actions.
 		"""
 
-		recentFiles = [str(recentFile) 
-					for recentFile in self.__settings.getKey(self.__settingsSection,"recentFiles").toString().split(",")
+		recentFiles = [str(recentFile)
+					for recentFile in self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",")
 						if os.path.exists(recentFile)]
 		if not recentFiles:
 			return
@@ -2250,7 +2336,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		currentEditor = self.getCurrentEditor()
 		if self.Script_Editor_tabWidget.count() == 1 and currentEditor.isUntitled and \
-		not currentEditor.document().isModified():
+		not currentEditor.isModified():
 			self.__unregisterFile(currentEditor.file)
 			self.removeEditorTab(self.Script_Editor_tabWidget.currentIndex())
 
@@ -2341,7 +2427,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		success = True
 		for i in range(editorsCount):
 			editor = self.Script_Editor_tabWidget.widget(i)
-			if editor.document().isModified():
+			if editor.isModified():
 				LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
 				success *= editor.saveFile()
 			self.__engine.stepProcessing()

@@ -154,7 +154,7 @@ class GraphModelAttribute(Attribute):
 
 class GraphModelNode(AbstractCompositeNode):
 	"""
-	This class factory defines :class:`GraphModel` class base node object.
+	This class defines :class:`GraphModel` class base node object.
 	"""
 
 	__family = "GraphModel"

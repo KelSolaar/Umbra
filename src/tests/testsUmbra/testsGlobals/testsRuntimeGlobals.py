@@ -63,7 +63,7 @@ class RuntimeGlobalsTestCase(unittest.TestCase):
 								"engine",
 								"application",
 								"userApplicationDataDirectory",
-								"resourcesPaths",
+								"resourcesDirectories",
 								"uiFile",
 								"settingsFile",
 								"settings",
@@ -76,10 +76,10 @@ class RuntimeGlobalsTestCase(unittest.TestCase):
 
 	def testResourcesPathsAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.runtimeGlobals.RuntimeGlobals.resourcesPaths` attribute.
+		This method tests :attr:`umbra.globals.runtimeGlobals.RuntimeGlobals.resourcesDirectories` attribute.
 		"""
 
-		self.assertIsInstance(RuntimeGlobals.resourcesPaths, list)
+		self.assertIsInstance(RuntimeGlobals.resourcesDirectories, list)
 
 	def testlastBrowsedPath(self):
 		"""

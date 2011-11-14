@@ -119,5 +119,5 @@ class UiConstants():
 	restoreGeometryOnLayoutChange = False
 	"""Restore geometry on layout change: '**False**' ( Boolean )"""
 
-	pythonTokensFile = "others/Python_Tokens.rc"
-	"""Python tokens file: '**others/Python_Tokens.rc**' ( String )"""
+	pythonGrammarFile = "grammars/Python/Python.grc"
+	"""Python tokens file: '**grammars/Python/Python.grc**' ( String )"""

@@ -226,6 +226,6 @@ class LanguagesModel(QAbstractListModel):
 		"""
 
 		for language in self.__languages:
-			if re.search(language.extension, file):
+			if re.search(language.extensions, file):
 				LOGGER.debug("> '{0}' file detected language: '{1}'.".format(file, language.name))
 				return language

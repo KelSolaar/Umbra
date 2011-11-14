@@ -1339,6 +1339,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 		This method sets document content while providing undo capability.
 
+		:param content: Content to set. ( List )
 		:return: Method success. ( Boolean )		
 		"""
 
@@ -1359,6 +1360,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 		This method moves the text cursor to given line.
 
+		:param line: Line to go to. ( Integer )
 		:return: Method success. ( Boolean )		
 		"""
 
@@ -1521,3 +1523,38 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 			block = block.next()
 		cursor.endEditBlock()
 		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def isModified(self):
+		"""
+		This method returns if the editor document is modified.
+
+		:return: Document modified state. ( Boolean )		
+		"""
+
+		return self.document().isModified()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def setModified(self, state):
+		"""
+		This method sets the editor document modified state.
+
+		:param state: Modified state. ( Boolean )
+		:return: Method success. ( Boolean )		
+		"""
+
+		self.document().setModified(state)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def isEmpty(self):
+		"""
+		This method returns if the editor document is empty.
+
+		:return: Document empty state. ( Boolean )		
+		"""
+
+		return self.document().isEmpty()

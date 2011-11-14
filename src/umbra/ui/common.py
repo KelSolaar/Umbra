@@ -61,7 +61,7 @@ __all__ = ["LOGGER",
 			"getResourcePath",
 			"setWindowDefaultIcon",
 			"centerWidgetOnScreen",
-			"getTokensParser",
+			"getSectionsFileParser",
 			"storeLastBrowsedPath",
 			"parentsWalker"]
 
@@ -203,7 +203,7 @@ def getResourcePath(name, raiseException=False):
 	:return: Resource path. ( String )
 	"""
 
-	for path in RuntimeGlobals.resourcesPaths:
+	for path in RuntimeGlobals.resourcesDirectories:
 		path = os.path.join(path, name)
 		if os.path.exists(path):
 			LOGGER.debug("> '{0}' resource path: '{1}'.".format(name, path))
@@ -250,20 +250,20 @@ def centerWidgetOnScreen(widget, screen=None):
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
-def getTokensParser(tokensFile):
+def getSectionsFileParser(file):
 	"""
-	This method returns a tokens sections file parser.
+	This method returns a sections file parser.
 
-	:param tokensFile: Tokens file. ( String )
-	:return: Tokens. ( SectionsFileParser )
+	:param file: File. ( String )
+	:return: Parser. ( SectionsFileParser )
 	"""
 
-	if not os.path.exists(tokensFile):
-		raise foundations.exceptions.FileExistsError("{0} | '{1}' tokens file doesn't exists!".format(
-		inspect.getmodulename(__file__), tokensFile))
+	if not os.path.exists(file):
+		raise foundations.exceptions.FileExistsError("{0} | '{1}' sections file doesn't exists!".format(
+		inspect.getmodulename(__file__), file))
 
-	sectionsFileParser = SectionsFileParser(tokensFile)
-	sectionsFileParser.read() and sectionsFileParser.parse(orderedDictionary=False)
+	sectionsFileParser = SectionsFileParser(file)
+	sectionsFileParser.read() and sectionsFileParser.parse()
 	return sectionsFileParser
 
 @core.executionTrace

@@ -18,9 +18,9 @@
 #***	External imports.
 #**********************************************************************************************************************
 import logging
+import re
 from PyQt4.QtCore import QRegExp
 from PyQt4.QtGui import QColor
-from PyQt4.QtGui import QFont
 from PyQt4.QtGui import QSyntaxHighlighter
 from PyQt4.QtGui import QTextCharFormat
 
@@ -29,10 +29,13 @@ from PyQt4.QtGui import QTextCharFormat
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import foundations.namespace
 import umbra.ui.common
+from foundations.dag import AbstractCompositeNode
 from foundations.parsers import SectionsFileParser
 from umbra.globals.constants import Constants
 from umbra.globals.uiConstants import UiConstants
+from umbra.ui.models import DefaultNode
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -45,18 +48,17 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-			"PYTHON_TOKENS_FILE",
 			"getFormat",
+			"DEFAULT_FORMAT",
+			"DEFAULT_THEME",
 			"Rule",
-			"Rules",
-			"Formats",
-			"Highlighter",
-			"LoggingHighlighter",
-			"PythonHighlighter"]
+			"FormatNode",
+			"FormatsTree",
+			"AbstractHighlighter",
+			"DefaultHighlighter",
+			"LoggingHighlighter"]
 
 LOGGER = logging.getLogger(Constants.logger)
-
-PYTHON_TOKENS_FILE = umbra.ui.common.getResourcePath(UiConstants.pythonTokensFile)
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -89,6 +91,84 @@ def getFormat(**kwargs):
 
 	return format
 
+#**********************************************************************************************************************
+#***	Module attributes.
+#**********************************************************************************************************************
+DEFAULT_FORMAT = getFormat(color=QColor(192, 192, 192))
+
+DEFAULT_THEME = {"default" : None,
+			"comment" : getFormat(format=DEFAULT_FORMAT, color=QColor(96, 96, 96)),
+			"comment.line" : None,
+			"comment.line.double-slash" : None,
+			"comment.line.double-dash" : None,
+			"comment.line.number-sign" : None,
+			"comment.line.percentage" : None,
+			"comment.line.character" : None,
+			"comment.block" : None,
+			"comment.block.documentation" : None,
+			"constant" : getFormat(format=DEFAULT_FORMAT, color=QColor(205, 105, 75)),
+			"constant.numeric" : None,
+			"constant.character" : None,
+			"constant.character.escape" : None,
+			"constant.language" : None,
+			"constant.other" : None,
+			"entity" : getFormat(format=DEFAULT_FORMAT, color=QColor(115, 135, 175)),
+			"entity.name" : None,
+			"entity.name.function" : None,
+			"entity.name.type" : None,
+			"entity.name.tag" : None,
+			"entity.name.section" : None,
+			"entity.other" : None,
+			"entity.inherited-class" : None,
+			"entity.attribute-name" : None,
+			"invalid" : None,
+			"invalid.illegal" : None,
+			"invalid.deprecated" : None,
+			"keyword" : getFormat(format=DEFAULT_FORMAT, color=QColor(205, 170, 105), fontWeight=75),
+			"keyword.control" : None,
+			"keyword.operator" : getFormat(format=DEFAULT_FORMAT, color=QColor(205, 170, 105)),
+			"keyword.other" : None,
+			"markup" : None,
+			"markup.underline" : None,
+			"markup.underline.link" : None,
+			"markup.bold" : None,
+			"markup.heading" : None,
+			"markup.italic" : None,
+			"markup.list" : None,
+			"markup.list.numbered" : None,
+			"markup.list.unnumbered" : None,
+			"markup.quote" : None,
+			"markup.raw" : None,
+			"markup.other" : None,
+			"meta" : None,
+			"storage" : None,
+			"storage.type" : getFormat(format=DEFAULT_FORMAT, color=QColor(205, 170, 105), fontWeight=75),
+			"storage.modifier" : getFormat(format=DEFAULT_FORMAT, italic=True),
+			"string" : getFormat(format=DEFAULT_FORMAT, color=QColor(145, 160, 105), italic=True),
+			"string.quoted" : None,
+			"string.quoted.single" : None,
+			"string.quoted.double" : None,
+			"string.quoted.triple" : None,
+			"string.quoted.other" : None,
+			"string.unquoted" : None,
+			"string.interpolated" : None,
+			"string.regexp" : None,
+			"string.other" : None,
+			"support" : getFormat(format=DEFAULT_FORMAT, color=QColor(115, 135, 175)),
+			"support.function" : None,
+			"support.class" : None,
+			"support.type" : None,
+			"support.constant" : None,
+			"support.variable" : None,
+			"support.other" : None,
+			"variable" : None,
+			"variable.parameter" : None,
+			"variable.language" : getFormat(format=DEFAULT_FORMAT, italic=True),
+			"variable.language.other" : None}
+
+#**********************************************************************************************************************
+#***	Module classes and definitions.
+#**********************************************************************************************************************
 class Rule(core.Structure):
 	"""
 	This class represents a storage object for highlighters rule. 
@@ -106,40 +186,199 @@ class Rule(core.Structure):
 
 		core.Structure.__init__(self, **kwargs)
 
-class Rules(core.OrderedStructure):
+class FormatNode(AbstractCompositeNode):
 	"""
-	This class represents a storage object for highlighters rules. 
+	This class defines the format base node object.
 	"""
 
+	__family = "Format"
+
 	@core.executionTrace
-	def __init__(self, *args, **kwargs):
+	def __init__(self, name=None, parent=None, children=None, format=None, **kwargs):
 		"""
 		This method initializes the class.
 
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: pattern, format. ( Key / Value pairs )
-		"""
-
-		core.OrderedStructure.__init__(self, *args, **kwargs)
-
-class Formats(core.Structure):
-	"""
-	This class represents a storage object for highlighters formats. 
-	"""
-
-	@core.executionTrace
-	def __init__(self, **kwargs):
-		"""
-		This method initializes the class.
-
-		:param \*\*kwargs: name. ( Key / Value pairs )
+		:param name: Node name.  ( String )
+		:param parent: Node parent. ( AbstractNode / AbstractCompositeNode )
+		:param children: Children. ( List )
+		:param format: Format. ( Object )
+		:param \*\*kwargs: Keywords arguments. ( \* )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		core.Structure.__init__(self, **kwargs)
+		AbstractCompositeNode.__init__(self, name, parent, children, **kwargs)
 
-class Highlighter(QSyntaxHighlighter):
+		# --- Setting class attributes. ---
+		self.__format = None
+		self.format = format
+
+	#******************************************************************************************************************
+	#***	Attributes properties.
+	#******************************************************************************************************************
+	@property
+	def format(self):
+		"""
+		This method is the property for **self.__format** attribute.
+
+		:return: self.__format. ( Object )
+		"""
+
+		return self.__format
+
+	@format.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def format(self, value):
+		"""
+		This method is the setter method for **self.__format** attribute.
+
+		:param value: Attribute value. ( Object )
+		"""
+
+		self.__format = value
+
+	@format.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def format(self):
+		"""
+		This method is the deleter method for **self.__format** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "format"))
+
+class FormatsTree(object):
+	"""
+	This class defines the formats tree object representing higlighters theme.
+	"""
+
+	@core.executionTrace
+	def __init__(self, theme=None):
+		"""
+		This method initializes the class.
+
+		:param theme: Theme. ( Dictionary )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		# --- Setting class attributes. ---
+		self.__rootNode = DefaultNode("Formats Tree")
+
+		self._FormatsTree__initializeTree(theme or DEFAULT_THEME)
+
+	#******************************************************************************************************************
+	#***	Attributes properties.
+	#******************************************************************************************************************
+	@property
+	def rootNode(self):
+		"""
+		This method is the property for **self.__rootNode** attribute.
+
+		:return: self.__rootNode. ( AbstractCompositeNode )
+		"""
+
+		return self.__rootNode
+
+	@rootNode.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def rootNode(self, value):
+		"""
+		This method is the setter method for **self.__rootNode** attribute.
+
+		:param value: Attribute value. ( AbstractCompositeNode )
+		"""
+
+		if value:
+			assert issubclass(value.__class__, AbstractCompositeNode), "'{0}' attribute: '{1}' is not a \
+			'{2}' subclass!".format("rootNode", value, AbstractCompositeNode.__name__)
+		self.__rootNode = value
+
+	@rootNode.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def rootNode(self):
+		"""
+		This method is the deleter method for **self.__rootNode** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".rootNode(self.__class__.__name__, "rootNode"))
+
+	#******************************************************************************************************************
+	#***	Class methods.
+	#******************************************************************************************************************
+	@core.executionTrace
+	def __initializeTree(self, theme):
+		"""
+		This method initializes the object formats tree.
+		
+		:param theme: Theme. ( Dictionary )
+		"""
+
+		for item in sorted(theme.keys()):
+			currentNode = self.__rootNode
+			for format in item.split("."):
+				nodes = [node for node in currentNode.children if node.name == format]
+				formatNode = nodes and nodes[0] or None
+				if not formatNode:
+					formatNode = FormatNode(format, format=theme[item])
+					currentNode.addChild(formatNode)
+				currentNode = formatNode
+
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listFormats(self, node, path=(), formats=None):
+		"""
+		This method lists the object formats in sorted order.
+		
+		:param node: Root node to start listing the formats from. ( AbstractCompositeNode )
+		:param path: Walked paths. ( Tuple )
+		:param formats: Formats. ( List )
+		:return: Formats. ( List )
+		"""
+
+		if formats == None:
+			formats = []
+
+		for child in node.children:
+			self.listFormats(child, path + (child.name,), formats)
+		path and formats.append(".".join(path))
+		return sorted(formats)
+
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@core.memoize()
+	def getFormat(self, name):
+		"""
+		This method returns the closest format or closest parent format associated to given name.
+		
+		:param name: Format name. ( String)
+		:return: Format. ( QTextCharFormat )
+		"""
+
+		formats = [format for format in self.listFormats(self.__rootNode) if format in name]
+		if not formats:
+			return
+
+		name = max(formats)
+
+		format = None
+		currentNode = self.__rootNode
+		for selector in name.split("."):
+			nodes = [node for node in currentNode.children if node.name == selector]
+			formatNode = nodes and nodes[0] or None
+			if not formatNode:
+				break
+
+			currentNode = formatNode
+
+			if not formatNode.format:
+				continue
+
+			format = formatNode.format
+		return format
+
+class AbstractHighlighter(QSyntaxHighlighter):
 	"""
 	This class is a `QSyntaxHighlighter <http://doc.qt.nokia.com/4.7/qsyntaxhighlighter.html>`_ subclass used
 	as a base for highlighters classes.
@@ -169,7 +408,7 @@ class Highlighter(QSyntaxHighlighter):
 		"""
 		This method is the property for **self.__formats** attribute.
 
-		:return: self.__formats. ( Formats )
+		:return: self.__formats. ( FormatsTree )
 		"""
 
 		return self.__formats
@@ -180,11 +419,11 @@ class Highlighter(QSyntaxHighlighter):
 		"""
 		This method is the setter method for **self.__formats** attribute.
 
-		:param value: Attribute value. ( Formats )
+		:param value: Attribute value. ( FormatsTree )
 		"""
 
 		if value:
-			assert type(value) is Formats, "'{0}' attribute: '{1}' type is not 'Formats'!".format("formats", value)
+			assert type(value) is FormatsTree, "'{0}' attribute: '{1}' type is not 'FormatsTree'!".format("formats", value)
 		self.__formats = value
 
 	@formats.deleter
@@ -202,7 +441,7 @@ class Highlighter(QSyntaxHighlighter):
 		"""
 		This method is the property for **self.__rules** attribute.
 
-		:return: self.__rules. ( Rules )
+		:return: self.__rules. ( Tuple / List )
 		"""
 
 		return self.__rules
@@ -213,11 +452,12 @@ class Highlighter(QSyntaxHighlighter):
 		"""
 		This method is the setter method for **self.__rules** attribute.
 
-		:param value: Attribute value. ( Rules )
+		:param value: Attribute value. ( Tuple / List )
 		"""
 
 		if value:
-			assert type(value) is Rules, "'{0}' attribute: '{1}' type is not 'Rules'!".format("rules", value)
+			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
+			"rules", value)
 		self.__rules = value
 
 	@rules.deleter
@@ -247,7 +487,7 @@ class Highlighter(QSyntaxHighlighter):
 																							self.__class__.__name__))
 
 	# @core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def highlightText(self, text, start, end):
 		"""
 		This method highlights given text.
@@ -258,123 +498,40 @@ class Highlighter(QSyntaxHighlighter):
 		:return: Method success. ( Boolean )
 		"""
 
-		for rule in self.__rules.values():
+		for rule in self.__rules:
 			index = rule.pattern.indexIn(text, start)
 			while index >= start and index < end:
 				length = rule.pattern.matchedLength()
-				self.setFormat(index, min(length, end - index), rule.format)
+				format = self.formats.getFormat(rule.name) or self.formats.getFormat("default")
+				self.setFormat(index, min(length, end - index), format)
 				index = rule.pattern.indexIn(text, index + length)
 		return True
 
-class LoggingHighlighter(Highlighter):
+class DefaultHighlighter(AbstractHighlighter):
 	"""
-	This class is a :class:`Highlighter` subclass providing syntax highlighting for Application logging documents.
+	This class is a :class:`AbstractHighlighter` subclass providing syntax highlighting for documents.
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent=None):
+	def __init__(self, parent=None, parser=None, theme=None):
 		"""
 		This method initializes the class.
 
 		:param parent: Widget parent. ( QObject )
+		:param parser: Parser instance. ( SectionFileParser )
+		:param theme: Theme. ( Dictionary )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
 		QSyntaxHighlighter.__init__(self, parent)
 
-		self.__setFormats()
-		self.__setRules()
+		# --- Setting class attributes. ---
+		self.__parser = None
+		self.parser = parser
+		self.__theme = None
+		self.theme = theme
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	@core.executionTrace
-	def __setFormats(self):
-		"""
-		This method sets the highlighting formats.
-		"""
-
-		self.formats = Formats(default=getFormat(color=QColor(192, 192, 192)))
-
-		self.formats.loggingCritical = getFormat(format=self.formats.default,
-												color=QColor(48, 48, 48),
-												backgroundColor=QColor(255, 64, 64))
-		self.formats.loggingError = getFormat(format=self.formats.default,
-											color=QColor(255, 64, 64))
-		self.formats.loggingWarning = getFormat(format=self.formats.default,
-												color=QColor(255, 128, 0))
-		self.formats.loggingInfo = getFormat(format=self.formats.default)
-		self.formats.loggingDebug = getFormat(format=self.formats.default,
-											italic=True)
-
-		self.formats.loggingDebugTraceIn = getFormat(format=self.formats.loggingDebug,
-													color=QColor(128, 160, 192))
-		self.formats.loggingDebugTraceOut = getFormat(format=self.formats.loggingDebug,
-													color=QColor(QColor(192, 160, 128)))
-
-	@core.executionTrace
-	def __setRules(self):
-		"""
-		This method sets the highlighting rules.
-		"""
-
-		self.rules = Rules()
-
-		self.rules.loggingInfo = Rule(pattern=QRegExp(
-								r"^INFO\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*INFO\s*:.*$"),
-								format=self.formats.loggingInfo)
-		self.rules.loggingCritical = Rule(pattern=QRegExp(
-									r"^CRITICAL\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*CRITICAL\s*:.*$"),
-									format=self.formats.loggingCritical)
-		self.rules.loggingError = Rule(pattern=QRegExp(
-								r"^ERROR\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*ERROR\s*:.*$"),
-								format=self.formats.loggingError)
-		self.rules.loggingWarning = Rule(pattern=QRegExp(
-									r"^WARNING\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*WARNING\s*:.*$"),
-									format=self.formats.loggingWarning)
-		self.rules.loggingDebug = Rule(pattern=QRegExp(
-								r"^DEBUG\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:.*$"),
-								format=self.formats.loggingDebug)
-
-		self.rules.loggingDebugTraceIn = Rule(pattern=QRegExp(
-								r"^DEBUG\s*:\s--->>>.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:\s--->>>.*$"),
-								format=self.formats.loggingDebugTraceIn)
-		self.rules.loggingDebugTraceOut = Rule(pattern=QRegExp(
-								r"^DEBUG\s*:\s---<<<.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:\s---<<<.*$"),
-								format=self.formats.loggingDebugTraceOut)
-
-	# @core.executionTrace
-	def highlightBlock(self, block):
-		"""
-		This method highlights given text block.
-
-		:param block: Text block. ( QString )
-		"""
-
-		self.highlightText(block, 0, len(block))
-
-class PythonHighlighter(Highlighter):
-	"""
-	This class is a :class:`Highlighter` subclass providing syntax highlighting for Python documents.
-	"""
-
-	@core.executionTrace
-	def __init__(self, parent=None):
-		"""
-		This method initializes the class.
-
-		:param parent: Widget parent. ( QObject )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		QSyntaxHighlighter.__init__(self, parent)
-
-		self.__multiLineSingleString = None
-		self.__multiLineDoubleString = None
-
-		self.__setPythonTokens()
 		self.__setFormats()
 		self.__setRules()
 
@@ -382,180 +539,81 @@ class PythonHighlighter(Highlighter):
 	#***	Attributes properties.
 	#******************************************************************************************************************
 	@property
-	def multiLineSingleString(self):
+	def parser(self):
 		"""
-		This method is the property for **self.__multiLineSingleString** attribute.
+		This method is the property for **self.__parser** attribute.
 
-		:return: self.__multiLineSingleString. ( QRegExp )
+		:return: self.__parser. ( String )
 		"""
 
-		return self.__multiLineSingleString
+		return self.__parser
 
-	@multiLineSingleString.setter
+	@parser.setter
 	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def multiLineSingleString(self, value):
+	def parser(self, value):
 		"""
-		This method is the setter method for **self.__multiLineSingleString** attribute.
+		This method is the setter method for **self.__parser** attribute.
 
-		:param value: Attribute value. ( QRegExp )
+		:param value: Attribute value. ( String )
 		"""
 
 		if value:
-			assert type(value) is QRegExp, "'{0}' attribute: '{1}' type is not 'QRegExp'!".format(
-			"multiLineSingleString", value)
-		self.__multiLineSingleString = value
+			assert type(value) is SectionsFileParser, "'{0}' attribute: '{1}' type is not 'SectionsFileParser'!".format("parser", value)
+		self.__parser = value
 
-	@multiLineSingleString.deleter
+	@parser.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def multiLineSingleString(self):
+	def parser(self):
 		"""
-		This method is the deleter method for **self.__multiLineSingleString** attribute.
+		This method is the deleter method for **self.__parser** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "multiLineSingleString"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "parser"))
 
 	@property
-	def multiLineDoubleString(self):
+	def theme(self):
 		"""
-		This method is the property for **self.__multiLineDoubleString** attribute.
+		This method is the property for **self.__theme** attribute.
 
-		:return: self.__multiLineDoubleString. ( QRegExp )
+		:return: self.__theme. ( Dictionary )
 		"""
 
-		return self.__multiLineDoubleString
+		return self.__theme
 
-	@multiLineDoubleString.setter
+	@theme.setter
 	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def multiLineDoubleString(self, value):
+	def theme(self, value):
 		"""
-		This method is the setter method for **self.__multiLineDoubleString** attribute.
+		This method is the setter method for **self.__theme** attribute.
 
-		:param value: Attribute value. ( QRegExp )
+		:param value: Attribute value. ( Dictionary )
 		"""
 
 		if value:
-			assert type(value) is QRegExp, "'{0}' attribute: '{1}' type is not 'QRegExp'!".format(
-			"multiLineDoubleString", value)
-		self.__multiLineDoubleString = value
+			assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("theme", value)
+		self.__theme = value
 
-	@multiLineDoubleString.deleter
+	@theme.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def multiLineDoubleString(self):
+	def theme(self):
 		"""
-		This method is the deleter method for **self.__multiLineDoubleString** attribute.
+		This method is the deleter method for **self.__theme** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "multiLineDoubleString"))
-
-	@property
-	def pythonTokens(self):
-		"""
-		This method is the property for **self.__pythonTokens** attribute.
-
-		:return: self.__pythonTokens. ( SectionsFileParser )
-		"""
-
-		return self.__pythonTokens
-
-	@pythonTokens.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def pythonTokens(self, value):
-		"""
-		This method is the setter method for **self.__pythonTokens** attribute.
-
-		:param value: Attribute value. ( SectionsFileParser )
-		"""
-
-		if value:
-			assert type(value) is SectionsFileParser, "'{0}' attribute: '{1}' type is not 'SectionsFileParser'!".format(
-			"pythonTokens", value)
-		self.__pythonTokens = value
-
-	@pythonTokens.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def pythonTokens(self):
-		"""
-		This method is the deleter method for **self.__pythonTokens** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "pythonTokens"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "theme"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
-	def __setPythonTokens(self):
-		"""
-		This method sets the Python tokens.
-		"""
-
-		self.__pythonTokens = umbra.ui.common.getTokensParser(PYTHON_TOKENS_FILE)
-
-	@core.executionTrace
-	def __setKeywords(self, splitter="|"):
-		"""
-		This method sets the highlighting keywords.
-
-		:param splitters: Splitter character. ( String )
-		"""
-
-		self.__keywords = self.__pythonTokens.getValue("keywords", "Tokens").split(splitter)
-
 	@core.executionTrace
 	def __setFormats(self):
 		"""
 		This method sets the highlighting formats.
 		"""
 
-		self.formats = Formats(default=getFormat(color=QColor(192, 192, 192)))
-
-		self.formats.keyword = getFormat(format=self.formats.default, color=QColor(205, 170, 105), bold=True)
-
-		self.formats.numericConstant = getFormat(format=self.formats.default, color=QColor(205, 105, 75))
-		self.formats.numericIntegerDecimal = getFormat(format=self.formats.numericConstant)
-		self.formats.numericIntegerLongDecimal = getFormat(format=self.formats.numericConstant)
-		self.formats.numericIntegerHexadecimal = getFormat(format=self.formats.numericConstant)
-		self.formats.numericIntegerLongHexadecimal = getFormat(format=self.formats.numericConstant)
-		self.formats.numericIntegerOctal = getFormat(format=self.formats.numericConstant)
-		self.formats.numericIntegerLongOctal = getFormat(format=self.formats.numericConstant)
-		self.formats.numericFloat = getFormat(format=self.formats.numericConstant)
-		self.formats.numericComplex = getFormat(format=self.formats.numericConstant)
-
-		self.formats.modifierGlobal = getFormat(format=self.formats.default, bold=True)
-		self.formats.modifierSpecialGlobal = getFormat(format=self.formats.modifierGlobal)
-
-		self.formats.operator = getFormat(format=self.formats.keyword)
-		self.formats.operatorComparison = getFormat(format=self.formats.operator)
-		self.formats.operatorAssignement = getFormat(format=self.formats.operator)
-		self.formats.operatorAssignementAugmented = getFormat(format=self.formats.operator)
-		self.formats.operatorArithmetic = getFormat(format=self.formats.operator)
-
-		self.formats.entity = getFormat(format=self.formats.default, color=QColor(115, 135, 175))
-		self.formats.entityClass = getFormat(format=self.formats.entity)
-		self.formats.entityFunction = getFormat(format=self.formats.entity)
-		self.formats.entityDecorator = getFormat(format=self.formats.entity, italic=True)
-
-		self.formats.builtins = getFormat(format=self.formats.default, color=QColor(115, 135, 175))
-		self.formats.builtinsExceptions = getFormat(format=self.formats.builtins)
-		self.formats.builtinsFunctions = getFormat(format=self.formats.builtins)
-		self.formats.builtinsMiscellaneous = getFormat(format=self.formats.builtins)
-		self.formats.builtinsObjectMethods = getFormat(format=self.formats.builtins)
-		self.formats.magicMethods = getFormat(format=self.formats.builtins)
-
-		self.formats.magicObject = getFormat(format=self.formats.default, fontWeight=QFont.Bold)
-
-		self.formats.decoratorArgument = getFormat(format=self.formats.default, color=QColor(115, 135, 175), italic=True)
-
-		self.formats.quotation = getFormat(format=self.formats.default, color=QColor(145, 160, 105), italic=True)
-		self.formats.doubleQuotation = getFormat(format=self.formats.quotation)
-		self.formats.singleQuotation = getFormat(format=self.formats.quotation)
-
-		self.formats.singleLineComment = getFormat(format=self.formats.default, color=QColor(96, 96, 96))
-
-		self.formats.multiLineString = getFormat(format=self.formats.quotation)
+		self.formats = FormatsTree(self.__theme)
 
 	@core.executionTrace
 	def __setRules(self):
@@ -563,109 +621,15 @@ class PythonHighlighter(Highlighter):
 		This method sets the highlighting rules.
 		"""
 
-		self.__multiLineSingleString = QRegExp(r"^\s*\"\"\"|\"\"\"\s*$")
-		self.__multiLineDoubleString = QRegExp(r"^\s*'''|'''\s*$")
+		self.rules = []
 
-		self.rules = Rules()
-		self.rules.keyword = Rule(pattern=QRegExp(r"\b({0})\b".format(
-		self.__pythonTokens.getValue("keywords", "Tokens"))), format=self.formats.keyword)
-
-		self.rules.numericIntegerDecimal = Rule(pattern=QRegExp(
-										r"\b[-+]?[1-9]+\d*|0\b"),
-										format=self.formats.numericIntegerDecimal)
-		self.rules.numericIntegerLongDecimal = Rule(pattern=QRegExp(
-												r"\b([-+]?[1-9]+\d*|0)L\b"),
-												format=self.formats.numericIntegerLongDecimal)
-		self.rules.numericIntegerLongHexadecimal = Rule(pattern=QRegExp(
-													r"\b[-+]?0x[a-fA-F\d]+L\b"),
-													format=self.formats.numericIntegerLongHexadecimal)
-		self.rules.numericIntegerHexadecimal = Rule(pattern=QRegExp(
-												r"\b[-+]?0x[a-fA-F\d]+\b"),
-												format=self.formats.numericIntegerHexadecimal)
-		self.rules.numericIntegerLongHexadecimal = Rule(pattern=QRegExp(
-													r"\b[-+]?0x[a-fA-F\d]+L\b"),
-													format=self.formats.numericIntegerLongHexadecimal)
-		self.rules.numericIntegerOctal = Rule(pattern=QRegExp(
-										r"\b[-+]?0[0-7]+\b"),
-										format=self.formats.numericIntegerOctal)
-		self.rules.numericIntegerLongOctal = Rule(pattern=QRegExp(
-											r"\b[-+]?0[0-7]+L\b"),
-											format=self.formats.numericIntegerLongOctal)
-		self.rules.numericFloat = Rule(pattern=QRegExp(
-								r"[-+]?\d*\.?\d+([eE][-+]?\d+)?"),
-								format=self.formats.numericFloat)
-		self.rules.numericComplex = Rule(pattern=QRegExp(
-									r"[-+]?\d*\.?\d+([eE][-+]?\d+)?\s*\s*[-+]?\d*\.?\d+([eE][-+]?\d+)?[jJ]"),
-									format=self.formats.numericComplex)
-
-		self.rules.modifierGlobal = Rule(pattern=QRegExp(
-									r"\b(global)\b"),
-									format=self.formats.modifierGlobal)
-		self.rules.modifierSpecialGlobal = Rule(pattern=QRegExp(
-											r"\b[A-Z_]+\b"),
-											format=self.formats.modifierSpecialGlobal)
-
-		self.rules.operatorComparison = Rule(pattern=QRegExp(
-										r"<\=|>\=|\=\=|<|>|\!\="),
-										format=self.formats.operatorComparison)
-		self.rules.operatorAssignement = Rule(pattern=QRegExp(
-										r"\="),
-										format=self.formats.operatorAssignement)
-		self.rules.operatorAssignementAugmented = Rule(pattern=QRegExp(
-												r"\+\=|-\=|\*\=|/\=|//\=|%\=|&\=|\|\=|\^\=|>>\=|<<\=|\*\*\="),
-												format=self.formats.operatorAssignementAugmented)
-		self.rules.operatorArithmetic = Rule(pattern=QRegExp(
-										r"\+|\-|\*|\*\*|/|//|%|<<|>>|&|\||\^|~"),
-										format=self.formats.operatorArithmetic)
-
-		# This rules don't work: QRegExp lacks of lookbehind support.		
-		self.rules.entityClass = Rule(pattern=QRegExp(
-								r"(?<=class\s)\w+(?=\s?\(\)\s?:)"),
-								format=self.formats.entityClass)
-		self.rules.entityFunction = Rule(pattern=QRegExp(
-									r"(?<=def\s)\w+(?=\s?\(\)\s?:)"),
-									format=self.formats.entityFunction)
-
-		self.rules.entityDecorator = Rule(pattern=QRegExp(
-									r"@[\w\.]+"),
-									format=self.formats.entityDecorator)
-
-		self.rules.builtinsExceptions = Rule(pattern=QRegExp(
-									r"\b({0})\b".format(self.__pythonTokens.getValue("builtinsExceptions", "Tokens"))),
-									format=self.formats.builtinsExceptions)
-		self.rules.builtinsFunctions = Rule(pattern=QRegExp(
-									r"\b({0})\b".format(self.__pythonTokens.getValue("builtinsFunctions", "Tokens"))),
-									format=self.formats.builtinsFunctions)
-		self.rules.builtinsMiscellaneous = Rule(pattern=QRegExp(
-									r"\b({0})\b".format(self.__pythonTokens.getValue("builtinsMiscellaneous", "Tokens"))),
-									format=self.formats.builtinsMiscellaneous)
-		self.rules.builtinsObjectMethods = Rule(pattern=QRegExp(
-									r"\b({0})\b".format(self.__pythonTokens.getValue("builtinsObjectMethods", "Tokens"))),
-									format=self.formats.builtinsObjectMethods)
-		self.rules.magicMethods = Rule(pattern=QRegExp(
-									r"\b({0})\b".format(self.__pythonTokens.getValue("magicMethods", "Tokens"))),
-		 							format=self.formats.magicMethods)
-
-		self.rules.magicObject = Rule(pattern=QRegExp(
-			r"\b(?:(?!({0}|{1}|{2}))__\w+__)\b".format(self.__pythonTokens.getValue("builtinsMiscellaneous", "Tokens"), 
-			self.__pythonTokens.getValue("builtinsObjectMethods", "Tokens"),
-			self.__pythonTokens.getValue("magicMethods", "Tokens"))),
-			format=self.formats.magicObject)
-
-		self.rules.decoratorArgument = Rule(pattern=QRegExp(
-										r"\bself\b"),
-										format=self.formats.decoratorArgument)
-
-		self.rules.doubleQuotation = Rule(pattern=QRegExp(
-									r"\"([^\"\\]|\\.)*\""),
-									format=self.formats.doubleQuotation)
-		self.rules.singleQuotation = Rule(pattern=QRegExp(
-									r"'([^'\\]|\\.)*'"),
-									format=self.formats.singleQuotation)
-
-		self.rules.singleLineComment = Rule(pattern=QRegExp(
-									r"#.*$\n?"),
-									format=self.formats.singleLineComment)
+		for attribute in self.__parser.sections["Rules"]:
+			pattern = self.__parser.getValue(attribute, "Rules")
+			if "@Tokens" in pattern:
+				pattern = pattern.replace("@Tokens",
+							self.__parser.getValue(foundations.namespace.removeNamespace(attribute), "Tokens"))
+			self.rules.append(Rule(name=foundations.namespace.removeNamespace(attribute),
+								pattern=QRegExp(pattern)))
 
 	# @core.executionTrace
 	def highlightBlock(self, block):
@@ -678,19 +642,26 @@ class PythonHighlighter(Highlighter):
 		self.highlightText(block, 0, len(block))
 		self.setCurrentBlockState(0)
 
-		not self.highlightMultilineBlock(block, self.__multiLineSingleString, 1, self.formats.multiLineString) and \
-		self.highlightMultilineBlock(block, self.__multiLineDoubleString, 2, self.formats.multiLineString)
+		state = 1
+		for rule in self.rules:
+			if re.match("comment\.block\.[\w+.]+start", rule.name):
+				format = self.formats.getFormat(rule.name) or self.formats.getFormat("default")
+				if self.highlightMultilineBlock(block, rule.pattern, [item for item in self.rules
+										if item.name == rule.name.replace("start", "end")][0].pattern, state, format):
+					break
+				state += 1
 
 	# @core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def highlightMultilineBlock(self, block, pattern, state, format):
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def highlightMultilineBlock(self, block, startPattern, endPattern, state, format):
 		"""
 		This method highlights given multiline text block.
 
 		:param block: Text block. ( QString )
-		:param pattern: Regex pattern. ( QRegExp )
-		:param state: Block state. ( Integer )
+		:param pattern: Start regex pattern. ( QRegExp )
+		:param pattern: End regex pattern. ( QRegExp )
 		:param format: Format. ( QTextCharFormat )
+		:param state: Block state. ( Integer )
 		:return: Current block matching state. ( Boolean )
 		"""
 
@@ -698,21 +669,110 @@ class PythonHighlighter(Highlighter):
 			start = 0
 			extend = 0
 		else:
-			start = pattern.indexIn(block)
-			extend = pattern.matchedLength()
+			start = startPattern.indexIn(block)
+			extend = startPattern.matchedLength()
 
 		while start >= 0:
-			end = pattern.indexIn(block, start + extend)
+			end = endPattern.indexIn(block, start + extend)
 			if end >= extend:
-				length = end - start + extend + pattern.matchedLength()
+				length = end - start + extend + endPattern.matchedLength()
 				self.setCurrentBlockState(0)
 			else:
 				self.setCurrentBlockState(state)
 				length = block.length() - start + extend
 			self.setFormat(start, length, format)
-			start = pattern.indexIn(block, start + length)
+			start = startPattern.indexIn(block, start + length)
 
 		if self.currentBlockState() == state:
 			return True
 		else:
 			return False
+
+class LoggingHighlighter(AbstractHighlighter):
+	"""
+	This class is a :class:`AbstractHighlighter` subclass providing syntax highlighting for Application logging documents.
+	"""
+
+	@core.executionTrace
+	def __init__(self, parent=None):
+		"""
+		This method initializes the class.
+
+		:param parent: Widget parent. ( QObject )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		QSyntaxHighlighter.__init__(self, parent)
+
+		self.__setFormats()
+		self.__setRules()
+
+	#******************************************************************************************************************
+	#***	Class methods.
+	#******************************************************************************************************************
+	@core.executionTrace
+	def __setFormats(self):
+		"""
+		This method sets the highlighting formats.
+		"""
+
+		self.formats = FormatsTree(DEFAULT_THEME)
+#		self.formats = Formats(default=getFormat(color=QColor(192, 192, 192)))
+#
+#		self.formats.loggingCritical = getFormat(format=self.formats.default,
+#												color=QColor(48, 48, 48),
+#												backgroundColor=QColor(255, 64, 64))
+#		self.formats.loggingError = getFormat(format=self.formats.default,
+#											color=QColor(255, 64, 64))
+#		self.formats.loggingWarning = getFormat(format=self.formats.default,
+#												color=QColor(255, 128, 0))
+#		self.formats.loggingInfo = getFormat(format=self.formats.default)
+#		self.formats.loggingDebug = getFormat(format=self.formats.default,
+#											italic=True)
+#
+#		self.formats.loggingDebugTraceIn = getFormat(format=self.formats.loggingDebug,
+#													color=QColor(128, 160, 192))
+#		self.formats.loggingDebugTraceOut = getFormat(format=self.formats.loggingDebug,
+#													color=QColor(QColor(192, 160, 128)))
+
+	@core.executionTrace
+	def __setRules(self):
+		"""
+		This method sets the highlighting rules.
+		"""
+
+		self.rules = []
+
+#		self.rules.loggingInfo = Rule(pattern=QRegExp(
+#								r"^INFO\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*INFO\s*:.*$"),
+#								format=self.formats.loggingInfo)
+#		self.rules.loggingCritical = Rule(pattern=QRegExp(
+#									r"^CRITICAL\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*CRITICAL\s*:.*$"),
+#									format=self.formats.loggingCritical)
+#		self.rules.loggingError = Rule(pattern=QRegExp(
+#								r"^ERROR\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*ERROR\s*:.*$"),
+#								format=self.formats.loggingError)
+#		self.rules.loggingWarning = Rule(pattern=QRegExp(
+#									r"^WARNING\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*WARNING\s*:.*$"),
+#									format=self.formats.loggingWarning)
+#		self.rules.loggingDebug = Rule(pattern=QRegExp(
+#								r"^DEBUG\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:.*$"),
+#								format=self.formats.loggingDebug)
+#
+#		self.rules.loggingDebugTraceIn = Rule(pattern=QRegExp(
+#								r"^DEBUG\s*:\s--->>>.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:\s--->>>.*$"),
+#								format=self.formats.loggingDebugTraceIn)
+#		self.rules.loggingDebugTraceOut = Rule(pattern=QRegExp(
+#								r"^DEBUG\s*:\s---<<<.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:\s---<<<.*$"),
+#								format=self.formats.loggingDebugTraceOut)
+
+	# @core.executionTrace
+	def highlightBlock(self, block):
+		"""
+		This method highlights given text block.
+
+		:param block: Text block. ( QString )
+		"""
+
+		self.highlightText(block, 0, len(block))
