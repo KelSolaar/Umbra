@@ -17,6 +17,7 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
+import inspect
 import logging
 import os
 import platform
@@ -119,33 +120,33 @@ def getLanguageDescription(file):
 	"""
 
 	sectionParser = umbra.ui.common.getSectionsFileParser(file)
-	
+
 	name = sectionParser.getValue("Name", "Language")
 	if not name:
 		raise umbra.components.factory.scriptEditor.exceptions.LanguageGrammarError(
 		"{0} | '{1}' attribute not found in '{2}' file!".format(
-			self.__class__.__name__, "Language|Name", self.__file))
+			inspect.getmodulename(__file__), "Language|Name", file))
 
 	extensions = sectionParser.getValue("Extensions", "Language")
 	if not extensions:
 		raise umbra.components.factory.scriptEditor.exceptions.LanguageGrammarError(
 		"{0} | '{1}' attribute not found in '{2}' file!".format(
-			self.__class__.__name__, "Language|Extensions", self.__file))
-	
+			inspect.getmodulename(__file__), "Language|Extensions", file))
+
 	highlighter = getObjectFromLanguageAccelerators(sectionParser.getValue("Highlighter", "Accelerators"))
 	completer = getObjectFromLanguageAccelerators(sectionParser.getValue("Completer", "Accelerators"))
 	preInputAccelerators = sectionParser.getValue("PreInputAccelerators", "Accelerators")
 	preInputAccelerators = preInputAccelerators and [getObjectFromLanguageAccelerators(accelerator)
 													for accelerator in preInputAccelerators.split("|")] or ()
-	postInputAccelerators =sectionParser.getValue("PostInputAccelerators", "Accelerators")
+	postInputAccelerators = sectionParser.getValue("PostInputAccelerators", "Accelerators")
 	postInputAccelerators = postInputAccelerators and [getObjectFromLanguageAccelerators(accelerator)
 													for accelerator in postInputAccelerators.split("|")] or ()
-	
-	indentMarker = sectionParser.getValue("IndentMarker", "Syntax") or "\t",
-	commentMarker = sectionParser.getValue("CommentMarker", "Syntax") or str(),
+
+	indentMarker = sectionParser.sectionExists("Syntax") and sectionParser.getValue("IndentMarker", "Syntax") or "\t"
+	commentMarker = sectionParser.sectionExists("Syntax") and sectionParser.getValue("CommentMarker", "Syntax") or str()
 	theme = getObjectFromLanguageAccelerators(sectionParser.getValue("Theme", "Accelerators")) or \
 			umbra.ui.highlighters.DEFAULT_THEME
-	
+
 	return Language(name=name,
 				extensions=extensions,
 				highlighter=highlighter,
