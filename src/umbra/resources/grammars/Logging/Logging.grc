@@ -1,0 +1,10 @@
+[Language]
+Name = "Logging"
+Extensions = "\.log"
+
+[Accelerators]
+Highlighter = "DefaultHighlighter"
+Theme = "LoggingTheme"
+
+[Rules]
+logging.message = "^INFO\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*INFO\s*:.*$"

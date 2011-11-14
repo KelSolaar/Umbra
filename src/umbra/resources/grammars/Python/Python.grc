@@ -11,6 +11,7 @@ Highlighter = "DefaultHighlighter"
 Completer = "DefaultCompleter"
 PreInputAccelerators = "indentationPreEventInputAccelerators|symbolsExpandingPreEventInputAccelerators|completionPreEventInputAccelerators"
 PostInputAccelerators = "completionPostEventInputAccelerators|pythonPostEventInputAccelerators"
+Theme = "DefaultTheme"
 
 [Tokens]
 keyword.control.import.python = "import|from"

@@ -34,6 +34,7 @@ import foundations.core as core
 import foundations.exceptions
 import foundations.io as io
 import foundations.strings
+import umbra.components.factory.scriptEditor.exceptions
 import umbra.ui.common
 import umbra.ui.completers
 import umbra.ui.highlighters
@@ -70,7 +71,9 @@ LANGUAGES_ACCELERATORS = {"DefaultHighlighter" : umbra.ui.highlighters.DefaultHi
 						"symbolsExpandingPreEventInputAccelerators" :
 						umbra.ui.inputAccelerators.symbolsExpandingPreEventInputAccelerators,
 						"pythonPostEventInputAccelerators" :
-						umbra.ui.inputAccelerators.pythonPostEventInputAccelerators}
+						umbra.ui.inputAccelerators.pythonPostEventInputAccelerators,
+						"DefaultTheme" : umbra.ui.highlighters.DEFAULT_THEME,
+						"LoggingTheme" : umbra.ui.highlighters.LOGGING_THEME}
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -104,7 +107,10 @@ def getObjectFromLanguageAccelerators(accelerator):
 	return LANGUAGES_ACCELERATORS.get(accelerator)
 
 @core.executionTrace
-def getLanguageDescription(file, theme=umbra.ui.highlighters.DEFAULT_THEME):
+@foundations.exceptions.exceptionsHandler(None,
+False,
+umbra.components.factory.scriptEditor.exceptions.LanguageGrammarError)
+def getLanguageDescription(file):
 	"""
 	This definition gets the language description from given language grammar file.
 
@@ -113,16 +119,41 @@ def getLanguageDescription(file, theme=umbra.ui.highlighters.DEFAULT_THEME):
 	"""
 
 	sectionParser = umbra.ui.common.getSectionsFileParser(file)
-	return Language(name=sectionParser.getValue("Name", "Language"),
-				extensions=sectionParser.getValue("Extensions", "Language"),
-				highlighter=getObjectFromLanguageAccelerators(sectionParser.getValue("Highlighter", "Accelerators")),
-				completer=getObjectFromLanguageAccelerators(sectionParser.getValue("Completer", "Accelerators")),
-				preInputAccelerators=[getObjectFromLanguageAccelerators(accelerator)
-				for accelerator in sectionParser.getValue("PreInputAccelerators", "Accelerators").split("|")],
-				postInputAccelerators=[getObjectFromLanguageAccelerators(accelerator)
-				for accelerator in sectionParser.getValue("PostInputAccelerators", "Accelerators").split("|")],
-				indentMarker=sectionParser.getValue("IndentMarker", "Syntax"),
-				commentMarker=sectionParser.getValue("CommentMarker", "Syntax"),
+	
+	name = sectionParser.getValue("Name", "Language")
+	if not name:
+		raise umbra.components.factory.scriptEditor.exceptions.LanguageGrammarError(
+		"{0} | '{1}' attribute not found in '{2}' file!".format(
+			self.__class__.__name__, "Language|Name", self.__file))
+
+	extensions = sectionParser.getValue("Extensions", "Language")
+	if not extensions:
+		raise umbra.components.factory.scriptEditor.exceptions.LanguageGrammarError(
+		"{0} | '{1}' attribute not found in '{2}' file!".format(
+			self.__class__.__name__, "Language|Extensions", self.__file))
+	
+	highlighter = getObjectFromLanguageAccelerators(sectionParser.getValue("Highlighter", "Accelerators"))
+	completer = getObjectFromLanguageAccelerators(sectionParser.getValue("Completer", "Accelerators"))
+	preInputAccelerators = sectionParser.getValue("PreInputAccelerators", "Accelerators")
+	preInputAccelerators = preInputAccelerators and [getObjectFromLanguageAccelerators(accelerator)
+													for accelerator in preInputAccelerators.split("|")] or ()
+	postInputAccelerators =sectionParser.getValue("PostInputAccelerators", "Accelerators")
+	postInputAccelerators = postInputAccelerators and [getObjectFromLanguageAccelerators(accelerator)
+													for accelerator in postInputAccelerators.split("|")] or ()
+	
+	indentMarker = sectionParser.getValue("IndentMarker", "Syntax") or "\t",
+	commentMarker = sectionParser.getValue("CommentMarker", "Syntax") or str(),
+	theme = getObjectFromLanguageAccelerators(sectionParser.getValue("Theme", "Accelerators")) or \
+			umbra.ui.highlighters.DEFAULT_THEME
+	
+	return Language(name=name,
+				extensions=extensions,
+				highlighter=highlighter,
+				completer=completer,
+				preInputAccelerators=preInputAccelerators,
+				postInputAccelerators=postInputAccelerators,
+				indentMarker=indentMarker,
+				commentMarker=commentMarker,
 				parser=sectionParser,
 				theme=theme)
 

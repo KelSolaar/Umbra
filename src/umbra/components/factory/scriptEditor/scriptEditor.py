@@ -1450,8 +1450,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method sets the **Script_Editor_Output_plainTextEdit** Widget.
 		"""
 
-		self.Script_Editor_Output_plainTextEdit.highlighter = umbra.ui.highlighters.LoggingHighlighter(
-																	self.Script_Editor_Output_plainTextEdit.document())
+#		 self.Script_Editor_Output_plainTextEdit.highlighter = umbra.ui.highlighters.LoggingHighlighter(
+#																 self.Script_Editor_Output_plainTextEdit.document())
 		self.Script_Editor_Output_plainTextEdit.setTabStopWidth(self.__indentWidth)
 		self.Script_Editor_Output_plainTextEdit.setWordWrapMode(QTextOption.NoWrap)
 		if platform.system() == "Windows" or platform.system() == "Microsoft":

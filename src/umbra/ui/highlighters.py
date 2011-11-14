@@ -51,6 +51,7 @@ __all__ = ["LOGGER",
 			"getFormat",
 			"DEFAULT_FORMAT",
 			"DEFAULT_THEME",
+			"LOGGING_THEME",
 			"Rule",
 			"FormatNode",
 			"FormatsTree",
@@ -96,7 +97,7 @@ def getFormat(**kwargs):
 #**********************************************************************************************************************
 DEFAULT_FORMAT = getFormat(color=QColor(192, 192, 192))
 
-DEFAULT_THEME = {"default" : None,
+DEFAULT_THEME = {"default" : DEFAULT_FORMAT,
 			"comment" : getFormat(format=DEFAULT_FORMAT, color=QColor(96, 96, 96)),
 			"comment.line" : None,
 			"comment.line.double-slash" : None,
@@ -165,6 +166,16 @@ DEFAULT_THEME = {"default" : None,
 			"variable.parameter" : None,
 			"variable.language" : getFormat(format=DEFAULT_FORMAT, italic=True),
 			"variable.language.other" : None}
+
+LOGGING_THEME = {"default" : DEFAULT_FORMAT,
+			"logging.message" : getFormat(format=DEFAULT_FORMAT, color=QColor(96, 96, 96)),
+			"logging.message.critical" : getFormat(format=DEFAULT_FORMAT, color=QColor(48, 48, 48),
+										backgroundColor=QColor(255, 64, 64)),
+			"logging.message.error" : getFormat(format=DEFAULT_FORMAT, color=QColor(255, 64, 64)),
+			"logging.message.warning" : getFormat(format=DEFAULT_FORMAT, color=QColor(255, 128, 0)),
+			"logging.message.debug" : getFormat(format=DEFAULT_FORMAT, italic=True),
+			"logging.message.debug.trace.in" : getFormat(format=DEFAULT_FORMAT, color=QColor(128, 160, 192), italic=True),
+			"logging.message.debug.trace.out" : getFormat(format=DEFAULT_FORMAT, color=QColor(192, 160, 128), italic=True)}
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -687,92 +698,3 @@ class DefaultHighlighter(AbstractHighlighter):
 			return True
 		else:
 			return False
-
-class LoggingHighlighter(AbstractHighlighter):
-	"""
-	This class is a :class:`AbstractHighlighter` subclass providing syntax highlighting for Application logging documents.
-	"""
-
-	@core.executionTrace
-	def __init__(self, parent=None):
-		"""
-		This method initializes the class.
-
-		:param parent: Widget parent. ( QObject )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		QSyntaxHighlighter.__init__(self, parent)
-
-		self.__setFormats()
-		self.__setRules()
-
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	@core.executionTrace
-	def __setFormats(self):
-		"""
-		This method sets the highlighting formats.
-		"""
-
-		self.formats = FormatsTree(DEFAULT_THEME)
-#		self.formats = Formats(default=getFormat(color=QColor(192, 192, 192)))
-#
-#		self.formats.loggingCritical = getFormat(format=self.formats.default,
-#												color=QColor(48, 48, 48),
-#												backgroundColor=QColor(255, 64, 64))
-#		self.formats.loggingError = getFormat(format=self.formats.default,
-#											color=QColor(255, 64, 64))
-#		self.formats.loggingWarning = getFormat(format=self.formats.default,
-#												color=QColor(255, 128, 0))
-#		self.formats.loggingInfo = getFormat(format=self.formats.default)
-#		self.formats.loggingDebug = getFormat(format=self.formats.default,
-#											italic=True)
-#
-#		self.formats.loggingDebugTraceIn = getFormat(format=self.formats.loggingDebug,
-#													color=QColor(128, 160, 192))
-#		self.formats.loggingDebugTraceOut = getFormat(format=self.formats.loggingDebug,
-#													color=QColor(QColor(192, 160, 128)))
-
-	@core.executionTrace
-	def __setRules(self):
-		"""
-		This method sets the highlighting rules.
-		"""
-
-		self.rules = []
-
-#		self.rules.loggingInfo = Rule(pattern=QRegExp(
-#								r"^INFO\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*INFO\s*:.*$"),
-#								format=self.formats.loggingInfo)
-#		self.rules.loggingCritical = Rule(pattern=QRegExp(
-#									r"^CRITICAL\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*CRITICAL\s*:.*$"),
-#									format=self.formats.loggingCritical)
-#		self.rules.loggingError = Rule(pattern=QRegExp(
-#								r"^ERROR\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*ERROR\s*:.*$"),
-#								format=self.formats.loggingError)
-#		self.rules.loggingWarning = Rule(pattern=QRegExp(
-#									r"^WARNING\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*WARNING\s*:.*$"),
-#									format=self.formats.loggingWarning)
-#		self.rules.loggingDebug = Rule(pattern=QRegExp(
-#								r"^DEBUG\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:.*$"),
-#								format=self.formats.loggingDebug)
-#
-#		self.rules.loggingDebugTraceIn = Rule(pattern=QRegExp(
-#								r"^DEBUG\s*:\s--->>>.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:\s--->>>.*$"),
-#								format=self.formats.loggingDebugTraceIn)
-#		self.rules.loggingDebugTraceOut = Rule(pattern=QRegExp(
-#								r"^DEBUG\s*:\s---<<<.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:\s---<<<.*$"),
-#								format=self.formats.loggingDebugTraceOut)
-
-	# @core.executionTrace
-	def highlightBlock(self, block):
-		"""
-		This method highlights given text block.
-
-		:param block: Text block. ( QString )
-		"""
-
-		self.highlightText(block, 0, len(block))
