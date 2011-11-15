@@ -634,6 +634,10 @@ class DefaultHighlighter(AbstractHighlighter):
 
 		self.rules = []
 
+		attributes = self.__parser.sections.get("Rules")
+		if not attributes:
+			return
+
 		for attribute in self.__parser.sections["Rules"]:
 			pattern = self.__parser.getValue(attribute, "Rules")
 			if "@Tokens" in pattern:
