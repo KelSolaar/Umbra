@@ -38,6 +38,11 @@ keyword.control.flow.python = "\b(@Tokens)\b"
 keyword.operator.logical.python = "\b(@Tokens)\b"
 keyword.other.python = "\b(@Tokens)\b"
 
+keyword.operator.comparison.python = "<\=|>\=|\=\=|<|>|\!\="
+keyword.operator.assignment.augmented.python = "\+\=|-\=|\*\=|/\=|//\=|%\=|&\=|\|\=|\^\=|>>\=|<<\=|\*\*\="
+keyword.operator.arithmetic.python = "\+|\-|\*|\*\*|/|//|%|<<|>>|&|\||\^|~"
+keyword.operator.assignment.python = "\="
+
 constant.language.python = "\b(@Tokens)\b"
 
 constant.numeric.integer.long.hexadecimal.python = "\b[-+]?0x[a-fA-F\d]+L\b"
@@ -48,11 +53,6 @@ constant.numeric.complex.python = "[-+]?\d*\.?\d+([eE][-+]?\d+)?\s*\s*[-+]?\d*\.
 constant.numeric.float.python = "[-+]?\d*\.?\d+([eE][-+]?\d+)?"
 constant.numeric.integer.long.decimal.python = "\b([-+]?[1-9]+\d*|0)L\b"
 constant.numeric.integer.decimal.python = r"\b[-+]?[1-9]+\d*|0\b"
-
-keyword.operator.comparison.python = "<\=|>\=|\=\=|<|>|\!\="
-keyword.operator.assignment.augmented.python = "\+\=|-\=|\*\=|/\=|//\=|%\=|&\=|\|\=|\^\=|>>\=|<<\=|\*\*\="
-keyword.operator.arithmetic.python = "\+|\-|\*|\*\*|/|//|%|<<|>>|&|\||\^|~"
-keyword.operator.assignment.python = "\="
 
 storage.type.function.python = "\b(@Tokens)\b"
 storage.type.class.python = "\b(@Tokens)\b"
