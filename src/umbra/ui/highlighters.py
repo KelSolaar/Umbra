@@ -30,11 +30,9 @@ from PyQt4.QtGui import QTextCharFormat
 import foundations.core as core
 import foundations.exceptions
 import foundations.namespace
-import umbra.ui.common
 from foundations.dag import AbstractCompositeNode
 from foundations.parsers import SectionsFileParser
 from umbra.globals.constants import Constants
-from umbra.globals.uiConstants import UiConstants
 from umbra.ui.models import DefaultNode
 
 #**********************************************************************************************************************
@@ -162,9 +160,9 @@ DEFAULT_THEME = {"default" : DEFAULT_FORMAT,
 			"support.constant" : None,
 			"support.variable" : None,
 			"support.other" : None,
-			"variable" : None,
+			"variable" : getFormat(format=DEFAULT_FORMAT, italic=True),
 			"variable.parameter" : None,
-			"variable.language" : getFormat(format=DEFAULT_FORMAT, italic=True),
+			"variable.language" : None,
 			"variable.language.other" : None}
 
 LOGGING_THEME = {"default" : DEFAULT_FORMAT,
