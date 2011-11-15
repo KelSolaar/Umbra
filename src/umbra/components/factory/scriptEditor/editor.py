@@ -35,12 +35,12 @@ import foundations.core as core
 import foundations.exceptions
 import foundations.io as io
 import foundations.strings
-import umbra.components.factory.scriptEditor.exceptions
 import umbra.ui.common
 import umbra.ui.completers
 import umbra.ui.highlighters
 import umbra.ui.inputAccelerators
 import umbra.ui.widgets.messageBox as messageBox
+from umbra.components.factory.scriptEditor.exceptions import LanguageGrammarError
 from umbra.globals.constants import Constants
 from umbra.globals.uiConstants import UiConstants
 from umbra.ui.widgets.codeEditor_QPlainTextEdit import CodeEditor_QPlainTextEdit
@@ -55,7 +55,15 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "PYTHON_GRAMMAR_FILE", "LANGUAGES_CAPABILITIES", "Language", "getObjectFromLanguageCapability", "getLanguageDescription", "getPythonLanguage", "PYTHON_LANGUAGE", "Editor"]
+__all__ = ["LOGGER",
+		"PYTHON_GRAMMAR_FILE",
+		"LANGUAGES_CAPABILITIES",
+		"Language",
+		"getObjectFromLanguageCapability",
+		"getLanguageDescription",
+		"getPythonLanguage",
+		"PYTHON_LANGUAGE",
+		"Editor"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -108,9 +116,7 @@ def getObjectFromLanguageAccelerators(accelerator):
 	return LANGUAGES_ACCELERATORS.get(accelerator)
 
 @core.executionTrace
-@foundations.exceptions.exceptionsHandler(None,
-False,
-umbra.components.factory.scriptEditor.exceptions.LanguageGrammarError)
+@foundations.exceptions.exceptionsHandler(None, False, LanguageGrammarError)
 def getLanguageDescription(file):
 	"""
 	This definition gets the language description from given language grammar file.
@@ -123,14 +129,12 @@ def getLanguageDescription(file):
 
 	name = sectionParser.getValue("Name", "Language")
 	if not name:
-		raise umbra.components.factory.scriptEditor.exceptions.LanguageGrammarError(
-		"{0} | '{1}' attribute not found in '{2}' file!".format(
+		raise LanguageGrammarError("{0} | '{1}' attribute not found in '{2}' file!".format(
 			inspect.getmodulename(__file__), "Language|Name", file))
 
 	extensions = sectionParser.getValue("Extensions", "Language")
 	if not extensions:
-		raise umbra.components.factory.scriptEditor.exceptions.LanguageGrammarError(
-		"{0} | '{1}' attribute not found in '{2}' file!".format(
+		raise LanguageGrammarError("{0} | '{1}' attribute not found in '{2}' file!".format(
 			inspect.getmodulename(__file__), "Language|Extensions", file))
 
 	highlighter = getObjectFromLanguageAccelerators(sectionParser.getValue("Highlighter", "Accelerators"))

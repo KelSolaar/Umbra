@@ -73,7 +73,7 @@ class ReadOnlyFilter(QObject):
 	for the :class:`Abstract_QListView` and :class:`Abstract_QTreeView` classes.
 	"""
 
-	@core.executionTrace
+	# @core.executionTrace
 	def eventFilter(self, object, event):
 		"""
 		This method reimplements the **QObject.eventFilter** method.
