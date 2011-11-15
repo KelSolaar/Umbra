@@ -120,4 +120,6 @@ class UiConstants():
 	"""Restore geometry on layout change: '**False**' ( Boolean )"""
 
 	pythonGrammarFile = "grammars/Python/Python.grc"
-	"""Python tokens file: '**grammars/Python/Python.grc**' ( String )"""
+	"""Python language grammar file: '**grammars/Python/Python.grc**' ( String )"""
+	loggingGrammarFile = "grammars/Logging/Logging.grc"
+	"""Logging language grammar file: '**grammars/Logging/Logging.grc**' ( String )"""

@@ -52,8 +52,10 @@ import umbra.engine
 import umbra.ui.common
 import umbra.ui.highlighters
 from manager.qwidgetComponent import QWidgetComponentFactory
-from umbra.components.factory.scriptEditor.editor import getLanguageDescription
 from umbra.components.factory.scriptEditor.editor import Editor
+from umbra.components.factory.scriptEditor.editor import getLanguageDescription
+from umbra.components.factory.scriptEditor.editor import LOGGING_LANGUAGE
+from umbra.components.factory.scriptEditor.editor import PYTHON_LANGUAGE
 from umbra.components.factory.scriptEditor.editorStatus import EditorStatus
 from umbra.components.factory.scriptEditor.models import LanguagesModel
 from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace
@@ -1450,8 +1452,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method sets the **Script_Editor_Output_plainTextEdit** Widget.
 		"""
 
-#		 self.Script_Editor_Output_plainTextEdit.highlighter = umbra.ui.highlighters.LoggingHighlighter(
-#																 self.Script_Editor_Output_plainTextEdit.document())
+		self.Script_Editor_Output_plainTextEdit.highlighter = umbra.ui.highlighters.DefaultHighlighter(
+																 self.Script_Editor_Output_plainTextEdit.document(),
+																 LOGGING_LANGUAGE.parser,
+																 LOGGING_LANGUAGE.theme)
+
 		self.Script_Editor_Output_plainTextEdit.setTabStopWidth(self.__indentWidth)
 		self.Script_Editor_Output_plainTextEdit.setWordWrapMode(QTextOption.NoWrap)
 		if platform.system() == "Windows" or platform.system() == "Microsoft":
@@ -2020,14 +2025,19 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method initializes given file in the :obj:`ScriptEditor.languagesModel` class property.
 		"""
 
-		languages = []
+		languages = [PYTHON_LANGUAGE, LOGGING_LANGUAGE]
+		existingGrammarFiles = [os.path.normpath(language.file) for language in languages]
+
 		for directory in RuntimeGlobals.resourcesDirectories:
 			osWalker = foundations.walkers.OsWalker(directory)
 			osWalker.walk(("\.{0}$".format(self.__extension),), ("\._",))
 			for file in osWalker.files.values():
+				if os.path.normpath(file) in existingGrammarFiles:
+					continue
+
 				languages.append(getLanguageDescription(file))
 
-		self.__languagesModel = LanguagesModel(self, languages)
+		self.__languagesModel = LanguagesModel(self, sorted(languages, key=lambda x: (x.name)))
 
 	@core.executionTrace
 	def __registerFile(self, file):

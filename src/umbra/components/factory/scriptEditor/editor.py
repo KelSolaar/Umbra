@@ -57,17 +57,21 @@ __status__ = "Production"
 
 __all__ = ["LOGGER",
 		"PYTHON_GRAMMAR_FILE",
+		"LOGGING_GRAMMAR_FILE",
 		"LANGUAGES_CAPABILITIES",
 		"Language",
 		"getObjectFromLanguageCapability",
 		"getLanguageDescription",
 		"getPythonLanguage",
+		"getLoggingLanguage",
 		"PYTHON_LANGUAGE",
+		"LOGGING_LANGUAGE",
 		"Editor"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
 PYTHON_GRAMMAR_FILE = umbra.ui.common.getResourcePath(UiConstants.pythonGrammarFile)
+LOGGING_GRAMMAR_FILE = umbra.ui.common.getResourcePath(UiConstants.loggingGrammarFile)
 
 LANGUAGES_ACCELERATORS = {"DefaultHighlighter" : umbra.ui.highlighters.DefaultHighlighter,
 						"DefaultCompleter" : umbra.ui.completers.DefaultCompleter,
@@ -152,6 +156,7 @@ def getLanguageDescription(file):
 			umbra.ui.highlighters.DEFAULT_THEME
 
 	return Language(name=name,
+				file=file,
 				extensions=extensions,
 				highlighter=highlighter,
 				completer=completer,
@@ -172,10 +177,21 @@ def getPythonLanguage():
 
 	return getLanguageDescription(PYTHON_GRAMMAR_FILE)
 
+@core.executionTrace
+def getLoggingLanguage():
+	"""
+	This definition returns the Logging language description.
+
+	:return: Logging language description. ( Language )
+	"""
+
+	return getLanguageDescription(LOGGING_GRAMMAR_FILE)
+
 #**********************************************************************************************************************
 #***	Module attributes.
 #**********************************************************************************************************************
 PYTHON_LANGUAGE = getPythonLanguage()
+LOGGING_LANGUAGE = getLoggingLanguage()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

@@ -168,7 +168,7 @@ DEFAULT_THEME = {"default" : DEFAULT_FORMAT,
 			"variable.language.other" : None}
 
 LOGGING_THEME = {"default" : DEFAULT_FORMAT,
-			"logging.message" : getFormat(format=DEFAULT_FORMAT, color=QColor(96, 96, 96)),
+			"logging.message" : getFormat(format=DEFAULT_FORMAT),
 			"logging.message.critical" : getFormat(format=DEFAULT_FORMAT, color=QColor(48, 48, 48),
 										backgroundColor=QColor(255, 64, 64)),
 			"logging.message.error" : getFormat(format=DEFAULT_FORMAT, color=QColor(255, 64, 64)),
