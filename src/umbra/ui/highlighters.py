@@ -103,7 +103,7 @@ DEFAULT_THEME = {"default" : DEFAULT_FORMAT,
 			"comment.line.number-sign" : None,
 			"comment.line.percentage" : None,
 			"comment.line.character" : None,
-			"comment.block" : None,
+			"comment.block" : getFormat(format=DEFAULT_FORMAT, color=QColor(128, 128, 128)),
 			"comment.block.documentation" : None,
 			"constant" : getFormat(format=DEFAULT_FORMAT, color=QColor(205, 105, 75)),
 			"constant.numeric" : None,
@@ -657,7 +657,7 @@ class DefaultHighlighter(AbstractHighlighter):
 
 		state = 1
 		for rule in self.rules:
-			if re.match("comment\.block\.[\w+.]+start", rule.name):
+			if re.match("comment\.block\.[\w\.]*start", rule.name):
 				format = self.formats.getFormat(rule.name) or self.formats.getFormat("default")
 				if self.highlightMultilineBlock(block, rule.pattern, [item for item in self.rules
 										if item.name == rule.name.replace("start", "end")][0].pattern, state, format):
