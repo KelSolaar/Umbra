@@ -174,7 +174,7 @@ def getLanguageDescription(grammarfile):
 				for line in iter(file):
 					tokens.append(line.strip())
 		else:
-			LOGGER.warning("!> {0} | '{1}' Dictionary file doesn't exists and will be skipped!".format(
+			LOGGER.warning("!> {0} | '{1}' language dictionary file doesn't exists and will be skipped!".format(
 				inspect.getmodulename(__file__), dictionaryFile))
 
 	theme = getObjectFromLanguageAccelerators(sectionsParser.getValue("Theme", "Accelerators")) or \
