@@ -172,7 +172,8 @@ def getLanguageDescription(grammarfile):
 		if os.path.exists(dictionaryFile):
 			with open(dictionaryFile, "r") as file:
 				for line in iter(file):
-					tokens.append(line.strip())
+					line = line.strip()
+					line and tokens.append(line)
 		else:
 			LOGGER.warning("!> {0} | '{1}' language dictionary file doesn't exists and will be skipped!".format(
 				inspect.getmodulename(__file__), dictionaryFile))
