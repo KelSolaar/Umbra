@@ -11,39 +11,21 @@ Highlighter = "DefaultHighlighter"
 Completer = "DefaultCompleter"
 PreInputAccelerators = "indentationPreEventInputAccelerators|symbolsExpandingPreEventInputAccelerators|completionPreEventInputAccelerators"
 PostInputAccelerators = "completionPostEventInputAccelerators|pythonPostEventInputAccelerators"
+Dictionary = "Python.drc"
 Theme = "DefaultTheme"
 
-[Tokens]
-keyword.control.import.python = "import|from"
-keyword.control.flow.python = "elif|else|except|finally|for|if|try|while|with|break|continue|pass|raise|return|yield"
-keyword.operator.logical.python = "and|in|is|not|or"
-keyword.other.python = "as|assert|del|exec|print"
-
-constant.language.python = "None|True|False|Ellipsis|NotImplemented"
-
-support.type.exception.python = "ArithmeticError|AssertionError|AttributeError|BaseException|BufferError|BytesWarning|DeprecationWarning|EOFError|EnvironmentError|Exception|FloatingPointError|FutureWarning|GeneratorExit|IOError|ImportError|ImportWarning|IndentationError|IndexError|KeyError|KeyboardInterrupt|LookupError|MemoryError|NameError|NotImplementedError|OSError|OverflowError|PendingDeprecationWarning|ReferenceError|RuntimeError|RuntimeWarning|StandardError|StopIteration|SyntaxError|SyntaxWarning|SystemError|SystemExit|TabError|TypeError|UnboundLocalError|UnicodeDecodeError|UnicodeEncodeError|UnicodeError|UnicodeTranslateError|UnicodeWarning|UserWarning|ValueError|Warning|ZeroDivisionError"
-support.function.builtin.python = "__import__|__debug__|__name__|__package__|all|abs|any|apply|callable|chr|cmp|coerce|compile|delattr|dir|divmod|eval|execfile|filter|getattr|globals|hasattr|hash|hex|id|input|intern|isinstance|issubclass|iter|len|locals|map|max|min|oct|ord|pow|range|raw_input|reduce|reload|repr|round|setattr|sorted|sum|unichr|vars|zip"
-support.type.python = "basestring|bool|buffer|classmethod|complex|dict|enumerate|file|float|frozenset|int|list|long|object|open|property|reversed|set|slice|staticmethod|str|super|tuple|type|unicode|xrange"
-support.method.builtin.python = "__class__|__delattr__|__doc__|__format__|__getattribute__|__hash__|__init__|__new__|__reduce__|__reduce_ex__|__repr__|__setattr__|__sizeof__|__str__|__subclasshook__"
-support.function.magic.python = "__abs__|__add__|__and__|__call__|__cmp__|__coerce__|__complex__|__contains__|__delete__|__delitem__|__delslice__|__del__|__divmod__|__div__|__enter__|__eq__|__exit__|__float__|__floordiv__|__getattr__|__getitem__|__getslice__|__get__|__ge__|__gt__|__hex__|__iadd__|__iand__|__idiv__|__ifloordiv__|__ilshift__|__imod__|__imul__|__index__|__int__|__invert__|__ior__|__ipow__|__irshift__|__isub__|__iter__|__itruediv__|__ixor__|__len__|__le__|__long__|__lshift__|__lt__|__mod__|__mul__|__neg__|__ne__|__nonzero__|__oct__|__or__|__pos__|__pow__|__radd__|__rand__|__rcmp__|__rdivmod__|__rdiv__|__reversed__|__rfloordiv__|__rlshift__|__rmod__|__rmul__|__ror__|__rpow__|__rrshift__|__rshift__|__rsub__|__rtruediv__|__rxor__|__setitem__|__setslice__|__set__|__sub__|__truediv__|__unicode__|__xor__"
-
-variable.language.python = "self"
-
-storage.type.function.python = "def|lambda"
-storage.type.class.python = "class"
-
 [Rules]
-keyword.control.import.python = "\b(@Tokens)\b"
-keyword.control.flow.python = "\b(@Tokens)\b"
-keyword.operator.logical.python = "\b(@Tokens)\b"
-keyword.other.python = "\b(@Tokens)\b"
+keyword.control.import.python = "\b(import|from)\b"
+keyword.control.flow.python = "\b(elif|else|except|finally|for|if|try|while|with|break|continue|pass|raise|return|yield)\b"
+keyword.operator.logical.python = "\b(and|in|is|not|or)\b"
+keyword.other.python = "\b(as|assert|del|exec|print)\b"
 
 keyword.operator.comparison.python = "<\=|>\=|\=\=|<|>|\!\="
 keyword.operator.assignment.augmented.python = "\+\=|-\=|\*\=|/\=|//\=|%\=|&\=|\|\=|\^\=|>>\=|<<\=|\*\*\="
 keyword.operator.arithmetic.python = "\+|\-|\*|\*\*|/|//|%|<<|>>|&|\||\^|~"
 keyword.operator.assignment.python = "\="
 
-constant.language.python = "\b(@Tokens)\b"
+constant.language.python = "\b(None|True|False|Ellipsis|NotImplemented)\b"
 
 constant.numeric.integer.long.hexadecimal.python = "\b[-+]?0x[a-fA-F\d]+L\b"
 constant.numeric.integer.hexadecimal.python = "\b[-+]?0x[a-fA-F\d]+\b"
@@ -54,21 +36,21 @@ constant.numeric.float.python = "[-+]?\d*\.?\d+([eE][-+]?\d+)?"
 constant.numeric.integer.long.decimal.python = "\b([-+]?[1-9]+\d*|0)L\b"
 constant.numeric.integer.decimal.python = r"\b[-+]?[1-9]+\d*|0\b"
 
-storage.type.function.python = "\b(@Tokens)\b"
-storage.type.class.python = "\b(@Tokens)\b"
+storage.type.function.python = "\b(def|lambda)\b"
+storage.type.class.python = "\b(class)\b"
 
 storage.modifier.global.python = "\b(global)\b"
 storage.modifier.others.python = "\b[A-Z_]+\b"
 
 entity.name.function.decorator.python = "@[\w\.]+"
 
-support.type.exception.python = "\b(@Tokens)\b"
-support.function.builtin.python = "\b(@Tokens)\b"
-support.type.python = "\b(@Tokens)\b"
-support.method.builtin.python = "\b(@Tokens)\b"
-support.function.magic.python = "\b(@Tokens)\b"
+support.type.exception.python = "\b(ArithmeticError|AssertionError|AttributeError|BaseException|BufferError|BytesWarning|DeprecationWarning|EOFError|EnvironmentError|Exception|FloatingPointError|FutureWarning|GeneratorExit|IOError|ImportError|ImportWarning|IndentationError|IndexError|KeyError|KeyboardInterrupt|LookupError|MemoryError|NameError|NotImplementedError|OSError|OverflowError|PendingDeprecationWarning|ReferenceError|RuntimeError|RuntimeWarning|StandardError|StopIteration|SyntaxError|SyntaxWarning|SystemError|SystemExit|TabError|TypeError|UnboundLocalError|UnicodeDecodeError|UnicodeEncodeError|UnicodeError|UnicodeTranslateError|UnicodeWarning|UserWarning|ValueError|Warning|ZeroDivisionError)\b"
+support.function.builtin.python = "\b(__import__|__debug__|__name__|__package__|all|abs|any|apply|callable|chr|cmp|coerce|compile|delattr|dir|divmod|eval|execfile|filter|getattr|globals|hasattr|hash|hex|id|input|intern|isinstance|issubclass|iter|len|locals|map|max|min|oct|ord|pow|range|raw_input|reduce|reload|repr|round|setattr|sorted|sum|unichr|vars|zip)\b"
+support.type.python = "\b(basestring|bool|buffer|classmethod|complex|dict|enumerate|file|float|frozenset|int|list|long|object|open|property|reversed|set|slice|staticmethod|str|super|tuple|type|unicode|xrange)\b"
+support.method.builtin.python = "\b(__class__|__delattr__|__doc__|__format__|__getattribute__|__hash__|__init__|__new__|__reduce__|__reduce_ex__|__repr__|__setattr__|__sizeof__|__str__|__subclasshook__)\b"
+support.function.magic.python = "\b(__abs__|__add__|__and__|__call__|__cmp__|__coerce__|__complex__|__contains__|__delete__|__delitem__|__delslice__|__del__|__divmod__|__div__|__enter__|__eq__|__exit__|__float__|__floordiv__|__getattr__|__getitem__|__getslice__|__get__|__ge__|__gt__|__hex__|__iadd__|__iand__|__idiv__|__ifloordiv__|__ilshift__|__imod__|__imul__|__index__|__int__|__invert__|__ior__|__ipow__|__irshift__|__isub__|__iter__|__itruediv__|__ixor__|__len__|__le__|__long__|__lshift__|__lt__|__mod__|__mul__|__neg__|__ne__|__nonzero__|__oct__|__or__|__pos__|__pow__|__radd__|__rand__|__rcmp__|__rdivmod__|__rdiv__|__reversed__|__rfloordiv__|__rlshift__|__rmod__|__rmul__|__ror__|__rpow__|__rrshift__|__rshift__|__rsub__|__rtruediv__|__rxor__|__setitem__|__setslice__|__set__|__sub__|__truediv__|__unicode__|__xor__)\b"
 
-variable.language.python = "\b(@Tokens)\b"
+variable.language.python = "\b(self)\b"
 
 string.quoted.double.python = "(\"([^\"\\]|\\.)*\")"
 string.quoted.single.python = "('([^'\\]|\\.)*')"

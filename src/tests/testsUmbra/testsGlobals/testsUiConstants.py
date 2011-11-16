@@ -84,7 +84,8 @@ class UiConstantsTestCase(unittest.TestCase):
 								"apiFile",
 								"restoreGeometryOnLayoutChange",
 								"pythonGrammarFile",
-								"loggingGrammarFile")
+								"loggingGrammarFile",
+								"textGrammarFile")
 
 		for attribute in requiredAttributes:
 			self.assertIn(attribute, UiConstants.__dict__)
@@ -348,6 +349,13 @@ class UiConstantsTestCase(unittest.TestCase):
 		"""
 
 		self.assertRegexpMatches(UiConstants.loggingGrammarFile, "\w+")
+
+	def testTextGrammarFileFileAttribute(self):
+		"""
+		This method tests :attr:`umbra.globals.uiConstants.UiConstants.textGrammarFile` attribute.
+		"""
+
+		self.assertRegexpMatches(UiConstants.textGrammarFile, "\w+")
 
 if __name__ == "__main__":
 	unittest.main()

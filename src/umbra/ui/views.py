@@ -150,7 +150,7 @@ class Abstract_QListView(QListView):
 		:param value: Attribute value. ( Boolean )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format("readOnly", value)
 		self.__readOnly = value
 
@@ -232,7 +232,7 @@ class Abstract_QTreeView(QTreeView):
 		:param value: Attribute value. ( Boolean )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format("readOnly", value)
 		self.__readOnly = value
 

@@ -123,3 +123,5 @@ class UiConstants():
 	"""Python language grammar file: '**grammars/Python/Python.grc**' ( String )"""
 	loggingGrammarFile = "grammars/Logging/Logging.grc"
 	"""Logging language grammar file: '**grammars/Logging/Logging.grc**' ( String )"""
+	textGrammarFile = "grammars/Text/Text.grc"
+	"""Text language grammar file: '**grammars/Text/Text.grc**' ( String )"""

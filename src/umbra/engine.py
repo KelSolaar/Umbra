@@ -531,7 +531,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( Tuple / List )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
 			"visibleComponents", value)
 			for element in value:
@@ -824,7 +824,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( Integer )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("verbosityLevel", value)
 			assert value >= 0 and value <= 4, "'{0}' attribute: Value need to be exactly beetween 0 and 4!".format(
 			"verbosityLevel")
@@ -891,7 +891,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( Tuple / List )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
 			"layoutsActiveLabels", value)
 			for element in value:
@@ -960,7 +960,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( QMenu )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is QMenu, "'{0}' attribute: '{1}' type is not 'QMenu'!".format("customLayoutsMenu", value)
 		self.__customLayoutsMenu = value
 
@@ -993,7 +993,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param value: Attribute value. ( QMenu )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is QMenu, "'{0}' attribute: '{1}' type is not 'QMenu'!".format("miscellaneousMenu", value)
 		self.__miscellaneousMenu = value
 

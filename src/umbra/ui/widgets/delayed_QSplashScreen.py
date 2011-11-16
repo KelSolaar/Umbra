@@ -94,7 +94,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 		:param value: Attribute value. ( Integer / Float )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) in (int, float), "'{0}' attribute: '{1}' type is not 'int' or 'float'!".format(
 			"waitTime", value)
 			assert value > 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("waitTime", value)

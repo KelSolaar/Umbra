@@ -1,0 +1,9 @@
+[Language]
+Name = "Text"
+Extensions = "\.txt"
+
+[Accelerators]
+Completer = "DefaultCompleter"
+PreInputAccelerators = "completionPreEventInputAccelerators"
+PostInputAccelerators = "completionPostEventInputAccelerators"
+Dictionary = "English_Words.drc"

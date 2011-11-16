@@ -56,6 +56,7 @@ from umbra.components.factory.scriptEditor.editor import Editor
 from umbra.components.factory.scriptEditor.editor import getLanguageDescription
 from umbra.components.factory.scriptEditor.editor import LOGGING_LANGUAGE
 from umbra.components.factory.scriptEditor.editor import PYTHON_LANGUAGE
+from umbra.components.factory.scriptEditor.editor import TEXT_LANGUAGE
 from umbra.components.factory.scriptEditor.editorStatus import EditorStatus
 from umbra.components.factory.scriptEditor.models import LanguagesModel
 from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace
@@ -770,7 +771,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param value: Attribute value. ( String )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
 			"scriptEditorFile", value)
 		self.__scriptEditorFile = value
@@ -1454,7 +1455,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.Script_Editor_Output_plainTextEdit.highlighter = umbra.ui.highlighters.DefaultHighlighter(
 																 self.Script_Editor_Output_plainTextEdit.document(),
-																 LOGGING_LANGUAGE.parser,
+																 LOGGING_LANGUAGE.rules,
 																 LOGGING_LANGUAGE.theme)
 
 		self.Script_Editor_Output_plainTextEdit.setTabStopWidth(self.__indentWidth)
@@ -2025,7 +2026,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method initializes given file in the :obj:`ScriptEditor.languagesModel` class property.
 		"""
 
-		languages = [PYTHON_LANGUAGE, LOGGING_LANGUAGE]
+		languages = [PYTHON_LANGUAGE, LOGGING_LANGUAGE, TEXT_LANGUAGE]
 		existingGrammarFiles = [os.path.normpath(language.file) for language in languages]
 
 		for directory in RuntimeGlobals.resourcesDirectories:
@@ -2353,6 +2354,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.info("{0} | Loading '{1}' file!".format(self.__class__.__name__, file))
 		editor = Editor(parent=self, language=self.__languagesModel.getFileLanguage(file) or \
 		self.__languagesModel.getLanguage(self.__defaultLanguage))
+
 		if editor.loadFile(file):
 			self.addEditorTab(editor)
 			self.__storeRecentFile(file)

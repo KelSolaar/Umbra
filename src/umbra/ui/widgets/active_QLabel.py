@@ -118,7 +118,7 @@ class Active_QLabel(QLabel):
 		:param value: Attribute value. ( QPixmap )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is QPixmap, "'{0}' attribute: '{1}' type is not 'QPixmap'!".format("defaultPixmap", value)
 		self.__defaultPixmap = value
 
@@ -151,7 +151,7 @@ class Active_QLabel(QLabel):
 		:param value: Attribute value. ( QPixmap )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is QPixmap, "'{0}' attribute: '{1}' type is not 'QPixmap'!".format("hoverPixmap", value)
 		self.__hoverPixmap = value
 
@@ -184,7 +184,7 @@ class Active_QLabel(QLabel):
 		:param value: Attribute value. ( QPixmap )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is QPixmap, "'{0}' attribute: '{1}' type is not 'QPixmap'!".format("activePixmap", value)
 		self.__activePixmap = value
 
@@ -217,7 +217,7 @@ class Active_QLabel(QLabel):
 		:param value: Attribute value. ( Boolean )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format("checkable", value)
 		self.__checkable = value
 
@@ -250,7 +250,7 @@ class Active_QLabel(QLabel):
 		:param value: Attribute value. ( Boolean )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format("checked", value)
 		self.__checked = value
 

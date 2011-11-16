@@ -147,7 +147,7 @@ class LinesNumbers_QWidget(QWidget):
 		:param value: Attribute value. ( Integer )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("margin", value)
 			assert value > 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("margin", value)
 		self.__margin = value
@@ -181,7 +181,7 @@ class LinesNumbers_QWidget(QWidget):
 		:param value: Attribute value. ( Integer )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("separatorWidth", value)
 			assert value > 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("separatorWidth", value)
 		self.__separatorWidth = value
@@ -215,7 +215,7 @@ class LinesNumbers_QWidget(QWidget):
 		:param value: Attribute value. ( QColor )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is QColor, "'{0}' attribute: '{1}' type is not 'QColor'!".format("backgroundColor", value)
 		self.__backgroundColor = value
 
@@ -248,7 +248,7 @@ class LinesNumbers_QWidget(QWidget):
 		:param value: Attribute value. ( QColor )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is QColor, "'{0}' attribute: '{1}' type is not 'QColor'!".format("color", value)
 		self.__color = value
 
@@ -281,7 +281,7 @@ class LinesNumbers_QWidget(QWidget):
 		:param value: Attribute value. ( QColor )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is QColor, "'{0}' attribute: '{1}' type is not 'QColor'!".format("separatorColor", value)
 		self.__separatorColor = value
 
@@ -504,7 +504,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param value: Attribute value. ( String )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
 			"indentMarker", value)
 			assert re.search(r"\s", value), "'{0}' attribute: '{1}' is not a whitespace character!".format(
@@ -540,7 +540,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param value: Attribute value. ( Integer )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("indentWidth", value)
 		self.__indentWidth = value
 
@@ -573,7 +573,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param value: Attribute value. ( String )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
 			"commentMarker", value)
 		self.__commentMarker = value
@@ -607,7 +607,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param value: Attribute value. ( LinesNumbers_QWidget )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is LinesNumbers_QWidget, "'{0}' attribute: '{1}' type is not \
 			'LinesNumbers_QWidget'!".format("checked", value)
 		self.__marginArea_LinesNumbers_widget = value
@@ -705,7 +705,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param value: Attribute value. ( QColor )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is QColor, "'{0}' attribute: '{1}' type is not 'QColor'!".format("highlightColor", value)
 		self.__highlightColor = value
 
@@ -738,7 +738,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param value: Attribute value. ( String )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) in (str, unicode, QString), "'{0}' attribute: '{1}' type is not 'str', 'unicode' or \
 			'QString'!".format("searchPattern", value)
 		self.__searchPattern = value
@@ -772,7 +772,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param value: Attribute value. ( Tuple / List )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
 			"preInputAccelerators", value)
 		self.__preInputAccelerators = value
@@ -806,7 +806,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param value: Attribute value. ( Tuple / List )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
 			"postInputAccelerators", value)
 		self.__postInputAccelerators = value

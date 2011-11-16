@@ -19,7 +19,6 @@
 #**********************************************************************************************************************
 import logging
 import re
-from PyQt4.QtCore import QRegExp
 from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QSyntaxHighlighter
 from PyQt4.QtGui import QTextCharFormat
@@ -29,9 +28,7 @@ from PyQt4.QtGui import QTextCharFormat
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
-import foundations.namespace
 from foundations.dag import AbstractCompositeNode
-from foundations.parsers import SectionsFileParser
 from umbra.globals.constants import Constants
 from umbra.ui.models import DefaultNode
 
@@ -54,8 +51,7 @@ __all__ = ["LOGGER",
 			"FormatNode",
 			"FormatsTree",
 			"AbstractHighlighter",
-			"DefaultHighlighter",
-			"LoggingHighlighter"]
+			"DefaultHighlighter"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -298,7 +294,7 @@ class FormatsTree(object):
 		:param value: Attribute value. ( AbstractCompositeNode )
 		"""
 
-		if value:
+		if value is not None:
 			assert issubclass(value.__class__, AbstractCompositeNode), "'{0}' attribute: '{1}' is not a \
 			'{2}' subclass!".format("rootNode", value, AbstractCompositeNode.__name__)
 		self.__rootNode = value
@@ -431,7 +427,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		:param value: Attribute value. ( FormatsTree )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is FormatsTree, "'{0}' attribute: '{1}' type is not 'FormatsTree'!".format("formats", value)
 		self.__formats = value
 
@@ -464,7 +460,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		:param value: Attribute value. ( Tuple / List )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
 			"rules", value)
 		self.__rules = value
@@ -522,12 +518,12 @@ class DefaultHighlighter(AbstractHighlighter):
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent=None, parser=None, theme=None):
+	def __init__(self, parent=None, rules=None, theme=None):
 		"""
 		This method initializes the class.
 
 		:param parent: Widget parent. ( QObject )
-		:param parser: Parser instance. ( SectionFileParser )
+		:param rules: Rules. ( Tuple / List )
 		:param theme: Theme. ( Dictionary )
 		"""
 
@@ -536,50 +532,15 @@ class DefaultHighlighter(AbstractHighlighter):
 		QSyntaxHighlighter.__init__(self, parent)
 
 		# --- Setting class attributes. ---
-		self.__parser = None
-		self.parser = parser
+		self.rules = rules
 		self.__theme = None
 		self.theme = theme
 
 		self.__setFormats()
-		self.__setRules()
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
 	#******************************************************************************************************************
-	@property
-	def parser(self):
-		"""
-		This method is the property for **self.__parser** attribute.
-
-		:return: self.__parser. ( String )
-		"""
-
-		return self.__parser
-
-	@parser.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def parser(self, value):
-		"""
-		This method is the setter method for **self.__parser** attribute.
-
-		:param value: Attribute value. ( String )
-		"""
-
-		if value:
-			assert type(value) is SectionsFileParser, "'{0}' attribute: '{1}' type is not 'SectionsFileParser'!".format("parser", value)
-		self.__parser = value
-
-	@parser.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def parser(self):
-		"""
-		This method is the deleter method for **self.__parser** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "parser"))
-
 	@property
 	def theme(self):
 		"""
@@ -599,7 +560,7 @@ class DefaultHighlighter(AbstractHighlighter):
 		:param value: Attribute value. ( Dictionary )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("theme", value)
 		self.__theme = value
 
@@ -623,26 +584,6 @@ class DefaultHighlighter(AbstractHighlighter):
 		"""
 
 		self.formats = FormatsTree(self.__theme)
-
-	@core.executionTrace
-	def __setRules(self):
-		"""
-		This method sets the highlighting rules.
-		"""
-
-		self.rules = []
-
-		attributes = self.__parser.sections.get("Rules")
-		if not attributes:
-			return
-
-		for attribute in self.__parser.sections["Rules"]:
-			pattern = self.__parser.getValue(attribute, "Rules")
-			if "@Tokens" in pattern:
-				pattern = pattern.replace("@Tokens",
-							self.__parser.getValue(foundations.namespace.removeNamespace(attribute), "Tokens"))
-			self.rules.append(Rule(name=foundations.namespace.removeNamespace(attribute),
-								pattern=QRegExp(pattern)))
 
 	# @core.executionTrace
 	def highlightBlock(self, block):

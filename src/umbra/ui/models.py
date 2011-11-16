@@ -103,7 +103,7 @@ class GraphModelAttribute(Attribute):
 		:param value: Attribute value. ( Dictionary )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("roles", value)
 			for key in value.keys():
 				assert type(key) is Qt.ItemDataRole, "'{0}' attribute: '{1}' type is not 'Qt.ItemDataRole'!".format("roles", key)
@@ -138,7 +138,7 @@ class GraphModelAttribute(Attribute):
 		:param value: Attribute value. ( Integer )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("flags", value)
 		self.__flags = value
 
@@ -204,7 +204,7 @@ class GraphModelNode(AbstractCompositeNode):
 		:param value: Attribute value. ( Dictionary )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("roles", value)
 			for key in value.keys():
 				assert type(key) is Qt.ItemDataRole, "'{0}' attribute: '{1}' type is not 'Qt.ItemDataRole'!".format("roles", key)
@@ -239,7 +239,7 @@ class GraphModelNode(AbstractCompositeNode):
 		:param value: Attribute value. ( Integer )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("flags", value)
 		self.__flags = value
 
@@ -332,7 +332,7 @@ class GraphModel(QAbstractItemModel):
 		:param value: Attribute value. ( AbstractCompositeNode )
 		"""
 
-		if value:
+		if value is not None:
 			assert issubclass(value.__class__, AbstractCompositeNode), "'{0}' attribute: '{1}' is not a \
 			'{2}' subclass!".format("rootNode", value, AbstractCompositeNode.__name__)
 		self.__rootNode = value
@@ -366,7 +366,7 @@ class GraphModel(QAbstractItemModel):
 		:param value: Attribute value. ( OrderedDict )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is OrderedDict, "'{0}' attribute: '{1}' type is not 'OrderedDict'!".format(
 			"horizontalHeaders", value)
 		self.__horizontalHeaders = value
@@ -400,7 +400,7 @@ class GraphModel(QAbstractItemModel):
 		:param value: Attribute value. ( OrderedDict )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is OrderedDict, "'{0}' attribute: '{1}' type is not 'OrderedDict'!".format(
 			"verticalHeaders", value)
 		self.__verticalHeaders = value

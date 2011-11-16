@@ -95,7 +95,7 @@ class LanguagesModel(QAbstractListModel):
 		:param value: Attribute value. ( List )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is list, "'{0}' attribute: '{1}' type is not 'list'!".format("languages", value)
 			for element in value:
 				assert type(element) is Language, "'{0}' attribute: '{1}' type is not 'Language'!".format("languages", element)

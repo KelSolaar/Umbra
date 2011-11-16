@@ -21,6 +21,7 @@ import inspect
 import logging
 import os
 import platform
+from PyQt4.QtCore import QRegExp
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtGui import QFileDialog
@@ -58,6 +59,7 @@ __status__ = "Production"
 __all__ = ["LOGGER",
 		"PYTHON_GRAMMAR_FILE",
 		"LOGGING_GRAMMAR_FILE",
+		"TEXT_GRAMMAR_FILE",
 		"LANGUAGES_CAPABILITIES",
 		"Language",
 		"getObjectFromLanguageCapability",
@@ -66,12 +68,14 @@ __all__ = ["LOGGER",
 		"getLoggingLanguage",
 		"PYTHON_LANGUAGE",
 		"LOGGING_LANGUAGE",
+		"TEXT_LANGUAGE",
 		"Editor"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
 PYTHON_GRAMMAR_FILE = umbra.ui.common.getResourcePath(UiConstants.pythonGrammarFile)
 LOGGING_GRAMMAR_FILE = umbra.ui.common.getResourcePath(UiConstants.loggingGrammarFile)
+TEXT_GRAMMAR_FILE = umbra.ui.common.getResourcePath(UiConstants.textGrammarFile)
 
 LANGUAGES_ACCELERATORS = {"DefaultHighlighter" : umbra.ui.highlighters.DefaultHighlighter,
 						"DefaultCompleter" : umbra.ui.completers.DefaultCompleter,
@@ -121,42 +125,64 @@ def getObjectFromLanguageAccelerators(accelerator):
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, LanguageGrammarError)
-def getLanguageDescription(file):
+def getLanguageDescription(grammarfile):
 	"""
 	This definition gets the language description from given language grammar file.
 
-	:param file: Language grammar. ( String )
+	:param grammarfile: Language grammar. ( String )
 	:return: Language description. ( Language )
 	"""
 
-	sectionParser = umbra.ui.common.getSectionsFileParser(file)
+	sectionsParser = umbra.ui.common.getSectionsFileParser(grammarfile)
 
-	name = sectionParser.getValue("Name", "Language")
+	name = sectionsParser.getValue("Name", "Language")
 	if not name:
 		raise LanguageGrammarError("{0} | '{1}' attribute not found in '{2}' file!".format(
-			inspect.getmodulename(__file__), "Language|Name", file))
+			inspect.getmodulename(__file__), "Language|Name", grammarfile))
 
-	extensions = sectionParser.getValue("Extensions", "Language")
+	extensions = sectionsParser.getValue("Extensions", "Language")
 	if not extensions:
 		raise LanguageGrammarError("{0} | '{1}' attribute not found in '{2}' file!".format(
-			inspect.getmodulename(__file__), "Language|Extensions", file))
+			inspect.getmodulename(__file__), "Language|Extensions", grammarfile))
 
-	highlighter = getObjectFromLanguageAccelerators(sectionParser.getValue("Highlighter", "Accelerators"))
-	completer = getObjectFromLanguageAccelerators(sectionParser.getValue("Completer", "Accelerators"))
-	preInputAccelerators = sectionParser.getValue("PreInputAccelerators", "Accelerators")
+	highlighter = getObjectFromLanguageAccelerators(sectionsParser.getValue("Highlighter", "Accelerators"))
+	completer = getObjectFromLanguageAccelerators(sectionsParser.getValue("Completer", "Accelerators"))
+	preInputAccelerators = sectionsParser.getValue("PreInputAccelerators", "Accelerators")
 	preInputAccelerators = preInputAccelerators and [getObjectFromLanguageAccelerators(accelerator)
 													for accelerator in preInputAccelerators.split("|")] or ()
-	postInputAccelerators = sectionParser.getValue("PostInputAccelerators", "Accelerators")
+	postInputAccelerators = sectionsParser.getValue("PostInputAccelerators", "Accelerators")
 	postInputAccelerators = postInputAccelerators and [getObjectFromLanguageAccelerators(accelerator)
 													for accelerator in postInputAccelerators.split("|")] or ()
 
-	indentMarker = sectionParser.sectionExists("Syntax") and sectionParser.getValue("IndentMarker", "Syntax") or "\t"
-	commentMarker = sectionParser.sectionExists("Syntax") and sectionParser.getValue("CommentMarker", "Syntax") or str()
-	theme = getObjectFromLanguageAccelerators(sectionParser.getValue("Theme", "Accelerators")) or \
+	indentMarker = sectionsParser.sectionExists("Syntax") and sectionsParser.getValue("IndentMarker", "Syntax") or "\t"
+	commentMarker = sectionsParser.sectionExists("Syntax") and sectionsParser.getValue("CommentMarker", "Syntax") or str()
+
+	rules = []
+	attributes = sectionsParser.sections.get("Rules")
+	if attributes:
+		for attribute in sectionsParser.sections["Rules"]:
+			pattern = sectionsParser.getValue(attribute, "Rules")
+			rules.append(umbra.ui.highlighters.Rule(name=foundations.namespace.removeNamespace(attribute),
+								pattern=QRegExp(pattern)))
+
+	tokens = []
+	dictionary = sectionsParser.getValue("Dictionary", "Accelerators")
+	if dictionary:
+		dictionaryFile = os.path.join(os.path.dirname(grammarfile), dictionary)
+		if os.path.exists(dictionaryFile):
+			with open(dictionaryFile, "r") as file:
+				for line in iter(file):
+					tokens.append(line.strip())
+		else:
+			LOGGER.warning("!> {0} | '{1}' Dictionary file doesn't exists and will be skipped!".format(
+				inspect.getmodulename(__file__), dictionaryFile))
+
+	theme = getObjectFromLanguageAccelerators(sectionsParser.getValue("Theme", "Accelerators")) or \
 			umbra.ui.highlighters.DEFAULT_THEME
 
 	return Language(name=name,
-				file=file,
+				file=grammarfile,
+				parser=sectionsParser,
 				extensions=extensions,
 				highlighter=highlighter,
 				completer=completer,
@@ -164,7 +190,8 @@ def getLanguageDescription(file):
 				postInputAccelerators=postInputAccelerators,
 				indentMarker=indentMarker,
 				commentMarker=commentMarker,
-				parser=sectionParser,
+				rules=rules,
+				tokens=tokens,
 				theme=theme)
 
 @core.executionTrace
@@ -187,11 +214,22 @@ def getLoggingLanguage():
 
 	return getLanguageDescription(LOGGING_GRAMMAR_FILE)
 
+@core.executionTrace
+def getTextLanguage():
+	"""
+	This definition returns the Text language description.
+
+	:return: Text language description. ( Language )
+	"""
+
+	return getLanguageDescription(TEXT_GRAMMAR_FILE)
+
 #**********************************************************************************************************************
 #***	Module attributes.
 #**********************************************************************************************************************
 PYTHON_LANGUAGE = getPythonLanguage()
 LOGGING_LANGUAGE = getLoggingLanguage()
+TEXT_LANGUAGE = getTextLanguage()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -264,7 +302,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param value: Attribute value. ( String )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("file", value)
 		self.__file = value
 
@@ -543,13 +581,13 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		if self.__language.highlighter:
 			self.setHighlighter(self.__language.highlighter(self.document(),
-															self.__language.parser,
+															self.__language.rules,
 															self.__language.theme))
 		else:
 			self.removeHighlighter()
 
 		if self.__language.completer:
-			self.setCompleter(self.__language.completer(self.parent(), self.__language.parser))
+			self.setCompleter(self.__language.completer(self.parent(), self.__language.name, self.__language.tokens))
 		else:
 			self.removeCompleter()
 

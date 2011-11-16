@@ -114,7 +114,7 @@ class Variable_QPushButton(QPushButton):
 		:param value: Attribute value. ( Boolean )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format("state", value)
 		self.__state = value
 
@@ -146,7 +146,7 @@ class Variable_QPushButton(QPushButton):
 
 		:param value: Attribute value. ( Tuple )
 		"""
-		if value:
+		if value is not None:
 			assert type(value) is tuple, "'{0}' attribute: '{1}' type is not 'tuple'!".format("colors", value)
 			assert len(value) == 2, "'{0}' attribute: '{1}' length should be '2'!".format("colors", value)
 			for index in range(len(value)):
@@ -182,7 +182,7 @@ class Variable_QPushButton(QPushButton):
 
 		:param value: Attribute value. ( Tuple )
 		"""
-		if value:
+		if value is not None:
 			assert type(value) is tuple, "'{0}' attribute: '{1}' type is not 'tuple'!".format("labels", value)
 			assert len(value) == 2, "'{0}' attribute: '{1}' length should be '2'!".format("labels", value)
 			for index in range(len(value)):

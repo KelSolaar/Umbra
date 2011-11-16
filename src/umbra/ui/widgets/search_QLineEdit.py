@@ -133,7 +133,7 @@ class Search_QLineEdit(QLineEdit):
 		:param value: Attribute value. ( String )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
 			"uiSearchImage", value)
 			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("uiSearchImage", value)
@@ -168,7 +168,7 @@ class Search_QLineEdit(QLineEdit):
 		:param value: Attribute value. ( String )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
 			"uiSearchClickedImage", value)
 			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format(
@@ -204,7 +204,7 @@ class Search_QLineEdit(QLineEdit):
 		:param value: Attribute value. ( String )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
 			"uiClearImage", value)
 			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format(
@@ -240,7 +240,7 @@ class Search_QLineEdit(QLineEdit):
 		:param value: Attribute value. ( String )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
 			"uiClearClickedImage", value)
 			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format(

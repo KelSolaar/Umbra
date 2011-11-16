@@ -107,7 +107,7 @@ class ActionsManager(QObject):
 		:param value: Attribute value. ( String )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
 			"namespaceSplitter", value)
 			assert len(value) == 1, "'{0}' attribute: '{1}' has multiples characters!".format("namespaceSplitter", value)
@@ -144,7 +144,7 @@ class ActionsManager(QObject):
 		:param value: Attribute value. ( String )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
 			"rootNamespace", value)
 		self.__rootNamespace = value
@@ -178,7 +178,7 @@ class ActionsManager(QObject):
 		:param value: Attribute value. ( String )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
 			"defaultNamespace", value)
 		self.__defaultNamespace = value
@@ -212,7 +212,7 @@ class ActionsManager(QObject):
 		:param value: Attribute value. ( Dictionary )
 		"""
 
-		if value:
+		if value is not None:
 			assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("categories", value)
 			for key, element in value.items():
 				assert type(key) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("categories", key)
