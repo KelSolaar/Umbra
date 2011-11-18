@@ -35,6 +35,7 @@ from PyQt4.QtGui import QTextOption
 import foundations.core as core
 import foundations.exceptions
 import foundations.io as io
+import foundations.parsers
 import foundations.strings
 import umbra.ui.common
 import umbra.ui.completers
@@ -60,7 +61,8 @@ __all__ = ["LOGGER",
 		"PYTHON_GRAMMAR_FILE",
 		"LOGGING_GRAMMAR_FILE",
 		"TEXT_GRAMMAR_FILE",
-		"LANGUAGES_CAPABILITIES",
+		"LANGUAGES_ACCELERATORS",
+		"DEFAULT_INDENT_MARKER",
 		"Language",
 		"getObjectFromLanguageCapability",
 		"getLanguageDescription",
@@ -81,16 +83,18 @@ LANGUAGES_ACCELERATORS = {"DefaultHighlighter" : umbra.ui.highlighters.DefaultHi
 						"DefaultCompleter" : umbra.ui.completers.DefaultCompleter,
 						"indentationPreEventInputAccelerators" :
 						umbra.ui.inputAccelerators.indentationPreEventInputAccelerators,
+						"indentationPostEventInputAccelerators" :
+						umbra.ui.inputAccelerators.indentationPostEventInputAccelerators,
 						"completionPreEventInputAccelerators" :
 						umbra.ui.inputAccelerators.completionPreEventInputAccelerators,
 						"completionPostEventInputAccelerators" :
 						umbra.ui.inputAccelerators.completionPostEventInputAccelerators,
 						"symbolsExpandingPreEventInputAccelerators" :
 						umbra.ui.inputAccelerators.symbolsExpandingPreEventInputAccelerators,
-						"pythonPostEventInputAccelerators" :
-						umbra.ui.inputAccelerators.pythonPostEventInputAccelerators,
 						"DefaultTheme" : umbra.ui.highlighters.DEFAULT_THEME,
 						"LoggingTheme" : umbra.ui.highlighters.LOGGING_THEME}
+
+DEFAULT_INDENT_MARKER = "\t"
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -105,7 +109,9 @@ class Language(core.Structure):
 		"""
 		This method initializes the class.
 
-		:param \*\*kwargs: name, extensions. ( Key / Value pairs )
+		:param \*\*kwargs: name, file, parser,	extensions, highlighter, completer,	preInputAccelerators,
+		postInputAccelerators, indentMarker, commentMarker, commentBlockMarkerStart, commentBlockMarkerEnd,
+		symbolsPairs, indentationSymbols, rules, tokens, theme. ( Key / Value pairs )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -133,7 +139,8 @@ def getLanguageDescription(grammarfile):
 	:return: Language description. ( Language )
 	"""
 
-	sectionsParser = umbra.ui.common.getSectionsFileParser(grammarfile)
+	sectionsParser = foundations.parsers.SectionsFileParser(grammarfile)
+	sectionsParser.read() and sectionsParser.parse(stripQuotationMarkers=False)
 
 	name = sectionsParser.getValue("Name", "Language")
 	if not name:
@@ -154,8 +161,25 @@ def getLanguageDescription(grammarfile):
 	postInputAccelerators = postInputAccelerators and [getObjectFromLanguageAccelerators(accelerator)
 													for accelerator in postInputAccelerators.split("|")] or ()
 
-	indentMarker = sectionsParser.sectionExists("Syntax") and sectionsParser.getValue("IndentMarker", "Syntax") or "\t"
+	indentMarker = sectionsParser.sectionExists("Syntax") and sectionsParser.getValue("IndentMarker", "Syntax") or \
+					DEFAULT_INDENT_MARKER
 	commentMarker = sectionsParser.sectionExists("Syntax") and sectionsParser.getValue("CommentMarker", "Syntax") or str()
+	commentBlockMarkerStart = sectionsParser.sectionExists("Syntax") and \
+								sectionsParser.getValue("CommentBlockMarkerStart", "Syntax") or str()
+	commentBlockMarkerEnd = sectionsParser.sectionExists("Syntax") and \
+								sectionsParser.getValue("CommentBlockMarkerEnd", "Syntax") or str()
+	symbolsPairs = sectionsParser.sectionExists("Syntax") and \
+								sectionsParser.getValue("SymbolsPairs", "Syntax") or {}
+
+	if symbolsPairs:
+		associatedPairs = {}
+		for pair in symbolsPairs.split("|"):
+			associatedPairs[pair[0]] = pair[1]
+		symbolsPairs = associatedPairs
+
+	indentationSymbols = sectionsParser.sectionExists("Syntax") and \
+						sectionsParser.getValue("IndentationSymbols", "Syntax")
+	indentationSymbols = indentationSymbols and indentationSymbols.split("|") or ()
 
 	rules = []
 	attributes = sectionsParser.sections.get("Rules")
@@ -191,6 +215,10 @@ def getLanguageDescription(grammarfile):
 				postInputAccelerators=postInputAccelerators,
 				indentMarker=indentMarker,
 				commentMarker=commentMarker,
+				commentBlockMarkerStart=commentBlockMarkerStart,
+				commentBlockMarkerEnd=commentBlockMarkerEnd,
+				symbolsPairs=symbolsPairs,
+				indentationSymbols=indentationSymbols,
 				rules=rules,
 				tokens=tokens,
 				theme=theme)

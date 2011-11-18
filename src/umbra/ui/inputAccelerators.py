@@ -39,98 +39,132 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-			"DEFAULT_SYMBOLS_PAIRS",
+			"getEditorCapability",
 			"indentationPreEventInputAccelerators",
+			"indentationPostEventInputAccelerators",
 			"performCompletion",
 			"completionPreEventInputAccelerators",
 			"completionPostEventInputAccelerators",
-			"symbolsExpandingPreEventInputAccelerators",
-			"pythonPreEventInputAccelerators"]
+			"symbolsExpandingPreEventInputAccelerators"]
 
 LOGGER = logging.getLogger(Constants.logger)
-
-DEFAULT_SYMBOLS_PAIRS = {"(" : ")",
-						"[" : "]",
-						"{" : "}",
-						"\"" : "\"",
-						"'" : "'"}
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
-def indentationPreEventInputAccelerators(container, event):
+def getEditorCapability(editor, capability):
+	"""
+	This definition returns given editor capability.
+	
+	:param editor: Document editor. ( QWidget )
+	:param capability: Capability to retrieve. ( String )
+	:return: Capability. ( Object )
+	"""
+
+	if not hasattr(editor, "language"):
+		return
+
+	return editor.language.get(capability)
+
+@core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
+def indentationPreEventInputAccelerators(editor, event):
 	"""
 	This definition implements indentation pre event input accelerators.
 	
-	:param container: Document container. ( QWidget )
+	:param editor: Document editor. ( QWidget )
 	:param event: Event being handled. ( QEvent )
 	:return: Process event. ( Boolean )
 	"""
 
 	processEvent = True
-	if not hasattr(container, "indent") and hasattr(container, "unindent"):
+	if not hasattr(editor, "indent") and hasattr(editor, "unindent"):
 		return processEvent
 
 	if event.key() == Qt.Key_Tab:
-		processEvent = container.indent() and False
+		processEvent = editor.indent() and False
 	elif event.key() == Qt.Key_Backtab:
-		processEvent = container.unindent() and False
+		processEvent = editor.unindent() and False
 	return processEvent
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
-def performCompletion(container):
+def indentationPostEventInputAccelerators(editor, event):
 	"""
-	This definition performs the completion on given container.
-
-	:param container: Document container. ( QWidget )
-	:return: Process event. ( Boolean )
+	This definition implements indentation post event input accelerators.
+	
+	:param editor: Document editor. ( QWidget )
+	:param event: Event being handled. ( QEvent )
+	:return: Method success. ( Boolean )
 	"""
 
-	completionPrefix = container.wordUnderCursor()
-	if completionPrefix.length() >= 1 :
-		words = container.getWords()
-		completionPrefix in words and words.remove(completionPrefix)
-		container.completer.updateModel(words)
-		container.completer.setCompletionPrefix(completionPrefix)
-		if container.completer.completionCount() == 1:
-			completion = container.completer.completionModel().data(
-						container.completer.completionModel().index(0, 0)).toString()
-			cursor = container.textCursor()
-			if completionPrefix != container.textUnderCursor():
-				cursor.movePosition(QTextCursor.PreviousWord, QTextCursor.MoveAnchor)
-			cursor.movePosition(QTextCursor.EndOfWord, QTextCursor.MoveAnchor)
-			cursor.insertText(completion[len(completionPrefix):])
-			container.setTextCursor(cursor)
-		else:
-			popup = container.completer.popup()
-			popup.setCurrentIndex(container.completer.completionModel().index(0, 0))
-
-			completerRectangle = container.cursorRect()
-			hasattr(container, "marginArea_LinesNumbers_widget") and completerRectangle.moveTo(
-			completerRectangle.topLeft().x() + container.marginArea_LinesNumbers_widget.getWidth(),
-			completerRectangle.topLeft().y())
-			completerRectangle.setWidth(container.completer.popup().sizeHintForColumn(0) + \
-			container.completer.popup().verticalScrollBar().sizeHint().width())
-			container.completer.complete(completerRectangle)
+	if event.key() in (Qt.Key_Enter, Qt.Key_Return):
+		cursor = editor.textCursor()
+		block = cursor.block().previous()
+		if block.isValid():
+			indent = re.match(r"(\s*)", unicode(block.text())).group(1)
+			indentationSymbols = getEditorCapability(editor, "indentationSymbols")
+			if indentationSymbols:
+				for symbol in indentationSymbols:
+					if unicode(block.text(), Constants.encodingFormat, Constants.encodingError).endswith(symbol):
+						indent += editor.indentMarker
+			cursor.insertText(indent)
+	return True
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
-def completionPreEventInputAccelerators(container, event):
+def performCompletion(editor):
+	"""
+	This definition performs the completion on given editor.
+
+	:param editor: Document editor. ( QWidget )
+	:return: Process event. ( Boolean )
+	"""
+
+	completionPrefix = editor.wordUnderCursor()
+	if completionPrefix.length() >= 1 :
+		words = editor.getWords()
+		completionPrefix in words and words.remove(completionPrefix)
+		editor.completer.updateModel(words)
+		editor.completer.setCompletionPrefix(completionPrefix)
+		if editor.completer.completionCount() == 1:
+			completion = editor.completer.completionModel().data(
+						editor.completer.completionModel().index(0, 0)).toString()
+			cursor = editor.textCursor()
+			if completionPrefix != editor.textUnderCursor():
+				cursor.movePosition(QTextCursor.PreviousWord, QTextCursor.MoveAnchor)
+			cursor.movePosition(QTextCursor.EndOfWord, QTextCursor.MoveAnchor)
+			cursor.insertText(completion[len(completionPrefix):])
+			editor.setTextCursor(cursor)
+		else:
+			popup = editor.completer.popup()
+			popup.setCurrentIndex(editor.completer.completionModel().index(0, 0))
+
+			completerRectangle = editor.cursorRect()
+			hasattr(editor, "marginArea_LinesNumbers_widget") and completerRectangle.moveTo(
+			completerRectangle.topLeft().x() + editor.marginArea_LinesNumbers_widget.getWidth(),
+			completerRectangle.topLeft().y())
+			completerRectangle.setWidth(editor.completer.popup().sizeHintForColumn(0) + \
+			editor.completer.popup().verticalScrollBar().sizeHint().width())
+			editor.completer.complete(completerRectangle)
+
+@core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
+def completionPreEventInputAccelerators(editor, event):
 	"""
 	This definition implements completion pre event input accelerators.
 
-	:param container: Document container. ( QWidget )
+	:param editor: Document editor. ( QWidget )
 	:param event: Event being handled. ( QEvent )
 	:return: Process event. ( Boolean )
 	"""
 
 	processEvent = True
 
-	if container.completer:
-		if container.completer.popup().isVisible():
+	if editor.completer:
+		if editor.completer.popup().isVisible():
 			if event.key() in (Qt.Key_Enter, Qt.Key_Return, Qt.Key_Escape, Qt.Key_Tab, Qt.Key_Backtab):
 				event.ignore()
 				processEvent = False
@@ -138,63 +172,64 @@ def completionPreEventInputAccelerators(container, event):
 
 	if event.modifiers() in (Qt.ControlModifier, Qt.MetaModifier) and event.key() == Qt.Key_Space:
 		processEvent = False
-		if not container.completer:
+		if not editor.completer:
 			return processEvent
 
-		performCompletion(container)
+		performCompletion(editor)
 
 	return processEvent
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
-def completionPostEventInputAccelerators(container, event):
+def completionPostEventInputAccelerators(editor, event):
 	"""
 	This definition implements completion post event input accelerators.
 
-	:param container: Document container. ( QWidget )
+	:param editor: Document editor. ( QWidget )
 	:param event: Event being handled. ( QEvent )	
 	:return: Process event. ( Boolean )
 	"""
 
-	if container.completer:
-		if container.completer.popup().isVisible():
-			performCompletion(container)
+	if editor.completer:
+		if editor.completer.popup().isVisible():
+			performCompletion(editor)
 	return True
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
-def symbolsExpandingPreEventInputAccelerators(container, event):
+def symbolsExpandingPreEventInputAccelerators(editor, event):
 	"""
 	This definition implements symbols expanding pre event input accelerators.
 
-	:param container: Document container. ( QWidget )
+	:param editor: Document editor. ( QWidget )
 	:param event: Event being handled. ( QEvent )
 	:return: Process event. ( Boolean )
 	"""
 
 	processEvent = True
-	if event.text() in DEFAULT_SYMBOLS_PAIRS.keys():
-		cursor = container.textCursor()
+
+	symbolsPairs = getEditorCapability(editor, "symbolsPairs")
+	if not symbolsPairs:
+		return processEvent
+
+	if event.text() in symbolsPairs.keys():
+		cursor = editor.textCursor()
 		cursor.beginEditBlock()
 		if not cursor.hasSelection():
 			cursor.insertText(event.text())
-			cursor.insertText(DEFAULT_SYMBOLS_PAIRS[unicode(event.text(),
-															Constants.encodingFormat,
-															Constants.encodingError)])
+			cursor.insertText(symbolsPairs[unicode(event.text(), Constants.encodingFormat, Constants.encodingError)])
 			cursor.movePosition(QTextCursor.Left, QTextCursor.MoveAnchor)
 		else:
 			selectionText = cursor.selectedText()
 			cursor.insertText(event.text())
 			cursor.insertText(selectionText)
-			cursor.insertText(DEFAULT_SYMBOLS_PAIRS[unicode(event.text(),
-															Constants.encodingFormat,
-															Constants.encodingError)])
-		container.setTextCursor(cursor)
+			cursor.insertText(symbolsPairs[unicode(event.text(), Constants.encodingFormat, Constants.encodingError)])
+		editor.setTextCursor(cursor)
 		cursor.endEditBlock()
 		processEvent = False
 
 	if event.key() in (Qt.Key_Backspace,):
-		cursor = container.textCursor()
+		cursor = editor.textCursor()
 		cursor.movePosition(QTextCursor.Left, QTextCursor.KeepAnchor)
 		leftText = cursor.selectedText()
 		for i in range(2):
@@ -203,28 +238,7 @@ def symbolsExpandingPreEventInputAccelerators(container, event):
 		if not rightText:
 			return processEvent
 
-		if unicode(leftText, Constants.encodingFormat, Constants.encodingError) in DEFAULT_SYMBOLS_PAIRS.keys() and \
-		unicode(rightText, Constants.encodingFormat, Constants.encodingError) in DEFAULT_SYMBOLS_PAIRS.values():
+		if unicode(leftText, Constants.encodingFormat, Constants.encodingError) in symbolsPairs.keys() and \
+		unicode(rightText, Constants.encodingFormat, Constants.encodingError) in symbolsPairs.values():
 			cursor.deleteChar()
 	return processEvent
-
-@core.executionTrace
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
-def pythonPostEventInputAccelerators(container, event):
-	"""
-	This definition implements pythons post event input accelerators.
-	
-	:param container: Document container. ( QWidget )
-	:param event: Event being handled. ( QEvent )
-	:return: Method success. ( Boolean )
-	"""
-
-	if event.key() in (Qt.Key_Enter, Qt.Key_Return):
-		cursor = container.textCursor()
-		block = cursor.block().previous()
-		if block.isValid():
-			indent = re.match(r"(\s*)", unicode(block.text())).group(1)
-			if unicode(block.text(), Constants.encodingFormat, Constants.encodingError).endswith(":"):
-				indent += container.indentMarker
-			cursor.insertText(indent)
-	return True

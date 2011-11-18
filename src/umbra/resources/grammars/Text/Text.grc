@@ -1,9 +1,9 @@
 [Language]
-Name = "Text"
-Extensions = "\.txt"
+Name = Text
+Extensions = \.txt
 
 [Accelerators]
-Completer = "DefaultCompleter"
-PreInputAccelerators = "completionPreEventInputAccelerators"
-PostInputAccelerators = "completionPostEventInputAccelerators"
-Dictionary = "English_Words.drc"
+Completer = DefaultCompleter
+PreInputAccelerators = symbolsExpandingPreEventInputAccelerators|completionPreEventInputAccelerators
+PostInputAccelerators = completionPostEventInputAccelerators
+Dictionary = English_Words.drc
