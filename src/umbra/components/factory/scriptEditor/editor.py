@@ -140,6 +140,8 @@ def getLanguageDescription(grammarfile):
 	:return: Language description. ( Language )
 	"""
 
+	LOGGER.debug("> Processing '{0}' grammar file.".format(grammarfile))
+
 	sectionsParser = foundations.parsers.SectionsFileParser(grammarfile)
 	sectionsParser.read() and sectionsParser.parse(stripQuotationMarkers=False)
 
@@ -206,23 +208,33 @@ def getLanguageDescription(grammarfile):
 	theme = getObjectFromLanguageAccelerators(sectionsParser.getValue("Theme", "Accelerators")) or \
 			umbra.ui.highlighters.DEFAULT_THEME
 
-	return Language(name=name,
-				file=grammarfile,
-				parser=sectionsParser,
-				extensions=extensions,
-				highlighter=highlighter,
-				completer=completer,
-				preInputAccelerators=preInputAccelerators,
-				postInputAccelerators=postInputAccelerators,
-				indentMarker=indentMarker,
-				commentMarker=commentMarker,
-				commentBlockMarkerStart=commentBlockMarkerStart,
-				commentBlockMarkerEnd=commentBlockMarkerEnd,
-				symbolsPairs=symbolsPairs,
-				indentationSymbols=indentationSymbols,
-				rules=rules,
-				tokens=tokens,
-				theme=theme)
+	attributes = {"name" : name,
+				"file" : grammarfile,
+				"parser" : sectionsParser,
+				"extensions" : extensions,
+				"highlighter" : highlighter,
+				"completer" : completer,
+				"preInputAccelerators" : preInputAccelerators,
+				"postInputAccelerators" : postInputAccelerators,
+				"indentMarker" : indentMarker,
+				"commentMarker" : commentMarker,
+				"commentBlockMarkerStart" : commentBlockMarkerStart,
+				"commentBlockMarkerEnd" : commentBlockMarkerEnd,
+				"symbolsPairs" : symbolsPairs,
+				"indentationSymbols" : indentationSymbols,
+				"rules" : rules,
+				"tokens" : tokens,
+				"theme" : theme}
+
+	for attribute, value in sorted(attributes.items()):
+		if attribute == "rules":
+			LOGGER.debug("> Registered '{0}' syntax rules.".format(len(value)))
+		elif attribute == "tokens":
+			LOGGER.debug("> Registered '{0}' completion tokens.".format(len(value)))
+		else:
+			LOGGER.debug("> Attribute: '{0}', Value: '{1}'.".format(attribute, value))
+
+	return Language(**attributes)
 
 @core.executionTrace
 def getPythonLanguage():
