@@ -41,6 +41,7 @@ import umbra.ui.common
 import umbra.ui.completers
 import umbra.ui.highlighters
 import umbra.ui.inputAccelerators
+import umbra.ui.themes
 import umbra.ui.widgets.messageBox as messageBox
 from umbra.components.factory.scriptEditor.exceptions import LanguageGrammarError
 from umbra.globals.constants import Constants
@@ -91,8 +92,8 @@ LANGUAGES_ACCELERATORS = {"DefaultHighlighter" : umbra.ui.highlighters.DefaultHi
 						umbra.ui.inputAccelerators.completionPostEventInputAccelerators,
 						"symbolsExpandingPreEventInputAccelerators" :
 						umbra.ui.inputAccelerators.symbolsExpandingPreEventInputAccelerators,
-						"DefaultTheme" : umbra.ui.highlighters.DEFAULT_THEME,
-						"LoggingTheme" : umbra.ui.highlighters.LOGGING_THEME}
+						"DefaultTheme" : umbra.ui.themes.DEFAULT_THEME,
+						"LoggingTheme" : umbra.ui.themes.LOGGING_THEME}
 
 DEFAULT_INDENT_MARKER = "\t"
 
