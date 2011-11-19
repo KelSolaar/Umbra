@@ -158,6 +158,8 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		if not model:
 			return
 
+		LOGGER.debug("> Setting '{0}' model.".format(model))
+
 		umbra.ui.views.Abstract_QTreeView.setModel(self, model)
 
 		# Signals / Slots.

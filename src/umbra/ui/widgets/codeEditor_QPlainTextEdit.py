@@ -840,39 +840,6 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		self.cursorPositionChanged.connect(self.__highlightCurrentLine)
 
 	@core.executionTrace
-	def __highlightCurrentLine(self):
-		"""
-		This method highlights the current line.
-		"""
-
-		extraSelections = []
-		if not self.isReadOnly():
-			selection = QTextEdit.ExtraSelection()
-			lineColor = self.__highlightColor
-			selection.format.setBackground(lineColor)
-			selection.format.setProperty(QTextFormat.FullWidthSelection, True)
-			selection.cursor = self.textCursor()
-			selection.cursor.clearSelection()
-			extraSelections.append(selection)
-
-		self.setExtraSelections(extraSelections)
-
-	@core.executionTrace
-	def __insertCompletion(self, completion):
-		"""
-		This method inserts the completion text in the current document.
-
-		:param completion: Completion text. ( QString )
-		"""
-
-		textCursor = self.textCursor()
-		extra = (completion.length() - self.__completer.completionPrefix().length())
-		textCursor.movePosition(QTextCursor.Left)
-		textCursor.movePosition(QTextCursor.EndOfWord)
-		textCursor.insertText(completion.right(extra))
-		self.setTextCursor(textCursor)
-
-	@core.executionTrace
 	def resizeEvent(self, event):
 		"""
 		This method reimplements the Widget **resizeEvent** method.
@@ -904,6 +871,42 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 			accelerator(self, event)
 
 	@core.executionTrace
+	def __highlightCurrentLine(self):
+		"""
+		This method highlights the current line.
+		"""
+
+		extraSelections = []
+		if not self.isReadOnly():
+			selection = QTextEdit.ExtraSelection()
+			lineColor = self.__highlightColor
+			selection.format.setBackground(lineColor)
+			selection.format.setProperty(QTextFormat.FullWidthSelection, True)
+			selection.cursor = self.textCursor()
+			selection.cursor.clearSelection()
+			extraSelections.append(selection)
+
+		self.setExtraSelections(extraSelections)
+
+	@core.executionTrace
+	def __insertCompletion(self, completion):
+		"""
+		This method inserts the completion text in the current document.
+
+		:param completion: Completion text. ( QString )
+		"""
+
+
+		LOGGER.debug("> Inserting '{0}' completion.".format(completion))
+
+		textCursor = self.textCursor()
+		extra = (completion.length() - self.__completer.completionPrefix().length())
+		textCursor.movePosition(QTextCursor.Left)
+		textCursor.movePosition(QTextCursor.EndOfWord)
+		textCursor.insertText(completion.right(extra))
+		self.setTextCursor(textCursor)
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def setHighlighter(self, highlighter):
 		"""
@@ -920,6 +923,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		if self.__highlighter:
 			self.removeHighlighter()
 
+		LOGGER.debug("> Setting '{0}' highlighter.".format(highlighter))
 		self.__highlighter = highlighter
 
 		return True
@@ -934,6 +938,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if self.__highlighter:
+			LOGGER.debug("> Removing '{0}' highlighter.".format(self.__highlighter))
 			self.__highlighter.deleteLater()
 			self.__highlighter = None
 		return True
@@ -955,6 +960,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		if self.__completer:
 			self.removeCompleter()
 
+		LOGGER.debug("> Setting '{0}' completer.".format(completer))
 		self.__completer = completer
 		self.__completer.setWidget(self)
 
@@ -973,8 +979,10 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if self.__completer:
+			LOGGER.debug("> Removing '{0}' completer.".format(self.__completer))
 			# Signals / Slots.
 			self.__completer.activated.disconnect(self.__insertCompletion)
+
 			self.__completer.deleteLater()
 			self.__completer = None
 		return True

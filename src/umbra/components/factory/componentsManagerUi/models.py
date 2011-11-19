@@ -288,6 +288,8 @@ class ComponentsModel(umbra.ui.models.GraphModel):
 		return: Method success ( Boolean )
 		"""
 
+		LOGGER.debug("> Initializing model with '{0}' root node.".format(rootNode))
+
 		self.beginResetModel()
 		self.rootNode = rootNode
 		self.endResetModel()
