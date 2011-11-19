@@ -1501,6 +1501,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method toggles **Script_Editor_Output_plainTextEdit** Widget word wrap.
 		"""
 
+		LOGGER.debug("> Toggling wordwrap on **Script_Editor_Output_plainTextEdit** widget.")
+
 		self.Script_Editor_Output_plainTextEdit.setWordWrapMode(
 		not self.Script_Editor_Output_plainTextEdit.wordWrapMode() and QTextOption.WordWrap or QTextOption.NoWrap)
 
@@ -1521,6 +1523,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param tabIndex: Tab index. ( Integer )
 		"""
 
+		LOGGER.debug("> Closing tab with index '{0}'.".format(tabIndex))
+
 		self.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
 		return self.closeFile()
 
@@ -1531,6 +1535,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		:param tabIndex: Tab index. ( Integer )
 		"""
+
+		LOGGER.debug("> Current tab changed to '{0}' index.".format(tabIndex))
 
 		self.Editor_Status_editorStatus._EditorStatus__Languages_comboBox_setDefaultViewState()
 		self.__setWindowTitle()
@@ -2009,6 +2015,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param file: File modified. ( String )
 		"""
 
+		LOGGER.debug("> Adding '{0}' file **modifiedFiles** stack.".format(file))
+
 		self.__modifiedFiles.add(file)
 
 	@core.executionTrace
@@ -2036,7 +2044,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				if os.path.normpath(file) in existingGrammarFiles:
 					continue
 
-				languages.append(getLanguageDescription(file))
+				languageDescription = getLanguageDescription(file)
+				if not languageDescription:
+					continue
+
+				LOGGER.debug("> Adding '{0}' language to model.".format(languageDescription))
+				languages.append(languageDescription)
 
 		self.__languagesModel = LanguagesModel(self, sorted(languages, key=lambda x: (x.name)))
 
@@ -2047,6 +2060,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		
 		:param file: File to register. ( String )
 		"""
+
+		LOGGER.debug("> Registering '{0}' file.".format(file))
 
 		self.__files.append(file)
 		self.__fileSystemWatcher.addPath(file)
@@ -2060,6 +2075,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if file in self.__files:
+			LOGGER.debug("> Unregistering '{0}' file.".format(file))
 			self.__files.remove(file)
 			self.__fileSystemWatcher.removePath(file)
 
@@ -2082,6 +2098,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				self.__recentFilesActions[i].setVisible(False)
 				continue
 
+			LOGGER.debug("> Adding '{0}' file to recent files actions.".format(recentFiles[i]))
+
 			self.__recentFilesActions[i].setText("{0} {1}".format(i + 1, os.path.basename(str(recentFiles[i]))))
 			self.__recentFilesActions[i]._data = str(recentFiles[i])
 			self.__recentFilesActions[i].setVisible(True)
@@ -2093,6 +2111,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		
 		:param file: File to store. ( String )
 		"""
+
+		LOGGER.debug("> Storing '{0}' file in recent files.".format(file))
 
 		recentFiles = [str(recentFile)
 					for recentFile in self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",")
@@ -2123,6 +2143,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__engine.startProcessing("Loading Files ...", len(urls))
 		for url in event.mimeData().urls():
+			LOGGER.debug("> Handling dropped '{0}' file.".format(url.path()))
 			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and \
 			re.search(r"^\/[A-Z]:", str(url.path())) and str(url.path())[1:] or str(url.path())
 			if os.path.isdir(path):
@@ -2141,9 +2162,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if self.hasEditorTab():
-			self.setWindowTitle("{0} - {1}".format(self.__defaultWindowTitle, self.getCurrentEditor().file))
+			windowTitle = "{0} - {1}".format(self.__defaultWindowTitle, self.getCurrentEditor().file)
 		else:
-			self.setWindowTitle("{0}".format(self.__defaultWindowTitle))
+			windowTitle = "{0}".format(self.__defaultWindowTitle)
+
+		LOGGER.debug("> Setting 'Script Editor' window title to '{0}'.".format(windowTitle))
+		self.setWindowTitle(windowTitle)
 
 	@core.executionTrace
 	def __setEditorTabName(self, tabIndex):
@@ -2153,7 +2177,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param tabIndex: Index of the tab containing the editor. ( Integer )
 		"""
 
-		self.Script_Editor_tabWidget.setTabText(tabIndex, self.Script_Editor_tabWidget.widget(tabIndex).windowTitle())
+		windowTitle = self.Script_Editor_tabWidget.widget(tabIndex).windowTitle()
+		LOGGER.debug("> Setting '{0}' window title to tab with '{1}' index.".format(windowTitle, tabIndex))
+		self.Script_Editor_tabWidget.setTabText(tabIndex, windowTitle)
 
 	@core.executionTrace
 	def __setLocals(self):
@@ -2173,6 +2199,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__locals["componentsManager"] = self.__engine.componentsManager
 		self.__locals["actionsManager"] = self.__engine.actionsManager
 
+		LOGGER.debug("> Defined locals: '{0}'.".format(self.__locals))
+
 		return True
 
 	@core.executionTrace
@@ -2182,9 +2210,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method sets given editor language.
 		
 		:param editor: Editor to set language to. ( Editor )
+		:param language: Language to set. ( Language )
 		:param emitSignal: Emit signal. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
+
+		LOGGER.debug("> Setting '{0}' language to '{1}' editor.".format(language.name, editor))
 
 		return editor.setLanguage(language, emitSignal)
 
@@ -2215,6 +2246,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		for i in range(self.Script_Editor_tabWidget.count()):
 			if not self.Script_Editor_tabWidget.widget(i).file == file:
 				continue
+
+			LOGGER.debug("> File '{0}: Editor index '{1}'.".format(file, i))
 			return self.Script_Editor_tabWidget.widget(i)
 
 	@core.executionTrace
@@ -2261,6 +2294,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		tabIndex = self.Script_Editor_tabWidget.addTab(editor, editor.getFileShortName())
+		LOGGER.debug("> Assigning '{0}' editor to '{1}' tab index.".format(editor, tabIndex))
 		self.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
 
 		# Signals / Slots.
@@ -2280,6 +2314,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
+		LOGGER.debug("> Removing tab with index '{0}'.".format(tabIndex))
 		self.Script_Editor_tabWidget.removeTab(tabIndex)
 		return True
 
@@ -2296,6 +2331,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		for i in range(self.Script_Editor_tabWidget.count()):
 			if not self.Script_Editor_tabWidget.widget(i).file == file:
 				continue
+			LOGGER.debug("> File '{0}: Tab index '{1}'.".format(file, i))
 			return i
 
 	@core.executionTrace
@@ -2519,6 +2555,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not state:
 			return
 
+		LOGGER.debug("> Chosen line number: '{0}'.".format(line))
 		return editor.gotoLine(line)
 
 	@core.executionTrace
@@ -2535,6 +2572,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor:
 			return
 
+		LOGGER.debug("> Evaluating 'Script Editor' selected content.")
 		if self.evaluateCode(str(editor.textCursor().selectedText().replace(QChar(QChar.ParagraphSeparator),
 																			QString("\n")))):
 			self.dataChanged.emit()
@@ -2553,6 +2591,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor:
 			return
 
+		LOGGER.debug("> Evaluating 'Script Editor' content.")
 		if self.evaluateCode(str(editor.toPlainText())):
 			self.dataChanged.emit()
 			return True
@@ -2569,6 +2608,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		if not code:
 			return
+
+		LOGGER.debug("> Evaluating provided code.")
 
 		code = code.endswith("\n") and code or "{0}\n".format(code)
 		sys.stdout.write(code)

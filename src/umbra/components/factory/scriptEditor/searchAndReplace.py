@@ -20,8 +20,6 @@
 import functools
 import logging
 import os
-import sys
-from PyQt4 import uic
 from PyQt4.QtCore import QRegExp
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QWidget
@@ -177,7 +175,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if editor:
 			selectedText = editor.textCursor().selectedText()
 			selectedText and self.insertSearchPattern(selectedText)
-			
+
 		super(SearchAndReplace, self).show()
 		self.raise_()
 		self.Search_comboBox.setFocus()
@@ -273,6 +271,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 					break
 			isNotRegistered and comboBox.insertItem(0, currentText)
 
+		LOGGER.debug("> Storing '{0}' comboBox patterns in '{1}' settings key.".format(comboBox, settingsKey))
 		self.__container.settings.setKey(self.__container.settingsSection,
 										settingsKey,
 										",".join((unicode(comboBox.itemText(i),
@@ -308,10 +307,11 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:param patternsStorageMethod: Patterns storage method. ( Object )
 		"""
 
+		LOGGER.debug("> Inserting pattern '{0}' in '{1}' comboBox.".format(pattern, comboBox))
 		comboBox.insertItem(0, pattern)
-		comboBox.setCurrentIndex(0)		
+		comboBox.setCurrentIndex(0)
 		patternsStorageMethod()
-		
+
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def insertSearchPattern(self, pattern):
@@ -321,7 +321,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:param pattern: Search pattern. ( String )
 		:return: Method success. ( Boolean )
 		"""
-		
+
 		self.__insertPattern(pattern, self.Search_comboBox, self.__storeRecentSearchPatterns)
 		return True
 
@@ -334,7 +334,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:param pattern: Search pattern. ( String )
 		:return: Method success. ( Boolean )
 		"""
-		
+
 		self.__insertPattern(pattern, self.Search_comboBox, self.__storeRecentReplaceWithPatterns)
 		return True
 
@@ -355,11 +355,15 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if not editor or not searchPattern:
 			return
 
-		return editor.search(searchPattern, **{"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
-												"wholeWord" : self.Whole_Word_checkBox.isChecked(),
-												"regularExpressions" : self.Regular_Expressions_checkBox.isChecked(),
-												"backwardSearch" : self.Backward_Search_checkBox.isChecked(),
-												"wrapAround" : self.Wrap_Around_checkBox.isChecked()})
+		settings = {"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
+					"wholeWord" : self.Whole_Word_checkBox.isChecked(),
+					"regularExpressions" : self.Regular_Expressions_checkBox.isChecked(),
+					"backwardSearch" : self.Backward_Search_checkBox.isChecked(),
+					"wrapAround" : self.Wrap_Around_checkBox.isChecked()}
+
+		LOGGER.debug("> 'Search' on '{0}' search pattern with '{1}' settings.".format(searchPattern, settings))
+
+		return editor.search(searchPattern, **settings)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -379,13 +383,17 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if not editor or not searchPattern:
 			return
 
-		return editor.replace(searchPattern,
-							replacementPattern,
-							**{"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
-								"wholeWord" : self.Whole_Word_checkBox.isChecked(),
-								"regularExpressions" : self.Regular_Expressions_checkBox.isChecked(),
-								"backwardSearch" : self.Backward_Search_checkBox.isChecked(),
-								"wrapAround" : self.Wrap_Around_checkBox.isChecked()})
+		settings = {"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
+					"wholeWord" : self.Whole_Word_checkBox.isChecked(),
+					"regularExpressions" : self.Regular_Expressions_checkBox.isChecked(),
+					"backwardSearch" : self.Backward_Search_checkBox.isChecked(),
+					"wrapAround" : self.Wrap_Around_checkBox.isChecked()}
+
+
+		LOGGER.debug("> 'Replace' on search '{0}' pattern, '{1}' replacement pattern with '{2}' settings.".format(
+		searchPattern, replacementPattern, settings))
+
+		return editor.replace(searchPattern, replacementPattern, **settings)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -405,10 +413,13 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if not editor or not searchPattern:
 			return
 
-		return editor.replaceAll(searchPattern,
-								replacementPattern,
-								**{"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
-									"wholeWord" : self.Whole_Word_checkBox.isChecked(),
-									"regularExpressions" : self.Regular_Expressions_checkBox.isChecked(),
-									"backwardSearch" : False,
-									"wrapAround" : False})
+		settings = {"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
+					"wholeWord" : self.Whole_Word_checkBox.isChecked(),
+					"regularExpressions" : self.Regular_Expressions_checkBox.isChecked(),
+					"backwardSearch" : False,
+					"wrapAround" : False}
+
+		LOGGER.debug("> 'Replace All' on search '{0}' pattern, '{1}' replacement pattern with '{2}' settings.".format(
+		searchPattern, replacementPattern, settings))
+
+		return editor.replaceAll(searchPattern, replacementPattern, **settings)

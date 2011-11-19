@@ -175,6 +175,8 @@ class LanguagesModel(QAbstractListModel):
 			raise foundations.exceptions.ProgrammingError("{0} | '{1}' language is already registered!".format(
 			self.__class__.__name__, language.name))
 
+		LOGGER.debug("> Registering '{0}' language.".format(language.name))
+
 		self.__languages.append(language)
 		self.sortLanguages()
 		return True
@@ -192,6 +194,8 @@ class LanguagesModel(QAbstractListModel):
 		if not self.getLanguage(name):
 			raise foundations.exceptions.ProgrammingError("{0} | '{1}' language isn't registered!".format(
 			self.__class__.__name__, name))
+
+		LOGGER.debug("> Unregistering '{0}' language.".format(name))
 
 		for i, language in enumerate(self.__languages):
 			if not language.name == name:
@@ -213,6 +217,7 @@ class LanguagesModel(QAbstractListModel):
 
 		for language in self.__languages:
 			if language.name == name:
+				LOGGER.debug("> Language '{0}': '{1}'.".format(name, language))
 				return language
 
 	@core.executionTrace

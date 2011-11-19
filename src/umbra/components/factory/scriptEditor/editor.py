@@ -587,6 +587,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param File: File to set. ( String )
 		"""
 
+		LOGGER.debug("> Setting '{0}' editor file.".format(file))
 		self.__file = file
 		self.__isUntitled = False
 		self.setModified(False)
@@ -601,7 +602,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 
 		titleTemplate = self.isModified() and "{0} *" or "{0}"
-		self.setWindowTitle(titleTemplate.format(self.getFileShortName()))
+		windowTitle = titleTemplate.format(self.getFileShortName())
+
+		LOGGER.debug("> Setting editor title to '{0}'.".format(windowTitle))
+		self.setWindowTitle(windowTitle)
 		self.contentChanged.emit()
 
 	@core.executionTrace
@@ -617,6 +621,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 		This method sets the editor language accelerators.
 		"""
+
+		LOGGER.debug("> Setting editor language description.")
 
 		if not self.__language:
 			return
@@ -653,6 +659,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 			raise foundations.exceptions.ProgrammingError("{0} | '{1}' type is not 'Language'!".format(
 			self.__class__.__name__, language))
 
+		LOGGER.debug("> Setting editor language to '{0}'.".format(language.name))
 		self.__language = language
 		self.__setLanguageDescription()
 		emitSignal and self.languageChanged.emit()
