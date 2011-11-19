@@ -86,7 +86,7 @@ COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Script_Editor
 class ScriptEditor_QTabWidget(QTabWidget):
 	"""
 	| This class is a `QTabWidget <http://doc.qt.nokia.com/4.7/qtabwidget.html>`_ subclass used
-	to display **ScriptEditor** editors.
+		to display **ScriptEditor** editors.
 	| It provides support for drag'n'drop by reimplementing relevant methods.
 	"""
 

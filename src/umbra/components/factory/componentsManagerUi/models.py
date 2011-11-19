@@ -48,9 +48,8 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 class PathNode(umbra.ui.models.GraphModelNode):
 	"""
-	This class factory defines
-	:class:`umbra.components.factory.componentsManagerUi.componentsManagerUi.ComponentsManagerUi`
-	Component Interface class Model path node.
+	This class factory defines :class:`umbra.components.factory.componentsManagerUi.componentsManagerUi.ComponentsManagerUi`
+		Component Interface class Model path node.
 	"""
 
 	__family = "Category"
@@ -285,7 +284,7 @@ class ComponentsModel(umbra.ui.models.GraphModel):
 		This method initializes the Model using given root node.
 		
 		:param rootNode: Graph root node. ( DefaultNode )
-		return: Method success ( Boolean )
+		:return: Method success ( Boolean )
 		"""
 
 		LOGGER.debug("> Initializing model with '{0}' root node.".format(rootNode))

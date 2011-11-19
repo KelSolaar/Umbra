@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`Editor class and others helper objects.
+	This module defines the :class:`Editor` class and others helper objects.
 
 **Others:**
 
@@ -111,8 +111,8 @@ class Language(core.Structure):
 		This method initializes the class.
 
 		:param \*\*kwargs: name, file, parser,	extensions, highlighter, completer,	preInputAccelerators,
-		postInputAccelerators, indentMarker, commentMarker, commentBlockMarkerStart, commentBlockMarkerEnd,
-		symbolsPairs, indentationSymbols, rules, tokens, theme. ( Key / Value pairs )
+			postInputAccelerators, indentMarker, commentMarker, commentBlockMarkerStart, commentBlockMarkerEnd,
+			symbolsPairs, indentationSymbols, rules, tokens, theme. ( Key / Value pairs )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -278,7 +278,7 @@ TEXT_LANGUAGE = getTextLanguage()
 #**********************************************************************************************************************
 class Editor(CodeEditor_QPlainTextEdit):
 	"""
-	This class defines the default editor used by the: **ScriptEditor** Component. 
+	This class defines the default editor used by the **ScriptEditor** Component. 
 	"""
 
 	__instanceId = 1

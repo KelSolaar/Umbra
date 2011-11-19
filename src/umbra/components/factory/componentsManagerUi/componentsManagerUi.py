@@ -65,7 +65,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
 	| This class is the :mod:`umbra.components.core.componentsManagerUi.componentsManagerUi` Component Interface class.
 	| It defines methods to interact with
-	the :class:`manager.componentsManager.Manager` class Application instance Components.
+		the :class:`manager.componentsManager.Manager` class Application instance Components.
 	"""
 
 	# Custom signals definitions.
