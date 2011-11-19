@@ -298,7 +298,7 @@ class LinesNumbers_QWidget(QWidget):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
+	# @core.executionTrace
 	def sizeHint(self):
 		"""
 		This method reimplements the Widget **sizeHint** method.
@@ -308,7 +308,7 @@ class LinesNumbers_QWidget(QWidget):
 
 		return QSize(self.getWidth(), 0)
 
-	@core.executionTrace
+	# @core.executionTrace
 	def paintEvent(self, event):
 		"""
 		This method reimplements the Widget **paintEvent** method.
@@ -345,8 +345,8 @@ class LinesNumbers_QWidget(QWidget):
 			bottom = top + int(self.__editor.blockBoundingRect(block).height())
 			blockNumber += 1
 
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getWidth(self):
 		"""
 		This method returns the Widget target width.
@@ -356,8 +356,8 @@ class LinesNumbers_QWidget(QWidget):
 
 		return self.__margin + self.__editor.fontMetrics().width(str(max(1, self.__editor.blockCount())))
 
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setEditorViewportMargins(self, newBlocksCount):
 		"""
 		This method sets the editor viewport margins.
@@ -369,8 +369,8 @@ class LinesNumbers_QWidget(QWidget):
 		self.__editor.setViewportMargins(self.getWidth(), 0, 0, 0)
 		return True
 
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def updateRectangle(self, rectangle, scrollY):
 		"""
 		This method updates the given widget rectangle.
@@ -389,8 +389,8 @@ class LinesNumbers_QWidget(QWidget):
 			self.setEditorViewportMargins(0)
 		return True
 
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def updateGeometry(self):
 		"""
 		This method updates the widget geometry.
