@@ -8,7 +8,8 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`LinesNumbers_QWidget` and :class:`CodeEditor_QPlainTextEdit` classes.
+	| This module defines the :class:`LinesNumbers_QWidget` and :class:`CodeEditor_QPlainTextEdit` classes.
+	| Those objects provides the basics building blocks of a code editor widget.
 
 **Others:**
 	Portions of the code from codeeditor.py by Roberto Alsina: http://lateral.netmanagers.com.ar/weblog/posts/BB832.html
@@ -896,7 +897,6 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		:param completion: Completion text. ( QString )
 		"""
 
-
 		LOGGER.debug("> Inserting '{0}' completion.".format(completion))
 
 		textCursor = self.textCursor()
@@ -910,7 +910,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def setHighlighter(self, highlighter):
 		"""
-		This method sets given highlighter as the current highlighter.
+		This method sets given highlighter as the current document highlighter.
 
 		:param highlighter: Highlighter. ( QSyntaxHighlighter )
 		:return: Method success. ( Boolean )		
@@ -1015,7 +1015,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def storeTextCursorAnchor(self):
 		"""
-		This method stores the text cursor anchor.
+		This method stores the document cursor anchor.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -1029,7 +1029,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def restoreTextCursorAnchor(self):
 		"""
-		This method restores the text cursor anchor.
+		This method restores the document cursor anchor.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -1047,7 +1047,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getCursorLine(self):
 		"""
-		This method returns the text cursor line.
+		This method returns the document cursor line.
 
 		:return: Cursor line. ( Integer )		
 		"""
@@ -1058,7 +1058,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getCursorColumn(self):
 		"""
-		This method returns the text cursor column.
+		This method returns the document cursor column.
 
 		:return: Cursor column. ( Integer )		
 		"""
@@ -1089,7 +1089,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def textUnderCursor(self):
 		"""
-		This method returns the text under cursor.
+		This method returns the document text under cursor.
 
 		:return: Text under cursor. ( QString )		
 		"""
@@ -1102,7 +1102,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def wordUnderCursor(self):
 		"""
-		This method returns the word under cursor.
+		This method returns the document word under cursor.
 
 		:return: Word under cursor. ( QString )		
 		"""
@@ -1115,7 +1115,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def delete(self):
 		"""
-		This method deletes the text under cursor.
+		This method deletes the document text under cursor.
 
 		:return: Method success. ( Boolean )		
 		"""
@@ -1127,7 +1127,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def indent(self):
 		"""
-		This method indents the text under cursor.
+		This method indents the document text under cursor.
 
 		:return: Method success. ( Boolean )		
 		"""
@@ -1152,7 +1152,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def unindent(self):
 		"""
-		This method unindents the text under cursor.
+		This method unindents the document text under cursor.
 
 		:return: Method success. ( Boolean )		
 		"""
@@ -1187,10 +1187,20 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def search(self, pattern, **kwargs):
 		"""
-		This method searchs given pattern in the document.
-
+		This method searchs given pattern text in the document.
+		
+		Usage::
+			
+			>>> scriptEditor = Umbra.componentsManager.getInterface("factory.scriptEditor")
+			True
+			>>> codeEditor = scriptEditor.getCurrentEditor()
+			True
+			>>> codeEditor.search(searchPattern, caseSensitive=True, wholeWord=True, regularExpressions=True, \
+backwardSearch=True, wrapAround=True)
+			True
+				
 		:param pattern: Pattern to search for. ( String )
-		:param \*\*kwargs: Format settings. ( Key / Value pairs )
+		:param \*\*kwargs: Search settings. ( Key / Value pairs )
 		:return: Method success. ( Boolean )		
 		"""
 
@@ -1278,6 +1288,16 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 		This method replaces current given pattern occurence in the document with the replacement pattern.
 
+		Usage::
+			
+			>>> scriptEditor = Umbra.componentsManager.getInterface("factory.scriptEditor")
+			True
+			>>> codeEditor = scriptEditor.getCurrentEditor()
+			True
+			>>> codeEditor.replace(searchPattern, replacementPattern, caseSensitive=True, wholeWord=True, \
+regularExpressions=True, backwardSearch=True, wrapAround=True)
+			True
+
 		:param pattern: Pattern to replace. ( String )
 		:param replacementPattern: Replacement pattern. ( String )
 		:param \*\*kwargs: Format settings. ( Key / Value pairs )
@@ -1345,7 +1365,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setContent(self, content):
 		"""
-		This method sets document content while providing undo capability.
+		This method sets document with given content while providing undo capability.
 
 		:param content: Content to set. ( List )
 		:return: Method success. ( Boolean )		
@@ -1436,7 +1456,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def toggleWhiteSpaces(self):
 		"""
-		This method toggles document white spaces.
+		This method toggles document white spaces display.
 
 		:return: Method success. ( Boolean )		
 		"""
@@ -1536,7 +1556,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def isModified(self):
 		"""
-		This method returns if the editor document is modified.
+		This method returns if the document is modified.
 
 		:return: Document modified state. ( Boolean )		
 		"""
@@ -1547,7 +1567,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setModified(self, state):
 		"""
-		This method sets the editor document modified state.
+		This method sets the document modified state.
 
 		:param state: Modified state. ( Boolean )
 		:return: Method success. ( Boolean )		
@@ -1560,7 +1580,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def isEmpty(self):
 		"""
-		This method returns if the editor document is empty.
+		This method returns if the document is empty.
 
 		:return: Document empty state. ( Boolean )		
 		"""

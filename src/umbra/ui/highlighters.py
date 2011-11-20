@@ -209,8 +209,8 @@ class FormatsTree(object):
 					currentNode.addChild(formatNode)
 				currentNode = formatNode
 
-	# @core.executionTrace
-	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listFormats(self, node, path=(), formats=None):
 		"""
 		This method lists the object formats in sorted order.
@@ -229,8 +229,8 @@ class FormatsTree(object):
 		path and formats.append(".".join(path))
 		return sorted(formats)
 
-	# @core.executionTrace
-	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	@core.memoize()
 	def getFormat(self, name):
 		"""

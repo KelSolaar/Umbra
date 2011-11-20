@@ -8,7 +8,8 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines **scriptEditor** component exceptions. 
+	This module defines the :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Component Interface class exceptions. 
 
 **Others:**
 

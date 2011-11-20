@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`ScriptEditor` Component Interface class.
+	This module defines the :class:`ScriptEditor` Component Interface class and :class:`ScriptEditor_QTabWidget` class.
 
 **Others:**
 
@@ -2010,7 +2010,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __fileSystemWatcher__fileChanged(self, file):
 		"""
-		This method is triggered by the :obj:`fileSystemWatcher` class property when a file is modified.
+		This method is triggered by the :obj:`ScriptEditor.fileSystemWatcher` class property when a file is modified.
 		
 		:param file: File modified. ( String )
 		"""
@@ -2158,7 +2158,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __setWindowTitle(self):
 		"""
-		This method sets the **scriptEditor** Component window title.
+		This method sets the Component window title.
 		"""
 
 		if self.hasEditorTab():
@@ -2172,7 +2172,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __setEditorTabName(self, tabIndex):
 		"""
-		This method sets the editor tab name.
+		This method sets the name of the **Script_Editor_tabWidget** Widget tab with given index.
 
 		:param tabIndex: Index of the tab containing the editor. ( Integer )
 		"""
@@ -2207,7 +2207,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setEditorLanguage(self, editor, language, emitSignal=True):
 		"""
-		This method sets given editor language.
+		This method sets given language to given **Script_Editor_tabWidget** Widget tab editor.
 		
 		:param editor: Editor to set language to. ( Editor )
 		:param language: Language to set. ( Language )
@@ -2223,7 +2223,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
 	def getCurrentEditor(self):
 		"""
-		This method returns the current editor.
+		This method returns the current **Script_Editor_tabWidget** Widget tab editor.
 
 		:return: Current editor. ( Editor )
 		"""
@@ -2237,7 +2237,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def findEditor(self, file):
 		"""
-		This method finds the :class:`Editor` instance associated with the given file.
+		This method finds the **Script_Editor_tabWidget** Widget tab editor associated to given file.
 
 		:param file: File to search editors for. ( String )
 		:return: Editor. ( Editor )
@@ -2254,7 +2254,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
 	def loadFile_ui(self):
 		"""
-		This method loads user chosen file into a new :class:`Editor` instance with its associated tab.
+		This method loads user chosen file into in the current **Script_Editor_tabWidget** Widget tab editor.
 
 		:return: Method success. ( Boolean )
 		
@@ -2273,7 +2273,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
 	def searchAndReplace_ui(self):
 		"""
- 		This method performs a search and replace in the current widget tab editor.
+ 		This method performs a search and replace in the current **Script_Editor_tabWidget** Widget tab editor.
 
 		:return: Method success. ( Boolean )
 
@@ -2322,7 +2322,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def findEditorTab(self, file):
 		"""
-		This method finds the :class:`Editor` instance tab associated with the given file.
+		This method finds the **Script_Editor_tabWidget** Widget tab associated with the given file.
 
 		:param file: File to search editors for. ( String )
 		:return: Tab index. ( Editor )
@@ -2338,7 +2338,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def hasEditorTab(self):
 		"""
-		This method returns if the **Script_Editor_tabWidget** Widget has at least a tab.
+		This method returns if the **Script_Editor_tabWidget** Widget has at least one tab.
 
 		:return: Has tab. ( Boolean )
 		"""
@@ -2349,7 +2349,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def newFile(self):
 		"""
-		This method creates a new file into a new :class:`Editor` instance with its associated tab.
+		This method creates a new file into a new **Script_Editor_tabWidget** Widget tab.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -2364,8 +2364,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def loadFile(self, file):
 		"""
-		This method reads and loads given file into a new :class:`Editor` instance
-		with its associated tab or sets the focus on an existing tab if the file is already loaded.
+		This method loads user chosen file in a new **Script_Editor_tabWidget** Widget tab editor.
 
 		:param file: File to load. ( String )
 		:return: Method success. ( Boolean )
@@ -2401,7 +2400,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def reloadFile(self, file):
 		"""
-		This method reloads given file into its associated tab.
+		This method reloads current **Script_Editor_tabWidget** Widget tab editor file content.
 
 		:param file: File to reload. ( String )
 		:return: Method success. ( Boolean )
@@ -2421,7 +2420,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def saveFile(self):
 		"""
-		This method saves current :class:`Editor` instance file.
+		This method saves current **Script_Editor_tabWidget** Widget tab editor file.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -2438,7 +2437,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def saveFileAs(self):
 		"""
-		This method saves current :class:`Editor` instance file as user defined file.
+ 		This method saves current **Script_Editor_tabWidget** Widget tab editor file as user chosen file.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -2462,7 +2461,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@umbra.engine.encapsulateProcessing
 	def saveAllFiles(self):
 		"""
-		This method saves all :class:`Editor` instances files.
+ 		This method saves all **Script_Editor_tabWidget** Widget tab editor files.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -2488,8 +2487,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def closeFile(self):
 		"""
- 		This method closes current :class:`Editor` instance file
-		and removes the associated **Script_Editor_tabWidget** Widget tab.
+ 		This method closes current file and removes its associated **Script_Editor_tabWidget** Widget tab.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -2513,8 +2511,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@umbra.engine.encapsulateProcessing
 	def closeAllFiles(self, leaveLastEditor=True):
 		"""
- 		This method closes every :class:`Editor` instances
-		and removes their associated **Script_Editor_tabWidget** Widget tabs.
+ 		This method closes every opened files and removes their associated **Script_Editor_tabWidget** Widget tabs.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -2540,7 +2537,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
 	def gotoLine(self):
 		"""
- 		This method moves current widget tab editor cursor to user defined line.
+ 		This method moves current **Script_Editor_tabWidget** Widget tab editor cursor to user defined line.
 
 		:return: Method success. ( Boolean )
 
@@ -2582,7 +2579,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def evaluateScript(self):
 		"""
-		This method evaluates current **Script_Editor_tabWidget** Widget tab editor content in the interactive console.
+		This method evaluates current **Script_Editor_tabWidget** Widget tab editor content into the interactive console.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -2600,7 +2597,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def evaluateCode(self, code):
 		"""
-		This method evaluates given code in the interactive console.
+		This method evaluates given code into the interactive console.
 
 		:param code: Code to evaluate. ( String )
 		:return: Method success. ( Boolean )

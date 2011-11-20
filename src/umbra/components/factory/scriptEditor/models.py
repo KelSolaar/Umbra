@@ -53,7 +53,8 @@ LOGGER = logging.getLogger(Constants.logger)
 class LanguagesModel(QAbstractListModel):
 	"""
 	This class is a `QAbstractListModel <http://doc.qt.nokia.com/4.7/qabstractListmodel.html>`_ subclass used
-	to store **ScriptEditor** languages.
+	to store the :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Component Interface class languages.
 	"""
 
 	@core.executionTrace
@@ -185,7 +186,7 @@ class LanguagesModel(QAbstractListModel):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def unregisterLanguage(self, name):
 		"""
-		This method unregisters given language name from the :obj:`LanguagesModel.languages` class property.
+		This method unregisters language with given name from the :obj:`LanguagesModel.languages` class property.
 		
 		:param name: Language to unregister. ( String )
 		:return: Method success. ( Boolean )
@@ -209,7 +210,7 @@ class LanguagesModel(QAbstractListModel):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getLanguage(self, name):
 		"""
-		This method returns the language associated with given name.
+		This method returns the language with given name.
 		
 		:param name: Language name. ( String )
 		:return: File language. ( Language )

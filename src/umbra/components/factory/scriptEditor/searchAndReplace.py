@@ -256,7 +256,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@core.executionTrace
 	def __storeRecentPatterns(self, comboBox, settingsKey):
 		"""
-		This method stores given :class:`QComboBox` class patterns.
+		This method stores given `QComboBox <http://doc.qt.nokia.com/4.7/qcombox.html>`_ class patterns.
 		
 		:param comboBox: QComboBox. ( QComboBox )
 		:param settingsKey: Associated settings key. ( String )
@@ -316,7 +316,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def insertSearchPattern(self, pattern):
 		"""
-		This method inserts given pattern in the **Search_comboBox**.
+		This method inserts given pattern in the **Search_comboBox** Widget.
 
 		:param pattern: Search pattern. ( String )
 		:return: Method success. ( Boolean )
@@ -329,7 +329,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def insertReplaceWithPattern(self, pattern):
 		"""
-		This method inserts given pattern in the **Replace_With_comboBox**.
+		This method inserts given pattern in the **Replace_With_comboBox** Widget.
 
 		:param pattern: Search pattern. ( String )
 		:return: Method success. ( Boolean )
@@ -342,7 +342,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def search(self):
 		"""
-		This method searchs current widget tab editor for search pattern.
+		This method searchs current Widget tab editor for search pattern.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -369,7 +369,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def replace(self):
 		"""
-		This method replaces current widget tab editor current search pattern occurence with replacement pattern.
+		This method replaces current Widget tab editor current search pattern occurence with replacement pattern.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -399,7 +399,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def replaceAll(self):
 		"""
-		This method replaces current widget tab editor search pattern occurences with replacement pattern.
+		This method replaces current Widget tab editor search pattern occurences with replacement pattern.
 
 		:return: Method success. ( Boolean )
 		"""

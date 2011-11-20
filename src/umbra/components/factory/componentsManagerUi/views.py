@@ -26,7 +26,6 @@ from PyQt4.QtGui import QAbstractItemView
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.core as core
-import foundations.namespace
 import foundations.exceptions
 import umbra.ui.views
 from umbra.globals.constants import Constants

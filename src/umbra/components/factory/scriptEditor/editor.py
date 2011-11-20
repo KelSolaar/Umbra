@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`Editor` class and others helper objects.
+	This module defines the :class:`Editor` class and others editing helper objects.
 
 **Others:**
 
@@ -65,7 +65,7 @@ __all__ = ["LOGGER",
 		"LANGUAGES_ACCELERATORS",
 		"DEFAULT_INDENT_MARKER",
 		"Language",
-		"getObjectFromLanguageCapability",
+		"getObjectFromLanguageAccelerators",
 		"getLanguageDescription",
 		"getPythonLanguage",
 		"getLoggingLanguage",
@@ -278,7 +278,8 @@ TEXT_LANGUAGE = getTextLanguage()
 #**********************************************************************************************************************
 class Editor(CodeEditor_QPlainTextEdit):
 	"""
-	This class defines the default editor used by the **ScriptEditor** Component. 
+	This class defines the default editor used by
+	the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` Component Interface class. 
 	"""
 
 	__instanceId = 1
@@ -669,7 +670,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getFileShortName(self):
 		"""
-		This method returns the current file short name.
+		This method returns the current editor file short name.
 
 		:return: File short name. ( String )
 		"""
@@ -683,7 +684,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getNextUntitledFileName(self):
 		"""
-		This method returns the next untitled file name.
+		This method returns the next untitled editor file name.
 
 		:return: File short name. ( String )
 		"""
@@ -696,7 +697,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def newFile(self):
 		"""
-		This method creates a new file.
+		This method creates a new editor file.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -739,7 +740,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def reloadFile(self):
 		"""
-		This method reloads the current file into the editor.
+		This method reloads the current editor file.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -758,7 +759,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def saveFile(self):
 		"""
-		This method saves the editor content.
+		This method saves the editor file content.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -772,7 +773,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
 	def saveFileAs(self):
 		"""
-		This method saves the editor content into user defined file.
+		This method saves the editor file content into user chosen file.
 
 		:return: Method success. ( Boolean )
 		
@@ -792,7 +793,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def writeFile(self, file):
 		"""
-		This method writes the editor content into given file.
+		This method writes the editor file content into given file.
 
 		:param file: File to write. ( String )
 		:return: Method success. ( Boolean )

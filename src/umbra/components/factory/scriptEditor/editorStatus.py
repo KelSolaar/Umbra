@@ -50,7 +50,8 @@ UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Editor_Status.ui")
 #**********************************************************************************************************************
 class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
-	This class defines the **ScriptEditor** Component status bar widget. 
+	This class defines the
+	:class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` Component Interface class status bar widget. 
 	"""
 
 	@core.executionTrace
@@ -194,7 +195,9 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@core.executionTrace
 	def __editor__cursorPositionChanged(self):
 		"""
-		This method is triggered when an editor cursor position is changed.
+		This method is triggered when a
+		:class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` Component Interface class editor
+		cursor position is changed.
 		"""
 
 		if not self.__container.hasEditorTab():

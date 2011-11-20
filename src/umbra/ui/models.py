@@ -281,7 +281,10 @@ class GraphModel(QAbstractItemModel):
 	| This class is a `QAbstractItemModel <http://doc.qt.nokia.com/4.7/qabstractitemmodel.html>`_ subclass
 		providing a graph model.
 	| The model provided by this object is very generic and abstract making it compatible with major Qt Views
-		( QListView, QTreeView, QTableView, QComboBox ).
+		( `QListView <http://doc.qt.nokia.com/4.7/qlistview.html>`_,
+		`QTreeView <http://doc.qt.nokia.com/4.7/QTreeView.html>`_,
+		`QTableView <http://doc.qt.nokia.com/4.7/qtableview.html>`_,
+		`QComboBox <http://doc.qt.nokia.com/4.7/qcombobox.html>`_ ).
 
 	:note: Execution tracing and exceptions handling decorators have been disabled on this class
 		to provide maximum execution speed.
@@ -477,8 +480,8 @@ class GraphModel(QAbstractItemModel):
 						return attribute.roles.get(role, QVariant())
 		return QVariant()
 
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setData(self, index, value, role=Qt.EditRole):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.setData` method.
@@ -722,8 +725,8 @@ class GraphModel(QAbstractItemModel):
 		if column > 0 and column < len(self.__horizontalHeaders.keys()):
 			return node.get(self.__horizontalHeaders[self.__horizontalHeaders.keys()[column]], None)
 
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getNodeIndex(self, node):
 		"""
 		This method returns given node index.
@@ -734,8 +737,8 @@ class GraphModel(QAbstractItemModel):
 
 		return self.createIndex(node.row(), 0, node)
 
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getAttributeIndex(self, node, column):
 		"""
 		This method returns given node attribute index at given column.
@@ -748,8 +751,8 @@ class GraphModel(QAbstractItemModel):
 		if column > 0 and column < len(self.__horizontalHeaders.keys()):
 			return self.createIndex(node.row(), column, node)
 
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def findChildren(self, pattern=".*", flags=0):
 		"""
 		This method finds the children matching the given patten.
