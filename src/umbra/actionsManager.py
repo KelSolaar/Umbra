@@ -370,7 +370,7 @@ class ActionsManager(QObject):
 		This method registers given action name, optional arguments like a parent, icon, slot etc ... can be given.
 
 		:param name: Action to register. ( String )
-		:param \*\*kwargs: Keywords arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		:return: Action. ( QAction )
 		"""
 

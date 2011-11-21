@@ -193,7 +193,7 @@ def showProcessing(message=str()):
 			This decorator is used for a processing operation.
 
 			:param \*args: Arguments. ( \* )
-			:param \*\*kwargs: Keywords arguments. ( \* )
+			:param \*\*kwargs: Keywords arguments. ( \*\* )
 			"""
 
 			RuntimeGlobals.engine.startProcessing(message, 0, warning=False)
@@ -218,7 +218,7 @@ def encapsulateProcessing(object):
 		This decorator is used to encapsulate a processing operation.
 
 		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		"""
 
 		RuntimeGlobals.engine._Umbra__storeProcessingState()
@@ -255,7 +255,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param requisiteComponents: Requisite components names. ( Tuple / List )
 		:param visibleComponents: Visible components names. ( Tuple / List )
 		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))

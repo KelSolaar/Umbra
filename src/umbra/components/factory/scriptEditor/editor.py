@@ -298,7 +298,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param file: File path. ( String )
 		:param language: Editor language. ( Language )
 		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))

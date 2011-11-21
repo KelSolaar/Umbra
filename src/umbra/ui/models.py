@@ -68,7 +68,7 @@ class GraphModelAttribute(Attribute):
 		:param value: Attribute value. ( Object )
 		:param roles: Roles. ( Dictionary )
 		:param flags: Flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -169,7 +169,7 @@ class GraphModelNode(AbstractCompositeNode):
 		:param children: Children. ( List )
 		:param roles: Roles. ( Dictionary )
 		:param flags: Flags. ( Qt.ItemFlag )
-		:param \*\*kwargs: Keywords arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -269,7 +269,7 @@ class DefaultNode(AbstractCompositeNode):
 		:param name: Node name.  ( String )
 		:param parent: Node parent. ( AbstractCompositeNode )
 		:param children: Children. ( List )
-		:param \*\*kwargs: Keywords arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))

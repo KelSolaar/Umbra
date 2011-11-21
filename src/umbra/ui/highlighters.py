@@ -86,7 +86,7 @@ class FormatNode(AbstractCompositeNode):
 		:param parent: Node parent. ( AbstractNode / AbstractCompositeNode )
 		:param children: Children. ( List )
 		:param format: Format. ( Object )
-		:param \*\*kwargs: Keywords arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))

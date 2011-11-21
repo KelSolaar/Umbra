@@ -112,7 +112,7 @@ def uiExtendedExceptionHandler(exception, origin, *args, **kwargs):
 	:param exception: Exception. ( Exception )
 	:param origin: Function / Method raising the exception. ( String )
 	:param \*args: Arguments. ( \* )
-	:param \*\*kwargs: Keywords arguments. ( \* )
+	:param \*\*kwargs: Keywords arguments. ( \*\* )
 	"""
 
 	foundations.exceptions.defaultExceptionsHandler(exception, origin, *args, **kwargs)
@@ -126,7 +126,7 @@ def uiStandaloneExtendedExceptionHandler(exception, origin, *args, **kwargs):
 	:param exception: Exception. ( Exception )
 	:param origin: Function / Method raising the exception. ( String )
 	:param \*args: Arguments. ( \* )
-	:param \*\*kwargs: Keywords arguments. ( \* )
+	:param \*\*kwargs: Keywords arguments. ( \*\* )
 	"""
 
 	foundations.exceptions.defaultExceptionsHandler(exception, origin, *args, **kwargs)
@@ -140,7 +140,7 @@ def uiBasicExceptionHandler(exception, origin, *args, **kwargs):
 	:param exception: Exception. ( Exception )
 	:param origin: Function / Method raising the exception. ( String )
 	:param \*args: Arguments. ( \* )
-	:param \*\*kwargs: Keywords arguments. ( \* )
+	:param \*\*kwargs: Keywords arguments. ( \*\* )
 	"""
 
 	foundations.exceptions.defaultExceptionsHandler(exception, origin, *args, **kwargs)
@@ -154,7 +154,7 @@ def uiStandaloneBasicExceptionHandler(exception, origin, *args, **kwargs):
 	:param exception: Exception. ( Exception )
 	:param origin: Function / Method raising the exception. ( String )
 	:param \*args: Arguments. ( \* )
-	:param \*\*kwargs: Keywords arguments. ( \* )
+	:param \*\*kwargs: Keywords arguments. ( \*\* )
 	"""
 
 	foundations.exceptions.defaultExceptionsHandler(exception, origin, *args, **kwargs)
@@ -168,7 +168,7 @@ def uiSystemExitExceptionHandler(exception, origin, *args, **kwargs):
 	:param exception: Exception. ( Exception )
 	:param origin: Function / Method raising the exception. ( String )
 	:param \*args: Arguments. ( \* )
-	:param \*\*kwargs: Keywords arguments. ( \* )
+	:param \*\*kwargs: Keywords arguments. ( \*\* )
 	"""
 
 	uiExtendedExceptionHandler(exception, origin, *args, **kwargs)
@@ -184,7 +184,7 @@ def uiStandaloneSystemExitExceptionHandler(exception, origin, *args, **kwargs):
 	:param exception: Exception. ( Exception )
 	:param origin: Function / Method raising the exception. ( String )
 	:param \*args: Arguments. ( \* )
-	:param \*\*kwargs: Keywords arguments. ( \* )
+	:param \*\*kwargs: Keywords arguments. ( \*\* )
 	"""
 
 	uiStandaloneExtendedExceptionHandler(exception, origin, *args, **kwargs)
@@ -313,7 +313,7 @@ def showWaitCursor(object):
 		This decorator is used to show a wait cursor while processing.
 
 		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		:return: Object. ( Object )
 		"""
 
