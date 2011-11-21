@@ -296,7 +296,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__timer = QTimer(self)
 		self.__timer.start(Constants.defaultTimerCycle)
 
-		# --- Initializing application. ---
+		# --- Initializing Application. ---
 		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage(
 		"{0} - {1} | Initializing interface.".format(self.__class__.__name__, Constants.releaseVersion),
 		textColor=Qt.white,
