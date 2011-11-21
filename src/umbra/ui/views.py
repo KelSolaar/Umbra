@@ -41,13 +41,34 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "getViewSelectedNodes", "ReadOnlyFilter", "Abstract_QListView", "Abstract_QTreeView"]
+__all__ = ["LOGGER", "getViewNodesFromIndexes", "getViewSelectedNodes", "ReadOnlyFilter", "Abstract_QListView", "Abstract_QTreeView"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
+@core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
+@core.memoize(None)
+def getViewNodesFromIndexes(view, *indexes):
+	"""
+	This method returns the given View nodes from given indexes.
+
+	:param view: View. ( QWidget )
+	:param \*indexes: Indexes. ( List )
+	:return: View nodes. ( Dictionary )
+	"""
+
+	nodes = {}
+	for index in indexes:
+		node = view.model().getNode(index)
+		if not node in nodes.keys():
+			nodes[node] = []
+		attribute = view.model().getAttribute(node, index.column())
+		attribute and nodes[node].append(attribute)
+	return nodes
+
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def getViewSelectedNodes(view):
@@ -58,14 +79,7 @@ def getViewSelectedNodes(view):
 	:return: View selected nodes. ( Dictionary )
 	"""
 
-	nodes = {}
-	for index in view.selectedIndexes():
-		node = view.model().getNode(index)
-		if not node in nodes.keys():
-			nodes[node] = []
-		attribute = view.model().getAttribute(node, index.column())
-		attribute and nodes[node].append(attribute)
-	return nodes
+	return getViewNodesFromIndexes(view, *view.selectedIndexes())
 
 class ReadOnlyFilter(QObject):
 	"""
