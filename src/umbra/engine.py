@@ -1736,7 +1736,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__isProcessing = False
 		self.Application_Progress_Status_processing.Processing_label.setText(QString())
 		self.Application_Progress_Status_processing.Processing_progressBar.setRange(0, 100)
-		self.Application_Progress_Status_processing.Processing_progressBar.setValue(24)
+		self.Application_Progress_Status_processing.Processing_progressBar.setValue(0)
 		self.Application_Progress_Status_processing.hide()
 		return True
 

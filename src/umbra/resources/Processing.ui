@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>Processing_Form</class>
  <widget class="QWidget" name="Processing_Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>127</width>
+    <height>20</height>
+   </rect>
+  </property>
   <property name="windowTitle">
    <string>Processing</string>
   </property>
@@ -23,9 +31,6 @@
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
-     </property>
-     <property name="value">
-      <number>24</number>
      </property>
     </widget>
    </item>
