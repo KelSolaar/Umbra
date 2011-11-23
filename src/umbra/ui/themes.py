@@ -25,6 +25,7 @@ from PyQt4.QtGui import QTextCharFormat
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.core as core
+import foundations.dataStructures
 import foundations.exceptions
 from umbra.globals.constants import Constants
 
@@ -59,7 +60,7 @@ def getFormat(**kwargs):
 	:return: Format. ( QTextCharFormat )
 	"""
 
-	settings = core.Structure(**{"format" : QTextCharFormat(),
+	settings = foundations.dataStructures.Structure(**{"format" : QTextCharFormat(),
 								"backgroundColor" : None,
 								"color" : None,
 								"fontWeight" : None,

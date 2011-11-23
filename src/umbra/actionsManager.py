@@ -30,6 +30,7 @@ from PyQt4.QtGui import QKeySequence
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.core as core
+import foundations.dataStructures
 import foundations.exceptions
 import foundations.namespace
 import foundations.walkers
@@ -374,7 +375,7 @@ class ActionsManager(QObject):
 		:return: Action. ( QAction )
 		"""
 
-		settings = core.Structure(**{"parent" : None,
+		settings = foundations.dataStructures.Structure(**{"parent" : None,
 									"text" : None,
 									"icon" : None,
 									"iconText" : None,

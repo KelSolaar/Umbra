@@ -103,6 +103,7 @@ _extendResourcesPaths()
 #**********************************************************************************************************************
 import foundations.common
 import foundations.core as core
+import foundations.dataStructures
 import foundations.exceptions
 import foundations.io as io
 import foundations.strings
@@ -280,7 +281,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__loggingSessionHandlerStream = RuntimeGlobals.loggingSessionHandlerStream
 		self.__loggingActiveFormatter = RuntimeGlobals.loggingActiveFormatter
 		self.__settings = RuntimeGlobals.settings
-		self.__settings._data = core.Structure(restoreGeometryOnLayoutChange=True)
+		self.__settings._data = foundations.dataStructures.Structure(restoreGeometryOnLayoutChange=True)
 		self.__verbosityLevel = RuntimeGlobals.verbosityLevel
 		self.__parameters = RuntimeGlobals.parameters
 		self.__layoutsActiveLabels = None

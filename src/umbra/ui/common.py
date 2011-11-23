@@ -31,6 +31,7 @@ from PyQt4.QtGui import QIcon
 #**********************************************************************************************************************
 import foundations.common
 import foundations.core as core
+import foundations.dataStructures
 import foundations.exceptions
 import umbra.exceptions
 import umbra.ui.widgets.messageBox as messageBox
@@ -70,7 +71,7 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class LayoutActiveLabel(core.Structure):
+class LayoutActiveLabel(foundations.dataStructures.Structure):
 	"""
 	This class represents a storage object for layout active labels attributes.
 	"""
@@ -85,9 +86,9 @@ class LayoutActiveLabel(core.Structure):
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		core.Structure.__init__(self, **kwargs)
+		foundations.dataStructures.Structure.__init__(self, **kwargs)
 
-class Icon(core.Structure):
+class Icon(foundations.dataStructures.Structure):
 	"""
 	This class represents a storage object for icon.
 	"""
@@ -102,7 +103,7 @@ class Icon(core.Structure):
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		core.Structure.__init__(self, **kwargs)
+		foundations.dataStructures.Structure.__init__(self, **kwargs)
 
 @core.executionTrace
 def uiExtendedExceptionHandler(exception, origin, *args, **kwargs):

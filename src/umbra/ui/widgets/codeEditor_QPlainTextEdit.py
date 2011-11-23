@@ -44,6 +44,7 @@ from PyQt4.QtGui import QWidget
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.core as core
+import foundations.dataStructures
 import foundations.exceptions
 import foundations.strings
 from umbra.globals.constants import Constants
@@ -1204,7 +1205,7 @@ backwardSearch=True, wrapAround=True)
 		:return: Method success. ( Boolean )		
 		"""
 
-		settings = core.Structure(**{"caseSensitive" : False,
+		settings = foundations.dataStructures.Structure(**{"caseSensitive" : False,
 								"wholeWord" : False,
 								"regularExpressions" : False,
 								"backwardSearch" : False,

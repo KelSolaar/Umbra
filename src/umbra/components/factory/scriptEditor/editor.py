@@ -33,6 +33,7 @@ from PyQt4.QtGui import QTextOption
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.core as core
+import foundations.dataStructures
 import foundations.exceptions
 import foundations.io as io
 import foundations.parsers
@@ -100,7 +101,7 @@ DEFAULT_INDENT_MARKER = "\t"
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class Language(core.Structure):
+class Language(foundations.dataStructures.Structure):
 	"""
 	This class represents a storage object for the :class:`Editor` class language description. 
 	"""
@@ -117,7 +118,7 @@ class Language(core.Structure):
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		core.Structure.__init__(self, **kwargs)
+		foundations.dataStructures.Structure.__init__(self, **kwargs)
 
 @core.executionTrace
 def getObjectFromLanguageAccelerators(accelerator):
