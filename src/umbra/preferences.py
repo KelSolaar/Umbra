@@ -57,20 +57,20 @@ class Preferences():
 	"""
 
 	@core.executionTrace
-	def __init__(self, preferencesFile=None):
+	def __init__(self, file=None):
 		"""
 		This method initializes the class.
 
-		:param preferencesFile: Current preferences file path. ( String )
+		:param file: Current preferences file path. ( String )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
 		# --- Setting class attributes. ---
-		self.__preferencesFile = None
-		self.__preferencesFile = preferencesFile
+		self.__file = None
+		self.__file = file
 
-		self.__settings = QSettings(self.__preferencesFile, QSettings.IniFormat)
+		self.__settings = QSettings(self.__file, QSettings.IniFormat)
 
 		# --- Initializing preferences. ---
 		self.__getDefaultSettings()
@@ -80,39 +80,39 @@ class Preferences():
 	#***	Attributes properties.
 	#******************************************************************************************************************
 	@property
-	def preferencesFile(self):
+	def file(self):
 		"""
-		This method is the property for **self.__preferencesFile** attribute.
+		This method is the property for **self.__file** attribute.
 
-		:return: self.__preferencesFile. ( String )
+		:return: self.__file. ( String )
 		"""
 
-		return self.__preferencesFile
+		return self.__file
 
-	@preferencesFile.setter
+	@file.setter
 	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def preferencesFile(self, value):
+	def file(self, value):
 		"""
-		This method is the setter method for **self.__preferencesFile** attribute.
+		This method is the setter method for **self.__file** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
 
 		if value is not None:
 			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
-			"preferencesFile", value)
-			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("preferencesFile", value)
-		self.__preferencesFile = value
+			"file", value)
+			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("file", value)
+		self.__file = value
 
-	@preferencesFile.deleter
+	@file.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def preferencesFile(self):
+	def file(self):
 		"""
-		This method is the deleter method for **self.__preferencesFile** attribute.
+		This method is the deleter method for **self.__file** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "preferencesFile"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "file"))
 
 	@property
 	def settings(self):

@@ -1293,10 +1293,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Calling '{0}' Component Framework 'onClose' method.".format(self.__class__.__name__))
 
-		self.__timer.stop()
-		self.__timer = None
-
-		return self.closeAllFiles(leaveLastEditor=False)
+		if self.closeAllFiles(leaveLastEditor=False):
+			self.__timer.stop()
+			self.__timer = None
+			return True
 
 	@core.executionTrace
 	def __initializeMenuBar(self):

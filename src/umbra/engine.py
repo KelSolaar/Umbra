@@ -310,6 +310,11 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__isProcessing = False
 
 		self.__processingState = None
+		self.__userLayouts = (("1", Qt.Key_1, "one"),
+							("2", Qt.Key_2, "two"),
+							("3", Qt.Key_3, "three"),
+							("4", Qt.Key_4, "four"),
+							("5", Qt.Key_5, "five"))
 
 		# --- Initializing timer. ---
 		self.__timer = QTimer(self)
@@ -333,7 +338,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		# Setting window title and toolBar.
 		self.setWindowTitle("{0} - {1}".format(Constants.applicationName, Constants.releaseVersion))
-		self.initializeToolBar()
+		self.__initializeToolBar()
 
 		# Setting processing widget.
 		self.Application_Progress_Status_processing = Processing(self, Qt.Window)
@@ -1186,6 +1191,35 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		textColor=Qt.white)
 
 	@core.executionTrace
+	def __initializeToolBar(self):
+		"""
+		This method initializes the Application toolBar.
+		"""
+
+		LOGGER.debug("> Initializing Application toolBar!")
+		self.toolBar.setIconSize(QSize(UiConstants.defaultToolbarIconSize, UiConstants.defaultToolbarIconSize))
+
+		LOGGER.debug("> Adding 'Application_Logo_label' widget!")
+		self.toolBar.addWidget(self.getApplicationLogoLabel())
+
+		LOGGER.debug("> Adding 'Spacer_label' widget!")
+		self.toolBar.addWidget(self.getSpacerLabel())
+
+		LOGGER.debug("> Adding 'Development_activeLabel', 'Preferences_activeLabel' widgets!")
+		self.getLayoutsActiveLabels()
+		for activeLabel in self.__layoutsActiveLabels:
+			self.toolBar.addWidget(activeLabel.object)
+
+		LOGGER.debug("> Adding 'Custom_Layouts_activeLabel' widget!")
+		self.toolBar.addWidget(self.getCustomLayoutsActiveLabel())
+
+		LOGGER.debug("> Adding 'Miscellaneous_activeLabel' widget!")
+		self.toolBar.addWidget(self.getMiscellaneousActiveLabel())
+
+		LOGGER.debug("> Adding 'Closure_Spacer_label' widget!")
+		self.toolBar.addWidget(self.getClosureSpacerLabel())
+
+	@core.executionTrace
 	def __setLayoutsActiveLabelsShortcuts(self):
 		"""
 		This method sets the layouts **Active_QLabels** shortcuts.
@@ -1425,20 +1459,6 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getLogoSpacerLabel(self):
-		"""
-		This method provides the default **Logo_Spacer_label** widget.
-
-		:return: Logo spacer label. ( QLabel )
-		"""
-
-		spacer = QLabel()
-		spacer.setObjectName("Logo_Spacer_label")
-		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-		return spacer
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getLayoutsActiveLabels(self):
 		"""
 		This method returns the default layouts active labels widgets.
@@ -1492,12 +1512,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		self.__customLayoutsMenu = QMenu("Layouts", layoutActiveLabel)
 
-		userLayouts = (("1", Qt.Key_1, "one"),
-						("2", Qt.Key_2, "two"),
-						("3", Qt.Key_3, "three"),
-						("4", Qt.Key_4, "four"),
-						("5", Qt.Key_5, "five"))
-		for index, shortcut, name in userLayouts:
+		for index, shortcut, name in self.__userLayouts:
 			self.__customLayoutsMenu.addAction(self.__actionsManager.registerAction(
 			"Actions|Umbra|ToolBar|Layouts|Restore layout {0}".format(index),
 			shortcut=shortcut,
@@ -1505,7 +1520,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		self.__customLayoutsMenu.addSeparator()
 
-		for index, shortcut, name in userLayouts:
+		for index, shortcut, name in self.__userLayouts:
 			self.__customLayoutsMenu.addAction(self.__actionsManager.registerAction(
 			"Actions|Umbra|ToolBar|Layouts|Store layout {0}".format(index),
 			shortcut=Qt.CTRL + shortcut,
@@ -1552,6 +1567,20 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getSpacerLabel(self):
+		"""
+		This method provides the default **Spacer_label** widget.
+
+		:return: Logo spacer label. ( QLabel )
+		"""
+
+		spacer = QLabel()
+		spacer.setObjectName("Spacer_label")
+		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+		return spacer
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getClosureSpacerLabel(self):
 		"""
 		This method provides the default **Closure_Spacer_label** widget.
@@ -1566,36 +1595,23 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def initializeToolBar(self):
+	def listLayouts(self, userLayouts=True):
 		"""
-		This method initializes the Application toolBar.
+		This method lists Application layouts.
 
-		:return: Method success. ( Boolean )
+		:param userLayouts: List user layouts. ( Boolean )
+		:return: Application layouts. ( List )
 		"""
 
-		LOGGER.debug("> Initializing Application toolBar!")
-		self.toolBar.setIconSize(QSize(UiConstants.defaultToolbarIconSize, UiConstants.defaultToolbarIconSize))
+		layouts = []
+		for layoutActiveLabel in self.__layoutsActiveLabels:
+			layouts.append(layoutActiveLabel.layout)
 
-		LOGGER.debug("> Adding 'Application_Logo_label' widget!")
-		self.toolBar.addWidget(self.getApplicationLogoLabel())
+		if userLayouts:
+			for index, shortcut, name in self.__userLayouts:
+				layouts.append(name)
 
-		LOGGER.debug("> Adding 'Logo_Spacer_label' widget!")
-		self.toolBar.addWidget(self.getLogoSpacerLabel())
-
-		LOGGER.debug("> Adding 'Development_activeLabel', 'Preferences_activeLabel' widgets!")
-		self.getLayoutsActiveLabels()
-		for activeLabel in self.__layoutsActiveLabels:
-			self.toolBar.addWidget(activeLabel.object)
-
-		LOGGER.debug("> Adding 'Custom_Layouts_activeLabel' widget!")
-		self.toolBar.addWidget(self.getCustomLayoutsActiveLabel())
-
-		LOGGER.debug("> Adding 'Miscellaneous_activeLabel' widget!")
-		self.toolBar.addWidget(self.getMiscellaneousActiveLabel())
-
-		LOGGER.debug("> Adding 'Closure_Spacer_label' widget!")
-		self.toolBar.addWidget(self.getClosureSpacerLabel())
-		return True
+		return layouts
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
