@@ -657,7 +657,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def onStartup(self):
 		"""
-		This method is called on Framework startup.
+		This method is triggered on Framework startup.
 
 		:return: Method success. ( Boolean )		
 		"""

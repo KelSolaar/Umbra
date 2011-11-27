@@ -206,7 +206,7 @@ class Variable_QPushButton(QPushButton):
 	@core.executionTrace
 	def __variable_QPushButton__clicked(self, checked):
 		"""
-		This method is called when a **Variable_QPushButton** Widget is clicked.
+		This method is triggered when a **Variable_QPushButton** Widget is clicked.
 
 		:param checked: Checked state. ( Boolean )
 		"""

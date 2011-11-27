@@ -177,7 +177,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@core.executionTrace
 	def __Languages_comboBox__currentIndexChanged(self, index):
 		"""
-		This method is called when the **Languages_comboBox** Widget current index is changed.
+		This method is triggered when the **Languages_comboBox** Widget current index is changed.
 
 		:param index: ComboBox current item index. ( Integer )
 		"""

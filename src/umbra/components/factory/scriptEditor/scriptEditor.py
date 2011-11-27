@@ -1215,8 +1215,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		# Signals / Slots.
 		self.__engine.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
-		self.__engine.layoutChanged.connect(self.__application__layoutChanged)
-		self.__engine.contentDropped.connect(self.__application__contentDropped)
+		self.__engine.layoutChanged.connect(self.__engine__layoutChanged)
+		self.__engine.contentDropped.connect(self.__engine__contentDropped)
 		self.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
 		self.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
 		self.Script_Editor_tabWidget.contentDropped.connect(self.__Script_Editor_tabWidget__contentDropped)
@@ -1274,7 +1274,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def onStartup(self):
 		"""
-		This method is called on Framework startup.
+		This method is triggered on Framework startup.
 		"""
 
 		LOGGER.debug("> Calling '{0}' Component Framework 'onStartup' method.".format(self.__class__.__name__))
@@ -1288,7 +1288,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def onClose(self):
 		"""
-		This method is called on Framework close.
+		This method is triggered on Framework close.
 		"""
 
 		LOGGER.debug("> Calling '{0}' Component Framework 'onClose' method.".format(self.__class__.__name__))
@@ -1545,9 +1545,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__handleContentDroppedEvent(event)
 
 	@core.executionTrace
-	def __application__layoutChanged(self, currentLayout):
+	def __engine__layoutChanged(self, currentLayout):
 		"""
-		This method is triggered when the Application layout is changed.
+		This method is triggered when the engine layout is changed.
 
 		:param currentLayout: Current layout. ( String )
 		"""
@@ -1555,9 +1555,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Editor_Status_editorStatus.setVisible(not self.isHidden())
 
 	@core.executionTrace
-	def __application__contentDropped(self, event):
+	def __engine__contentDropped(self, event):
 		"""
-		This method is triggered when content is dropped in the Application.
+		This method is triggered when content is dropped into the engine.
 		
 		:param event: Event. ( QEvent )
 		"""
