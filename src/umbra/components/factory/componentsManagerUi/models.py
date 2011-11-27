@@ -53,6 +53,7 @@ class PathNode(umbra.ui.models.GraphModelNode):
 	"""
 
 	__family = "Category"
+	"""Node family. ( String )"""
 
 	@core.executionTrace
 	def __init__(self,
@@ -102,6 +103,7 @@ class ComponentNode(umbra.ui.models.GraphModelNode):
 	"""
 
 	__family = "Component"
+	"""Node family. ( String )"""
 
 	@core.executionTrace
 	def __init__(self,

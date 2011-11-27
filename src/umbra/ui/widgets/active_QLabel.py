@@ -55,6 +55,9 @@ class Active_QLabel(QLabel):
 
 	# Custom signals definitions.
 	clicked = pyqtSignal()
+	"""
+	This signal is emited by the :class:`Active_QLabel` class when it receives a mouse press event. ( pyqtSignal )
+	"""
 
 	@core.executionTrace
 	def __init__(self,

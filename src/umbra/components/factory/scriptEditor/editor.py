@@ -284,11 +284,24 @@ class Editor(CodeEditor_QPlainTextEdit):
 	"""
 
 	__instanceId = 1
+	"""Editor instance id. ( Integer )"""
 
 	# Custom signals definitions.
 	languageChanged = pyqtSignal()
-	contentChanged = pyqtSignal()
+	"""
+	This signal is emited by the :class:`Editor` class when :obj:`ComponentsManagerUi.language` class property language
+	is changed. ( pyqtSignal )
+	"""
+
+	titleChanged = pyqtSignal()
+	"""
+	This signal is emited by the :class:`Editor` class when the current title is changed. ( pyqtSignal )
+	"""
+
 	fileChanged = pyqtSignal()
+	"""
+	This signal is emited by the :class:`Editor` class when the current file is changed. ( pyqtSignal )
+	"""
 
 	@core.executionTrace
 	def __init__(self, parent=None, file=None, language=PYTHON_LANGUAGE, *args, **kwargs):
@@ -608,7 +621,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		LOGGER.debug("> Setting editor title to '{0}'.".format(windowTitle))
 		self.setWindowTitle(windowTitle)
-		self.contentChanged.emit()
+		self.titleChanged.emit()
 
 	@core.executionTrace
 	def __editor__contentsChanged(self):

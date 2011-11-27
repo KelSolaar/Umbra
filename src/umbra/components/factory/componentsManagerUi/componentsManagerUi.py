@@ -70,6 +70,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	# Custom signals definitions.
 	modelRefresh = pyqtSignal()
+	"""
+	This signal is emited by the :class:`ComponentsManagerUi` class when :obj:`ComponentsManagerUi.model` class property
+	model needs to be refreshed. ( pyqtSignal )
+	"""
 
 	@core.executionTrace
 	def __init__(self, parent=None, name=None, *args, **kwargs):

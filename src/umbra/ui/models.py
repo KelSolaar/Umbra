@@ -158,6 +158,7 @@ class GraphModelNode(AbstractCompositeNode):
 	"""
 
 	__family = "GraphModel"
+	"""Node family. ( String )"""
 
 	@core.executionTrace
 	def __init__(self, name=None, parent=None, children=None, roles=None, flags=None, **kwargs):
@@ -207,7 +208,8 @@ class GraphModelNode(AbstractCompositeNode):
 		if value is not None:
 			assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("roles", value)
 			for key in value.keys():
-				assert type(key) is Qt.ItemDataRole, "'{0}' attribute: '{1}' type is not 'Qt.ItemDataRole'!".format("roles", key)
+				assert type(key) is Qt.ItemDataRole, "'{0}' attribute: '{1}' type is not 'Qt.ItemDataRole'!".format(
+				"roles", key)
 		self.__roles = value
 
 	@roles.deleter
@@ -260,6 +262,7 @@ class DefaultNode(AbstractCompositeNode):
 	"""
 
 	__family = "Default"
+	"""Node family. ( String )"""
 
 	@core.executionTrace
 	def __init__(self, name=None, parent=None, children=None, **kwargs):

@@ -92,6 +92,11 @@ class ScriptEditor_QTabWidget(QTabWidget):
 
 	# Custom signals definitions.
 	contentDropped = pyqtSignal(QEvent)
+	"""
+	This signal is emited by the :class:`ScriptEditor_QTabWidget` class when it receives dropped content. ( pyqtSignal )
+
+	:return: Event. ( QEvent )	
+	"""
 
 	@core.executionTrace
 	def __init__(self, parent):
@@ -187,8 +192,15 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
 
 	# Custom signals definitions.
-	dataChanged = pyqtSignal()
+	uiRefresh = pyqtSignal()
+	"""
+	This signal is emited by the :class:`ScriptEditor` class when the Ui needs to be refreshed. ( pyqtSignal )
+	"""
+
 	recentFilesChanged = pyqtSignal()
+	"""
+	This signal is emited by the :class:`ScriptEditor` class when the recent files list has changed. ( pyqtSignal )
+	"""
 
 	@core.executionTrace
 	def __init__(self, parent=None, name=None, *args, **kwargs):
@@ -220,25 +232,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__extension = "grc"
 
 		self.__languagesMode = None
-
-#		self.__languagesModel = LanguagesModel(self,
-#							[PYTHON_LANGUAGE,
-#							Language(name="Logging",
-#								extension="\.log",
-#								highlighter=umbra.ui.highlighters.LoggingHighlighter,
-#								completer=None,
-#								preInputAccelerators=(),
-#								postInputAccelerators=(),
-#								indentMarker="\t",
-#								commentMarker=None),
-#							Language(name="Text",
-#								extension="\.txt",
-#								highlighter=None,
-#								completer=umbra.ui.completers.EnglishCompleter,
-#								preInputAccelerators=(umbra.ui.inputAccelerators.completionPreEventInputAccelerators,),
-#								postInputAccelerators=(umbra.ui.inputAccelerators.completionPostEventInputAccelerators,),
-#								indentMarker="\t",
-#								commentMarker=None)])
 
 		self.__defaultLanguage = "Text"
 		self.__defaultScriptLanguage = "Python"
@@ -1228,7 +1221,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
 		self.Script_Editor_tabWidget.contentDropped.connect(self.__Script_Editor_tabWidget__contentDropped)
 		self.visibilityChanged.connect(self.__scriptEditor__visibilityChanged)
-		self.dataChanged.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
+		self.uiRefresh.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.recentFilesChanged.connect(self.__setRecentFilesActions)
 		self.__fileSystemWatcher.fileChanged.connect(self.__fileSystemWatcher__fileChanged)
 		self.__timer.timeout.connect(self.__reloadModifiedFiles)
@@ -1983,7 +1976,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return self.getCurrentEditor().toggleWhiteSpaces()
 
 	@core.executionTrace
-	def __editor__contentChanged(self):
+	def __editor__titleChanged(self):
 		"""
 		This method is triggered when an editor content is changed.
 		"""
@@ -2299,7 +2292,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		# Signals / Slots.
 		editor.languageChanged.connect(self.__editor__languageChanged)
-		editor.contentChanged.connect(self.__editor__contentChanged)
+		editor.titleChanged.connect(self.__editor__titleChanged)
 		editor.fileChanged.connect(self.__editor__fileChanged)
 		editor.cursorPositionChanged.connect(self.Editor_Status_editorStatus._EditorStatus__editor__cursorPositionChanged)
 		return tabIndex
@@ -2572,7 +2565,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Evaluating 'Script Editor' selected content.")
 		if self.evaluateCode(str(editor.textCursor().selectedText().replace(QChar(QChar.ParagraphSeparator),
 																			QString("\n")))):
-			self.dataChanged.emit()
+			self.uiRefresh.emit()
 			return True
 
 	@core.executionTrace
@@ -2590,7 +2583,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Evaluating 'Script Editor' content.")
 		if self.evaluateCode(str(editor.toPlainText())):
-			self.dataChanged.emit()
+			self.uiRefresh.emit()
 			return True
 
 	@core.executionTrace

@@ -77,6 +77,7 @@ class FormatNode(AbstractCompositeNode):
 	"""
 
 	__family = "Format"
+	"""Node family. ( String )"""
 
 	@core.executionTrace
 	def __init__(self, name=None, parent=None, children=None, format=None, **kwargs):

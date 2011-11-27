@@ -238,7 +238,18 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 	# Custom signals definitions.
 	layoutChanged = pyqtSignal(str)
+	"""
+	This signal is emited by the :class:`Umbra` class when the current layout has changed. ( pyqtSignal )
+
+	:return: Current layout. ( String )	
+	"""
+
 	contentDropped = pyqtSignal(QEvent)
+	"""
+	This signal is emited by the :class:`Umbra` class when it receives dropped content. ( pyqtSignal )
+
+	:return: Event. ( QEvent )	
+	"""
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiSystemExitExceptionHandler, False, Exception)

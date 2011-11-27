@@ -54,6 +54,7 @@ class DefaultCompleter(QCompleter):
 	"""
 
 	__tokens = {}
+	"""Tokens cache. ( Dictionary )"""
 
 	@core.executionTrace
 	def __init__(self, parent=None, language=None, tokens=None):
