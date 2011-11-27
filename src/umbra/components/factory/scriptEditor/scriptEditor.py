@@ -2191,6 +2191,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__locals["application"] = self.__engine
 		self.__locals["componentsManager"] = self.__engine.componentsManager
 		self.__locals["actionsManager"] = self.__engine.actionsManager
+		self.__locals["LOGGER"] = LOGGER
 
 		LOGGER.debug("> Defined locals: '{0}'.".format(self.__locals))
 
