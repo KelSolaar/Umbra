@@ -237,6 +237,13 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	"""
 
 	# Custom signals definitions.
+	verbosityLevelChanged = pyqtSignal(int)
+	"""
+	This signal is emited by the :class:`Umbra` class when the current verbosity level has changed. ( pyqtSignal )
+
+	:return: Current verbosity level. ( Integer )	
+	"""
+
 	layoutChanged = pyqtSignal(str)
 	"""
 	This signal is emited by the :class:`Umbra` class when the current layout has changed. ( pyqtSignal )
@@ -1285,6 +1292,30 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		return True
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def setVerbosityLevel(self, verbosityLevel):
+		"""
+		This method sets the Application verbosity level.
+		
+		:param verbosityLevel: Verbosity level. ( Integer )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not isinstance(verbosityLevel, int):
+			raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' type is not 'int'!".format(self.__class__.__name__, "verbosityLevel"))
+
+		if verbosityLevel < 0 or verbosityLevel > 4:
+			raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' value must be in a '0' to '4' range!".format(self.__class__.__name__, "verbosityLevel"))
+
+		self.__verbosityLevel = verbosityLevel
+		core.setVerbosityLevel(verbosityLevel)
+		self.__settings.setKey("Settings", "verbosityLevel", verbosityLevel)
+		self.verbosityLevelChanged.emit(verbosityLevel)
+		return True
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def setVisualStyle(self, fullScreenStyle=False):
 		"""
@@ -1570,7 +1601,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def storeLayout(self, name, *args):
 		"""
-		This method is called when storing a layout.
+		This method is triggered when storing a layout.
 
 		:param name: Layout name. ( String )
 		:param \*args: Arguments. ( \* )
@@ -1589,7 +1620,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def restoreLayout(self, name, *args):
 		"""
-		This method is called when restoring a layout.
+		This method is triggered when restoring a layout.
 
 		:param name: Layout name. ( String )
 		:param \*args: Arguments. ( \* )

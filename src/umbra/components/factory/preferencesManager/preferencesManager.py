@@ -227,6 +227,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__Restore_Geometry_On_Layout_Change_checkBox_setUi()
 
 		# Signals / Slots.
+		self.__engine.verbosityLevelChanged.connect(self.__engine__verbosityLevelChanged)
 		self.Logging_Formatters_comboBox.activated.connect(self.__Logging_Formatters_comboBox__activated)
 		self.Verbose_Level_comboBox.activated.connect(self.__Verbose_Level_comboBox__activated)
 		self.Restore_Geometry_On_Layout_Change_checkBox.stateChanged.connect(
@@ -270,6 +271,16 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"{0} | '{1}' Component Widget cannot be removed!".format(self.__class__.__name__, self.name))
 
 	@core.executionTrace
+	def __engine__verbosityLevelChanged(self, verbosityLevel):
+		"""
+		This method is triggered when the engine verbosity level has changed.
+
+		:param verbosityLevel: Current verbosity level. ( Integer )
+		"""
+
+		self.Verbose_Level_comboBox.setCurrentIndex(verbosityLevel)
+
+	@core.executionTrace
 	def __Logging_Formatters_comboBox_setUi(self):
 		"""
 		This method fills **Logging_Formatter_comboBox** Widget.
@@ -286,7 +297,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __Logging_Formatters_comboBox__activated(self, index):
 		"""
-		This method is called when the **Logging_Formatter_comboBox** Widget is activated.
+		This method is triggered when the **Logging_Formatter_comboBox** Widget is activated.
 
 		:param index: ComboBox activated item index. ( Integer )
 		"""
@@ -312,15 +323,16 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __Verbose_Level_comboBox__activated(self, index):
 		"""
-		This method is called when the **Verbose_Level_ComboBox** Widget is triggered.
+		This method is triggered when the **Verbose_Level_ComboBox** Widget is triggered.
 
 		:param index: ComboBox activated item index. ( Integer )
 		"""
 
 		LOGGER.debug("> Setting verbose level: '{0}'.".format(self.Verbose_Level_comboBox.currentText()))
-		self.__engine.verbosityLevel = int(self.Verbose_Level_comboBox.currentIndex())
-		core.setVerbosityLevel(int(self.Verbose_Level_comboBox.currentIndex()))
-		self.__settings.setKey("Settings", "verbosityLevel", self.Verbose_Level_comboBox.currentIndex())
+		verbosityLevel = int(self.Verbose_Level_comboBox.currentIndex())
+		self.__engine.verbosityLevel = verbosityLevel
+		core.setVerbosityLevel(verbosityLevel)
+		self.__settings.setKey("Settings", "verbosityLevel", verbosityLevel)
 
 	@core.executionTrace
 	def __Restore_Geometry_On_Layout_Change_checkBox_setUi(self):
@@ -341,7 +353,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __Restore_Geometry_On_Layout_Change_checkBox__stateChanged(self, state):
 		"""
-		This method is called when **Restore_Geometry_On_Layout_Change_checkBox** state changes.
+		This method is triggered when **Restore_Geometry_On_Layout_Change_checkBox** state changes.
 
 		:param state: Checkbox state. ( Integer )
 		"""
