@@ -991,6 +991,28 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getComponents(self):
+		"""
+		This method returns the Components.
+
+		:return: Components. ( List )
+		"""
+
+		return self.__engine.componentsManager.components
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listComponents(self):
+		"""
+		This method lists the Components names.
+
+		:return: Components names. ( List )
+		"""
+
+		return self.__engine.componentsManager.listComponents()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setComponents(self):
 		"""
 		This method sets the Components Model nodes.
