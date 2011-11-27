@@ -1672,7 +1672,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		file = self.sender()._data
+		file = self.sender().data
 		if os.path.exists(file):
 			return self.loadFile(file)
 
@@ -2094,7 +2094,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			LOGGER.debug("> Adding '{0}' file to recent files actions.".format(recentFiles[i]))
 
 			self.__recentFilesActions[i].setText("{0} {1}".format(i + 1, os.path.basename(str(recentFiles[i]))))
-			self.__recentFilesActions[i]._data = str(recentFiles[i])
+			self.__recentFilesActions[i].data = str(recentFiles[i])
 			self.__recentFilesActions[i].setVisible(True)
 
 	@core.executionTrace

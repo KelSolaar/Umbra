@@ -292,7 +292,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__loggingSessionHandlerStream = RuntimeGlobals.loggingSessionHandlerStream
 		self.__loggingActiveFormatter = RuntimeGlobals.loggingActiveFormatter
 		self.__settings = RuntimeGlobals.settings
-		self.__settings._data = foundations.dataStructures.Structure(restoreGeometryOnLayoutChange=True)
+		self.__settings.data = foundations.dataStructures.Structure(restoreGeometryOnLayoutChange=True)
 		self.__verbosityLevel = RuntimeGlobals.verbosityLevel
 		self.__parameters = RuntimeGlobals.parameters
 		self.__layoutsActiveLabels = None
@@ -1604,7 +1604,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		self.centralwidget.setVisible(self.__settings.getKey("Layouts", "{0}_centralWidget".format(name)).toBool())
 		self.restoreState(self.__settings.getKey("Layouts", "{0}_windowState".format(name)).toByteArray())
-		self.__settings._data.restoreGeometryOnLayoutChange and \
+		self.__settings.data.restoreGeometryOnLayoutChange and \
 		self.restoreGeometry(self.__settings.getKey("Layouts", "{0}_geometry".format(name)).toByteArray())
 		self.__setLayoutsActiveLabels(self.__settings.getKey("Layouts", "{0}_activeLabel".format(name)).toInt()[0])
 		self.__currentLayout = self.__layoutsActiveLabels[self.__getCurrentLayoutActiveLabel()].layout
@@ -1625,7 +1625,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		LOGGER.debug("> Restoring startup layout.")
 
 		if self.restoreLayout(UiConstants.startupLayout):
-			not self.__settings._data.restoreGeometryOnLayoutChange and \
+			not self.__settings.data.restoreGeometryOnLayoutChange and \
 			self.restoreGeometry(self.__settings.getKey("Layouts",
 														"{0}_geometry".format(UiConstants.startupLayout)).toByteArray())
 			return True
