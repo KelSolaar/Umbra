@@ -166,7 +166,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def show(self):
 		"""
-		This method shows the Widget.
+		This method reimplements the :meth:`QWidget.show` method.
 
 		:return: Method success. ( Boolean )
 		"""

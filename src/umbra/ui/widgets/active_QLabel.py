@@ -300,6 +300,58 @@ class Active_QLabel(QLabel):
 	#***	Class methods.
 	#******************************************************************************************************************
 	@core.executionTrace
+	def enterEvent(self, event):
+		"""
+		This method reimplements the :meth:`QLabel.enterEvent` method.
+
+		:param event: QEvent. ( QEvent )
+		"""
+
+		if self.__checkable:
+			not self.__checked and self.setPixmap(self.__hoverPixmap)
+		else:
+			self.setPixmap(self.__hoverPixmap)
+
+	@core.executionTrace
+	def leaveEvent(self, event):
+		"""
+		This method reimplements the :meth:`QLabel.leaveEvent` method.
+
+		:param event: QEvent. ( QEvent )
+		"""
+
+		if self.__checkable:
+			not self.__checked and self.setPixmap(self.__defaultPixmap)
+		else:
+			self.setPixmap(self.__defaultPixmap)
+
+	@core.executionTrace
+	def mousePressEvent(self, event):
+		"""
+		This method reimplements the :meth:`QLabel.mousePressEvent` method.
+
+		:param event: QEvent. ( QEvent )
+		"""
+
+		self.clicked.emit()
+
+		if self.__checkable:
+			self.setChecked(True)
+		else:
+			self.setPixmap(self.__activePixmap)
+			self.__menu and self.__menu.exec_(QCursor.pos())
+
+	@core.executionTrace
+	def mouseReleaseEvent(self, event):
+		"""
+		This method reimplements the :meth:`QLabel.mouseReleaseEvent` method.
+
+		:param event: QEvent. ( QEvent )
+		"""
+
+		not self.__checkable and self.setPixmap(self.__defaultPixmap)
+
+	@core.executionTrace
 	def setChecked(self, state):
 		"""
 		This method sets the Widget checked state.
@@ -340,55 +392,3 @@ class Active_QLabel(QLabel):
 		# Propagating actions to parent.
 		for action in self.__menu.actions():
 			not action.shortcut().isEmpty() and self.parent().addAction(action)
-
-	@core.executionTrace
-	def enterEvent(self, event):
-		"""
-		This method defines the mouse enter event.
-
-		:param event: QEvent. ( QEvent )
-		"""
-
-		if self.__checkable:
-			not self.__checked and self.setPixmap(self.__hoverPixmap)
-		else:
-			self.setPixmap(self.__hoverPixmap)
-
-	@core.executionTrace
-	def leaveEvent(self, event):
-		"""
-		This method defines the mouse leave event.
-
-		:param event: QEvent. ( QEvent )
-		"""
-
-		if self.__checkable:
-			not self.__checked and self.setPixmap(self.__defaultPixmap)
-		else:
-			self.setPixmap(self.__defaultPixmap)
-
-	@core.executionTrace
-	def mousePressEvent(self, event):
-		"""
-		This method defines the mouse press event.
-
-		:param event: QEvent. ( QEvent )
-		"""
-
-		self.clicked.emit()
-
-		if self.__checkable:
-			self.setChecked(True)
-		else:
-			self.setPixmap(self.__activePixmap)
-			self.__menu and self.__menu.exec_(QCursor.pos())
-
-	@core.executionTrace
-	def mouseReleaseEvent(self, event):
-		"""
-		This method defines the mouse release event.
-
-		:param event: QEvent. ( QEvent )
-		"""
-
-		not self.__checkable and self.setPixmap(self.__defaultPixmap)

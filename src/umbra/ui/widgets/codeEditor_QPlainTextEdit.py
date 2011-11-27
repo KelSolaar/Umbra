@@ -303,7 +303,7 @@ class LinesNumbers_QWidget(QWidget):
 	# @core.executionTrace
 	def sizeHint(self):
 		"""
-		This method reimplements the Widget **sizeHint** method.
+		This method reimplements the :meth:`QWidget.sizeHint` method.
 
 		:return: Size hint. ( QSize )
 		"""
@@ -313,7 +313,7 @@ class LinesNumbers_QWidget(QWidget):
 	# @core.executionTrace
 	def paintEvent(self, event):
 		"""
-		This method reimplements the Widget **paintEvent** method.
+		This method reimplements the :meth:`QWidget.paintEvent` method.
 		
 		:param event: Event. ( QEvent )
 		"""
@@ -844,7 +844,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@core.executionTrace
 	def resizeEvent(self, event):
 		"""
-		This method reimplements the Widget **resizeEvent** method.
+		This method reimplements the :meth:`QPlainTextEdit.resizeEvent` method.
 
 		:param event: Event. ( QEvent )
 		"""
@@ -855,7 +855,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	@core.executionTrace
 	def keyPressEvent(self, event):
 		"""
-		This method reimplements the Widget **keyPressEvent** method.
+		This method reimplements the :meth:`QPlainTextEdit.keyPressEvent` method.
 
 		:param event: Event. ( QEvent )
 		"""

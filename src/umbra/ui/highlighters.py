@@ -362,7 +362,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	@foundations.exceptions.exceptionsHandler(None, False, NotImplementedError)
 	def highlightBlock(self, block):
 		"""
-		This method highlights given text block.
+		This method reimplements the :meth:`QSyntaxHighlighter.highlightBlock` method.
 
 		:param block: Text block. ( QString )
 		"""
@@ -468,7 +468,7 @@ class DefaultHighlighter(AbstractHighlighter):
 	# @core.executionTrace
 	def highlightBlock(self, block):
 		"""
-		This method highlights given text block.
+		This method reimplements the :meth:`AbstractHighlighter.highlightBlock` method.
 
 		:param block: Text block. ( QString )
 		"""

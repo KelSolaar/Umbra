@@ -151,7 +151,7 @@ class ScriptEditor_QTabWidget(QTabWidget):
 	@core.executionTrace
 	def dragEnterEvent(self, event):
 		"""
-		This method defines the drag enter event behavior.
+		This method reimplements the :meth:`QTabWidget.dragEnterEvent` method.
 
 		:param event: QEvent. ( QEvent )
 		"""
@@ -162,7 +162,7 @@ class ScriptEditor_QTabWidget(QTabWidget):
 	@core.executionTrace
 	def dragMoveEvent(self, event):
 		"""
-		This method defines the drag move event behavior.
+		This method reimplements the :meth:`QTabWidget.dragMoveEvent` method.
 
 		:param event: QEvent. ( QEvent )
 		"""
@@ -173,7 +173,7 @@ class ScriptEditor_QTabWidget(QTabWidget):
 	@core.executionTrace
 	def dropEvent(self, event):
 		"""
-		This method defines the drop event behavior.
+		This method reimplements the :meth:`QTabWidget.dropEvent` method.
 
 		:param event: QEvent. ( QEvent )
 		"""

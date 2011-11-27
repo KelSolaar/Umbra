@@ -119,7 +119,7 @@ class LanguagesModel(QAbstractListModel):
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def rowCount(self, parent=QModelIndex()):
 		"""
-		This method returns the Model row count.
+		This method reimplements the :meth:`QAbstractListModel.rowCount` method.
 
 		:param parent: Parent. ( QModelIndex )
 		:return: Row count. ( Integer )
@@ -131,7 +131,7 @@ class LanguagesModel(QAbstractListModel):
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def data(self, index, role=Qt.DisplayRole):
 		"""
-		This method returns the Model data.
+		This method reimplements the :meth:`QAbstractListModel.data` method.
 
 		:param index: Index. ( QModelIndex )
 		:param role: Role. ( Integer )
@@ -145,8 +145,8 @@ class LanguagesModel(QAbstractListModel):
 			return QVariant(self.__languages[index.row()].name)
 		return QVariant()
 
-	# @core.executionTrace
-	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def sortLanguages(self, order=Qt.AscendingOrder):
 		"""
 		This method sorts the Model languages.
