@@ -230,15 +230,15 @@ def symbolsExpandingPreEventInputAccelerators(editor, event):
 
 	if event.key() in (Qt.Key_Backspace,):
 		cursor = editor.textCursor()
+		cursor.beginEditBlock()
 		cursor.movePosition(QTextCursor.Left, QTextCursor.KeepAnchor)
 		leftText = cursor.selectedText()
 		for i in range(2):
 			cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor)
 		rightText = cursor.selectedText()
-		if not rightText:
-			return processEvent
 
-		if unicode(leftText, Constants.encodingFormat, Constants.encodingError) in symbolsPairs.keys() and \
-		unicode(rightText, Constants.encodingFormat, Constants.encodingError) in symbolsPairs.values():
+		if symbolsPairs.get(unicode(leftText, Constants.encodingFormat, Constants.encodingError)) == \
+		unicode(rightText, Constants.encodingFormat, Constants.encodingError):
 			cursor.deleteChar()
+		cursor.endEditBlock()
 	return processEvent
