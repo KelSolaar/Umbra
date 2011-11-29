@@ -1139,44 +1139,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param event: QEvent. ( QEvent )
 		"""
 
-		# --- Running onClose components methods. ---
-		for component in self.__componentsManager.listComponents():
-			interface = self.__componentsManager.getInterface(component)
-			if not interface:
-				continue
-
-			if not interface.activated:
-				continue
-
-			if not hasattr(interface, "onClose"):
-				continue
-
-			if not interface.onClose():
-				event.ignore()
-				return
-
-		# Storing current layout.
-		self.storeStartupLayout()
-		self.__settings.settings.sync()
-
-		# Stopping worker threads.
-		for workerThread in self.__workerThreads:
-			if not workerThread.isFinished():
-				LOGGER.debug("> Stopping worker thread: '{0}'.".format(workerThread))
-				workerThread.exit()
-
-		foundations.common.removeLoggingHandler(LOGGER, self.__loggingFileHandler)
-		foundations.common.removeLoggingHandler(LOGGER, self.__loggingSessionHandler)
-		# foundations.common.removeLoggingHandler(LOGGER, self.__loggingconsolehandler)
-
-		# Stopping the timer.
-		self.__timer.stop()
-		self.__timer = None
-
-		self.deleteLater()
-		event.accept()
-
-		exit()
+		self.quit(event=event)
 
 	@core.executionTrace
 	def __componentsInstantiationCallback(self, profile):
@@ -1799,6 +1762,54 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.Application_Progress_Status_processing.hide()
 		return True
 
+	@core.executionTrace
+	def quit(self, exitCode=0, event=None):
+		"""
+		This method quits the Application.
+
+		:param exitCode: Exit code. ( Integer )
+		:param event: QEvent. ( QEvent )
+		"""
+
+		# --- Running onClose components methods. ---
+		for component in self.__componentsManager.listComponents():
+			interface = self.__componentsManager.getInterface(component)
+			if not interface:
+				continue
+
+			if not interface.activated:
+				continue
+
+			if not hasattr(interface, "onClose"):
+				continue
+
+			if not interface.onClose():
+				event and event.ignore()
+				return
+
+		# Storing current layout.
+		self.storeStartupLayout()
+		self.__settings.settings.sync()
+
+		# Stopping worker threads.
+		for workerThread in self.__workerThreads:
+			if not workerThread.isFinished():
+				LOGGER.debug("> Stopping worker thread: '{0}'.".format(workerThread))
+				workerThread.exit()
+
+		foundations.common.removeLoggingHandler(LOGGER, self.__loggingFileHandler)
+		foundations.common.removeLoggingHandler(LOGGER, self.__loggingSessionHandler)
+		# foundations.common.removeLoggingHandler(LOGGER, self.__loggingConsoleHandler)
+
+		# Stopping the timer.
+		self.__timer.stop()
+		self.__timer = None
+
+		self.deleteLater()
+		event and event.accept()
+
+		exit(exitCode)
+
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(umbra.ui.common.uiStandaloneSystemExitExceptionHandler, False, OSError)
 def setUserApplicationDataDirectory(path):
@@ -1887,7 +1898,7 @@ def getCommandLineParametersParser():
 										umbra.exceptions.EngineConfigurationError)
 def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visibleComponents=None):
 	"""
-	This definition is called when **Umbra** starts.
+	This definition starts the Application.
 
 	:param engine: Engine. ( QObject )
 	:param parameters: Command line parameters. ( Tuple )
@@ -2013,9 +2024,11 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	return sys.exit(RuntimeGlobals.application.exec_())
 
 @core.executionTrace
-def exit():
+def exit(exitCode=0):
 	"""
-	This definition is called when **Umbra** closes.
+	This definition exits the Application.
+	
+	:param exitCode: Exit code. ( Integer )
 	"""
 
 	for line in SESSION_FOOTER_TEXT:
@@ -2023,4 +2036,4 @@ def exit():
 
 	foundations.common.removeLoggingHandler(LOGGER, RuntimeGlobals.loggingConsoleHandler)
 
-	QApplication.exit()
+	RuntimeGlobals.application.exit(exitCode)
