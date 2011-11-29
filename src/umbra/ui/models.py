@@ -95,7 +95,7 @@ class GraphModelAttribute(Attribute):
 		return self.__roles
 
 	@roles.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def roles(self, value):
 		"""
 		This method is the setter method for **self.__roles** attribute.
@@ -130,7 +130,7 @@ class GraphModelAttribute(Attribute):
 		return self.__flags
 
 	@flags.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def flags(self, value):
 		"""
 		This method is the setter method for **self.__flags** attribute.
@@ -197,7 +197,7 @@ class GraphModelNode(AbstractCompositeNode):
 		return self.__roles
 
 	@roles.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def roles(self, value):
 		"""
 		This method is the setter method for **self.__roles** attribute.
@@ -233,7 +233,7 @@ class GraphModelNode(AbstractCompositeNode):
 		return self.__flags
 
 	@flags.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def flags(self, value):
 		"""
 		This method is the setter method for **self.__flags** attribute.
@@ -330,7 +330,7 @@ class GraphModel(QAbstractItemModel):
 		return self.__rootNode
 
 	@rootNode.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def rootNode(self, value):
 		"""
 		This method is the setter method for **self.__rootNode** attribute.
@@ -364,7 +364,7 @@ class GraphModel(QAbstractItemModel):
 		return self.__horizontalHeaders
 
 	@horizontalHeaders.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def horizontalHeaders(self, value):
 		"""
 		This method is the setter method for **self.__horizontalHeaders** attribute.
@@ -398,7 +398,7 @@ class GraphModel(QAbstractItemModel):
 		return self.__verticalHeaders
 
 	@verticalHeaders.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def verticalHeaders(self, value):
 		"""
 		This method is the setter method for **self.__verticalHeaders** attribute.

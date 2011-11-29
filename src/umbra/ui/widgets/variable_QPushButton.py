@@ -106,7 +106,7 @@ class Variable_QPushButton(QPushButton):
 		return self.__state
 
 	@state.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def state(self, value):
 		"""
 		This method is the setter method for **self.__state** attribute.
@@ -139,7 +139,7 @@ class Variable_QPushButton(QPushButton):
 		return self.__colors
 
 	@colors.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def colors(self, value):
 		"""
 		This method is the setter method for **self.__colors** attribute.
@@ -175,7 +175,7 @@ class Variable_QPushButton(QPushButton):
 		return self.__labels
 
 	@labels.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def labels(self, value):
 		"""
 		This method is the setter method for **self.__labels** attribute.

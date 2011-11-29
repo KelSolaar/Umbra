@@ -168,10 +168,6 @@ class LanguagesModel(QAbstractListModel):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not isinstance(language, Language):
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' is not a 'Language' instance!".format(
-			self.__class__.__name__, language))
-
 		if self.getLanguage(language):
 			raise foundations.exceptions.ProgrammingError("{0} | '{1}' language is already registered!".format(
 			self.__class__.__name__, language.name))
@@ -183,7 +179,7 @@ class LanguagesModel(QAbstractListModel):
 		return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def unregisterLanguage(self, name):
 		"""
 		This method unregisters language with given name from the :obj:`LanguagesModel.languages` class property.

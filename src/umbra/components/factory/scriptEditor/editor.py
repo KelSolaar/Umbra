@@ -384,7 +384,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		return self.__language
 
 	@language.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def language(self, value):
 		"""
 		This method is the setter method for **self.__language** attribute.
@@ -480,7 +480,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		return self.__isUntitled
 
 	@isUntitled.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def isUntitled(self, value):
 		"""
 		This method is the setter method for **self.__isUntitled** attribute.
@@ -512,7 +512,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		return self.__defaultFileName
 
 	@defaultFileName.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def defaultFileName(self, value):
 		"""
 		This method is the setter method for **self.__defaultFileName** attribute.
@@ -544,7 +544,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		return self.__defaultFileExtension
 
 	@defaultFileExtension.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def defaultFileExtension(self, value):
 		"""
 		This method is the setter method for **self.__defaultFileExtension** attribute.
@@ -660,7 +660,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.postInputAccelerators = self.__language.postInputAccelerators
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setLanguage(self, language, emitSignal=True):
 		"""
 		This method sets the editor language.
@@ -669,10 +669,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param emitSignal: Emit signal. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
-
-		if not isinstance(language, Language):
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' type is not 'Language'!".format(
-			self.__class__.__name__, language))
 
 		LOGGER.debug("> Setting editor language to '{0}'.".format(language.name))
 		self.__language = language

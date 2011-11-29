@@ -547,7 +547,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		return self.__visibleComponents
 
 	@visibleComponents.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def visibleComponents(self, value):
 		"""
 		This method is the setter method for **self.__visibleComponents** attribute.
@@ -907,7 +907,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		return self.__layoutsActiveLabels
 
 	@layoutsActiveLabels.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def layoutsActiveLabels(self, value):
 		"""
 		This method is the setter method for **self.__layoutsActiveLabels** attribute.
@@ -976,7 +976,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		return self.__customLayoutsMenu
 
 	@customLayoutsMenu.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def customLayoutsMenu(self, value):
 		"""
 		This method is the setter method for **self.__customLayoutsMenu** attribute.
@@ -1009,7 +1009,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		return self.__miscellaneousMenu
 
 	@miscellaneousMenu.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def miscellaneousMenu(self, value):
 		"""
 		This method is the setter method for **self.__miscellaneousMenu** attribute.
@@ -1296,15 +1296,9 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		
 		:param verbosityLevel: Verbosity level. ( Integer )
 		:return: Method success. ( Boolean )
+		
+		:note: The expected verbosity level value is an integer between 0 to 4.
 		"""
-
-		if not isinstance(verbosityLevel, int):
-			raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' type is not 'int'!".format(self.__class__.__name__, "verbosityLevel"))
-
-		if verbosityLevel < 0 or verbosityLevel > 4:
-			raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' value must be in a '0' to '4' range!".format(self.__class__.__name__, "verbosityLevel"))
 
 		self.__verbosityLevel = verbosityLevel
 		core.setVerbosityLevel(verbosityLevel)

@@ -113,7 +113,7 @@ class FormatNode(AbstractCompositeNode):
 		return self.__format
 
 	@format.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def format(self, value):
 		"""
 		This method is the setter method for **self.__format** attribute.

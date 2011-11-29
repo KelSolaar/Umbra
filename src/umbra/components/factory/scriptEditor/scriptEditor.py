@@ -756,7 +756,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return self.__scriptEditorFile
 
 	@scriptEditorFile.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def scriptEditorFile(self, value):
 		"""
 		This method is the setter method for **self.__scriptEditorFile** attribute.

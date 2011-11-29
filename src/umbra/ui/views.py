@@ -156,7 +156,7 @@ class Abstract_QListView(QListView):
 		return self.__readOnly
 
 	@readOnly.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def readOnly(self, value):
 		"""
 		This method is the setter method for **self.__readOnly** attribute.
@@ -238,7 +238,7 @@ class Abstract_QTreeView(QTreeView):
 		return self.__readOnly
 
 	@readOnly.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def readOnly(self, value):
 		"""
 		This method is the setter method for **self.__readOnly** attribute.

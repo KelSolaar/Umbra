@@ -110,7 +110,7 @@ class LinesNumbers_QWidget(QWidget):
 		return self.__editor
 
 	@editor.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def editor(self, value):
 		"""
 		This method is the setter method for **self.__editor** attribute.
@@ -766,7 +766,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		return self.__preInputAccelerators
 
 	@preInputAccelerators.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def preInputAccelerators(self, value):
 		"""
 		This method is the setter method for **self.__preInputAccelerators** attribute.
@@ -800,7 +800,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		return self.__postInputAccelerators
 
 	@postInputAccelerators.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
 	def postInputAccelerators(self, value):
 		"""
 		This method is the setter method for **self.__postInputAccelerators** attribute.
