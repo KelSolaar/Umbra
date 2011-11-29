@@ -1873,7 +1873,12 @@ def getCommandLineParametersParser():
 					default=False,
 					dest="hideSplashScreen",
 					help="'Hide splashscreen'.")
-
+	parser.add_option("-x",
+					"--startupScript",
+					action="store",
+					type="string",
+					dest="startupScript",
+					help="'Execute provided startup script'.")
 	return parser
 
 @core.executionTrace

@@ -1280,9 +1280,16 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Calling '{0}' Component Framework 'onStartup' method.".format(self.__class__.__name__))
 
 		if os.path.exists(self.__defaultScriptEditorFile):
-			return self.loadFile(self.__defaultScriptEditorFile)
+			self.loadFile(self.__defaultScriptEditorFile)
 		else:
-			return self.newFile()
+			self.newFile()
+
+		startupScript = self.__engine.parameters.startupScript
+		if startupScript:
+			if os.path.exists(startupScript):
+				self.loadFile(startupScript) and self.evaluateScript()
+
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
