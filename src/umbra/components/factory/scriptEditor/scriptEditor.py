@@ -23,6 +23,7 @@ import os
 import platform
 import re
 import sys
+import shutil
 from PyQt4.QtCore import QChar
 from PyQt4.QtCore import QEvent
 from PyQt4.QtCore import QFileSystemWatcher
@@ -242,6 +243,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__defaultWindowTitle = "Script Editor"
 		self.__defaultScriptEditorDirectory = "scriptEditor"
 		self.__defaultScriptEditorFile = "defaultScript.py"
+		self.__factoryDefaultScriptEditorFile = "others/defaultScript.py"
 		self.__scriptEditorFile = None
 
 		self.__maximumRecentFiles = 10
@@ -744,6 +746,38 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultScriptEditorFile"))
+
+	@property
+	def factoryDefaultScriptEditorFile(self):
+		"""
+		This method is the property for **self.__factoryDefaultScriptEditorFile** attribute.
+
+		:return: self.__factoryDefaultScriptEditorFile. ( String )
+		"""
+
+		return self.__factoryDefaultScriptEditorFile
+
+	@factoryDefaultScriptEditorFile.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def factoryDefaultScriptEditorFile(self, value):
+		"""
+		This method is the setter method for **self.__factoryDefaultScriptEditorFile** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "factoryDefaultScriptEditorFile"))
+
+	@factoryDefaultScriptEditorFile.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def factoryDefaultScriptEditorFile(self):
+		"""
+		This method is the deleter method for **self.__factoryDefaultScriptEditorFile** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "factoryDefaultScriptEditorFile"))
 
 	@property
 	def scriptEditorFile(self):
@@ -1278,6 +1312,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		LOGGER.debug("> Calling '{0}' Component Framework 'onStartup' method.".format(self.__class__.__name__))
+
+		factoryDefaultScriptEditorFile = umbra.ui.common.getResourcePath(self.__factoryDefaultScriptEditorFile)
+		if os.path.exists(factoryDefaultScriptEditorFile) and not os.path.exists(self.__defaultScriptEditorFile):
+			shutil.copyfile(factoryDefaultScriptEditorFile, self.__defaultScriptEditorFile)
 
 		if os.path.exists(self.__defaultScriptEditorFile):
 			self.loadFile(self.__defaultScriptEditorFile)
