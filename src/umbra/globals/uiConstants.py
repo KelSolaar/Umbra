@@ -65,10 +65,10 @@ class UiConstants():
 	layoutsFile = "layouts/Default_Layouts.rc"
 	"""Application defaults layouts file: '**layouts/Default_Layouts.rc**' ( String )"""
 
-	applicationWindowsIcon = "images/Icon_Light.png"
-	"""Application Windows Os icon file: '**images/Icon_Light.png**' ( String )"""
-	applicationDarwinIcon = "images/Icon_Light.png"
-	"""Application Mac Os X icon file: '**images/Icon_Light.png**' ( String )"""
+	applicationWindowsIcon = "images/Icon_Dark.png"
+	"""Application Windows Os icon file: '**images/Icon_Dark.png**' ( String )"""
+	applicationDarwinIcon = "images/Icon_Dark.png"
+	"""Application Mac Os X icon file: '**images/Icon_Dark.png**' ( String )"""
 
 	splashScreenImage = "images/Umbra_SpashScreen.png"
 	"""Application splashscreen image: '**images/Umbra_SpashScreen.png**' ( String )"""
