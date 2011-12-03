@@ -46,6 +46,7 @@ from PyQt4.QtGui import QTextOption
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
+import foundations.common
 import foundations.core as core
 import foundations.exceptions
 import foundations.walkers
@@ -1187,7 +1188,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__defaultScriptEditorDirectory = os.path.join(self.__engine.userApplicationDataDirectory,
 															Constants.ioDirectory,
 															self.__defaultScriptEditorDirectory)
-		not os.path.exists(self.__defaultScriptEditorDirectory) and os.makedirs(self.__defaultScriptEditorDirectory)
+		not foundations.common.pathExists(self.__defaultScriptEditorDirectory) and os.makedirs(self.__defaultScriptEditorDirectory)
 		self.__defaultScriptEditorFile = os.path.join(self.__defaultScriptEditorDirectory, self.__defaultScriptEditorFile)
 
 		self.__setLocals()
@@ -1314,17 +1315,17 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Calling '{0}' Component Framework 'onStartup' method.".format(self.__class__.__name__))
 
 		factoryDefaultScriptEditorFile = umbra.ui.common.getResourcePath(self.__factoryDefaultScriptEditorFile)
-		if os.path.exists(factoryDefaultScriptEditorFile) and not os.path.exists(self.__defaultScriptEditorFile):
+		if foundations.common.pathExists(factoryDefaultScriptEditorFile) and not foundations.common.pathExists(self.__defaultScriptEditorFile):
 			shutil.copyfile(factoryDefaultScriptEditorFile, self.__defaultScriptEditorFile)
 
-		if os.path.exists(self.__defaultScriptEditorFile):
+		if foundations.common.pathExists(self.__defaultScriptEditorFile):
 			self.loadFile(self.__defaultScriptEditorFile)
 		else:
 			self.newFile()
 
 		startupScript = self.__engine.parameters.startupScript
 		if startupScript:
-			if os.path.exists(startupScript):
+			if foundations.common.pathExists(startupScript):
 				self.loadFile(startupScript) and self.evaluateScript()
 
 		return True
@@ -1718,7 +1719,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		file = self.sender().data
-		if os.path.exists(file):
+		if foundations.common.pathExists(file):
 			return self.loadFile(file)
 
 	@core.executionTrace
@@ -2125,7 +2126,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		recentFiles = [str(recentFile)
 					for recentFile in self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",")
-						if os.path.exists(recentFile)]
+					if foundations.common.pathExists(recentFile)]
 		if not recentFiles:
 			return
 
@@ -2154,7 +2155,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		recentFiles = [str(recentFile)
 					for recentFile in self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",")
-					if os.path.exists(recentFile)]
+					if foundations.common.pathExists(recentFile)]
 		if not recentFiles:
 			recentFiles = []
 
@@ -2409,7 +2410,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not os.path.exists(file):
+		if not foundations.common.pathExists(file):
 			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(
 			self.__class__.__name__, file))
 
@@ -2445,7 +2446,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not os.path.exists(file):
+		if not foundations.common.pathExists(file):
 			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(
 			self.__class__.__name__, file))
 

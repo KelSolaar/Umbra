@@ -197,7 +197,7 @@ def getLanguageDescription(grammarfile):
 	dictionary = sectionsParser.getValue("Dictionary", "Accelerators")
 	if dictionary:
 		dictionaryFile = os.path.join(os.path.dirname(grammarfile), dictionary)
-		if os.path.exists(dictionaryFile):
+		if foundations.common.pathExists(dictionaryFile):
 			with open(dictionaryFile, "r") as file:
 				for line in iter(file):
 					line = line.strip()
@@ -733,7 +733,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not os.path.exists(file):
+		if not foundations.common.pathExists(file):
 			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(self.__class__.__name__,
 																									file))
 
@@ -755,7 +755,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not os.path.exists(self.__file):
+		if not foundations.common.pathExists(self.__file):
 			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(
 			self.__class__.__name__, self.__file))
 

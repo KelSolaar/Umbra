@@ -206,7 +206,7 @@ def getResourcePath(name, raiseException=False):
 
 	for path in RuntimeGlobals.resourcesDirectories:
 		path = os.path.join(path, name)
-		if os.path.exists(path):
+		if foundations.common.pathExists(path):
 			LOGGER.debug("> '{0}' resource path: '{1}'.".format(name, path))
 			return path
 
@@ -259,7 +259,7 @@ def getSectionsFileParser(file):
 	:return: Parser. ( SectionsFileParser )
 	"""
 
-	if not os.path.exists(file):
+	if not foundations.common.pathExists(file):
 		raise foundations.exceptions.FileExistsError("{0} | '{1}' sections file doesn't exists!".format(
 		inspect.getmodulename(__file__), file))
 

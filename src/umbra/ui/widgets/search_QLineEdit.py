@@ -32,6 +32,7 @@ from PyQt4.QtGui import QToolButton
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
+import foundations.common
 import foundations.core as core
 import foundations.exceptions
 from umbra.globals.constants import Constants

@@ -27,6 +27,7 @@ from PyQt4.QtCore import QVariant
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
+import foundations.common
 import foundations.core as core
 import foundations.exceptions
 import umbra.ui.common

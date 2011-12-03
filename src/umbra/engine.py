@@ -83,6 +83,8 @@ def _overrideDependenciesGlobals():
 
 _overrideDependenciesGlobals()
 
+import foundations.common
+
 def _extendResourcesPaths():
 	"""
 	This definition extend resources paths.
@@ -92,7 +94,7 @@ def _extendResourcesPaths():
 
 	for path in (os.path.join(umbra.__path__[0], Constants.resourcesDirectory),
 				os.path.join(os.getcwd(), umbra.__name__, Constants.resourcesDirectory)):
-		(os.path.exists(path) and not path in RuntimeGlobals.resourcesDirectories) and \
+		(foundations.common.pathExists(path) and not path in RuntimeGlobals.resourcesDirectories) and \
 		RuntimeGlobals.resourcesDirectories.append(path)
 	return True
 
@@ -101,7 +103,6 @@ _extendResourcesPaths()
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.common
 import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
@@ -141,19 +142,29 @@ __all__ = ["LOGGER",
 
 LOGGER = logging.getLogger(Constants.logger)
 
-# Starting the console handler.
-if not hasattr(sys, "frozen") or not (platform.system() == "Windows" or platform.system() == "Microsoft"):
-	RuntimeGlobals.loggingConsoleHandler = logging.StreamHandler(sys.__stdout__)
-	RuntimeGlobals.loggingConsoleHandler.setFormatter(core.LOGGING_DEFAULT_FORMATTER)
-	LOGGER.addHandler(RuntimeGlobals.loggingConsoleHandler)
+def _initializeLogging():
+	"""
+	This definition initializes the Application logging.
 
-# Defining logging formatters.
-RuntimeGlobals.loggingFormatters = {"Default" :core.LOGGING_DEFAULT_FORMATTER,
-									"Extended" : core.LOGGING_EXTENDED_FORMATTER,
-									"Standard" : core.LOGGING_STANDARD_FORMATTER}
+	:return: Definition success. ( Boolean )
+	"""
+
+	# Starting the console handler.
+	if not hasattr(sys, "frozen") or not (platform.system() == "Windows" or platform.system() == "Microsoft"):
+		RuntimeGlobals.loggingConsoleHandler = logging.StreamHandler(sys.__stdout__)
+		RuntimeGlobals.loggingConsoleHandler.setFormatter(core.LOGGING_DEFAULT_FORMATTER)
+		LOGGER.addHandler(RuntimeGlobals.loggingConsoleHandler)
+
+	# Defining logging formatters.
+	RuntimeGlobals.loggingFormatters = {"Default" :core.LOGGING_DEFAULT_FORMATTER,
+										"Extended" : core.LOGGING_EXTENDED_FORMATTER,
+										"Standard" : core.LOGGING_STANDARD_FORMATTER}
+	return True
+
+_initializeLogging()
 
 RuntimeGlobals.uiFile = umbra.ui.common.getResourcePath(UiConstants.uiFile)
-if not os.path.exists(RuntimeGlobals.uiFile):
+if not foundations.common.pathExists(RuntimeGlobals.uiFile):
 	umbra.ui.common.uiStandaloneSystemExitExceptionHandler(
 	foundations.exceptions.FileExistsError("'{0}' ui file is not available, {1} will now close!".format(
 	UiConstants.uiFile, Constants.applicationName)), Constants.applicationName)
@@ -1348,7 +1359,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 			raise foundations.exceptions.FileExistsError(
 			"{0} | No stylesheet file found, visual style will not be applied!".format(self.__class__.__name__))
 
-		if os.path.exists(styleSheetFile.file):
+		if foundations.common.pathExists(styleSheetFile.file):
 			LOGGER.debug("> Reading style sheet file: '{0}'.".format(styleSheetFile.file))
 			styleSheetFile.read()
 			for i, line in enumerate(styleSheetFile.content):
@@ -1938,7 +1949,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 											Constants.loggingFile)
 
 	try:
-		os.path.exists(RuntimeGlobals.loggingFile) and os.remove(RuntimeGlobals.loggingFile)
+		foundations.common.pathExists(RuntimeGlobals.loggingFile) and os.remove(RuntimeGlobals.loggingFile)
 	except:
 		raise umbra.exceptions.EngineConfigurationError(
 		"{0} | '{1}' Logging file is currently locked by another process, '{2}' will now close!".format(
@@ -1965,7 +1976,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	LOGGER.debug("> Retrieving default layouts.")
 	RuntimeGlobals.settings.setDefaultLayouts(("startupCentric",))
 
-	os.path.exists(RuntimeGlobals.settingsFile) or RuntimeGlobals.settings.setDefaultPreferences()
+	foundations.common.pathExists(RuntimeGlobals.settingsFile) or RuntimeGlobals.settings.setDefaultPreferences()
 
 	LOGGER.debug("> Retrieving stored verbose level.")
 	RuntimeGlobals.verbosityLevel = RuntimeGlobals.parameters.verbosityLevel and \

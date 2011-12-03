@@ -25,8 +25,8 @@ from PyQt4.QtGui import QSplashScreen
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.common
+import foundations.core as core
 import foundations.exceptions
 from umbra.globals.constants import Constants
 
