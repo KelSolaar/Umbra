@@ -113,7 +113,7 @@ class UiConstants():
 	"""Application online help file:
 	'****' ( String )"""
 	apiFile = str()
-	"""Application online api file:
+	"""Application online Api file:
 	'****' ( String )"""
 
 	restoreGeometryOnLayoutChange = False
