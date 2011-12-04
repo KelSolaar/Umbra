@@ -109,12 +109,12 @@ class UiConstants():
 	startupLayout = "startupCentric"
 	"""Application startup layout: '**startupCentric**' ( String )"""
 
-	helpFile = "http://kelsolaar.hdrlabs.com/sIBL_GUI/Support/Documentation/Help/index.html"
+	helpFile = str()
 	"""Application online help file:
-	'**http://kelsolaar.hdrlabs.com/sIBL_GUI/Support/Documentation/Help/index.html**' ( String )"""
-	apiFile = "http://kelsolaar.hdrlabs.com/sIBL_GUI/Support/Documentation/Api/index.html"
+	'****' ( String )"""
+	apiFile = str()
 	"""Application online api file:
-	'**http://kelsolaar.hdrlabs.com/sIBL_GUI/Support/Documentation/Api/index.html**' ( String )"""
+	'****' ( String )"""
 
 	restoreGeometryOnLayoutChange = False
 	"""Restore geometry on layout change: '**False**' ( Boolean )"""
