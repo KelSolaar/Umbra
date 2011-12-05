@@ -275,6 +275,9 @@ class PatchesManager(object):
 		:return: Method success. ( Boolean )
 		"""
 
+		if not self.__paths:
+			return
+
 		osWalker = OsWalker()
 		unregisteredPatches = []
 		for path in self.paths:
