@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**001_dummyPatch.py**
+**001_dummy.py**
 
 **Platform:**
 	Windows, Linux, Mac Os X.
@@ -26,7 +26,7 @@ __status__ = "Production"
 
 __all__ = ["UID", "apply"]
 
-UID = "6476c4d6da7ea194cc25a6b4b5efb06f"
+UID = "845d7ca6fca3888b0293eb982fa51ddf"
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
