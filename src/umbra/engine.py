@@ -112,6 +112,7 @@ import foundations.ui.common
 import manager.exceptions
 import umbra.actionsManager
 import umbra.exceptions
+import umbra.patchesManager
 import umbra.ui.common
 import umbra.ui.widgets.messageBox as messageBox
 from foundations.streamObject import StreamObject
@@ -301,8 +302,9 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__visibleComponents = visibleComponents or []
 
 		self.__timer = None
-		self.__actionsManager = None
+		self.__patchesManager = RuntimeGlobals.patchesManager
 		self.__componentsManager = None
+		self.__actionsManager = None
 		self.__userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory
 		self.__loggingSessionHandler = RuntimeGlobals.loggingSessionHandler
 		self.__loggingFileHandler = RuntimeGlobals.loggingFileHandler
@@ -338,7 +340,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		waitTime=0.25)
 
 		# --- Initializing Actions Manager. ---
-		self.__actionsManager = umbra.actionsManager.ActionsManager(self)
+		self.__actionsManager = RuntimeGlobals.actionsManager = umbra.actionsManager.ActionsManager(self)
 
 		# Visual style initialization.
 		self.setVisualStyle()
@@ -362,7 +364,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		textColor=Qt.white,
 		waitTime=0.25)
 
-		self.__componentsManager = Manager(componentsPaths)
+		self.__componentsManager = RuntimeGlobals.componentsManager = Manager(componentsPaths)
 		self.__componentsManager.registerComponents()
 
 		if not self.__componentsManager.components:
@@ -585,36 +587,36 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "visibleComponents"))
 
 	@property
-	def actionsManager(self):
+	def patchesManager(self):
 		"""
-		This method is the property for **self.__actionsManager** attribute.
+		This method is the property for **self.__patchesManager** attribute.
 
-		:return: self.__actionsManager. ( ActionsManager )
+		:return: self.__patchesManager. ( ActionsManager )
 		"""
 
-		return self.__actionsManager
+		return self.__patchesManager
 
-	@actionsManager.setter
+	@patchesManager.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def actionsManager(self, value):
+	def patchesManager(self, value):
 		"""
-		This method is the setter method for **self.__actionsManager** attribute.
+		This method is the setter method for **self.__patchesManager** attribute.
 
 		:param value: Attribute value. ( ActionsManager )
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "actionsManager"))
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "patchesManager"))
 
-	@actionsManager.deleter
+	@patchesManager.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def actionsManager(self):
+	def patchesManager(self):
 		"""
-		This method is the deleter method for **self.__actionsManager** attribute.
+		This method is the deleter method for **self.__patchesManager** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "actionsManager"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "patchesManager"))
 
 	@property
 	def componentsManager(self):
@@ -647,6 +649,38 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "componentsManager"))
+
+	@property
+	def actionsManager(self):
+		"""
+		This method is the property for **self.__actionsManager** attribute.
+
+		:return: self.__actionsManager. ( ActionsManager )
+		"""
+
+		return self.__actionsManager
+
+	@actionsManager.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def actionsManager(self, value):
+		"""
+		This method is the setter method for **self.__actionsManager** attribute.
+
+		:param value: Attribute value. ( ActionsManager )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "actionsManager"))
+
+	@actionsManager.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def actionsManager(self):
+		"""
+		This method is the deleter method for **self.__actionsManager** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "actionsManager"))
 
 	@property
 	def userApplicationDataDirectory(self):
@@ -1939,7 +1973,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 		"{0} | '{1}' user Application data directory is not available, '{2}' will now close!".format(
 		inspect.getmodulename(__file__), RuntimeGlobals.userApplicationDataDirectory, Constants.applicationName))
 
-	LOGGER.debug("> Application python interpreter: '{0}'".format(sys.executable))
+	LOGGER.debug("> Application Python interpreter: '{0}'".format(sys.executable))
 	LOGGER.debug("> Application startup location: '{0}'".format(os.getcwd()))
 	LOGGER.debug("> Session user Application data directory: '{0}'".format(RuntimeGlobals.userApplicationDataDirectory))
 
@@ -1965,8 +1999,18 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 																				RuntimeGlobals.loggingFile,
 																				Constants.applicationName))
 
-	# Retrieving Framework verbose level from settings file.
-	LOGGER.debug("> Initializing {0}!".format(Constants.applicationName))
+	# Getting the patches file path.
+	RuntimeGlobals.patchesFile = os.path.join(RuntimeGlobals.userApplicationDataDirectory,
+											Constants.patchesDirectory,
+											Constants.patchesFile)
+	# Initializing the patches manager.
+	RuntimeGlobals.patchesManager = umbra.patchesManager.PatchesManager(RuntimeGlobals.patchesFile,
+																		[os.path.join(path, Constants.patchesDirectory)
+																		for path in RuntimeGlobals.resourcesDirectories])
+	RuntimeGlobals.patchesManager.registerPatches() and RuntimeGlobals.patchesManager.applyPatches()
+
+	# Retrieving settings file.
+	LOGGER.debug("> Initializing '{0}'!".format(Constants.applicationName))
 	RuntimeGlobals.settingsFile = os.path.join(RuntimeGlobals.userApplicationDataDirectory,
 												Constants.settingsDirectory,
 												Constants.settingsFile)

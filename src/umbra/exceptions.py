@@ -29,7 +29,17 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = []
+__all__ = ["AbstractEngineError",
+			"EngineConfigurationError",
+			"EngineInitializationError",
+			"ResourceExistsError",
+			"AbstractActionsManagerError",
+			"CategoryExistsError",
+			"ActionExistsError",
+			"AbstractPatchesManagerError",
+			"PatchRegistrationError",
+			"PatchInterfaceError",
+			"PatchApplyError"]
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -64,7 +74,7 @@ class ResourceExistsError(foundations.exceptions.AbstractOsError):
 
 class AbstractActionsManagerError(foundations.exceptions.AbstractError):
 	"""
-	This class is the abstract base class for :class:`ActionsManager` related exceptions.
+	This class is the abstract base class for :class:`umbra.actionsManager.ActionsManager` related exceptions.
 	"""
 
 	pass
@@ -79,6 +89,34 @@ class CategoryExistsError(AbstractActionsManagerError):
 class ActionExistsError(AbstractActionsManagerError):
 	"""
 	This class is used for non existing action exceptions.
+	"""
+
+	pass
+
+class AbstractPatchesManagerError(foundations.exceptions.AbstractError):
+	"""
+	This class is the abstract base class for :class:`umbra.patchesManager.PatchesManager` related exceptions.
+	"""
+
+	pass
+
+class PatchRegistrationError(AbstractPatchesManagerError):
+	"""
+	This class is used for patch registration exceptions.
+	"""
+
+	pass
+
+class PatchInterfaceError(AbstractPatchesManagerError):
+	"""
+	This class is used for patch interface exceptions.
+	"""
+
+	pass
+
+class PatchApplyError(AbstractPatchesManagerError):
+	"""
+	This class is used for patch apply exceptions.
 	"""
 
 	pass

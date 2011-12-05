@@ -69,6 +69,8 @@ class Constants():
 		providerDirectory = ".HDRLabs"
 		"""Package provider directory: '**HDRLabs** on Windows / Darwin, **.HDRLabs** on Linux' ( String )"""
 
+	patchesDirectory = "patches"
+	"""Application patches directory: '**patches**' ( String )"""
 	settingsDirectory = "settings"
 	"""Application settings directory: '**settings**' ( String )"""
 	userComponentsDirectory = "components"
@@ -78,7 +80,8 @@ class Constants():
 	ioDirectory = "io"
 	"""Application io directory: '**io**' ( String )"""
 
-	preferencesDirectories = (settingsDirectory,
+	preferencesDirectories = (patchesDirectory,
+								settingsDirectory,
 								userComponentsDirectory,
 								loggingDirectory,
 								ioDirectory)
@@ -90,6 +93,8 @@ class Constants():
 	resourcesDirectory = "resources"
 	"""Application resources directory: '**resources**' ( String )"""
 
+	patchesFile = "Umbra_Patches.rc"
+	"""Application settings file: '**Umbra_Patches.rc**' ( String )"""
 	settingsFile = "Umbra_Settings.rc"
 	"""Application settings file: '**Umbra_Settings.rc**' ( String )"""
 	loggingFile = "Umbra_Logging.log"

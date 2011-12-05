@@ -65,6 +65,13 @@ class RuntimeGlobals():
 	engine = None
 	"""Application engine instance."""
 
+	patchesManager = None
+	"""Application patches manager instance."""
+	componentsManager = None
+	"""Application components manager instance."""
+	actionsManager = None
+	"""Application actions manager instance."""
+
 	application = None
 	"""Application instance."""
 	userApplicationDataDirectory = None
@@ -75,6 +82,9 @@ class RuntimeGlobals():
 
 	uiFile = None
 	"""Application ui file."""
+
+	patchesFile = None
+	"""Application patches file."""
 
 	settingsFile = None
 	"""Application settings file."""

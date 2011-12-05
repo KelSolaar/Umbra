@@ -60,6 +60,7 @@ class ConstantsTestCase(unittest.TestCase):
 								"encodingError",
 								"applicationDirectory",
 								"providerDirectory",
+								"patchesDirectory",
 								"settingsDirectory",
 								"userComponentsDirectory",
 								"loggingDirectory",
@@ -67,6 +68,7 @@ class ConstantsTestCase(unittest.TestCase):
 								"preferencesDirectories",
 								"factoryComponentsDirectory",
 								"resourcesDirectory",
+								"patchesFile",
 								"settingsFile",
 								"loggingFile",
 								"librariesDirectory",
@@ -166,6 +168,13 @@ class ConstantsTestCase(unittest.TestCase):
 
 		self.assertRegexpMatches(Constants.providerDirectory, "\w+")
 
+	def testPatchesDirectoryAttribute(self):
+		"""
+		This method tests :attr:`umbra.globals.constants.Constants.patchesDirectory` attribute.
+		"""
+
+		self.assertRegexpMatches(Constants.patchesDirectory, "\w+")
+
 	def testSettingsDirectoryAttribute(self):
 		"""
 		This method tests :attr:`umbra.globals.constants.Constants.settingsDirectory` attribute.
@@ -214,6 +223,13 @@ class ConstantsTestCase(unittest.TestCase):
 		"""
 
 		self.assertRegexpMatches(Constants.resourcesDirectory, "\w+")
+
+	def testPatchesFileAttribute(self):
+		"""
+		This method tests :attr:`umbra.globals.constants.Constants.patchesFile` attribute.
+		"""
+
+		self.assertRegexpMatches(Constants.patchesFile, "\w+")
 
 	def testSettingsFileAttribute(self):
 		"""
