@@ -142,7 +142,8 @@ def standaloneMessageBox(type, caption, message, icon=None, buttons=QMessageBox.
 	:param message: MessageBox message. ( String )
 	:param icon: Custom icon. ( QConstant )
 	:param buttons: Custom buttons. ( QConstant )
+	:return: User choice. ( Integer )
 	"""
 
 	application = QApplication(sys.argv)
-	messageBox(type, caption, message, icon, buttons)
+	return messageBox(type, caption, message, icon, buttons)
