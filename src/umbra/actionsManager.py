@@ -215,7 +215,7 @@ class ActionsManager(QObject):
 
 		if value is not None:
 			assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("categories", value)
-			for key, element in value.items():
+			for key, element in value.iteritems():
 				assert type(key) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("categories", key)
 				assert type(element) is list, "'{0}' attribute: '{1}' type is not 'list'!".format("categories", element)
 		self.__categories = value

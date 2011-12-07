@@ -283,7 +283,7 @@ class PatchesManager(object):
 		for path in self.paths:
 			osWalker.root = path
 			osWalker.walk(("\.{0}$".format(self.__extension),), ("\._",))
-			for name, file in osWalker.files.items():
+			for name, file in osWalker.files.iteritems():
 				if not self.registerPatch(name, file):
 					unregisteredPatches.append(name)
 
@@ -329,7 +329,7 @@ class PatchesManager(object):
 		"""
 
 		success = True
-		for name, patch in sorted(self.__patches.items()):
+		for name, patch in sorted(self.__patches.iteritems()):
 			success = self.applyPatch(patch)
 		return success
 
@@ -342,7 +342,7 @@ class PatchesManager(object):
 		:return: Patches list. ( List )
 		"""
 
-		return [name for name, patch in sorted(self.__patches.items())]
+		return [name for name, patch in sorted(self.__patches.iteritems())]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -354,6 +354,6 @@ class PatchesManager(object):
 		:return: Patch. ( Patch )
 		"""
 
-		for patch in self.__patches.values():
+		for patch in self.__patches.itervalues():
 			if patch.uid == uid:
 				return patch

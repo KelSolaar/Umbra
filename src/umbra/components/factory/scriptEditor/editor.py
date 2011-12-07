@@ -227,7 +227,7 @@ def getLanguageDescription(grammarfile):
 				"tokens" : tokens,
 				"theme" : theme}
 
-	for attribute, value in sorted(attributes.items()):
+	for attribute, value in sorted(attributes.iteritems()):
 		if attribute == "rules":
 			LOGGER.debug("> Registered '{0}' syntax rules.".format(len(value)))
 		elif attribute == "tokens":

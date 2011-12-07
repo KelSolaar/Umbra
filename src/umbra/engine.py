@@ -1376,7 +1376,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 								UiConstants.linuxFullScreenStylesheetFile)}
 
 		styleSheetFile = None
-		for platformStyle, settings in platformStyles.items():
+		for platformStyle, settings in platformStyles.iteritems():
 			LOGGER.debug("> Setting '{0}' visual style.".format(platformStyle))
 			platformSystems, style, styleSheeFile, fullScreenStyleSheetFile = settings
 			if platform.system() in platformSystems:
@@ -1647,7 +1647,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		LOGGER.debug("> Restoring layout '{0}'.".format(name))
 
-		for component, profile in self.__componentsManager.components.items():
+		for component, profile in self.__componentsManager.components.iteritems():
 			profile.category == "QWidget" and component not in self.__visibleComponents and \
 			self.__componentsManager.getInterface(component) and self.__componentsManager.getInterface(component).hide()
 

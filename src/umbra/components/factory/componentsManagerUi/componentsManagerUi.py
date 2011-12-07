@@ -1031,7 +1031,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		for path in self.__engine.componentsManager.paths:
 			components = {name : component
-						for name, component in self.__engine.componentsManager.components.items()
+						for name, component in self.__engine.componentsManager.components.iteritems()
 						if os.path.normpath(path) in os.path.normpath(component.path)}
 			if not components:
 				break
@@ -1045,7 +1045,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 								rank=umbra.ui.models.GraphModelAttribute(name="rank", flags=attributesFlags),
 								version=umbra.ui.models.GraphModelAttribute(name="version", flags=attributesFlags))
 
-			for name, component in components.items():
+			for name, component in components.iteritems():
 				if not component.interface:
 					continue
 

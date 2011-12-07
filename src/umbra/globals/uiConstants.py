@@ -109,12 +109,10 @@ class UiConstants():
 	startupLayout = "startupCentric"
 	"""Application startup layout: '**startupCentric**' ( String )"""
 
-	helpFile = str()
-	"""Application online help file:
-	'****' ( String )"""
-	apiFile = str()
-	"""Application online Api file:
-	'****' ( String )"""
+	helpFile = "https://github.com/KelSolaar/Umbra"
+	"""Application online help file: '**"https://github.com/KelSolaar/Umbra"**' ( String )"""
+	apiFile = "https://github.com/KelSolaar/Umbra"
+	"""Application online Api file: '**"https://github.com/KelSolaar/Umbra"**' ( String )"""
 
 	restoreGeometryOnLayoutChange = False
 	"""Restore geometry on layout change: '**False**' ( Boolean )"""
