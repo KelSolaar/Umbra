@@ -1910,7 +1910,7 @@ def getCommandLineParametersParser():
 					type="string",
 					dest="loggingFormater",
 					help="'Application logging formatter: '{0}'.'".format(
-					", ".join(sorted(RuntimeGlobals.loggingFormatters.keys()))))
+					", ".join(sorted(RuntimeGlobals.loggingFormatters))))
 	parser.add_option("-u",
 					"--userApplicationDataDirectory",
 					action="store",
@@ -2031,7 +2031,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	LOGGER.debug("> Retrieving stored logging formatter.")
 	loggingFormatter = RuntimeGlobals.parameters.loggingFormater and RuntimeGlobals.parameters.loggingFormater or \
 	str(RuntimeGlobals.settings.getKey("Settings", "loggingFormatter").toString())
-	loggingFormatter = loggingFormatter in RuntimeGlobals.loggingFormatters.keys() and loggingFormatter or None
+	loggingFormatter = loggingFormatter in RuntimeGlobals.loggingFormatters and loggingFormatter or None
 	RuntimeGlobals.loggingActiveFormatter = loggingFormatter and loggingFormatter or Constants.loggingDefaultFormatter
 	LOGGER.debug("> Setting logging formatter: '{0}'.".format(RuntimeGlobals.loggingActiveFormatter))
 	for handler in (RuntimeGlobals.loggingConsoleHandler, RuntimeGlobals.loggingFileHandler):

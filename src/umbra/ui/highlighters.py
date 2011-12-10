@@ -201,7 +201,7 @@ class FormatsTree(object):
 		:param theme: Theme. ( Dictionary )
 		"""
 
-		for item in sorted(theme.keys()):
+		for item in sorted(theme):
 			currentNode = self.__rootNode
 			for format in item.split("."):
 				nodes = [node for node in currentNode.children if node.name == format]

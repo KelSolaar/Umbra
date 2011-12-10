@@ -63,7 +63,7 @@ def getViewNodesFromIndexes(view, *indexes):
 	nodes = {}
 	for index in indexes:
 		node = view.model().getNode(index)
-		if not node in nodes.keys():
+		if not node in nodes:
 			nodes[node] = []
 		attribute = view.model().getAttribute(node, index.column())
 		attribute and nodes[node].append(attribute)

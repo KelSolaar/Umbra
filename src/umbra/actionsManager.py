@@ -266,11 +266,11 @@ class ActionsManager(QObject):
 		namespace = foundations.namespace.getNamespace(name, rootOnly=True)
 		name = foundations.namespace.removeNamespace(name, rootOnly=True)
 		if namespace:
-			if vivify and namespace not in category.keys():
+			if vivify and namespace not in category:
 				category[namespace] = {}
 			return self.__getCategory(category[namespace], name, vivify)
 		else:
-			if vivify and name not in category.keys():
+			if vivify and name not in category:
 				category[name] = {}
 			return category[name]
 

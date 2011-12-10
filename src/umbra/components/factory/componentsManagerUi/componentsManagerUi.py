@@ -905,7 +905,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not name in self.__engine.componentsManager.components.keys():
+		if not name in self.__engine.componentsManager.components:
 			raise manager.exceptions.ComponentExistsError(
 			"{0} | '{1}' Component isn't registered in the Components Manager!".format(self.__class__.__name__, name))
 
@@ -938,7 +938,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not name in self.__engine.componentsManager.components.keys():
+		if not name in self.__engine.componentsManager.components:
 			raise manager.exceptions.ComponentExistsError(
 			"{0} | '{0}' Component isn't registered in the Components Manager!".format(self.__class__.__name__, name))
 
@@ -975,7 +975,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not name in self.__engine.componentsManager.components.keys():
+		if not name in self.__engine.componentsManager.components:
 			raise manager.exceptions.ComponentExistsError(
 			"{0} | '{1}' Component isn't registered in the Components Manager!".format(self.__class__.__name__, name))
 
@@ -1088,7 +1088,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: View selected Components nodes. ( List )
 		"""
 
-		return [node for node in self.getSelectedNodes().keys() if node.family == "Component"]
+		return [node for node in self.getSelectedNodes() if node.family == "Component"]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

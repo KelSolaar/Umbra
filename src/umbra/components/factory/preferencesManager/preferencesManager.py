@@ -287,8 +287,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		self.Logging_Formatters_comboBox.clear()
-		LOGGER.debug("> Available logging formatters: '{0}'.".format(", ".join(RuntimeGlobals.loggingFormatters.keys())))
-		self.Logging_Formatters_comboBox.insertItems(0, QStringList (RuntimeGlobals.loggingFormatters.keys()))
+		LOGGER.debug("> Available logging formatters: '{0}'.".format(", ".join(RuntimeGlobals.loggingFormatters)))
+		self.Logging_Formatters_comboBox.insertItems(0, QStringList(RuntimeGlobals.loggingFormatters.keys()))
 		loggingFormatter = self.__settings.getKey("Settings", "loggingFormatter").toString()
 		self.__engine.loggingActiveFormatter = loggingFormatter and loggingFormatter or Constants.loggingDefaultFormatter
 		self.Logging_Formatters_comboBox.setCurrentIndex(self.Logging_Formatters_comboBox.findText(

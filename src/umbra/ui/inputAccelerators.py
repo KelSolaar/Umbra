@@ -212,7 +212,7 @@ def symbolsExpandingPreEventInputAccelerators(editor, event):
 	if not symbolsPairs:
 		return processEvent
 
-	if event.text() in symbolsPairs.keys():
+	if event.text() in symbolsPairs:
 		cursor = editor.textCursor()
 		cursor.beginEditBlock()
 		if not cursor.hasSelection():

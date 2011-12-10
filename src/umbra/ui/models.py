@@ -105,7 +105,7 @@ class GraphModelAttribute(Attribute):
 
 		if value is not None:
 			assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("roles", value)
-			for key in value.keys():
+			for key in value:
 				assert type(key) is Qt.ItemDataRole, "'{0}' attribute: '{1}' type is not 'Qt.ItemDataRole'!".format("roles", key)
 		self.__roles = value
 
@@ -207,7 +207,7 @@ class GraphModelNode(AbstractCompositeNode):
 
 		if value is not None:
 			assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("roles", value)
-			for key in value.keys():
+			for key in value:
 				assert type(key) is Qt.ItemDataRole, "'{0}' attribute: '{1}' type is not 'Qt.ItemDataRole'!".format(
 				"roles", key)
 		self.__roles = value
@@ -450,7 +450,7 @@ class GraphModel(QAbstractItemModel):
 		:return: Column count. ( Integer )
 		"""
 
-		return len(self.__horizontalHeaders.keys())
+		return len(self.__horizontalHeaders)
 
 	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -532,10 +532,10 @@ class GraphModel(QAbstractItemModel):
 
 		if role == Qt.DisplayRole:
 			if orientation == Qt.Horizontal:
-				if section < len(self.__horizontalHeaders.keys()):
+				if section < len(self.__horizontalHeaders):
 					return self.__horizontalHeaders.keys()[section]
 			elif orientation == Qt.Vertical:
-				if section < len(self.__verticalHeaders.keys()):
+				if section < len(self.__verticalHeaders):
 					return self.__verticalHeaders.keys()[section]
 		return QVariant()
 
@@ -725,7 +725,7 @@ class GraphModel(QAbstractItemModel):
 		:return: Attribute. ( Attribute )
 		"""
 
-		if column > 0 and column < len(self.__horizontalHeaders.keys()):
+		if column > 0 and column < len(self.__horizontalHeaders):
 			return node.get(self.__horizontalHeaders[self.__horizontalHeaders.keys()[column]], None)
 
 	# @core.executionTrace
@@ -751,7 +751,7 @@ class GraphModel(QAbstractItemModel):
 		:return: Index. ( QModelIndex )
 		"""
 
-		if column > 0 and column < len(self.__horizontalHeaders.keys()):
+		if column > 0 and column < len(self.__horizontalHeaders):
 			return self.createIndex(node.row(), column, node)
 
 	# @core.executionTrace
