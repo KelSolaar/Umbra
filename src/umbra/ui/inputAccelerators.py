@@ -212,18 +212,19 @@ def symbolsExpandingPreEventInputAccelerators(editor, event):
 	if not symbolsPairs:
 		return processEvent
 
-	if event.text() in symbolsPairs:
+	text = unicode(event.text(), Constants.encodingFormat, Constants.encodingError)
+	if text in symbolsPairs:
 		cursor = editor.textCursor()
 		cursor.beginEditBlock()
 		if not cursor.hasSelection():
 			cursor.insertText(event.text())
-			cursor.insertText(symbolsPairs[unicode(event.text(), Constants.encodingFormat, Constants.encodingError)])
+			cursor.insertText(symbolsPairs[text])
 			cursor.movePosition(QTextCursor.Left, QTextCursor.MoveAnchor)
 		else:
 			selectionText = cursor.selectedText()
 			cursor.insertText(event.text())
 			cursor.insertText(selectionText)
-			cursor.insertText(symbolsPairs[unicode(event.text(), Constants.encodingFormat, Constants.encodingError)])
+			cursor.insertText(symbolsPairs[text])
 		editor.setTextCursor(cursor)
 		cursor.endEditBlock()
 		processEvent = False
