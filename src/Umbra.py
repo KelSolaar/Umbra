@@ -45,4 +45,7 @@ if __name__ == "__main__":
 	componentsPaths = []
 	for path in (os.path.join(umbra.__path__[0], Constants.factoryComponentsDirectory),):
 		os.path.exists(path) and componentsPaths.append(path)
-	umbra.engine.run(umbra.engine.Umbra, umbra.engine.getCommandLineParametersParser().parse_args(sys.argv), componentsPaths, ("factory.scriptEditor", "factory.preferencesManager", "factory.componentsManagerUi"))
+	umbra.engine.run(umbra.engine.Umbra,
+					umbra.engine.getCommandLineParametersParser().parse_args(sys.argv),
+					componentsPaths,
+					("factory.scriptEditor", "factory.preferencesManager", "factory.componentsManagerUi"))
