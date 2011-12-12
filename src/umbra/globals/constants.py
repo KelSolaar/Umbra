@@ -17,6 +17,7 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
+import os
 import platform
 
 #**********************************************************************************************************************
@@ -66,7 +67,7 @@ class Constants():
 	encodingError = "ignore"
 	"""Default encoding error behavior: '**ignore**' ( String )"""
 
-	applicationDirectory = "Umbra"
+	applicationDirectory = os.sep.join(("Umbra", ".".join((majorVersion, minorVersion))))
 	"""Package Application directory: '**Umbra**' ( String )"""
 	if platform.system() == "Windows" or platform.system() == "Microsoft" or platform.system() == "Darwin":
 		providerDirectory = "HDRLabs"
