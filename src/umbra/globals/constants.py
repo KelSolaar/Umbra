@@ -41,7 +41,13 @@ class Constants():
 
 	applicationName = "Umbra"
 	"""Package Application name: '**Umbra**' ( String )"""
-	releaseVersion = "1.0.0"
+	majorVersion = "1"
+	"""Package major version: '**4**' ( String )"""
+	minorVersion = "0"
+	"""Package minor version: '**0**' ( String )"""
+	changeVersion = "0"
+	"""Package change version: '**0**' ( String )"""
+	releaseVersion = ".".join((majorVersion, minorVersion, changeVersion))
 	"""Package release version: '**1.0.0**' ( String )"""
 
 	logger = "Umbra_Logger"
