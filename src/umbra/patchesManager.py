@@ -26,6 +26,7 @@ import sys
 #**********************************************************************************************************************
 import foundations.common
 import foundations.core as core
+import foundations.dataStructures
 import foundations.exceptions
 import umbra.exceptions
 from foundations.io import File
@@ -59,7 +60,7 @@ class Patch(foundations.dataStructures.Structure):
 		"""
 		This method initializes the class.
 
-		:param \*\*kwargs: name, path, import_, apply, uid. ( Key / Value pairs )
+		:param \*\*kwargs: name, path, import\_, apply, uid. ( Key / Value pairs )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
