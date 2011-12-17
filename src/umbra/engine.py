@@ -146,8 +146,6 @@ LOGGER = logging.getLogger(Constants.logger)
 def _initializeLogging():
 	"""
 	This definition initializes the Application logging.
-
-	:return: Definition success. ( Boolean )
 	"""
 
 	# Starting the console handler.
@@ -160,15 +158,30 @@ def _initializeLogging():
 	RuntimeGlobals.loggingFormatters = {"Default" :core.LOGGING_DEFAULT_FORMATTER,
 										"Extended" : core.LOGGING_EXTENDED_FORMATTER,
 										"Standard" : core.LOGGING_STANDARD_FORMATTER}
-	return True
 
 _initializeLogging()
 
-RuntimeGlobals.uiFile = umbra.ui.common.getResourcePath(UiConstants.uiFile)
-if not foundations.common.pathExists(RuntimeGlobals.uiFile):
-	umbra.ui.common.uiStandaloneSystemExitExceptionHandler(
-	foundations.exceptions.FileExistsError("'{0}' ui file is not available, {1} will now close!".format(
-	UiConstants.uiFile, Constants.applicationName)), Constants.applicationName)
+def _initializeApplication():
+	"""
+	This definition initializes the Application.
+	"""
+
+	RuntimeGlobals.application = QApplication(sys.argv)
+
+_initializeApplication()
+
+def _initializeApplicationUiFile():
+	"""
+	This definition initializes the Application ui file.
+	"""
+
+	RuntimeGlobals.uiFile = umbra.ui.common.getResourcePath(UiConstants.uiFile)
+	if not foundations.common.pathExists(RuntimeGlobals.uiFile):
+		umbra.ui.common.uiSystemExitExceptionHandler(
+		foundations.exceptions.FileExistsError("'{0}' ui file is not available, {1} will now close!".format(
+		UiConstants.uiFile, Constants.applicationName)), Constants.applicationName)
+
+_initializeApplicationUiFile()
 
 SESSION_HEADER_TEXT = ("{0} | Copyright ( C ) 2008 - 2011 Thomas Mansencal - thomas.mansencal@gmail.com".format(
 					Constants.applicationName),
@@ -1850,7 +1863,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		exit(exitCode)
 
 @core.executionTrace
-@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiStandaloneSystemExitExceptionHandler, False, OSError)
+@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiSystemExitExceptionHandler, False, OSError)
 def setUserApplicationDataDirectory(path):
 	"""
 	This definition sets the Application data directory.
@@ -1932,7 +1945,7 @@ def getCommandLineParametersParser():
 	return parser
 
 @core.executionTrace
-@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiStandaloneSystemExitExceptionHandler,
+@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiSystemExitExceptionHandler,
 										False,
 										umbra.exceptions.EngineConfigurationError)
 def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visibleComponents=None):
@@ -2050,8 +2063,6 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	LOGGER.info("{0} | Session started at: {1}".format(Constants.applicationName, time.strftime('%X - %x')))
 	LOGGER.info(Constants.loggingSeparators)
 	LOGGER.info("{0} | Starting Interface!".format(Constants.applicationName))
-
-	RuntimeGlobals.application = QApplication(sys.argv)
 
 	# Initializing splashscreen.
 	if RuntimeGlobals.parameters.hideSplashScreen:

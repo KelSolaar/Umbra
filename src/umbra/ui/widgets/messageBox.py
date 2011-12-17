@@ -43,7 +43,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "messageBox", "standaloneMessageBox"]
+__all__ = ["LOGGER", "messageBox"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -131,19 +131,3 @@ def messageBox(type, title, message, icon=None, buttons=QMessageBox.Ok, customBu
 	messageBox.setWindowFlags(Qt.WindowStaysOnTopHint)
 
 	return messageBox.exec_()
-
-@core.executionTrace
-def standaloneMessageBox(type, caption, message, icon=None, buttons=QMessageBox.Ok):
-	"""
-	This definition provides a standalone message box.
-
-	:param type: MessageBox type. ( String )
-	:param caption: MessageBox title. ( String )
-	:param message: MessageBox message. ( String )
-	:param icon: Custom icon. ( QConstant )
-	:param buttons: Custom buttons. ( QConstant )
-	:return: User choice. ( Integer )
-	"""
-
-	application = QApplication(sys.argv)
-	return messageBox(type, caption, message, icon, buttons)

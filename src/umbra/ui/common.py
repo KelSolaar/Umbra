@@ -54,11 +54,8 @@ __all__ = ["LOGGER",
 			"LayoutActiveLabel",
 			"Icon",
 			"uiExtendedExceptionHandler",
-			"uiStandaloneExtendedExceptionHandler",
 			"uiBasicExceptionHandler",
-			"uiStandaloneBasicExceptionHandler",
 			"uiSystemExitExceptionHandler",
-			"uiStandaloneSystemExitExceptionHandler",
 			"getResourcePath",
 			"setWindowDefaultIcon",
 			"centerWidgetOnScreen",
@@ -120,20 +117,6 @@ def uiExtendedExceptionHandler(exception, origin, *args, **kwargs):
 	messageBox.messageBox("Detailed Error", "Exception", "Exception in '{0}': {1}".format(origin, exception))
 
 @core.executionTrace
-def uiStandaloneExtendedExceptionHandler(exception, origin, *args, **kwargs):
-	"""
-	This definition provides a ui standalone extended exception handler.
-
-	:param exception: Exception. ( Exception )
-	:param origin: Function / Method raising the exception. ( String )
-	:param \*args: Arguments. ( \* )
-	:param \*\*kwargs: Keywords arguments. ( \*\* )
-	"""
-
-	foundations.exceptions.defaultExceptionsHandler(exception, origin, *args, **kwargs)
-	messageBox.standaloneMessageBox("Detailed Error", "Exception", "Exception in '{0}': {1}".format(origin, exception))
-
-@core.executionTrace
 def uiBasicExceptionHandler(exception, origin, *args, **kwargs):
 	"""
 	This definition provides a ui basic exception handler.
@@ -148,20 +131,6 @@ def uiBasicExceptionHandler(exception, origin, *args, **kwargs):
 	messageBox.messageBox("Detailed Error", "Exception", "{0}".format(exception))
 
 @core.executionTrace
-def uiStandaloneBasicExceptionHandler(exception, origin, *args, **kwargs):
-	"""
-	This definition provides a ui standalone basic exception handler.
-
-	:param exception: Exception. ( Exception )
-	:param origin: Function / Method raising the exception. ( String )
-	:param \*args: Arguments. ( \* )
-	:param \*\*kwargs: Keywords arguments. ( \*\* )
-	"""
-
-	foundations.exceptions.defaultExceptionsHandler(exception, origin, *args, **kwargs)
-	messageBox.standaloneMessageBox("Detailed Error", "Exception", "{0}".format(exception))
-
-@core.executionTrace
 def uiSystemExitExceptionHandler(exception, origin, *args, **kwargs):
 	"""
 	This definition provides a ui system exit exception handler.
@@ -173,22 +142,6 @@ def uiSystemExitExceptionHandler(exception, origin, *args, **kwargs):
 	"""
 
 	uiExtendedExceptionHandler(exception, origin, *args, **kwargs)
-	foundations.common.exit(1, LOGGER, [RuntimeGlobals.loggingSessionHandler,
-										RuntimeGlobals.loggingFileHandler,
-										RuntimeGlobals.loggingConsoleHandler])
-
-@core.executionTrace
-def uiStandaloneSystemExitExceptionHandler(exception, origin, *args, **kwargs):
-	"""
-	This definition provides a ui standalone system exit exception handler.
-
-	:param exception: Exception. ( Exception )
-	:param origin: Function / Method raising the exception. ( String )
-	:param \*args: Arguments. ( \* )
-	:param \*\*kwargs: Keywords arguments. ( \*\* )
-	"""
-
-	uiStandaloneExtendedExceptionHandler(exception, origin, *args, **kwargs)
 	foundations.common.exit(1, LOGGER, [RuntimeGlobals.loggingSessionHandler,
 										RuntimeGlobals.loggingFileHandler,
 										RuntimeGlobals.loggingConsoleHandler])
