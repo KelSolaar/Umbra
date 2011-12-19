@@ -456,8 +456,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 			except Exception as error:
 				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
 				umbra.ui.common.uiExtendedExceptionHandler(
-				Exception("'{0}' Component 'onStartup' method raised an exception, \
-				unexpected behavior may occur!\nException raised: {1}".format(component, error)), self.__class__.__name__)
+				Exception("'{0}' Component 'onStartup' method raised an exception, unexpected behavior may occur!\n\
+Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 		self.__setLayoutsActiveLabelsShortcuts()
 
@@ -977,8 +977,9 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
 			"layoutsActiveLabels", value)
 			for element in value:
-				assert type(element) is umbra.ui.common.LayoutActiveLabel, "'{0}' attribute: '{1}' type is not \
-				'umbra.ui.common.LayoutActiveLabel'!".format("layoutsActiveLabels", element)
+				assert type(element) is umbra.ui.common.LayoutActiveLabel, \
+				"'{0}' attribute: '{1}' type is not 'umbra.ui.common.LayoutActiveLabel'!".format("layoutsActiveLabels",
+																								element)
 		self.__layoutsActiveLabels = value
 
 	@layoutsActiveLabels.deleter
@@ -1732,8 +1733,9 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		"""
 
 		if not self.__isProcessing:
-			warning and LOGGER.warning("!> {0} | Engine not processing, \
-			'setProcessingMessage' request has been ignored!".format(self.__class__.__name__))
+			warning and LOGGER.warning(
+			"!> {0} | Engine not processing, 'setProcessingMessage' request has been ignored!".format(
+			self.__class__.__name__))
 			return
 
 		LOGGER.debug("> Setting processing message!")
@@ -1755,8 +1757,9 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		"""
 
 		if self.__isProcessing:
-			warning and	LOGGER.warning("!> {0} | Engine is already processing, \
-			'startProcessing' request has been ignored!".format(self.__class__.__name__))
+			warning and LOGGER.warning(
+			"!> {0} | Engine is already processing, 'startProcessing' request has been ignored!".format(
+			self.__class__.__name__))
 			return
 
 		LOGGER.debug("> Starting processing operation!")
@@ -1779,8 +1782,9 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		"""
 
 		if not self.__isProcessing:
-			warning and	LOGGER.warning("!> {0} | Engine is not processing, \
-			'stepProcessing' request has been ignored!".format(self.__class__.__name__))
+			warning and	LOGGER.warning(
+			"!> {0} | Engine is not processing, 'stepProcessing' request has been ignored!".format(
+			self.__class__.__name__))
 			return
 
 		LOGGER.debug("> Stepping processing operation!")
@@ -1801,8 +1805,9 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		"""
 
 		if not self.__isProcessing:
-			warning and	LOGGER.warning("!> {0} | Engine is not processing, \
-			'stopProcessing' request has been ignored!".format(self.__class__.__name__))
+			warning and LOGGER.warning(
+			"!> {0} | Engine is not processing, 'stopProcessing' request has been ignored!".format(
+			self.__class__.__name__))
 			return
 
 		LOGGER.debug("> Stopping processing operation!")

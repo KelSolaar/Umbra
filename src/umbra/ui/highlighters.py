@@ -176,8 +176,8 @@ class FormatsTree(object):
 		"""
 
 		if value is not None:
-			assert issubclass(value.__class__, AbstractCompositeNode), "'{0}' attribute: '{1}' is not a \
-			'{2}' subclass!".format("rootNode", value, AbstractCompositeNode.__name__)
+			assert issubclass(value.__class__, AbstractCompositeNode), \
+			"'{0}' attribute: '{1}' is not a '{2}' subclass!".format("rootNode", value, AbstractCompositeNode.__name__)
 		self.__rootNode = value
 
 	@rootNode.deleter

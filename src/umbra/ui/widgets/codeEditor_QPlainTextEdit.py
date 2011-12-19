@@ -610,8 +610,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if value is not None:
-			assert type(value) is LinesNumbers_QWidget, "'{0}' attribute: '{1}' type is not \
-			'LinesNumbers_QWidget'!".format("checked", value)
+			assert type(value) is LinesNumbers_QWidget, \
+			"'{0}' attribute: '{1}' type is not 'LinesNumbers_QWidget'!".format("checked", value)
 		self.__marginArea_LinesNumbers_widget = value
 
 	@marginArea_LinesNumbers_widget.deleter
@@ -741,8 +741,8 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode, QString), "'{0}' attribute: '{1}' type is not 'str', 'unicode' or \
-			'QString'!".format("searchPattern", value)
+			assert type(value) in (str, unicode, QString), \
+			"'{0}' attribute: '{1}' type is not 'str', 'unicode' or 'QString'!".format("searchPattern", value)
 		self.__searchPattern = value
 
 	@searchPattern.deleter
