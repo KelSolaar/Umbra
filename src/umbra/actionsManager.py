@@ -56,7 +56,7 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 class ActionsManager(QObject):
 	"""
-	This class is a `QObject <http://doc.qt.nokia.com/4.7/qobject.html>`_ subclass providing an actions manager.
+	This class is a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass providing an actions manager.
 	"""
 
 	@core.executionTrace

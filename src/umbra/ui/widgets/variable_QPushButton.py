@@ -48,7 +48,7 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 class Variable_QPushButton(QPushButton):
 	"""
-	This class is a `QPushButton <http://doc.qt.nokia.com/4.7/qpushbutton.html>`_ subclass providing
+	This class is a `QPushButton <http://doc.qt.nokia.com/qpushbutton.html>`_ subclass providing
 	a button with different colors and labels depending on its clicked state.
 	"""
 

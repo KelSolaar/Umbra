@@ -49,7 +49,7 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 class DefaultCompleter(QCompleter):
 	"""
-	This class is a `QCompleter <http://doc.qt.nokia.com/4.7/qcompleter.html>`_ subclass used
+	This class is a `QCompleter <http://doc.qt.nokia.com/qcompleter.html>`_ subclass used
 	as a completion widget.
 	"""
 

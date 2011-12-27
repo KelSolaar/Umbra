@@ -281,13 +281,13 @@ class DefaultNode(AbstractCompositeNode):
 
 class GraphModel(QAbstractItemModel):
 	"""
-	| This class is a `QAbstractItemModel <http://doc.qt.nokia.com/4.7/qabstractitemmodel.html>`_ subclass
+	| This class is a `QAbstractItemModel <http://doc.qt.nokia.com/qabstractitemmodel.html>`_ subclass
 		providing a graph model.
 	| The model provided by this object is very generic and abstract making it compatible with major Qt Views
-		( `QListView <http://doc.qt.nokia.com/4.7/qlistview.html>`_,
-		`QTreeView <http://doc.qt.nokia.com/4.7/QTreeView.html>`_,
-		`QTableView <http://doc.qt.nokia.com/4.7/qtableview.html>`_,
-		`QComboBox <http://doc.qt.nokia.com/4.7/qcombobox.html>`_ ).
+		( `QListView <http://doc.qt.nokia.com/qlistview.html>`_,
+		`QTreeView <http://doc.qt.nokia.com/QTreeView.html>`_,
+		`QTableView <http://doc.qt.nokia.com/qtableview.html>`_,
+		`QComboBox <http://doc.qt.nokia.com/qcombobox.html>`_ ).
 
 	:note: Execution tracing and exceptions handling decorators have been disabled on this class
 		to provide maximum execution speed.

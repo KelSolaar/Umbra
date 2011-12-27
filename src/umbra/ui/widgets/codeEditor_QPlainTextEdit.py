@@ -68,7 +68,7 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 class LinesNumbers_QWidget(QWidget):
 	"""
-	This class is a `QWidget <http://doc.qt.nokia.com/4.7/qwidget.html>`_ subclass providing a lines numbers widget.
+	This class is a `QWidget <http://doc.qt.nokia.com/qwidget.html>`_ subclass providing a lines numbers widget.
 	"""
 
 	@core.executionTrace
@@ -440,7 +440,7 @@ def anchorTextCursor(object):
 
 class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	"""
-	This class is a `QPlainTextEdit <http://doc.qt.nokia.com/4.7/qplaintextedit.html>`_ subclass providing
+	This class is a `QPlainTextEdit <http://doc.qt.nokia.com/qplaintextedit.html>`_ subclass providing
 	a code editor base class.
 	"""
 

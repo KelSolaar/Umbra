@@ -266,7 +266,7 @@ class FormatsTree(object):
 
 class AbstractHighlighter(QSyntaxHighlighter):
 	"""
-	This class is a `QSyntaxHighlighter <http://doc.qt.nokia.com/4.7/qsyntaxhighlighter.html>`_ subclass used
+	This class is a `QSyntaxHighlighter <http://doc.qt.nokia.com/qsyntaxhighlighter.html>`_ subclass used
 	as a base for highlighters classes.
 	"""
 

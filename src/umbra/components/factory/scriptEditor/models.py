@@ -52,7 +52,7 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 class LanguagesModel(QAbstractListModel):
 	"""
-	This class is a `QAbstractListModel <http://doc.qt.nokia.com/4.7/qabstractListmodel.html>`_ subclass used
+	This class is a `QAbstractListModel <http://doc.qt.nokia.com/qabstractListmodel.html>`_ subclass used
 	to store the :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class languages.
 	"""

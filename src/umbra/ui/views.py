@@ -83,7 +83,7 @@ def getViewSelectedNodes(view):
 
 class ReadOnlyFilter(QObject):
 	"""
-	This class is a `QObject <http://doc.qt.nokia.com/4.7/qobject.html>`_ subclass used as an event filter
+	This class is a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass used as an event filter
 	for the :class:`Abstract_QListView` and :class:`Abstract_QTreeView` classes.
 	"""
 
@@ -120,7 +120,7 @@ class ReadOnlyFilter(QObject):
 
 class Abstract_QListView(QListView):
 	"""
-	This class is a `QListView <http://doc.qt.nokia.com/4.7/qlistview.html>`_ subclass used as base
+	This class is a `QListView <http://doc.qt.nokia.com/qlistview.html>`_ subclass used as base
 	by others Application views classes.
 	"""
 
@@ -202,7 +202,7 @@ class Abstract_QListView(QListView):
 
 class Abstract_QTreeView(QTreeView):
 	"""
-	This class is a `QTreeView <http://doc.qt.nokia.com/4.7/qtreeview.html>`_ subclass used as base
+	This class is a `QTreeView <http://doc.qt.nokia.com/qtreeview.html>`_ subclass used as base
 	by others Application views classes.
 	"""
 

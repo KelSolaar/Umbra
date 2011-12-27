@@ -256,7 +256,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@core.executionTrace
 	def __storeRecentPatterns(self, comboBox, settingsKey):
 		"""
-		This method stores given `QComboBox <http://doc.qt.nokia.com/4.7/qcombox.html>`_ class patterns.
+		This method stores given `QComboBox <http://doc.qt.nokia.com/qcombox.html>`_ class patterns.
 		
 		:param comboBox: QComboBox. ( QComboBox )
 		:param settingsKey: Associated settings key. ( String )

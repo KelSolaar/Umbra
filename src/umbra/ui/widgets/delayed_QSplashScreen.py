@@ -49,7 +49,7 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 class Delayed_QSplashScreen(QSplashScreen):
 	"""
-	This class is a `QSplashScreen <http://doc.qt.nokia.com/4.7/qsplashscreen.html>`_ subclass providing
+	This class is a `QSplashScreen <http://doc.qt.nokia.com/qsplashscreen.html>`_ subclass providing
 	delayed messages capabilities.
 	"""
 

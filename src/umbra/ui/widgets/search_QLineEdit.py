@@ -57,7 +57,7 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 class Search_QLineEdit(QLineEdit):
 	"""
-	This class is a `QLineEdit <http://doc.qt.nokia.com/4.7/qlinedit.html>`_ subclass providing
+	This class is a `QLineEdit <http://doc.qt.nokia.com/qlinedit.html>`_ subclass providing
 	a search field with clearing capabilities.
 	"""
 

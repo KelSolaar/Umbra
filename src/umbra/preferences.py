@@ -54,7 +54,7 @@ LOGGER = logging.getLogger(Constants.logger)
 class Preferences():
 	"""
 	| This class provides methods to manipulate Application preferences / settings.
-	| Those are stored and retrieved using a `QSettings <http://doc.qt.nokia.com/4.7/qsettings.html>`_ class.
+	| Those are stored and retrieved using a `QSettings <http://doc.qt.nokia.com/qsettings.html>`_ class.
 	"""
 
 	@core.executionTrace

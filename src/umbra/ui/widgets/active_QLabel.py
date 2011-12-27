@@ -49,7 +49,7 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 class Active_QLabel(QLabel):
 	"""
-	This class is a `QLabel <http://doc.qt.nokia.com/4.7/qlabel.html>`_ subclass providing
+	This class is a `QLabel <http://doc.qt.nokia.com/qlabel.html>`_ subclass providing
 	a clickable label with hovering capabilities.
 	"""
 

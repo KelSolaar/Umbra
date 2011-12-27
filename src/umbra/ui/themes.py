@@ -54,7 +54,7 @@ LOGGER = logging.getLogger(Constants.logger)
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def getFormat(**kwargs):
 	"""
-	This definition returns a `QTextCharFormat <http://doc.qt.nokia.com/4.7/qtextcharformat.html>`_ format.
+	This definition returns a `QTextCharFormat <http://doc.qt.nokia.com/qtextcharformat.html>`_ format.
 	
 	:param \*\*kwargs: Format settings. ( Key / Value pairs )
 	:return: Format. ( QTextCharFormat )
