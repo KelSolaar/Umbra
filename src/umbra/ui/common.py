@@ -272,6 +272,7 @@ def showWaitCursor(object):
 		"""
 
 		QApplication.setOverrideCursor(Qt.WaitCursor)
+		value = None
 		try:
 			value = object(*args, **kwargs)
 		finally:

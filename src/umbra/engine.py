@@ -49,13 +49,10 @@ from PyQt4.QtGui import QSizePolicy
 def _setApplicationPackageDirectory():
 	"""
 	This definition sets the Application package directory in the path.
-
-	:return: Definition success. ( Boolean )
 	"""
 
 	applicationPackageDirectory = os.path.normpath(os.path.join(sys.path[0], "../"))
 	applicationPackageDirectory not in sys.path and sys.path.append(applicationPackageDirectory)
-	return True
 
 _setApplicationPackageDirectory()
 
@@ -72,14 +69,11 @@ from umbra.globals.uiConstants import UiConstants
 def _overrideDependenciesGlobals():
 	"""
 	This definition overrides dependencies globals.
-
-	:return: Definition success. ( Boolean )
 	"""
 
 	foundations.globals.constants.Constants.logger = manager.globals.constants.Constants.logger = Constants.logger
 	foundations.globals.constants.Constants.applicationDirectory = \
 	manager.globals.constants.Constants.applicationDirectory = Constants.applicationDirectory
-	return True
 
 _overrideDependenciesGlobals()
 
@@ -88,15 +82,12 @@ import foundations.common
 def _extendResourcesPaths():
 	"""
 	This definition extend resources paths.
-
-	:return: Definition success. ( Boolean )
 	"""
 
 	for path in (os.path.join(umbra.__path__[0], Constants.resourcesDirectory),
 				os.path.join(os.getcwd(), umbra.__name__, Constants.resourcesDirectory)):
 		(foundations.common.pathExists(path) and not path in RuntimeGlobals.resourcesDirectories) and \
 		RuntimeGlobals.resourcesDirectories.append(path)
-	return True
 
 _extendResourcesPaths()
 
