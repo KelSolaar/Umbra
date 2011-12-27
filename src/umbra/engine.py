@@ -295,6 +295,9 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
+		# --- Running pre initialisation method. ---
+		hasattr(self, "onPreInitialisation") and self.onPreInitialisation()
+
 		super(Umbra, self).__init__(parent, *args, **kwargs)
 
 		# Engine binding to global variable.
@@ -453,6 +456,9 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.__setLayoutsActiveLabelsShortcuts()
 
 		self.restoreStartupLayout()
+
+		# --- Running post initialisation method. ---
+		hasattr(self, "onPostInitialisation") and self.onPostInitialisation()
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
