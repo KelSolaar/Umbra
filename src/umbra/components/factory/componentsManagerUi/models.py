@@ -227,6 +227,9 @@ class ComponentNode(umbra.ui.models.GraphModelNode):
 
 		attributes = dir(self.__component)
 		for attribute in attributes:
+			if attribute == "name":
+				continue
+
 			if not "_Profile__{0}".format(attribute) in attributes:
 				continue
 
