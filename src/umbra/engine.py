@@ -1847,15 +1847,16 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 		# Stopping worker threads.
 		for workerThread in self.__workerThreads:
+			LOGGER.debug("> Stopping worker thread: '{0}'.".format(workerThread))
 			if not workerThread.isFinished():
-				LOGGER.debug("> Stopping worker thread: '{0}'.".format(workerThread))
-				workerThread.exit()
+				workerThread.quit()
+			workerThread.wait()
 
 		foundations.common.removeLoggingHandler(LOGGER, self.__loggingFileHandler)
 		foundations.common.removeLoggingHandler(LOGGER, self.__loggingSessionHandler)
 		# foundations.common.removeLoggingHandler(LOGGER, self.__loggingConsoleHandler)
 
-		# Stopping the timer.
+		# Stopping the Application timer.
 		self.__timer.stop()
 		self.__timer = None
 
