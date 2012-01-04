@@ -117,7 +117,7 @@ from umbra.ui.widgets.delayed_QSplashScreen import Delayed_QSplashScreen
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2011 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2012 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -174,7 +174,7 @@ def _initializeApplicationUiFile():
 
 _initializeApplicationUiFile()
 
-SESSION_HEADER_TEXT = ("{0} | Copyright ( C ) 2008 - 2011 Thomas Mansencal - thomas.mansencal@gmail.com".format(
+SESSION_HEADER_TEXT = ("{0} | Copyright ( C ) 2008 - 2012 Thomas Mansencal - thomas.mansencal@gmail.com".format(
 					Constants.applicationName),
 				"{0} | This software is released under terms of GNU GPL V3 license.".format(Constants.applicationName),
 				"{0} | http://www.gnu.org/licenses/ ".format(Constants.applicationName),
