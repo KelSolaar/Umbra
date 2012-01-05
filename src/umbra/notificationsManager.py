@@ -219,4 +219,7 @@ class NotificationsManager(QObject):
 
 		message = origin and "{0} | {1}".format(origin, message) or message
 		self.__notifier.showMessage(message, duration)
+
+		LOGGER.info("{0} | '{1}'.".format(self.__class__.__name__, self.formatNotification(notification)))
+
 		return True
