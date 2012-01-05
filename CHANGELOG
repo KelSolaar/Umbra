@@ -1,8 +1,13 @@
-Umbra - 1.0.0 - Stable
+Umbra - 1.0.1 - Stable
 ======================
 
 Change Log
 ==========
+
+1.0.1 - Stable
+--------------
+
+-  Implemented a notification manager.
 
 1.0.0 - Stable
 --------------
