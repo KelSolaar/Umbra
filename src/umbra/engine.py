@@ -103,6 +103,7 @@ import foundations.ui.common
 import manager.exceptions
 import umbra.actionsManager
 import umbra.exceptions
+import umbra.notificationsManager
 import umbra.patchesManager
 import umbra.ui.common
 import umbra.ui.widgets.messageBox as messageBox
@@ -312,6 +313,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__patchesManager = RuntimeGlobals.patchesManager
 		self.__componentsManager = None
 		self.__actionsManager = None
+		self.__notificationsManager = None
 		self.__userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory
 		self.__loggingSessionHandler = RuntimeGlobals.loggingSessionHandler
 		self.__loggingFileHandler = RuntimeGlobals.loggingFileHandler
@@ -348,6 +350,9 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		# --- Initializing Actions Manager. ---
 		self.__actionsManager = RuntimeGlobals.actionsManager = umbra.actionsManager.ActionsManager(self)
+
+		# --- Initializing Notifications Manager. ---
+		self.__notificationsManager = RuntimeGlobals.actionsManager = umbra.notificationsManager.NotificationsManager(self)
 
 		# Visual style initialization.
 		self.setVisualStyle()
@@ -659,6 +664,38 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "componentsManager"))
+
+	@property
+	def notificationsManager(self):
+		"""
+		This method is the property for **self.__notificationsManager** attribute.
+
+		:return: self.__notificationsManager. ( NotificationsManager )
+		"""
+
+		return self.__notificationsManager
+
+	@notificationsManager.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def notificationsManager(self, value):
+		"""
+		This method is the setter method for **self.__notificationsManager** attribute.
+
+		:param value: Attribute value. ( NotificationsManager )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "notificationsManager"))
+
+	@notificationsManager.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def notificationsManager(self):
+		"""
+		This method is the deleter method for **self.__notificationsManager** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "notificationsManager"))
 
 	@property
 	def actionsManager(self):
