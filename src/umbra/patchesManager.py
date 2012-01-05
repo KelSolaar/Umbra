@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 """
-**patches.py**
+**patchesManager.py**
 
 **Platform:**
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`PatchesManager` and :class:`Patche` classes.
+	This module defines the :class:`PatchesManager` and :class:`Patches` classes.
 
 **Others:**
 
