@@ -2293,7 +2293,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return self.Script_Editor_tabWidget.widget(i)
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifierExceptionHandler, False, Exception)
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def loadFile_ui(self):
 		"""
 		This method loads user chosen file into in the current **Script_Editor_tabWidget** Widget tab editor.
@@ -2312,7 +2312,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return self.loadFile(file)
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifierExceptionHandler, False, Exception)
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def searchAndReplace_ui(self):
 		"""
  		This method performs a search and replace in the current **Script_Editor_tabWidget** Widget tab editor.
@@ -2576,7 +2576,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifierExceptionHandler, False, Exception)
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def gotoLine(self):
 		"""
  		This method moves current **Script_Editor_tabWidget** Widget tab editor cursor to user defined line.

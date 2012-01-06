@@ -56,7 +56,7 @@ __all__ = ["LOGGER",
 			"uiExtendedExceptionHandler",
 			"uiBasicExceptionHandler",
 			"uiSystemExitExceptionHandler",
-			"notifierExceptionHandler",
+			"notifyExceptionHandler",
 			"getResourcePath",
 			"setWindowDefaultIcon",
 			"centerWidgetOnScreen",
@@ -148,7 +148,7 @@ def uiSystemExitExceptionHandler(exception, origin, *args, **kwargs):
 										RuntimeGlobals.loggingConsoleHandler])
 
 @core.executionTrace
-def notifierExceptionHandler(exception, origin, *args, **kwargs):
+def notifyExceptionHandler(exception, origin, *args, **kwargs):
 	"""
 	This definition provides a notifier exception handler.
 

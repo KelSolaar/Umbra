@@ -778,7 +778,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings.setKey("Settings", "deactivatedComponents", ",".join(deactivatedComponents))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifierExceptionHandler,
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
 											False,
 											manager.exceptions.ComponentActivationError)
 	@umbra.engine.encapsulateProcessing
@@ -816,7 +816,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			", ". join((activationFailedComponent.name for activationFailedComponent in activationFailedComponents))))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifierExceptionHandler,
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
 											False,
 											manager.exceptions.ComponentDeactivationError)
 	@umbra.engine.encapsulateProcessing
@@ -859,7 +859,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			for deactivationFailedComponent in deactivationFailedComponents))))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifierExceptionHandler,
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
 											False,
 											manager.exceptions.ComponentReloadError)
 	@umbra.engine.encapsulateProcessing

@@ -105,7 +105,7 @@ class ReadOnlyFilter(QObject):
 		return False
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifierExceptionHandler,
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
 											False,
 											foundations.exceptions.UserError)
 	def __raiseUserError(self, view) :
