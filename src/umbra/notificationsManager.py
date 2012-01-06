@@ -59,7 +59,7 @@ class Notification(foundations.dataStructures.Structure):
 		"""
 		This method initializes the class.
 
-		:param \*\*kwargs: message, origin. ( Key / Value pairs )
+		:param \*\*kwargs: message, time. ( Key / Value pairs )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -290,26 +290,23 @@ class NotificationsManager(QObject):
 		:return: Method success. ( Boolean )
 		"""
 
-		return "{0} | '{1}' | '{2}'".format(time.ctime(notification.time), notification.origin, notification.message)
+		return "{0} | '{1}'".format(time.ctime(notification.time), notification.message)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def notify(self, message, origin=None, duration=2500, **kwargs):
+	def notify(self, message, duration=2500, **kwargs):
 		"""
 		This method displays an Application notification.
 
 		:param message: Notification message. ( String )
-		:param origin: Notification origin. ( Object )
 		:param duration: Notification display duration. ( Integer )
 		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		:return: Method success. ( Boolean )
 		"""
 
-		notification = Notification(message=message, origin=origin, time=time.time())
+		notification = Notification(message=message, time=time.time())
 
 		self.registerNotification(notification)
-
-		message = origin and "{0} | {1}".format(origin, message) or message
 
 		notifier = Notification_QLabel(self.__container, **kwargs)
 		# Signals / Slots.
@@ -327,19 +324,17 @@ class NotificationsManager(QObject):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def warnify(self, message, origin=None, duration=2500, **kwargs):
+	def warnify(self, message, duration=2500, **kwargs):
 		"""
-		This method displays an Application warnification.
+		This method displays an Application notification warning.
 
 		:param message: Notification message. ( String )
-		:param origin: Notification origin. ( Object )
 		:param duration: Notification display duration. ( Integer )
 		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		:return: Method success. ( Boolean )
 		"""
 
-		self.notify(message,
-					origin,
+		return self.notify(message,
 					duration,
 					color=QColor(242, 160, 96),
 					backgroundColor=QColor(128, 80, 48),
