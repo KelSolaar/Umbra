@@ -19,6 +19,7 @@
 #**********************************************************************************************************************
 import logging
 import time
+from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QObject
 from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtGui import QColor
@@ -294,12 +295,13 @@ class NotificationsManager(QObject):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def notify(self, message, duration=2500, **kwargs):
+	def notify(self, message, duration=2500, notificationClickedSlot=None, **kwargs):
 		"""
 		This method displays an Application notification.
 
 		:param message: Notification message. ( String )
 		:param duration: Notification display duration. ( Integer )
+		:param notificationClickedSlot: Notification clicked slot. ( Object )
 		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		:return: Method success. ( Boolean )
 		"""
@@ -309,9 +311,14 @@ class NotificationsManager(QObject):
 		self.registerNotification(notification)
 
 		notifier = Notification_QLabel(self.__container, **kwargs)
+
 		# Signals / Slots.
 		notifier.fadedOut.connect(self.__notifier__fadedOut)
 		self.__container.sizeChanged.connect(notifier.resizeEvent)
+		if notificationClickedSlot:
+			notifier.notificationClicked.connect(notificationClickedSlot)
+		else:
+			notifier.setAttribute(Qt.WA_TransparentForMouseEvents)
 
 		notifier.showMessage(message, duration)
 
@@ -324,19 +331,42 @@ class NotificationsManager(QObject):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def warnify(self, message, duration=2500, **kwargs):
+	def warnify(self, message, duration=2500, notificationClickedSlot=None, **kwargs):
 		"""
 		This method displays an Application notification warning.
 
 		:param message: Notification message. ( String )
 		:param duration: Notification display duration. ( Integer )
+		:param notificationClickedSlot: Notification clicked slot. ( Object )
 		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		:return: Method success. ( Boolean )
 		"""
 
 		return self.notify(message,
 					duration,
-					color=QColor(242, 160, 96),
-					backgroundColor=QColor(128, 80, 48),
-					borderColor=QColor(160, 96, 64),
+					notificationClickedSlot,
+					color=QColor(220, 128, 64),
+					backgroundColor=QColor(32, 32, 32),
+					borderColor=QColor(220, 128, 64),
+					**kwargs)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def exceptify(self, message, duration=2500, notificationClickedSlot=None, **kwargs):
+		"""
+		This method displays an Application notification exception.
+
+		:param message: Notification message. ( String )
+		:param duration: Notification display duration. ( Integer )
+		:param notificationClickedSlot: Notification clicked slot. ( Object )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.notify(message,
+					duration,
+					notificationClickedSlot,
+					color=QColor(220, 64, 64),
+					backgroundColor=QColor(32, 32, 32),
+					borderColor=QColor(220, 64, 64),
 					**kwargs)

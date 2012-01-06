@@ -19,7 +19,6 @@
 #***	External imports.
 #**********************************************************************************************************************
 import logging
-from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QString
 from PyQt4.QtCore import QTimer
 from PyQt4.QtCore import pyqtSignal
@@ -32,6 +31,7 @@ from PyQt4.QtGui import QLabel
 import foundations.core as core
 import foundations.exceptions
 from umbra.globals.constants import Constants
+from umbra.globals.runtimeGlobals import RuntimeGlobals
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -63,10 +63,12 @@ class Notification_QLabel(QLabel):
 
 	:return: Current notification text. ( QString )	
 	"""
+
 	fadedIn = pyqtSignal()
 	"""
 	This signal is emited by the :class:`Notification_QLabel` class when it has faded in. ( pyqtSignal )
 	"""
+
 	fadedOut = pyqtSignal()
 	"""
 	This signal is emited by the :class:`Notification_QLabel` class when it has faded out. ( pyqtSignal )
@@ -85,8 +87,7 @@ class Notification_QLabel(QLabel):
 				verticalOffset=None,
 				fadeSpeed=None,
 				targetOpacity=None,
-				duration=None,
-				transparentForMouseEvents=True,):
+				duration=None):
 		"""
 		This method initializes the class.
 
@@ -102,7 +103,6 @@ class Notification_QLabel(QLabel):
 		:param fadeSpeed: Notification fading speed. ( Float )
 		:param targetOpacity: Notification maximum target opacity. ( Float )
 		:param duration: Notification duration in milliseconds. ( Integer )
-		:param transparentForMouseEvents: Widget is transparent to mouse events. ( Boolean )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -123,9 +123,9 @@ class Notification_QLabel(QLabel):
 						}}
 						"""
 
-		self.__color = QColor(248, 248, 248)
+		self.__color = QColor(220, 220, 220)
 		self.__backgroundColor = QColor(32, 32, 32)
-		self.__borderColor = QColor(64, 64, 64)
+		self.__borderColor = QColor(220, 220, 220)
 		self.color = color or self.__color
 		self.backgroundColor = backgroundColor or self.__backgroundColor
 		self.borderColor = borderColor or self.__borderColor
@@ -150,11 +150,13 @@ class Notification_QLabel(QLabel):
 		self.__vector = 0
 
 		self.__timer = QTimer(self)
-		self.__timer.setInterval(50)
+		self.__timer.setInterval(25)
 		self.__timer.timeout.connect(self.__setOpacity)
 
+		#TODO: Check future Qt releases to remove this hack.
+		RuntimeGlobals.engine.layoutChanged.connect(self.__raise)
+
 		self.__setStyleSheet()
-		transparentForMouseEvents and self.setAttribute(Qt.WA_TransparentForMouseEvents)
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -651,6 +653,21 @@ class Notification_QLabel(QLabel):
 		self.__setPosition()
 
 	@core.executionTrace
+	def __raise(self, *args):
+		"""
+		This method ensures that the Widget stays on top of the parent stack forcing the redraw.
+
+		:param \*args: Arguments. ( \* )
+		"""
+
+		children = self.parent().children().remove(self)
+		if children:
+			self.stackUnder(children[-1])
+		else:
+			self.lower()
+		self.raise_()
+
+	@core.executionTrace
 	def __setPosition(self):
 		"""
 		This method sets the Widget position relatively to its parent.
@@ -756,10 +773,8 @@ class Notification_QLabel(QLabel):
 		:return: Method success. ( Boolean )
 		"""
 
-		self.raise_()
-
 		self.setText(message)
-		self.duration = duration
+		self.__duration = duration
 
 		self.__setPosition()
 

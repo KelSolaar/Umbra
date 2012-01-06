@@ -778,7 +778,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings.setKey("Settings", "deactivatedComponents", ",".join(deactivatedComponents))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler,
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifierExceptionHandler,
 											False,
 											manager.exceptions.ComponentActivationError)
 	@umbra.engine.encapsulateProcessing
@@ -801,7 +801,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				if not success:
 					activationFailedComponents.append(component)
 			else:
-				messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Component is already activated!".format(
+				self.__engine.notificationsManager.warnify("{0} | '{1}' Component is already activated!".format(
 				self.__class__.__name__, component.name))
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
@@ -816,7 +816,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			", ". join((activationFailedComponent.name for activationFailedComponent in activationFailedComponents))))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler,
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifierExceptionHandler,
 											False,
 											manager.exceptions.ComponentDeactivationError)
 	@umbra.engine.encapsulateProcessing
@@ -840,10 +840,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 					if not success:
 						deactivationFailedComponents.append(component)
 				else:
-					messageBox.messageBox("Warning", "Warning",
+					self.__engine.notificationsManager.warnify(
 					"{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, component.name))
 			else:
-				messageBox.messageBox("Warning", "Warning",
+				self.__engine.notificationsManager.warnify(
 				"{0} | '{1}' Component is already deactivated!".format(self.__class__.__name__, component.name))
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
@@ -859,7 +859,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			for deactivationFailedComponent in deactivationFailedComponents))))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler,
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifierExceptionHandler,
 											False,
 											manager.exceptions.ComponentReloadError)
 	@umbra.engine.encapsulateProcessing
@@ -882,7 +882,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				if not success:
 					reloadFailedComponents.append(component)
 			else:
-				messageBox.messageBox("Warning", "Warning",
+				self.__engine.notificationsManager.warnify(
 				"{0} | '{1}' Component cannot be deactivated and won't be reloaded!".format(self.__class__.__name__,
 																							component.name))
 			self.__engine.stepProcessing()

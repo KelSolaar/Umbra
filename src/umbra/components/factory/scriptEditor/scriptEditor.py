@@ -228,7 +228,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings = None
 		self.__settingsSection = None
 
-		self.__developmentLayout = "developmentCentric"
+		self.__developmentLayout = UiConstants.developmentLayout
 
 		self.__grammarsDirectory = "grammars"
 		self.__extension = "grc"
@@ -2262,7 +2262,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return editor.setLanguage(language, emitSignal)
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getCurrentEditor(self):
 		"""
 		This method returns the current **Script_Editor_tabWidget** Widget tab editor.
@@ -2293,7 +2293,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return self.Script_Editor_tabWidget.widget(i)
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifierExceptionHandler, False, Exception)
 	def loadFile_ui(self):
 		"""
 		This method loads user chosen file into in the current **Script_Editor_tabWidget** Widget tab editor.
@@ -2312,7 +2312,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return self.loadFile(file)
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifierExceptionHandler, False, Exception)
 	def searchAndReplace_ui(self):
 		"""
  		This method performs a search and replace in the current **Script_Editor_tabWidget** Widget tab editor.
@@ -2576,7 +2576,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifierExceptionHandler, False, Exception)
 	def gotoLine(self):
 		"""
  		This method moves current **Script_Editor_tabWidget** Widget tab editor cursor to user defined line.

@@ -780,7 +780,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 			return self.saveFileAs()
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiBasicExceptionHandler, False, Exception)
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifierExceptionHandler, False, Exception)
 	def saveFileAs(self):
 		"""
 		This method saves the editor file content into user chosen file.

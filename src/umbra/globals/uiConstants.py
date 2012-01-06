@@ -116,6 +116,8 @@ class UiConstants():
 
 	restoreGeometryOnLayoutChange = False
 	"""Restore geometry on layout change: '**False**' ( Boolean )"""
+	developmentLayout = "developmentCentric"
+	"""Application development layout: '**"developmentCentric"**' ( String )"""
 
 	pythonGrammarFile = "grammars/Python/Python.grc"
 	"""Python language grammar file: '**grammars/Python/Python.grc**' ( String )"""

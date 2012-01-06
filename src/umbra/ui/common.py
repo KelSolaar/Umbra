@@ -37,8 +37,8 @@ import umbra.exceptions
 import umbra.ui.widgets.messageBox as messageBox
 from foundations.parsers import SectionsFileParser
 from umbra.globals.constants import Constants
-from umbra.globals.uiConstants import UiConstants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
+from umbra.globals.uiConstants import UiConstants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -56,6 +56,7 @@ __all__ = ["LOGGER",
 			"uiExtendedExceptionHandler",
 			"uiBasicExceptionHandler",
 			"uiSystemExitExceptionHandler",
+			"notifierExceptionHandler",
 			"getResourcePath",
 			"setWindowDefaultIcon",
 			"centerWidgetOnScreen",
@@ -145,6 +146,21 @@ def uiSystemExitExceptionHandler(exception, origin, *args, **kwargs):
 	foundations.common.exit(1, LOGGER, [RuntimeGlobals.loggingSessionHandler,
 										RuntimeGlobals.loggingFileHandler,
 										RuntimeGlobals.loggingConsoleHandler])
+
+@core.executionTrace
+def notifierExceptionHandler(exception, origin, *args, **kwargs):
+	"""
+	This definition provides a notifier exception handler.
+
+	:param exception: Exception. ( Exception )
+	:param origin: Function / Method raising the exception. ( String )
+	:param \*args: Arguments. ( \* )
+	:param \*\*kwargs: Keywords arguments. ( \*\* )
+	"""
+
+	callback = lambda: RuntimeGlobals.engine.restoreLayout(UiConstants.developmentLayout)
+	foundations.exceptions.defaultExceptionsHandler(exception, origin, *args, **kwargs)
+	RuntimeGlobals.notificationsManager.exceptify("{0}".format(exception), notificationClickedSlot=callback)
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.ResourceExistsError)

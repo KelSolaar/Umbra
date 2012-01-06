@@ -83,6 +83,7 @@ class UiConstantsTestCase(unittest.TestCase):
 								"helpFile",
 								"apiFile",
 								"restoreGeometryOnLayoutChange",
+								"developmentLayout",
 								"pythonGrammarFile",
 								"loggingGrammarFile",
 								"textGrammarFile")
@@ -334,6 +335,13 @@ class UiConstantsTestCase(unittest.TestCase):
 		"""
 
 		self.assertIsInstance(UiConstants.restoreGeometryOnLayoutChange, bool)
+
+	def testDevelopmentLayoutAttribute(self):
+		"""
+		This method tests :attr:`umbra.globals.uiConstants.UiConstants.developmentLayout` attribute.
+		"""
+
+		self.assertRegexpMatches(UiConstants.developmentLayout, "\w+")
 
 	def testPythonGrammarFileAttribute(self):
 		"""

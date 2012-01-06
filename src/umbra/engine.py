@@ -387,9 +387,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__componentsManager.registerComponents()
 
 		if not self.__componentsManager.components:
-			messageBox.messageBox("Warning", "Warning", "{0} | '{1}' Components Manager has no Components!".format(
-			self.__class__.__name__,
-			Constants.applicationName))
+			self.__engine.notificationsManager.warnify("{0} | '{1}' Components Manager has no Components!".format(
+			self.__class__.__name__, Constants.applicationName))
 
 		self.__componentsManager.instantiateComponents(self.__componentsInstantiationCallback)
 
