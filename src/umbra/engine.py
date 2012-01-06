@@ -359,7 +359,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__actionsManager = RuntimeGlobals.actionsManager = umbra.actionsManager.ActionsManager(self)
 
 		# --- Initializing Notifications Manager. ---
-		self.__notificationsManager = RuntimeGlobals.actionsManager = umbra.notificationsManager.NotificationsManager(self)
+		self.__notificationsManager = RuntimeGlobals.notificationsManager = umbra.notificationsManager.NotificationsManager(self)
 
 		# Visual style initialization.
 		self.setVisualStyle()
