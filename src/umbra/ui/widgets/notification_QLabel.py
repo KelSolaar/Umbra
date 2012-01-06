@@ -19,6 +19,7 @@
 #***	External imports.
 #**********************************************************************************************************************
 import logging
+from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QString
 from PyQt4.QtCore import QTimer
 from PyQt4.QtCore import pyqtSignal
@@ -62,7 +63,6 @@ class Notification_QLabel(QLabel):
 
 	:return: Current notification text. ( QString )	
 	"""
-
 	fadedIn = pyqtSignal()
 	"""
 	This signal is emited by the :class:`Notification_QLabel` class when it has faded in. ( pyqtSignal )
@@ -81,9 +81,12 @@ class Notification_QLabel(QLabel):
 				anchor=None,
 				horizontalPadding=None,
 				verticalPadding=None,
+				horizontalOffset=None,
+				verticalOffset=None,
 				fadeSpeed=None,
 				targetOpacity=None,
-				duration=None):
+				duration=None,
+				transparentForMouseEvents=True,):
 		"""
 		This method initializes the class.
 
@@ -94,9 +97,12 @@ class Notification_QLabel(QLabel):
 		:param anchor: Widget anchoring area ( From 0 to 8 ). ( Integer )
 		:param horizontalPadding: Left padding relative to parent Widget. ( Integer )
 		:param verticalPadding: Bottom padding relative to parent Widget. ( Integer )
+		:param horizontalOffset: Widget horizontal offset. ( Integer )
+		:param verticalOffset: Widget vertical offset. ( Integer )
 		:param fadeSpeed: Notification fading speed. ( Float )
 		:param targetOpacity: Notification maximum target opacity. ( Float )
 		:param duration: Notification duration in milliseconds. ( Integer )
+		:param transparentForMouseEvents: Widget is transparent to mouse events. ( Boolean )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -109,17 +115,17 @@ class Notification_QLabel(QLabel):
 						QLabel, QLabel link {{
 							color: {0};
 							background-color: {1};
-							border: 1px solid;
+							border: 2px solid;
 							border-color: {2};
 							border-radius: 4px;
-							font-size:16px;
+							font-size: 14px;
 							padding: 16px;
 						}}
 						"""
 
-		self.__color = QColor(224, 224, 224)
-		self.__backgroundColor = QColor(96, 96, 96)
-		self.__borderColor = QColor(128, 128, 128)
+		self.__color = QColor(248, 248, 248)
+		self.__backgroundColor = QColor(32, 32, 32)
+		self.__borderColor = QColor(64, 64, 64)
 		self.color = color or self.__color
 		self.backgroundColor = backgroundColor or self.__backgroundColor
 		self.borderColor = borderColor or self.__borderColor
@@ -130,6 +136,10 @@ class Notification_QLabel(QLabel):
 		self.horizontalPadding = horizontalPadding or 0
 		self.__verticalPadding = None
 		self.verticalPadding = verticalPadding or 48
+		self.__horizontalOffset = None
+		self.horizontalOffset = horizontalOffset or 0
+		self.__verticalOffset = None
+		self.verticalOffset = verticalOffset or 0
 		self.__fadeSpeed = fadeSpeed
 		self.fadeSpeed = fadeSpeed or 0.15
 		self.__targetOpacity = None
@@ -144,6 +154,7 @@ class Notification_QLabel(QLabel):
 		self.__timer.timeout.connect(self.__setOpacity)
 
 		self.__setStyleSheet()
+		transparentForMouseEvents and self.setAttribute(Qt.WA_TransparentForMouseEvents)
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -351,6 +362,72 @@ class Notification_QLabel(QLabel):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "verticalPadding"))
+
+	@property
+	def horizontalOffset(self):
+		"""
+		This method is the property for **self.__horizontalOffset** attribute.
+
+		:return: self.__horizontalOffset. ( Integer )
+		"""
+
+		return self.__horizontalOffset
+
+	@horizontalOffset.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def horizontalOffset(self, value):
+		"""
+		This method is the setter method for **self.__horizontalOffset** attribute.
+
+		:param value: Attribute value. ( Integer )
+		"""
+
+		if value is not None:
+			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("horizontalOffset", value)
+		self.__horizontalOffset = value
+
+	@horizontalOffset.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def horizontalOffset(self):
+		"""
+		This method is the deleter method for **self.__horizontalOffset** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "horizontalOffset"))
+
+	@property
+	def verticalOffset(self):
+		"""
+		This method is the property for **self.__verticalOffset** attribute.
+
+		:return: self.__verticalOffset. ( Integer )
+		"""
+
+		return self.__verticalOffset
+
+	@verticalOffset.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def verticalOffset(self, value):
+		"""
+		This method is the setter method for **self.__verticalOffset** attribute.
+
+		:param value: Attribute value. ( Integer )
+		"""
+
+		if value is not None:
+			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("verticalOffset", value)
+		self.__verticalOffset = value
+
+	@verticalOffset.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def verticalOffset(self):
+		"""
+		This method is the deleter method for **self.__verticalOffset** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "verticalOffset"))
 
 	@property
 	def fadeSpeed(self):
@@ -613,7 +690,7 @@ class Notification_QLabel(QLabel):
 			x = rectangle.width() / 2 - self.width() / 2
 			y = rectangle.height() / 2 - self.height() / 2
 
-		self.setGeometry(x, y, self.width(), self.height())
+		self.setGeometry(x + self.__horizontalOffset, y + self.__verticalOffset, self.width(), self.height())
 
 	@core.executionTrace
 	def __fadeIn(self):
@@ -702,4 +779,16 @@ class Notification_QLabel(QLabel):
 		"""
 
 		self.__fadeOut()
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def refreshPosition(self):
+		"""
+		This method refreshes the Widget position.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		self.__setPosition()
 		return True

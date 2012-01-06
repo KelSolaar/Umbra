@@ -275,6 +275,13 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	:return: Event. ( QEvent )	
 	"""
 
+	sizeChanged = pyqtSignal(QEvent)
+	"""
+	This signal is emited by the :class:`Umbra` class when its size changes. ( pyqtSignal )
+
+	:return: Event. ( QEvent )	
+	"""
+
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiSystemExitExceptionHandler, False, Exception)
 	def __init__(self,
@@ -1233,6 +1240,18 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"""
 
 		self.quit(event=event)
+
+	@core.executionTrace
+	def resizeEvent(self, event):
+		"""
+		This method reimplements the :meth:`QWidget.resizeEvent` method.
+
+		:param event: QEvent. ( QEvent )
+		"""
+
+		LOGGER.debug("> Application resize event accepted!")
+		self.sizeChanged.emit(event)
+		event.accept()
 
 	@core.executionTrace
 	def __componentsInstantiationCallback(self, profile):
