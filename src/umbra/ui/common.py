@@ -160,7 +160,7 @@ def notifyExceptionHandler(exception, origin, *args, **kwargs):
 
 	callback = lambda: RuntimeGlobals.engine.restoreLayout(UiConstants.developmentLayout)
 	foundations.exceptions.defaultExceptionsHandler(exception, origin, *args, **kwargs)
-	RuntimeGlobals.notificationsManager.exceptify("{0}".format(exception), notificationClickedSlot=callback)
+	RuntimeGlobals.notificationsManager.exceptify(message="{0}".format(exception), notificationClickedSlot=callback)
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.ResourceExistsError)

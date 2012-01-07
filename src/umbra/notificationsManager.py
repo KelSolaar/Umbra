@@ -295,13 +295,14 @@ class NotificationsManager(QObject):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def notify(self, message, duration=2500, notificationClickedSlot=None, **kwargs):
+	def notify(self, message, duration=2500, notificationClickedSlot=None, messageLevel="Information", **kwargs):
 		"""
 		This method displays an Application notification.
 
 		:param message: Notification message. ( String )
 		:param duration: Notification display duration. ( Integer )
 		:param notificationClickedSlot: Notification clicked slot. ( Object )
+		:param messageLevel: Message level ( "Information", "Warning", "Exception" ). ( String )
 		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		:return: Method success. ( Boolean )
 		"""
@@ -325,7 +326,12 @@ class NotificationsManager(QObject):
 		self.__offsetNotifiers(-notifier.height() - self.__notifiersStackPadding)
 		self.__notifiers.append(notifier)
 
-		LOGGER.info("{0} | '{1}'.".format(self.__class__.__name__, self.formatNotification(notification)))
+		if messageLevel == "Information":
+			LOGGER.info("{0} | '{1}'.".format(self.__class__.__name__, self.formatNotification(notification)))
+		elif messageLevel == "Warning":
+			LOGGER.warning("!> {0} | '{1}'.".format(self.__class__.__name__, self.formatNotification(notification)))
+		elif messageLevel == "Exception":
+			LOGGER.error("!> {0} | '{1}'.".format(self.__class__.__name__, self.formatNotification(notification)))
 
 		return True
 
@@ -345,6 +351,7 @@ class NotificationsManager(QObject):
 		return self.notify(message,
 					duration,
 					notificationClickedSlot,
+					messageLevel="Warning",
 					color=QColor(220, 128, 64),
 					backgroundColor=QColor(32, 32, 32),
 					borderColor=QColor(220, 128, 64),
@@ -366,6 +373,7 @@ class NotificationsManager(QObject):
 		return self.notify(message,
 					duration,
 					notificationClickedSlot,
+					messageLevel="Exception",
 					color=QColor(220, 64, 64),
 					backgroundColor=QColor(32, 32, 32),
 					borderColor=QColor(220, 64, 64),
