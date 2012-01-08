@@ -101,12 +101,11 @@ import foundations.io as io
 import foundations.strings
 import foundations.ui.common
 import manager.exceptions
-import umbra.actionsManager
 import umbra.exceptions
-import umbra.notificationsManager
-import umbra.patchesManager
+import umbra.managers.actionsManager
+import umbra.managers.notificationsManager
+import umbra.managers.patchesManager
 import umbra.ui.common
-import umbra.ui.widgets.messageBox as messageBox
 from foundations.streamObject import StreamObject
 from manager.componentsManager import Manager
 from umbra.preferences import Preferences
@@ -356,10 +355,10 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		waitTime=0.25)
 
 		# --- Initializing Actions Manager. ---
-		self.__actionsManager = RuntimeGlobals.actionsManager = umbra.actionsManager.ActionsManager(self)
+		self.__actionsManager = RuntimeGlobals.actionsManager = umbra.managers.actionsManager.ActionsManager(self)
 
 		# --- Initializing Notifications Manager. ---
-		self.__notificationsManager = RuntimeGlobals.notificationsManager = umbra.notificationsManager.NotificationsManager(self)
+		self.__notificationsManager = RuntimeGlobals.notificationsManager = umbra.managers.notificationsManager.NotificationsManager(self)
 
 		# Visual style initialization.
 		self.setVisualStyle()
@@ -2075,7 +2074,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 											Constants.patchesDirectory,
 											Constants.patchesFile)
 	# Initializing the patches manager.
-	RuntimeGlobals.patchesManager = umbra.patchesManager.PatchesManager(RuntimeGlobals.patchesFile,
+	RuntimeGlobals.patchesManager = umbra.managers.patchesManager.PatchesManager(RuntimeGlobals.patchesFile,
 																		[os.path.join(path, Constants.patchesDirectory)
 																		for path in RuntimeGlobals.resourcesDirectories])
 	RuntimeGlobals.patchesManager.registerPatches() and RuntimeGlobals.patchesManager.applyPatches()

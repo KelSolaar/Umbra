@@ -74,7 +74,7 @@ class ResourceExistsError(foundations.exceptions.AbstractOsError):
 
 class AbstractActionsManagerError(foundations.exceptions.AbstractError):
 	"""
-	This class is the abstract base class for :class:`umbra.actionsManager.ActionsManager` related exceptions.
+	This class is the abstract base class for :class:`umbra.managers.actionsManager.ActionsManager` related exceptions.
 	"""
 
 	pass
@@ -95,7 +95,7 @@ class ActionExistsError(AbstractActionsManagerError):
 
 class AbstractPatchesManagerError(foundations.exceptions.AbstractError):
 	"""
-	This class is the abstract base class for :class:`umbra.patchesManager.PatchesManager` related exceptions.
+	This class is the abstract base class for :class:`umbra.managers.patchesManager.PatchesManager` related exceptions.
 	"""
 
 	pass
