@@ -34,7 +34,6 @@ import foundations.walkers
 import manager.exceptions
 import umbra.engine
 import umbra.ui.common
-import umbra.ui.widgets.messageBox as messageBox
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.globals.constants import Constants
 from umbra.components.factory.componentsManagerUi.models import ComponentsModel
