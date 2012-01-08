@@ -123,7 +123,7 @@ def performCompletion(editor):
 	:return: Process event. ( Boolean )
 	"""
 
-	completionPrefix = editor.wordUnderCursor()
+	completionPrefix = editor.getWordUnderCursor()
 	if completionPrefix.length() >= 1 :
 		words = editor.getWords()
 		completionPrefix in words and words.remove(completionPrefix)
@@ -133,7 +133,7 @@ def performCompletion(editor):
 			completion = editor.completer.completionModel().data(
 						editor.completer.completionModel().index(0, 0)).toString()
 			cursor = editor.textCursor()
-			if completionPrefix != editor.textUnderCursor():
+			if completionPrefix != editor.getWordUnderCursorLegacy():
 				cursor.movePosition(QTextCursor.PreviousWord, QTextCursor.MoveAnchor)
 			cursor.movePosition(QTextCursor.EndOfWord, QTextCursor.MoveAnchor)
 			cursor.insertText(completion[len(completionPrefix):])

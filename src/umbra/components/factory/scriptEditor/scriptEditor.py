@@ -2022,6 +2022,16 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return self.getCurrentEditor().toggleWhiteSpaces()
 
 	@core.executionTrace
+	def __editor__patternsReplaced(self, patterns):
+		"""
+		This method is triggered when an editor patterns have been replaced.
+		"""
+
+		replacedPatternsCount = len(patterns)
+		replacedPatternsCount and self.__engine.notificationsManager.notify(
+		"{0} | '{1}' pattern(s) replaced!".format(self.__class__.__name__, replacedPatternsCount))
+
+	@core.executionTrace
 	def __editor__titleChanged(self):
 		"""
 		This method is triggered when an editor content is changed.
@@ -2340,6 +2350,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
 
 		# Signals / Slots.
+		editor.patternsReplaced.connect(self.__editor__patternsReplaced)
 		editor.languageChanged.connect(self.__editor__languageChanged)
 		editor.titleChanged.connect(self.__editor__titleChanged)
 		editor.fileChanged.connect(self.__editor__fileChanged)

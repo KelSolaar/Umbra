@@ -25,6 +25,7 @@ import re
 from PyQt4.QtCore import QRegExp
 from PyQt4.QtCore import QSize
 from PyQt4.QtCore import QString
+from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QBrush
 from PyQt4.QtGui import QColor
@@ -442,6 +443,15 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 	"""
 	This class is a `QPlainTextEdit <http://doc.qt.nokia.com/qplaintextedit.html>`_ subclass providing
 	a code editor base class.
+	"""
+
+	# Custom signals definitions.
+	patternsReplaced = pyqtSignal(list)
+	"""
+	This signal is emited by the :class:`CodeEditor_QPlainTextEdit` class
+	when patterns have been replaced. ( pyqtSignal )
+	
+	:return: Replaced patterns. ( List )		
 	"""
 
 	@core.executionTrace
@@ -908,6 +918,20 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		self.setTextCursor(textCursor)
 
 	@core.executionTrace
+	def __getSelectedTextMetrics(self):
+		"""
+		This method returns current document selected text metrics.
+
+		:return: Selected text metrics. ( Tuple )		
+		"""
+
+		selectedText = self.getSelectedText()
+		if not selectedText:
+			return
+
+		return (selectedText, self.getCursorLine(), self.getCursorColumn() - len(selectedText))
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def setHighlighter(self, highlighter):
 		"""
@@ -1088,11 +1112,22 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def textUnderCursor(self):
+	def getSelectedText(self):
 		"""
 		This method returns the document text under cursor.
 
 		:return: Text under cursor. ( QString )		
+		"""
+
+		return self.textCursor().selectedText()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getWordUnderCursorLegacy(self):
+		"""
+		This method returns the document word under cursor ( Using Qt legacy "QTextCursor.WordUnderCursor" ).
+
+		:return: Word under cursor. ( QString )		
 		"""
 
 		cursor = self.textCursor()
@@ -1101,7 +1136,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def wordUnderCursor(self):
+	def getWordUnderCursor(self):
 		"""
 		This method returns the document word under cursor.
 
@@ -1254,7 +1289,7 @@ backwardSearch=True, wrapAround=True)
 		:return: Method success. ( Boolean )		
 		"""
 
-		pattern = self.textCursor().selectedText() or self.__searchPattern
+		pattern = self.getSelectedText() or self.__searchPattern
 		if not pattern:
 			return
 
@@ -1273,7 +1308,7 @@ backwardSearch=True, wrapAround=True)
 		:return: Method success. ( Boolean )		
 		"""
 
-		pattern = self.textCursor().selectedText() or self.__searchPattern
+		pattern = self.getSelectedText() or self.__searchPattern
 		if not pattern:
 			return
 
@@ -1305,11 +1340,13 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		:return: Method success. ( Boolean )		
 		"""
 
-		if not self.textCursor().selectedText():
+		selectedText = self.getSelectedText()
+		if not selectedText or selectedText != pattern:
 			self.search(pattern, **kwargs)
 			return
 
 		cursor = self.textCursor()
+		metrics = self.__getSelectedTextMetrics()
 		cursor.beginEditBlock()
 		if cursor.isNull():
 			return
@@ -1319,6 +1356,8 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 		cursor.insertText(replacementPattern)
 		cursor.endEditBlock()
+
+		self.patternsReplaced.emit([metrics])
 
 		self.search(pattern, **kwargs)
 
@@ -1348,18 +1387,24 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		editCursor.movePosition(QTextCursor.Start, QTextCursor.MoveAnchor)
 		self.setTextCursor(editCursor)
 
+		patternsReplaced = []
 		while True:
 			if not self.search(pattern, **kwargs):
 				break
 
 			cursor = self.textCursor()
+			metrics = self.__getSelectedTextMetrics()
 			if cursor.isNull():
 				break
 
 			if not cursor.hasSelection():
 				break
 			cursor.insertText(replacementPattern)
+			patternsReplaced.append(metrics)
 		editCursor.endEditBlock()
+
+		self.patternsReplaced.emit(patternsReplaced)
+
 		return True
 
 	@core.executionTrace
