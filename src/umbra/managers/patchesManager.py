@@ -77,7 +77,9 @@ class PatchesManager(object):
 		"""
 		This method initializes the class.
 
+		:param historyFile: Patches history file. ( String )
 		:param paths: Patches paths. ( Tuple / List )
+		:param extension: Patches extension. ( String )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
