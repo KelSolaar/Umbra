@@ -105,6 +105,7 @@ import umbra.exceptions
 import umbra.managers.actionsManager
 import umbra.managers.notificationsManager
 import umbra.managers.patchesManager
+import umbra.managers.layoutsManager
 import umbra.ui.common
 from foundations.streamObject import StreamObject
 from manager.componentsManager import Manager
@@ -320,6 +321,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__componentsManager = None
 		self.__actionsManager = None
 		self.__notificationsManager = None
+		self.__layoutsManager = None
 		self.__userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory
 		self.__loggingSessionHandler = RuntimeGlobals.loggingSessionHandler
 		self.__loggingFileHandler = RuntimeGlobals.loggingFileHandler
@@ -359,6 +361,9 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		# --- Initializing Notifications Manager. ---
 		self.__notificationsManager = RuntimeGlobals.notificationsManager = umbra.managers.notificationsManager.NotificationsManager(self)
+
+		# --- Initializing Layouts Manager. ---
+		self.__layoutsManager = RuntimeGlobals.layoutsManager = umbra.managers.layoutsManager.LayoutsManager(self)
 
 		# Visual style initialization.
 		self.setVisualStyle()

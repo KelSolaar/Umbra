@@ -65,6 +65,7 @@ class RuntimeGlobalsTestCase(unittest.TestCase):
 								"componentsManager",
 								"actionsManager",
 								"notificationsManager",
+								"layoutsManager",
 								"application",
 								"userApplicationDataDirectory",
 								"resourcesDirectories",

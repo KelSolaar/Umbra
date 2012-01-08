@@ -73,6 +73,8 @@ class RuntimeGlobals():
 	"""Application actions manager instance."""
 	notificationsManager = None
 	"""Application notifications manager instance."""
+	layoutsManager = None
+	"""Application layouts manager instance."""
 
 	application = None
 	"""Application instance."""
