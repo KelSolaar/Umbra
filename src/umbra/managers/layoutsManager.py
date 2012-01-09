@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`LayoutsManager` and :class:`Patches` classes.
+	This module defines the :class:`LayoutsManager` and :class:`Layout` classes.
 
 **Others:**
 
@@ -29,8 +29,6 @@ import foundations.dataStructures
 import foundations.exceptions
 from umbra.globals.constants import Constants
 from umbra.globals.uiConstants import UiConstants
-from umbra.ui.widgets.active_QLabel import Active_QLabel
-import PyQt4
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -42,7 +40,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "Layout", "LayoutActiveLabel", "LayoutsManager"]
+__all__ = ["LOGGER", "Layout", "LayoutsManager"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -71,9 +69,16 @@ class LayoutsManager(QObject):
 	This class defines the Application layouts manager. 
 	"""
 
-	layoutChanged = pyqtSignal(str)
+	layoutRestored = pyqtSignal(str)
 	"""
-	This signal is emited by the :class:`Umbra` class when the current layout has changed. ( pyqtSignal )
+	This signal is emited by the :class:`LayoutsManager` class when the current layout has been restored. ( pyqtSignal )
+
+	:return: Current layout. ( String )	
+	"""
+
+	layoutStored = pyqtSignal(str)
+	"""
+	This signal is emited by the :class:`LayoutsManager` class when the current layout has been stored. ( pyqtSignal )
 
 	:return: Current layout. ( String )	
 	"""
@@ -300,50 +305,54 @@ class LayoutsManager(QObject):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def storeLayout(self, name, *args):
+	def storeLayout(self, layout, *args):
 		"""
 		This method is triggered when storing a layout.
 
-		:param name: Layout name. ( String )
+		:param layout: Layout name. ( String )
 		:param \*args: Arguments. ( \* )
 		:return: Method success. ( Boolean )
 		"""
 
-		LOGGER.debug("> Storing layout '{0}'.".format(name))
+		LOGGER.debug("> Storing layout '{0}'.".format(layout))
 
-		self.__container.settings.setKey("Layouts", "{0}_geometry".format(name), self.__container.saveGeometry())
-		self.__container.settings.setKey("Layouts", "{0}_windowState".format(name), self.__container.saveState())
-		self.__container.settings.setKey("Layouts", "{0}_centralWidget".format(name), self.__container.centralwidget.isVisible())
+
+		self.__container.settings.setKey("Layouts", "{0}_geometry".format(layout), self.__container.saveGeometry())
+		self.__container.settings.setKey("Layouts", "{0}_windowState".format(layout), self.__container.saveState())
+		self.__container.settings.setKey("Layouts", "{0}_centralWidget".format(layout), self.__container.centralwidget.isVisible())
 #		self.__container.settings.setKey("Layouts", "{0}_activeLabel".format(name), self.__container.__getCurrentLayoutActiveLabel())
+
+		self.__currentLayout = layout
+		self.layoutStored.emit(self.__currentLayout)
+
 		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def restoreLayout(self, name, *args):
+	def restoreLayout(self, layout, *args):
 		"""
 		This method is triggered when restoring a layout.
 
-		:param name: Layout name. ( String )
+		:param layout: Layout name. ( String )
 		:param \*args: Arguments. ( \* )
 		:return: Method success. ( Boolean )
 		"""
 
-		LOGGER.debug("> Restoring layout '{0}'.".format(name))
+		LOGGER.debug("> Restoring layout '{0}'.".format(layout))
 
 		for component, profile in self.__container.componentsManager.components.iteritems():
 			if profile.category == "QWidget" and component not in self.__container.visibleComponents:
 				interface = self.__container.componentsManager.getInterface(component)
 				interface and self.__container.componentsManager.getInterface(component).hide()
 
-		self.__container.centralwidget.setVisible(self.__container.settings.getKey("Layouts", "{0}_centralWidget".format(name)).toBool())
-		self.__container.restoreState(self.__container.settings.getKey("Layouts", "{0}_windowState".format(name)).toByteArray())
+		self.__container.centralwidget.setVisible(self.__container.settings.getKey("Layouts", "{0}_centralWidget".format(layout)).toBool())
+		self.__container.restoreState(self.__container.settings.getKey("Layouts", "{0}_windowState".format(layout)).toByteArray())
+		#TODO:
 		self.__container.settings.data.restoreGeometryOnLayoutChange and \
-		self.__container.restoreGeometry(self.__container.settings.getKey("Layouts", "{0}_geometry".format(name)).toByteArray())
-#		self.__setLayoutsActiveLabels(self.__container.settings.getKey("Layouts", "{0}_activeLabel".format(name)).toInt()[0])
-#		self.__currentLayout = self.__layoutsActiveLabels[self.__getCurrentLayoutActiveLabel()].layout
-		self.__currentLayout = name
+		self.__container.restoreGeometry(self.__container.settings.getKey("Layouts", "{0}_geometry".format(layout)).toByteArray())
 
-		self.layoutChanged.emit(self.__currentLayout)
+		self.__currentLayout = layout
+		self.layoutRestored.emit(self.__currentLayout)
 
 		return True
 

@@ -255,13 +255,6 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	:return: Current verbosity level. ( Integer )	
 	"""
 
-	layoutChanged = pyqtSignal(str)
-	"""
-	This signal is emited by the :class:`Umbra` class when the current layout has changed. ( pyqtSignal )
-
-	:return: Current layout. ( String )	
-	"""
-
 	contentDropped = pyqtSignal(QEvent)
 	"""
 	This signal is emited by the :class:`Umbra` class when it receives dropped content. ( pyqtSignal )
@@ -1391,7 +1384,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 #		self.restoreGeometry(self.__settings.getKey("Layouts", "{0}_geometry".format(name)).toByteArray())
 #		self.__currentLayout = name
 #
-#		self.layoutChanged.emit(self.__currentLayout)
+#		self.layoutRestored.emit(self.__currentLayout)
 #
 #		return True
 #

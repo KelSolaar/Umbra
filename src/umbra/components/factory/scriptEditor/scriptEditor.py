@@ -1250,7 +1250,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		# Signals / Slots.
 		self.__engine.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
-		self.__engine.layoutChanged.connect(self.__engine__layoutChanged)
+		self.__engine.layoutsManager.layoutRestored.connect(self.__engine__layoutRestored)
 		self.__engine.contentDropped.connect(self.__engine__contentDropped)
 		self.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
 		self.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
@@ -1591,7 +1591,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__handleContentDroppedEvent(event)
 
 	@core.executionTrace
-	def __engine__layoutChanged(self, currentLayout):
+	def __engine__layoutRestored(self, currentLayout):
 		"""
 		This method is triggered when the engine layout is changed.
 

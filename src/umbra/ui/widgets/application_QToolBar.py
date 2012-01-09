@@ -259,17 +259,41 @@ class Application_QToolBar(QToolBar):
 		self.__setLayoutsActiveLabelsShortcuts()
 
 	@core.executionTrace
-	def __layoutsActiveLabelsCollection__activeLabelclicked(self, activeLabel):
+	def __layoutsActiveLabelsCollection__activeLabelClicked(self, activeLabel):
 		"""
 		This method is triggered when a **Active_QLabel** Widget is clicked.
 		"""
 
 		LOGGER.debug("> Clicked Active_QLabel: '{0}'.".format(activeLabel))
 
-		for layoutActiveLabel in self.__layoutsActiveLabelsCollection.activeLabels:
-			if layoutActiveLabel is activeLabel:
-				self.__container.layoutsManager.restoreLayout(layoutActiveLabel.layout)
-				break
+		self.__container.layoutsManager.restoreLayout(activeLabel.layout)
+
+	@core.executionTrace
+	def __layoutsManager__layoutStored(self, layout):
+		"""
+		This method is triggered by the :class:`umbra.managers.layoutsManager.LayoutsManager` class
+		when a layout is stored.
+
+		:param layout: Layout name. ( String )
+		"""
+
+		layoutActiveLabel = self.__layoutsActiveLabelsCollection.getToggledActiveLabel()
+		layoutActiveLabel and self.__container.settings.setKey("Layouts",
+										"{0}_activeLabel".format(layout),
+										self.__layoutsActiveLabelsCollection.getActiveLabelIndex(layoutActiveLabel))
+
+	@core.executionTrace
+	def __layoutsManager__layoutRestored(self, layout):
+		"""
+		This method is triggered by the :class:`umbra.managers.layoutsManager.LayoutsManager` class
+		when a layout is restored.
+
+		:param layout: Layout name. ( String )
+		"""
+
+		layoutActiveLabel = self.__layoutsActiveLabelsCollection.getActiveLabelFromIndex(self.__container.settings.getKey(
+							"Layouts", "{0}_activeLabel".format(layout)).toInt()[0])
+		layoutActiveLabel and layoutActiveLabel.setChecked(True)
 
 	@core.executionTrace
 	def __helpDisplayMiscAction__triggered(self, checked):
@@ -311,7 +335,6 @@ class Application_QToolBar(QToolBar):
 			shortcut=layoutActiveLabel.shortcut,
 			shortcutContext=Qt.ApplicationShortcut,
 			slot=functools.partial(self.__container.layoutsManager.restoreLayout, layoutActiveLabel.layout)))
-			print self.__container.actionsManager.getAction("Actions|Umbra|ToolBar|Layouts|{0}".format(layoutActiveLabel.title)).shortcutContext()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -363,7 +386,10 @@ class Application_QToolBar(QToolBar):
 			self.__layoutsActiveLabelsCollection.addActiveLabel(activeLabel)
 
 		# Signals / Slots.
-		self.__layoutsActiveLabelsCollection.activeLabelclicked.connect(self.__layoutsActiveLabelsCollection__activeLabelclicked)
+		self.__layoutsActiveLabelsCollection.activeLabelClicked.connect(
+		self.__layoutsActiveLabelsCollection__activeLabelClicked)
+		self.__container.layoutsManager.layoutStored.connect(self.__layoutsManager__layoutStored)
+		self.__container.layoutsManager.layoutRestored.connect(self.__layoutsManager__layoutRestored)
 
 		return True
 

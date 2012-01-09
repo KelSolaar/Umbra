@@ -54,11 +54,36 @@ class Active_QLabelsCollection(QObject):
 	"""
 
 	# Custom signals definitions.
-	activeLabelclicked = pyqtSignal(Active_QLabel)
+	activeLabelClicked = pyqtSignal(Active_QLabel)
 	"""
-	This signal is emited by the :class:`Active_QLabelsCollection` class when it receives a mouse press event. ( pyqtSignal )
+	This signal is emited by the :class:`Active_QLabelsCollection` class
+	when one of its :class:`umbra.ui.widgets.active_QLabel.Active_QLabel` child has been clicked. ( pyqtSignal )
 
-	:return: Current clicked active label. ( activeLabelclicked )	
+	:return: Current clicked active label. ( Active_QLabel )	
+	"""
+
+	activeLabelPressed = pyqtSignal(Active_QLabel)
+	"""
+	This signal is emited by the :class:`Active_QLabelsCollection` class
+	when one of its :class:`umbra.ui.widgets.active_QLabel.Active_QLabel` child has been pressed. ( pyqtSignal )
+
+	:return: Current clicked active label. ( Active_QLabel )	
+	"""
+
+	activeLabelReleased = pyqtSignal(Active_QLabel)
+	"""
+	This signal is emited by the :class:`Active_QLabelsCollection` class
+	when one of its :class:`umbra.ui.widgets.active_QLabel.Active_QLabel` child has been released. ( pyqtSignal )
+
+	:return: Current clicked active label. ( Active_QLabel )	
+	"""
+
+	activeLabelToggled = pyqtSignal(Active_QLabel)
+	"""
+	This signal is emited by the :class:`Active_QLabelsCollection` class
+	when one of its :class:`umbra.ui.widgets.active_QLabel.Active_QLabel` child has been toggled. ( pyqtSignal )
+
+	:return: Current checked active label. ( Active_QLabel )	
 	"""
 
 	@core.executionTrace
@@ -152,12 +177,39 @@ class Active_QLabelsCollection(QObject):
 	def __activeLabel__clicked(self, activeLabel):
 		"""
 		This method is triggered when an **Active_QLabel** Widget is clicked.
+
+		:param activeLabel: Active label. ( Active_QLabel )
+		"""
+
+		LOGGER.debug("> Clicked 'Active_QLabel': '{0}'.".format(activeLabel))
+
+		self.__updateSiblingsActiveLabelsStates(activeLabel)
+
+	@core.executionTrace
+	def __activeLabel__toggled(self, activeLabel, state):
+		"""
+		This method is triggered when an **Active_QLabel** Widget is toggled.
+
+		:param activeLabel: Active label. ( Active_QLabel )
+		:param state: Active label checked state. ( Boolean )
+		"""
+
+		LOGGER.debug("> Clicked 'Active_QLabel': '{0}'.".format(activeLabel))
+
+		self.__updateSiblingsActiveLabelsStates(activeLabel)
+
+	@core.executionTrace
+	def __updateSiblingsActiveLabelsStates(self, activeLabel):
+		"""
+		This method updates given **Active_QLabel** widget siblings states.
+
+		:param activeLabel: Active label. ( Active_QLabel )
 		"""
 
 		LOGGER.debug("> Clicked 'Active_QLabel': '{0}'.".format(activeLabel))
 
 		for item in self.__activeLabels:
-			item is not activeLabel and item.setChecked(False)
+			item is not activeLabel and item._Active_QLabel__setChecked(False)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -169,16 +221,22 @@ class Active_QLabelsCollection(QObject):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not isinstance(activeLabel, Active_QLabel):
+		if not issubclass(activeLabel.__class__, Active_QLabel):
 			# TODO:
 			raise
 
 		if activeLabel not in self.__activeLabels:
 			not self.__activeLabels and activeLabel.setChecked(True) or activeLabel.setChecked(False)
-			print activeLabel, activeLabel.checked
-			activeLabel.clicked.connect(functools.partial(self.__activeLabel__clicked, activeLabel))
-			activeLabel.clicked.connect(functools.partial(self.activeLabelclicked.emit, activeLabel))
 			self.__activeLabels.append(activeLabel)
+
+			# Signals / Slots.
+			activeLabel.clicked.connect(functools.partial(self.__activeLabel__clicked, activeLabel))
+			activeLabel.toggled.connect(functools.partial(self.__activeLabel__toggled, activeLabel))
+
+			activeLabel.clicked.connect(functools.partial(self.activeLabelClicked.emit, activeLabel))
+			activeLabel.pressed.connect(functools.partial(self.activeLabelPressed.emit, activeLabel))
+			activeLabel.released.connect(functools.partial(self.activeLabelReleased.emit, activeLabel))
+			activeLabel.toggled.connect(functools.partial(self.activeLabelToggled.emit, activeLabel))
 		else:
 			# TODO:
 			raise
@@ -196,10 +254,47 @@ class Active_QLabelsCollection(QObject):
 		"""
 
 		if activeLabel in self.__activeLabels:
-			activeLabel.clicked.disconnect(self.__setCheckedStates)
 			self.__activeLabels.remove(activeLabel)
 		else:
 			# TODO:
 			raise
 
 		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getToggledActiveLabel(self):
+		"""
+		This method returns the toggled **Active_QLabel** Widget.
+
+		:return: Checked active label. ( Boolean )
+		"""
+
+		for activeLabel in self.__activeLabels:
+			if activeLabel.checked:
+				return activeLabel
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getActiveLabelIndex(self, activeLabel):
+		"""
+		This method returns given **Active_QLabel** Widget index.
+
+		:param activeLabel: Active label to retrieve index. ( Active_QLabel )
+		:return: Active label index. ( Integer )
+		"""
+
+		return self.__activeLabels.index(activeLabel)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getActiveLabelFromIndex(self, index):
+		"""
+		This method returns the **Active_QLabel** Widget from given index.
+
+		:param index: Index. ( Integer )
+		:return: Active label. ( Active_QLabel )
+		"""
+
+		return self.__activeLabels[index]
+

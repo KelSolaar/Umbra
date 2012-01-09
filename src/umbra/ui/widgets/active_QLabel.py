@@ -57,7 +57,24 @@ class Active_QLabel(QLabel):
 	# Custom signals definitions.
 	clicked = pyqtSignal()
 	"""
-	This signal is emited by the :class:`Active_QLabel` class when it receives a mouse press event. ( pyqtSignal )
+	This signal is emited by the :class:`Active_QLabel` class when it has been clicked. ( pyqtSignal )
+	"""
+
+	pressed = pyqtSignal()
+	"""
+	This signal is emited by the :class:`Active_QLabel` class when it has been pressed. ( pyqtSignal )
+	"""
+
+	released = pyqtSignal()
+	"""
+	This signal is emited by the :class:`Active_QLabel` class when it has been released. ( pyqtSignal )
+	"""
+
+	toggled = pyqtSignal(bool)
+	"""
+	This signal is emited by the :class:`Active_QLabel` class when it has been toggled. ( pyqtSignal )
+
+	:return: Current checked state. ( Boolean )	
 	"""
 
 	@core.executionTrace
@@ -256,7 +273,7 @@ class Active_QLabel(QLabel):
 
 		if value is not None:
 			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format("checked", value)
-		self.__checked = value
+		self.__setChecked(value)
 
 	@checked.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -288,7 +305,7 @@ class Active_QLabel(QLabel):
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "menu "))
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "menu"))
 
 	@menu.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -337,13 +354,9 @@ class Active_QLabel(QLabel):
 		:param event: QEvent. ( QEvent )
 		"""
 
-		self.clicked.emit()
-
-		if self.__checkable:
-			self.setChecked(True)
-		else:
-			self.setPixmap(self.__activePixmap)
-			self.__menu and self.__menu.exec_(QCursor.pos())
+		self.setPixmap(self.__activePixmap)
+		self.__menu and self.__menu.exec_(QCursor.pos())
+		self.pressed.emit()
 
 	@core.executionTrace
 	def mouseReleaseEvent(self, event):
@@ -353,17 +366,30 @@ class Active_QLabel(QLabel):
 		:param event: QEvent. ( QEvent )
 		"""
 
-		not self.__checkable and self.setPixmap(self.__defaultPixmap)
+		if self.underMouse():
+			if self.__checkable:
+				self.setChecked(True)
+			else:
+				self.setPixmap(self.__activePixmap)
+			self.clicked.emit()
+		else:
+			self.setPixmap(self.__defaultPixmap)
+			self.released.emit()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def setChecked(self, state):
+	def __setChecked(self, state):
 		"""
 		This method sets the Widget checked state.
 
 		:param state: New check state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
+		if not self.__checkable:
+			return
+
+		print "Yo"
 		if state:
 			self.__checked = True
 			self.setPixmap(self.__activePixmap)
@@ -372,6 +398,20 @@ class Active_QLabel(QLabel):
 			self.setPixmap(self.__defaultPixmap)
 
 		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def setChecked(self, state):
+		"""
+		This method sets the Widget checked state.
+
+		:param state: New check state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if self.__setChecked(state):
+			self.toggled.emit(state)
+			return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -403,5 +443,4 @@ class Active_QLabel(QLabel):
 		parent = [parent for parent in umbra.ui.common.parentsWalker(self)].pop()
 		for action in self.__menu.actions():
 			not action.shortcut().isEmpty() and parent.addAction(action)
-
 		return True
