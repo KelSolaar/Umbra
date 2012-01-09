@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`Active_QLabelsGroup` class.
+	This module defines the :class:`Active_QLabelsCollection` class.
 
 **Others:**
 
@@ -17,6 +17,7 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
+import functools
 import logging
 from PyQt4.QtCore import QObject
 from PyQt4.QtCore import pyqtSignal
@@ -27,6 +28,7 @@ from PyQt4.QtCore import pyqtSignal
 import foundations.core as core
 import foundations.exceptions
 from umbra.globals.constants import Constants
+from umbra.ui.widgets.active_QLabel import Active_QLabel
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -38,23 +40,25 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "Active_QLabelsGroup"]
+__all__ = ["LOGGER", "Active_QLabelsCollection"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class Active_QLabelsGroup(QObject):
+class Active_QLabelsCollection(QObject):
 	"""
-	This class is a `QLabel <http://doc.qt.nokia.com/qlabel.html>`_ subclass providing
-	a clickable label with hovering capabilities.
+	This class is a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass providing
+	a group for :class:`umbra.ui.widgets.active_QLabel.Active_QLabel` class objects.
 	"""
 
 	# Custom signals definitions.
-	clicked = pyqtSignal()
+	activeLabelclicked = pyqtSignal(Active_QLabel)
 	"""
-	This signal is emited by the :class:`Active_QLabelsGroup` class when it receives a mouse press event. ( pyqtSignal )
+	This signal is emited by the :class:`Active_QLabelsCollection` class when it receives a mouse press event. ( pyqtSignal )
+
+	:return: Current clicked active label. ( activeLabelclicked )	
 	"""
 
 	@core.executionTrace
@@ -145,18 +149,38 @@ class Active_QLabelsGroup(QObject):
 	#***	Class methods.
 	#******************************************************************************************************************
 	@core.executionTrace
+	def __activeLabel__clicked(self, activeLabel):
+		"""
+		This method is triggered when an **Active_QLabel** Widget is clicked.
+		"""
+
+		LOGGER.debug("> Clicked 'Active_QLabel': '{0}'.".format(activeLabel))
+
+		for item in self.__activeLabels:
+			item is not activeLabel and item.setChecked(False)
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addActiveLabel(self, activeLabel):
 		"""
-		This method adds given active label.
+		This method adds given **Active_QLabel** Widget.
 
 		:param activeLabel: Active label to add. ( Active_QLabel )
 		:return: Method success. ( Boolean )
 		"""
 
+		if not isinstance(activeLabel, Active_QLabel):
+			# TODO:
+			raise
+
 		if activeLabel not in self.__activeLabels:
-			self.__activeLabel.append(activeLabel)
+			not self.__activeLabels and activeLabel.setChecked(True) or activeLabel.setChecked(False)
+			print activeLabel, activeLabel.checked
+			activeLabel.clicked.connect(functools.partial(self.__activeLabel__clicked, activeLabel))
+			activeLabel.clicked.connect(functools.partial(self.activeLabelclicked.emit, activeLabel))
+			self.__activeLabels.append(activeLabel)
 		else:
+			# TODO:
 			raise
 
 		return True
@@ -165,15 +189,17 @@ class Active_QLabelsGroup(QObject):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeActiveLabel(self, activeLabel):
 		"""
-		This method removes given active label.
+		This method removes given **Active_QLabel** Widget.
 
 		:param activeLabel: Active label to remove. ( Active_QLabel )
 		:return: Method success. ( Boolean )
 		"""
 
-		if activeLabel not in self.__activeLabels:
-			self.__activeLabel.append(activeLabel)
+		if activeLabel in self.__activeLabels:
+			activeLabel.clicked.disconnect(self.__setCheckedStates)
+			self.__activeLabels.remove(activeLabel)
 		else:
+			# TODO:
 			raise
 
 		return True

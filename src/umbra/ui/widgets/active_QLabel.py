@@ -28,6 +28,7 @@ from PyQt4.QtGui import QPixmap
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import umbra.ui.common
 from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
@@ -355,6 +356,7 @@ class Active_QLabel(QLabel):
 		not self.__checkable and self.setPixmap(self.__defaultPixmap)
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setChecked(self, state):
 		"""
 		This method sets the Widget checked state.
@@ -369,22 +371,28 @@ class Active_QLabel(QLabel):
 			self.__checked = False
 			self.setPixmap(self.__defaultPixmap)
 
+		return True
+
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def isChecked(self):
 		"""
 		This method returns the Widget checked state.
 
 		:return: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
 		return self.__checked
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setMenu(self, menu):
 		"""
 		This method sets the Widget menu.
 
 		:param menu: Menu. ( QMenu )
+		:return: Method success. ( Boolean )
 		"""
 
 		self.__menu = menu
@@ -392,6 +400,8 @@ class Active_QLabel(QLabel):
 		if not self.parent():
 			return
 
-		# Propagating actions to parent.
+		parent = [parent for parent in umbra.ui.common.parentsWalker(self)].pop()
 		for action in self.__menu.actions():
-			not action.shortcut().isEmpty() and self.parent().addAction(action)
+			not action.shortcut().isEmpty() and parent.addAction(action)
+
+		return True

@@ -30,18 +30,12 @@ import sys
 import time
 from PyQt4.QtCore import QEvent
 from PyQt4.QtCore import QEventLoop
-from PyQt4.QtCore import QSize
 from PyQt4.QtCore import QString
 from PyQt4.QtCore import QTimer
-from PyQt4.QtCore import QUrl
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtGui import QApplication
-from PyQt4.QtGui import QDesktopServices
-from PyQt4.QtGui import QLabel
-from PyQt4.QtGui import QMenu
 from PyQt4.QtGui import QPixmap
-from PyQt4.QtGui import QSizePolicy
 
 #**********************************************************************************************************************
 #***	Path manipulations.
@@ -111,7 +105,7 @@ from foundations.streamObject import StreamObject
 from manager.componentsManager import Manager
 from umbra.preferences import Preferences
 from umbra.processing import Processing
-from umbra.ui.widgets.active_QLabel import Active_QLabel
+from umbra.ui.widgets.application_QToolBar import Application_QToolBar
 from umbra.ui.widgets.delayed_QSplashScreen import Delayed_QSplashScreen
 
 #**********************************************************************************************************************
@@ -332,19 +326,10 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__settings.data = foundations.dataStructures.Structure(restoreGeometryOnLayoutChange=True)
 		self.__verbosityLevel = RuntimeGlobals.verbosityLevel
 		self.__parameters = RuntimeGlobals.parameters
-		self.__layoutsActiveLabels = None
-		self.__currentLayout = None
-		self.__customLayoutsMenu = None
-		self.__miscellaneousMenu = None
 		self.__workerThreads = []
 		self.__isProcessing = False
 
 		self.__processingState = None
-		self.__userLayouts = (("1", Qt.Key_1, "one"),
-							("2", Qt.Key_2, "two"),
-							("3", Qt.Key_3, "three"),
-							("4", Qt.Key_4, "four"),
-							("5", Qt.Key_5, "five"))
 
 		# --- Initializing timer. ---
 		self.__timer = QTimer(self)
@@ -372,9 +357,11 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		# Various ui initializations.
 		self.setAcceptDrops(True)
 
-		# Setting window title and toolBar.
+		# Setting window title and toolBar and statusBar.
 		self.setWindowTitle("{0} - {1}".format(Constants.applicationName, Constants.releaseVersion))
-		self.__initializeToolBar()
+		self.toolBar = Application_QToolBar(self)
+		self.toolBar.setObjectName("toolBar")
+		self.addToolBar(self.toolBar)
 
 		# Setting processing widget.
 		self.Application_Progress_Status_processing = Processing(self, Qt.Window)
@@ -468,9 +455,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 				Exception("'{0}' Component 'onStartup' method raised an exception, unexpected behavior may occur!\n\
 Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
-		self.__setLayoutsActiveLabelsShortcuts()
-
-		self.restoreStartupLayout()
+		self.__layoutsManager.restoreStartupLayout()
 
 		# --- Running post initialisation method. ---
 		hasattr(self, "onPostInitialisation") and self.onPostInitialisation()
@@ -740,6 +725,38 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "actionsManager"))
 
 	@property
+	def layoutsManager(self):
+		"""
+		This method is the property for **self.__layoutsManager** attribute.
+
+		:return: self.__layoutsManager. ( LayoutsManager )
+		"""
+
+		return self.__layoutsManager
+
+	@layoutsManager.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def layoutsManager(self, value):
+		"""
+		This method is the setter method for **self.__layoutsManager** attribute.
+
+		:param value: Attribute value. ( LayoutsManager )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "layoutsManager"))
+
+	@layoutsManager.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def layoutsManager(self):
+		"""
+		This method is the deleter method for **self.__layoutsManager** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "layoutsManager"))
+
+	@property
 	def userApplicationDataDirectory(self):
 		"""
 		This method is the property for **self.__userApplicationDataDirectory** attribute.
@@ -999,142 +1016,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "parameters"))
 
 	@property
-	def layoutsActiveLabels(self):
-		"""
-		This method is the property for **self.__layoutsActiveLabels** attribute.
-
-		:return: self.__layoutsActiveLabels. ( Tuple / List )
-		"""
-
-		return self.__layoutsActiveLabels
-
-	@layoutsActiveLabels.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def layoutsActiveLabels(self, value):
-		"""
-		This method is the setter method for **self.__layoutsActiveLabels** attribute.
-
-		:param value: Attribute value. ( Tuple / List )
-		"""
-
-		if value is not None:
-			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
-			"layoutsActiveLabels", value)
-			for element in value:
-				assert type(element) is umbra.ui.common.LayoutActiveLabel, \
-				"'{0}' attribute: '{1}' type is not 'umbra.ui.common.LayoutActiveLabel'!".format("layoutsActiveLabels",
-																								element)
-		self.__layoutsActiveLabels = value
-
-	@layoutsActiveLabels.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def layoutsActiveLabels(self):
-		"""
-		This method is the deleter method for **self.__layoutsActiveLabels** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "layoutsActiveLabels"))
-
-	@property
-	def currentLayout(self):
-		"""
-		This method is the property for **self.__currentLayout** attribute.
-
-		:return: self.__currentLayout. ( Tuple / List )
-		"""
-
-		return self.__currentLayout
-
-	@currentLayout.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def currentLayout(self, value):
-		"""
-		This method is the setter method for **self.__currentLayout** attribute.
-
-		:param value: Attribute value. ( Tuple / List )
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "currentLayout"))
-
-	@currentLayout.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def currentLayout(self):
-		"""
-		This method is the deleter method for **self.__currentLayout** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "currentLayout"))
-
-	@property
-	def customLayoutsMenu(self):
-		"""
-		This method is the property for **self.__customLayoutsMenu** attribute.
-
-		:return: self.__customLayoutsMenu. ( QMenu )
-		"""
-
-		return self.__customLayoutsMenu
-
-	@customLayoutsMenu.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def customLayoutsMenu(self, value):
-		"""
-		This method is the setter method for **self.__customLayoutsMenu** attribute.
-
-		:param value: Attribute value. ( QMenu )
-		"""
-
-		if value is not None:
-			assert type(value) is QMenu, "'{0}' attribute: '{1}' type is not 'QMenu'!".format("customLayoutsMenu", value)
-		self.__customLayoutsMenu = value
-
-	@customLayoutsMenu.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def customLayoutsMenu(self):
-		"""
-		This method is the deleter method for **self.__customLayoutsMenu** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "customLayoutsMenu"))
-
-	@property
-	def miscellaneousMenu(self):
-		"""
-		This method is the property for **self.__miscellaneousMenu** attribute.
-
-		:return: self.__miscellaneousMenu. ( QMenu )
-		"""
-
-		return self.__miscellaneousMenu
-
-	@miscellaneousMenu.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def miscellaneousMenu(self, value):
-		"""
-		This method is the setter method for **self.__miscellaneousMenu** attribute.
-
-		:param value: Attribute value. ( QMenu )
-		"""
-
-		if value is not None:
-			assert type(value) is QMenu, "'{0}' attribute: '{1}' type is not 'QMenu'!".format("miscellaneousMenu", value)
-		self.__miscellaneousMenu = value
-
-	@miscellaneousMenu.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def miscellaneousMenu(self):
-		"""
-		This method is the deleter method for **self.__miscellaneousMenu** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "miscellaneousMenu"))
-
-	@property
 	def workerThreads(self):
 		"""
 		This method is the property for **self.__workerThreads** attribute.
@@ -1268,77 +1149,48 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} - {1} | Instantiating {2} Component.".format(self.__class__.__name__, Constants.releaseVersion, profile.name),
 		textColor=Qt.white)
 
-	@core.executionTrace
-	def __initializeToolBar(self):
-		"""
-		This method initializes the Application toolBar.
-		"""
+#	@core.executionTrace
+#	def __setLayoutsActiveLabelsShortcuts(self):
+#		"""
+#		This method sets the layouts **Active_QLabels** shortcuts.
+#		"""
+#
+#		LOGGER.debug("> Setting layouts Active_QLabels shortcuts.")
+#
+#		for layoutActiveLabel in self.__layoutsActiveLabels:
+#			self.addAction(self.__actionsManager.registerAction(
+#			"Actions|Umbra|ToolBar|Layouts|{0}".format(layoutActiveLabel.title),
+#			shortcut=layoutActiveLabel.shortcut,
+#			shortcutContext=Qt.ApplicationShortcut,
+#			slot=functools.partial(self.restoreLayout, layoutActiveLabel.layout)))
 
-		LOGGER.debug("> Initializing Application toolBar!")
-		self.toolBar.setIconSize(QSize(UiConstants.defaultToolbarIconSize, UiConstants.defaultToolbarIconSize))
+#	@core.executionTrace
+#	def __getCurrentLayoutActiveLabel(self):
+#		"""
+#		This method returns the current layout **Active_QLabel** index.
+#
+#		:return: Layouts Active_QLabel index. ( Integer )
+#		"""
+#
+#		LOGGER.debug("> Retrieving current layout Active_QLabel index.")
+#
+#		for index in range(len(self.__layoutsActiveLabels)):
+#			if self.__layoutsActiveLabels[index].object.checked:
+#				LOGGER.debug("> Current layout Active_QLabel index: '{0}'.".format(index))
+#				return index
 
-		LOGGER.debug("> Adding 'Application_Logo_label' widget!")
-		self.toolBar.addWidget(self.getApplicationLogoLabel())
-
-		LOGGER.debug("> Adding 'Spacer_label' widget!")
-		self.toolBar.addWidget(self.getSpacerLabel())
-
-		LOGGER.debug("> Adding 'Development_activeLabel', 'Preferences_activeLabel' widgets!")
-		self.getLayoutsActiveLabels()
-		for activeLabel in self.__layoutsActiveLabels:
-			self.toolBar.addWidget(activeLabel.object)
-
-		LOGGER.debug("> Adding 'Custom_Layouts_activeLabel' widget!")
-		self.toolBar.addWidget(self.getCustomLayoutsActiveLabel())
-
-		LOGGER.debug("> Adding 'Miscellaneous_activeLabel' widget!")
-		self.toolBar.addWidget(self.getMiscellaneousActiveLabel())
-
-		LOGGER.debug("> Adding 'Closure_Spacer_label' widget!")
-		self.toolBar.addWidget(self.getClosureSpacerLabel())
-
-	@core.executionTrace
-	def __setLayoutsActiveLabelsShortcuts(self):
-		"""
-		This method sets the layouts **Active_QLabels** shortcuts.
-		"""
-
-		LOGGER.debug("> Setting layouts Active_QLabels shortcuts.")
-
-		for layoutActiveLabel in self.__layoutsActiveLabels:
-			self.addAction(self.__actionsManager.registerAction(
-			"Actions|Umbra|ToolBar|Layouts|{0}".format(layoutActiveLabel.name),
-			shortcut=layoutActiveLabel.shortcut,
-			shortcutContext=Qt.ApplicationShortcut,
-			slot=functools.partial(self.restoreLayout, layoutActiveLabel.layout)))
-
-	@core.executionTrace
-	def __getCurrentLayoutActiveLabel(self):
-		"""
-		This method returns the current layout **Active_QLabel** index.
-
-		:return: Layouts Active_QLabel index. ( Integer )
-		"""
-
-		LOGGER.debug("> Retrieving current layout Active_QLabel index.")
-
-		for index in range(len(self.__layoutsActiveLabels)):
-			if self.__layoutsActiveLabels[index].object.isChecked():
-				LOGGER.debug("> Current layout Active_QLabel index: '{0}'.".format(index))
-				return index
-
-	@core.executionTrace
-	def __setLayoutsActiveLabels(self, index):
-		"""
-		This method sets the layouts **Active_QLabel**.
-
-		:param index: Layouts Active_QLabel. ( Integer )
-		"""
-
-		LOGGER.debug("> Setting layouts Active_QLabels states.")
-
-		for index_ in range(len(self.__layoutsActiveLabels)):
-			self.__layoutsActiveLabels[index_].object.setChecked(index == index_ and True or False)
+#	@core.executionTrace
+#	def __setLayoutsActiveLabels(self, index):
+#		"""
+#		This method sets the layouts **Active_QLabel**.
+#
+#		:param index: Layouts Active_QLabel. ( Integer )
+#		"""
+#
+#		LOGGER.debug("> Setting layouts Active_QLabels states.")
+#
+#		for index_ in range(len(self.__layoutsActiveLabels)):
+#			self.__layoutsActiveLabels[index_].object.setChecked(index == index_ and True or False)
 
 	def __storeProcessingState(self):
 		"""
@@ -1364,44 +1216,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.setProcessingMessage(message, warning=False)
 		self.__isProcessing = state
 		state and self.Application_Progress_Status_processing.show()
-
-	@core.executionTrace
-	def __layoutActiveLabel__clicked(self, activeLabel):
-		"""
-		This method is triggered when a layout **Active_QLabel** Widget is clicked.
-		"""
-
-		LOGGER.debug("> Clicked Active_QLabel: '{0}'.".format(activeLabel))
-
-		self.restoreLayout(activeLabel)
-		for layoutActivelabel in self.__layoutsActiveLabels:
-			layoutActivelabel.layout is not activeLabel and layoutActivelabel.object.setChecked(False)
-
-	@core.executionTrace
-	def __helpDisplayMiscAction__triggered(self, checked):
-		"""
-		This method is triggered by **'Actions|Umbra|ToolBar|Miscellaneous|Help content ...'** action.
-
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
-		"""
-
-		LOGGER.debug("> Opening url: '{0}'.".format(UiConstants.helpFile))
-		QDesktopServices.openUrl(QUrl(QString(UiConstants.helpFile)))
-		return True
-
-	@core.executionTrace
-	def __apiDisplayMiscAction__triggered(self, checked):
-		"""
-		This method is triggered by **'Actions|Umbra|ToolBar|Miscellaneous|Api content ...'** action.
-
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
-		"""
-
-		LOGGER.debug("> Opening url: '{0}'.".format(UiConstants.apiFile))
-		QDesktopServices.openUrl(QUrl(QString(UiConstants.apiFile)))
-		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -1515,254 +1329,103 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 			self.showFullScreen()
 		return True
 
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getApplicationLogoLabel(self):
-		"""
-		This method provides the default **Application_Logo_label** widget.
-
-		:return: Application logo label. ( QLabel )
-		"""
-
-		logoLabel = QLabel()
-		logoLabel.setObjectName("Application_Logo_label")
-		logoLabel.setPixmap(QPixmap(umbra.ui.common.getResourcePath(UiConstants.logoImage)))
-		return logoLabel
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getLayoutsActiveLabels(self):
-		"""
-		This method returns the default layouts active labels widgets.
-
-		:return: Method success. ( Boolean )
-		"""
-
-		developmentActiveLabel = Active_QLabel(self,
-											QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentIcon)),
-											QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentHoverIcon)),
-											QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentActiveIcon)),
-											True)
-		developmentActiveLabel.setObjectName("Development_activeLabel")
-
-		preferencesActiveLabel = Active_QLabel(self,
-											QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesIcon)),
-											QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesHoverIcon)),
-											QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesActiveIcon)),
-											True)
-		preferencesActiveLabel.setObjectName("Preferences_activeLabel")
-
-		self.__layoutsActiveLabels = (umbra.ui.common.LayoutActiveLabel(name="Development",
-																		object=developmentActiveLabel,
-																		layout="developmentCentric",
-																		shortcut=Qt.Key_9),
-									umbra.ui.common.LayoutActiveLabel(name="Preferences",
-																	object=preferencesActiveLabel,
-																	layout="preferencesCentric",
-																	shortcut=Qt.Key_0))
-
-		# Signals / Slots.
-		for layoutActiveLabel in self.__layoutsActiveLabels:
-			layoutActiveLabel.object.clicked.connect(functools.partial(self.__layoutActiveLabel__clicked,
-																		layoutActiveLabel.layout))
-
-		return True
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getCustomLayoutsActiveLabel(self):
-		"""
-		This method provides the default **Custom_Layouts_activeLabel** widget.
-
-		:return: Layout active label. ( Active_QLabel )
-		"""
-
-		layoutActiveLabel = Active_QLabel(self, QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsIcon)),
-									QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsHoverIcon)),
-									QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsActiveIcon)))
-		layoutActiveLabel.setObjectName("Custom_Layouts_activeLabel")
-
-		self.__customLayoutsMenu = QMenu("Layouts", layoutActiveLabel)
-
-		for index, shortcut, name in self.__userLayouts:
-			self.__customLayoutsMenu.addAction(self.__actionsManager.registerAction(
-			"Actions|Umbra|ToolBar|Layouts|Restore layout {0}".format(index),
-			shortcut=shortcut,
-			slot=functools.partial(self.restoreLayout, name)))
-
-		self.__customLayoutsMenu.addSeparator()
-
-		for index, shortcut, name in self.__userLayouts:
-			self.__customLayoutsMenu.addAction(self.__actionsManager.registerAction(
-			"Actions|Umbra|ToolBar|Layouts|Store layout {0}".format(index),
-			shortcut=Qt.CTRL + shortcut,
-			slot=functools.partial(self.storeLayout, name)))
-
-		self.__customLayoutsMenu.addSeparator()
-
-		self.__customLayoutsMenu.addAction(self.__actionsManager.registerAction(
-		"Actions|Umbra|ToolBar|Layouts|Toggle FullScreen",
-		shortcut=Qt.ControlModifier + Qt.SHIFT + Qt.Key_F,
-		slot=self.toggleFullScreen))
-
-		layoutActiveLabel.setMenu(self.__customLayoutsMenu)
-		return layoutActiveLabel
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getMiscellaneousActiveLabel(self):
-		"""
-		This method provides the default **Miscellaneous_activeLabel** widget.
-
-		:return: Miscellaneous active label. ( Active_QLabel )
-		"""
-
-		miscellaneousActiveLabel = Active_QLabel(self,
-											QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousIcon)),
-											QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousHoverIcon)),
-											QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousActiveIcon)))
-		miscellaneousActiveLabel.setObjectName("Miscellaneous_activeLabel")
-
-		self.__miscellaneousMenu = QMenu("Miscellaneous", miscellaneousActiveLabel)
-
-		self.__miscellaneousMenu.addAction(self.__actionsManager.registerAction(
-		"Actions|Umbra|ToolBar|Miscellaneous|Help content ...",
-		shortcut="F1",
-		slot=self.__helpDisplayMiscAction__triggered))
-		self.__miscellaneousMenu.addAction(self.__actionsManager.registerAction(
-		"Actions|Umbra|ToolBar|Miscellaneous|Api content ...",
-		slot=self.__apiDisplayMiscAction__triggered))
-		self.__miscellaneousMenu.addSeparator()
-
-		miscellaneousActiveLabel.setMenu(self.__miscellaneousMenu)
-		return miscellaneousActiveLabel
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getSpacerLabel(self):
-		"""
-		This method provides the default **Spacer_label** widget.
-
-		:return: Logo spacer label. ( QLabel )
-		"""
-
-		spacer = QLabel()
-		spacer.setObjectName("Spacer_label")
-		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-		return spacer
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getClosureSpacerLabel(self):
-		"""
-		This method provides the default **Closure_Spacer_label** widget.
-
-		:return: Closure spacer label. ( QLabel )
-		"""
-
-		spacer = QLabel()
-		spacer.setObjectName("Closure_Spacer_label")
-		spacer.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Expanding)
-		return spacer
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def listLayouts(self, userLayouts=True):
-		"""
-		This method lists Application layouts.
-
-		:param userLayouts: List user layouts. ( Boolean )
-		:return: Application layouts. ( List )
-		"""
-
-		layouts = []
-		for layoutActiveLabel in self.__layoutsActiveLabels:
-			layouts.append(layoutActiveLabel.layout)
-
-		if userLayouts:
-			for index, shortcut, name in self.__userLayouts:
-				layouts.append(name)
-
-		return layouts
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def storeLayout(self, name, *args):
-		"""
-		This method is triggered when storing a layout.
-
-		:param name: Layout name. ( String )
-		:param \*args: Arguments. ( \* )
-		:return: Method success. ( Boolean )
-		"""
-
-		LOGGER.debug("> Storing layout '{0}'.".format(name))
-
-		self.__settings.setKey("Layouts", "{0}_geometry".format(name), self.saveGeometry())
-		self.__settings.setKey("Layouts", "{0}_windowState".format(name), self.saveState())
-		self.__settings.setKey("Layouts", "{0}_centralWidget".format(name), self.centralwidget.isVisible())
-		self.__settings.setKey("Layouts", "{0}_activeLabel".format(name), self.__getCurrentLayoutActiveLabel())
-		return True
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def restoreLayout(self, name, *args):
-		"""
-		This method is triggered when restoring a layout.
-
-		:param name: Layout name. ( String )
-		:param \*args: Arguments. ( \* )
-		:return: Method success. ( Boolean )
-		"""
-
-		LOGGER.debug("> Restoring layout '{0}'.".format(name))
-
-		for component, profile in self.__componentsManager.components.iteritems():
-			profile.category == "QWidget" and component not in self.__visibleComponents and \
-			self.__componentsManager.getInterface(component) and self.__componentsManager.getInterface(component).hide()
-
-		self.centralwidget.setVisible(self.__settings.getKey("Layouts", "{0}_centralWidget".format(name)).toBool())
-		self.restoreState(self.__settings.getKey("Layouts", "{0}_windowState".format(name)).toByteArray())
-		self.__settings.data.restoreGeometryOnLayoutChange and \
-		self.restoreGeometry(self.__settings.getKey("Layouts", "{0}_geometry".format(name)).toByteArray())
-		self.__setLayoutsActiveLabels(self.__settings.getKey("Layouts", "{0}_activeLabel".format(name)).toInt()[0])
-		self.__currentLayout = self.__layoutsActiveLabels[self.__getCurrentLayoutActiveLabel()].layout
-
-		self.layoutChanged.emit(self.__currentLayout)
-
-		return True
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def restoreStartupLayout(self):
-		"""
-		This method restores the startup layout.
-
-		:return: Method success. ( Boolean )
-		"""
-
-		LOGGER.debug("> Restoring startup layout.")
-
-		if self.restoreLayout(UiConstants.startupLayout):
-			not self.__settings.data.restoreGeometryOnLayoutChange and \
-			self.restoreGeometry(self.__settings.getKey("Layouts",
-														"{0}_geometry".format(UiConstants.startupLayout)).toByteArray())
-			return True
-		else:
-			raise Exception("{0} | Exception raised while restoring startup layout!".format(self.__class__.__name__))
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def storeStartupLayout(self):
-		"""
-		This method stores the startup layout.
-
-		:return: Method success. ( Boolean )
-		"""
-
-		LOGGER.debug("> Storing startup layout.")
-
-		return self.storeLayout(UiConstants.startupLayout)
+#	@core.executionTrace
+#	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+#	def listLayouts(self, userLayouts=True):
+#		"""
+#		This method lists Application layouts.
+#
+#		:param userLayouts: List user layouts. ( Boolean )
+#		:return: Application layouts. ( List )
+#		"""
+#
+#		layouts = []
+#		for layoutActiveLabel in self.__layoutsActiveLabels:
+#			layouts.append(layoutActiveLabel.layout)
+#
+#		if userLayouts:
+#			for index, shortcut, name in self.__userLayouts:
+#				layouts.append(name)
+#
+#		return layouts
+#
+#	@core.executionTrace
+#	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+#	def storeLayout(self, name, *args):
+#		"""
+#		This method is triggered when storing a layout.
+#
+#		:param name: Layout name. ( String )
+#		:param \*args: Arguments. ( \* )
+#		:return: Method success. ( Boolean )
+#		"""
+#
+#		LOGGER.debug("> Storing layout '{0}'.".format(name))
+#
+#		self.__settings.setKey("Layouts", "{0}_geometry".format(name), self.saveGeometry())
+#		self.__settings.setKey("Layouts", "{0}_windowState".format(name), self.saveState())
+#		self.__settings.setKey("Layouts", "{0}_centralWidget".format(name), self.centralwidget.isVisible())
+#		self.__settings.setKey("Layouts", "{0}_activeLabel".format(name), self.__getCurrentLayoutActiveLabel())
+#		return True
+#
+#	@core.executionTrace
+#	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+#	def restoreLayout(self, name, *args):
+#		"""
+#		This method is triggered when restoring a layout.
+#
+#		:param name: Layout name. ( String )
+#		:param \*args: Arguments. ( \* )
+#		:return: Method success. ( Boolean )
+#		"""
+#
+#		LOGGER.debug("> Restoring layout '{0}'.".format(name))
+#
+#		for component, profile in self.__componentsManager.components.iteritems():
+#			profile.category == "QWidget" and component not in self.__visibleComponents and \
+#			self.__componentsManager.getInterface(component) and self.__componentsManager.getInterface(component).hide()
+#
+#		self.centralwidget.setVisible(self.__settings.getKey("Layouts", "{0}_centralWidget".format(name)).toBool())
+#		self.restoreState(self.__settings.getKey("Layouts", "{0}_windowState".format(name)).toByteArray())
+#		self.__settings.data.restoreGeometryOnLayoutChange and \
+#		self.restoreGeometry(self.__settings.getKey("Layouts", "{0}_geometry".format(name)).toByteArray())
+#		self.__currentLayout = name
+#
+#		self.layoutChanged.emit(self.__currentLayout)
+#
+#		return True
+#
+#	@core.executionTrace
+#	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+#	def restoreStartupLayout(self):
+#		"""
+#		This method restores the startup layout.
+#
+#		:return: Method success. ( Boolean )
+#		"""
+#
+#		LOGGER.debug("> Restoring startup layout.")
+#
+#		if self.restoreLayout(UiConstants.startupLayout):
+#			not self.__settings.data.restoreGeometryOnLayoutChange and \
+#			self.restoreGeometry(self.__settings.getKey("Layouts",
+#														"{0}_geometry".format(UiConstants.startupLayout)).toByteArray())
+#			return True
+#		else:
+#			raise Exception("{0} | Exception raised while restoring startup layout!".format(self.__class__.__name__))
+#
+#	@core.executionTrace
+#	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+#	def storeStartupLayout(self):
+#		"""
+#		This method stores the startup layout.
+#
+#		:return: Method success. ( Boolean )
+#		"""
+#
+#		LOGGER.debug("> Storing startup layout.")
+#
+#		return self.storeLayout(UiConstants.startupLayout)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -1901,7 +1564,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 				return
 
 		# Storing current layout.
-		self.storeStartupLayout()
+		self.__layoutsManager.storeStartupLayout()
 		self.__settings.settings.sync()
 
 		# Stopping worker threads.
@@ -2028,7 +1691,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	if RuntimeGlobals.parameters.about:
 		for line in SESSION_HEADER_TEXT:
 			sys.stdout.write("{0}\n".format(line))
-		foundations.common.exit(1, LOGGER, [])
+		foundations.common.exit(1)
 
 	# Redirecting standard output and error messages.
 	sys.stdout = core.StandardMessageHook(LOGGER)

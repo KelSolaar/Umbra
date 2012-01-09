@@ -51,7 +51,6 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-			"LayoutActiveLabel",
 			"Icon",
 			"uiExtendedExceptionHandler",
 			"uiBasicExceptionHandler",
@@ -69,23 +68,6 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class LayoutActiveLabel(foundations.dataStructures.Structure):
-	"""
-	This class represents a storage object for layout active labels attributes.
-	"""
-
-	@core.executionTrace
-	def __init__(self, **kwargs):
-		"""
-		This method initializes the class.
-
-		:param \*\*kwargs: name, object, layout, shortcut. ( Key / Value pairs )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		foundations.dataStructures.Structure.__init__(self, **kwargs)
-
 class Icon(foundations.dataStructures.Structure):
 	"""
 	This class represents a storage object for icon.
@@ -143,9 +125,7 @@ def uiSystemExitExceptionHandler(exception, origin, *args, **kwargs):
 	"""
 
 	uiExtendedExceptionHandler(exception, origin, *args, **kwargs)
-	foundations.common.exit(1, LOGGER, [RuntimeGlobals.loggingSessionHandler,
-										RuntimeGlobals.loggingFileHandler,
-										RuntimeGlobals.loggingConsoleHandler])
+	foundations.common.exit(1)
 
 @core.executionTrace
 def notifyExceptionHandler(exception, origin, *args, **kwargs):

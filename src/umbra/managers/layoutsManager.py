@@ -29,6 +29,8 @@ import foundations.dataStructures
 import foundations.exceptions
 from umbra.globals.constants import Constants
 from umbra.globals.uiConstants import UiConstants
+from umbra.ui.widgets.active_QLabel import Active_QLabel
+import PyQt4
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -40,7 +42,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "Layout", "LayoutsManager"]
+__all__ = ["LOGGER", "Layout", "LayoutActiveLabel", "LayoutsManager"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -88,6 +90,8 @@ class LayoutsManager(QObject):
 
 		# --- Setting class attributes. ---
 		self.__container = parent
+
+		self.__currentLayout = None
 
 		self.__layouts = {}
 
@@ -337,6 +341,7 @@ class LayoutsManager(QObject):
 		self.__container.restoreGeometry(self.__container.settings.getKey("Layouts", "{0}_geometry".format(name)).toByteArray())
 #		self.__setLayoutsActiveLabels(self.__container.settings.getKey("Layouts", "{0}_activeLabel".format(name)).toInt()[0])
 #		self.__currentLayout = self.__layoutsActiveLabels[self.__getCurrentLayoutActiveLabel()].layout
+		self.__currentLayout = name
 
 		self.layoutChanged.emit(self.__currentLayout)
 
