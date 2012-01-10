@@ -212,7 +212,7 @@ class Active_QLabelsCollection(QObject):
 			item is not activeLabel and item._Active_QLabel__setChecked(False)
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def addActiveLabel(self, activeLabel):
 		"""
 		This method adds given **Active_QLabel** Widget.
@@ -222,24 +222,24 @@ class Active_QLabelsCollection(QObject):
 		"""
 
 		if not issubclass(activeLabel.__class__, Active_QLabel):
-			# TODO:
-			raise
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' must be a '{2}' subclass!".format(
+			self.__class__.__name__, activeLabel, Active_QLabel.__name__))
 
-		if activeLabel not in self.__activeLabels:
-			not self.__activeLabels and activeLabel.setChecked(True) or activeLabel.setChecked(False)
-			self.__activeLabels.append(activeLabel)
+		if activeLabel in self.__activeLabels:
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' is already in the collection!".format(
+			self.__class__.__name__, activeLabel))
 
-			# Signals / Slots.
-			activeLabel.clicked.connect(functools.partial(self.__activeLabel__clicked, activeLabel))
-			activeLabel.toggled.connect(functools.partial(self.__activeLabel__toggled, activeLabel))
+		not self.__activeLabels and activeLabel.setChecked(True) or activeLabel.setChecked(False)
+		self.__activeLabels.append(activeLabel)
 
-			activeLabel.clicked.connect(functools.partial(self.activeLabelClicked.emit, activeLabel))
-			activeLabel.pressed.connect(functools.partial(self.activeLabelPressed.emit, activeLabel))
-			activeLabel.released.connect(functools.partial(self.activeLabelReleased.emit, activeLabel))
-			activeLabel.toggled.connect(functools.partial(self.activeLabelToggled.emit, activeLabel))
-		else:
-			# TODO:
-			raise
+		# Signals / Slots.
+		activeLabel.clicked.connect(functools.partial(self.__activeLabel__clicked, activeLabel))
+		activeLabel.toggled.connect(functools.partial(self.__activeLabel__toggled, activeLabel))
+
+		activeLabel.clicked.connect(functools.partial(self.activeLabelClicked.emit, activeLabel))
+		activeLabel.pressed.connect(functools.partial(self.activeLabelPressed.emit, activeLabel))
+		activeLabel.released.connect(functools.partial(self.activeLabelReleased.emit, activeLabel))
+		activeLabel.toggled.connect(functools.partial(self.activeLabelToggled.emit, activeLabel))
 
 		return True
 
@@ -253,12 +253,11 @@ class Active_QLabelsCollection(QObject):
 		:return: Method success. ( Boolean )
 		"""
 
-		if activeLabel in self.__activeLabels:
-			self.__activeLabels.remove(activeLabel)
-		else:
-			# TODO:
-			raise
+		if not activeLabel in self.__activeLabels:
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' is not in the collection!".format(
+			self.__class__.__name__, activeLabel))
 
+		self.__activeLabels.remove(activeLabel)
 		return True
 
 	@core.executionTrace

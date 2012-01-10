@@ -395,7 +395,6 @@ class Active_QLabel(QLabel):
 		else:
 			self.__checked = False
 			self.setPixmap(self.__defaultPixmap)
-
 		return True
 
 	@core.executionTrace
@@ -419,7 +418,6 @@ class Active_QLabel(QLabel):
 		This method returns the Widget checked state.
 
 		:return: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
 		"""
 
 		return self.__checked

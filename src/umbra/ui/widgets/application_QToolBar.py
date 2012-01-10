@@ -84,6 +84,7 @@ class Application_QToolBar(QToolBar):
 		self.__layoutsActiveLabelsCollection = None
 		self.__customLayoutsMenu = None
 		self.__miscellaneousMenu = None
+
 		self.__userLayouts = (("1", Qt.Key_1, "one"),
 							("2", Qt.Key_2, "two"),
 							("3", Qt.Key_3, "three"),
@@ -373,7 +374,7 @@ class Application_QToolBar(QToolBar):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getLayoutActiveLabel(self, resources, name, title, identity, shortcut):
 		"""
-		This method returns a **Active_QLabel** widget.
+		This method returns a layout **Active_QLabel** widget.
 
 		:param resources: Icons resources ( Default / Hover / Active ). ( Tuple )
 		:param name: Ui object name. ( String )

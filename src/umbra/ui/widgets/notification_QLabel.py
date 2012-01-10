@@ -154,7 +154,7 @@ class Notification_QLabel(QLabel):
 		self.__timer.timeout.connect(self.__setOpacity)
 
 		#TODO: Check future Qt releases to remove this hack.
-		RuntimeGlobals.engine.layoutRestored.connect(self.__raise)
+		RuntimeGlobals.layoutsManager.layoutRestored.connect(self.__raise)
 
 		self.__setStyleSheet()
 
