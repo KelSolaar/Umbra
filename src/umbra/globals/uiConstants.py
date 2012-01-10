@@ -114,8 +114,6 @@ class UiConstants():
 	apiFile = "https://github.com/KelSolaar/Umbra"
 	"""Application online Api file: '**"https://github.com/KelSolaar/Umbra"**' ( String )"""
 
-	restoreGeometryOnLayoutChange = False
-	"""Restore geometry on layout change: '**False**' ( Boolean )"""
 	developmentLayout = "developmentCentric"
 	"""Application development layout: '**"developmentCentric"**' ( String )"""
 

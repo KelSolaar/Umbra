@@ -278,7 +278,7 @@ class ActionsManager(QObject):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listActions(self):
 		"""
-		This method returns current actions list.
+		This method returns the registered actions.
 
 		:return: Actions list. ( List )
 		"""

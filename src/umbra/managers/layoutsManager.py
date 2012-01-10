@@ -27,6 +27,7 @@ from PyQt4.QtCore import pyqtSignal
 import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
+import umbra.exceptions
 from umbra.globals.constants import Constants
 from umbra.globals.uiConstants import UiConstants
 
@@ -57,7 +58,7 @@ class Layout(foundations.dataStructures.Structure):
 		"""
 		This method initializes the class.
 
-		:param \*\*kwargs: name. ( Key / Value pairs )
+		:param \*\*kwargs: name, identity, shortcut. ( Key / Value pairs )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -95,10 +96,16 @@ class LayoutsManager(QObject):
 
 		# --- Setting class attributes. ---
 		self.__container = parent
-
-		self.__currentLayout = None
+		self.__settings = self.__container.settings
 
 		self.__layouts = {}
+
+		self.__currentLayout = None
+		self.__restoreGeometryOnLayoutChange = False
+
+		self.registerLayout(UiConstants.startupLayout, Layout(name="Startup",
+															identity=UiConstants.startupLayout,
+															shortcut=None))
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -134,6 +141,38 @@ class LayoutsManager(QObject):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+
+	@property
+	def settings(self):
+		"""
+		This method is the property for **self.__settings** attribute.
+
+		:return: self.__settings. ( Preferences )
+		"""
+
+		return self.__settings
+
+	@settings.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def settings(self, value):
+		"""
+		This method is the setter method for **self.__settings** attribute.
+
+		:param value: Attribute value. ( Preferences )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
+
+	@settings.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def settings(self):
+		"""
+		This method is the deleter method for **self.__settings** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
 	@property
 	def layouts(self):
@@ -199,161 +238,129 @@ class LayoutsManager(QObject):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "currentLayout"))
 
+	@property
+	def restoreGeometryOnLayoutChange(self):
+		"""
+		This method is the property for **self.__restoreGeometryOnLayoutChange** attribute.
+
+		:return: self.__restoreGeometryOnLayoutChange. ( Boolean )
+		"""
+
+		return self.__restoreGeometryOnLayoutChange
+
+	@restoreGeometryOnLayoutChange.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def restoreGeometryOnLayoutChange(self, value):
+		"""
+		This method is the setter method for **self.__restoreGeometryOnLayoutChange** attribute.
+
+		:param value: Attribute value. ( Boolean )
+		"""
+
+		if value is not None:
+			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format(
+			"restoreGeometryOnLayoutChange", value)
+		self.__restoreGeometryOnLayoutChange = value
+
+	@restoreGeometryOnLayoutChange.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def restoreGeometryOnLayoutChange(self):
+		"""
+		This method is the deleter method for **self.__restoreGeometryOnLayoutChange** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "restoreGeometryOnLayoutChange"))
+
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-#	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.PatchInterfaceError)
-#	def registerPatch(self, name, path):
-#		"""
-#		This method registers given patch.
-#
-#		:param path: Patch name. ( String )
-#		:param path: Patch path. ( String )
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		patch = foundations.strings.getSplitextBasename(path)
-#		LOGGER.debug("> Current patch: '{0}'.".format(patch))
-#
-#		directory = os.path.dirname(path)
-#		not directory in sys.path and sys.path.append(directory)
-#
-#		import_ = __import__(patch)
-#		if hasattr(import_, "apply") and hasattr(import_, "UID"):
-#			self.__layouts[name] = Patch(name=name,
-#										path=path,
-#										import_=import_,
-#										apply=getattr(import_, "apply"),
-#										uid=getattr(import_, "UID"))
-#		else:
-#			raise umbra.exceptions.PatchInterfaceError(
-#			"{0} | '{1}' is not a valid patch and has been rejected!".format(self.__class__.__name__, patch))
-#		return True
-#
-#	@core.executionTrace
-#	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.PatchRegistrationError)
-#	def registerPatches(self):
-#		"""
-#		This method registers the layouts.
-#
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		if not self.__paths:
-#			return
-#
-#		osWalker = OsWalker()
-#		unregisteredPatches = []
-#		for path in self.paths:
-#			osWalker.root = path
-#			osWalker.walk(("\.{0}$".format(self.__extension),), ("\._",))
-#			for name, file in osWalker.files.iteritems():
-#				if not self.registerPatch(name, file):
-#					unregisteredPatches.append(name)
-#
-#		if not unregisteredPatches:
-#			return True
-#		else:
-#			raise umbra.exceptions.PatchRegistrationError(
-#			"{0} | '{1}' layouts failed to register!".format(self.__class__.__name__,
-#																", ".join(unregisteredPatches)))
-#
-#	@core.executionTrace
-#	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-#	def listPatches(self):
-#		"""
-#		This method list the layouts.
-#
-#		:return: Patches list. ( List )
-#		"""
-#
-#		return [name for name, patch in sorted(self.__layouts.iteritems())]
-#
-#	@core.executionTrace
-#	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-#	def getPatchFromUid(self, uid):
-#		"""
-#		This method returns the patch with given uid.
-#
-#		:param uid: Patch uid. ( String )
-#		:return: Patch. ( Patch )
-#		"""
-#
-#		for patch in self.__layouts.itervalues():
-#			if patch.uid == uid:
-#				return patch
-
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def listLayouts(self, userLayouts=True):
+	def listLayouts(self):
 		"""
-		This method lists Application layouts.
+		This method returns the registered layouts.
 
-		:param userLayouts: List user layouts. ( Boolean )
-		:return: Application layouts. ( List )
+		:return: Registered layouts. ( List )
 		"""
 
-		layouts = []
-		for layoutActiveLabel in self.__layoutsActiveLabels:
-			layouts.append(layoutActiveLabel.layout)
-
-		if userLayouts:
-			for index, shortcut, name in self.__userLayouts:
-				layouts.append(name)
-
-		return layouts
+		return sorted(self.__layouts.keys())
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def storeLayout(self, layout, *args):
+	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.LayoutRegistrationError)
+	def registerLayout(self, name, layout):
 		"""
-		This method is triggered when storing a layout.
+		This method registers given layout.
 
-		:param layout: Layout name. ( String )
-		:param \*args: Arguments. ( \* )
+		:param name: Layout name. ( String )
+		:param layout: Layout object. ( Layout )
 		:return: Method success. ( Boolean )
 		"""
 
-		LOGGER.debug("> Storing layout '{0}'.".format(layout))
+		if name in self.__layouts:
+			raise umbra.exceptions.LayoutRegistrationError("{0} | '{1}' layout is already registered!".format(
+			self.__class__.__name__, name))
 
-
-		self.__container.settings.setKey("Layouts", "{0}_geometry".format(layout), self.__container.saveGeometry())
-		self.__container.settings.setKey("Layouts", "{0}_windowState".format(layout), self.__container.saveState())
-		self.__container.settings.setKey("Layouts", "{0}_centralWidget".format(layout), self.__container.centralwidget.isVisible())
-#		self.__container.settings.setKey("Layouts", "{0}_activeLabel".format(name), self.__container.__getCurrentLayoutActiveLabel())
-
-		self.__currentLayout = layout
-		self.layoutStored.emit(self.__currentLayout)
-
+		self.__layouts[name] = layout
 		return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def restoreLayout(self, layout, *args):
+	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.LayoutExistError)
+	def restoreLayout(self, name, *args):
 		"""
-		This method is triggered when restoring a layout.
+		This method restores given layout.
 
-		:param layout: Layout name. ( String )
+		:param name: Layout name. ( String )
 		:param \*args: Arguments. ( \* )
 		:return: Method success. ( Boolean )
 		"""
 
-		LOGGER.debug("> Restoring layout '{0}'.".format(layout))
+		layout = self.__layouts.get(name)
+		if not layout:
+			raise umbra.exceptions.LayoutExistError("{0} | '{1}' layout isn't registered!".format(
+			self.__class__.__name__, name))
+
+		LOGGER.debug("> Restoring layout '{0}'.".format(name))
 
 		for component, profile in self.__container.componentsManager.components.iteritems():
 			if profile.category == "QWidget" and component not in self.__container.visibleComponents:
 				interface = self.__container.componentsManager.getInterface(component)
 				interface and self.__container.componentsManager.getInterface(component).hide()
 
-		self.__container.centralwidget.setVisible(self.__container.settings.getKey("Layouts", "{0}_centralWidget".format(layout)).toBool())
-		self.__container.restoreState(self.__container.settings.getKey("Layouts", "{0}_windowState".format(layout)).toByteArray())
-		#TODO:
-		self.__container.settings.data.restoreGeometryOnLayoutChange and \
-		self.__container.restoreGeometry(self.__container.settings.getKey("Layouts", "{0}_geometry".format(layout)).toByteArray())
-
-		self.__currentLayout = layout
+		self.__currentLayout = name
+		self.__container.centralwidget.setVisible(
+		self.__settings.getKey("Layouts", "{0}_centralWidget".format(name)).toBool())
+		self.__container.restoreState(
+		self.__settings.getKey("Layouts", "{0}_windowState".format(name)).toByteArray())
+		self.__restoreGeometryOnLayoutChange and \
+		self.__container.restoreGeometry(
+		self.__settings.getKey("Layouts", "{0}_geometry".format(name)).toByteArray())
 		self.layoutRestored.emit(self.__currentLayout)
+		return True
 
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.LayoutExistError)
+	def storeLayout(self, name, *args):
+		"""
+		This method stores given layout.
+
+		:param name: Layout name. ( String )
+		:param \*args: Arguments. ( \* )
+		:return: Method success. ( Boolean )
+		"""
+
+		layout = self.__layouts.get(name)
+		if not layout:
+			raise umbra.exceptions.LayoutExistError("{0} | '{1}' layout isn't registered!".format(
+			self.__class__.__name__, name))
+
+		LOGGER.debug("> Storing layout '{0}'.".format(name))
+
+		self.__currentLayout = name
+		self.__settings.setKey("Layouts", "{0}_geometry".format(name), self.__container.saveGeometry())
+		self.__settings.setKey("Layouts", "{0}_windowState".format(name), self.__container.saveState())
+		self.__settings.setKey("Layouts", "{0}_centralWidget".format(name), self.__container.centralwidget.isVisible())
+		self.layoutStored.emit(self.__currentLayout)
 		return True
 
 	@core.executionTrace
@@ -368,12 +375,9 @@ class LayoutsManager(QObject):
 		LOGGER.debug("> Restoring startup layout.")
 
 		if self.restoreLayout(UiConstants.startupLayout):
-			not self.__container.settings.data.restoreGeometryOnLayoutChange and \
-			self.__container.restoreGeometry(self.__container.settings.getKey("Layouts",
-														"{0}_geometry".format(UiConstants.startupLayout)).toByteArray())
+			not self.__restoreGeometryOnLayoutChange and self.__container.restoreGeometry(
+			self.__settings.getKey("Layouts", "{0}_geometry".format(UiConstants.startupLayout)).toByteArray())
 			return True
-		else:
-			raise Exception("{0} | Exception raised while restoring startup layout!".format(self.__class__.__name__))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

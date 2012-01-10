@@ -82,7 +82,6 @@ class UiConstantsTestCase(unittest.TestCase):
 								"startupLayout",
 								"helpFile",
 								"apiFile",
-								"restoreGeometryOnLayoutChange",
 								"developmentLayout",
 								"pythonGrammarFile",
 								"loggingGrammarFile",
@@ -328,13 +327,6 @@ class UiConstantsTestCase(unittest.TestCase):
 		"""
 
 		self.assertRegexpMatches(UiConstants.apiFile, "(http|ftp|https)://([a-zA-Z0-9\-\.]+)/?")
-
-	def testRestoreGeometryOnLayoutChangeAttribute(self):
-		"""
-		This method tests :attr:`umbra.globals.uiConstants.UiConstants.restoreGeometryOnLayoutChange` attribute.
-		"""
-
-		self.assertIsInstance(UiConstants.restoreGeometryOnLayoutChange, bool)
 
 	def testDevelopmentLayoutAttribute(self):
 		"""

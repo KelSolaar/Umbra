@@ -241,12 +241,24 @@ class PatchesManager(object):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listPatches(self):
+		"""
+		This method returns the registered patches.
+
+		:return: Patches list. ( List )
+		"""
+
+		return [name for name, patch in sorted(self.__patches.iteritems())]
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.PatchInterfaceError)
 	def registerPatch(self, name, path):
 		"""
 		This method registers given patch.
 
-		:param path: Patch name. ( String )
+		:param name: Patch name. ( String )
 		:param path: Patch path. ( String )
 		:return: Method success. ( Boolean )
 		"""
@@ -335,17 +347,6 @@ class PatchesManager(object):
 		for name, patch in sorted(self.__patches.iteritems()):
 			success = self.applyPatch(patch)
 		return success
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def listPatches(self):
-		"""
-		This method list the patches.
-
-		:return: Patches list. ( List )
-		"""
-
-		return [name for name, patch in sorted(self.__patches.iteritems())]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

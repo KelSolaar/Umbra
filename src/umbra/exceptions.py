@@ -39,7 +39,10 @@ __all__ = ["AbstractEngineError",
 			"AbstractPatchesManagerError",
 			"PatchRegistrationError",
 			"PatchInterfaceError",
-			"PatchApplyError"]
+			"PatchApplyError",
+			"AbstractLayoutsManagerError",
+			"LayoutRegistrationError",
+			"LayoutExistError"]
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -117,6 +120,27 @@ class PatchInterfaceError(AbstractPatchesManagerError):
 class PatchApplyError(AbstractPatchesManagerError):
 	"""
 	This class is used for patch apply exceptions.
+	"""
+
+	pass
+
+class AbstractLayoutsManagerError(foundations.exceptions.AbstractError):
+	"""
+	This class is the abstract base class for :class:`umbra.managers.layoutsManager.LayoutsManager` related exceptions.
+	"""
+
+	pass
+
+class LayoutRegistrationError(AbstractLayoutsManagerError):
+	"""
+	This class is used for layout registration exceptions.
+	"""
+
+	pass
+
+class LayoutExistError(AbstractLayoutsManagerError):
+	"""
+	This class is used for non existing layout exceptions.
 	"""
 
 	pass

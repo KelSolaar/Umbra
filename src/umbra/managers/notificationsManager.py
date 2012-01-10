@@ -256,6 +256,17 @@ class NotificationsManager(QObject):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listNotifications(self):
+		"""
+		This method returns the registered notifications.
+
+		:return: Notifications list. ( List )
+		"""
+
+		return [self.formatNotification(notification) for notification in self.__notifications]
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def registerNotification(self, notification):
 		"""
 		This method registers given notification.
@@ -269,17 +280,6 @@ class NotificationsManager(QObject):
 		self.__notifications.append(notification)
 		self.notificationRegistered.emit(notification)
 		return True
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def listNotifications(self):
-		"""
-		This method list the notifications.
-
-		:return: Notifications list. ( List )
-		"""
-
-		return [self.formatNotification(notification) for notification in self.__notifications]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

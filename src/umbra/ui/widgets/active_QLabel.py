@@ -389,7 +389,6 @@ class Active_QLabel(QLabel):
 		if not self.__checkable:
 			return
 
-		print "Yo"
 		if state:
 			self.__checked = True
 			self.setPixmap(self.__activePixmap)

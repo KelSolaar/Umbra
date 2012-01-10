@@ -297,4 +297,3 @@ class Active_QLabelsCollection(QObject):
 		"""
 
 		return self.__activeLabels[index]
-

@@ -89,7 +89,6 @@ _extendResourcesPaths()
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.core as core
-import foundations.dataStructures
 import foundations.exceptions
 import foundations.io as io
 import foundations.strings
@@ -121,6 +120,8 @@ __status__ = "Production"
 __all__ = ["LOGGER",
 			"SESSION_HEADER_TEXT",
 			"SESSION_FOOTER_TEXT",
+			"showProcessing",
+			"encapsulateProcessing",
 			"Umbra",
 			"setUserApplicationDataDirectory",
 			"getCommandLineParametersParser",
@@ -316,7 +317,6 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__loggingSessionHandlerStream = RuntimeGlobals.loggingSessionHandlerStream
 		self.__loggingActiveFormatter = RuntimeGlobals.loggingActiveFormatter
 		self.__settings = RuntimeGlobals.settings
-		self.__settings.data = foundations.dataStructures.Structure(restoreGeometryOnLayoutChange=True)
 		self.__verbosityLevel = RuntimeGlobals.verbosityLevel
 		self.__parameters = RuntimeGlobals.parameters
 		self.__workerThreads = []
@@ -324,7 +324,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		self.__processingState = None
 
-		# --- Initializing timer. ---
+		# --- Initializing Application timer. ---
 		self.__timer = QTimer(self)
 		self.__timer.start(Constants.defaultTimerCycle)
 
@@ -334,13 +334,14 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		textColor=Qt.white,
 		waitTime=0.25)
 
-		# --- Initializing Actions Manager. ---
+		# --- Initializing the Actions Manager. ---
 		self.__actionsManager = RuntimeGlobals.actionsManager = umbra.managers.actionsManager.ActionsManager(self)
 
-		# --- Initializing Notifications Manager. ---
-		self.__notificationsManager = RuntimeGlobals.notificationsManager = umbra.managers.notificationsManager.NotificationsManager(self)
+		# --- Initializing the Notifications Manager. ---
+		self.__notificationsManager = RuntimeGlobals.notificationsManager = \
+									umbra.managers.notificationsManager.NotificationsManager(self)
 
-		# --- Initializing Layouts Manager. ---
+		# --- Initializing the Layouts Manager. ---
 		self.__layoutsManager = RuntimeGlobals.layoutsManager = umbra.managers.layoutsManager.LayoutsManager(self)
 
 		# Visual style initialization.
@@ -361,7 +362,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.statusBar.addPermanentWidget(self.Application_Progress_Status_processing)
 		self.Application_Progress_Status_processing.hide()
 
-		# --- Initializing Components Manager. ---
+		# --- Initializing the Components Manager. ---
 		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage(
 		"{0} - {1} | Initializing Components manager.".format(self.__class__.__name__, Constants.releaseVersion),
 		textColor=Qt.white,
@@ -1142,49 +1143,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} - {1} | Instantiating {2} Component.".format(self.__class__.__name__, Constants.releaseVersion, profile.name),
 		textColor=Qt.white)
 
-#	@core.executionTrace
-#	def __setLayoutsActiveLabelsShortcuts(self):
-#		"""
-#		This method sets the layouts **Active_QLabels** shortcuts.
-#		"""
-#
-#		LOGGER.debug("> Setting layouts Active_QLabels shortcuts.")
-#
-#		for layoutActiveLabel in self.__layoutsActiveLabels:
-#			self.addAction(self.__actionsManager.registerAction(
-#			"Actions|Umbra|ToolBar|Layouts|{0}".format(layoutActiveLabel.title),
-#			shortcut=layoutActiveLabel.shortcut,
-#			shortcutContext=Qt.ApplicationShortcut,
-#			slot=functools.partial(self.restoreLayout, layoutActiveLabel.layout)))
-
-#	@core.executionTrace
-#	def __getCurrentLayoutActiveLabel(self):
-#		"""
-#		This method returns the current layout **Active_QLabel** index.
-#
-#		:return: Layouts Active_QLabel index. ( Integer )
-#		"""
-#
-#		LOGGER.debug("> Retrieving current layout Active_QLabel index.")
-#
-#		for index in range(len(self.__layoutsActiveLabels)):
-#			if self.__layoutsActiveLabels[index].object.checked:
-#				LOGGER.debug("> Current layout Active_QLabel index: '{0}'.".format(index))
-#				return index
-
-#	@core.executionTrace
-#	def __setLayoutsActiveLabels(self, index):
-#		"""
-#		This method sets the layouts **Active_QLabel**.
-#
-#		:param index: Layouts Active_QLabel. ( Integer )
-#		"""
-#
-#		LOGGER.debug("> Setting layouts Active_QLabels states.")
-#
-#		for index_ in range(len(self.__layoutsActiveLabels)):
-#			self.__layoutsActiveLabels[index_].object.setChecked(index == index_ and True or False)
-
 	def __storeProcessingState(self):
 		"""
 		This method stores the processing state.
@@ -1321,104 +1279,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 			self.setVisualStyle(fullScreenStyle=True)
 			self.showFullScreen()
 		return True
-
-#	@core.executionTrace
-#	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-#	def listLayouts(self, userLayouts=True):
-#		"""
-#		This method lists Application layouts.
-#
-#		:param userLayouts: List user layouts. ( Boolean )
-#		:return: Application layouts. ( List )
-#		"""
-#
-#		layouts = []
-#		for layoutActiveLabel in self.__layoutsActiveLabels:
-#			layouts.append(layoutActiveLabel.layout)
-#
-#		if userLayouts:
-#			for index, shortcut, name in self.__userLayouts:
-#				layouts.append(name)
-#
-#		return layouts
-#
-#	@core.executionTrace
-#	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-#	def storeLayout(self, name, *args):
-#		"""
-#		This method is triggered when storing a layout.
-#
-#		:param name: Layout name. ( String )
-#		:param \*args: Arguments. ( \* )
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		LOGGER.debug("> Storing layout '{0}'.".format(name))
-#
-#		self.__settings.setKey("Layouts", "{0}_geometry".format(name), self.saveGeometry())
-#		self.__settings.setKey("Layouts", "{0}_windowState".format(name), self.saveState())
-#		self.__settings.setKey("Layouts", "{0}_centralWidget".format(name), self.centralwidget.isVisible())
-#		self.__settings.setKey("Layouts", "{0}_activeLabel".format(name), self.__getCurrentLayoutActiveLabel())
-#		return True
-#
-#	@core.executionTrace
-#	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-#	def restoreLayout(self, name, *args):
-#		"""
-#		This method is triggered when restoring a layout.
-#
-#		:param name: Layout name. ( String )
-#		:param \*args: Arguments. ( \* )
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		LOGGER.debug("> Restoring layout '{0}'.".format(name))
-#
-#		for component, profile in self.__componentsManager.components.iteritems():
-#			profile.category == "QWidget" and component not in self.__visibleComponents and \
-#			self.__componentsManager.getInterface(component) and self.__componentsManager.getInterface(component).hide()
-#
-#		self.centralwidget.setVisible(self.__settings.getKey("Layouts", "{0}_centralWidget".format(name)).toBool())
-#		self.restoreState(self.__settings.getKey("Layouts", "{0}_windowState".format(name)).toByteArray())
-#		self.__settings.data.restoreGeometryOnLayoutChange and \
-#		self.restoreGeometry(self.__settings.getKey("Layouts", "{0}_geometry".format(name)).toByteArray())
-#		self.__currentLayout = name
-#
-#		self.layoutRestored.emit(self.__currentLayout)
-#
-#		return True
-#
-#	@core.executionTrace
-#	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-#	def restoreStartupLayout(self):
-#		"""
-#		This method restores the startup layout.
-#
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		LOGGER.debug("> Restoring startup layout.")
-#
-#		if self.restoreLayout(UiConstants.startupLayout):
-#			not self.__settings.data.restoreGeometryOnLayoutChange and \
-#			self.restoreGeometry(self.__settings.getKey("Layouts",
-#														"{0}_geometry".format(UiConstants.startupLayout)).toByteArray())
-#			return True
-#		else:
-#			raise Exception("{0} | Exception raised while restoring startup layout!".format(self.__class__.__name__))
-#
-#	@core.executionTrace
-#	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-#	def storeStartupLayout(self):
-#		"""
-#		This method stores the startup layout.
-#
-#		:return: Method success. ( Boolean )
-#		"""
-#
-#		LOGGER.debug("> Storing startup layout.")
-#
-#		return self.storeLayout(UiConstants.startupLayout)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
