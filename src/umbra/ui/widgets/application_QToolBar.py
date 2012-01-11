@@ -268,26 +268,16 @@ class Application_QToolBar(QToolBar):
 		"""
 
 		LOGGER.debug("> Initializing Application toolBar!")
+
 		self.setIconSize(QSize(UiConstants.defaultToolbarIconSize, UiConstants.defaultToolbarIconSize))
+		self.setAllowedAreas(Qt.TopToolBarArea)
+		self.setFloatable(False)
+		self.setMovable(False)
+		self.setLayoutDefaultGeometry()
 
-		LOGGER.debug("> Adding 'Application_Logo_label' widget!")
-		self.addWidget(self.getApplicationLogoLabel())
+		self.setObjectName("toolBar")
 
-		LOGGER.debug("> Adding 'Spacer_label' widget!")
-		self.addWidget(self.getSpacerLabel())
-
-		LOGGER.debug("> Adding 'Development_activeLabel', 'Preferences_activeLabel' widgets!")
-		for layoutActiveLabel in self.getLayoutsActiveLabels():
-			self.addWidget(layoutActiveLabel)
-
-		LOGGER.debug("> Adding 'Custom_Layouts_activeLabel' widget!")
-		self.addWidget(self.getCustomLayoutsActiveLabel())
-
-		LOGGER.debug("> Adding 'Miscellaneous_activeLabel' widget!")
-		self.addWidget(self.getMiscellaneousActiveLabel())
-
-		LOGGER.debug("> Adding 'Closure_Spacer_label' widget!")
-		self.addWidget(self.getClosureSpacerLabel())
+		self.setToolBarChildrenWidgets()
 
 		# Signals / Slots.
 		self.__container.layoutsManager.layoutStored.connect(self.__layoutsManager__layoutStored)
@@ -354,6 +344,49 @@ class Application_QToolBar(QToolBar):
 
 		LOGGER.debug("> Opening url: '{0}'.".format(UiConstants.apiFile))
 		QDesktopServices.openUrl(QUrl(QString(UiConstants.apiFile)))
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def setLayoutDefaultGeometry(self):
+		"""
+		This method sets the toolBar layout default geometry.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		self.layout().setSpacing(8)
+		self.layout().setContentsMargins(0, 0, 0, 0)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def setToolBarChildrenWidgets(self):
+		"""
+		This method sets the toolBar children widgets.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		LOGGER.debug("> Adding 'Application_Logo_label' widget!")
+		self.addWidget(self.getApplicationLogoLabel())
+
+		LOGGER.debug("> Adding 'Spacer_label' widget!")
+		self.addWidget(self.getSpacerLabel())
+
+		LOGGER.debug("> Adding 'Development_activeLabel', 'Preferences_activeLabel' widgets!")
+		for layoutActiveLabel in self.getLayoutsActiveLabels():
+			self.addWidget(layoutActiveLabel)
+
+		LOGGER.debug("> Adding 'Custom_Layouts_activeLabel' widget!")
+		self.addWidget(self.getCustomLayoutsActiveLabel())
+
+		LOGGER.debug("> Adding 'Miscellaneous_activeLabel' widget!")
+		self.addWidget(self.getMiscellaneousActiveLabel())
+
+		LOGGER.debug("> Adding 'Closure_Spacer_label' widget!")
+		self.addWidget(self.getClosureSpacerLabel())
+
 		return True
 
 	@core.executionTrace

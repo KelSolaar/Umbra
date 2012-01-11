@@ -57,7 +57,7 @@ def attributeWarfare(object):
 
 def baseWarfare(name, bases, attributes):
 	"""
-	This decorator adds any number of attributes to an existing class.
+	This definition adds any number of attributes to an existing class.
 	
 	:param name: Name. ( String )
 	:param bases: Bases. ( List )

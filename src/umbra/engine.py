@@ -354,7 +354,6 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		# Setting window title and toolBar and statusBar.
 		self.setWindowTitle("{0} - {1}".format(Constants.applicationName, Constants.releaseVersion))
 		self.toolBar = Application_QToolBar(self)
-		self.toolBar.setObjectName("toolBar")
 		self.addToolBar(self.toolBar)
 
 		# Setting processing widget.
