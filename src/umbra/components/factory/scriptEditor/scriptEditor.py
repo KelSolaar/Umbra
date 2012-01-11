@@ -65,6 +65,7 @@ from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndRepl
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
 from umbra.globals.uiConstants import UiConstants
+from umbra.ui.widgets.basic_QPlainTextEdit import Basic_QPlainTextEdit
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -1235,6 +1236,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.menuBar_frame_gridLayout.addWidget(self.__menuBar)
 		self.__initializeMenuBar()
 
+		self.Script_Editor_Output_plainTextEdit.setParent(None)
+		self.Script_Editor_Output_plainTextEdit = Basic_QPlainTextEdit(self)
+		self.Script_Editor_Output_plainTextEdit_frame_gridLayout.addWidget(self.Script_Editor_Output_plainTextEdit, 0, 0)
 		self.__Script_Editor_Output_plainTextEdit_setUi()
 
 		self.__searchAndReplace = SearchAndReplace(self, Qt.Window)
