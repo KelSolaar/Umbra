@@ -335,6 +335,10 @@ class LinesNumbers_QWidget(QWidget):
 		bottom = top + int(self.__editor.blockBoundingRect(block).height())
 
 		painter.setPen(self.__color)
+		font = painter.font()
+		font.setPointSize(self.__editor.font().pointSize())
+		painter.setFont(font)
+
 		while block.isValid() and top <= event.rect().bottom():
 			if block.isVisible() and bottom >= event.rect().top():
 				number = str(blockNumber + 1)
@@ -882,7 +886,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		for accelerator in self.__postInputAccelerators:
 			accelerator(self, event)
 
-	@core.executionTrace
+	# @core.executionTrace
 	def __highlightCurrentLine(self):
 		"""
 		This method highlights the current line.
@@ -938,7 +942,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method sets given highlighter as the current document highlighter.
 
 		:param highlighter: Highlighter. ( QSyntaxHighlighter )
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		if not issubclass(highlighter.__class__, QSyntaxHighlighter):
@@ -959,7 +963,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 		This method removes current highlighter.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		if self.__highlighter:
@@ -975,7 +979,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method sets given completer as the current completer.
 
 		:param completer: Completer. ( QCompleter )
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		if not issubclass(completer.__class__, QCompleter):
@@ -1000,7 +1004,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 		This method removes current completer.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		if self.__completer:
@@ -1030,7 +1034,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		This method sets default text option using given flag.
 
 		:param textOption: Text option. ( QTextOption )
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		self.document().setDefaultTextOption(textOption)
@@ -1153,7 +1157,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 		This method deletes the document text under cursor.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		self.textCursor().removeSelectedText()
@@ -1165,7 +1169,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 		This method indents the document text under cursor.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		cursor = self.textCursor()
@@ -1190,7 +1194,7 @@ class CodeEditor_QPlainTextEdit(QPlainTextEdit):
 		"""
 		This method unindents the document text under cursor.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		cursor = self.textCursor()
@@ -1237,7 +1241,7 @@ backwardSearch=True, wrapAround=True)
 				
 		:param pattern: Pattern to search for. ( String )
 		:param \*\*kwargs: Search settings. ( Key / Value pairs )
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		settings = foundations.dataStructures.Structure(**{"caseSensitive" : False,
@@ -1286,7 +1290,7 @@ backwardSearch=True, wrapAround=True)
 		"""
 		This method searchs the next search pattern in the document.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		pattern = self.getSelectedText() or self.__searchPattern
@@ -1305,7 +1309,7 @@ backwardSearch=True, wrapAround=True)
 		"""
 		This method searchs the previous search pattern in the document.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		pattern = self.getSelectedText() or self.__searchPattern
@@ -1337,7 +1341,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		:param pattern: Pattern to replace. ( String )
 		:param replacementPattern: Replacement pattern. ( String )
 		:param \*\*kwargs: Format settings. ( Key / Value pairs )
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		selectedText = self.getSelectedText()
@@ -1378,7 +1382,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		:param pattern: Pattern to replace. ( String )
 		:param replacementPattern: Replacement pattern. ( String )
 		:param \*\*kwargs: Format settings. ( Key / Value pairs )
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		editCursor = self.textCursor()
@@ -1414,7 +1418,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		This method sets document with given content while providing undo capability.
 
 		:param content: Content to set. ( List )
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		cursor = self.textCursor()
@@ -1435,7 +1439,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		This method moves the text cursor to given line.
 
 		:param line: Line to go to. ( Integer )
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		cursor = self.textCursor()
@@ -1450,7 +1454,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		"""
 		This method toggles comments on the document selected lines.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		if not self.__commentMarker:
@@ -1492,7 +1496,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		"""
 		This method toggles document word wrap.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		self.setWordWrapMode(not self.wordWrapMode() and QTextOption.WordWrap or QTextOption.NoWrap)
@@ -1504,7 +1508,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		"""
 		This method toggles document white spaces display.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		textOption = self.getDefaultTextOption()
@@ -1524,7 +1528,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		"""
 		This method removes document trailing white spaces.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		cursor = self.textCursor()
@@ -1551,7 +1555,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		"""
 		This method converts document indentation to tabs.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		cursor = self.textCursor()
@@ -1578,7 +1582,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		"""
 		This method converts document indentation to spaces.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		cursor = self.textCursor()
@@ -1604,7 +1608,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		"""
 		This method returns if the document is modified.
 
-		:return: Document modified state. ( Boolean )		
+		:return: Document modified state. ( Boolean )
 		"""
 
 		return self.document().isModified()
@@ -1616,7 +1620,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		This method sets the document modified state.
 
 		:param state: Modified state. ( Boolean )
-		:return: Method success. ( Boolean )		
+		:return: Method success. ( Boolean )
 		"""
 
 		self.document().setModified(state)
@@ -1628,7 +1632,47 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		"""
 		This method returns if the document is empty.
 
-		:return: Document empty state. ( Boolean )		
+		:return: Document empty state. ( Boolean )
 		"""
 
 		return self.document().isEmpty()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def setFontIncrement(self, value):
+		"""
+		This method increments the document font size.
+
+		:param value: Font size increment. ( Integer )
+		:return: Method success. ( Boolean )
+		"""
+
+		font = self.font()
+		pointSize = font.pointSize() + value
+		if pointSize <= 0:
+			return
+		font.setPointSize(pointSize)
+		self.setFont(font)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def zoomIn(self):
+		"""
+		This method increases the document font size.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.setFontIncrement(1)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def zoomOut(self):
+		"""
+		This method increases the document font size.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.setFontIncrement(-1)

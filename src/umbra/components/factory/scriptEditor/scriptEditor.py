@@ -1479,6 +1479,15 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__viewMenu = QMenu("&View", parent=self.__menuBar)
 		self.__viewMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&View|Increase Font Size",
+		shortcut=Qt.ControlModifier + Qt.Key_Plus,
+		slot=self.__increaseFontSizeAction__triggered))
+		self.__viewMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&View|Decrease Font Size",
+		shortcut=Qt.ControlModifier + Qt.Key_Minus,
+		slot=self.__decreaseFontSizeAction__triggered))
+		self.__viewMenu.addSeparator()
+		self.__viewMenu.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|&View|Toggle Word Wrap",
 		slot=self.__toggleWordWrapAction__triggered))
 		self.__viewMenu.addAction(self.__engine.actionsManager.registerAction(
@@ -1992,6 +2001,34 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return self.evaluateScript()
 
 	@core.executionTrace
+	def __increaseFontSizeAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Increase Font Size'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().zoomIn()
+
+	@core.executionTrace
+	def __decreaseFontSizeAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Decrease Font Size'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().zoomOut()
+
+	@core.executionTrace
 	def __toggleWordWrapAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Toggle Word Wrap'** action.
@@ -2000,12 +2037,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		currentWidget = QApplication.focusWidget()
-		if currentWidget.objectName() == "Script_Editor_Output_plainTextEdit":
-			self.Script_Editor_Output_plainTextEdit_toggleWordWrap()
-		elif isinstance(QApplication.focusWidget(), Editor):
-			self.getCurrentEditor().toggleWordWrap()
-		return True
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().toggleWordWrap()
 
 	@core.executionTrace
 	def __toggleWhiteSpacesAction__triggered(self, checked):
