@@ -1238,7 +1238,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.Script_Editor_Output_plainTextEdit.setParent(None)
 		self.Script_Editor_Output_plainTextEdit = Basic_QPlainTextEdit(self)
-		self.Script_Editor_Output_plainTextEdit_frame_gridLayout.addWidget(self.Script_Editor_Output_plainTextEdit, 0, 0)
+		self.Script_Editor_Output_plainTextEdit_frame_gridLayout.addWidget(
+		self.Script_Editor_Output_plainTextEdit, 0, 0)
+		self.Script_Editor_Output_plainTextEdit.setObjectName("Script_Editor_Output_plainTextEdit")
+
 		self.__Script_Editor_Output_plainTextEdit_setUi()
 
 		self.__searchAndReplace = SearchAndReplace(self, Qt.Window)
@@ -1548,17 +1551,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.__memoryHandlerStackDepth = memoryHandlerStackDepth
 
 	@core.executionTrace
-	def Script_Editor_Output_plainTextEdit_toggleWordWrap(self):
-		"""
-		This method toggles **Script_Editor_Output_plainTextEdit** Widget word wrap.
-		"""
-
-		LOGGER.debug("> Toggling wordwrap on **Script_Editor_Output_plainTextEdit** widget.")
-
-		self.Script_Editor_Output_plainTextEdit.setWordWrapMode(
-		not self.Script_Editor_Output_plainTextEdit.wordWrapMode() and QTextOption.WordWrap or QTextOption.NoWrap)
-
-	@core.executionTrace
 	def __Script_Editor_tabWidget_setUi(self):
 		"""
 		This method sets the **Script_Editor_tabWidget** Widget.
@@ -1774,11 +1766,14 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		currentWidget = QApplication.focusWidget()
+		currentWidget = self.getFocusWidget()
+		if not currentWidget:
+			return
+
 		if currentWidget.objectName() == "Script_Editor_Output_plainTextEdit":
-			self.Script_Editor_Output_plainTextEdit.copy()
-		elif isinstance(QApplication.focusWidget(), Editor):
-			self.getCurrentEditor().cut()
+			currentWidget.copy()
+		else:
+			currentWidget.cut()
 		return True
 
 	@core.executionTrace
@@ -1790,11 +1785,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		currentWidget = QApplication.focusWidget()
-		if currentWidget.objectName() == "Script_Editor_Output_plainTextEdit":
-			self.Script_Editor_Output_plainTextEdit.copy()
-		elif isinstance(QApplication.focusWidget(), Editor):
-			self.getCurrentEditor().copy()
+		currentWidget = self.getFocusWidget()
+		if not currentWidget:
+			return
+
+		currentWidget.copy()
 		return True
 
 	@core.executionTrace
@@ -1836,11 +1831,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		currentWidget = QApplication.focusWidget()
-		if currentWidget.objectName() == "Script_Editor_Output_plainTextEdit":
-			self.Script_Editor_Output_plainTextEdit.selectAll()
-		elif isinstance(QApplication.focusWidget(), Editor):
-			self.getCurrentEditor().selectAll()
+		currentWidget = self.getFocusWidget()
+		if not currentWidget:
+			return
+
+		currentWidget.selectAll()
 		return True
 
 	@core.executionTrace
@@ -2013,10 +2008,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not self.hasEditorTab():
+		currentWidget = self.getFocusWidget()
+		if not currentWidget:
 			return
 
-		return self.getCurrentEditor().zoomIn()
+		return currentWidget.zoomIn()
 
 	@core.executionTrace
 	def __decreaseFontSizeAction__triggered(self, checked):
@@ -2027,10 +2023,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not self.hasEditorTab():
+		currentWidget = self.getFocusWidget()
+		if not currentWidget:
 			return
 
-		return self.getCurrentEditor().zoomOut()
+		return currentWidget.zoomOut()
 
 	@core.executionTrace
 	def __toggleWordWrapAction__triggered(self, checked):
@@ -2041,10 +2038,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not self.hasEditorTab():
+		currentWidget = self.getFocusWidget()
+		if not currentWidget:
 			return
 
-		return self.getCurrentEditor().toggleWordWrap()
+		return currentWidget.toggleWordWrap()
 
 	@core.executionTrace
 	def __toggleWhiteSpacesAction__triggered(self, checked):
@@ -2055,10 +2053,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not self.hasEditorTab():
+		currentWidget = self.getFocusWidget()
+		if not currentWidget:
 			return
 
-		return self.getCurrentEditor().toggleWhiteSpaces()
+		return currentWidget.toggleWhiteSpaces()
 
 	@core.executionTrace
 	def __editor__patternsReplaced(self, patterns):
@@ -2294,6 +2293,20 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Defined locals: '{0}'.".format(self.__locals))
 
 		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getFocusWidget(self):
+		"""
+		This method returns the Widget with focus.
+
+		:return: Widget with focus. ( QWidget )
+		"""
+
+		currentWidget = QApplication.focusWidget()
+		if currentWidget.objectName() == "Script_Editor_Output_plainTextEdit" or \
+			isinstance(currentWidget, Editor):
+			return currentWidget
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

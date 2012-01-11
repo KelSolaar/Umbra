@@ -19,25 +19,13 @@
 #**********************************************************************************************************************
 import functools
 import logging
-import re
 from PyQt4.QtCore import QRegExp
-from PyQt4.QtCore import QSize
 from PyQt4.QtCore import QString
 from PyQt4.QtCore import pyqtSignal
-from PyQt4.QtCore import Qt
-from PyQt4.QtGui import QBrush
-from PyQt4.QtGui import QColor
-from PyQt4.QtGui import QCompleter
-from PyQt4.QtGui import QPainter
-from PyQt4.QtGui import QPen
 from PyQt4.QtGui import QPlainTextEdit
-from PyQt4.QtGui import QSyntaxHighlighter
 from PyQt4.QtGui import QTextCursor
 from PyQt4.QtGui import QTextDocument
-from PyQt4.QtGui import QTextEdit
-from PyQt4.QtGui import QTextFormat
 from PyQt4.QtGui import QTextOption
-from PyQt4.QtGui import QWidget
 
 #**********************************************************************************************************************
 #***	Internal imports.
