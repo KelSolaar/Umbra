@@ -2237,8 +2237,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				continue
 
 			if self.loadFile(path):
-				self.__engine.currentLayout != self.__developmentLayout and \
-				self.__engine.restoreLayout(self.__developmentLayout)
+				self.__engine.layoutsManager.currentLayout != self.__developmentLayout and \
+				self.__engine.layoutsManager.restoreLayout(self.__developmentLayout)
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
 
