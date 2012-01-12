@@ -72,6 +72,9 @@ class Preferences():
 
 		self.__settings = QSettings(self.__file, QSettings.IniFormat)
 
+		self.__defaultSettings = None
+		self.__defaultLayoutsSettings = None
+
 		# --- Initializing preferences. ---
 		self.__getDefaultSettings()
 		self.__getDefaultLayoutsSettings()

@@ -680,34 +680,34 @@ class Notification_QLabel(QLabel):
 		self.adjustSize()
 
 		if self.__anchor == 0:
-			x = rectangle.width() / 2 - self.width() / 2
-			y = self.__verticalPadding
+			pointX = rectangle.width() / 2 - self.width() / 2
+			pointY = self.__verticalPadding
 		elif self.__anchor == 1:
-			x = rectangle.width() - self.width() - self.__horizontalPadding
-			y = self.__verticalPadding
+			pointX = rectangle.width() - self.width() - self.__horizontalPadding
+			pointY = self.__verticalPadding
 		elif self.__anchor == 2:
-			x = rectangle.width() - self.width() - self.__horizontalPadding
-			y = rectangle.height() / 2 - self.height() / 2
+			pointX = rectangle.width() - self.width() - self.__horizontalPadding
+			pointY = rectangle.height() / 2 - self.height() / 2
 		elif self.__anchor == 3:
-			x = rectangle.width() - self.width() - self.__horizontalPadding
-			y = rectangle.height() - self.height() - self.__verticalPadding
+			pointX = rectangle.width() - self.width() - self.__horizontalPadding
+			pointY = rectangle.height() - self.height() - self.__verticalPadding
 		elif self.__anchor == 4:
-			x = rectangle.width() / 2 - self.width() / 2
-			y = rectangle.height() - self.height() - self.__verticalPadding
+			pointX = rectangle.width() / 2 - self.width() / 2
+			pointY = rectangle.height() - self.height() - self.__verticalPadding
 		elif self.__anchor == 5:
-			x = self.__horizontalPadding
-			y = rectangle.height() - self.height() - self.__verticalPadding
+			pointX = self.__horizontalPadding
+			pointY = rectangle.height() - self.height() - self.__verticalPadding
 		elif self.__anchor == 6:
-			x = self.__horizontalPadding
-			y = rectangle.height() / 2 - self.height() / 2
+			pointX = self.__horizontalPadding
+			pointY = rectangle.height() / 2 - self.height() / 2
 		elif self.__anchor == 7:
-			x = self.__horizontalPadding
-			y = self.__verticalPadding
+			pointX = self.__horizontalPadding
+			pointY = self.__verticalPadding
 		elif self.__anchor == 8:
-			x = rectangle.width() / 2 - self.width() / 2
-			y = rectangle.height() / 2 - self.height() / 2
+			pointX = rectangle.width() / 2 - self.width() / 2
+			pointY = rectangle.height() / 2 - self.height() / 2
 
-		self.setGeometry(x + self.__horizontalOffset, y + self.__verticalOffset, self.width(), self.height())
+		self.setGeometry(pointX + self.__horizontalOffset, pointY + self.__verticalOffset, self.width(), self.height())
 
 	@core.executionTrace
 	def __fadeIn(self):

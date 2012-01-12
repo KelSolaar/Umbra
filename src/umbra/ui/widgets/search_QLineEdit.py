@@ -400,10 +400,10 @@ class Search_QLineEdit(QLineEdit):
 		frameWidth = self.style().pixelMetric(QStyle.PM_DefaultFrameWidth)
 		searchActiveLabelSize = self.__searchActiveLabel.sizeHint()
 		self.__searchActiveLabel.move(self.rect().left() + frameWidth,
-		(self.rect().bottom() - searchActiveLabelSize.height()) / 2 + frameWidth / 2);
+		(self.rect().bottom() - searchActiveLabelSize.height()) / 2 + frameWidth / 2)
 		clearButtonSize = self.__clearButton.sizeHint()
 		self.__clearButton.move(self.rect().right() - frameWidth - clearButtonSize.width(),
-		(self.rect().bottom() - clearButtonSize.height()) / 2 + frameWidth / 2);
+		(self.rect().bottom() - clearButtonSize.height()) / 2 + frameWidth / 2)
 
 	@core.executionTrace
 	def __initializeUi(self):
@@ -415,7 +415,7 @@ class Search_QLineEdit(QLineEdit):
 		if self.__uiClearImage and self.__uiClearClickedImage:
 			pixmap = QPixmap(self.__uiClearImage)
 			clickedPixmap = QPixmap(self.__uiClearClickedImage)
-			self.__clearButton.setStyleSheet("QToolButton { border: none; padding: 0px; }");
+			self.__clearButton.setStyleSheet("QToolButton { border: none; padding: 0px; }")
 			self.__clearButton.setIcon(QIcon(pixmap))
 			self.__clearButton.setMaximumSize(pixmap.size())
 

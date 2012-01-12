@@ -9,7 +9,8 @@
 
 **Description:**
 	| This module defines the Application completers classes.
-	| Each completer class completion list is initialized only once per session and cached at the first class instantiation.
+	| Each completer class completion list is initialized only once per session and
+	| cached at the first class instantiation.
 
 **Others:**
 

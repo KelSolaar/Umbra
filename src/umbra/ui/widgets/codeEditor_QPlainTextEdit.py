@@ -324,7 +324,7 @@ class LinesNumbers_QWidget(QWidget):
 		painter.drawLine(topRightCorner.x(), topRightCorner.y(), bottomRightCorner.x(), bottomRightCorner.y())
 
 		block = self.__editor.firstVisibleBlock()
-		blockNumber = block.blockNumber();
+		blockNumber = block.blockNumber()
 		top = int(self.__editor.blockBoundingGeometry(block).translated(self.__editor.contentOffset()).top())
 		bottom = top + int(self.__editor.blockBoundingRect(block).height())
 
@@ -382,7 +382,7 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 
 		if scrollY:
-			self.scroll(0, scrollY);
+			self.scroll(0, scrollY)
 		else:
 			self.update(0, rectangle.y(), self.width(), rectangle.height())
 

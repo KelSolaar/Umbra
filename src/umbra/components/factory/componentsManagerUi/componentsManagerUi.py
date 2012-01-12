@@ -1044,7 +1044,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 								rank=umbra.ui.models.GraphModelAttribute(name="rank", flags=attributesFlags),
 								version=umbra.ui.models.GraphModelAttribute(name="version", flags=attributesFlags))
 
-			for name, component in components.iteritems():
+			for component in components.itervalues():
 				if not component.interface:
 					continue
 

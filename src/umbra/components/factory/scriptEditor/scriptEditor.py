@@ -234,7 +234,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__grammarsDirectory = "grammars"
 		self.__extension = "grc"
 
-		self.__languagesMode = None
+		self.__languagesModel = None
 
 		self.__defaultLanguage = "Text"
 		self.__defaultScriptLanguage = "Python"
@@ -258,9 +258,16 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 										"Darwin" : ("Monaco", 12),
 										"Linux" : ("Nimbus Mono L", 10)}
 
+		self.__console = None
 		self.__locals = None
 		self.__memoryHandlerStackDepth = None
+
 		self.__menuBar = None
+		self.__fileMenu = None
+		self.__editMenu = None
+		self.__searchMenu = None
+		self.__commandMenu = None
+		self.__viewMenu = None
 
 		self.__fileSystemWatcher = None
 		self.__timer = None
@@ -976,6 +983,38 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultFontsSettings"))
 
 	@property
+	def console(self):
+		"""
+		This method is the property for **self.__console** attribute.
+
+		:return: self.__console. ( Dictionary )
+		"""
+
+		return self.__console
+
+	@console.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def console(self, value):
+		"""
+		This method is the setter method for **self.__console** attribute.
+
+		:param value: Attribute value. ( Dictionary )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "console"))
+
+	@console.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def console(self):
+		"""
+		This method is the deleter method for **self.__console** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "console"))
+
+	@property
 	def locals(self):
 		"""
 		This method is the property for **self.__locals** attribute.
@@ -1070,6 +1109,166 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "menuBar"))
+
+	@property
+	def fileMenu(self):
+		"""
+		This method is the property for **self.__fileMenu** attribute.
+
+		:return: self.__fileMenu. ( QMenu )
+		"""
+
+		return self.__fileMenu
+
+	@fileMenu.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def fileMenu(self, value):
+		"""
+		This method is the setter method for **self.__fileMenu** attribute.
+
+		:param value: Attribute value. ( QMenu )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "fileMenu"))
+
+	@fileMenu.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def fileMenu(self):
+		"""
+		This method is the deleter method for **self.__fileMenu** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "fileMenu"))
+
+	@property
+	def editMenu(self):
+		"""
+		This method is the property for **self.__editMenu** attribute.
+
+		:return: self.__editMenu. ( QMenu )
+		"""
+
+		return self.__editMenu
+
+	@editMenu.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def editMenu(self, value):
+		"""
+		This method is the setter method for **self.__editMenu** attribute.
+
+		:param value: Attribute value. ( QMenu )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "editMenu"))
+
+	@editMenu.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def editMenu(self):
+		"""
+		This method is the deleter method for **self.__editMenu** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "editMenu"))
+
+	@property
+	def searchMenu(self):
+		"""
+		This method is the property for **self.__searchMenu** attribute.
+
+		:return: self.__searchMenu. ( QMenu )
+		"""
+
+		return self.__searchMenu
+
+	@searchMenu.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def searchMenu(self, value):
+		"""
+		This method is the setter method for **self.__searchMenu** attribute.
+
+		:param value: Attribute value. ( QMenu )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "searchMenu"))
+
+	@searchMenu.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def searchMenu(self):
+		"""
+		This method is the deleter method for **self.__searchMenu** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchMenu"))
+
+	@property
+	def commandMenu(self):
+		"""
+		This method is the property for **self.__commandMenu** attribute.
+
+		:return: self.__commandMenu. ( QMenu )
+		"""
+
+		return self.__commandMenu
+
+	@commandMenu.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def commandMenu(self, value):
+		"""
+		This method is the setter method for **self.__commandMenu** attribute.
+
+		:param value: Attribute value. ( QMenu )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "commandMenu"))
+
+	@commandMenu.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def commandMenu(self):
+		"""
+		This method is the deleter method for **self.__commandMenu** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "commandMenu"))
+
+	@property
+	def viewMenu(self):
+		"""
+		This method is the property for **self.__viewMenu** attribute.
+
+		:return: self.__viewMenu. ( QMenu )
+		"""
+
+		return self.__viewMenu
+
+	@viewMenu.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def viewMenu(self, value):
+		"""
+		This method is the setter method for **self.__viewMenu** attribute.
+
+		:param value: Attribute value. ( QMenu )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "viewMenu"))
+
+	@viewMenu.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def viewMenu(self):
+		"""
+		This method is the deleter method for **self.__viewMenu** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "viewMenu"))
 
 	@property
 	def fileSystemWatcher(self):
@@ -1189,8 +1388,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__defaultScriptEditorDirectory = os.path.join(self.__engine.userApplicationDataDirectory,
 															Constants.ioDirectory,
 															self.__defaultScriptEditorDirectory)
-		not foundations.common.pathExists(self.__defaultScriptEditorDirectory) and os.makedirs(self.__defaultScriptEditorDirectory)
-		self.__defaultScriptEditorFile = os.path.join(self.__defaultScriptEditorDirectory, self.__defaultScriptEditorFile)
+		not foundations.common.pathExists(self.__defaultScriptEditorDirectory) and \
+		os.makedirs(self.__defaultScriptEditorDirectory)
+		self.__defaultScriptEditorFile = os.path.join(self.__defaultScriptEditorDirectory, 
+													self.__defaultScriptEditorFile)
 
 		self.__setLocals()
 		self.__console = code.InteractiveConsole(self.__locals)
@@ -1322,7 +1523,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Calling '{0}' Component Framework 'onStartup' method.".format(self.__class__.__name__))
 
 		factoryDefaultScriptEditorFile = umbra.ui.common.getResourcePath(self.__factoryDefaultScriptEditorFile)
-		if foundations.common.pathExists(factoryDefaultScriptEditorFile) and not foundations.common.pathExists(self.__defaultScriptEditorFile):
+		if foundations.common.pathExists(factoryDefaultScriptEditorFile) and \
+		not foundations.common.pathExists(self.__defaultScriptEditorFile):
 			shutil.copyfile(factoryDefaultScriptEditorFile, self.__defaultScriptEditorFile)
 
 		if foundations.common.pathExists(self.__defaultScriptEditorFile):
@@ -1357,44 +1559,44 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method initializes Component menuBar.
 		"""
 
-		fileMenu = QMenu("&File", parent=self.__menuBar)
-		fileMenu.addAction(self.__engine.actionsManager.registerAction(
+		self.__fileMenu = QMenu("&File", parent=self.__menuBar)
+		self.__fileMenu.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|&File|&New",
 		shortcut=QKeySequence.New,
 		slot=self.__newFileAction__triggered))
-		fileMenu.addAction(self.__engine.actionsManager.registerAction(
+		self.__fileMenu.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|&File|&Load ...",
 		shortcut=QKeySequence.Open,
 		slot=self.__loadFileAction__triggered))
-		fileMenu.addAction(self.__engine.actionsManager.registerAction(
+		self.__fileMenu.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|&File|Source ...",
 		slot=self.__sourceFileAction__triggered))
-		fileMenu.addSeparator()
-		fileMenu.addAction(self.__engine.actionsManager.registerAction(
+		self.__fileMenu.addSeparator()
+		self.__fileMenu.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|&File|&Save",
 		shortcut=QKeySequence.Save,
 		slot=self.__saveFileAction__triggered))
-		fileMenu.addAction(self.__engine.actionsManager.registerAction(
+		self.__fileMenu.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|&File|Save As ...",
 		shortcut=QKeySequence.SaveAs,
 		slot=self.__saveFileAsAction__triggered))
-		fileMenu.addAction(self.__engine.actionsManager.registerAction(
+		self.__fileMenu.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|&File|Save All",
 		slot=self.__saveAllFilesAction__triggered))
-		fileMenu.addSeparator()
-		fileMenu.addAction(self.__engine.actionsManager.registerAction(
+		self.__fileMenu.addSeparator()
+		self.__fileMenu.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|&File|Close ...",
 		shortcut=QKeySequence.Close,
 		slot=self.__closeFileAction__triggered))
-		fileMenu.addAction(self.__engine.actionsManager.registerAction(
+		self.__fileMenu.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|&File|Close All ...",
 		shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.Key_W,
 		slot=self.__closeAllFilesAction__triggered))
-		fileMenu.addSeparator()
+		self.__fileMenu.addSeparator()
 		for action in self.__recentFilesActions:
-			fileMenu.addAction(action)
+			self.__fileMenu.addAction(action)
 		self.__setRecentFilesActions()
-		self.__menuBar.addMenu(fileMenu)
+		self.__menuBar.addMenu(self.__fileMenu)
 
 		self.__editMenu = QMenu("&Edit", parent=self.__menuBar)
 		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
@@ -2378,7 +2580,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def searchAndReplace_ui(self):
 		"""
- 		This method performs a search and replace in the current **Script_Editor_tabWidget** Widget tab editor.
+		This method performs a search and replace in the current **Script_Editor_tabWidget** Widget tab editor.
 
 		:return: Method success. ( Boolean )
 
@@ -2543,7 +2745,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def saveFileAs(self):
 		"""
- 		This method saves current **Script_Editor_tabWidget** Widget tab editor file as user chosen file.
+		This method saves current **Script_Editor_tabWidget** Widget tab editor file as user chosen file.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -2567,7 +2769,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@umbra.engine.encapsulateProcessing
 	def saveAllFiles(self):
 		"""
- 		This method saves all **Script_Editor_tabWidget** Widget tab editor files.
+		This method saves all **Script_Editor_tabWidget** Widget tab editor files.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -2593,7 +2795,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def closeFile(self):
 		"""
- 		This method closes current file and removes its associated **Script_Editor_tabWidget** Widget tab.
+		This method closes current file and removes its associated **Script_Editor_tabWidget** Widget tab.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -2617,7 +2819,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@umbra.engine.encapsulateProcessing
 	def closeAllFiles(self, leaveLastEditor=True):
 		"""
- 		This method closes every opened files and removes their associated **Script_Editor_tabWidget** Widget tabs.
+		This method closes every opened files and removes their associated **Script_Editor_tabWidget** Widget tabs.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -2643,7 +2845,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def gotoLine(self):
 		"""
- 		This method moves current **Script_Editor_tabWidget** Widget tab editor cursor to user defined line.
+		This method moves current **Script_Editor_tabWidget** Widget tab editor cursor to user defined line.
 
 		:return: Method success. ( Boolean )
 

@@ -18,9 +18,7 @@
 #***	External imports.
 #**********************************************************************************************************************
 import logging
-import sys
 from PyQt4.QtCore import Qt
-from PyQt4.QtGui import QApplication
 from PyQt4.QtGui import QFont
 from PyQt4.QtGui import QMessageBox
 from PyQt4.QtGui import QTextCursor

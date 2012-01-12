@@ -344,7 +344,7 @@ class PatchesManager(object):
 		"""
 
 		success = True
-		for name, patch in sorted(self.__patches.iteritems()):
+		for patch in sorted(self.__patches.itervalues()):
 			success = self.applyPatch(patch)
 		return success
 

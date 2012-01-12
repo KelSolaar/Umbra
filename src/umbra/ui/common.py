@@ -138,7 +138,7 @@ def notifyExceptionHandler(exception, origin, *args, **kwargs):
 	:param \*\*kwargs: Keywords arguments. ( \*\* )
 	"""
 
-	callback = lambda: RuntimeGlobals.engine.restoreLayout(UiConstants.developmentLayout)
+	callback = lambda: RuntimeGlobals.engine.laytoutsManager.restoreLayout(UiConstants.developmentLayout)
 	foundations.exceptions.defaultExceptionsHandler(exception, origin, *args, **kwargs)
 	RuntimeGlobals.notificationsManager.exceptify(message="{0}".format(exception), notificationClickedSlot=callback)
 

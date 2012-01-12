@@ -410,7 +410,7 @@ class DefaultHighlighter(AbstractHighlighter):
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		QSyntaxHighlighter.__init__(self, parent)
+		AbstractHighlighter.__init__(self, parent)
 
 		# --- Setting class attributes. ---
 		self.rules = rules

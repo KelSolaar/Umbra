@@ -41,7 +41,12 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "getViewNodesFromIndexes", "getViewSelectedNodes", "ReadOnlyFilter", "Abstract_QListView", "Abstract_QTreeView"]
+__all__ = ["LOGGER",
+		"getViewNodesFromIndexes",
+		"getViewSelectedNodes",
+		"ReadOnlyFilter",
+		"Abstract_QListView",
+		"Abstract_QTreeView"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
