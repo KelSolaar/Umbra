@@ -36,16 +36,17 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = []
+__all__ = ["COMPONENTS_PATHS"]
 
 #**********************************************************************************************************************
 #***	Launcher.
 #**********************************************************************************************************************
 if __name__ == "__main__":
-	componentsPaths = []
+	COMPONENTS_PATHS = []
 	for path in (os.path.join(umbra.__path__[0], Constants.factoryComponentsDirectory),):
-		os.path.exists(path) and componentsPaths.append(path)
+		if os.path.exists(path):
+			COMPONENTS_PATHS.append(path)
 	umbra.engine.run(umbra.engine.Umbra,
 					umbra.engine.getCommandLineParametersParser().parse_args(sys.argv),
-					componentsPaths,
+					COMPONENTS_PATHS,
 					("factory.scriptEditor", "factory.preferencesManager", "factory.componentsManagerUi"))
