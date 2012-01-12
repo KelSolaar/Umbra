@@ -44,8 +44,7 @@ __all__ = ["COMPONENTS_PATHS"]
 if __name__ == "__main__":
 	COMPONENTS_PATHS = []
 	for path in (os.path.join(umbra.__path__[0], Constants.factoryComponentsDirectory),):
-		if os.path.exists(path):
-			COMPONENTS_PATHS.append(path)
+		os.path.exists(path) and COMPONENTS_PATHS.append(path)
 	umbra.engine.run(umbra.engine.Umbra,
 					umbra.engine.getCommandLineParametersParser().parse_args(sys.argv),
 					COMPONENTS_PATHS,
