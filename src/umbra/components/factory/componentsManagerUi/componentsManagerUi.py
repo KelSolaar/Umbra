@@ -710,7 +710,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		return self.activateComponents_ui()
+		return self.activateComponentsUi()
 
 	@core.executionTrace
 	def __view_deactivateComponentsAction__triggered(self, checked):
@@ -722,7 +722,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		return self.deactivateComponents_ui()
+		return self.deactivateComponentsUi()
 
 	@core.executionTrace
 	def __view_reloadComponentsAction__triggered(self, checked):
@@ -733,7 +733,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		return self.reloadComponents_ui()
+		return self.reloadComponentsUi()
 
 	@core.executionTrace
 	def __view_selectionModel__selectionChanged(self, selectedItems, deselectedItems):
@@ -781,7 +781,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 											False,
 											manager.exceptions.ComponentActivationError)
 	@umbra.engine.encapsulateProcessing
-	def activateComponents_ui(self):
+	def activateComponentsUi(self):
 		"""
 		This method activates user selected Components.
 
@@ -819,7 +819,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 											False,
 											manager.exceptions.ComponentDeactivationError)
 	@umbra.engine.encapsulateProcessing
-	def deactivateComponents_ui(self):
+	def deactivateComponentsUi(self):
 		"""
 		This method deactivates user selected Components.
 
@@ -862,7 +862,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 											False,
 											manager.exceptions.ComponentReloadError)
 	@umbra.engine.encapsulateProcessing
-	def reloadComponents_ui(self):
+	def reloadComponentsUi(self):
 		"""
 		This method reloads user selected Components.
 

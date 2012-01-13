@@ -1847,7 +1847,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		return self.loadFile_ui()
+		return self.loadFileUi()
 
 	@core.executionTrace
 	def __sourceFileAction__triggered(self, checked):
@@ -1858,7 +1858,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.loadFile_ui():
+		if self.loadFileUi():
 			return self.evaluateScript()
 
 	@core.executionTrace
@@ -2061,7 +2061,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		return self.searchAndReplace_ui()
+		return self.searchAndReplaceUi()
 
 	@core.executionTrace
 	def __searchNextAction__triggered(self, checked):
@@ -2559,7 +2559,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
-	def loadFile_ui(self):
+	def loadFileUi(self):
 		"""
 		This method loads user chosen file into in the current **Script_Editor_tabWidget** Widget tab editor.
 
@@ -2578,7 +2578,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
-	def searchAndReplace_ui(self):
+	def searchAndReplaceUi(self):
 		"""
 		This method performs a search and replace in the current **Script_Editor_tabWidget** Widget tab editor.
 
