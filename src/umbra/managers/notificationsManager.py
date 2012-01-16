@@ -295,7 +295,7 @@ class NotificationsManager(QObject):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def notify(self, message, duration=2500, notificationClickedSlot=None, messageLevel="Information", **kwargs):
+	def notify(self, message, duration=3000, notificationClickedSlot=None, messageLevel="Information", **kwargs):
 		"""
 		This method displays an Application notification.
 
@@ -337,7 +337,7 @@ class NotificationsManager(QObject):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def warnify(self, message, duration=2500, notificationClickedSlot=None, **kwargs):
+	def warnify(self, message, duration=3000, notificationClickedSlot=None, **kwargs):
 		"""
 		This method displays an Application notification warning.
 
@@ -359,7 +359,7 @@ class NotificationsManager(QObject):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def exceptify(self, message, duration=2500, notificationClickedSlot=None, **kwargs):
+	def exceptify(self, message, duration=3000, notificationClickedSlot=None, **kwargs):
 		"""
 		This method displays an Application notification exception.
 
