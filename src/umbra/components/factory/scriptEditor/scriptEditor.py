@@ -1390,7 +1390,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 															self.__defaultScriptEditorDirectory)
 		not foundations.common.pathExists(self.__defaultScriptEditorDirectory) and \
 		os.makedirs(self.__defaultScriptEditorDirectory)
-		self.__defaultScriptEditorFile = os.path.join(self.__defaultScriptEditorDirectory, 
+		self.__defaultScriptEditorFile = os.path.join(self.__defaultScriptEditorDirectory,
 													self.__defaultScriptEditorFile)
 
 		self.__setLocals()
@@ -1633,6 +1633,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Goto Line ...",
 		shortcut=Qt.ControlModifier + Qt.Key_L,
 		slot=self.__gotoLineAction__triggered))
+		self.__editMenu.addSeparator()
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete Line",
+		shortcut=Qt.ControlModifier + Qt.Key_D,
+		slot=self.__deleteLineAction__triggered))
 		self.__editMenu.addSeparator()
 		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Indent Selection",
@@ -2050,6 +2055,20 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		return self.gotoLine()
+
+	@core.executionTrace
+	def __deleteLineAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete Line'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().deleteLine()
 
 	@core.executionTrace
 	def __searchAndReplaceAction__triggered(self, checked):

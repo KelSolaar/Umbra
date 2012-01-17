@@ -974,6 +974,23 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def deleteLine(self):
+		"""
+		This method deletes the document line under cursor.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		cursor = self.textCursor()
+		cursor.beginEditBlock()
+		cursor.select(QTextCursor.LineUnderCursor)
+		cursor.removeSelectedText()
+		cursor.deleteChar()
+		cursor.endEditBlock()
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def unindent(self):
 		"""
 		This method unindents the document text under cursor.
