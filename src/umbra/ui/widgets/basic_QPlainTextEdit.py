@@ -164,7 +164,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	@core.executionTrace
 	def wheelEvent(self, event):
 		"""
-		This method reimplements the :meth:`QPlainTextEdit.keyPressEvent` method.
+		This method reimplements the :meth:`QPlainTextEdit.wheelEvent` method.
 
 		:param event: Event. ( QEvent )
 		"""
