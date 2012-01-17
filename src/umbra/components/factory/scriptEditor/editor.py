@@ -98,6 +98,8 @@ LANGUAGES_ACCELERATORS = {"DefaultHighlighter" : umbra.ui.highlighters.DefaultHi
 						umbra.ui.visualAccelerators.highlightCurrentLine,
 						"highlightOccurences" :
 						umbra.ui.visualAccelerators.highlightOccurences,
+						"highlightMatchingSymbolsPairs" :
+						umbra.ui.visualAccelerators.highlightMatchingSymbolsPairs,
 						"DefaultTheme" : umbra.ui.themes.DEFAULT_THEME,
 						"LoggingTheme" : umbra.ui.themes.LOGGING_THEME}
 
@@ -185,7 +187,7 @@ def getLanguageDescription(grammarfile):
 								sectionsParser.getValue("SymbolsPairs", "Syntax") or {}
 
 	if symbolsPairs:
-		associatedPairs = {}
+		associatedPairs = foundations.dataStructures.Lookup()
 		for pair in symbolsPairs.split("|"):
 			associatedPairs[pair[0]] = pair[1]
 		symbolsPairs = associatedPairs

@@ -19,6 +19,7 @@
 #**********************************************************************************************************************
 import functools
 import logging
+import re
 from PyQt4.QtCore import QRegExp
 from PyQt4.QtCore import QString
 from PyQt4.QtCore import pyqtSignal
@@ -250,6 +251,32 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getPreviousCharacter(self):
+		"""
+		This method returns the character before the cursor.
+
+		:return: Previous cursor character. ( QString )		
+		"""
+
+		cursor = self.textCursor()
+		cursor.movePosition(QTextCursor.PreviousCharacter, QTextCursor.KeepAnchor)
+		return cursor.selectedText()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getNextCharacter(self):
+		"""
+		This method returns the character after the cursor.
+
+		:return: Next cursor character. ( QString )		
+		"""
+
+		cursor = self.textCursor()
+		cursor.movePosition(QTextCursor.NextCharacter, QTextCursor.KeepAnchor)
+		return cursor.selectedText()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getWords(self):
 		"""
 		This method returns the document words.
@@ -300,6 +327,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		:return: Word under cursor. ( QString )		
 		"""
+		if not re.match(r"^\w+$", unicode(self.getPreviousCharacter(),
+										Constants.encodingFormat,
+										Constants.encodingError)):
+			return
 
 		cursor = self.textCursor()
 		cursor.movePosition(QTextCursor.PreviousWord)

@@ -13,7 +13,8 @@
 
 **Others:**
 	Portions of the code from codeeditor.py by Roberto Alsina: http://lateral.netmanagers.com.ar/weblog/posts/BB832.html,
-	KhtEditor.py by Benoit Hervier: http://khertan.net/khteditor and Ninja IDE: http://ninja-ide.org/
+	KhtEditor.py by Benoit Hervier: http://khertan.net/khteditor, Ninja IDE: http://ninja-ide.org/ and
+	Prymatex: https://github.com/D3f0/prymatex/
 """
 
 #**********************************************************************************************************************
@@ -31,6 +32,7 @@ from PyQt4.QtGui import QPen
 from PyQt4.QtGui import QPlainTextEdit
 from PyQt4.QtGui import QSyntaxHighlighter
 from PyQt4.QtGui import QTextCursor
+from PyQt4.QtGui import QTextDocument
 from PyQt4.QtGui import QWidget
 
 #**********************************************************************************************************************
@@ -909,6 +911,42 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 			self.__completer.deleteLater()
 			self.__completer = None
 		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getMatchingSymbolsPairs(self, cursor, openingSymbol, closingSymbol, backward=False):
+		"""
+		This method returns the cursor for matching given symbols pairs.
+
+		:param cursor: Cursor to match from. ( QTextCursor )
+		:param openingSymbol: Opening symbol. ( String )
+		:param closingSymbol: Closing symbol to match. ( String )
+		:return: Matching cursor. ( QTextCursor )
+		"""
+
+		if cursor.hasSelection():
+			startPosition = cursor.selectionEnd() if backward else cursor.selectionStart()
+		else:
+			startPosition = cursor.position()
+
+		flags = QTextDocument.FindFlags()
+		if backward:
+			flags = flags | QTextDocument.FindBackward
+
+		startCursor = previousStartCursor = cursor.document().find(openingSymbol, startPosition, flags)
+		endCursor = previousEndCursor = cursor.document().find(closingSymbol, startPosition, flags)
+		if backward:
+			while startCursor > endCursor:
+				startCursor = cursor.document().find(openingSymbol, startCursor.selectionStart(), flags)
+				if startCursor > endCursor:
+					endCursor = cursor.document().find(closingSymbol, endCursor.selectionStart(), flags)
+		else:
+			while startCursor < endCursor:
+				startCursor = cursor.document().find(openingSymbol, startCursor.selectionEnd(), flags)
+				if startCursor < endCursor:
+					endCursor = cursor.document().find(closingSymbol, endCursor.selectionEnd(), flags)
+
+		return endCursor.position() != -1 and endCursor or previousEndCursor
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

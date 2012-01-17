@@ -17,8 +17,7 @@
 #***	External imports.
 #**********************************************************************************************************************
 import logging
-import re
-from PyQt4.QtGui import QColor
+from PyQt4.QtGui import QTextCursor
 from PyQt4.QtGui import QTextDocument
 from PyQt4.QtGui import QTextEdit
 from PyQt4.QtGui import QTextFormat
@@ -42,15 +41,16 @@ __status__ = "Production"
 
 __all__ = ["LOGGER",
 			"highlightCurrentLine",
-			"highlightOccurences"]
+			"highlightOccurences",
+			"highlightMatchingPairs"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-#@core.executionTrace
-#@foundations.exceptions.exceptionsHandler(None, False, Exception)
+# @core.executionTrace
+# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def highlightCurrentLine(editor):
 	"""
 	This definition highlights given editor current line.
@@ -59,7 +59,7 @@ def highlightCurrentLine(editor):
 	:return: Method success. ( Boolean )
 	"""
 
-	format = editor.highlighter.theme.get("accelerator.line")
+	format = editor.language.theme.get("accelerator.line")
 	if not format:
 		return
 
@@ -74,8 +74,8 @@ def highlightCurrentLine(editor):
 	editor.setExtraSelections(extraSelections)
 	return True
 
-#@core.executionTrace
-#@foundations.exceptions.exceptionsHandler(None, False, Exception)
+# @core.executionTrace
+# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def highlightOccurences(editor):
 	"""
 	This definition highlights given editor current line.
@@ -84,26 +84,76 @@ def highlightOccurences(editor):
 	:return: Method success. ( Boolean )
 	"""
 
-	format = editor.highlighter.theme.get("accelerator.occurences")
+	format = editor.language.theme.get("accelerator.occurence")
 	if not format:
 		return
 
 	extraSelections = editor.extraSelections() or []
 	if not editor.isReadOnly():
 		word = editor.getWordUnderCursor()
-		if re.match(r"\w+", unicode(word, Constants.encodingFormat, Constants.encodingError)):
-			block = editor.document().findBlock(0)
+		if not word:
+			return
+
+		block = editor.document().findBlock(0)
+		cursor = editor.document().find(word,
+									block.position(),
+									QTextDocument.FindCaseSensitively | QTextDocument.FindWholeWords)
+		while block.isValid() and cursor.position() != -1:
+			selection = QTextEdit.ExtraSelection()
+			selection.format.setBackground(format.background())
+			selection.cursor = cursor
+			extraSelections.append(selection)
 			cursor = editor.document().find(word,
-										block.position(),
-										QTextDocument.FindCaseSensitively | QTextDocument.FindWholeWords)
-			while block.isValid() and cursor.position() != -1:
-				selection = QTextEdit.ExtraSelection()
-				selection.format.setBackground(format.background())
-				selection.cursor = cursor
-				extraSelections.append(selection)
-				cursor = editor.document().find(word,
-												cursor.position(),
-												QTextDocument.FindCaseSensitively | QTextDocument.FindWholeWords)
-				block = block.next()
+											cursor.position(),
+											QTextDocument.FindCaseSensitively | QTextDocument.FindWholeWords)
+			block = block.next()
+	editor.setExtraSelections(extraSelections)
+	return True
+
+# @core.executionTrace
+# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+def highlightMatchingSymbolsPairs(editor):
+	"""
+	This definition highlights given editor matching pairs.
+	
+	:param editor: Document editor. ( QWidget )
+	:return: Method success. ( Boolean )
+	"""
+
+	format = editor.language.theme.get("accelerator.pair")
+	if not format:
+		return
+
+	extraSelections = editor.extraSelections() or []
+	if not editor.isReadOnly():
+		startSelection = QTextEdit.ExtraSelection()
+		startSelection.format.setBackground(format.background())
+		endSelection = QTextEdit.ExtraSelection()
+		endSelection.format.setBackground(format.background())
+
+		cursor = editor.textCursor()
+		if cursor.hasSelection():
+			text = unicode(cursor.selectedText(), Constants.encodingFormat, Constants.encodingError)
+		else:
+			cursor.movePosition(QTextCursor.PreviousCharacter, QTextCursor.KeepAnchor)
+			text = unicode(cursor.selectedText(), Constants.encodingFormat, Constants.encodingError)
+
+		startSelection.cursor = cursor
+
+		if text in editor.language.symbolsPairs.keys():
+			extraSelections.append(startSelection)
+			endSelection.cursor = editor.getMatchingSymbolsPairs(cursor,
+																text,
+																editor.language.symbolsPairs[text])
+		elif text in editor.language.symbolsPairs.values():
+			extraSelections.append(startSelection)
+			endSelection.cursor = editor.getMatchingSymbolsPairs(cursor,
+																text,
+																editor.language.symbolsPairs.getFirstKeyFromValue(text),
+																True)
+		else:
+			return
+
+		extraSelections.append(endSelection)
 	editor.setExtraSelections(extraSelections)
 	return True

@@ -120,35 +120,38 @@ def performCompletion(editor):
 	This definition performs the completion on given editor.
 
 	:param editor: Document editor. ( QWidget )
-	:return: Process event. ( Boolean )
+	:return: Method success. ( Boolean )
 	"""
 
 	completionPrefix = editor.getWordUnderCursor()
-	if completionPrefix.length() >= 1 :
-		words = editor.getWords()
-		completionPrefix in words and words.remove(completionPrefix)
-		editor.completer.updateModel(words)
-		editor.completer.setCompletionPrefix(completionPrefix)
-		if editor.completer.completionCount() == 1:
-			completion = editor.completer.completionModel().data(
-						editor.completer.completionModel().index(0, 0)).toString()
-			cursor = editor.textCursor()
-			if completionPrefix != editor.getWordUnderCursorLegacy():
-				cursor.movePosition(QTextCursor.PreviousWord, QTextCursor.MoveAnchor)
-			cursor.movePosition(QTextCursor.EndOfWord, QTextCursor.MoveAnchor)
-			cursor.insertText(completion[len(completionPrefix):])
-			editor.setTextCursor(cursor)
-		else:
-			popup = editor.completer.popup()
-			popup.setCurrentIndex(editor.completer.completionModel().index(0, 0))
+	if not completionPrefix:
+		return
+	
+	words = editor.getWords()
+	completionPrefix in words and words.remove(completionPrefix)
+	editor.completer.updateModel(words)
+	editor.completer.setCompletionPrefix(completionPrefix)
+	if editor.completer.completionCount() == 1:
+		completion = editor.completer.completionModel().data(
+					editor.completer.completionModel().index(0, 0)).toString()
+		cursor = editor.textCursor()
+		if completionPrefix != editor.getWordUnderCursorLegacy():
+			cursor.movePosition(QTextCursor.PreviousWord, QTextCursor.MoveAnchor)
+		cursor.movePosition(QTextCursor.EndOfWord, QTextCursor.MoveAnchor)
+		cursor.insertText(completion[len(completionPrefix):])
+		editor.setTextCursor(cursor)
+	else:
+		popup = editor.completer.popup()
+		popup.setCurrentIndex(editor.completer.completionModel().index(0, 0))
 
-			completerRectangle = editor.cursorRect()
-			hasattr(editor, "marginArea_LinesNumbers_widget") and completerRectangle.moveTo(
-			completerRectangle.topLeft().x() + editor.marginArea_LinesNumbers_widget.getWidth(),
-			completerRectangle.topLeft().y())
-			completerRectangle.setWidth(editor.completer.popup().sizeHintForColumn(0) + \
-			editor.completer.popup().verticalScrollBar().sizeHint().width())
-			editor.completer.complete(completerRectangle)
+		completerRectangle = editor.cursorRect()
+		hasattr(editor, "marginArea_LinesNumbers_widget") and completerRectangle.moveTo(
+		completerRectangle.topLeft().x() + editor.marginArea_LinesNumbers_widget.getWidth(),
+		completerRectangle.topLeft().y())
+		completerRectangle.setWidth(editor.completer.popup().sizeHintForColumn(0) + \
+		editor.completer.popup().verticalScrollBar().sizeHint().width())
+		editor.completer.complete(completerRectangle)
+	return True
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)

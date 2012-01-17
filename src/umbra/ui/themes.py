@@ -153,7 +153,8 @@ DEFAULT_THEME = {"default" : DEFAULT_FORMAT,
 			"variable.language" : None,
 			"variable.language.other" : None,
 			"accelerator.line": getFormat(format=DEFAULT_FORMAT, backgroundColor=QColor(56, 56, 56)),
-			"accelerator.occurences": getFormat(format=DEFAULT_FORMAT, backgroundColor=QColor(80, 80, 80))}
+			"accelerator.occurence": getFormat(format=DEFAULT_FORMAT, backgroundColor=QColor(80, 80, 80)),
+			"accelerator.pair": getFormat(format=DEFAULT_FORMAT, backgroundColor=QColor(96, 96, 96))}
 
 LOGGING_THEME = {"default" : DEFAULT_FORMAT,
 			"logging.message" : getFormat(format=DEFAULT_FORMAT),
