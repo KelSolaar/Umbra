@@ -625,8 +625,22 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		"""
 
 		cursor = self.textCursor()
-		cursor.movePosition(QTextCursor.Start, QTextCursor.MoveAnchor)
-		cursor.movePosition(QTextCursor.Down, QTextCursor.MoveAnchor, line - 1)
+		cursor.setPosition(self.document().findBlockByNumber(line - 1).position())
+		self.setTextCursor(cursor)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def gotoColumn(self, column):
+		"""
+		This method moves the text cursor to given column.
+
+		:param column: Column to go to. ( Integer )
+		:return: Method success. ( Boolean )
+		"""
+
+		cursor = self.textCursor()
+		cursor.setPosition(cursor.block().position() + column)
 		self.setTextCursor(cursor)
 		return True
 
