@@ -20,6 +20,7 @@
 import functools
 import logging
 import re
+from PyQt4.QtCore import QChar
 from PyQt4.QtCore import QRegExp
 from PyQt4.QtCore import QString
 from PyQt4.QtCore import Qt
@@ -424,6 +425,58 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		self.textCursor().removeSelectedText()
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def deleteLine(self):
+		"""
+		This method deletes the document line under cursor.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		cursor = self.textCursor()
+		cursor.beginEditBlock()
+		cursor.select(QTextCursor.LineUnderCursor)
+		cursor.removeSelectedText()
+		cursor.deleteChar()
+		cursor.endEditBlock()
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def duplicate(self):
+		"""
+		This method duplicates the document text under cursor or current line.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		cursor = self.textCursor()
+
+		cursor.beginEditBlock()
+		startBlock = self.document().findBlock(cursor.selectionStart()).firstLineNumber()
+		endBlock = self.document().findBlock(cursor.selectionEnd()).firstLineNumber()
+
+		cursor.setPosition(self.document().findBlockByLineNumber(startBlock).position())
+		cursor.movePosition(QTextCursor.StartOfLine)
+		cursor.movePosition(QTextCursor.Down, QTextCursor.KeepAnchor, endBlock - startBlock)
+		cursor.movePosition(QTextCursor.EndOfLine, QTextCursor.KeepAnchor)
+
+		text = cursor.selectedText()
+
+		startPosition = cursor.position()
+		cursor.movePosition(QTextCursor.EndOfLine)
+		cursor.insertText(QChar(QChar.ParagraphSeparator))
+		cursor.insertText(text)
+		endPosition = cursor.position()
+
+		cursor.setPosition(startPosition + 1, QTextCursor.MoveAnchor)
+		cursor.setPosition(endPosition, QTextCursor.KeepAnchor)
+		self.setTextCursor(cursor)
+		cursor.endEditBlock()
+
 		return True
 
 	@core.executionTrace

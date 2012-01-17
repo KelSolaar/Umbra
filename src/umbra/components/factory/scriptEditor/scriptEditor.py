@@ -1638,6 +1638,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete Line",
 		shortcut=Qt.ControlModifier + Qt.Key_D,
 		slot=self.__deleteLineAction__triggered))
+		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Duplicate",
+		shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.Key_D,
+		slot=self.__duplicateAction__triggered))
 		self.__editMenu.addSeparator()
 		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Indent Selection",
@@ -2069,6 +2073,20 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		return self.getCurrentEditor().deleteLine()
+
+	@core.executionTrace
+	def __duplicateAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Duplicate'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().duplicate()
 
 	@core.executionTrace
 	def __searchAndReplaceAction__triggered(self, checked):
