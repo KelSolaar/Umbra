@@ -29,7 +29,6 @@ from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QCompleter
 from PyQt4.QtGui import QPainter
 from PyQt4.QtGui import QPen
-from PyQt4.QtGui import QPlainTextEdit
 from PyQt4.QtGui import QSyntaxHighlighter
 from PyQt4.QtGui import QTextCursor
 from PyQt4.QtGui import QTextDocument
@@ -776,18 +775,18 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@core.executionTrace
 	def resizeEvent(self, event):
 		"""
-		This method reimplements the :meth:`QPlainTextEdit.resizeEvent` method.
+		This method reimplements the :meth:`Basic_QPlainTextEdit.resizeEvent` method.
 
 		:param event: Event. ( QEvent )
 		"""
 
-		QPlainTextEdit.resizeEvent(self, event)
+		Basic_QPlainTextEdit.resizeEvent(self, event)
 		self.__marginArea_LinesNumbers_widget.updateGeometry()
 
 	@core.executionTrace
 	def keyPressEvent(self, event):
 		"""
-		This method reimplements the :meth:`QPlainTextEdit.keyPressEvent` method.
+		This method reimplements the :meth:`Basic_QPlainTextEdit.keyPressEvent` method.
 
 		:param event: Event. ( QEvent )
 		"""
@@ -799,7 +798,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		if not processEvent:
 			return
 
-		QPlainTextEdit.keyPressEvent(self, event)
+		Basic_QPlainTextEdit.keyPressEvent(self, event)
 
 		for accelerator in self.__postInputAccelerators:
 			accelerator(self, event)

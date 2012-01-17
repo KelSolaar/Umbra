@@ -22,6 +22,7 @@ import logging
 import re
 from PyQt4.QtCore import QRegExp
 from PyQt4.QtCore import QString
+from PyQt4.QtCore import Qt
 from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtGui import QPlainTextEdit
 from PyQt4.QtGui import QTextCursor
@@ -156,6 +157,26 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchPattern"))
+
+	#******************************************************************************************************************
+	#***	Class methods.
+	#******************************************************************************************************************
+	@core.executionTrace
+	def wheelEvent(self, event):
+		"""
+		This method reimplements the :meth:`QPlainTextEdit.keyPressEvent` method.
+
+		:param event: Event. ( QEvent )
+		"""
+
+		if event.modifiers() == Qt.ControlModifier:
+			if event.delta() == 120:
+				self.zoomIn()
+			elif event.delta() == -120:
+				self.zoomOut()
+			event.ignore()
+		else:
+			QPlainTextEdit.wheelEvent(self, event)
 
 	@core.executionTrace
 	def getSelectedTextMetrics(self):
