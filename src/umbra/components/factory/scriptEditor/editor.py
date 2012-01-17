@@ -43,6 +43,7 @@ import umbra.ui.completers
 import umbra.ui.highlighters
 import umbra.ui.inputAccelerators
 import umbra.ui.themes
+import umbra.ui.visualAccelerators
 import umbra.ui.widgets.messageBox as messageBox
 from umbra.components.factory.scriptEditor.exceptions import LanguageGrammarError
 from umbra.globals.constants import Constants
@@ -93,6 +94,10 @@ LANGUAGES_ACCELERATORS = {"DefaultHighlighter" : umbra.ui.highlighters.DefaultHi
 						umbra.ui.inputAccelerators.completionPostEventInputAccelerators,
 						"symbolsExpandingPreEventInputAccelerators" :
 						umbra.ui.inputAccelerators.symbolsExpandingPreEventInputAccelerators,
+						"highlightCurrentLine" :
+						umbra.ui.visualAccelerators.highlightCurrentLine,
+						"highlightOccurences" :
+						umbra.ui.visualAccelerators.highlightOccurences,
 						"DefaultTheme" : umbra.ui.themes.DEFAULT_THEME,
 						"LoggingTheme" : umbra.ui.themes.LOGGING_THEME}
 
@@ -112,7 +117,7 @@ class Language(foundations.dataStructures.Structure):
 		This method initializes the class.
 
 		:param \*\*kwargs: name, file, parser,	extensions, highlighter, completer,	preInputAccelerators,
-			postInputAccelerators, indentMarker, commentMarker, commentBlockMarkerStart, commentBlockMarkerEnd,
+			postInputAccelerators, visualAccelerators, indentMarker, commentMarker, commentBlockMarkerStart, commentBlockMarkerEnd,
 			symbolsPairs, indentationSymbols, rules, tokens, theme. ( Key / Value pairs )
 		"""
 
@@ -164,6 +169,10 @@ def getLanguageDescription(grammarfile):
 	postInputAccelerators = sectionsParser.getValue("PostInputAccelerators", "Accelerators")
 	postInputAccelerators = postInputAccelerators and [getObjectFromLanguageAccelerators(accelerator)
 													for accelerator in postInputAccelerators.split("|")] or ()
+
+	visualAccelerators = sectionsParser.getValue("VisualAccelerators", "Accelerators")
+	visualAccelerators = visualAccelerators and [getObjectFromLanguageAccelerators(accelerator)
+													for accelerator in visualAccelerators.split("|")] or ()
 
 	indentMarker = sectionsParser.sectionExists("Syntax") and sectionsParser.getValue("IndentMarker", "Syntax") or \
 					DEFAULT_INDENT_MARKER
@@ -217,6 +226,7 @@ def getLanguageDescription(grammarfile):
 				"completer" : completer,
 				"preInputAccelerators" : preInputAccelerators,
 				"postInputAccelerators" : postInputAccelerators,
+				"visualAccelerators" : visualAccelerators,
 				"indentMarker" : indentMarker,
 				"commentMarker" : commentMarker,
 				"commentBlockMarkerStart" : commentBlockMarkerStart,
@@ -658,6 +668,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.commentMarker = self.__language.commentMarker
 		self.preInputAccelerators = self.__language.preInputAccelerators
 		self.postInputAccelerators = self.__language.postInputAccelerators
+		self.visualAccelerators = self.__language.visualAccelerators
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

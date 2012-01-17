@@ -12,8 +12,8 @@
 	| Those objects provides the basics building blocks of a code editor widget.
 
 **Others:**
-	Portions of the code from codeeditor.py by Roberto Alsina: http://lateral.netmanagers.com.ar/weblog/posts/BB832.html
-	and KhtEditor.py by Benoit Hervier: http://khertan.net/khteditor
+	Portions of the code from codeeditor.py by Roberto Alsina: http://lateral.netmanagers.com.ar/weblog/posts/BB832.html,
+	KhtEditor.py by Benoit Hervier: http://khertan.net/khteditor and Ninja IDE: http://ninja-ide.org/
 """
 
 #**********************************************************************************************************************
@@ -31,8 +31,6 @@ from PyQt4.QtGui import QPen
 from PyQt4.QtGui import QPlainTextEdit
 from PyQt4.QtGui import QSyntaxHighlighter
 from PyQt4.QtGui import QTextCursor
-from PyQt4.QtGui import QTextEdit
-from PyQt4.QtGui import QTextFormat
 from PyQt4.QtGui import QWidget
 
 #**********************************************************************************************************************
@@ -439,10 +437,11 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		self.__highlighter = None
 		self.__completer = None
 
-		self.__highlightColor = QColor(56, 56, 56)
+		self.__occurrencesHighlightColor = QColor(80, 80, 80)
 
 		self.__preInputAccelerators = []
 		self.__postInputAccelerators = []
+		self.__visualAccelerators = []
 
 		self.__textCursorAnchor = None
 
@@ -653,39 +652,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "completer"))
 
 	@property
-	def highlightColor(self):
-		"""
-		This method is the property for **self.__highlightColor** attribute.
-
-		:return: self.__highlightColor. ( QColor )
-		"""
-
-		return self.__highlightColor
-
-	@highlightColor.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def highlightColor(self, value):
-		"""
-		This method is the setter method for **self.__highlightColor** attribute.
-
-		:param value: Attribute value. ( QColor )
-		"""
-
-		if value is not None:
-			assert type(value) is QColor, "'{0}' attribute: '{1}' type is not 'QColor'!".format("highlightColor", value)
-		self.__highlightColor = value
-
-	@highlightColor.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def highlightColor(self):
-		"""
-		This method is the deleter method for **self.__highlightColor** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "highlightColor"))
-
-	@property
 	def preInputAccelerators(self):
 		"""
 		This method is the property for **self.__preInputAccelerators** attribute.
@@ -753,6 +719,40 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "postInputAccelerators"))
 
+	@property
+	def visualAccelerators(self):
+		"""
+		This method is the property for **self.__visualAccelerators** attribute.
+
+		:return: self.__visualAccelerators. ( Tuple / List )
+		"""
+
+		return self.__visualAccelerators
+
+	@visualAccelerators.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def visualAccelerators(self, value):
+		"""
+		This method is the setter method for **self.__visualAccelerators** attribute.
+
+		:param value: Attribute value. ( Tuple / List )
+		"""
+
+		if value is not None:
+			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
+			"visualAccelerators", value)
+		self.__visualAccelerators = value
+
+	@visualAccelerators.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def visualAccelerators(self):
+		"""
+		This method is the deleter method for **self.__visualAccelerators** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "visualAccelerators"))
+
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
@@ -764,12 +764,12 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 		self.__marginArea_LinesNumbers_widget = LinesNumbers_QWidget(self)
 
-		self.__highlightCurrentLine()
+		self.__setExtraSelections()
 
 		# Signals / Slots.
 		self.blockCountChanged.connect(self.__marginArea_LinesNumbers_widget.setEditorViewportMargins)
 		self.updateRequest.connect(self.__marginArea_LinesNumbers_widget.updateRectangle)
-		self.cursorPositionChanged.connect(self.__highlightCurrentLine)
+		self.cursorPositionChanged.connect(self.__setExtraSelections)
 
 	@core.executionTrace
 	def resizeEvent(self, event):
@@ -803,22 +803,14 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 			accelerator(self, event)
 
 	# @core.executionTrace
-	def __highlightCurrentLine(self):
+	def __setExtraSelections(self):
 		"""
-		This method highlights the current line.
+		This method sets current document extra selections.
 		"""
 
-		extraSelections = []
-		if not self.isReadOnly():
-			selection = QTextEdit.ExtraSelection()
-			lineColor = self.__highlightColor
-			selection.format.setBackground(lineColor)
-			selection.format.setProperty(QTextFormat.FullWidthSelection, True)
-			selection.cursor = self.textCursor()
-			selection.cursor.clearSelection()
-			extraSelections.append(selection)
-
-		self.setExtraSelections(extraSelections)
+		self.setExtraSelections(())
+		for accelerator in self.__visualAccelerators:
+			accelerator(self)
 
 	@core.executionTrace
 	def __insertCompletion(self, completion):

@@ -151,7 +151,9 @@ DEFAULT_THEME = {"default" : DEFAULT_FORMAT,
 			"variable" : getFormat(format=DEFAULT_FORMAT, italic=True),
 			"variable.parameter" : None,
 			"variable.language" : None,
-			"variable.language.other" : None}
+			"variable.language.other" : None,
+			"accelerator.line": getFormat(format=DEFAULT_FORMAT, backgroundColor=QColor(56, 56, 56)),
+			"accelerator.occurences": getFormat(format=DEFAULT_FORMAT, backgroundColor=QColor(80, 80, 80))}
 
 LOGGING_THEME = {"default" : DEFAULT_FORMAT,
 			"logging.message" : getFormat(format=DEFAULT_FORMAT),

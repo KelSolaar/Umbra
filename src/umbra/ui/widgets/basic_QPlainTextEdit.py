@@ -294,6 +294,20 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getWordUnderCursor(self):
+		"""
+		This method returns the document word under cursor.
+
+		:return: Word under cursor. ( QString )		
+		"""
+
+		cursor = self.textCursor()
+		cursor.movePosition(QTextCursor.PreviousWord)
+		cursor.movePosition(QTextCursor.EndOfWord, QTextCursor.KeepAnchor)
+		return cursor.selectedText()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def isModified(self):
 		"""
 		This method returns if the document is modified.
@@ -326,19 +340,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		return self.document().isEmpty()
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getWordUnderCursor(self):
-		"""
-		This method returns the document word under cursor.
-
-		:return: Word under cursor. ( QString )		
-		"""
-
-		cursor = self.textCursor()
-		cursor.movePosition(QTextCursor.PreviousWord, QTextCursor.KeepAnchor)
-		return cursor.selectedText()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
