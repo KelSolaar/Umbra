@@ -265,6 +265,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__menuBar = None
 		self.__fileMenu = None
 		self.__editMenu = None
+		self.__sourceMenu = None
+		self.__navigateMenu = None
 		self.__searchMenu = None
 		self.__commandMenu = None
 		self.__viewMenu = None
@@ -1175,6 +1177,70 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "editMenu"))
 
 	@property
+	def sourceMenu(self):
+		"""
+		This method is the property for **self.__sourceMenu** attribute.
+
+		:return: self.__sourceMenu. ( QMenu )
+		"""
+
+		return self.__sourceMenu
+
+	@sourceMenu.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def sourceMenu(self, value):
+		"""
+		This method is the setter method for **self.__sourceMenu** attribute.
+
+		:param value: Attribute value. ( QMenu )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "sourceMenu"))
+
+	@sourceMenu.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def sourceMenu(self):
+		"""
+		This method is the deleter method for **self.__sourceMenu** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "sourceMenu"))
+
+	@property
+	def navigateMenu(self):
+		"""
+		This method is the property for **self.__navigateMenu** attribute.
+
+		:return: self.__navigateMenu. ( QMenu )
+		"""
+
+		return self.__navigateMenu
+
+	@navigateMenu.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def navigateMenu(self, value):
+		"""
+		This method is the setter method for **self.__navigateMenu** attribute.
+
+		:param value: Attribute value. ( QMenu )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "navigateMenu"))
+
+	@navigateMenu.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def navigateMenu(self):
+		"""
+		This method is the deleter method for **self.__navigateMenu** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "navigateMenu"))
+
+	@property
 	def searchMenu(self):
 		"""
 		This method is the property for **self.__searchMenu** attribute.
@@ -1628,45 +1694,59 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Select All",
 		shortcut=QKeySequence.SelectAll,
 		slot=self.__selectAllAction__triggered))
-		self.__editMenu.addSeparator()
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Goto Line ...",
-		shortcut=Qt.ControlModifier + Qt.Key_L,
-		slot=self.__gotoLineAction__triggered))
-		self.__editMenu.addSeparator()
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete Line",
+		self.__menuBar.addMenu(self.__editMenu)
+
+		self.__sourceMenu = QMenu("&Source", parent=self.__menuBar)
+		self.__sourceMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Source|Delete Line(s)",
 		shortcut=Qt.ControlModifier + Qt.Key_D,
-		slot=self.__deleteLineAction__triggered))
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Duplicate",
+		slot=self.__deleteLinesAction__triggered))
+		self.__sourceMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Source|Duplicate Line(s)",
 		shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.Key_D,
-		slot=self.__duplicateAction__triggered))
-		self.__editMenu.addSeparator()
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Indent Selection",
+		slot=self.__duplicateLinesAction__triggered))
+		self.__sourceMenu.addSeparator()
+		self.__sourceMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Source|Move Up",
+		shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.ALT + Qt.Key_Up,
+		slot=self.__moveUpAction__triggered))
+		self.__sourceMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Source|Move Down",
+		shortcut=Qt.SHIFT + Qt.ControlModifier + Qt.ALT + Qt.Key_Down,
+		slot=self.__moveDownAction__triggered))
+		self.__sourceMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Source|Indent Selection",
 		shortcut=Qt.Key_Tab,
 		slot=self.__indentSelectionAction__triggered))
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Unindent Selection",
+		self.__sourceMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Source|Unindent Selection",
 		shortcut=Qt.Key_Backtab,
 		slot=self.__unindentSelectionAction__triggered))
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Convert Indentation To Tabs",
+		self.__sourceMenu.addSeparator()
+		self.__sourceMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Source|Convert Indentation To Tabs",
 		slot=self.__convertIndentationToTabsAction__triggered))
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Convert Indentation To Spaces",
+		self.__sourceMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Source|Convert Indentation To Spaces",
 		slot=self.__convertIndentationToSpacesAction__triggered))
-		self.__editMenu.addSeparator()
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Remove Trailing WhiteSpaces",
+		self.__sourceMenu.addSeparator()
+		self.__sourceMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Source|Remove Trailing WhiteSpaces",
 		slot=self.__removeTrailingWhiteSpacesAction__triggered))
-		self.__editMenu.addSeparator()
-		self.__editMenu.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|factory.scriptEditor|&Edit|Toggle Comments",
+		self.__sourceMenu.addSeparator()
+		self.__sourceMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Source|Toggle Comments",
 		shortcut=Qt.ControlModifier + Qt.Key_Slash,
 		slot=self.__toggleCommentsAction__triggered))
-		self.__menuBar.addMenu(self.__editMenu)
+		self.__menuBar.addMenu(self.__sourceMenu)
+
+		self.__navigateMenu = QMenu("&Navigate", parent=self.__menuBar)
+		self.__navigateMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Navigate|Goto Line ...",
+		shortcut=Qt.ControlModifier + Qt.Key_L,
+		slot=self.__gotoLineAction__triggered))
+		self.__navigateMenu.addSeparator()
+		self.__menuBar.addMenu(self.__navigateMenu)
 
 		self.__searchMenu = QMenu("&Search", parent=self.__menuBar)
 		self.__searchMenu.addAction(self.__engine.actionsManager.registerAction(
@@ -2050,43 +2130,158 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return True
 
 	@core.executionTrace
+	def __deleteLinesAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Delete Line(s)'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().deleteLines()
+
+	@core.executionTrace
+	def __duplicateLinesAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Duplicate Line(s)'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().duplicateLines()
+
+	@core.executionTrace
+	def __moveUpAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Move Up'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().moveUp()
+
+	@core.executionTrace
+	def __moveDownAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Move Down'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().moveDown()
+
+	@core.executionTrace
+	def __indentSelectionAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Indent Selection'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().indent()
+
+	@core.executionTrace
+	def __unindentSelectionAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Unindent Selection'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().unindent()
+
+	@core.executionTrace
+	def __convertIndentationToTabsAction__triggered(self, checked):
+		"""
+		This method is triggered by
+		**'Actions|Umbra|Components|factory.scriptEditor|&Source|Convert Identation To Tabs'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().convertIndentationToTabs()
+
+	@core.executionTrace
+	def __convertIndentationToSpacesAction__triggered(self, checked):
+		"""
+		This method is triggered by
+		**'Actions|Umbra|Components|factory.scriptEditor|&Source|Convert Identation To Spaces'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().convertIndentationToSpaces()
+
+	@core.executionTrace
+	def __removeTrailingWhiteSpacesAction__triggered(self, checked):
+		"""
+		This method is triggered by
+		**'Actions|Umbra|Components|factory.scriptEditor|&Source|Remove Trailing WhiteSpaces'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().removeTrailingWhiteSpaces()
+
+	@core.executionTrace
+	def __toggleCommentsAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Toggle Comments'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.getCurrentEditor().toggleComments()
+
+	@core.executionTrace
 	def __gotoLineAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Goto Line ...'** action.
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Navigate|Goto Line ...'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
 
 		return self.gotoLine()
-
-	@core.executionTrace
-	def __deleteLineAction__triggered(self, checked):
-		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete Line'** action.
-
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
-		"""
-
-		if not self.hasEditorTab():
-			return
-
-		return self.getCurrentEditor().deleteLine()
-
-	@core.executionTrace
-	def __duplicateAction__triggered(self, checked):
-		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Duplicate'** action.
-
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
-		"""
-
-		if not self.hasEditorTab():
-			return
-
-		return self.getCurrentEditor().duplicate()
 
 	@core.executionTrace
 	def __searchAndReplaceAction__triggered(self, checked):
@@ -2127,93 +2322,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		return self.getCurrentEditor().searchPrevious()
-
-	@core.executionTrace
-	def __indentSelectionAction__triggered(self, checked):
-		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Indent Selection'** action.
-
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
-		"""
-
-		if not self.hasEditorTab():
-			return
-
-		return self.getCurrentEditor().indent()
-
-	@core.executionTrace
-	def __unindentSelectionAction__triggered(self, checked):
-		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Unindent Selection'** action.
-
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
-		"""
-
-		if not self.hasEditorTab():
-			return
-
-		return self.getCurrentEditor().unindent()
-
-	@core.executionTrace
-	def __convertIndentationToTabsAction__triggered(self, checked):
-		"""
-		This method is triggered by
-		**'Actions|Umbra|Components|factory.scriptEditor|&Edit|Convert Identation To Tabs'** action.
-
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
-		"""
-
-		if not self.hasEditorTab():
-			return
-
-		return self.getCurrentEditor().convertIndentationToTabs()
-
-	@core.executionTrace
-	def __convertIndentationToSpacesAction__triggered(self, checked):
-		"""
-		This method is triggered by
-		**'Actions|Umbra|Components|factory.scriptEditor|&Edit|Convert Identation To Spaces'** action.
-
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
-		"""
-
-		if not self.hasEditorTab():
-			return
-
-		return self.getCurrentEditor().convertIndentationToSpaces()
-
-	@core.executionTrace
-	def __removeTrailingWhiteSpacesAction__triggered(self, checked):
-		"""
-		This method is triggered by
-		**'Actions|Umbra|Components|factory.scriptEditor|&Edit|Remove Trailing WhiteSpaces'** action.
-
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
-		"""
-
-		if not self.hasEditorTab():
-			return
-
-		return self.getCurrentEditor().removeTrailingWhiteSpaces()
-
-	@core.executionTrace
-	def __toggleCommentsAction__triggered(self, checked):
-		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Toggle Comments'** action.
-
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
-		"""
-
-		if not self.hasEditorTab():
-			return
-
-		return self.getCurrentEditor().toggleComments()
 
 	@core.executionTrace
 	def __evaluateSelectionAction__triggered(self, checked):
@@ -2344,6 +2452,22 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Adding '{0}' file **modifiedFiles** stack.".format(file))
 
 		self.__modifiedFiles.add(file)
+
+	@core.executionTrace
+	def __startfileSystemWatcher(self):
+		"""
+		This method starts the :obj:`ScriptEditor.fileSystemWatcher` class property bound instance.
+		"""
+
+		self.__files and self.__fileSystemWatcher.addPaths(self.__files)
+
+	@core.executionTrace
+	def __stopfileSystemWatcher(self):
+		"""
+		This method stops the :obj:`ScriptEditor.fileSystemWatcher` class property bound instance.
+		"""
+
+		self.__files and self.__fileSystemWatcher.removePaths(self.__files)
 
 	@core.executionTrace
 	def __reloadModifiedFiles(self):
@@ -2773,9 +2897,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if self.hasEditorTab():
 			editor = self.getCurrentEditor()
 			LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
-			self.__fileSystemWatcher.removePaths(self.__files)
+			self.__stopfileSystemWatcher()
 			editor.saveFile()
-			self.__fileSystemWatcher.addPaths(self.__files)
+			self.__startfileSystemWatcher()
+
 		return True
 
 	@core.executionTrace
@@ -2811,7 +2936,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		self.__fileSystemWatcher.removePaths(self.__files)
+		self.__stopfileSystemWatcher()
 
 		editorsCount = self.Script_Editor_tabWidget.count()
 
@@ -2825,7 +2950,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
 
-		self.__fileSystemWatcher.addPaths(self.__files)
+		self.__startfileSystemWatcher()
 		return success
 
 	@core.executionTrace
