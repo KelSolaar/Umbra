@@ -2169,7 +2169,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not self.hasEditorTab():
 			return
 
-		return self.getCurrentEditor().moveUp()
+		return self.getCurrentEditor().moveLinesUp()
 
 	@core.executionTrace
 	def __moveDownAction__triggered(self, checked):
@@ -2183,7 +2183,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not self.hasEditorTab():
 			return
 
-		return self.getCurrentEditor().moveDown()
+		return self.getCurrentEditor().moveLinesDown()
 
 	@core.executionTrace
 	def __indentSelectionAction__triggered(self, checked):

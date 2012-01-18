@@ -586,10 +586,9 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		cursor.removeSelectedText()
 		cursor.deleteChar()
 
-		#TODO: Handle move up looping issue.
 		cursor.setPosition(cursor.block().next().position() if direction == QTextCursor.Down else \
 						cursor.block().previous().position())
-		if cursor.position() == cursor.document().firstBlock().position():
+		if cursor.position() == cursor.document().firstBlock().position() and direction == QTextCursor.Down:
 			cursor.movePosition(QTextCursor.End)
 			cursor.insertText(QChar(QChar.ParagraphSeparator))
 
@@ -607,7 +606,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def moveUp(self):
+	def moveLinesUp(self):
 		"""
 		This method moves up the document lines under cursor.
 
@@ -618,7 +617,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def moveDown(self):
+	def moveLinesDown(self):
 		"""
 		This method moves down the document lines under cursor.
 
