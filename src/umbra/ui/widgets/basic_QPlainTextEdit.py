@@ -11,7 +11,9 @@
 	This module defines the :class:`Basic_QPlainTextEdit` class.
 
 **Others:**
-
+	Portions of the code from codeeditor.py by Roberto Alsina: http://lateral.netmanagers.com.ar/weblog/posts/BB832.html,
+	KhtEditor.py by Benoit Hervier: http://khertan.net/khteditor, Ninja IDE: http://ninja-ide.org/ and
+	Prymatex: https://github.com/D3f0/prymatex/
 """
 
 #**********************************************************************************************************************
@@ -178,6 +180,21 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 			event.ignore()
 		else:
 			QPlainTextEdit.wheelEvent(self, event)
+
+	@core.executionTrace
+	def __selectTextUnderCursorBlocks(self, cursor):
+		"""
+		This method selects the document text under cursor blocks.
+
+		:param cursor: Cursor. ( QTextCursor )
+		"""
+
+		startBlock = self.document().findBlock(cursor.selectionStart()).firstLineNumber()
+		endBlock = self.document().findBlock(cursor.selectionEnd()).firstLineNumber()
+		cursor.setPosition(self.document().findBlockByLineNumber(startBlock).position())
+		cursor.movePosition(QTextCursor.StartOfLine, QTextCursor.MoveAnchor)
+		cursor.movePosition(QTextCursor.Down, QTextCursor.KeepAnchor, endBlock - startBlock)
+		cursor.movePosition(QTextCursor.EndOfLine, QTextCursor.KeepAnchor)
 
 	@core.executionTrace
 	def getSelectedTextMetrics(self):
@@ -355,7 +372,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 			return
 
 		cursor = self.textCursor()
-		cursor.movePosition(QTextCursor.PreviousWord)
+		cursor.movePosition(QTextCursor.PreviousWord, QTextCursor.MoveAnchor)
 		cursor.movePosition(QTextCursor.EndOfWord, QTextCursor.KeepAnchor)
 		return cursor.selectedText()
 
@@ -429,16 +446,16 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def deleteLine(self):
+	def deleteLines(self):
 		"""
-		This method deletes the document line under cursor.
+		This method deletes the document lines under cursor.
 
 		:return: Method success. ( Boolean )
 		"""
 
 		cursor = self.textCursor()
 		cursor.beginEditBlock()
-		cursor.select(QTextCursor.LineUnderCursor)
+		self.__selectTextUnderCursorBlocks(cursor)
 		cursor.removeSelectedText()
 		cursor.deleteChar()
 		cursor.endEditBlock()
@@ -446,38 +463,94 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def duplicate(self):
+	def duplicateLines(self):
 		"""
-		This method duplicates the document text under cursor or current line.
+		This method duplicates the document lines under cursor.
 
 		:return: Method success. ( Boolean )
 		"""
 
 		cursor = self.textCursor()
-
 		cursor.beginEditBlock()
-		startBlock = self.document().findBlock(cursor.selectionStart()).firstLineNumber()
-		endBlock = self.document().findBlock(cursor.selectionEnd()).firstLineNumber()
-
-		cursor.setPosition(self.document().findBlockByLineNumber(startBlock).position())
-		cursor.movePosition(QTextCursor.StartOfLine)
-		cursor.movePosition(QTextCursor.Down, QTextCursor.KeepAnchor, endBlock - startBlock)
-		cursor.movePosition(QTextCursor.EndOfLine, QTextCursor.KeepAnchor)
-
+		self.__selectTextUnderCursorBlocks(cursor)
 		text = cursor.selectedText()
 
+		cursor.setPosition(cursor.block().next().position())
+		cursor.position() == cursor.document().firstBlock().position() and cursor.setPosition(
+		cursor.document().lastBlock().position())
+
 		startPosition = cursor.position()
-		cursor.movePosition(QTextCursor.EndOfLine)
-		cursor.insertText(QChar(QChar.ParagraphSeparator))
 		cursor.insertText(text)
 		endPosition = cursor.position()
+		cursor.insertText(QChar(QChar.ParagraphSeparator))
 
-		cursor.setPosition(startPosition + 1, QTextCursor.MoveAnchor)
+		cursor.setPosition(startPosition, QTextCursor.MoveAnchor)
 		cursor.setPosition(endPosition, QTextCursor.KeepAnchor)
 		self.setTextCursor(cursor)
 		cursor.endEditBlock()
 
 		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def move(self, direction=QTextCursor.Up):
+		"""
+		This method moves the document text under cursor or current line.
+
+		:param direction: Move direction ( QTextCursor.Down / QTextCursor.Up ). ( QTextCursor.MoveOperation )
+		:return: Method success. ( Boolean )
+		"""
+
+		cursor = self.textCursor()
+		if (direction == QTextCursor.Up and cursor.block() == cursor.document().firstBlock()) or \
+		(direction == QTextCursor.Down and cursor.block() == cursor.document().lastBlock()):
+			return
+
+		cursor.beginEditBlock()
+		self.__selectTextUnderCursorBlocks(cursor)
+		text = cursor.selectedText()
+		cursor.removeSelectedText()
+		cursor.deleteChar()
+
+		cursor.setPosition(cursor.block().next().position() if direction == QTextCursor.Down else \
+						cursor.block().previous().position())
+		if cursor.position() == cursor.document().firstBlock().position():
+			cursor.movePosition(QTextCursor.End)
+			cursor.insertText(QChar(QChar.ParagraphSeparator))
+
+		startPosition = cursor.position()
+		cursor.insertText(text)
+		endPosition = cursor.position()
+		not cursor.atEnd() and cursor.insertText(QChar(QChar.ParagraphSeparator))
+
+		cursor.setPosition(startPosition, QTextCursor.MoveAnchor)
+		cursor.setPosition(endPosition, QTextCursor.KeepAnchor)
+		self.setTextCursor(cursor)
+		cursor.endEditBlock()
+
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def moveUp(self):
+		"""
+		This method moves up the document text under cursor or current line.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.move(QTextCursor.Up)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def moveDown(self):
+		"""
+		This method moves down the document text under cursor or current line.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.move(QTextCursor.Down)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
