@@ -493,9 +493,9 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def move(self, direction=QTextCursor.Up):
+	def moveLines(self, direction=QTextCursor.Up):
 		"""
-		This method moves the document text under cursor or current line.
+		This method moves the document lines under cursor.
 
 		:param direction: Move direction ( QTextCursor.Down / QTextCursor.Up ). ( QTextCursor.MoveOperation )
 		:return: Method success. ( Boolean )
@@ -534,23 +534,23 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def moveUp(self):
 		"""
-		This method moves up the document text under cursor or current line.
+		This method moves up the document lines under cursor.
 
 		:return: Method success. ( Boolean )
 		"""
 
-		return self.move(QTextCursor.Up)
+		return self.moveLines(QTextCursor.Up)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def moveDown(self):
 		"""
-		This method moves down the document text under cursor or current line.
+		This method moves down the document lines under cursor.
 
 		:return: Method success. ( Boolean )
 		"""
 
-		return self.move(QTextCursor.Down)
+		return self.moveLines(QTextCursor.Down)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
