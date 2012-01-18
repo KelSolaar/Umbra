@@ -23,10 +23,10 @@
 import logging
 import re
 from PyQt4.QtCore import QSize
-from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QBrush
 from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QCompleter
+from PyQt4.QtGui import QFontMetrics
 from PyQt4.QtGui import QPainter
 from PyQt4.QtGui import QPen
 from PyQt4.QtGui import QSyntaxHighlighter
@@ -312,38 +312,56 @@ class LinesNumbers_QWidget(QWidget):
 		:param event: Event. ( QEvent )
 		"""
 
+		def __setBold(state):
+			"""
+			This definition sets the current painter font bold state.
+
+			:return: Definiton success. ( Boolean )
+			"""
+
+			font = painter.font()
+			font.setBold(state)
+			painter.setFont(font)
+			return True
+
 		painter = QPainter(self)
 		painter.fillRect(event.rect(), self.__backgroundColor)
 
-		topRightCorner = event.rect().topRight()
-		bottomRightCorner = event.rect().bottomRight()
 		pen = QPen(QBrush(), self.__separatorWidth)
 		pen.setColor(self.__separatorColor)
 		painter.setPen(pen)
+		topRightCorner = event.rect().topRight()
+		bottomRightCorner = event.rect().bottomRight()
 		painter.drawLine(topRightCorner.x(), topRightCorner.y(), bottomRightCorner.x(), bottomRightCorner.y())
+		painter.setPen(self.__color)
+
+		viewportHeight = self.__editor.viewport().height()
+		metrics = QFontMetrics(self.__editor.document().defaultFont())
+		currentBlock = self.__editor.document().findBlock(
+			self.__editor.textCursor().position())
 
 		block = self.__editor.firstVisibleBlock()
 		blockNumber = block.blockNumber()
-		top = int(self.__editor.blockBoundingGeometry(block).translated(self.__editor.contentOffset()).top())
-		bottom = top + int(self.__editor.blockBoundingRect(block).height())
+		painter.setFont(self.__editor.document().defaultFont())
 
-		painter.setPen(self.__color)
-		font = painter.font()
-		font.setPointSize(self.__editor.font().pointSize())
-		painter.setFont(font)
+		while block.isValid():
+			blockNumber += 1
+			position = self.__editor.blockBoundingGeometry(block).topLeft() + self.__editor.contentOffset()
+			if position.y() > viewportHeight:
+				break
 
-		while block.isValid() and top <= event.rect().bottom():
-			if block.isVisible() and bottom >= event.rect().top():
-				number = str(blockNumber + 1)
-				painter.drawText(-self.__margin / 4,
-								top,
-								self.width(),
-								self.__editor.fontMetrics().height(), Qt.AlignRight, number)
+			if not block.isVisible():
+				continue
+
+			block == currentBlock and __setBold(True) or __setBold(False)
+			painter.drawText(self.width() - metrics.width(str(blockNumber)) - self.__margin / 3,
+							round(position.y() + metrics.ascent() + metrics.descent() - \
+							(self.__editor.blockBoundingRect(block).height() * 8.0 / 100)),
+							str(blockNumber))
 			block = block.next()
 
-			top = bottom
-			bottom = top + int(self.__editor.blockBoundingRect(block).height())
-			blockNumber += 1
+		painter.end()
+		QWidget.paintEvent(self, event)
 
 	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
