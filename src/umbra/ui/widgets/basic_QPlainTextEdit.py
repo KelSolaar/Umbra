@@ -121,6 +121,8 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		# --- Setting class attributes. ---
 		self.__searchPattern = None
+		self.__minimumFontPointSize = 6
+		self.__maximumFontPointSize = 24
 
 		self.__textCursorAnchor = None
 
@@ -160,6 +162,78 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchPattern"))
+
+	@property
+	def minimumFontPointSize(self):
+		"""
+		This method is the property for **self.__minimumFontPointSize** attribute.
+
+		:return: self.__minimumFontPointSize. ( Integer )
+		"""
+
+		return self.__minimumFontPointSize
+
+	@minimumFontPointSize.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def minimumFontPointSize(self, value):
+		"""
+		This method is the setter method for **self.__minimumFontPointSize** attribute.
+
+		:param value: Attribute value. ( Integer )
+		"""
+
+		if value is not None:
+			assert type(value) in (int, float), "'{0}' attribute: '{1}' type is not 'int' or 'float'!".format(
+			"minimumFontPointSize", value)
+			assert value > 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("minimumFontPointSize", value)
+		self.__minimumFontPointSize = value
+
+	@minimumFontPointSize.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def minimumFontPointSize(self):
+		"""
+		This method is the deleter method for **self.__minimumFontPointSize** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "minimumFontPointSize"))
+
+	@property
+	def maximumFontPointSize(self):
+		"""
+		This method is the property for **self.__maximumFontPointSize** attribute.
+
+		:return: self.__maximumFontPointSize. ( Integer )
+		"""
+
+		return self.__maximumFontPointSize
+
+	@maximumFontPointSize.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def maximumFontPointSize(self, value):
+		"""
+		This method is the setter method for **self.__maximumFontPointSize** attribute.
+
+		:param value: Attribute value. ( Integer )
+		"""
+
+		if value is not None:
+			assert type(value) in (int, float), "'{0}' attribute: '{1}' type is not 'int' or 'float'!".format(
+			"maximumFontPointSize", value)
+			assert value > self.__minimumFontPointSize, \
+			"'{0}' attribute: '{1}' need to be exactly superior to '{2}'!".format(
+			"maximumFontPointSize", value, self.__minimumFontPointSize)
+		self.__maximumFontPointSize = value
+
+	@maximumFontPointSize.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def maximumFontPointSize(self):
+		"""
+		This method is the deleter method for **self.__maximumFontPointSize** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "maximumFontPointSize"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -512,6 +586,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		cursor.removeSelectedText()
 		cursor.deleteChar()
 
+		#TODO: Handle move up looping issue.
 		cursor.setPosition(cursor.block().next().position() if direction == QTextCursor.Down else \
 						cursor.block().previous().position())
 		if cursor.position() == cursor.document().firstBlock().position():
@@ -813,8 +888,9 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 		font = self.font()
 		pointSize = font.pointSize() + value
-		if pointSize <= 0:
+		if pointSize < self.__minimumFontPointSize or pointSize > self.__maximumFontPointSize:
 			return
+
 		font.setPointSize(pointSize)
 		self.setFont(font)
 		return True
