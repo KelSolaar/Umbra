@@ -576,7 +576,9 @@ class GraphModel(QAbstractItemModel):
 		parentNode = node.parent
 		if parentNode == self.__rootNode:
 			return QModelIndex()
-		return self.createIndex(parentNode.row(), 0, parentNode)
+
+		parentNodeRow = parentNode.row()
+		return parentNodeRow is not None and self.createIndex(parentNodeRow, 0, parentNode) or QModelIndex()
 
 	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
