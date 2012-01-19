@@ -18,6 +18,7 @@
 #***	External imports.
 #**********************************************************************************************************************
 import logging
+import re
 from PyQt4.QtCore import QEvent
 from PyQt4.QtCore import QObject
 from PyQt4.QtGui import QListView
@@ -28,6 +29,7 @@ from PyQt4.QtGui import QTreeView
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import foundations.walkers
 import umbra.ui.common
 from umbra.globals.constants import Constants
 
@@ -42,6 +44,8 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
+		"getNodes",
+		"filterNodes",
 		"getViewNodesFromIndexes",
 		"getViewSelectedNodes",
 		"ReadOnlyFilter",
@@ -53,6 +57,33 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
+@core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
+def getNodes(view):
+	"""
+	This method returns the given View nodes.
+
+	:param view: View. ( QWidget )
+	:return: View nodes. ( List )
+	"""
+
+	return [node for node in foundations.walkers.nodesWalker(view.model().rootNode)]
+
+@core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
+def filterNodes(view, pattern, attribute, flags=re.IGNORECASE):
+	"""
+	This method filters the given View nodes on given attribute using given pattern.
+
+	:param view: View. ( QWidget )
+	:param pattern: Filtering pattern. ( String )
+	:param attribute: Filtering attribute. ( String )
+	:param flags: Regex filtering flags. ( Integer )
+	:return: View filtered nodes. ( List )
+	"""
+
+	return [node for node in getNodes(view) if re.search(pattern, getattr(node, attribute), flags)]
+
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 @core.memoize(None)
@@ -196,9 +227,34 @@ class Abstract_QListView(QListView):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getNodes(self):
+		"""
+		This method returns the View nodes.
+
+		:return: View nodes. ( List )
+		"""
+
+		return getNodes(self)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def filterNodes(self, pattern, attribute, flags=re.IGNORECASE):
+		"""
+		This method filters the View nodes on given attribute using given pattern.
+	
+		:param pattern: Filtering pattern. ( String )
+		:param attribute: Filtering attribute. ( String )
+		:param flags: Regex filtering flags. ( Integer )
+		:return: View filtered nodes. ( List )
+		"""
+
+		return filterNodes(self, pattern, attribute, flags)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getSelectedNodes(self):
 		"""
-		This method returns the selected nodes.
+		This method returns the View selected nodes.
 
 		:return: View selected nodes. ( Dictionary )
 		"""
@@ -278,9 +334,34 @@ class Abstract_QTreeView(QTreeView):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getNodes(self):
+		"""
+		This method returns the View nodes.
+
+		:return: View nodes. ( List )
+		"""
+
+		return getNodes(self)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def filterNodes(self, pattern, attribute, flags=re.IGNORECASE):
+		"""
+		This method filters the View nodes on given attribute using given pattern.
+	
+		:param pattern: Filtering pattern. ( String )
+		:param attribute: Filtering attribute. ( String )
+		:param flags: Regex filtering flags. ( Integer )
+		:return: View filtered nodes. ( List )
+		"""
+
+		return filterNodes(self, pattern, attribute, flags)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getSelectedNodes(self):
 		"""
-		This method returns the selected nodes.
+		This method returns the View selected nodes.
 
 		:return: View selected nodes. ( Dictionary )
 		"""
