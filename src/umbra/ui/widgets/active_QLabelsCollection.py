@@ -27,6 +27,7 @@ from PyQt4.QtCore import pyqtSignal
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import umbra.ui.common
 from umbra.globals.constants import Constants
 from umbra.ui.widgets.active_QLabel import Active_QLabel
 
@@ -209,7 +210,8 @@ class Active_QLabelsCollection(QObject):
 		LOGGER.debug("> Clicked 'Active_QLabel': '{0}'.".format(activeLabel))
 
 		for item in self.__activeLabels:
-			item is not activeLabel and item._Active_QLabel__setChecked(False)
+			if item is not activeLabel:
+				umbra.ui.common.signalsBlocker(item, Active_QLabel.setChecked, False)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)

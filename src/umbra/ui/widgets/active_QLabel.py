@@ -273,7 +273,7 @@ class Active_QLabel(QLabel):
 
 		if value is not None:
 			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format("checked", value)
-		self.__setChecked(value)
+		self.setChecked(value)
 
 	@checked.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -378,7 +378,7 @@ class Active_QLabel(QLabel):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def __setChecked(self, state):
+	def setChecked(self, state):
 		"""
 		This method sets the Widget checked state.
 
@@ -395,21 +395,8 @@ class Active_QLabel(QLabel):
 		else:
 			self.__checked = False
 			self.setPixmap(self.__defaultPixmap)
+		self.toggled.emit(state)
 		return True
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def setChecked(self, state):
-		"""
-		This method sets the Widget checked state.
-
-		:param state: New check state. ( Boolean )
-		:return: Method success. ( Boolean )
-		"""
-
-		if self.__setChecked(state):
-			self.toggled.emit(state)
-			return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

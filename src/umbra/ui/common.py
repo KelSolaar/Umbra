@@ -61,7 +61,9 @@ __all__ = ["LOGGER",
 			"centerWidgetOnScreen",
 			"getSectionsFileParser",
 			"storeLastBrowsedPath",
-			"parentsWalker"]
+			"parentsWalker",
+			"signalsBlocker",
+			"showWaitCursor"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -248,6 +250,28 @@ def parentsWalker(object):
 	while object.parent():
 		object = object.parent()
 		yield object
+
+@core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
+def signalsBlocker(instance, attribute, *args, **kwargs):
+	"""
+	This definition blocks given instance signals before calling the given attribute with \
+	given arguments and then unblocks the signals.
+
+	:param instance: Instance object. ( QObject )
+	:param attribute: Attribute to call. ( QObject )
+	:param \*args: Arguments. ( \* )
+	:param \*\*kwargs: Keywords arguments. ( \*\* )
+	:return: Object. ( Object )
+	"""
+
+	value = None
+	try:
+		hasattr(instance, "blockSignals") and instance.blockSignals(True)
+		value = attribute(instance, * args, **kwargs)
+	finally:
+		hasattr(instance, "blockSignals") and instance.blockSignals(False)
+		return value
 
 def showWaitCursor(object):
 	"""
