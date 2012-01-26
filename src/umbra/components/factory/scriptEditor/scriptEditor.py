@@ -62,6 +62,7 @@ from umbra.components.factory.scriptEditor.editor import TEXT_LANGUAGE
 from umbra.components.factory.scriptEditor.editorStatus import EditorStatus
 from umbra.components.factory.scriptEditor.models import LanguagesModel
 from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace
+from umbra.components.factory.scriptEditor.searchInFiles import SearchInFiles
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
 from umbra.globals.uiConstants import UiConstants
@@ -252,6 +253,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__recentFilesActions = None
 
 		self.__searchAndReplace = None
+		self.__searchInFiles = None
 
 		self.__indentWidth = 20
 		self.__defaultFontsSettings = {"Windows" : ("Consolas", 10),
@@ -921,6 +923,38 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchAndReplace"))
 
 	@property
+	def searchInFiles(self):
+		"""
+		This method is the property for **self.__searchInFiles** attribute.
+
+		:return: self.__searchInFiles. ( SearchInFiles )
+		"""
+
+		return self.__searchInFiles
+
+	@searchInFiles.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def searchInFiles(self, value):
+		"""
+		This method is the setter method for **self.__searchInFiles** attribute.
+
+		:param value: Attribute value. ( SearchInFiles )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "searchInFiles"))
+
+	@searchInFiles.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def searchInFiles(self):
+		"""
+		This method is the deleter method for **self.__searchInFiles** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchInFiles"))
+
+	@property
 	def indentWidth(self):
 		"""
 		This method is the property for **self.__indentWidth** attribute.
@@ -1512,6 +1546,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__Script_Editor_Output_plainTextEdit_setUi()
 
 		self.__searchAndReplace = SearchAndReplace(self, Qt.Window)
+		self.__searchInFiles = SearchInFiles(self, Qt.Window)
 
 		self.__fileSystemWatcher = QFileSystemWatcher(self)
 		self.__timer = QTimer(self)
@@ -1753,6 +1788,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"Actions|Umbra|Components|factory.scriptEditor|&Search|Search And Replace ...",
 		shortcut=Qt.ControlModifier + Qt.Key_F,
 		slot=self.__searchAndReplaceAction__triggered))
+		self.__searchMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&Search|Search In Files ...",
+		shortcut=Qt.ALT + Qt.ControlModifier + Qt.Key_F,
+		slot=self.__searchInFilesAction__triggered))
 		self.__searchMenu.addSeparator()
 		self.__searchMenu.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|&Search|Search Next",
@@ -2296,6 +2335,18 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return self.searchAndReplaceUi()
 
 	@core.executionTrace
+	def __searchInFilesAction__triggered(self, checked):
+		"""
+		This method is triggered by
+		**'Actions|Umbra|Components|factory.scriptEditor|&Search|Search In Files ...'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.searchInFilesUi()
+
+	@core.executionTrace
 	def __searchNextAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Search|Search Next'** action.
@@ -2658,6 +2709,53 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return True
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
+	def loadFileUi(self):
+		"""
+		This method loads user chosen file into in the current **Script_Editor_tabWidget** Widget tab editor.
+
+		:return: Method success. ( Boolean )
+		
+		:note: This method may require user interaction.
+		"""
+
+		file = umbra.ui.common.storeLastBrowsedPath((QFileDialog.getOpenFileName(self,
+																				"Load File:",
+																				RuntimeGlobals.lastBrowsedPath)))
+		if not file:
+			return
+
+		return self.loadFile(file)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
+	def searchAndReplaceUi(self):
+		"""
+		This method performs a search and replace in the current **Script_Editor_tabWidget** Widget tab editor.
+
+		:return: Method success. ( Boolean )
+
+		:note: This method may require user interaction.
+		"""
+
+		self.__searchAndReplace.show()
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
+	def searchInFilesUi(self):
+		"""
+		This method performs a search in files in the current user chosen files.
+
+		:return: Method success. ( Boolean )
+
+		:note: This method may require user interaction.
+		"""
+
+		self.__searchInFiles.show()
+		return True
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getFocusWidget(self):
 		"""
@@ -2717,39 +2815,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 			LOGGER.debug("> File '{0}: Editor index '{1}'.".format(file, i))
 			return self.Script_Editor_tabWidget.widget(i)
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
-	def loadFileUi(self):
-		"""
-		This method loads user chosen file into in the current **Script_Editor_tabWidget** Widget tab editor.
-
-		:return: Method success. ( Boolean )
-		
-		:note: This method may require user interaction.
-		"""
-
-		file = umbra.ui.common.storeLastBrowsedPath((QFileDialog.getOpenFileName(self,
-																				"Load File:",
-																				RuntimeGlobals.lastBrowsedPath)))
-		if not file:
-			return
-
-		return self.loadFile(file)
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
-	def searchAndReplaceUi(self):
-		"""
-		This method performs a search and replace in the current **Script_Editor_tabWidget** Widget tab editor.
-
-		:return: Method success. ( Boolean )
-
-		:note: This method may require user interaction.
-		"""
-
-		self.__searchAndReplace.show()
-		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
