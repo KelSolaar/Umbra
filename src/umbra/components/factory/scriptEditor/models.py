@@ -30,6 +30,7 @@ from PyQt4.QtCore import Qt
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import umbra.ui.models
 from umbra.components.factory.scriptEditor.editor import Language
 from umbra.globals.constants import Constants
 
@@ -43,7 +44,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "LanguagesModel"]
+__all__ = ["LOGGER", "LanguagesModel", "PatternNode", "PatternsModel"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -100,7 +101,9 @@ class LanguagesModel(QAbstractListModel):
 			assert type(value) is list, "'{0}' attribute: '{1}' type is not 'list'!".format("languages", value)
 			for element in value:
 				assert type(element) is Language, "'{0}' attribute: '{1}' type is not 'Language'!".format("languages", element)
+		self.beginResetModel()
 		self.__languages = value
+		self.endResetModel()
 
 	@languages.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
@@ -231,3 +234,94 @@ class LanguagesModel(QAbstractListModel):
 			if re.search(language.extensions, file):
 				LOGGER.debug("> '{0}' file detected language: '{1}'.".format(file, language.name))
 				return language
+
+class PatternNode(umbra.ui.models.GraphModelNode):
+	"""
+	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchAndReplace.SearchAndReplace` class
+	search and replace pattern node.
+	"""
+
+	__family = "Pattern"
+	"""Node family. ( String )"""
+
+	@core.executionTrace
+	def __init__(self,
+				name=None,
+				parent=None,
+				children=None,
+				roles=None,
+				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+				**kwargs):
+		"""
+		This method initializes the class.
+
+		:param name: Node name.  ( String )
+		:param parent: Node parent. ( GraphModelNode )
+		:param children: Children. ( List )
+		:param roles: Roles. ( Dictionary )
+		:param nodeFlags: Node flags. ( Integer )
+		:param attributesFlags: Attributes flags. ( Integer )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
+
+		PatternNode.__initializeNode(self, attributesFlags)
+
+	#******************************************************************************************************************
+	#***	Class methods.
+	#******************************************************************************************************************
+	@core.executionTrace
+	def __initializeNode(self, attributesFlags):
+		"""
+		This method initializes the node.
+		
+		:param attributesFlags: Attributes flags. ( Integer )
+		"""
+
+		pass
+
+class PatternsModel(umbra.ui.models.GraphModel):
+	"""
+	This class defines the Model used the by
+	:class:`umbra.patterns.factory.scriptEditor.searchAndReplace.SearchAndReplace` class to store the search and \
+	replace patterns.
+	"""
+
+	@core.executionTrace
+	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None, verticalHeaders=None, defaultNode=None):
+		"""
+		This method initializes the class.
+
+		:param parent: Object parent. ( QObject )
+		:param rootNode: Root node. ( AbstractCompositeNode )
+		:param horizontalHeaders: Headers. ( OrderedDict )
+		:param verticalHeaders: Headers. ( OrderedDict )
+		:param defaultNode: Default node. ( AbstractCompositeNode )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		umbra.ui.models.GraphModel.__init__(self, parent, rootNode, horizontalHeaders, verticalHeaders, defaultNode)
+
+	#******************************************************************************************************************
+	#***	Class methods.
+	#******************************************************************************************************************
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def insertPattern(self, pattern, index):
+		"""
+		This method inserts given pattern into the Model.
+
+		:param pattern: Pattern. ( String )
+		:param index: Insertion index. ( Integer )
+		:return: Method success. ( Boolean )
+		"""
+
+		self.beginInsertRows(self.getNodeIndex(self.rootNode.children[index]), index, index)
+		self.rootNode.children.insert(index, PatternNode(parent=self.rootNode, name=pattern))
+		self.endInsertRows()
+		return True

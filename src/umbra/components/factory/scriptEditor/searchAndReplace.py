@@ -18,11 +18,9 @@
 #***	External imports.
 #**********************************************************************************************************************
 import functools
-import itertools
 import logging
 import os
 from PyQt4.QtCore import QRegExp
-from PyQt4.QtCore import QStringList
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QComboBox
 from PyQt4.QtGui import QWidget
@@ -35,6 +33,8 @@ import foundations.common
 import foundations.exceptions
 import foundations.ui.common
 import umbra.ui.common
+from umbra.components.factory.scriptEditor.models import PatternNode
+from umbra.components.factory.scriptEditor.models import PatternsModel
 from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
@@ -92,6 +92,9 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		# --- Setting class attributes. ---
 		self.__container = parent
 
+		self.__searchPatternsModel = None
+		self.__replaceWithPatternsModel = None
+
 		self.__maximumStoredPatterns = 15
 
 		SearchAndReplace.__initializeUi(self)
@@ -130,6 +133,70 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+
+	@property
+	def searchPatternsModel(self):
+		"""
+		This method is the property for **self.__searchPatternsModel** attribute.
+
+		:return: self.__searchPatternsModel. ( PatternsModel )
+		"""
+
+		return self.__searchPatternsModel
+
+	@searchPatternsModel.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def searchPatternsModel(self, value):
+		"""
+		This method is the setter method for **self.__searchPatternsModel** attribute.
+
+		:param value: Attribute value. ( PatternsModel )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "searchPatternsModel"))
+
+	@searchPatternsModel.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def searchPatternsModel(self):
+		"""
+		This method is the deleter method for **self.__searchPatternsModel** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchPatternsModel"))
+
+	@property
+	def replaceWithPatternsModel(self):
+		"""
+		This method is the property for **self.__replaceWithPatternsModel** attribute.
+
+		:return: self.__replaceWithPatternsModel. ( PatternsModel )
+		"""
+
+		return self.__replaceWithPatternsModel
+
+	@replaceWithPatternsModel.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def replaceWithPatternsModel(self, value):
+		"""
+		This method is the setter method for **self.__replaceWithPatternsModel** attribute.
+
+		:param value: Attribute value. ( PatternsModel )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "replaceWithPatternsModel"))
+
+	@replaceWithPatternsModel.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def replaceWithPatternsModel(self):
+		"""
+		This method is the deleter method for **self.__replaceWithPatternsModel** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "replaceWithPatternsModel"))
 
 	@property
 	def maximumStoredPatterns(self):
@@ -177,8 +244,16 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		editor = self.__container.getCurrentEditor()
 		if editor:
-			selectedText = editor.textCursor().selectedText()
-			selectedText and self.insertSearchPattern(selectedText)
+			selectedText = editor.getSelectedText()
+			if selectedText:
+				insertionIndex = 0
+				self.__searchPatternsModel.insertPattern(unicode(selectedText,
+															Constants.encodingFormat,
+															Constants.encodingError), insertionIndex)
+				modelIndex = self.__searchPatternsModel.getNodeIndex(
+				self.__searchPatternsModel.rootNode.children[insertionIndex])
+				self.__searchPatternsModel.dataChanged.emit(modelIndex, modelIndex)
+				self.Search_comboBox.setCurrentIndex(insertionIndex)
 
 		super(SearchAndReplace, self).show()
 		self.raise_()
@@ -194,31 +269,54 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		umbra.ui.common.setWindowDefaultIcon(self)
 
-		self.Search_comboBox.setInsertPolicy(QComboBox.InsertAtTop)
-		self.Replace_With_comboBox.setInsertPolicy(QComboBox.InsertAtTop)
+		for model, settingsKey, comboBox in \
+		(("_SearchAndReplace__searchPatternsModel", "recentSearchPatterns", self.Search_comboBox),
+		("_SearchAndReplace__replaceWithPatternsModel", "recentReplaceWithPatterns", self.Replace_With_comboBox)):
+			self.__dict__[model] = PatternsModel(defaultNode=PatternNode)
+			patterns = foundations.common.orderedUniqify(unicode(self.__container.settings.getKey(
+															self.__container.settingsSection,
+															settingsKey).toString(),
+															Constants.encodingFormat,
+															Constants.encodingError).split(","))
+			[PatternNode(parent=self.__dict__[model].rootNode, name=pattern) \
+			for pattern in patterns[:self.__maximumStoredPatterns]]
+			comboBox.setInsertPolicy(QComboBox.InsertAtTop)
+			comboBox.setModel(self.__dict__[model])
+
+			# Signals / Slots.
+			self.__dict__[model].dataChanged.connect(
+			functools.partial(self.__patternsModel__dataChanged, settingsKey))
 
 		self.Wrap_Around_checkBox.setChecked(True)
 
 		for widget in self.findChildren(QWidget, QRegExp(".*")):
 			widget.keyPressEvent = functools.partial(_keyPressEvent, widget, self)
 
-		recentSearchPatterns = self.__container.settings.getKey(self.__container.settingsSection,
-																"recentSearchPatterns").toString().split(",")
-		if recentSearchPatterns:
-			for i in range(min(self.__maximumStoredPatterns, len(recentSearchPatterns))):
-				self.Search_comboBox.addItem(recentSearchPatterns[i])
-
-		recentReplaceWithPatterns = self.__container.settings.getKey(self.__container.settingsSection,
-																	"recentReplaceWithPatterns").toString().split(",")
-		if recentReplaceWithPatterns:
-			for i in range(min(self.__maximumStoredPatterns, len(recentReplaceWithPatterns))):
-				self.Replace_With_comboBox.addItem(recentReplaceWithPatterns[i])
-
 		# Signals / Slots.
 		self.Search_pushButton.clicked.connect(self.__Search_pushButton__clicked)
 		self.Replace_pushButton.clicked.connect(self.__Replace_pushButton__clicked)
 		self.Replace_All_pushButton.clicked.connect(self.__Replace_All_pushButton__clicked)
 		self.Close_pushButton.clicked.connect(self.__Close_pushButton__clicked)
+
+	@core.executionTrace
+	def __patternsModel__dataChanged(self, settingsKey, startIndex, endIndex):
+		"""
+		This method is triggered when a patterns model data has changed.
+
+		:param settingsKey: Pattern model settings key. ( String )
+		:param startIndex: Edited item starting QModelIndex. ( QModelIndex )
+		:param endIndex: Edited item ending QModelIndex. ( QModelIndex )
+		"""
+
+		patternsModel = self.sender()
+
+		LOGGER.debug("> Storing '{0}' model patterns in '{1}' settings key.".format(patternsModel, settingsKey))
+
+		self.__container.settings.setKey(self.__container.settingsSection,
+										settingsKey,
+										",".join((patternNode.name
+												for patternNode in \
+												patternsModel.rootNode.children[:self.maximumStoredPatterns])))
 
 	@core.executionTrace
 	def __Search_pushButton__clicked(self, checked):
@@ -261,97 +359,13 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.close()
 
 	@core.executionTrace
-	def __storeRecentPatternsSettings(self, comboBox, settingsKey):
-		"""
-		This method stores given `QComboBox <http://doc.qt.nokia.com/qcombox.html>`_ class patterns.
-		
-		:param comboBox: QComboBox. ( QComboBox )
-		:param settingsKey: Associated settings key. ( String )
-		"""
-
-		LOGGER.debug("> Storing '{0}' comboBox patterns in '{1}' settings key.".format(comboBox, settingsKey))
-		self.__container.settings.setKey(self.__container.settingsSection,
-										settingsKey,
-										",".join((unicode(comboBox.itemText(i),
-														Constants.encodingFormat,
-														Constants.encodingError)
-										for i in range(min(self.__maximumStoredPatterns, comboBox.count()))
-										if comboBox.itemText(i))))
-
-	@core.executionTrace
-	def __storeRecentSearchPatternsSettings(self):
-		"""
-		This method stores recent **Search_comboBox** Widget patterns.
-		"""
-
-		self.__storeRecentPatternsSettings(self.Search_comboBox, "recentSearchPatterns")
-
-	@core.executionTrace
-	def __storeRecentReplaceWithPatternsSettings(self):
-		"""
-		This method stores recent **Replace_With_comboBox** Widget patterns.
-		"""
-
-		self.__storeRecentPatternsSettings(self.Replace_With_comboBox, "recentReplaceWithPatterns")
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def __insertPattern(self, pattern, comboBox, settingsStorageMethod):
-		"""
-		This method inserts given pattern in the given :class:`QComboBox` class Widget.
-
-		:param pattern: Search pattern. ( String )
-		:param comboBox: Target comboBox. ( QComboBox )
-		:param settingsStorageMethod: Patterns settings storage method. ( Object )
-		"""
-
-		if not pattern:
-			return
-
-		LOGGER.debug("> Inserting pattern '{0}' in '{1}' comboBox.".format(pattern, comboBox))
-
-		patterns = itertools.chain([pattern], [comboBox.itemText(i) for i in range(comboBox.count())])
-		comboBox.clear()
-		comboBox.addItems(QStringList(foundations.common.orderedUniqify(patterns)))
-
-		settingsStorageMethod()
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def insertSearchPattern(self, pattern):
-		"""
-		This method inserts given pattern in the **Search_comboBox** Widget.
-
-		:param pattern: Search pattern. ( String )
-		:return: Method success. ( Boolean )
-		"""
-
-		self.__insertPattern(pattern, self.Search_comboBox, self.__storeRecentSearchPatternsSettings)
-		return True
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def insertReplaceWithPattern(self, pattern):
-		"""
-		This method inserts given pattern in the **Replace_With_comboBox** Widget.
-
-		:param pattern: Search pattern. ( String )
-		:return: Method success. ( Boolean )
-		"""
-
-		self.__insertPattern(pattern, self.Search_comboBox, self.__storeRecentReplaceWithPatternsSettings)
-		return True
-
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def search(self):
 		"""
-		This method searchs current Widget tab editor for search pattern.
+		This method searchs current editor Widget for search pattern.
 
 		:return: Method success. ( Boolean )
 		"""
-
-		self.__storeRecentSearchPatternsSettings()
 
 		editor = self.__container.getCurrentEditor()
 		searchPattern = self.Search_comboBox.currentText()
@@ -373,12 +387,10 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def replace(self):
 		"""
-		This method replaces current Widget tab editor current search pattern occurence with replacement pattern.
+		This method replaces current editor Widget current search pattern occurence with replacement pattern.
 
 		:return: Method success. ( Boolean )
 		"""
-
-		self.__storeRecentReplaceWithPatternsSettings()
 
 		editor = self.__container.getCurrentEditor()
 		searchPattern = self.Search_comboBox.currentText()
@@ -403,12 +415,10 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def replaceAll(self):
 		"""
-		This method replaces current Widget tab editor search pattern occurences with replacement pattern.
+		This method replaces current editor Widget search pattern occurences with replacement pattern.
 
 		:return: Method success. ( Boolean )
 		"""
-
-		self.__storeRecentReplaceWithPatternsSettings()
 
 		editor = self.__container.getCurrentEditor()
 		searchPattern = self.Search_comboBox.currentText()

@@ -294,7 +294,7 @@ class GraphModel(QAbstractItemModel):
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None, verticalHeaders=None):
+	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None, verticalHeaders=None, defaultNode=None):
 		"""
 		This method initializes the class.
 
@@ -302,6 +302,7 @@ class GraphModel(QAbstractItemModel):
 		:param rootNode: Root node. ( AbstractCompositeNode )
 		:param horizontalHeaders: Headers. ( OrderedDict )
 		:param verticalHeaders: Headers. ( OrderedDict )
+		:param defaultNode: Default node. ( AbstractCompositeNode )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -315,6 +316,8 @@ class GraphModel(QAbstractItemModel):
 		self.horizontalHeaders = horizontalHeaders or OrderedDict([("Graph Model", "graphModel")])
 		self.__verticalHeaders = None
 		self.verticalHeaders = verticalHeaders or OrderedDict()
+		self.__defaultNode = None
+		self.defaultNode = defaultNode or DefaultNode
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -420,6 +423,40 @@ class GraphModel(QAbstractItemModel):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "verticalHeaders"))
+
+	@property
+	def defaultNode(self):
+		"""
+		This method is the property for **self.__defaultNode** attribute.
+
+		:return: self.__defaultNode. ( AbstractCompositeNode )
+		"""
+
+		return self.__defaultNode
+
+	@defaultNode.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def defaultNode(self, value):
+		"""
+		This method is the setter method for **self.__defaultNode** attribute.
+
+		:param value: Attribute value. ( AbstractCompositeNode )
+		"""
+
+		if value is not None:
+			assert issubclass(value, AbstractCompositeNode), \
+			"'{0}' attribute: '{1}' is not a '{2}' subclass!".format("defaultNode", value, AbstractCompositeNode.__name__)
+		self.__defaultNode = value
+
+	@defaultNode.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultNode(self):
+		"""
+		This method is the deleter method for **self.__defaultNode** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultNode"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -636,7 +673,7 @@ class GraphModel(QAbstractItemModel):
 		self.beginInsertRows(parent, row, row + count - 1)
 		success = True
 		for i in range(count):
-			childNode = DefaultNode()
+			childNode = self.__defaultNode()
 			success *= parentNode.insertChild(childNode, row)
 		self.endInsertRows()
 		return success
