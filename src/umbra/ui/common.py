@@ -96,10 +96,12 @@ def uiExtendedExceptionHandler(exception, origin, *args, **kwargs):
 	:param origin: Function / Method raising the exception. ( String )
 	:param \*args: Arguments. ( \* )
 	:param \*\*kwargs: Keywords arguments. ( \*\* )
+	:return: Definition success. ( Boolean )
 	"""
 
 	foundations.exceptions.defaultExceptionsHandler(exception, origin, *args, **kwargs)
 	messageBox.messageBox("Detailed Error", "Exception", "Exception in '{0}': {1}".format(origin, exception))
+	return True
 
 @core.executionTrace
 def uiBasicExceptionHandler(exception, origin, *args, **kwargs):
@@ -110,10 +112,12 @@ def uiBasicExceptionHandler(exception, origin, *args, **kwargs):
 	:param origin: Function / Method raising the exception. ( String )
 	:param \*args: Arguments. ( \* )
 	:param \*\*kwargs: Keywords arguments. ( \*\* )
+	:return: Definition success. ( Boolean )
 	"""
 
 	foundations.exceptions.defaultExceptionsHandler(exception, origin, *args, **kwargs)
 	messageBox.messageBox("Detailed Error", "Exception", "{0}".format(exception))
+	return True
 
 @core.executionTrace
 def uiSystemExitExceptionHandler(exception, origin, *args, **kwargs):
@@ -124,10 +128,11 @@ def uiSystemExitExceptionHandler(exception, origin, *args, **kwargs):
 	:param origin: Function / Method raising the exception. ( String )
 	:param \*args: Arguments. ( \* )
 	:param \*\*kwargs: Keywords arguments. ( \*\* )
+	:return: Definition success. ( Boolean )
 	"""
 
 	uiExtendedExceptionHandler(exception, origin, *args, **kwargs)
-	foundations.common.exit(1)
+	return foundations.common.exit(1)
 
 @core.executionTrace
 def notifyExceptionHandler(exception, origin, *args, **kwargs):
@@ -138,11 +143,13 @@ def notifyExceptionHandler(exception, origin, *args, **kwargs):
 	:param origin: Function / Method raising the exception. ( String )
 	:param \*args: Arguments. ( \* )
 	:param \*\*kwargs: Keywords arguments. ( \*\* )
+	:return: Definition success. ( Boolean )
 	"""
 
 	callback = lambda: RuntimeGlobals.engine.layoutsManager.restoreLayout(UiConstants.developmentLayout)
 	foundations.exceptions.defaultExceptionsHandler(exception, origin, *args, **kwargs)
 	RuntimeGlobals.notificationsManager.exceptify(message="{0}".format(exception), notificationClickedSlot=callback)
+	return True
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.ResourceExistsError)
