@@ -424,6 +424,11 @@ QToolTip {
 	padding: 8px;
 }
 
+/* Search_QlineEdit. */
+#Search_Field_activeLabel, #Clear_Field_button {
+	background-color: transparent;
+}
+
 /* Components. */
 /* Factory Component "Script Editor". */
 #Script_Editor_tabWidget {
