@@ -2709,17 +2709,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def listEditors(self):
-		"""
-		This method lists the **Script_Editor_tabWidget** Widget tab editors.
-
-		:return: Editors. ( List )
-		"""
-
-		return [self.Script_Editor_tabWidget.widget(i) for i in range(self.Script_Editor_tabWidget.count())]
-
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def loadFileUi(self):
 		"""
@@ -2779,53 +2768,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if currentWidget.objectName() == "Script_Editor_Output_plainTextEdit" or \
 			isinstance(currentWidget, Editor):
 			return currentWidget
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def setEditorLanguage(self, editor, language, emitSignal=True):
-		"""
-		This method sets given language to given **Script_Editor_tabWidget** Widget tab editor.
-		
-		:param editor: Editor to set language to. ( Editor )
-		:param language: Language to set. ( Language )
-		:param emitSignal: Emit signal. ( Boolean )
-		:return: Method success. ( Boolean )
-		"""
-
-		LOGGER.debug("> Setting '{0}' language to '{1}' editor.".format(language.name, editor))
-
-		return editor.setLanguage(language, emitSignal)
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getCurrentEditor(self):
-		"""
-		This method returns the current **Script_Editor_tabWidget** Widget tab editor.
-
-		:return: Current editor. ( Editor )
-		"""
-
-		if not self.hasEditorTab():
-			return
-
-		return self.Script_Editor_tabWidget.currentWidget()
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def findEditor(self, file):
-		"""
-		This method finds the **Script_Editor_tabWidget** Widget tab editor associated to given file.
-
-		:param file: File to search editors for. ( String )
-		:return: Editor. ( Editor )
-		"""
-
-		for i in range(self.Script_Editor_tabWidget.count()):
-			if not self.Script_Editor_tabWidget.widget(i).file == file:
-				continue
-
-			LOGGER.debug("> File '{0}: Editor index '{1}'.".format(file, i))
-			return self.Script_Editor_tabWidget.widget(i)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -2892,6 +2834,114 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listEditors(self):
+		"""
+		This method lists the **Script_Editor_tabWidget** Widget tab editors.
+
+		:return: Editors. ( List )
+		"""
+
+		return [self.Script_Editor_tabWidget.widget(i) for i in range(self.Script_Editor_tabWidget.count())]
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def setEditorLanguage(self, editor, language, emitSignal=True):
+		"""
+		This method sets given language to given **Script_Editor_tabWidget** Widget tab editor.
+		
+		:param editor: Editor to set language to. ( Editor )
+		:param language: Language to set. ( Language )
+		:param emitSignal: Emit signal. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		LOGGER.debug("> Setting '{0}' language to '{1}' editor.".format(language.name, editor))
+
+		return editor.setLanguage(language, emitSignal)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getCurrentEditor(self):
+		"""
+		This method returns the current **Script_Editor_tabWidget** Widget tab editor.
+
+		:return: Current editor. ( Editor )
+		"""
+
+		if not self.hasEditorTab():
+			return
+
+		return self.Script_Editor_tabWidget.currentWidget()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def focusEditor(self, file):
+		"""
+		This method focus the **Script_Editor_tabWidget** Widget tab editor with given file.
+
+		:param file: File. ( String )
+		:return: Method success. ( Boolean )
+		"""
+
+		tabIndex = self.findEditorTab(file)
+		if tabIndex is not None:
+			self.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
+			return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def findEditor(self, file):
+		"""
+		This method finds the **Script_Editor_tabWidget** Widget tab editor associated to given file.
+
+		:param file: File to search editors for. ( String )
+		:return: Editor. ( Editor )
+		"""
+
+		for i in range(self.Script_Editor_tabWidget.count()):
+			if not self.Script_Editor_tabWidget.widget(i).file == file:
+				continue
+
+			LOGGER.debug("> File '{0}: Editor index '{1}'.".format(file, i))
+			return self.Script_Editor_tabWidget.widget(i)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def hasFile(self, file):
+		"""
+		This method returns if given file is loaded in any of the **Script_Editor_tabWidget** Widget tab editors.
+
+		:param file: File. ( String )
+		:return: Is file loaded. ( Boolean )
+		"""
+
+		return self.findEditor(file) and True or False
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, 	Exception)
+	def loadDocument(self, file, document):
+		"""
+		This method loads given document into a new **Script_Editor_tabWidget** Widget tab editor.
+
+		:param file: Document file. ( String )
+		:param document: Document to load. ( QTextDocument )
+		:return: Method success. ( Boolean )
+		"""
+
+		editor = Editor(parent=self, language=self.__languagesModel.getLanguage(self.__defaultLanguage))
+		if not editor.newFile():
+			return
+
+		if not editor.loadDocument(document, file, self.__languagesModel.getFileLanguage(file)):
+			return
+
+		self.addEditorTab(editor)
+		self.__storeRecentFile(file)
+		self.__registerFile(file)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def newFile(self):
 		"""
 		This method creates a new file into a new **Script_Editor_tabWidget** Widget tab.
@@ -2919,10 +2969,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(
 			self.__class__.__name__, file))
 
-		tabIndex = self.findEditorTab(file)
-		if tabIndex >= 0:
+		if self.focusEditor(file):
 			LOGGER.info("{0} | '{1}' is already loaded!".format(self.__class__.__name__, file))
-			self.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
 			return True
 
 		currentEditor = self.getCurrentEditor()

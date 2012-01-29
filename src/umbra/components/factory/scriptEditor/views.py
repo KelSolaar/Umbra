@@ -19,6 +19,7 @@
 #***	External imports.
 #**********************************************************************************************************************
 import logging
+from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QAbstractItemView
 
 #**********************************************************************************************************************
@@ -123,9 +124,6 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 		self.__setDefaultUiState()
 
-		# Signals / Slots.
-		self.model().rowsInserted.connect(self.__setDefaultUiState)
-
 	@core.executionTrace
 	def __setDefaultUiState(self, *args):
 		"""
@@ -143,3 +141,24 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 		for column in range(len(self.model().horizontalHeaders)):
 			self.resizeColumnToContents(column)
+
+	@core.executionTrace
+	def blockUpdates(self, state):
+		"""
+		This method blocks the Widget updates.
+		
+		:param state: Widget updates state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		LOGGER.debug("> Setting View state updates state: '{0}'!".format(state))
+
+		if state:
+			self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+			self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+			self.viewport().setUpdatesEnabled(False)
+		else:
+			self.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+			self.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+			self.viewport().setUpdatesEnabled(True)
+			self.__setDefaultUiState()

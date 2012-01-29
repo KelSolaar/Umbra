@@ -31,6 +31,7 @@ from PyQt4.QtGui import QWidget
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
+import foundations.cache
 import foundations.core as core
 import foundations.exceptions
 import foundations.ui.common
@@ -87,6 +88,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		# --- Setting class attributes. ---
 		self.__container = self.__factoryScriptEditor = parent
+
+		self.__documentsCache = foundations.cache.Cache()
 
 		self.__searchPatternsModel = None
 		self.__replaceWithPatternsModel = None
@@ -182,6 +185,38 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "factoryScriptEditor"))
+
+	@property
+	def documentsCache(self):
+		"""
+		This method is the property for **self.__documentsCache** attribute.
+
+		:return: self.__documentsCache. ( Cache )
+		"""
+
+		return self.__documentsCache
+
+	@documentsCache.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def documentsCache(self, value):
+		"""
+		This method is the setter method for **self.__documentsCache** attribute.
+
+		:param value: Attribute value. ( Cache )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "documentsCache"))
+
+	@documentsCache.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def documentsCache(self):
+		"""
+		This method is the deleter method for **self.__documentsCache** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "documentsCache"))
 
 	@property
 	def searchPatternsModel(self):
@@ -772,6 +807,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			widget.keyPressEvent = functools.partial(_keyPressEvent, widget, self)
 
 		# Signals / Slots.
+		self.__view.selectionModel().selectionChanged.connect(self.__view_selectionModel__selectionChanged)
 		self.__searchPatternsModel.dataChanged.connect(self.__searchPatternsModel__dataChanged)
 		self.Search_pushButton.clicked.connect(self.__Search_pushButton__clicked)
 		self.Replace_pushButton.clicked.connect(self.__Replace_pushButton__clicked)
@@ -819,6 +855,63 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.close()
 
 	@core.executionTrace
+	def __view_selectionModel__selectionChanged(self, selectedItems, deselectedItems):
+		"""
+		This method is triggered when the View **selectionModel** has changed.
+
+		:param selectedItems: Selected items. ( QItemSelection )
+		:param deselectedItems: Deselected items. ( QItemSelection )
+		"""
+
+		indexes = selectedItems.indexes()
+		if not indexes:
+			return
+
+		node = self.__model.getNode(indexes.pop())
+
+		if node.family == "SearchOccurence":
+			file = node.parent.file
+			occurence = node
+		elif node.family == "SearchFile":
+			file = node.file
+			occurence = None
+		else:
+			file = None
+			occurence = None
+
+		file and self.highlightOccurence(file, occurence)
+
+	@core.executionTrace
+	def __searchWorkerThread__occurencesMatched(self, searchResult):
+		"""
+		This method is triggered by the :attr:`SearchInFiles.grepWorkerThread` attribute worker thread
+		when a pattern occurences have been matched in a file.
+
+		:param searchResult: Search result. ( SearchResult )
+		"""
+
+		searchFileNode = SearchFileNode(searchResult.file)
+		searchFileNode.update(searchResult)
+		width = \
+		max(self.__defaultLineNumberWidth, max([len(str(occurence.line)) for occurence in searchResult.occurences]))
+		for occurence in searchResult.occurences:
+			formatter = "{{:>{0}}}".format(width)
+			name = "{0}:{1}".format(formatter.format(occurence.line + 1).replace(" ", "&nbsp;"),
+									self.__formatOccurence(occurence))
+			searchOccurenceNode = SearchOccurenceNode(name, searchFileNode)
+			searchOccurenceNode.update(occurence)
+		self.__model.appendSearchFileNode(searchFileNode)
+
+	@core.executionTrace
+	def __searchWorkerThread__searchFinished(self):
+		"""
+		This method is triggered by the :attr:`SearchInFiles.grepWorkerThread` attribute worker thread
+		when the search is finished.
+		"""
+
+		self.__view.blockUpdates(False)
+
+	@core.executionTrace
 	def __addLocation(self, type, *args):
 		"""
 		This method is triggered when a **Where_lineEdit** Widget context menu entry is clicked.
@@ -860,29 +953,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		line = unicode(occurence.text, Constants.encodingFormat, Constants.encodingError)
 		start = spanFormat.format(line[:occurence.column])
 		pattern = "<b>{0}</b>".format(line[occurence.column:occurence.column + occurence.length])
-		end = spanFormat.format(line[:occurence.column + occurence.length])
+		end = spanFormat.format(line[occurence.column + occurence.length:])
 		return "".join((start, pattern, end))
-
-	@core.executionTrace
-	def __searchWorkerThread__occurencesMatched(self, searchResult):
-		"""
-		This method is triggered by the :attr:`SearchInFiles.grepWorkerThread` attribute worker thread
-		when a pattern occurences have been matched in a file.
-
-		:param searchResult: Search result. ( SearchResult )
-		"""
-
-		searchFileNode = SearchFileNode(searchResult.file)
-		searchFileNode.update(searchResult)
-		width = \
-		max(self.__defaultLineNumberWidth, max([len(str(occurence.line)) for occurence in searchResult.occurences]))
-		for occurence in searchResult.occurences:
-			formatter = "{{:>{0}}}".format(width)
-			name = "{0}:{1}".format(formatter.format(occurence.line + 1).replace(" ", "&nbsp;"),
-									self.__formatOccurence(occurence))
-			searchOccurenceNode = SearchOccurenceNode(name, searchFileNode)
-			searchOccurenceNode.update(occurence)
-		self.__model.appendSearchFileNode(searchFileNode)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -906,9 +978,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 					"wholeWord" : self.Whole_Word_checkBox.isChecked(),
 					"regularExpressions" : self.Regular_Expressions_checkBox.isChecked()}
 
+		self.__view.blockUpdates(True)
+
 		self.__searchWorkerThread = Search_worker(self, searchPattern, location, settings)
 		# Signals / Slots.
 		self.__searchWorkerThread.occurencesMatched.connect(self.__searchWorkerThread__occurencesMatched)
+		self.__searchWorkerThread.searchFinished.connect(self.__searchWorkerThread__searchFinished)
 
 		self.__container.engine.workerThreads.append(self.__searchWorkerThread)
 		self.__searchWorkerThread.start()
@@ -922,4 +997,29 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		print "Replace!"
+		raise NotImplementedError()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def highlightOccurence(self, file, occurence):
+		"""
+		This method highlights given file occurence.
+		
+		:param occurence: Occurence to highlight. ( Occurence / SearchOccurenceNode )
+		:param file: File containing the occurence. ( String )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not self.__container.hasFile(file):
+			document = self.__documentsCache.getContent(file)
+			if document:
+				self.__container.loadDocument(file, document.clone(self))
+				self.__documentsCache.removeContent(file)
+			else:
+				self.__container.loadFile(file)
+		else:
+			self.__container.focusEditor(file)
+
+		if occurence:
+			self.__container.getCurrentEditor().gotoLine(occurence.line + 1)
+			self.__container.getCurrentEditor().gotoColumn(occurence.column + 1)

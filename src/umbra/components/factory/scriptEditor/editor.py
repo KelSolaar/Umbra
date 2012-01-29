@@ -27,6 +27,7 @@ from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtGui import QFileDialog
 from PyQt4.QtGui import QFont
 from PyQt4.QtGui import QMessageBox
+from PyQt4.QtGui import QPlainTextDocumentLayout
 from PyQt4.QtGui import QTextOption
 
 #**********************************************************************************************************************
@@ -586,8 +587,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method initializes the Widget ui.
 		"""
 
-		self.__setLanguageDescription()
-
 		self.setAttribute(Qt.WA_DeleteOnClose)
 		self.setWordWrapMode(QTextOption.NoWrap)
 
@@ -603,24 +602,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		font.setPointSize(fontSize)
 		self.setFont(font)
 
-		self.__tabWidth = self.fontMetrics().width(" " * self.indentWidth)
-		self.setTabStopWidth(self.__tabWidth)
-
-	@core.executionTrace
-	def __setFile(self, file):
-		"""
-		This method sets the editor file.
-
-		:param File: File to set. ( String )
-		"""
-
-		LOGGER.debug("> Setting '{0}' editor file.".format(file))
-		self.__file = file
-		self.__isUntitled = False
-		self.setModified(False)
-		self.setWindowTitle("{0}".format(self.getFileShortName()))
-
-		self.fileChanged.emit()
+		self.__setLanguageDescription()
 
 	@core.executionTrace
 	def __setWindowTitle(self):
@@ -672,6 +654,25 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.postInputAccelerators = self.__language.postInputAccelerators
 		self.visualAccelerators = self.__language.visualAccelerators
 
+		self.__tabWidth = self.fontMetrics().width(" " * self.indentWidth)
+		self.setTabStopWidth(self.__tabWidth)
+
+	@core.executionTrace
+	def setFile(self, file):
+		"""
+		This method sets the editor file.
+
+		:param File: File to set. ( String )
+		"""
+
+		LOGGER.debug("> Setting '{0}' editor file.".format(file))
+		self.__file = file
+		self.__isUntitled = False
+		self.setModified(False)
+		self.setWindowTitle("{0}".format(self.getFileShortName()))
+
+		self.fileChanged.emit()
+
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setLanguage(self, language, emitSignal=True):
@@ -718,6 +719,24 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def loadDocument(self, document, file=None, language=None):
+		"""
+		This method loads given document into the editor.
+
+		:param document: Document to load. ( QTextDocument )
+		:param file: File. ( String )
+		:param language: Editor language. ( String )
+		:return: Method success. ( Boolean )
+		"""
+
+		document.setDocumentLayout(QPlainTextDocumentLayout(document))
+		self.setDocument(document)
+		file and self.setFile(file)
+		language and self.setLanguage(language)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def newFile(self):
 		"""
 		This method creates a new editor file.
@@ -753,7 +772,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		LOGGER.debug("> Loading '{0}' file.".format(file))
 		reader = io.File(file)
 		self.setPlainText(reader.readAll())
-		self.__setFile(file)
+		self.setFile(file)
 
 		# Signals / Slots.
 		self.document().contentsChanged.connect(self.__editor__contentsChanged)
@@ -809,7 +828,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		file = str(file)
 		if self.writeFile(file):
-			self.__setFile(file)
+			self.setFile(file)
 			return True
 
 	@core.executionTrace

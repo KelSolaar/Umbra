@@ -49,13 +49,49 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "Occurence", "SearchResult", "Search_worker"]
+__all__ = ["LOGGER", "searchDocument", "Occurence", "SearchResult", "Search_worker"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
+@core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
+def searchDocument(document, pattern, settings):
+	"""
+	This method searches for given pattern occurences in given document using given settings.
+
+	:param document: Document. ( QTextDocument )
+	:param pattern: Pattern. ( String )
+	:param settings: Search settings. ( Structure )
+	:return: Matched occurences. ( List )
+	"""
+
+	pattern = settings.regularExpressions and QRegExp(pattern) or pattern
+
+	flags = QTextDocument.FindFlags()
+	if settings.caseSensitive:
+		flags = flags | QTextDocument.FindCaseSensitively
+	if settings.wholeWord:
+		flags = flags | QTextDocument.FindWholeWords
+
+	occurences = []
+	block = document.findBlock(0)
+	cursor = document.find(pattern, block.position(), flags)
+	while block.isValid() and cursor.position() != -1:
+		blockCursor = QTextCursor(cursor)
+		blockCursor.movePosition(QTextCursor.StartOfLine, QTextCursor.MoveAnchor)
+		blockCursor.movePosition(QTextCursor.EndOfLine, QTextCursor.KeepAnchor)
+		length = cursor.selectionEnd() - cursor.selectionStart()
+		occurences.append(Occurence(line=cursor.blockNumber(),
+									column=cursor.columnNumber() - length,
+									length=length,
+									text=blockCursor.selectedText()))
+		cursor = document.find(pattern, cursor.position(), flags)
+		block = block.next()
+	return occurences
+
 class Occurence(foundations.dataStructures.Structure):
 	"""
 	This class represents a storage object for the :class:`Search_worker` class search occurence.
@@ -102,7 +138,13 @@ class Search_worker(QThread):
 	This signal is emited by the :class:`Search_worker` class
 	when a pattern occurences have been matched in a file. ( pyqtSignal )
 	
-	:return: Search result. ( SearchResult )		
+	:return: Search result. ( SearchResult )
+	"""
+
+	# Custom signals definitions.
+	searchFinished = pyqtSignal()
+	"""
+	This signal is emited by the :class:`Search_worker` class when the search is finished. ( pyqtSignal )
 	"""
 
 	@core.executionTrace
@@ -300,6 +342,8 @@ class Search_worker(QThread):
 		self.__searchEditorsFiles(editorsFiles)
 		self.__searchFiles(files)
 
+		self.searchFinished.emit()
+
 	@core.executionTrace
 	def __searchEditorsFiles(self, files):
 		"""
@@ -314,7 +358,7 @@ class Search_worker(QThread):
 				continue
 
 			self.__lock.lock()
-			occurences = self.__searchDocument(editor.document(), self.__pattern, self.__settings)
+			occurences = searchDocument(editor.document(), self.__pattern, self.__settings)
 			self.__lock.unlock()
 			occurences and self.occurencesMatched.emit(SearchResult(file=file,
 																	pattern=self.__pattern,
@@ -330,55 +374,21 @@ class Search_worker(QThread):
 		"""
 
 		for file in files:
-			if foundations.common.pathExists(file):
-				reader = io.File(file)
-				content = reader.readAll()
-				if content is None:
-					LOGGER.warning("!> Error occured while reading '{0}' file proceeding to next one!".format(file))
-					continue
+			if not foundations.common.pathExists(file):
+				continue
 
-				occurences = self.__searchDocument(QTextDocument(QString(content)),
-													self.__pattern,
-													self.__settings)
-				occurences and self.occurencesMatched.emit(SearchResult(file=file,
-																		pattern=self.__pattern,
-																		settings=self.__settings,
-																		occurences=occurences))
+			reader = io.File(file)
+			content = reader.readAll()
+			if content is None:
+				LOGGER.warning("!> Error occured while reading '{0}' file proceeding to next one!".format(file))
+				continue
 
-	@staticmethod
-	@core.executionTrace
-	def __searchDocument(document, pattern, settings):
-		"""
-		This method searches for given pattern occurences in given document using given settings.
-
-		:param document: Documen. ( QTextDocument )
-		:param pattern: Pattern. ( String )
-		:param settings: Search settings. ( Structure )
-		:return: Matched occurences. ( List )
-		"""
-
-		pattern = settings.regularExpressions and QRegExp(pattern) or pattern
-
-		flags = QTextDocument.FindFlags()
-		if settings.caseSensitive:
-			flags = flags | QTextDocument.FindCaseSensitively
-		if settings.wholeWord:
-			flags = flags | QTextDocument.FindWholeWords
-
-		occurences = []
-		block = document.findBlock(0)
-		cursor = document.find(pattern,
-										block.position(),
-										flags)
-		while block.isValid() and cursor.position() != -1:
-			blockCursor = QTextCursor(cursor)
-			blockCursor.movePosition(QTextCursor.StartOfLine, QTextCursor.MoveAnchor)
-			blockCursor.movePosition(QTextCursor.EndOfLine, QTextCursor.KeepAnchor)
-			length = cursor.selectionEnd() - cursor.selectionStart()
-			occurences.append(Occurence(line=cursor.blockNumber(),
-										column=cursor.columnNumber() - length,
-										length=length,
-										text=blockCursor.selectedText()))
-			cursor = document.find(pattern, cursor.position(), flags)
-			block = block.next()
-		return occurences
+			document = self.__container.documentsCache.getContent(file)
+			if not document:
+				document = QTextDocument(QString(content))
+				self.__container.documentsCache.addContent(**{file : document})
+			occurences = searchDocument(document, self.__pattern, self.__settings)
+			occurences and self.occurencesMatched.emit(SearchResult(file=file,
+																	pattern=self.__pattern,
+																	settings=self.__settings,
+																	occurences=occurences))
