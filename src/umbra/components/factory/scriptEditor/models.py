@@ -44,7 +44,13 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "LanguagesModel", "PatternNode", "PatternsModel"]
+__all__ = ["LOGGER",
+			"LanguagesModel",
+			"PatternNode",
+			"PatternsModel",
+			"SearchFileNode",
+			"SearchOccurenceNode",
+			"SearchResultsModel"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -321,7 +327,150 @@ class PatternsModel(umbra.ui.models.GraphModel):
 		:return: Method success. ( Boolean )
 		"""
 
+		LOGGER.debug("> Inserting '{0}' at '{1}' index.".format(pattern, index))
+
 		self.beginInsertRows(self.getNodeIndex(self.rootNode.children[index]), index, index)
-		self.rootNode.children.insert(index, PatternNode(parent=self.rootNode, name=pattern))
+		self.rootNode.insertChild(PatternNode(name=pattern), index)
+		self.endInsertRows()
+		return True
+
+class SearchFileNode(umbra.ui.models.GraphModelNode):
+	"""
+	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
+	search file node.
+	"""
+
+	__family = "SearchFile"
+	"""Node family. ( String )"""
+
+	@core.executionTrace
+	def __init__(self,
+				name=None,
+				parent=None,
+				children=None,
+				roles=None,
+				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+				**kwargs):
+		"""
+		This method initializes the class.
+
+		:param name: Node name.  ( String )
+		:param parent: Node parent. ( GraphModelNode )
+		:param children: Children. ( List )
+		:param roles: Roles. ( Dictionary )
+		:param nodeFlags: Node flags. ( Integer )
+		:param attributesFlags: Attributes flags. ( Integer )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
+
+		SearchFileNode.__initializeNode(self, attributesFlags)
+
+	#******************************************************************************************************************
+	#***	Class methods.
+	#******************************************************************************************************************
+	@core.executionTrace
+	def __initializeNode(self, attributesFlags):
+		"""
+		This method initializes the node.
+		
+		:param attributesFlags: Attributes flags. ( Integer )
+		"""
+
+		pass
+
+class SearchOccurenceNode(umbra.ui.models.GraphModelNode):
+	"""
+	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
+	search occurence node.
+	"""
+
+	__family = "SearchOccurence"
+	"""Node family. ( String )"""
+
+	@core.executionTrace
+	def __init__(self,
+				name=None,
+				parent=None,
+				children=None,
+				roles=None,
+				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+				**kwargs):
+		"""
+		This method initializes the class.
+
+		:param name: Node name.  ( String )
+		:param parent: Node parent. ( GraphModelNode )
+		:param children: Children. ( List )
+		:param roles: Roles. ( Dictionary )
+		:param nodeFlags: Node flags. ( Integer )
+		:param attributesFlags: Attributes flags. ( Integer )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
+
+		SearchOccurenceNode.__initializeNode(self, attributesFlags)
+
+	#******************************************************************************************************************
+	#***	Class methods.
+	#******************************************************************************************************************
+	@core.executionTrace
+	def __initializeNode(self, attributesFlags):
+		"""
+		This method initializes the node.
+		
+		:param attributesFlags: Attributes flags. ( Integer )
+		"""
+
+		pass
+
+class SearchResultsModel(umbra.ui.models.GraphModel):
+	"""
+	This class defines the Model used the by
+	:class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class to store the search results.
+	"""
+
+	@core.executionTrace
+	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None, verticalHeaders=None, defaultNode=None):
+		"""
+		This method initializes the class.
+
+		:param parent: Object parent. ( QObject )
+		:param rootNode: Root node. ( AbstractCompositeNode )
+		:param horizontalHeaders: Headers. ( OrderedDict )
+		:param verticalHeaders: Headers. ( OrderedDict )
+		:param defaultNode: Default node. ( AbstractCompositeNode )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		umbra.ui.models.GraphModel.__init__(self, parent, rootNode, horizontalHeaders, verticalHeaders, defaultNode)
+
+	#******************************************************************************************************************
+	#***	Class methods.
+	#******************************************************************************************************************
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def appendSearchFileNode(self, searchFileNode):
+		"""
+		This method appends given search file node to the model.
+		
+		:param searchFileNode: Search file node. ( SearchFileNode )
+		:return: Method success ( Boolean )
+		"""
+
+		LOGGER.debug("> Appending '{0}' 'SearchFileNode'.".format(searchFileNode))
+
+		index = len(self.rootNode.children)
+		self.beginInsertRows(QModelIndex(), index, index)
+		self.rootNode.addChild(searchFileNode)
 		self.endInsertRows()
 		return True

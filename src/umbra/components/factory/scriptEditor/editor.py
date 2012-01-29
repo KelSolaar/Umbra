@@ -752,7 +752,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		LOGGER.debug("> Loading '{0}' file.".format(file))
 		reader = io.File(file)
-		reader.read() and self.setPlainText("".join(reader.content))
+		self.setPlainText(reader.readAll())
 		self.__setFile(file)
 
 		# Signals / Slots.

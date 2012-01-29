@@ -17,14 +17,12 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import fnmatch
 import functools
 import logging
 import os
-import re
 from collections import OrderedDict
 from PyQt4.QtCore import QRegExp
-from PyQt4.QtCore import Qt
+from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QFileDialog
 from PyQt4.QtGui import QComboBox
 from PyQt4.QtGui import QMenu
@@ -37,9 +35,14 @@ import foundations.core as core
 import foundations.exceptions
 import foundations.ui.common
 import umbra.ui.common
+from umbra.ui.delegates import RichText_QStyledItemDelegate
+from umbra.components.factory.scriptEditor.models import SearchFileNode
+from umbra.components.factory.scriptEditor.models import SearchOccurenceNode
+from umbra.components.factory.scriptEditor.models import SearchResultsModel
 from umbra.components.factory.scriptEditor.searchAndReplace import _insertEditorSelectTextInModel
 from umbra.components.factory.scriptEditor.searchAndReplace import _keyPressEvent
-from umbra.components.factory.scriptEditor.workers import Grep_worker
+from umbra.components.factory.scriptEditor.views import SearchResults_QTreeView
+from umbra.components.factory.scriptEditor.workers import Search_worker
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
 from umbra.ui.widgets.search_QLineEdit import Search_QLineEdit
@@ -54,7 +57,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "UI_FILE", "parseLocation", "Location", "SearchInFiles"]
+__all__ = ["LOGGER", "UI_FILE", "SearchInFiles"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -63,62 +66,6 @@ UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Search_In_Files.ui")
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-@core.executionTrace
-def parseLocation(data):
-	"""
-	This definition parses given location data.
-
-	:param data: Exception. ( Exception )
-	:return: Location object. ( Location )
-	"""
-
-	tokens = data.split(",")
-	if not tokens:
-		return
-
-	location = Location(directories=[], files=[], filtersIn=[], filtersOut=[], targets=[])
-	for token in tokens:
-		token = token.strip()
-		if not token:
-			continue
-
-		if foundations.common.pathExists(token):
-			if os.path.isdir(token):
-				location.directories.append(token)
-			else:
-				location.files.append(token)
-		else:
-			match = re.match("(?P<filterIn>\*\.\w+)", token)
-			if match:
-				location.filtersIn.append(fnmatch.translate(match.group("filterIn")))
-				continue
-			match = re.match("!(?P<filterOut>\*\.\w+)", token)
-			if match:
-				location.filtersOut.append(fnmatch.translate(match.group("filterOut")))
-				continue
-			match = re.match("\<(?P<target>[\w ]+)\>", token)
-			if match:
-				location.targets.append(match.group("target"))
-				continue
-	return location
-
-class Location(foundations.dataStructures.Structure):
-	"""
-	This class represents a storage object for the :class:`SearchInFiles` class location.
-	"""
-
-	@core.executionTrace
-	def __init__(self, **kwargs):
-		"""
-		This method initializes the class.
-
-		:param \*\*kwargs: directories, files, filtersIn, filtersOut, targets. ( Key / Value pairs )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		foundations.dataStructures.Structure.__init__(self, **kwargs)
-
 class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
 	This class defines search and replace in files dialog used by the **ScriptEditor** Component. 
@@ -139,20 +86,33 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		super(SearchInFiles, self).__init__(parent, *args, **kwargs)
 
 		# --- Setting class attributes. ---
-		self.__container = parent
+		self.__container = self.__factoryScriptEditor = parent
 
 		self.__searchPatternsModel = None
 		self.__replaceWithPatternsModel = None
+
+		self.__model = None
+		self.__view = None
+		self.__delegate = None
 
 		self.__locations = OrderedDict([("Add Directory ...", "directory"),
 								("Add File ...", "file"),
 								("Add Opened Files", "editors"),
 								("Add Include Filter", "includeFilter"),
 								("Add Exclude Filter", "excludeFilter")])
+		self.__locationsMenu = None
 
 		self.__defaultFilterIn = "*.txt"
-		self.__defaultFilterOut = "!*.txt"
-		self.__defaultTarget = "<Opened Files>"
+		self.__filtersInFormat = "{0}"
+		self.__defaultFilterOut = "*.txt"
+		self.__filtersOutFormat = "!{0}"
+		self.__defaultTarget = "Opened Files"
+		self.__targetsFormat = "<{0}>"
+
+		self.__defaultLineNumberWidth = 6
+		self.__defaultLineColor = QColor(144, 144, 144)
+
+		self.__searchWorkerThread = None
 
 		SearchInFiles.__initializeUi(self)
 
@@ -190,6 +150,38 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+
+	@property
+	def factoryScriptEditor(self):
+		"""
+		This method is the property for **self.__factoryScriptEditor** attribute.
+
+		:return: self.__factoryScriptEditor. ( QWidget )
+		"""
+
+		return self.__factoryScriptEditor
+
+	@factoryScriptEditor.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def factoryScriptEditor(self, value):
+		"""
+		This method is the setter method for **self.__factoryScriptEditor** attribute.
+
+		:param value: Attribute value. ( QWidget )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "factoryScriptEditor"))
+
+	@factoryScriptEditor.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def factoryScriptEditor(self):
+		"""
+		This method is the deleter method for **self.__factoryScriptEditor** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "factoryScriptEditor"))
 
 	@property
 	def searchPatternsModel(self):
@@ -254,6 +246,102 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "replaceWithPatternsModel"))
+
+	@property
+	def model(self):
+		"""
+		This method is the property for **self.__model** attribute.
+
+		:return: self.__model. ( SearchResultsModel )
+		"""
+
+		return self.__model
+
+	@model.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def model(self, value):
+		"""
+		This method is the setter method for **self.__model** attribute.
+
+		:param value: Attribute value. ( SearchResultsModel )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "model"))
+
+	@model.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def model(self):
+		"""
+		This method is the deleter method for **self.__model** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "model"))
+
+	@property
+	def view(self):
+		"""
+		This method is the property for **self.__view** attribute.
+
+		:return: self.__view. ( QWidget )
+		"""
+
+		return self.__view
+
+	@view.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def view(self, value):
+		"""
+		This method is the setter method for **self.__view** attribute.
+
+		:param value: Attribute value. ( QWidget )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "view"))
+
+	@view.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def view(self):
+		"""
+		This method is the deleter method for **self.__view** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "view"))
+
+	@property
+	def delegate(self):
+		"""
+		This method is the property for **self.__delegate** attribute.
+
+		:return: self.__delegate. ( QItemDelegate )
+		"""
+
+		return self.__delegate
+
+	@delegate.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def delegate(self, value):
+		"""
+		This method is the setter method for **self.__delegate** attribute.
+
+		:param value: Attribute value. ( QItemDelegate )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "delegate"))
+
+	@delegate.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def delegate(self):
+		"""
+		This method is the deleter method for **self.__delegate** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "delegate"))
 
 	@property
 	def locations(self):
@@ -353,6 +441,40 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultFilterIn"))
+	@property
+	def filtersInFormat(self):
+		"""
+		This method is the property for **self.__filtersInFormat** attribute.
+
+		:return: self.__filtersInFormat. ( String )
+		"""
+
+		return self.__filtersInFormat
+
+	@filtersInFormat.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def filtersInFormat(self, value):
+		"""
+		This method is the setter method for **self.__filtersInFormat** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		if value is not None:
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			"filtersInFormat", value)
+			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("filtersInFormat", value)
+		self.__filtersInFormat = value
+
+	@filtersInFormat.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def filtersInFormat(self):
+		"""
+		This method is the deleter method for **self.__filtersInFormat** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "filtersInFormat"))
 
 	@property
 	def defaultFilterOut(self):
@@ -388,6 +510,40 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultFilterOut"))
+	@property
+	def filtersOutFormat(self):
+		"""
+		This method is the property for **self.__filtersOutFormat** attribute.
+
+		:return: self.__filtersOutFormat. ( String )
+		"""
+
+		return self.__filtersOutFormat
+
+	@filtersOutFormat.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def filtersOutFormat(self, value):
+		"""
+		This method is the setter method for **self.__filtersOutFormat** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		if value is not None:
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			"filtersOutFormat", value)
+			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("filtersOutFormat", value)
+		self.__filtersOutFormat = value
+
+	@filtersOutFormat.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def filtersOutFormat(self):
+		"""
+		This method is the deleter method for **self.__filtersOutFormat** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "filtersOutFormat"))
 
 	@property
 	def defaultTarget(self):
@@ -423,17 +579,148 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultTarget"))
+	@property
+	def targetsFormat(self):
+		"""
+		This method is the property for **self.__targetsFormat** attribute.
+
+		:return: self.__targetsFormat. ( String )
+		"""
+
+		return self.__targetsFormat
+
+	@targetsFormat.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def targetsFormat(self, value):
+		"""
+		This method is the setter method for **self.__targetsFormat** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		if value is not None:
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			"targetsFormat", value)
+			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("targetsFormat", value)
+		self.__targetsFormat = value
+
+	@targetsFormat.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def targetsFormat(self):
+		"""
+		This method is the deleter method for **self.__targetsFormat** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "targetsFormat"))
+
+	@property
+	def defaultLineNumberWidth(self):
+		"""
+		This method is the property for **self.__defaultLineNumberWidth** attribute.
+
+		:return: self.__defaultLineNumberWidth. ( Integer )
+		"""
+
+		return self.__defaultLineNumberWidth
+
+	@defaultLineNumberWidth.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def defaultLineNumberWidth(self, value):
+		"""
+		This method is the setter method for **self.__defaultLineNumberWidth** attribute.
+
+		:param value: Attribute value. ( Integer )
+		"""
+
+		if value is not None:
+			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format(
+			"defaultLineNumberWidth", value)
+			assert value > 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("defaultLineNumberWidth", value)
+		self.__defaultLineNumberWidth = value
+
+	@defaultLineNumberWidth.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultLineNumberWidth(self):
+		"""
+		This method is the deleter method for **self.__defaultLineNumberWidth** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultLineNumberWidth"))
+
+	@property
+	def defaultLineColor(self):
+		"""
+		This method is the property for **self.__defaultLineColor** attribute.
+
+		:return: self.__defaultLineColor. ( QColor )
+		"""
+
+		return self.__defaultLineColor
+
+	@defaultLineColor.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def defaultLineColor(self, value):
+		"""
+		This method is the setter method for **self.__defaultLineColor** attribute.
+
+		:param value: Attribute value. ( QColor )
+		"""
+
+		if value is not None:
+			assert type(value) is QColor, "'{0}' attribute: '{1}' type is not 'QColor'!".format("defaultLineColor", value)
+		self.__defaultLineColor = value
+
+	@defaultLineColor.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultLineColor(self):
+		"""
+		This method is the deleter method for **self.__defaultLineColor** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultLineColor"))
+
+	@property
+	def searchWorkerThread(self):
+		"""
+		This method is the property for **self.__searchWorkerThread** attribute.
+
+		:return: self.__searchWorkerThread. ( QThread )
+		"""
+
+		return self.__searchWorkerThread
+
+	@searchWorkerThread.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def searchWorkerThread(self, value):
+		"""
+		This method is the setter method for **self.__searchWorkerThread** attribute.
+
+		:param value: Attribute value. ( QThread )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "searchWorkerThread"))
+
+	@searchWorkerThread.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def searchWorkerThread(self):
+		"""
+		This method is the deleter method for **self.__searchWorkerThread** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchWorkerThread"))
 
 	#******************************************************************************************************************
 	#***	Class methods
 	#******************************************************************************************************************
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def show(self):
 		"""
 		This method reimplements the :meth:`QWidget.show` method.
-
-		:return: Method success. ( Boolean )
 		"""
 
 		_insertEditorSelectTextInModel(self.__container.getCurrentEditor(), self.__searchPatternsModel)
@@ -442,8 +729,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.raise_()
 		self.Search_comboBox.setFocus()
 
-		return True
-
 	@core.executionTrace
 	def __initializeUi(self):
 		"""
@@ -451,6 +736,16 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 
 		umbra.ui.common.setWindowDefaultIcon(self)
+
+		self.__model = SearchResultsModel(self)
+		self.__delegate = RichText_QStyledItemDelegate(self)
+
+		self.Search_Results_treeView.setParent(None)
+		self.Search_Results_treeView = SearchResults_QTreeView(self, self.__model)
+		self.Search_Results_treeView.setItemDelegate(self.__delegate)
+		self.Search_Results_treeView.setObjectName("Search_Results_treeView")
+		self.Search_Results_frame_gridLayout.addWidget(self.Search_Results_treeView, 0, 0)
+		self.__view = self.Search_Results_treeView
 
 		self.__searchPatternsModel = self.__container.searchAndReplace.searchPatternsModel
 		self.Search_comboBox.setModel(self.__container.searchAndReplace.searchPatternsModel)
@@ -542,12 +837,52 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 																						RuntimeGlobals.lastBrowsedPath,
 																						"All Files (*)")))
 		elif type == "editors":
-			location = self.__defaultTarget
+			location = self.__targetsFormat.format(self.__defaultTarget)
 		elif type == "includeFilter":
-			location = self.__defaultFilterIn
+			location = self.__filtersInFormat.format(self.__defaultFilterIn)
 		elif type == "excludeFilter":
-			location = self.__defaultFilterOut
+			location = self.__filtersOutFormat.format(self.__defaultFilterOut)
 		location and self.Where_lineEdit.setText(", ".join(filter(bool, (str(self.Where_lineEdit.text()), location))))
+
+	@core.executionTrace
+	def __formatOccurence(self, occurence):
+		"""
+		This method formats the given occurence and returns the matching rich html text.
+
+		:param occurence: Occurence to format. ( Occurence )
+		:return: Rich text. ( String )
+		"""
+
+		color = "rgb({0}, {1}, {2})"
+		spanFormat = "<span style=\"color: {0};\">{{0}}</span>".format(color.format(self.__defaultLineColor.red(),
+																					self.__defaultLineColor.green(),
+																					self.__defaultLineColor.blue()))
+		line = unicode(occurence.text, Constants.encodingFormat, Constants.encodingError)
+		start = spanFormat.format(line[:occurence.column])
+		pattern = "<b>{0}</b>".format(line[occurence.column:occurence.column + occurence.length])
+		end = spanFormat.format(line[:occurence.column + occurence.length])
+		return "".join((start, pattern, end))
+
+	@core.executionTrace
+	def __searchWorkerThread__occurencesMatched(self, searchResult):
+		"""
+		This method is triggered by the :attr:`SearchInFiles.grepWorkerThread` attribute worker thread
+		when a pattern occurences have been matched in a file.
+
+		:param searchResult: Search result. ( SearchResult )
+		"""
+
+		searchFileNode = SearchFileNode(searchResult.file)
+		searchFileNode.update(searchResult)
+		width = \
+		max(self.__defaultLineNumberWidth, max([len(str(occurence.line)) for occurence in searchResult.occurences]))
+		for occurence in searchResult.occurences:
+			formatter = "{{:>{0}}}".format(width)
+			name = "{0}:{1}".format(formatter.format(occurence.line + 1).replace(" ", "&nbsp;"),
+									self.__formatOccurence(occurence))
+			searchOccurenceNode = SearchOccurenceNode(name, searchFileNode)
+			searchOccurenceNode.update(occurence)
+		self.__model.appendSearchFileNode(searchFileNode)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -558,34 +893,26 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		location = parseLocation(
-		unicode(self.Where_lineEdit.text(), Constants.encodingFormat, Constants.encodingError) or self.__defaultTarget)
+		searchPattern = self.Search_comboBox.currentText()
+		if not searchPattern:
+			return
+
+		self.__model.clear()
+
+		location = umbra.ui.common.parseLocation(
+		unicode(self.Where_lineEdit.text(), Constants.encodingFormat, Constants.encodingError) or \
+		self.__targetsFormat.format(self.__defaultTarget))
 		settings = {"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
 					"wholeWord" : self.Whole_Word_checkBox.isChecked(),
 					"regularExpressions" : self.Regular_Expressions_checkBox.isChecked()}
 
-		self.__grepWorkerThread = Grep_worker(self, location, settings)
-		self.__container.engine.workerThreads.append(self.__grepWorkerThread)
-		self.__grepWorkerThread.start()
+		self.__searchWorkerThread = Search_worker(self, searchPattern, location, settings)
+		# Signals / Slots.
+		self.__searchWorkerThread.occurencesMatched.connect(self.__searchWorkerThread__occurencesMatched)
 
-#		self.__storeRecentSearchPatternsSettings()
-#
-#		editor = self.__container.getCurrentEditor()
-#		searchPattern = self.Search_comboBox.currentText()
-#
-#		if not editor or not searchPattern:
-#			return
-#
-#		settings = {"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
-#					"wholeWord" : self.Whole_Word_checkBox.isChecked(),
-#					"regularExpressions" : self.Regular_Expressions_checkBox.isChecked(),
-#					"backwardSearch" : self.Backward_Search_checkBox.isChecked(),
-#					"wrapAround" : self.Wrap_Around_checkBox.isChecked()}
-#
-#		LOGGER.debug("> 'Search' on '{0}' search pattern with '{1}' settings.".format(searchPattern, settings))
-#
-#		return editor.search(searchPattern, **settings)
-#
+		self.__container.engine.workerThreads.append(self.__searchWorkerThread)
+		self.__searchWorkerThread.start()
+
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def replace(self):
@@ -596,24 +923,3 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 
 		print "Replace!"
-#		self.__storeRecentReplaceWithPatternsSettings()
-#
-#		editor = self.__container.getCurrentEditor()
-#		searchPattern = self.Search_comboBox.currentText()
-#		replacementPattern = self.Replace_With_comboBox.currentText()
-#
-#		if not editor or not searchPattern:
-#			return
-#
-#		settings = {"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
-#					"wholeWord" : self.Whole_Word_checkBox.isChecked(),
-#					"regularExpressions" : self.Regular_Expressions_checkBox.isChecked(),
-#					"backwardSearch" : self.Backward_Search_checkBox.isChecked(),
-#					"wrapAround" : self.Wrap_Around_checkBox.isChecked()}
-#
-#
-#		LOGGER.debug("> 'Replace' on search '{0}' pattern, '{1}' replacement pattern with '{2}' settings.".format(
-#		searchPattern, replacementPattern, settings))
-#
-#		return editor.replace(searchPattern, replacementPattern, **settings)
-#

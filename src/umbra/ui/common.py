@@ -17,11 +17,13 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
+import fnmatch
 import functools
 import inspect
 import logging
 import os
 import platform
+import re
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QApplication
 from PyQt4.QtGui import QIcon
@@ -51,7 +53,8 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-			"Icon",
+			"Location",
+			"parseLocation",
 			"uiExtendedExceptionHandler",
 			"uiBasicExceptionHandler",
 			"uiSystemExitExceptionHandler",
@@ -70,9 +73,9 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class Icon(foundations.dataStructures.Structure):
+class Location(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for icon.
+	This class represents a storage object for the :class:`SearchInFiles` class location.
 	"""
 
 	@core.executionTrace
@@ -80,12 +83,51 @@ class Icon(foundations.dataStructures.Structure):
 		"""
 		This method initializes the class.
 
-		:param kwargs: path ( Key / Value pairs )
+		:param \*\*kwargs: directories, files, filtersIn, filtersOut, targets. ( Key / Value pairs )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
 		foundations.dataStructures.Structure.__init__(self, **kwargs)
+
+@core.executionTrace
+def parseLocation(data):
+	"""
+	This definition parses given location data.
+
+	:param data: Exception. ( Exception )
+	:return: Location object. ( Location )
+	"""
+
+	tokens = data.split(",")
+	if not tokens:
+		return
+
+	location = Location(directories=[], files=[], filtersIn=[], filtersOut=[], targets=[])
+	for token in tokens:
+		token = token.strip()
+		if not token:
+			continue
+
+		if foundations.common.pathExists(token):
+			if os.path.isdir(token):
+				location.directories.append(token)
+			else:
+				location.files.append(token)
+		else:
+			match = re.match("(?P<filterIn>\*\.\w+)", token)
+			if match:
+				location.filtersIn.append(fnmatch.translate(match.group("filterIn")))
+				continue
+			match = re.match("!(?P<filterOut>\*\.\w+)", token)
+			if match:
+				location.filtersOut.append(fnmatch.translate(match.group("filterOut")))
+				continue
+			match = re.match("\<(?P<target>[\w ]+)\>", token)
+			if match:
+				location.targets.append(match.group("target"))
+				continue
+	return location
 
 @core.executionTrace
 def uiExtendedExceptionHandler(exception, origin, *args, **kwargs):

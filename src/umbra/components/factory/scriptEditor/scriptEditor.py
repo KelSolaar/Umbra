@@ -2709,6 +2709,17 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return True
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listEditors(self):
+		"""
+		This method lists the **Script_Editor_tabWidget** Widget tab editors.
+
+		:return: Editors. ( List )
+		"""
+
+		return [self.Script_Editor_tabWidget.widget(i) for i in range(self.Script_Editor_tabWidget.count())]
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def loadFileUi(self):
 		"""

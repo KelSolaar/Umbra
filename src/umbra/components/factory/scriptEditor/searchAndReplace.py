@@ -256,12 +256,9 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	#***	Class methods.
 	#******************************************************************************************************************
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def show(self):
 		"""
 		This method reimplements the :meth:`QWidget.show` method.
-
-		:return: Method success. ( Boolean )
 		"""
 
 		_insertEditorSelectTextInModel(self.__container.getCurrentEditor(), self.__searchPatternsModel)
@@ -269,8 +266,6 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		super(SearchAndReplace, self).show()
 		self.raise_()
 		self.Search_comboBox.setFocus()
-
-		return True
 
 	@core.executionTrace
 	def __initializeUi(self):
