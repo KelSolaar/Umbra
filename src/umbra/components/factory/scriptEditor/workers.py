@@ -56,42 +56,6 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-@core.executionTrace
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
-def searchDocument(document, pattern, settings):
-	"""
-	This method searches for given pattern occurences in given document using given settings.
-
-	:param document: Document. ( QTextDocument )
-	:param pattern: Pattern. ( String )
-	:param settings: Search settings. ( Structure )
-	:return: Matched occurences. ( List )
-	"""
-
-	pattern = settings.regularExpressions and QRegExp(pattern) or pattern
-
-	flags = QTextDocument.FindFlags()
-	if settings.caseSensitive:
-		flags = flags | QTextDocument.FindCaseSensitively
-	if settings.wholeWord:
-		flags = flags | QTextDocument.FindWholeWords
-
-	occurences = []
-	block = document.findBlock(0)
-	cursor = document.find(pattern, block.position(), flags)
-	while block.isValid() and cursor.position() != -1:
-		blockCursor = QTextCursor(cursor)
-		blockCursor.movePosition(QTextCursor.StartOfLine, QTextCursor.MoveAnchor)
-		blockCursor.movePosition(QTextCursor.EndOfLine, QTextCursor.KeepAnchor)
-		length = cursor.selectionEnd() - cursor.selectionStart()
-		occurences.append(Occurence(line=cursor.blockNumber(),
-									column=cursor.columnNumber() - length,
-									length=length,
-									text=blockCursor.selectedText()))
-		cursor = document.find(pattern, cursor.position(), flags)
-		block = block.next()
-	return occurences
-
 class Occurence(foundations.dataStructures.Structure):
 	"""
 	This class represents a storage object for the :class:`Search_worker` class search occurence.
@@ -133,18 +97,11 @@ class Search_worker(QThread):
 	"""
 
 	# Custom signals definitions.
-	occurencesMatched = pyqtSignal(SearchResult)
-	"""
-	This signal is emited by the :class:`Search_worker` class
-	when a pattern occurences have been matched in a file. ( pyqtSignal )
-	
-	:return: Search result. ( SearchResult )
-	"""
-
-	# Custom signals definitions.
-	searchFinished = pyqtSignal()
+	searchFinished = pyqtSignal(list)
 	"""
 	This signal is emited by the :class:`Search_worker` class when the search is finished. ( pyqtSignal )
+
+	:return: Search results. ( List )
 	"""
 
 	@core.executionTrace
@@ -169,6 +126,9 @@ class Search_worker(QThread):
 		self.__settings = None
 		self.settings = settings
 
+		self.__searchResults = None
+
+		self.__interrupt = False
 		self.__lock = QMutex()
 
 	#******************************************************************************************************************
@@ -310,6 +270,38 @@ class Search_worker(QThread):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
+	@property
+	def searchResults(self):
+		"""
+		This method is the property for **self.__searchResults** attribute.
+
+		:return: self.__searchResults. ( List )
+		"""
+
+		return self.__searchResults
+
+	@searchResults.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def searchResults(self, value):
+		"""
+		This method is the setter method for **self.__searchResults** attribute.
+
+		:param value: Attribute value. ( List )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "searchResults"))
+
+	@searchResults.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def searchResults(self):
+		"""
+		This method is the deleter method for **self.__searchResults** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchResults"))
+
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
@@ -322,6 +314,16 @@ class Search_worker(QThread):
 		self.__search()
 
 	@core.executionTrace
+	def quit(self):
+		"""
+		This method reimplements the :meth:`QThread.quit` method.
+		"""
+
+		self.__interrupt = True
+
+		QThread.quit(self)
+
+	@core.executionTrace
 	def __search(self):
 		"""
 		This method performs the search.
@@ -332,6 +334,9 @@ class Search_worker(QThread):
 
 		files = self.__location.files
 		for directory in self.__location.directories:
+			if self.__interrupt:
+				return
+
 			osWalker = OsWalker(directory)
 			osWalker.walk(self.__location.filtersIn,
 						self.__location.filtersOut,
@@ -339,10 +344,10 @@ class Search_worker(QThread):
 			files.extend(osWalker.files.values())
 		files = filter(lambda x: x not in editorsFiles, foundations.common.orderedUniqify(files))
 
+		self.__searchResults = []
 		self.__searchEditorsFiles(editorsFiles)
 		self.__searchFiles(files)
-
-		self.searchFinished.emit()
+		not self.__interrupt and self.searchFinished.emit(self.__searchResults)
 
 	@core.executionTrace
 	def __searchEditorsFiles(self, files):
@@ -353,14 +358,17 @@ class Search_worker(QThread):
 		"""
 
 		for file in files:
+			if self.__interrupt:
+				return
+
 			editor = self.__container.factoryScriptEditor.findEditor(file)
 			if not editor:
 				continue
 
 			self.__lock.lock()
-			occurences = searchDocument(editor.document(), self.__pattern, self.__settings)
+			occurences = self.__searchDocument(editor.document(), self.__pattern, self.__settings)
 			self.__lock.unlock()
-			occurences and self.occurencesMatched.emit(SearchResult(file=file,
+			occurences and self.__searchResults.append(SearchResult(file=file,
 																	pattern=self.__pattern,
 																	settings=self.__settings,
 																	occurences=occurences))
@@ -374,6 +382,9 @@ class Search_worker(QThread):
 		"""
 
 		for file in files:
+			if self.__interrupt:
+				return
+
 			if not foundations.common.pathExists(file):
 				continue
 
@@ -387,8 +398,47 @@ class Search_worker(QThread):
 			if not document:
 				document = QTextDocument(QString(content))
 				self.__container.documentsCache.addContent(**{file : document})
-			occurences = searchDocument(document, self.__pattern, self.__settings)
-			occurences and self.occurencesMatched.emit(SearchResult(file=file,
+			occurences = self.__searchDocument(document, self.__pattern, self.__settings)
+			occurences and self.__searchResults.append(SearchResult(file=file,
 																	pattern=self.__pattern,
 																	settings=self.__settings,
 																	occurences=occurences))
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __searchDocument(self, document, pattern, settings):
+		"""
+		This method searches for given pattern occurences in given document using given settings.
+	
+		:param document: Document. ( QTextDocument )
+		:param pattern: Pattern. ( String )
+		:param settings: Search settings. ( Structure )
+		:return: Matched occurences. ( List )
+		"""
+
+		pattern = settings.regularExpressions and QRegExp(pattern) or pattern
+
+		flags = QTextDocument.FindFlags()
+		if settings.caseSensitive:
+			flags = flags | QTextDocument.FindCaseSensitively
+		if settings.wholeWord:
+			flags = flags | QTextDocument.FindWholeWords
+
+		occurences = []
+		block = document.findBlock(0)
+		cursor = document.find(pattern, block.position(), flags)
+		while block.isValid() and cursor.position() != -1:
+			if self.__interrupt:
+				return
+
+			blockCursor = QTextCursor(cursor)
+			blockCursor.movePosition(QTextCursor.StartOfLine, QTextCursor.MoveAnchor)
+			blockCursor.movePosition(QTextCursor.EndOfLine, QTextCursor.KeepAnchor)
+			length = cursor.selectionEnd() - cursor.selectionStart()
+			occurences.append(Occurence(line=cursor.blockNumber(),
+										column=cursor.columnNumber() - length,
+										length=length,
+										text=blockCursor.selectedText()))
+			cursor = document.find(pattern, cursor.position(), flags)
+			block = block.next()
+		return occurences

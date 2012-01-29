@@ -20,10 +20,10 @@
 import functools
 import logging
 import os
-from PyQt4.QtCore import QRegExp
+from PyQt4.QtCore import QObject
+from PyQt4.QtCore import QEvent
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QComboBox
-from PyQt4.QtGui import QWidget
 
 #**********************************************************************************************************************
 #***	Internal imports.
@@ -56,41 +56,30 @@ UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Search_And_Replace.ui")
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-def _keyPressEvent(cls, container, event):
+class ValidationFilter(QObject):
 	"""
-	This definition reimplements the :class:`SearchAndReplace` widgets **keyPressEvent** method.
-
-	:param cls: Class. ( QObject )
-	:param container: Container. ( QObject )
-	:param event: Event. ( QEvent )
+	This class is a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass used as an event filter
+	for the :class:`SearchAndReplace` class.
 	"""
 
-	cls.__class__.keyPressEvent(cls, event)
-	if event.key() in (Qt.Key_Enter, Qt.Key_Return):
-		container.search()
-	elif event.key() in (Qt.Key_Escape,):
-		container.close()
+	# @core.executionTrace
+	def eventFilter(self, object, event):
+		"""
+		This method reimplements the **QObject.eventFilter** method.
+		
+		:param object: Object. ( QObject )
+		:param event: Event. ( QEvent )
+		:return: Event filtered. ( Boolean )
+		"""
 
-def _insertEditorSelectTextInModel(editor, model):
-	"""
-	This definition inserts given editor selected text into given model.
-
-	:param editor: Editor. ( QWidget )
-	:param event: Event. ( QEvent )
-	:return: Method success. ( Boolean )
-	"""
-
-	selectedText = editor.getSelectedText()
-	if not selectedText:
-		return
-
-	insertionIndex = 0
-	model.insertPattern(unicode(selectedText,
-								Constants.encodingFormat,
-								Constants.encodingError), insertionIndex)
-	modelIndex = model.getNodeIndex(model.rootNode.children[insertionIndex])
-	model.dataChanged.emit(modelIndex, modelIndex)
-	return True
+		if event.type() == QEvent.KeyPress:
+			if event.key() in (Qt.Key_Enter, Qt.Key_Return):
+				object.search()
+			elif event.key() in (Qt.Key_Escape,):
+				object.close()
+			return True
+		else:
+			return QObject.eventFilter(self, object, event)
 
 class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
@@ -261,7 +250,8 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		This method reimplements the :meth:`QWidget.show` method.
 		"""
 
-		_insertEditorSelectTextInModel(self.__container.getCurrentEditor(), self.__searchPatternsModel)
+		selectedText = self.__container.getCurrentEditor().getSelectedText()
+		selectedText and self.insertPattern(selectedText, self.__searchPatternsModel)
 
 		super(SearchAndReplace, self).show()
 		self.raise_()
@@ -290,29 +280,27 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			comboBox.setModel(self.__dict__[model])
 
 			# Signals / Slots.
-			self.__dict__[model].dataChanged.connect(
-			functools.partial(self.__patternsModel__dataChanged, settingsKey))
+			self.__dict__[model].patternInserted.connect(
+			functools.partial(self.__patternsModel__patternInserted, settingsKey, comboBox))
 
 		self.Wrap_Around_checkBox.setChecked(True)
 
-		for widget in self.findChildren(QWidget, QRegExp(".*")):
-			widget.keyPressEvent = functools.partial(_keyPressEvent, widget, self)
+		self.installEventFilter(ValidationFilter(self))
 
 		# Signals / Slots.
-		self.__searchPatternsModel.dataChanged.connect(self.__searchPatternsModel__dataChanged)
 		self.Search_pushButton.clicked.connect(self.__Search_pushButton__clicked)
 		self.Replace_pushButton.clicked.connect(self.__Replace_pushButton__clicked)
 		self.Replace_All_pushButton.clicked.connect(self.__Replace_All_pushButton__clicked)
 		self.Close_pushButton.clicked.connect(self.__Close_pushButton__clicked)
 
 	@core.executionTrace
-	def __patternsModel__dataChanged(self, settingsKey, startIndex, endIndex):
+	def __patternsModel__patternInserted(self, settingsKey, comboBox, index):
 		"""
-		This method is triggered when a patterns Model data has changed.
+		This method is triggered when a pattern has been inserted into a patterns Model.
 
 		:param settingsKey: Pattern Model settings key. ( String )
-		:param startIndex: Edited item starting QModelIndex. ( QModelIndex )
-		:param endIndex: Edited item ending QModelIndex. ( QModelIndex )
+		:param comboBox: Pattern Model attached comboBox. ( QComboBox )
+		:param index: Inserted pattern index. ( QModelIndex )
 		"""
 
 		patternsModel = self.sender()
@@ -321,20 +309,9 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		self.__container.settings.setKey(self.__container.settingsSection,
 										settingsKey,
-										",".join((patternNode.name
-												for patternNode in \
+										",".join((patternNode.name for patternNode in \
 												patternsModel.rootNode.children[:self.maximumStoredPatterns])))
-
-	@core.executionTrace
-	def __searchPatternsModel__dataChanged(self, startIndex, endIndex):
-		"""
-		This method is triggered when the **searchPatternsModel** Model data has changed.
-
-		:param startIndex: Edited item starting QModelIndex. ( QModelIndex )
-		:param endIndex: Edited item ending QModelIndex. ( QModelIndex )
-		"""
-
-		self.Search_comboBox.setCurrentIndex(endIndex.row())
+		comboBox.setCurrentIndex(index.row())
 
 	@core.executionTrace
 	def __Search_pushButton__clicked(self, checked):
@@ -376,6 +353,24 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		self.close()
 
+	@staticmethod
+	@core.executionTrace
+	def insertPattern(pattern, model, index=0):
+		"""
+		This definition inserts given pattern into given model.
+	
+		:param pattern: Pattern. ( String )
+		:param model: Model. ( PatternsModel )
+		:param index: Insertion indes. ( Integer )
+		:return: Method success. ( Boolean )
+		"""
+
+		model.insertPattern(unicode(pattern,
+									Constants.encodingFormat,
+									Constants.encodingError), index)
+		modelIndex = model.getNodeIndex(model.rootNode.children[index])
+		return True
+
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def search(self):
@@ -390,6 +385,8 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		if not editor or not searchPattern:
 			return
+
+		self.insertPattern(searchPattern, self.__searchPatternsModel)
 
 		settings = {"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
 					"wholeWord" : self.Whole_Word_checkBox.isChecked(),
@@ -416,6 +413,9 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		if not editor or not searchPattern:
 			return
+
+		self.insertPattern(searchPattern, self.__searchPatternsModel)
+		self.insertPattern(searchPattern, self.__replaceWithPatternsModel)
 
 		settings = {"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
 					"wholeWord" : self.Whole_Word_checkBox.isChecked(),

@@ -21,12 +21,10 @@ import functools
 import logging
 import os
 from collections import OrderedDict
-from PyQt4.QtCore import QRegExp
 from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QFileDialog
 from PyQt4.QtGui import QComboBox
 from PyQt4.QtGui import QMenu
-from PyQt4.QtGui import QWidget
 
 #**********************************************************************************************************************
 #***	Internal imports.
@@ -40,8 +38,8 @@ from umbra.ui.delegates import RichText_QStyledItemDelegate
 from umbra.components.factory.scriptEditor.models import SearchFileNode
 from umbra.components.factory.scriptEditor.models import SearchOccurenceNode
 from umbra.components.factory.scriptEditor.models import SearchResultsModel
-from umbra.components.factory.scriptEditor.searchAndReplace import _insertEditorSelectTextInModel
-from umbra.components.factory.scriptEditor.searchAndReplace import _keyPressEvent
+from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace
+from umbra.components.factory.scriptEditor.searchAndReplace import ValidationFilter
 from umbra.components.factory.scriptEditor.views import SearchResults_QTreeView
 from umbra.components.factory.scriptEditor.workers import Search_worker
 from umbra.globals.constants import Constants
@@ -758,11 +756,23 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		This method reimplements the :meth:`QWidget.show` method.
 		"""
 
-		_insertEditorSelectTextInModel(self.__container.getCurrentEditor(), self.__searchPatternsModel)
+		selectedText = self.__container.getCurrentEditor().getSelectedText()
+		selectedText and SearchAndReplace.insertPattern(selectedText, self.__searchPatternsModel)
 
 		super(SearchInFiles, self).show()
 		self.raise_()
 		self.Search_comboBox.setFocus()
+
+	@core.executionTrace
+	def closeEvent(self, event):
+		"""
+		This method reimplements the :meth:`QWidget.closeEvent` method.
+
+		:param event: QEvent. ( QEvent )
+		"""
+
+		self.interruptSearch()
+		event.accept()
 
 	@core.executionTrace
 	def __initializeUi(self):
@@ -803,26 +813,28 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.Where_lineEdit.searchActiveLabel.setMenu(self.__locationsMenu)
 		self.Where_lineEdit.setPlaceholderText("Use the magnifier to add locations!")
 
-		for widget in self.findChildren(QWidget, QRegExp(".*")):
-			widget.keyPressEvent = functools.partial(_keyPressEvent, widget, self)
+		self.installEventFilter(ValidationFilter(self))
 
 		# Signals / Slots.
 		self.__view.selectionModel().selectionChanged.connect(self.__view_selectionModel__selectionChanged)
-		self.__searchPatternsModel.dataChanged.connect(self.__searchPatternsModel__dataChanged)
+		self.__searchPatternsModel.patternInserted.connect(functools.partial(
+		self.__patternsModel__patternInserted, self.Search_comboBox))
+		self.__replaceWithPatternsModel.patternInserted.connect(functools.partial(
+		self.__patternsModel__patternInserted, self.Replace_With_comboBox))
 		self.Search_pushButton.clicked.connect(self.__Search_pushButton__clicked)
 		self.Replace_pushButton.clicked.connect(self.__Replace_pushButton__clicked)
 		self.Close_pushButton.clicked.connect(self.__Close_pushButton__clicked)
 
 	@core.executionTrace
-	def __searchPatternsModel__dataChanged(self, startIndex, endIndex):
+	def __patternsModel__patternInserted(self, comboBox, index):
 		"""
-		This method is triggered when the **searchPatternsModel** Model data has changed.
+		This method is triggered when a pattern has been inserted into a patterns Model.
 
-		:param startIndex: Edited item starting QModelIndex. ( QModelIndex )
-		:param endIndex: Edited item ending QModelIndex. ( QModelIndex )
+		:param comboBox: Pattern Model attached comboBox. ( QComboBox )
+		:param index: Inserted pattern index. ( QModelIndex )
 		"""
 
-		self.Search_comboBox.setCurrentIndex(endIndex.row())
+		comboBox.setCurrentIndex(index.row())
 
 	@core.executionTrace
 	def __Search_pushButton__clicked(self, checked):
@@ -879,37 +891,22 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			file = None
 			occurence = None
 
-		file and self.highlightOccurence(file, occurence)
+		file and self.__highlightOccurence(file, occurence)
 
 	@core.executionTrace
-	def __searchWorkerThread__occurencesMatched(self, searchResult):
-		"""
-		This method is triggered by the :attr:`SearchInFiles.grepWorkerThread` attribute worker thread
-		when a pattern occurences have been matched in a file.
-
-		:param searchResult: Search result. ( SearchResult )
-		"""
-
-		searchFileNode = SearchFileNode(searchResult.file)
-		searchFileNode.update(searchResult)
-		width = \
-		max(self.__defaultLineNumberWidth, max([len(str(occurence.line)) for occurence in searchResult.occurences]))
-		for occurence in searchResult.occurences:
-			formatter = "{{:>{0}}}".format(width)
-			name = "{0}:{1}".format(formatter.format(occurence.line + 1).replace(" ", "&nbsp;"),
-									self.__formatOccurence(occurence))
-			searchOccurenceNode = SearchOccurenceNode(name, searchFileNode)
-			searchOccurenceNode.update(occurence)
-		self.__model.appendSearchFileNode(searchFileNode)
-
-	@core.executionTrace
-	def __searchWorkerThread__searchFinished(self):
+	def __searchWorkerThread__searchFinished(self, searchResults):
 		"""
 		This method is triggered by the :attr:`SearchInFiles.grepWorkerThread` attribute worker thread
 		when the search is finished.
+	
+		:param searchResults: Search results. ( List )
 		"""
 
-		self.__view.blockUpdates(False)
+		self.setSearchResults(searchResults)
+
+		self.__container.engine.stopProcessing()
+		self.__container.engine.notificationsManager.notify(
+		"{0} | '{1}' pattern occurence(s) found!".format(self.__class__.__name__, self.__model.getOccurencesCount()))
 
 	@core.executionTrace
 	def __addLocation(self, type, *args):
@@ -957,57 +954,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return "".join((start, pattern, end))
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def search(self):
-		"""
-		This method searchs user defined files for search pattern.
-
-		:return: Method success. ( Boolean )
-		"""
-
-		searchPattern = self.Search_comboBox.currentText()
-		if not searchPattern:
-			return
-
-		self.__model.clear()
-
-		location = umbra.ui.common.parseLocation(
-		unicode(self.Where_lineEdit.text(), Constants.encodingFormat, Constants.encodingError) or \
-		self.__targetsFormat.format(self.__defaultTarget))
-		settings = {"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
-					"wholeWord" : self.Whole_Word_checkBox.isChecked(),
-					"regularExpressions" : self.Regular_Expressions_checkBox.isChecked()}
-
-		self.__view.blockUpdates(True)
-
-		self.__searchWorkerThread = Search_worker(self, searchPattern, location, settings)
-		# Signals / Slots.
-		self.__searchWorkerThread.occurencesMatched.connect(self.__searchWorkerThread__occurencesMatched)
-		self.__searchWorkerThread.searchFinished.connect(self.__searchWorkerThread__searchFinished)
-
-		self.__container.engine.workerThreads.append(self.__searchWorkerThread)
-		self.__searchWorkerThread.start()
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def replace(self):
-		"""
-		This method replaces user defined files earch pattern occurences with replacement pattern.
-		
-		:return: Method success. ( Boolean )
-		"""
-
-		raise NotImplementedError()
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def highlightOccurence(self, file, occurence):
+	def __highlightOccurence(self, file, occurence):
 		"""
 		This method highlights given file occurence.
 		
 		:param occurence: Occurence to highlight. ( Occurence / SearchOccurenceNode )
 		:param file: File containing the occurence. ( String )
-		:return: Method success. ( Boolean )
 		"""
 
 		if not self.__container.hasFile(file):
@@ -1023,3 +975,99 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if occurence:
 			self.__container.getCurrentEditor().gotoLine(occurence.line + 1)
 			self.__container.getCurrentEditor().gotoColumn(occurence.column + 1)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def setSearchResults(self, searchResults):
+		"""
+		This method sets the Model nodes using given search results.
+		
+		:param searchResults: Search results. ( List )
+		:return: Method success. ( Boolean )
+		"""
+
+		rootNode = umbra.ui.models.DefaultNode(name="InvisibleRootNode")
+		for searchResult in searchResults:
+			searchFileNode = SearchFileNode(name=searchResult.file,
+											parent=rootNode)
+			searchFileNode.update(searchResult)
+			width = \
+			max(self.__defaultLineNumberWidth, max([len(str(occurence.line)) for occurence in searchResult.occurences]))
+			for occurence in searchResult.occurences:
+				formatter = "{{:>{0}}}".format(width)
+				name = "{0}:{1}".format(formatter.format(occurence.line + 1).replace(" ", "&nbsp;"),
+										self.__formatOccurence(occurence))
+				searchOccurenceNode = SearchOccurenceNode(name=name,
+														parent=searchFileNode)
+				searchOccurenceNode.update(occurence)
+		self.__model.initializeModel(rootNode)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def search(self):
+		"""
+		This method searchs user defined locations for search pattern.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		self.interruptSearch()
+		self.clearSearch()
+
+		searchPattern = self.Search_comboBox.currentText()
+		if not searchPattern:
+			return
+
+		SearchAndReplace.insertPattern(searchPattern, self.__searchPatternsModel)
+
+		location = umbra.ui.common.parseLocation(
+		unicode(self.Where_lineEdit.text(), Constants.encodingFormat, Constants.encodingError) or \
+		self.__targetsFormat.format(self.__defaultTarget))
+		settings = {"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
+					"wholeWord" : self.Whole_Word_checkBox.isChecked(),
+					"regularExpressions" : self.Regular_Expressions_checkBox.isChecked()}
+
+		self.__searchWorkerThread = Search_worker(self, searchPattern, location, settings)
+		# Signals / Slots.
+		self.__searchWorkerThread.searchFinished.connect(self.__searchWorkerThread__searchFinished)
+
+		self.__container.engine.workerThreads.append(self.__searchWorkerThread)
+		self.__container.engine.startProcessing("Searching In Files ...")
+		self.__searchWorkerThread.start()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def replace(self):
+		"""
+		This method replaces user defined files earch pattern occurences with replacement pattern.
+		
+		:return: Method success. ( Boolean )
+		"""
+
+		raise NotImplementedError()
+
+	@core.executionTrace
+	def clearSearch(self):
+		"""
+		This method clears the current search results.
+		
+		:return: Method success. ( Boolean )
+		"""
+
+		self.__model.clear()
+		return True
+
+	@core.executionTrace
+	def interruptSearch(self):
+		"""
+		This method interrupt the current search.
+		
+		:return: Method success. ( Boolean )
+		"""
+
+		if self.__searchWorkerThread:
+			self.__searchWorkerThread.quit()
+			self.__searchWorkerThread.wait()
+			self.__container.engine.stopProcessing(warning=False)
+		return True

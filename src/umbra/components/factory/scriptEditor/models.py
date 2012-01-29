@@ -24,12 +24,14 @@ from PyQt4.QtCore import QAbstractListModel
 from PyQt4.QtCore import QModelIndex
 from PyQt4.QtCore import QVariant
 from PyQt4.QtCore import Qt
+from PyQt4.QtCore import pyqtSignal
 
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import foundations.walkers
 import umbra.ui.models
 from umbra.components.factory.scriptEditor.editor import Language
 from umbra.globals.constants import Constants
@@ -297,6 +299,22 @@ class PatternsModel(umbra.ui.models.GraphModel):
 	replace patterns.
 	"""
 
+	# Custom signals definitions.
+	patternInserted = pyqtSignal(QModelIndex)
+	"""
+	This signal is emited by the :class:`PatternsModel` class when a pattern has been inserted. ( pyqtSignal )
+
+	:return: Inserted pattern index. ( QModelIndex )
+	"""
+
+	# Custom signals definitions.
+	patternRemoved = pyqtSignal(QModelIndex)
+	"""
+	This signal is emited by the :class:`PatternsModel` class when a pattern has been removed. ( pyqtSignal )
+
+	:return: Removed pattern index. ( QModelIndex )
+	"""
+
 	@core.executionTrace
 	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None, verticalHeaders=None, defaultNode=None):
 		"""
@@ -329,10 +347,35 @@ class PatternsModel(umbra.ui.models.GraphModel):
 
 		LOGGER.debug("> Inserting '{0}' at '{1}' index.".format(pattern, index))
 
+		self.removePattern(pattern)
+
 		self.beginInsertRows(self.getNodeIndex(self.rootNode.children[index]), index, index)
 		self.rootNode.insertChild(PatternNode(name=pattern), index)
 		self.endInsertRows()
+		self.patternInserted.emit(self.getNodeIndex(self.rootNode.children[index]))
 		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def removePattern(self, pattern):
+		"""
+		This method removes given pattern from the Model.
+
+		:param pattern: Pattern. ( String )
+		:return: Method success. ( Boolean )
+		"""
+
+		for index, node in enumerate(self.rootNode.children):
+			if node.name != pattern:
+				continue
+
+			LOGGER.debug("> Removing '{0}' at '{1}' index.".format(pattern, index))
+
+			self.beginRemoveRows(self.getNodeIndex(self.rootNode.children[index]), index, index)
+			self.rootNode.removeChild(index)
+			self.endRemoveRows()
+			self.patternRemoved.emit(self.getNodeIndex(self.rootNode.children[index]))
+			return True
 
 class SearchFileNode(umbra.ui.models.GraphModelNode):
 	"""
@@ -459,18 +502,28 @@ class SearchResultsModel(umbra.ui.models.GraphModel):
 	#******************************************************************************************************************
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def appendSearchFileNode(self, searchFileNode):
+	def initializeModel(self, rootNode):
 		"""
-		This method appends given search file node to the model.
+		This method initializes the Model using given root node.
 		
-		:param searchFileNode: Search file node. ( SearchFileNode )
+		:param rootNode: Graph root node. ( DefaultNode )
 		:return: Method success ( Boolean )
 		"""
 
-		LOGGER.debug("> Appending '{0}' 'SearchFileNode'.".format(searchFileNode))
+		LOGGER.debug("> Initializing model with '{0}' root node.".format(rootNode))
 
-		index = len(self.rootNode.children)
-		self.beginInsertRows(QModelIndex(), index, index)
-		self.rootNode.addChild(searchFileNode)
-		self.endInsertRows()
+		self.beginResetModel()
+		self.rootNode = rootNode
+		self.endResetModel()
 		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getOccurencesCount(self):
+		"""
+		This method returns the Model occurences count.
+		
+		:return: Occurences count. ( Integer )
+		"""
+
+		return len([node for node in foundations.walkers.nodesWalker(self.rootNode) if node.family == "SearchOccurence"])
