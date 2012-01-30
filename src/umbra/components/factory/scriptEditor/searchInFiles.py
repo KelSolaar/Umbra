@@ -21,6 +21,7 @@ import functools
 import logging
 import os
 from collections import OrderedDict
+from PyQt4.QtCore import QMutex
 from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QFileDialog
 from PyQt4.QtGui import QComboBox
@@ -114,6 +115,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__defaultLineColor = QColor(144, 144, 144)
 
 		self.__searchWorkerThread = None
+		self.__lock = QMutex()
 
 		SearchInFiles.__initializeUi(self)
 
@@ -965,7 +967,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if not self.__container.hasFile(file):
 			document = self.__documentsCache.getContent(file)
 			if document:
-				self.__container.loadDocument(file, document.clone(self))
+				self.__lock.lock()
+				clone = document.clone(self)
+				self.__lock.unlock()
+				self.__container.loadDocument(file, clone)
 				self.__documentsCache.removeContent(file)
 			else:
 				self.__container.loadFile(file)
@@ -990,7 +995,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		for searchResult in searchResults:
 			searchFileNode = SearchFileNode(name=searchResult.file,
 											parent=rootNode)
-			searchFileNode.update(searchResult)
+#			searchFileNode.update(searchResult)
 			width = \
 			max(self.__defaultLineNumberWidth, max([len(str(occurence.line)) for occurence in searchResult.occurences]))
 			for occurence in searchResult.occurences:
@@ -999,8 +1004,19 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 										self.__formatOccurence(occurence))
 				searchOccurenceNode = SearchOccurenceNode(name=name,
 														parent=searchFileNode)
-				searchOccurenceNode.update(occurence)
+#				searchOccurenceNode.update(occurence)
 		self.__model.initializeModel(rootNode)
+		return True
+
+	@core.executionTrace
+	def clearSearchResults(self):
+		"""
+		This method clears the current search results.
+		
+		:return: Method success. ( Boolean )
+		"""
+
+		self.__model.clear()
 		return True
 
 	@core.executionTrace
@@ -1013,7 +1029,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 
 		self.interruptSearch()
-		self.clearSearch()
 
 		searchPattern = self.Search_comboBox.currentText()
 		if not searchPattern:
@@ -1046,17 +1061,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 
 		raise NotImplementedError()
-
-	@core.executionTrace
-	def clearSearch(self):
-		"""
-		This method clears the current search results.
-		
-		:return: Method success. ( Boolean )
-		"""
-
-		self.__model.clear()
-		return True
 
 	@core.executionTrace
 	def interruptSearch(self):

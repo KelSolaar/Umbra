@@ -368,7 +368,6 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		model.insertPattern(unicode(pattern,
 									Constants.encodingFormat,
 									Constants.encodingError), index)
-		modelIndex = model.getNodeIndex(model.rootNode.children[index])
 		return True
 
 	@core.executionTrace

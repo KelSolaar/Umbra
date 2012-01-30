@@ -270,7 +270,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
+	# @core.executionTrace
 	def wheelEvent(self, event):
 		"""
 		This method reimplements the :meth:`QPlainTextEdit.wheelEvent` method.

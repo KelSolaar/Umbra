@@ -611,11 +611,13 @@ class GraphModel(QAbstractItemModel):
 
 		node = self.getNode(index)
 		parentNode = node.parent
+		if not parentNode:
+			return QModelIndex()
+
 		if parentNode == self.__rootNode:
 			return QModelIndex()
 
-		parentNodeRow = parentNode.row()
-		return parentNodeRow is not None and self.createIndex(parentNodeRow, 0, parentNode) or QModelIndex()
+		return self.createIndex(parentNode.row(), 0, parentNode)
 
 	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -776,8 +778,10 @@ class GraphModel(QAbstractItemModel):
 		:param node: Node. ( AbstractCompositeNode )
 		:return: Index. ( QModelIndex )
 		"""
-
-		return self.createIndex(node.row(), 0, node)
+		if node == self.__rootNode:
+			return QModelIndex()
+		else:
+			return self.createIndex(node.row(), 0, node)
 
 	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)

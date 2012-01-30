@@ -349,7 +349,7 @@ class PatternsModel(umbra.ui.models.GraphModel):
 
 		self.removePattern(pattern)
 
-		self.beginInsertRows(self.getNodeIndex(self.rootNode.children[index]), index, index)
+		self.beginInsertRows(self.getNodeIndex(self.rootNode), index, index)
 		self.rootNode.insertChild(PatternNode(name=pattern), index)
 		self.endInsertRows()
 		self.patternInserted.emit(self.getNodeIndex(self.rootNode.children[index]))
@@ -371,7 +371,7 @@ class PatternsModel(umbra.ui.models.GraphModel):
 
 			LOGGER.debug("> Removing '{0}' at '{1}' index.".format(pattern, index))
 
-			self.beginRemoveRows(self.getNodeIndex(self.rootNode.children[index]), index, index)
+			self.beginRemoveRows(self.getNodeIndex(self.rootNode), index, index)
 			self.rootNode.removeChild(index)
 			self.endRemoveRows()
 			self.patternRemoved.emit(self.getNodeIndex(self.rootNode.children[index]))
