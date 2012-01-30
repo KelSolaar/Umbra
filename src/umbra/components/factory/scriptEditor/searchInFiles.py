@@ -21,11 +21,12 @@ import functools
 import logging
 import os
 from collections import OrderedDict
-from PyQt4.QtCore import QMutex
+from PyQt4.QtCore import QString
 from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QFileDialog
 from PyQt4.QtGui import QComboBox
 from PyQt4.QtGui import QMenu
+from PyQt4.QtGui import QTextDocument
 
 #**********************************************************************************************************************
 #***	Internal imports.
@@ -88,7 +89,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		# --- Setting class attributes. ---
 		self.__container = self.__factoryScriptEditor = parent
 
-		self.__documentsCache = foundations.cache.Cache()
+		self.__filesCache = foundations.cache.Cache()
 
 		self.__searchPatternsModel = None
 		self.__replaceWithPatternsModel = None
@@ -115,7 +116,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__defaultLineColor = QColor(144, 144, 144)
 
 		self.__searchWorkerThread = None
-		self.__lock = QMutex()
 
 		SearchInFiles.__initializeUi(self)
 
@@ -187,36 +187,36 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "factoryScriptEditor"))
 
 	@property
-	def documentsCache(self):
+	def filesCache(self):
 		"""
-		This method is the property for **self.__documentsCache** attribute.
+		This method is the property for **self.__filesCache** attribute.
 
-		:return: self.__documentsCache. ( Cache )
+		:return: self.__filesCache. ( Cache )
 		"""
 
-		return self.__documentsCache
+		return self.__filesCache
 
-	@documentsCache.setter
+	@filesCache.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def documentsCache(self, value):
+	def filesCache(self, value):
 		"""
-		This method is the setter method for **self.__documentsCache** attribute.
+		This method is the setter method for **self.__filesCache** attribute.
 
 		:param value: Attribute value. ( Cache )
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "documentsCache"))
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "filesCache"))
 
-	@documentsCache.deleter
+	@filesCache.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def documentsCache(self):
+	def filesCache(self):
 		"""
-		This method is the deleter method for **self.__documentsCache** attribute.
+		This method is the deleter method for **self.__filesCache** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "documentsCache"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "filesCache"))
 
 	@property
 	def searchPatternsModel(self):
@@ -965,13 +965,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 
 		if not self.__container.hasFile(file):
-			document = self.__documentsCache.getContent(file)
-			if document:
-				self.__lock.lock()
-				clone = document.clone(self)
-				self.__lock.unlock()
-				self.__container.loadDocument(file, clone)
-				self.__documentsCache.removeContent(file)
+			content = self.__filesCache.getContent(file)
+			if content:
+				self.__container.loadDocument(file, QTextDocument(QString(content)))
+				self.__filesCache.removeContent(file)
 			else:
 				self.__container.loadFile(file)
 		else:
@@ -995,7 +992,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		for searchResult in searchResults:
 			searchFileNode = SearchFileNode(name=searchResult.file,
 											parent=rootNode)
-#			searchFileNode.update(searchResult)
+			searchFileNode.update(searchResult)
 			width = \
 			max(self.__defaultLineNumberWidth, max([len(str(occurence.line)) for occurence in searchResult.occurences]))
 			for occurence in searchResult.occurences:
@@ -1004,7 +1001,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 										self.__formatOccurence(occurence))
 				searchOccurenceNode = SearchOccurenceNode(name=name,
 														parent=searchFileNode)
-#				searchOccurenceNode.update(occurence)
+				searchOccurenceNode.update(occurence)
 		self.__model.initializeModel(rootNode)
 		return True
 

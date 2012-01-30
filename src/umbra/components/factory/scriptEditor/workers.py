@@ -388,17 +388,15 @@ class Search_worker(QThread):
 			if not foundations.common.pathExists(file):
 				continue
 
-			reader = io.File(file)
-			content = reader.readAll()
-			if content is None:
-				LOGGER.warning("!> Error occured while reading '{0}' file proceeding to next one!".format(file))
-				continue
-
-			document = self.__container.documentsCache.getContent(file)
-			if not document:
-				document = QTextDocument(QString(content))
-				self.__container.documentsCache.addContent(**{file : document})
-			occurences = self.__searchDocument(document, self.__pattern, self.__settings)
+			content = self.__container.filesCache.getContent(file)
+			if not content:
+				reader = io.File(file)
+				content = reader.readAll()
+				if content is None:
+					LOGGER.warning("!> Error occured while reading '{0}' file proceeding to next one!".format(file))
+					continue
+				self.__container.filesCache.addContent(**{file : content})
+			occurences = self.__searchDocument(QTextDocument(QString(content)), self.__pattern, self.__settings)
 			occurences and self.__searchResults.append(SearchResult(file=file,
 																	pattern=self.__pattern,
 																	settings=self.__settings,

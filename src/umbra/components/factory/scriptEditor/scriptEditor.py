@@ -2932,6 +2932,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor.newFile():
 			return
 
+		LOGGER.info("{0} | Loading '{1}' file!".format(self.__class__.__name__, file))
+
 		if not editor.loadDocument(document, file, self.__languagesModel.getFileLanguage(file)):
 			return
 

@@ -733,6 +733,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.setDocument(document)
 		file and self.setFile(file)
 		language and self.setLanguage(language)
+		self.highlighter and self.highlighter.rehighlight()
 		return True
 
 	@core.executionTrace
