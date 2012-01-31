@@ -2473,7 +2473,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is triggered when an editor content is changed.
 		"""
 
-		self.__setEditorTabName(self.Script_Editor_tabWidget.currentIndex())
+		self.__setEditorTabName(self.getEditorTab(self.sender()))
 		self.__setWindowTitle()
 
 	@core.executionTrace
@@ -2482,7 +2482,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is triggered when an editor file is changed.
 		"""
 
-		self.__setEditorTabName(self.Script_Editor_tabWidget.currentIndex())
+		self.__setEditorTabName(self.getEditorTab(self.sender()))
 
 	@core.executionTrace
 	def __editor__languageChanged(self):
@@ -2807,18 +2807,34 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getEditorTab(self, editor):
+		"""
+		This method returns the **Script_Editor_tabWidget** Widget tab associated with the given editor.
+
+		:param Editor: Editor to search tab for. ( Editor )
+		:return: Tab index. ( Editor )
+		"""
+
+		for i in range(self.Script_Editor_tabWidget.count()):
+			if not self.Script_Editor_tabWidget.widget(i) == editor:
+				continue
+			LOGGER.debug("> Editor '{0}': Tab index '{1}'.".format(editor, i))
+			return i
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def findEditorTab(self, file):
 		"""
 		This method finds the **Script_Editor_tabWidget** Widget tab associated with the given file.
 
-		:param file: File to search editors for. ( String )
+		:param file: File to search tab for. ( String )
 		:return: Tab index. ( Editor )
 		"""
 
 		for i in range(self.Script_Editor_tabWidget.count()):
 			if not self.Script_Editor_tabWidget.widget(i).file == file:
 				continue
-			LOGGER.debug("> File '{0}: Tab index '{1}'.".format(file, i))
+			LOGGER.debug("> File '{0}': Tab index '{1}'.".format(file, i))
 			return i
 
 	@core.executionTrace
