@@ -436,6 +436,7 @@ class Search_worker(QThread):
 			occurences.append(Occurence(line=cursor.blockNumber(),
 										column=cursor.columnNumber() - length,
 										length=length,
+										position=cursor.position() - length,
 										text=blockCursor.selectedText()))
 			cursor = document.find(pattern, cursor.position(), flags)
 			block = block.next()

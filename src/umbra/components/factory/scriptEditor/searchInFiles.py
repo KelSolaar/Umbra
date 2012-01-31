@@ -21,11 +21,13 @@ import functools
 import logging
 import os
 from collections import OrderedDict
+from PyQt4.QtCore import QRegExp
 from PyQt4.QtCore import QString
 from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QFileDialog
 from PyQt4.QtGui import QComboBox
 from PyQt4.QtGui import QMenu
+from PyQt4.QtGui import QTextCursor
 from PyQt4.QtGui import QTextDocument
 
 #**********************************************************************************************************************
@@ -836,6 +838,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:param index: Inserted pattern index. ( QModelIndex )
 		"""
 
+		print index.row()
 		comboBox.setCurrentIndex(index.row())
 
 	@core.executionTrace
@@ -879,7 +882,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		indexes = selectedItems.indexes()
 		if not indexes:
+			self.Replace_pushButton.setText("Replace All")
 			return
+		else:
+			self.Replace_pushButton.setText("Replace Selected")
 
 		node = self.__model.getNode(indexes.pop())
 
@@ -907,8 +913,11 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.setSearchResults(searchResults)
 
 		self.__container.engine.stopProcessing()
+		metrics = self.__model.getMetrics()
 		self.__container.engine.notificationsManager.notify(
-		"{0} | '{1}' pattern occurence(s) found!".format(self.__class__.__name__, self.__model.getOccurencesCount()))
+		"{0} | '{1}' pattern occurence(s) found in '{2}' files!".format(self.__class__.__name__,
+																	metrics["SearchOccurence"],
+																	metrics["SearchFile"]))
 
 	@core.executionTrace
 	def __addLocation(self, type, *args):
@@ -974,9 +983,47 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		else:
 			self.__container.focusEditor(file)
 
-		if occurence:
-			self.__container.getCurrentEditor().gotoLine(occurence.line + 1)
-			self.__container.getCurrentEditor().gotoColumn(occurence.column + 1)
+		if not occurence:
+			return
+
+		cursor = self.__container.getCurrentEditor().textCursor()
+		cursor.setPosition(occurence.position, QTextCursor.MoveAnchor)
+		cursor.setPosition(occurence.position + occurence.length, QTextCursor.KeepAnchor)
+		self.__container.getCurrentEditor().setTextCursor(cursor)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __replaceWithinDocument(self, document, occurences, replacementPattern):
+		"""
+		This method replaces given pattern occurences in given document using given settings.
+	
+		:param document: Document. ( QTextDocument )
+		:param replacementPattern: Replacement pattern. ( String )
+		:return: Replaced occurences count. ( Integer )
+		"""
+
+		cursor = QTextCursor(document)
+		cursor.beginEditBlock()
+		offset = 0
+		for i, occurence in enumerate(sorted(occurences, key=lambda x: x.position)):
+			cursor.setPosition(offset + occurence.position, QTextCursor.MoveAnchor)
+			cursor.setPosition(offset + occurence.position + occurence.length, QTextCursor.KeepAnchor)
+			cursor.insertText(replacementPattern)
+			offset += len(replacementPattern) - occurence.length
+		cursor.endEditBlock()
+		return i
+
+	@core.executionTrace
+	def __getSettings(self):
+		"""
+		This method returns the current search and replace settings.
+
+		:return: Settings. ( Dictionary )
+		"""
+
+		return {"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
+				"wholeWord" : self.Whole_Word_checkBox.isChecked(),
+				"regularExpressions" : self.Regular_Expressions_checkBox.isChecked()}
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -1028,17 +1075,18 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.interruptSearch()
 
 		searchPattern = self.Search_comboBox.currentText()
+		replacementPattern = self.Replace_With_comboBox.currentText()
 		if not searchPattern:
 			return
 
 		SearchAndReplace.insertPattern(searchPattern, self.__searchPatternsModel)
+		SearchAndReplace.insertPattern(replacementPattern, self.__replaceWithPatternsModel)
 
 		location = umbra.ui.common.parseLocation(
 		unicode(self.Where_lineEdit.text(), Constants.encodingFormat, Constants.encodingError) or \
 		self.__targetsFormat.format(self.__defaultTarget))
-		settings = {"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
-					"wholeWord" : self.Whole_Word_checkBox.isChecked(),
-					"regularExpressions" : self.Regular_Expressions_checkBox.isChecked()}
+
+		settings = self.__getSettings()
 
 		self.__searchWorkerThread = Search_worker(self, searchPattern, location, settings)
 		# Signals / Slots.
@@ -1057,8 +1105,42 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		raise NotImplementedError()
+		selectedNodes = self.__view.getSelectedNodes()
+		if selectedNodes:
+			nodes = filter(lambda x: x.parent not in selectedNodes, selectedNodes)
+		else:
+			nodes = self.__model.rootNode.children
 
+		files = {}
+		for node in nodes:
+			if node.family == "SearchFile":
+				files[node.file] = node.children
+			elif node.family == "SearchOccurence":
+				file = node.parent.file
+				if not file in files:
+					files[file] = []
+				files[file].append(node)
+
+		replacementPattern = self.Replace_With_comboBox.currentText()
+		SearchAndReplace.insertPattern(replacementPattern, self.__replaceWithPatternsModel)
+
+		metrics = 0
+		for file, occurences in files.iteritems():
+			if self.__container.hasFile(file):
+				document = self.__container.findEditor(file).document()
+			else:
+				content = self.__filesCache.getContent(file)
+				if content is None:
+					LOGGER.warning(
+					"!> {0} | '{1}' key doesn't exists in files cache!".format(self.__class__.__name__, file))
+					continue
+
+				document = QTextDocument(QString(self.__filesCache.getContent(file)))
+			metrics += self.__replaceWithinDocument(document, occurences, replacementPattern)
+		self.__container.engine.notificationsManager.notify(
+		"{0} | '{1}' pattern occurence(s) replaced in '{2}' files!".format(self.__class__.__name__,
+																	metrics,
+																	len(files)))
 	@core.executionTrace
 	def interruptSearch(self):
 		"""

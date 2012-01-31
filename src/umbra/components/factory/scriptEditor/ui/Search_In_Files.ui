@@ -172,11 +172,23 @@
      </item>
      <item>
       <widget class="QPushButton" name="Replace_pushButton">
+       <property name="minimumSize">
+        <size>
+         <width>150</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="statusTip">
         <string>Replace Push Button: Replace search results occurences with given replacement pattern.</string>
        </property>
        <property name="text">
-        <string>Replace</string>
+        <string>Replace All</string>
        </property>
       </widget>
      </item>

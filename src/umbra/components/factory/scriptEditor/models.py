@@ -519,11 +519,19 @@ class SearchResultsModel(umbra.ui.models.GraphModel):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getOccurencesCount(self):
+	def getMetrics(self):
 		"""
-		This method returns the Model occurences count.
+		This method returns the Model metrics.
 		
-		:return: Occurences count. ( Integer )
+		:return: Nodes metrics. ( Dictionary )
 		"""
 
-		return len([node for node in foundations.walkers.nodesWalker(self.rootNode) if node.family == "SearchOccurence"])
+		searchFileNodesCount = searchOccurenceNodesCount = 0
+
+		for node in foundations.walkers.nodesWalker(self.rootNode):
+			if node.family == "SearchFile":
+				searchFileNodesCount += 1
+			elif node.family == "SearchOccurence":
+				searchOccurenceNodesCount += 1
+
+		return {"SearchFile" : searchFileNodesCount, "SearchOccurence" : searchOccurenceNodesCount}

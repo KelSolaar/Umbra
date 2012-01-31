@@ -689,6 +689,8 @@ backwardSearch=True, wrapAround=True)
 
 		self.__searchPattern = pattern
 
+		pattern = settings.regularExpressions and QRegExp(pattern) or pattern
+
 		flags = QTextDocument.FindFlags()
 		if settings.caseSensitive:
 			flags = flags | QTextDocument.FindCaseSensitively
@@ -697,11 +699,7 @@ backwardSearch=True, wrapAround=True)
 		if settings.backwardSearch:
 			flags = flags | QTextDocument.FindBackward
 
-		cursor = self.textCursor()
-		if settings.regularExpressions:
-			cursor = self.document().find(QRegExp(pattern), cursor, flags)
-		else:
-			cursor = self.document().find(pattern, cursor, flags)
+		cursor = self.document().find(pattern, self.textCursor(), flags)
 		if not cursor.isNull():
 			self.setTextCursor(cursor)
 			return True
@@ -879,6 +877,21 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 		cursor = self.textCursor()
 		cursor.setPosition(cursor.block().position() + column)
+		self.setTextCursor(cursor)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def gotoPosition(self, position):
+		"""
+		This method moves the text cursor to given position.
+
+		:param position: Position to go to. ( Integer )
+		:return: Method success. ( Boolean )
+		"""
+
+		cursor = self.textCursor()
+		cursor.setPosition(position)
 		self.setTextCursor(cursor)
 		return True
 
