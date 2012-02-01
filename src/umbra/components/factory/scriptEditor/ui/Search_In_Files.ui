@@ -6,8 +6,14 @@
    <string>Search In Files</string>
   </property>
   <layout class="QGridLayout" name="Search_In_Files_Form_gridLayout">
-   <item row="3" column="1">
+   <item row="3" column="2">
     <widget class="QPushButton" name="Close_pushButton">
+     <property name="minimumSize">
+      <size>
+       <width>115</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="statusTip">
       <string>Close Push Button: Close the &quot;Search In Files&quot; dialog.</string>
      </property>
@@ -29,7 +35,7 @@
      </property>
     </spacer>
    </item>
-   <item row="0" column="0" colspan="2">
+   <item row="0" column="0" colspan="3">
     <widget class="QFrame" name="Search_Replace_Widgets_frame">
      <layout class="QGridLayout" name="Search_Replace_Widgets_frame_gridLayout">
       <property name="margin">
@@ -119,7 +125,7 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="1" column="0" colspan="2">
     <widget class="QGroupBox" name="Options_groupBox">
      <property name="title">
       <string>Options</string>
@@ -158,43 +164,7 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="1">
-    <layout class="QVBoxLayout" name="Buttons_verticalLayout">
-     <item>
-      <widget class="QPushButton" name="Search_pushButton">
-       <property name="statusTip">
-        <string>Search Push Button: Searchs occurences of given search pattern.</string>
-       </property>
-       <property name="text">
-        <string>Search</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="Replace_pushButton">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>150</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="statusTip">
-        <string>Replace Push Button: Replace search results occurences with given replacement pattern.</string>
-       </property>
-       <property name="text">
-        <string>Replace All</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="2" column="0" colspan="2">
+   <item row="2" column="0" colspan="3">
     <widget class="QFrame" name="Search_Results_frame">
      <layout class="QGridLayout" name="Search_Results_frame_gridLayout">
       <property name="margin">
@@ -204,6 +174,22 @@
        <widget class="QTreeView" name="Search_Results_treeView"/>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QPushButton" name="Search_pushButton">
+     <property name="minimumSize">
+      <size>
+       <width>115</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="statusTip">
+      <string>Search Push Button: Searchs occurences of given search pattern.</string>
+     </property>
+     <property name="text">
+      <string>Search</string>
+     </property>
     </widget>
    </item>
   </layout>

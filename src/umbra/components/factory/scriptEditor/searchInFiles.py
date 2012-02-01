@@ -21,8 +21,9 @@ import functools
 import logging
 import os
 from collections import OrderedDict
-from PyQt4.QtCore import QRegExp
 from PyQt4.QtCore import QString
+from PyQt4.QtCore import Qt
+from PyQt4.QtGui import QAction
 from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QFileDialog
 from PyQt4.QtGui import QComboBox
@@ -39,6 +40,7 @@ import foundations.exceptions
 import foundations.ui.common
 import umbra.ui.common
 from umbra.ui.delegates import RichText_QStyledItemDelegate
+from umbra.components.factory.scriptEditor.models import ReplaceResultNode
 from umbra.components.factory.scriptEditor.models import SearchFileNode
 from umbra.components.factory.scriptEditor.models import SearchOccurenceNode
 from umbra.components.factory.scriptEditor.models import SearchResultsModel
@@ -795,6 +797,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.Search_Results_treeView.setObjectName("Search_Results_treeView")
 		self.Search_Results_frame_gridLayout.addWidget(self.Search_Results_treeView, 0, 0)
 		self.__view = self.Search_Results_treeView
+		self.__view.setContextMenuPolicy(Qt.ActionsContextMenu)
+		self.__view_addActions()
 
 		self.__searchPatternsModel = self.__container.searchAndReplace.searchPatternsModel
 		self.Search_comboBox.setModel(self.__container.searchAndReplace.searchPatternsModel)
@@ -826,8 +830,53 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__replaceWithPatternsModel.patternInserted.connect(functools.partial(
 		self.__patternsModel__patternInserted, self.Replace_With_comboBox))
 		self.Search_pushButton.clicked.connect(self.__Search_pushButton__clicked)
-		self.Replace_pushButton.clicked.connect(self.__Replace_pushButton__clicked)
 		self.Close_pushButton.clicked.connect(self.__Close_pushButton__clicked)
+
+	@core.executionTrace
+	def __view_addActions(self):
+		"""
+		This method sets the View actions.
+		"""
+
+		self.__view.addAction(self.__container.engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|Search In Files|Replace All",
+		slot=self.__view_replaceAllAction__triggered))
+		self.__view.addAction(self.__container.engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|Search In Files|Replace Selected",
+		slot=self.__view_replaceSelectedAction__triggered))
+		separatorAction = QAction(self.__view)
+		separatorAction.setSeparator(True)
+		self.__view.addAction(separatorAction)
+		self.__view.addAction(self.__container.engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|Search In Files|Save All",
+		slot=None))
+		self.__view.addAction(self.__container.engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|Search In Files|Save Selected",
+		slot=None))
+
+	@core.executionTrace
+	def __view_replaceAllAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Replace All'** action.
+
+		:param checked: Action checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.replace(self.__model.rootNode.children)
+
+	@core.executionTrace
+	def __view_replaceSelectedAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Replace Selected'** action.
+
+		:param checked: Action checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		selectedNodes = self.__view.getSelectedNodes()
+		if selectedNodes:
+			return self.replace(filter(lambda x: x.parent not in selectedNodes, selectedNodes))
 
 	@core.executionTrace
 	def __patternsModel__patternInserted(self, comboBox, index):
@@ -838,7 +887,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:param index: Inserted pattern index. ( QModelIndex )
 		"""
 
-		print index.row()
 		comboBox.setCurrentIndex(index.row())
 
 	@core.executionTrace
@@ -850,16 +898,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 
 		self.search()
-
-	@core.executionTrace
-	def __Replace_pushButton__clicked(self, checked):
-		"""
-		This method is triggered when **Replace_pushButton** Widget is clicked.
-
-		:param checked: Checked state. ( Boolean )
-		"""
-
-		self.replace()
 
 	@core.executionTrace
 	def __Close_pushButton__clicked(self, checked):
@@ -882,24 +920,24 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		indexes = selectedItems.indexes()
 		if not indexes:
-			self.Replace_pushButton.setText("Replace All")
 			return
-		else:
-			self.Replace_pushButton.setText("Replace Selected")
 
 		node = self.__model.getNode(indexes.pop())
 
 		if node.family == "SearchOccurence":
 			file = node.parent.file
 			occurence = node
-		elif node.family == "SearchFile":
+			context = "Search"
+		elif node.family is "SearchFile":
 			file = node.file
 			occurence = None
-		else:
-			file = None
+			context = "Search"
+		elif node.family is "ReplaceResult":
+			file = node.file
 			occurence = None
+			context = "Replace"
 
-		file and self.__highlightOccurence(file, occurence)
+		self.__highlightOccurence(file, occurence, context)
 
 	@core.executionTrace
 	def __searchWorkerThread__searchFinished(self, searchResults):
@@ -965,18 +1003,21 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return "".join((start, pattern, end))
 
 	@core.executionTrace
-	def __highlightOccurence(self, file, occurence):
+	def __highlightOccurence(self, file, occurence, context):
 		"""
 		This method highlights given file occurence.
 		
-		:param occurence: Occurence to highlight. ( Occurence / SearchOccurenceNode )
 		:param file: File containing the occurence. ( String )
+		:param occurence: Occurence to highlight. ( Occurence / SearchOccurenceNode )
+		:param context: Context where the highlighting has been requested ( "Search" / "Replace" ). ( String )
 		"""
 
 		if not self.__container.hasFile(file):
 			content = self.__filesCache.getContent(file)
 			if content:
-				self.__container.loadDocument(file, QTextDocument(QString(content)))
+				document = QTextDocument(QString(content))
+				context is "Search" and document.setModified(False)
+				self.__container.loadDocument(file, document)
 				self.__filesCache.removeContent(file)
 			else:
 				self.__container.loadFile(file)
@@ -1004,14 +1045,15 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		cursor = QTextCursor(document)
 		cursor.beginEditBlock()
-		offset = 0
-		for i, occurence in enumerate(sorted(occurences, key=lambda x: x.position)):
+		offset = count = 0
+		for occurence in sorted(occurences, key=lambda x: x.position):
 			cursor.setPosition(offset + occurence.position, QTextCursor.MoveAnchor)
 			cursor.setPosition(offset + occurence.position + occurence.length, QTextCursor.KeepAnchor)
 			cursor.insertText(replacementPattern)
 			offset += len(replacementPattern) - occurence.length
+			count += 1
 		cursor.endEditBlock()
-		return i
+		return count
 
 	@core.executionTrace
 	def __getSettings(self):
@@ -1049,6 +1091,32 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 				searchOccurenceNode = SearchOccurenceNode(name=name,
 														parent=searchFileNode)
 				searchOccurenceNode.update(occurence)
+		self.__model.initializeModel(rootNode)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def setReplaceResults(self, replaceResults):
+		"""
+		This method sets the Model nodes using given replace results.
+		
+		:param replaceResults: Replace results. ( List )
+		:return: Method success. ( Boolean )
+		"""
+
+		rootNode = umbra.ui.models.DefaultNode(name="InvisibleRootNode")
+		for file, metrics in replaceResults.iteritems():
+			if self.__container.hasFile(file):
+				status = "Opened"
+			elif file in self.__filesCache.keys():
+				status = "Cached"
+			else:
+				status = "Unknown"
+
+			replaceResultNode = ReplaceResultNode(name="{0} '{1}' file: '{2}' occurence(s) replaced!".format(
+								status, file, metrics),
+												parent=rootNode,
+												file=file)
 		self.__model.initializeModel(rootNode)
 		return True
 
@@ -1098,18 +1166,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def replace(self):
+	def replace(self, nodes):
 		"""
-		This method replaces user defined files earch pattern occurences with replacement pattern.
+		This method replaces user defined files search pattern occurences with replacement pattern.
 		
 		:return: Method success. ( Boolean )
 		"""
-
-		selectedNodes = self.__view.getSelectedNodes()
-		if selectedNodes:
-			nodes = filter(lambda x: x.parent not in selectedNodes, selectedNodes)
-		else:
-			nodes = self.__model.rootNode.children
 
 		files = {}
 		for node in nodes:
@@ -1124,7 +1186,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		replacementPattern = self.Replace_With_comboBox.currentText()
 		SearchAndReplace.insertPattern(replacementPattern, self.__replaceWithPatternsModel)
 
-		metrics = 0
+		replaceResults = {}
 		for file, occurences in files.iteritems():
 			if self.__container.hasFile(file):
 				document = self.__container.findEditor(file).document()
@@ -1136,11 +1198,15 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 					continue
 
 				document = QTextDocument(QString(self.__filesCache.getContent(file)))
-			metrics += self.__replaceWithinDocument(document, occurences, replacementPattern)
+			replaceResults[file] = self.__replaceWithinDocument(document, occurences, replacementPattern)
+			if file in self.__filesCache:
+				self.__filesCache.addContent(**{file : document.toPlainText()})
+
+		self.setReplaceResults(replaceResults)
 		self.__container.engine.notificationsManager.notify(
 		"{0} | '{1}' pattern occurence(s) replaced in '{2}' files!".format(self.__class__.__name__,
-																	metrics,
-																	len(files)))
+																	sum(replaceResults.values()),
+																	len(replaceResults.keys())))
 	@core.executionTrace
 	def interruptSearch(self):
 		"""

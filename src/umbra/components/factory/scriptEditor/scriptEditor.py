@@ -1890,27 +1890,27 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Script_Editor_tabWidget.setMovable(True)
 
 	@core.executionTrace
-	def __Script_Editor_tabWidget__tabCloseRequested(self, tabIndex):
+	def __Script_Editor_tabWidget__tabCloseRequested(self, index):
 		"""
 		This method is triggered by the **Script_Editor_tabWidget** Widget when a tab is requested to be closed.
 
-		:param tabIndex: Tab index. ( Integer )
+		:param index: Tab index. ( Integer )
 		"""
 
-		LOGGER.debug("> Closing tab with index '{0}'.".format(tabIndex))
+		LOGGER.debug("> Closing tab with index '{0}'.".format(index))
 
-		self.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
+		self.Script_Editor_tabWidget.setCurrentIndex(index)
 		return self.closeFile()
 
 	@core.executionTrace
-	def __Script_Editor_tabWidget__currentChanged(self, tabIndex):
+	def __Script_Editor_tabWidget__currentChanged(self, index):
 		"""
 		This method is triggered by the **Script_Editor_tabWidget** Widget when the current tab is changed.
 
-		:param tabIndex: Tab index. ( Integer )
+		:param index: Tab index. ( Integer )
 		"""
 
-		LOGGER.debug("> Current tab changed to '{0}' index.".format(tabIndex))
+		LOGGER.debug("> Current tab changed to '{0}' index.".format(index))
 
 		self.Editor_Status_editorStatus._EditorStatus__Languages_comboBox_setDefaultViewState()
 		self.__setWindowTitle()
@@ -2671,16 +2671,16 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.setWindowTitle(windowTitle)
 
 	@core.executionTrace
-	def __setEditorTabName(self, tabIndex):
+	def __setEditorTabName(self, index):
 		"""
 		This method sets the name of the **Script_Editor_tabWidget** Widget tab with given index.
 
-		:param tabIndex: Index of the tab containing the editor. ( Integer )
+		:param index: Index of the tab containing the editor. ( Integer )
 		"""
 
-		windowTitle = self.Script_Editor_tabWidget.widget(tabIndex).windowTitle()
-		LOGGER.debug("> Setting '{0}' window title to tab with '{1}' index.".format(windowTitle, tabIndex))
-		self.Script_Editor_tabWidget.setTabText(tabIndex, windowTitle)
+		windowTitle = self.Script_Editor_tabWidget.widget(index).windowTitle()
+		LOGGER.debug("> Setting '{0}' window title to tab with '{1}' index.".format(windowTitle, index))
+		self.Script_Editor_tabWidget.setTabText(index, windowTitle)
 
 	@core.executionTrace
 	def __setLocals(self):
@@ -2779,9 +2779,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: New tab index. ( Integer )
 		"""
 
-		tabIndex = self.Script_Editor_tabWidget.addTab(editor, editor.getFileShortName())
-		LOGGER.debug("> Assigning '{0}' editor to '{1}' tab index.".format(editor, tabIndex))
-		self.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
+		index = self.Script_Editor_tabWidget.addTab(editor, editor.getFileShortName())
+		LOGGER.debug("> Assigning '{0}' editor to '{1}' tab index.".format(editor, index))
+		self.Script_Editor_tabWidget.setCurrentIndex(index)
 
 		# Signals / Slots.
 		editor.patternsReplaced.connect(self.__editor__patternsReplaced)
@@ -2789,20 +2789,21 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		editor.titleChanged.connect(self.__editor__titleChanged)
 		editor.fileChanged.connect(self.__editor__fileChanged)
 		editor.cursorPositionChanged.connect(self.Editor_Status_editorStatus._EditorStatus__editor__cursorPositionChanged)
-		return tabIndex
+		return index
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def removeEditorTab(self, tabIndex):
+	def removeEditorTab(self, index):
 		"""
 		This method removes the **Script_Editor_tabWidget** Widget tab with given index.
 
-		:param tabIndex: Tab index. ( Integer )
+		:param index: Tab index. ( Integer )
 		:return: Method success. ( Boolean )
 		"""
 
-		LOGGER.debug("> Removing tab with index '{0}'.".format(tabIndex))
-		self.Script_Editor_tabWidget.removeTab(tabIndex)
+		LOGGER.debug("> Removing tab with index '{0}'.".format(index))
+		self.Script_Editor_tabWidget.widget(index).setParent(None)
+		self.Script_Editor_tabWidget.removeTab(index)
 		return True
 
 	@core.executionTrace
@@ -2899,9 +2900,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		tabIndex = self.findEditorTab(file)
-		if tabIndex is not None:
-			self.Script_Editor_tabWidget.setCurrentIndex(tabIndex)
+		index = self.findEditorTab(file)
+		if index is not None:
+			self.Script_Editor_tabWidget.setCurrentIndex(index)
 			return True
 
 	@core.executionTrace
@@ -2949,11 +2950,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		LOGGER.info("{0} | Loading '{1}' file!".format(self.__class__.__name__, file))
-
 		if not editor.loadDocument(document, file, self.__languagesModel.getFileLanguage(file)):
 			return
 
-		self.addEditorTab(editor)
+		index = self.addEditorTab(editor)
+		self.__setEditorTabName(index)
+		self.__setWindowTitle()
 		self.__storeRecentFile(file)
 		self.__registerFile(file)
 		return True
@@ -3021,10 +3023,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(
 			self.__class__.__name__, file))
 
-		tabIndex = self.findEditorTab(file)
-		if tabIndex >= 0:
+		index = self.findEditorTab(file)
+		if index >= 0:
 			LOGGER.info("{0} | Reloading '{1}' file!".format(self.__class__.__name__, file))
-			editor = self.Script_Editor_tabWidget.widget(tabIndex)
+			editor = self.Script_Editor_tabWidget.widget(index)
 			return editor.reloadFile()
 
 	@core.executionTrace

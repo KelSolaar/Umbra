@@ -52,6 +52,7 @@ __all__ = ["LOGGER",
 			"PatternsModel",
 			"SearchFileNode",
 			"SearchOccurenceNode",
+			"ReplaceResultNode",
 			"SearchResultsModel"]
 
 LOGGER = logging.getLogger(Constants.logger)
@@ -461,6 +462,55 @@ class SearchOccurenceNode(umbra.ui.models.GraphModelNode):
 		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
 
 		SearchOccurenceNode.__initializeNode(self, attributesFlags)
+
+	#******************************************************************************************************************
+	#***	Class methods.
+	#******************************************************************************************************************
+	@core.executionTrace
+	def __initializeNode(self, attributesFlags):
+		"""
+		This method initializes the node.
+		
+		:param attributesFlags: Attributes flags. ( Integer )
+		"""
+
+		pass
+
+class ReplaceResultNode(umbra.ui.models.GraphModelNode):
+	"""
+	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
+	replace result node.
+	"""
+
+	__family = "ReplaceResult"
+	"""Node family. ( String )"""
+
+	@core.executionTrace
+	def __init__(self,
+				name=None,
+				parent=None,
+				children=None,
+				roles=None,
+				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+				**kwargs):
+		"""
+		This method initializes the class.
+
+		:param name: Node name.  ( String )
+		:param parent: Node parent. ( GraphModelNode )
+		:param children: Children. ( List )
+		:param roles: Roles. ( Dictionary )
+		:param nodeFlags: Node flags. ( Integer )
+		:param attributesFlags: Attributes flags. ( Integer )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
+
+		ReplaceResultNode.__initializeNode(self, attributesFlags)
 
 	#******************************************************************************************************************
 	#***	Class methods.

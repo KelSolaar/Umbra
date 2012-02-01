@@ -618,9 +618,19 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.titleChanged.emit()
 
 	@core.executionTrace
-	def __editor__contentsChanged(self):
+	def __document__contentsChanged(self):
 		"""
-		This method is triggered when the editor content changes.
+		This method is triggered when the editor document content changes.
+		"""
+
+		self.__setWindowTitle()
+
+	@core.executionTrace
+	def __document__modificationChanged(self, changed):
+		"""
+		This method is triggered when the editor document is modified.
+		
+		:param changed: File modification state. ( Boolean )
 		"""
 
 		self.__setWindowTitle()
@@ -658,18 +668,19 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.setTabStopWidth(self.__tabWidth)
 
 	@core.executionTrace
-	def setFile(self, file):
+	def setFile(self, file, isModified=False):
 		"""
 		This method sets the editor file.
 
 		:param File: File to set. ( String )
+		:param isModified: File modified state. ( String )
 		"""
 
 		LOGGER.debug("> Setting '{0}' editor file.".format(file))
 		self.__file = file
 		self.__isUntitled = False
-		self.setModified(False)
-		self.setWindowTitle("{0}".format(self.getFileShortName()))
+#		self.setModified(self.isModified())
+		self.__setWindowTitle()
 
 		self.fileChanged.emit()
 
@@ -734,6 +745,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 		file and self.setFile(file)
 		language and self.setLanguage(language)
 		self.highlighter and self.highlighter.rehighlight()
+
+		# Signals / Slots.
+		self.document().contentsChanged.connect(self.__document__contentsChanged)
+		self.document().modificationChanged.connect(self.__document__modificationChanged)
 		return True
 
 	@core.executionTrace
@@ -753,7 +768,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.setWindowTitle("{0}".format(self.__file))
 
 		# Signals / Slots.
-		self.document().contentsChanged.connect(self.__editor__contentsChanged)
+		self.document().contentsChanged.connect(self.__document__contentsChanged)
+		self.document().modificationChanged.connect(self.__document__modificationChanged)
 		return True
 
 	@core.executionTrace
@@ -776,7 +792,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.setFile(file)
 
 		# Signals / Slots.
-		self.document().contentsChanged.connect(self.__editor__contentsChanged)
+		self.document().contentsChanged.connect(self.__document__contentsChanged)
+		self.document().modificationChanged.connect(self.__document__modificationChanged)
 		return True
 
 	@core.executionTrace
