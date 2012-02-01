@@ -90,6 +90,23 @@ class SearchResult(foundations.dataStructures.Structure):
 
 		foundations.dataStructures.Structure.__init__(self, **kwargs)
 
+class CacheData(foundations.dataStructures.Structure):
+	"""
+	This class represents a storage object for the :class:`Search_worker` class cache data.
+	"""
+
+	@core.executionTrace
+	def __init__(self, **kwargs):
+		"""
+		This method initializes the class.
+
+		:param \*\*kwargs: data, document. ( Key / Value pairs )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		foundations.dataStructures.Structure.__init__(self, **kwargs)
+
 class Search_worker(QThread):
 	"""
 	This class is a `QThread <http://doc.qt.nokia.com/qthread.html>`_ subclass used
@@ -395,7 +412,7 @@ class Search_worker(QThread):
 				if content is None:
 					LOGGER.warning("!> Error occured while reading '{0}' file proceeding to next one!".format(file))
 					continue
-				self.__container.filesCache.addContent(**{file : content})
+				self.__container.filesCache.addContent(**{file : CacheData(data=content, document=None)})
 			occurences = self.__searchDocument(QTextDocument(QString(content)), self.__pattern, self.__settings)
 			occurences and self.__searchResults.append(SearchResult(file=file,
 																	pattern=self.__pattern,

@@ -47,6 +47,7 @@ from umbra.components.factory.scriptEditor.models import SearchResultsModel
 from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace
 from umbra.components.factory.scriptEditor.searchAndReplace import ValidationFilter
 from umbra.components.factory.scriptEditor.views import SearchResults_QTreeView
+from umbra.components.factory.scriptEditor.workers import CacheData
 from umbra.components.factory.scriptEditor.workers import Search_worker
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
@@ -927,17 +928,14 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if node.family == "SearchOccurence":
 			file = node.parent.file
 			occurence = node
-			context = "Search"
 		elif node.family is "SearchFile":
 			file = node.file
 			occurence = None
-			context = "Search"
 		elif node.family is "ReplaceResult":
 			file = node.file
 			occurence = None
-			context = "Replace"
 
-		self.__highlightOccurence(file, occurence, context)
+		self.__highlightOccurence(file, occurence)
 
 	@core.executionTrace
 	def __searchWorkerThread__searchFinished(self, searchResults):
@@ -1003,20 +1001,18 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return "".join((start, pattern, end))
 
 	@core.executionTrace
-	def __highlightOccurence(self, file, occurence, context):
+	def __highlightOccurence(self, file, occurence):
 		"""
 		This method highlights given file occurence.
 		
 		:param file: File containing the occurence. ( String )
 		:param occurence: Occurence to highlight. ( Occurence / SearchOccurenceNode )
-		:param context: Context where the highlighting has been requested ( "Search" / "Replace" ). ( String )
 		"""
 
 		if not self.__container.hasFile(file):
-			content = self.__filesCache.getContent(file)
-			if content:
-				document = QTextDocument(QString(content))
-				context is "Search" and document.setModified(False)
+			cacheData = self.__filesCache.getContent(file)
+			if cacheData:
+				document = cacheData.document or self.__getDocument(cacheData.data)
 				self.__container.loadDocument(file, document)
 				self.__filesCache.removeContent(file)
 			else:
@@ -1031,6 +1027,20 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		cursor.setPosition(occurence.position, QTextCursor.MoveAnchor)
 		cursor.setPosition(occurence.position + occurence.length, QTextCursor.KeepAnchor)
 		self.__container.getCurrentEditor().setTextCursor(cursor)
+
+	@core.executionTrace
+	def __getDocument(self, content):
+		"""
+		This method returns a `QTextDocument <http://doc.qt.nokia.com/qtextdocument.html>`_ class instance
+		with given content.
+
+		:return: Document. ( QTextDocument )
+		"""
+
+		document = QTextDocument(QString(content))
+		document.clearUndoRedoStacks()
+		document.setModified(False)
+		return document
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -1191,16 +1201,15 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			if self.__container.hasFile(file):
 				document = self.__container.findEditor(file).document()
 			else:
-				content = self.__filesCache.getContent(file)
-				if content is None:
+				cacheData = self.__filesCache.getContent(file)
+				if cacheData is None:
 					LOGGER.warning(
 					"!> {0} | '{1}' key doesn't exists in files cache!".format(self.__class__.__name__, file))
 					continue
 
-				document = QTextDocument(QString(self.__filesCache.getContent(file)))
+				document = self.__getDocument(self.__filesCache.getContent(file).data)
+				self.__filesCache.addContent(**{file : CacheData(data=None, document=document)})
 			replaceResults[file] = self.__replaceWithinDocument(document, occurences, replacementPattern)
-			if file in self.__filesCache:
-				self.__filesCache.addContent(**{file : document.toPlainText()})
 
 		self.setReplaceResults(replaceResults)
 		self.__container.engine.notificationsManager.notify(
