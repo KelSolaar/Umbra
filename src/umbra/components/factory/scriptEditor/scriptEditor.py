@@ -2936,12 +2936,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, 	Exception)
-	def loadDocument(self, file, document):
+	def loadDocument(self, document, file):
 		"""
 		This method loads given document into a new **Script_Editor_tabWidget** Widget tab editor.
 
-		:param file: Document file. ( String )
 		:param document: Document to load. ( QTextDocument )
+		:param file: Document file. ( String )
 		:return: Method success. ( Boolean )
 		"""
 
@@ -3133,8 +3133,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		editorsCount = self.Script_Editor_tabWidget.count()
 		self.__engine.startProcessing("Closing All Files ...", editorsCount)
-		for i in range(editorsCount, 0, -1):
-			editor = self.Script_Editor_tabWidget.widget(i - 1)
+		for editor in self.listEditors():
 			LOGGER.info("{0} | Closing '{1}' file!".format(self.__class__.__name__, editor.file))
 			if not editor.closeFile():
 				return
