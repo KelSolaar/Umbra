@@ -100,7 +100,7 @@ class CacheData(foundations.dataStructures.Structure):
 		"""
 		This method initializes the class.
 
-		:param \*\*kwargs: data, document. ( Key / Value pairs )
+		:param \*\*kwargs: content, document. ( Key / Value pairs )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -405,14 +405,16 @@ class Search_worker(QThread):
 			if not foundations.common.pathExists(file):
 				continue
 
-			content = self.__container.filesCache.getContent(file)
-			if not content:
+			cacheData = self.__container.filesCache.getContent(file)
+			if not cacheData:
 				reader = io.File(file)
 				content = reader.readAll()
 				if content is None:
 					LOGGER.warning("!> Error occured while reading '{0}' file proceeding to next one!".format(file))
 					continue
-				self.__container.filesCache.addContent(**{file : CacheData(data=content, document=None)})
+				self.__container.filesCache.addContent(**{file : CacheData(content=content, document=None)})
+			else:
+				content = cacheData.content
 			occurences = self.__searchDocument(QTextDocument(QString(content)), self.__pattern, self.__settings)
 			occurences and self.__searchResults.append(SearchResult(file=file,
 																	pattern=self.__pattern,

@@ -778,7 +778,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:param event: QEvent. ( QEvent )
 		"""
 
-		self.interruptSearch()
+		self.__interruptSearch()
 		event.accept()
 
 	@core.executionTrace
@@ -850,10 +850,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__view.addAction(separatorAction)
 		self.__view.addAction(self.__container.engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|Search In Files|Save All",
-		slot=None))
+		slot=self.__view_saveAllAction__triggered))
 		self.__view.addAction(self.__container.engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|Search In Files|Save Selected",
-		slot=None))
+		slot=self.__view_saveSelectedAction__triggered))
 
 	@core.executionTrace
 	def __view_replaceAllAction__triggered(self, checked):
@@ -864,7 +864,9 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		return self.replace(self.__model.rootNode.children)
+		allNodes = filter(lambda x: x.family in ("SearchFile", "SearchOccurence"), self.__model.rootNode.children)
+		if allNodes:
+			return self.replace(allNodes)
 
 	@core.executionTrace
 	def __view_replaceSelectedAction__triggered(self, checked):
@@ -875,9 +877,35 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		selectedNodes = self.__view.getSelectedNodes()
+		selectedNodes = filter(lambda x: x.family in ("SearchFile", "SearchOccurence"), self.__view.getSelectedNodes())
 		if selectedNodes:
 			return self.replace(filter(lambda x: x.parent not in selectedNodes, selectedNodes))
+
+	@core.executionTrace
+	def __view_saveAllAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Save All'** action.
+
+		:param checked: Action checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		allNodes = filter(lambda x: x.family is "ReplaceResult", self.__model.rootNode.children)
+		if allNodes:
+			return self.saveFiles(allNodes)
+
+	@core.executionTrace
+	def __view_saveSelectedAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Save Selected'** action.
+
+		:param checked: Action checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		selectedNodes = filter(lambda x: x.family is "ReplaceResult", self.__view.getSelectedNodes())
+		if selectedNodes:
+			return self.saveFiles(selectedNodes)
 
 	@core.executionTrace
 	def __patternsModel__patternInserted(self, comboBox, index):
@@ -928,10 +956,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if node.family == "SearchOccurence":
 			file = node.parent.file
 			occurence = node
-		elif node.family is "SearchFile":
-			file = node.file
-			occurence = None
-		elif node.family is "ReplaceResult":
+		elif node.family in ("SearchFile", "ReplaceResult"):
 			file = node.file
 			occurence = None
 
@@ -1012,7 +1037,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if not self.__container.hasFile(file):
 			cacheData = self.__filesCache.getContent(file)
 			if cacheData:
-				document = cacheData.document or self.__getDocument(cacheData.data)
+				document = cacheData.document or self.__getDocument(cacheData.content)
 				self.__container.loadDocument(file, document)
 				self.__filesCache.removeContent(file)
 			else:
@@ -1078,6 +1103,17 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 				"regularExpressions" : self.Regular_Expressions_checkBox.isChecked()}
 
 	@core.executionTrace
+	def __interruptSearch(self):
+		"""
+		This method interrupt the current search.
+		"""
+
+		if self.__searchWorkerThread:
+			self.__searchWorkerThread.quit()
+			self.__searchWorkerThread.wait()
+			self.__container.engine.stopProcessing(warning=False)
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setSearchResults(self, searchResults):
 		"""
@@ -1116,29 +1152,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		rootNode = umbra.ui.models.DefaultNode(name="InvisibleRootNode")
 		for file, metrics in replaceResults.iteritems():
-			if self.__container.hasFile(file):
-				status = "Opened"
-			elif file in self.__filesCache.keys():
-				status = "Cached"
-			else:
-				status = "Unknown"
-
-			replaceResultNode = ReplaceResultNode(name="{0} '{1}' file: '{2}' occurence(s) replaced!".format(
-								status, file, metrics),
+			replaceResultNode = ReplaceResultNode(name="'{0}' file: '{1}' occurence(s) replaced!".format(file, metrics),
 												parent=rootNode,
 												file=file)
 		self.__model.initializeModel(rootNode)
-		return True
-
-	@core.executionTrace
-	def clearSearchResults(self):
-		"""
-		This method clears the current search results.
-		
-		:return: Method success. ( Boolean )
-		"""
-
-		self.__model.clear()
 		return True
 
 	@core.executionTrace
@@ -1150,7 +1167,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		self.interruptSearch()
+		self.__interruptSearch()
 
 		searchPattern = self.Search_comboBox.currentText()
 		replacementPattern = self.Replace_With_comboBox.currentText()
@@ -1207,8 +1224,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 					"!> {0} | '{1}' key doesn't exists in files cache!".format(self.__class__.__name__, file))
 					continue
 
-				document = self.__getDocument(self.__filesCache.getContent(file).data)
-				self.__filesCache.addContent(**{file : CacheData(data=None, document=document)})
+				document = self.__getDocument(self.__filesCache.getContent(file).content)
+				self.__filesCache.addContent(**{file : CacheData(content=None, document=document)})
 			replaceResults[file] = self.__replaceWithinDocument(document, occurences, replacementPattern)
 
 		self.setReplaceResults(replaceResults)
@@ -1216,16 +1233,19 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"{0} | '{1}' pattern occurence(s) replaced in '{2}' files!".format(self.__class__.__name__,
 																	sum(replaceResults.values()),
 																	len(replaceResults.keys())))
+
 	@core.executionTrace
-	def interruptSearch(self):
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def saveFiles(self, nodes):
 		"""
-		This method interrupt the current search.
+		This method saves user defined files.
 		
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.__searchWorkerThread:
-			self.__searchWorkerThread.quit()
-			self.__searchWorkerThread.wait()
-			self.__container.engine.stopProcessing(warning=False)
-		return True
+		for node in nodes:
+			file = node.file
+			if self.__container.hasFile(file):
+				self.__container.saveFile(file)
+			else:
+				print self.__filesCache.getContent(file)

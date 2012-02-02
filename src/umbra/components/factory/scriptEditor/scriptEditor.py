@@ -3031,20 +3031,20 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def saveFile(self):
+	def saveFile(self, file=None):
 		"""
-		This method saves current **Script_Editor_tabWidget** Widget tab editor file.
+		This method saves either given file or current **Script_Editor_tabWidget** Widget tab editor file.
 
+		:param file: File to save. ( String )
 		:return: Method success. ( Boolean )
 		"""
 
 		if self.hasEditorTab():
-			editor = self.getCurrentEditor()
+			editor = file and self.findEditor(file) or self.getCurrentEditor()
 			LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
 			self.__stopfileSystemWatcher()
 			editor.saveFile()
 			self.__startfileSystemWatcher()
-
 		return True
 
 	@core.executionTrace
@@ -3099,14 +3099,15 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def closeFile(self):
+	def closeFile(self, file=None):
 		"""
-		This method closes current file and removes its associated **Script_Editor_tabWidget** Widget tab.
+		This method closes either given file or current **Script_Editor_tabWidget** Widget tab editor file.
 
+		:param file: File to save. ( String )
 		:return: Method success. ( Boolean )
 		"""
 
-		editor = self.getCurrentEditor()
+		editor = file and self.findEditor(file) or self.getCurrentEditor()
 		if not editor:
 			return
 
