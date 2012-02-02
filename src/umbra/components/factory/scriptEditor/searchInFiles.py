@@ -1026,6 +1026,30 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return "".join((start, pattern, end))
 
 	@core.executionTrace
+	def __formatReplaceMetrics(self, file, metrics):
+		"""
+		This method formats the given replace metrics and returns the matching rich html text.
+
+		:param file: File. ( String )
+		:param metrics: Replace metrics to format. ( String )
+		:return: Rich text. ( String )
+		"""
+
+		color = "rgb({0}, {1}, {2})"
+		spanFormat = "<span style=\"color: {0};\">{{0}}</span>".format(color.format(self.__defaultLineColor.red(),
+																					self.__defaultLineColor.green(),
+																					self.__defaultLineColor.blue()))
+		dirName, baseName = (os.path.dirname(file), os.path.basename(file))
+
+		return "".join((spanFormat.format("'"),
+						spanFormat.format(dirName),
+						spanFormat.format(os.path.sep),
+						baseName,
+						spanFormat.format("' file: '"),
+						str(metrics),
+						spanFormat.format("' occurence(s) replaced!")))
+
+	@core.executionTrace
 	def __highlightOccurence(self, file, occurence):
 		"""
 		This method highlights given file occurence.
@@ -1038,7 +1062,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			cacheData = self.__filesCache.getContent(file)
 			if cacheData:
 				document = cacheData.document or self.__getDocument(cacheData.content)
-				self.__container.loadDocument(file, document)
+				self.__container.loadDocument(document, file)
 				self.__filesCache.removeContent(file)
 			else:
 				self.__container.loadFile(file)
@@ -1151,8 +1175,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 
 		rootNode = umbra.ui.models.DefaultNode(name="InvisibleRootNode")
-		for file, metrics in replaceResults.iteritems():
-			replaceResultNode = ReplaceResultNode(name="'{0}' file: '{1}' occurence(s) replaced!".format(file, metrics),
+		for file, metrics in sorted(replaceResults.iteritems()):
+			replaceResultNode = ReplaceResultNode(name=self.__formatReplaceMetrics(file, metrics),
 												parent=rootNode,
 												file=file)
 		self.__model.initializeModel(rootNode)
@@ -1224,8 +1248,9 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 					"!> {0} | '{1}' key doesn't exists in files cache!".format(self.__class__.__name__, file))
 					continue
 
-				document = self.__getDocument(self.__filesCache.getContent(file).content)
-				self.__filesCache.addContent(**{file : CacheData(content=None, document=document)})
+				content = self.__filesCache.getContent(file).content
+				document = self.__getDocument(content)
+				self.__filesCache.addContent(**{file : CacheData(content=content, document=document)})
 			replaceResults[file] = self.__replaceWithinDocument(document, occurences, replacementPattern)
 
 		self.setReplaceResults(replaceResults)
@@ -1243,9 +1268,16 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
+		metrics = {"Opened" : 0, "Cached" : 0, "Failed" : 0}
 		for node in nodes:
 			file = node.file
 			if self.__container.hasFile(file):
-				self.__container.saveFile(file)
+				if self.__container.saveFile(file):
+					metrics["Opened"] += 1
 			else:
 				print self.__filesCache.getContent(file)
+
+		self.__container.engine.notificationsManager.notify(
+		"{0} | '{1}' opened file(s) and '{2}' cached file(s) saved!".format(self.__class__.__name__,
+																		metrics["Opened"],
+																		metrics["Cached"]))
