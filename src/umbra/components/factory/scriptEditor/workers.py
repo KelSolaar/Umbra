@@ -49,7 +49,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "searchDocument", "Occurence", "SearchResult", "Search_worker"]
+__all__ = ["LOGGER", "Occurence", "SearchResult", "CacheData", "Search_worker"]
 
 LOGGER = logging.getLogger(Constants.logger)
 

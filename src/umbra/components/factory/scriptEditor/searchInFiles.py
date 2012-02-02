@@ -39,6 +39,7 @@ import foundations.core as core
 import foundations.exceptions
 import foundations.ui.common
 import umbra.ui.common
+from foundations.io import File
 from umbra.ui.delegates import RichText_QStyledItemDelegate
 from umbra.components.factory.scriptEditor.models import ReplaceResultNode
 from umbra.components.factory.scriptEditor.models import SearchFileNode
@@ -1219,8 +1220,9 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def replace(self, nodes):
 		"""
-		This method replaces user defined files search pattern occurences with replacement pattern.
+		This method replaces user defined files search pattern occurences with replacement pattern using given nodes.
 		
+		:param nodes: Nodes. ( List )
 		:return: Method success. ( Boolean )
 		"""
 
@@ -1245,7 +1247,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 				cacheData = self.__filesCache.getContent(file)
 				if cacheData is None:
 					LOGGER.warning(
-					"!> {0} | '{1}' key doesn't exists in files cache!".format(self.__class__.__name__, file))
+					"!> {0} | '{1}' file doesn't exists in files cache!".format(self.__class__.__name__, file))
 					continue
 
 				content = self.__filesCache.getContent(file).content
@@ -1263,19 +1265,33 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def saveFiles(self, nodes):
 		"""
-		This method saves user defined files.
-		
+		This method saves user defined files using give nodes.
+
+		:param nodes: Nodes. ( List )
 		:return: Method success. ( Boolean )
 		"""
 
-		metrics = {"Opened" : 0, "Cached" : 0, "Failed" : 0}
+		metrics = {"Opened" : 0, "Cached" : 0}
 		for node in nodes:
 			file = node.file
 			if self.__container.hasFile(file):
 				if self.__container.saveFile(file):
 					metrics["Opened"] += 1
 			else:
-				print self.__filesCache.getContent(file)
+				cacheData = self.__filesCache.getContent(file)
+				if cacheData is None:
+					LOGGER.warning(
+					"!> {0} | '{1}' file doesn't exists in files cache!".format(self.__class__.__name__, file))
+					continue
+
+				if cacheData.document:
+					fileHandle = File(file)
+					fileHandle.content = [cacheData.document.toPlainText()]
+					if fileHandle.write():
+						metrics["Cached"] += 1
+				else:
+					LOGGER.warning(
+					"!> {0} | '{1}' file document doesn't exists in files cache!".format(self.__class__.__name__, file))
 
 		self.__container.engine.notificationsManager.notify(
 		"{0} | '{1}' opened file(s) and '{2}' cached file(s) saved!".format(self.__class__.__name__,
