@@ -2678,7 +2678,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param index: Index of the tab containing the editor. ( Integer )
 		"""
 
-		windowTitle = self.Script_Editor_tabWidget.widget(index).windowTitle()
+		editor = self.Script_Editor_tabWidget.widget(index)
+		if not editor:
+			return
+
+		windowTitle = editor.windowTitle()
 		LOGGER.debug("> Setting '{0}' window title to tab with '{1}' index.".format(windowTitle, index))
 		self.Script_Editor_tabWidget.setTabText(index, windowTitle)
 
