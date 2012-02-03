@@ -1542,7 +1542,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Script_Editor_Output_plainTextEdit_frame_gridLayout.addWidget(
 		self.Script_Editor_Output_plainTextEdit, 0, 0)
 		self.Script_Editor_Output_plainTextEdit.setObjectName("Script_Editor_Output_plainTextEdit")
-
 		self.__Script_Editor_Output_plainTextEdit_setUi()
 
 		self.__searchAndReplace = SearchAndReplace(self, Qt.Window)
@@ -1838,6 +1837,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method sets the **Script_Editor_Output_plainTextEdit** Widget.
 		"""
 
+		self.Script_Editor_Output_plainTextEdit.setReadOnly(True)
 		self.Script_Editor_Output_plainTextEdit.highlighter = umbra.ui.highlighters.DefaultHighlighter(
 																 self.Script_Editor_Output_plainTextEdit.document(),
 																 LOGGING_LANGUAGE.rules,
