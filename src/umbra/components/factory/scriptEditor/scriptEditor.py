@@ -2866,19 +2866,18 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def setEditorLanguage(self, editor, language, emitSignal=True):
+	def setEditorLanguage(self, editor, language):
 		"""
 		This method sets given language to given **Script_Editor_tabWidget** Widget tab editor.
 		
 		:param editor: Editor to set language to. ( Editor )
 		:param language: Language to set. ( Language )
-		:param emitSignal: Emit signal. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
 
 		LOGGER.debug("> Setting '{0}' language to '{1}' editor.".format(language.name, editor))
 
-		return editor.setLanguage(language, emitSignal)
+		return editor.setLanguage(language)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

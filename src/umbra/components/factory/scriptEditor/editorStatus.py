@@ -190,7 +190,9 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			return
 
 		editor = self.__container.getCurrentEditor()
-		self.__container.setEditorLanguage(editor, language, emitSignal=False)
+		editor.blockSignals(True)
+		self.__container.setEditorLanguage(editor, language)
+		editor.blockSignals(False)
 
 	@core.executionTrace
 	def __editor__cursorPositionChanged(self):

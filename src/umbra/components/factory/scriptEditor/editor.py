@@ -686,19 +686,18 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def setLanguage(self, language, emitSignal=True):
+	def setLanguage(self, language):
 		"""
 		This method sets the editor language.
 
 		:param language: Language to set. ( Language )
-		:param emitSignal: Emit signal. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
 
 		LOGGER.debug("> Setting editor language to '{0}'.".format(language.name))
 		self.__language = language
 		self.__setLanguageDescription()
-		emitSignal and self.languageChanged.emit()
+		self.languageChanged.emit()
 		return True
 
 	@core.executionTrace
