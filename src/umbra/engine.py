@@ -209,7 +209,7 @@ def showProcessing(message=str()):
 			:param \*\*kwargs: Keywords arguments. ( \*\* )
 			"""
 
-			RuntimeGlobals.engine.startProcessing(message, 0, warning=False)
+			RuntimeGlobals.engine.startProcessing(message, warning=False)
 			try:
 				return object(*args, **kwargs)
 			finally:
@@ -1317,7 +1317,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def startProcessing(self, message, steps, warning=True):
+	def startProcessing(self, message, steps=0, warning=True):
 		"""
 		This method registers the start of a processing operation.
 

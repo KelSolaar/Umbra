@@ -27,6 +27,7 @@ from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtGui import QFileDialog
 from PyQt4.QtGui import QFont
 from PyQt4.QtGui import QMessageBox
+from PyQt4.QtGui import QPlainTextDocumentLayout
 from PyQt4.QtGui import QTextOption
 
 #**********************************************************************************************************************
@@ -586,8 +587,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method initializes the Widget ui.
 		"""
 
-		self.__setLanguageDescription()
-
 		self.setAttribute(Qt.WA_DeleteOnClose)
 		self.setWordWrapMode(QTextOption.NoWrap)
 
@@ -603,24 +602,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		font.setPointSize(fontSize)
 		self.setFont(font)
 
-		self.__tabWidth = self.fontMetrics().width(" " * self.indentWidth)
-		self.setTabStopWidth(self.__tabWidth)
-
-	@core.executionTrace
-	def __setFile(self, file):
-		"""
-		This method sets the editor file.
-
-		:param File: File to set. ( String )
-		"""
-
-		LOGGER.debug("> Setting '{0}' editor file.".format(file))
-		self.__file = file
-		self.__isUntitled = False
-		self.setModified(False)
-		self.setWindowTitle("{0}".format(self.getFileShortName()))
-
-		self.fileChanged.emit()
+		self.__setLanguageDescription()
 
 	@core.executionTrace
 	def __setWindowTitle(self):
@@ -636,9 +618,19 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.titleChanged.emit()
 
 	@core.executionTrace
-	def __editor__contentsChanged(self):
+	def __document__contentsChanged(self):
 		"""
-		This method is triggered when the editor content changes.
+		This method is triggered when the editor document content changes.
+		"""
+
+		self.__setWindowTitle()
+
+	@core.executionTrace
+	def __document__modificationChanged(self, changed):
+		"""
+		This method is triggered when the editor document is modified.
+		
+		:param changed: File modification state. ( Boolean )
 		"""
 
 		self.__setWindowTitle()
@@ -671,6 +663,26 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.preInputAccelerators = self.__language.preInputAccelerators
 		self.postInputAccelerators = self.__language.postInputAccelerators
 		self.visualAccelerators = self.__language.visualAccelerators
+
+		self.__tabWidth = self.fontMetrics().width(" " * self.indentWidth)
+		self.setTabStopWidth(self.__tabWidth)
+
+	@core.executionTrace
+	def setFile(self, file, isModified=False):
+		"""
+		This method sets the editor file.
+
+		:param File: File to set. ( String )
+		:param isModified: File modified state. ( String )
+		"""
+
+		LOGGER.debug("> Setting '{0}' editor file.".format(file))
+		self.__file = file
+		self.__isUntitled = False
+#		self.setModified(self.isModified())
+		self.__setWindowTitle()
+
+		self.fileChanged.emit()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -718,6 +730,29 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def loadDocument(self, document, file=None, language=None):
+		"""
+		This method loads given document into the editor.
+
+		:param document: Document to load. ( QTextDocument )
+		:param file: File. ( String )
+		:param language: Editor language. ( String )
+		:return: Method success. ( Boolean )
+		"""
+
+		document.setDocumentLayout(QPlainTextDocumentLayout(document))
+		self.setDocument(document)
+		file and self.setFile(file)
+		language and self.setLanguage(language)
+		self.highlighter and self.highlighter.rehighlight()
+
+		# Signals / Slots.
+		self.document().contentsChanged.connect(self.__document__contentsChanged)
+		self.document().modificationChanged.connect(self.__document__modificationChanged)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def newFile(self):
 		"""
 		This method creates a new editor file.
@@ -733,7 +768,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.setWindowTitle("{0}".format(self.__file))
 
 		# Signals / Slots.
-		self.document().contentsChanged.connect(self.__editor__contentsChanged)
+		self.document().contentsChanged.connect(self.__document__contentsChanged)
+		self.document().modificationChanged.connect(self.__document__modificationChanged)
 		return True
 
 	@core.executionTrace
@@ -752,11 +788,12 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		LOGGER.debug("> Loading '{0}' file.".format(file))
 		reader = io.File(file)
-		reader.read() and self.setPlainText("".join(reader.content))
-		self.__setFile(file)
+		self.setPlainText(reader.readAll())
+		self.setFile(file)
 
 		# Signals / Slots.
-		self.document().contentsChanged.connect(self.__editor__contentsChanged)
+		self.document().contentsChanged.connect(self.__document__contentsChanged)
+		self.document().modificationChanged.connect(self.__document__modificationChanged)
 		return True
 
 	@core.executionTrace
@@ -809,7 +846,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		file = str(file)
 		if self.writeFile(file):
-			self.__setFile(file)
+			self.setFile(file)
 			return True
 
 	@core.executionTrace

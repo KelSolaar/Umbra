@@ -32,9 +32,9 @@ from PyQt4.QtGui import QToolButton
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.common
 import foundations.core as core
 import foundations.exceptions
+import umbra.ui.common
 from umbra.globals.constants import Constants
 from umbra.ui.widgets.active_QLabel import Active_QLabel
 
@@ -84,18 +84,20 @@ class Search_QLineEdit(QLineEdit):
 
 		# --- Setting class attributes. ---
 		self.__uiSearchImage = None
-		self.uiSearchImage = uiSearchImage
+		self.uiSearchImage = uiSearchImage or umbra.ui.common.getResourcePath("images/Search_Glass.png")
 		self.__uiSearchClickedImage = None
-		self.uiSearchClickedImage = uiSearchClickedImage
+		self.uiSearchClickedImage = uiSearchClickedImage or umbra.ui.common.getResourcePath(
+		"images/Search_Glass_Clicked.png")
 		self.__uiClearImage = None
-		self.uiClearImage = uiClearImage
+		self.uiClearImage = uiClearImage or umbra.ui.common.getResourcePath("images/Search_Clear.png")
 		self.__uiClearClickedImage = None
-		self.uiClearClickedImage = uiClearClickedImage
+		self.uiClearClickedImage = uiClearClickedImage or umbra.ui.common.getResourcePath(
+		"images/Search_Clear_Clicked.png")
 
 		self.__searchActiveLabel = Active_QLabel(self,
-												QPixmap(uiSearchImage),
-												QPixmap(uiSearchImage),
-												QPixmap(uiSearchClickedImage))
+												QPixmap(self.__uiSearchImage),
+												QPixmap(self.__uiSearchImage),
+												QPixmap(self.__uiSearchClickedImage))
 		self.__searchActiveLabel.setObjectName("Search_Field_activeLabel")
 
 		self.__clearButton = QToolButton(self)

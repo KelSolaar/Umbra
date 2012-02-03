@@ -2,14 +2,6 @@
 <ui version="4.0">
  <class>Search_And_Replace_Form</class>
  <widget class="QWidget" name="Search_And_Replace_Form">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>450</width>
-    <height>278</height>
-   </rect>
-  </property>
   <property name="windowTitle">
    <string>Search And Replace</string>
   </property>
@@ -83,6 +75,12 @@
     <layout class="QVBoxLayout" name="Buttons_verticalLayout">
      <item>
       <widget class="QPushButton" name="Search_pushButton">
+       <property name="minimumSize">
+        <size>
+         <width>115</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="statusTip">
         <string>Search Push Button: Searchs occurences of given search pattern.</string>
        </property>
@@ -93,6 +91,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="Replace_pushButton">
+       <property name="minimumSize">
+        <size>
+         <width>115</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="statusTip">
         <string>Replace Push Button: Replaces the first search occurence with given replacement pattern.</string>
        </property>
@@ -103,6 +107,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="Replace_All_pushButton">
+       <property name="minimumSize">
+        <size>
+         <width>115</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="statusTip">
         <string>Replace All Push Button: Replace all search results occurences with given replacement pattern.</string>
        </property>
@@ -126,6 +136,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="Close_pushButton">
+       <property name="minimumSize">
+        <size>
+         <width>115</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="statusTip">
         <string>Close Push Button: Close the &quot;Search And Replace&quot; dialog.</string>
        </property>

@@ -51,7 +51,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "anchorTextCursor", "Basic_QPlainTextEdit"]
+__all__ = ["LOGGER", "anchorTextCursor", "centerTextCursor", "Basic_QPlainTextEdit"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -85,6 +85,38 @@ def anchorTextCursor(object):
 		if args:
 			if hasattr(args[0], "restoreTextCursorAnchor"):
 				args[0].storeTextCursorAnchor()
+
+		return value
+
+	return function
+
+def centerTextCursor(object):
+	"""
+	This decorator is used to center the text cursor position.
+	
+	:param object: Object to decorate. ( Object )
+	:return: Object. ( Object )
+	"""
+
+	@functools.wraps(object)
+	def function(*args, **kwargs):
+		"""
+		This decorator is used to center the text cursor position.
+
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:return: Object. ( Object )
+		"""
+
+		if args:
+			if hasattr(args[0], "setCenterOnScroll"):
+				args[0].setCenterOnScroll(True)
+
+		value = object(*args, **kwargs)
+
+		if args:
+			if hasattr(args[0], "setCenterOnScroll"):
+				args[0].setCenterOnScroll(False)
 
 		return value
 
@@ -238,7 +270,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
+	# @core.executionTrace
 	def wheelEvent(self, event):
 		"""
 		This method reimplements the :meth:`QPlainTextEdit.wheelEvent` method.
@@ -628,6 +660,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@centerTextCursor
 	def search(self, pattern, **kwargs):
 		"""
 		This method searchs given pattern text in the document.
@@ -656,6 +689,8 @@ backwardSearch=True, wrapAround=True)
 
 		self.__searchPattern = pattern
 
+		pattern = settings.regularExpressions and QRegExp(pattern) or pattern
+
 		flags = QTextDocument.FindFlags()
 		if settings.caseSensitive:
 			flags = flags | QTextDocument.FindCaseSensitively
@@ -664,11 +699,7 @@ backwardSearch=True, wrapAround=True)
 		if settings.backwardSearch:
 			flags = flags | QTextDocument.FindBackward
 
-		cursor = self.textCursor()
-		if settings.regularExpressions:
-			cursor = self.document().find(QRegExp(pattern), cursor, flags)
-		else:
-			cursor = self.document().find(pattern, cursor, flags)
+		cursor = self.document().find(pattern, self.textCursor(), flags)
 		if not cursor.isNull():
 			self.setTextCursor(cursor)
 			return True
@@ -689,6 +720,7 @@ backwardSearch=True, wrapAround=True)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@centerTextCursor
 	def searchNext(self):
 		"""
 		This method searchs the next search pattern in the document.
@@ -708,6 +740,7 @@ backwardSearch=True, wrapAround=True)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@centerTextCursor
 	def searchPrevious(self):
 		"""
 		This method searchs the previous search pattern in the document.
@@ -727,6 +760,7 @@ backwardSearch=True, wrapAround=True)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@centerTextCursor
 	def replace(self, pattern, replacementPattern, **kwargs):
 		"""
 		This method replaces current given pattern occurence in the document with the replacement pattern.
@@ -772,6 +806,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@centerTextCursor
 	@anchorTextCursor
 	def replaceAll(self, pattern, replacementPattern, **kwargs):
 		"""
@@ -816,6 +851,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@centerTextCursor
 	def gotoLine(self, line):
 		"""
 		This method moves the text cursor to given line.
@@ -841,6 +877,21 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 		cursor = self.textCursor()
 		cursor.setPosition(cursor.block().position() + column)
+		self.setTextCursor(cursor)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def gotoPosition(self, position):
+		"""
+		This method moves the text cursor to given position.
+
+		:param position: Position to go to. ( Integer )
+		:return: Method success. ( Boolean )
+		"""
+
+		cursor = self.textCursor()
+		cursor.setPosition(position)
 		self.setTextCursor(cursor)
 		return True
 

@@ -424,6 +424,11 @@ QToolTip {
 	padding: 8px;
 }
 
+/* Search_QlineEdit. */
+#Search_Field_activeLabel, #Clear_Field_button {
+	background-color: transparent;
+}
+
 /* Components. */
 /* Factory Component "Script Editor". */
 #Script_Editor_tabWidget {
@@ -440,4 +445,20 @@ QToolTip {
 
 #Lines_Columns_label {
 	margin: 4px 8px 4px 8px;
+}
+
+#Search_Results_treeView::branch:has-siblings:!adjoins-item {
+	border-image: none;
+}
+
+#Search_Results_treeView::branch:has-siblings:adjoins-item {
+	border-image: none;
+}
+
+#Search_Results_treeView::branch:!has-children:!has-siblings:adjoins-item {
+	border-image: none;
+}
+
+#Search_Results_treeView::branch:hover, QTreeView::item:hover {
+	background-color: rgb(80, 80, 80);
 }

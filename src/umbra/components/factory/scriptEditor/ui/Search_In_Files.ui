@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Search_In_Files_Form</class>
+ <widget class="QWidget" name="Search_In_Files_Form">
+  <property name="windowTitle">
+   <string>Search In Files</string>
+  </property>
+  <layout class="QGridLayout" name="Search_In_Files_Form_gridLayout">
+   <item row="3" column="2">
+    <widget class="QPushButton" name="Close_pushButton">
+     <property name="minimumSize">
+      <size>
+       <width>115</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="statusTip">
+      <string>Close Push Button: Close the &quot;Search In Files&quot; dialog.</string>
+     </property>
+     <property name="text">
+      <string>Close</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="0" colspan="3">
+    <widget class="QFrame" name="Search_Replace_Widgets_frame">
+     <layout class="QGridLayout" name="Search_Replace_Widgets_frame_gridLayout">
+      <property name="margin">
+       <number>0</number>
+      </property>
+      <item row="1" column="0">
+       <widget class="QLabel" name="Search_label">
+        <property name="text">
+         <string>Search:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="Replace_With_label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Replace With:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1" colspan="2">
+       <widget class="QComboBox" name="Replace_With_comboBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="statusTip">
+         <string>Replace With Combo Box: Defines the replacement pattern.</string>
+        </property>
+        <property name="editable">
+         <bool>true</bool>
+        </property>
+        <property name="insertPolicy">
+         <enum>QComboBox::InsertAtTop</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" colspan="2">
+       <widget class="QComboBox" name="Search_comboBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="statusTip">
+         <string>Search Combo Box: Defines the pattern to search for.</string>
+        </property>
+        <property name="editable">
+         <bool>true</bool>
+        </property>
+        <property name="insertPolicy">
+         <enum>QComboBox::NoInsert</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="Where_label">
+        <property name="text">
+         <string>Where:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1" colspan="2">
+       <widget class="QFrame" name="Where_frame">
+        <layout class="QGridLayout" name="Where_frame_gridLayout">
+         <property name="margin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLineEdit" name="Where_lineEdit">
+           <property name="statusTip">
+            <string>Where Line Edit: Defines where the search will occur.</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QGroupBox" name="Options_groupBox">
+     <property name="title">
+      <string>Options</string>
+     </property>
+     <layout class="QGridLayout" name="Options_groupBox_gridLayout">
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="Case_Sensitive_checkBox">
+        <property name="statusTip">
+         <string>Case Sensitive Check Box: Performs search case sensitively.</string>
+        </property>
+        <property name="text">
+         <string>Case Sensitive</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QCheckBox" name="Whole_Word_checkBox">
+        <property name="statusTip">
+         <string>Whole Word Check Box: Performs search on whole word only.</string>
+        </property>
+        <property name="text">
+         <string>Whole Word</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QCheckBox" name="Regular_Expressions_checkBox">
+        <property name="statusTip">
+         <string>Regular Expressions Check Box: Performs search using regular expressions.</string>
+        </property>
+        <property name="text">
+         <string>Regular Expressions</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="3">
+    <widget class="QFrame" name="Search_Results_frame">
+     <layout class="QGridLayout" name="Search_Results_frame_gridLayout">
+      <property name="margin">
+       <number>0</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QTreeView" name="Search_Results_treeView"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QPushButton" name="Search_pushButton">
+     <property name="minimumSize">
+      <size>
+       <width>115</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="statusTip">
+      <string>Search Push Button: Searchs occurences of given search pattern.</string>
+     </property>
+     <property name="text">
+      <string>Search</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>Search_comboBox</tabstop>
+  <tabstop>Replace_With_comboBox</tabstop>
+  <tabstop>Case_Sensitive_checkBox</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

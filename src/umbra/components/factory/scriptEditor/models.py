@@ -24,12 +24,14 @@ from PyQt4.QtCore import QAbstractListModel
 from PyQt4.QtCore import QModelIndex
 from PyQt4.QtCore import QVariant
 from PyQt4.QtCore import Qt
+from PyQt4.QtCore import pyqtSignal
 
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import foundations.walkers
 import umbra.ui.models
 from umbra.components.factory.scriptEditor.editor import Language
 from umbra.globals.constants import Constants
@@ -44,7 +46,14 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "LanguagesModel", "PatternNode", "PatternsModel"]
+__all__ = ["LOGGER",
+			"LanguagesModel",
+			"PatternNode",
+			"PatternsModel",
+			"SearchFileNode",
+			"SearchOccurenceNode",
+			"ReplaceResultNode",
+			"SearchResultsModel"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -291,6 +300,22 @@ class PatternsModel(umbra.ui.models.GraphModel):
 	replace patterns.
 	"""
 
+	# Custom signals definitions.
+	patternInserted = pyqtSignal(QModelIndex)
+	"""
+	This signal is emited by the :class:`PatternsModel` class when a pattern has been inserted. ( pyqtSignal )
+
+	:return: Inserted pattern index. ( QModelIndex )
+	"""
+
+	# Custom signals definitions.
+	patternRemoved = pyqtSignal(QModelIndex)
+	"""
+	This signal is emited by the :class:`PatternsModel` class when a pattern has been removed. ( pyqtSignal )
+
+	:return: Removed pattern index. ( QModelIndex )
+	"""
+
 	@core.executionTrace
 	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None, verticalHeaders=None, defaultNode=None):
 		"""
@@ -321,7 +346,242 @@ class PatternsModel(umbra.ui.models.GraphModel):
 		:return: Method success. ( Boolean )
 		"""
 
-		self.beginInsertRows(self.getNodeIndex(self.rootNode.children[index]), index, index)
-		self.rootNode.children.insert(index, PatternNode(parent=self.rootNode, name=pattern))
+		LOGGER.debug("> Inserting '{0}' at '{1}' index.".format(pattern, index))
+
+		self.removePattern(pattern)
+
+		self.beginInsertRows(self.getNodeIndex(self.rootNode), index, index)
+		self.rootNode.insertChild(PatternNode(name=pattern), index)
 		self.endInsertRows()
+		self.patternInserted.emit(self.getNodeIndex(self.rootNode.children[index]))
 		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def removePattern(self, pattern):
+		"""
+		This method removes given pattern from the Model.
+
+		:param pattern: Pattern. ( String )
+		:return: Method success. ( Boolean )
+		"""
+
+		for index, node in enumerate(self.rootNode.children):
+			if node.name != pattern:
+				continue
+
+			LOGGER.debug("> Removing '{0}' at '{1}' index.".format(pattern, index))
+
+			self.beginRemoveRows(self.getNodeIndex(self.rootNode), index, index)
+			self.rootNode.removeChild(index)
+			self.endRemoveRows()
+			self.patternRemoved.emit(self.getNodeIndex(self.rootNode.children[index]))
+			return True
+
+class SearchFileNode(umbra.ui.models.GraphModelNode):
+	"""
+	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
+	search file node.
+	"""
+
+	__family = "SearchFile"
+	"""Node family. ( String )"""
+
+	@core.executionTrace
+	def __init__(self,
+				name=None,
+				parent=None,
+				children=None,
+				roles=None,
+				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+				**kwargs):
+		"""
+		This method initializes the class.
+
+		:param name: Node name.  ( String )
+		:param parent: Node parent. ( GraphModelNode )
+		:param children: Children. ( List )
+		:param roles: Roles. ( Dictionary )
+		:param nodeFlags: Node flags. ( Integer )
+		:param attributesFlags: Attributes flags. ( Integer )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
+
+		SearchFileNode.__initializeNode(self, attributesFlags)
+
+	#******************************************************************************************************************
+	#***	Class methods.
+	#******************************************************************************************************************
+	@core.executionTrace
+	def __initializeNode(self, attributesFlags):
+		"""
+		This method initializes the node.
+		
+		:param attributesFlags: Attributes flags. ( Integer )
+		"""
+
+		pass
+
+class SearchOccurenceNode(umbra.ui.models.GraphModelNode):
+	"""
+	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
+	search occurence node.
+	"""
+
+	__family = "SearchOccurence"
+	"""Node family. ( String )"""
+
+	@core.executionTrace
+	def __init__(self,
+				name=None,
+				parent=None,
+				children=None,
+				roles=None,
+				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+				**kwargs):
+		"""
+		This method initializes the class.
+
+		:param name: Node name.  ( String )
+		:param parent: Node parent. ( GraphModelNode )
+		:param children: Children. ( List )
+		:param roles: Roles. ( Dictionary )
+		:param nodeFlags: Node flags. ( Integer )
+		:param attributesFlags: Attributes flags. ( Integer )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
+
+		SearchOccurenceNode.__initializeNode(self, attributesFlags)
+
+	#******************************************************************************************************************
+	#***	Class methods.
+	#******************************************************************************************************************
+	@core.executionTrace
+	def __initializeNode(self, attributesFlags):
+		"""
+		This method initializes the node.
+		
+		:param attributesFlags: Attributes flags. ( Integer )
+		"""
+
+		pass
+
+class ReplaceResultNode(umbra.ui.models.GraphModelNode):
+	"""
+	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
+	replace result node.
+	"""
+
+	__family = "ReplaceResult"
+	"""Node family. ( String )"""
+
+	@core.executionTrace
+	def __init__(self,
+				name=None,
+				parent=None,
+				children=None,
+				roles=None,
+				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+				**kwargs):
+		"""
+		This method initializes the class.
+
+		:param name: Node name.  ( String )
+		:param parent: Node parent. ( GraphModelNode )
+		:param children: Children. ( List )
+		:param roles: Roles. ( Dictionary )
+		:param nodeFlags: Node flags. ( Integer )
+		:param attributesFlags: Attributes flags. ( Integer )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
+
+		ReplaceResultNode.__initializeNode(self, attributesFlags)
+
+	#******************************************************************************************************************
+	#***	Class methods.
+	#******************************************************************************************************************
+	@core.executionTrace
+	def __initializeNode(self, attributesFlags):
+		"""
+		This method initializes the node.
+		
+		:param attributesFlags: Attributes flags. ( Integer )
+		"""
+
+		pass
+
+class SearchResultsModel(umbra.ui.models.GraphModel):
+	"""
+	This class defines the Model used the by
+	:class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class to store the search results.
+	"""
+
+	@core.executionTrace
+	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None, verticalHeaders=None, defaultNode=None):
+		"""
+		This method initializes the class.
+
+		:param parent: Object parent. ( QObject )
+		:param rootNode: Root node. ( AbstractCompositeNode )
+		:param horizontalHeaders: Headers. ( OrderedDict )
+		:param verticalHeaders: Headers. ( OrderedDict )
+		:param defaultNode: Default node. ( AbstractCompositeNode )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		umbra.ui.models.GraphModel.__init__(self, parent, rootNode, horizontalHeaders, verticalHeaders, defaultNode)
+
+	#******************************************************************************************************************
+	#***	Class methods.
+	#******************************************************************************************************************
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def initializeModel(self, rootNode):
+		"""
+		This method initializes the Model using given root node.
+		
+		:param rootNode: Graph root node. ( DefaultNode )
+		:return: Method success ( Boolean )
+		"""
+
+		LOGGER.debug("> Initializing model with '{0}' root node.".format(rootNode))
+
+		self.beginResetModel()
+		self.rootNode = rootNode
+		self.endResetModel()
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getMetrics(self):
+		"""
+		This method returns the Model metrics.
+		
+		:return: Nodes metrics. ( Dictionary )
+		"""
+
+		searchFileNodesCount = searchOccurenceNodesCount = 0
+
+		for node in foundations.walkers.nodesWalker(self.rootNode):
+			if node.family == "SearchFile":
+				searchFileNodesCount += 1
+			elif node.family == "SearchOccurence":
+				searchOccurenceNodesCount += 1
+
+		return {"SearchFile" : searchFileNodesCount, "SearchOccurence" : searchOccurenceNodesCount}
