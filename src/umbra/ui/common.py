@@ -317,7 +317,7 @@ def signalsBlocker(instance, attribute, *args, **kwargs):
 	value = None
 	try:
 		hasattr(instance, "blockSignals") and instance.blockSignals(True)
-		value = attribute(instance, * args, **kwargs)
+		value = attribute(*args, **kwargs)
 	finally:
 		hasattr(instance, "blockSignals") and instance.blockSignals(False)
 		return value
