@@ -49,6 +49,7 @@ from PyQt4.QtGui import QTextOption
 import foundations.common
 import foundations.core as core
 import foundations.exceptions
+import foundations.strings as strings
 import foundations.walkers
 import umbra.engine
 import umbra.ui.common
@@ -2586,7 +2587,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method sets the recent files actions.
 		"""
 
-		recentFiles = [str(recentFile)
+		recentFiles = [strings.encode(recentFile)
 					for recentFile in self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",")
 					if foundations.common.pathExists(recentFile)]
 		if not recentFiles:
@@ -2601,8 +2602,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 			LOGGER.debug("> Adding '{0}' file to recent files actions.".format(recentFiles[i]))
 
-			self.__recentFilesActions[i].setText("{0} {1}".format(i + 1, os.path.basename(str(recentFiles[i]))))
-			self.__recentFilesActions[i].data = str(recentFiles[i])
+			self.__recentFilesActions[i].setText("{0} {1}".format(i + 1, os.path.basename(strings.encode(recentFiles[i]))))
+			self.__recentFilesActions[i].data = strings.encode(recentFiles[i])
 			self.__recentFilesActions[i].setVisible(True)
 
 	@core.executionTrace
@@ -2615,7 +2616,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Storing '{0}' file in recent files.".format(file))
 
-		recentFiles = [str(recentFile)
+		recentFiles = [strings.encode(recentFile)
 					for recentFile in self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",")
 					if foundations.common.pathExists(recentFile)]
 		if not recentFiles:
@@ -2646,7 +2647,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		for url in event.mimeData().urls():
 			LOGGER.debug("> Handling dropped '{0}' file.".format(url.path()))
 			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and \
-			re.search(r"^\/[A-Z]:", str(url.path())) and str(url.path())[1:] or str(url.path())
+			re.search(r"^\/[A-Z]:", strings.encode(url.path())) and strings.encode(url.path())[1:] or \
+			strings.encode(url.path())
 			if os.path.isdir(path):
 				continue
 
@@ -3200,7 +3202,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		LOGGER.debug("> Evaluating 'Script Editor' selected content.")
-		if self.evaluateCode(str(editor.textCursor().selectedText().replace(QChar(QChar.ParagraphSeparator),
+		if self.evaluateCode(strings.encode(editor.textCursor().selectedText().replace(QChar(QChar.ParagraphSeparator),
 																			QString("\n")))):
 			self.uiRefresh.emit()
 			return True
@@ -3219,7 +3221,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		LOGGER.debug("> Evaluating 'Script Editor' content.")
-		if self.evaluateCode(str(editor.toPlainText())):
+		if self.evaluateCode(strings.encode(editor.toPlainText())):
 			self.uiRefresh.emit()
 			return True
 

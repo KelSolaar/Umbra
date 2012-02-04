@@ -91,7 +91,7 @@ _extendResourcesPaths()
 import foundations.core as core
 import foundations.exceptions
 import foundations.io as io
-import foundations.strings
+import foundations.strings as strings
 import foundations.ui.common
 import manager.exceptions
 import umbra.exceptions
@@ -184,7 +184,7 @@ SESSION_FOOTER_TEXT = ("{0} | Closing interface! ".format(Constants.applicationN
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-def showProcessing(message=str()):
+def showProcessing(message=unicode()):
 	"""
 	This decorator is used for a processing operation.
 	
@@ -1236,7 +1236,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 					continue
 
 				styleSheetFile.content[i] = line.replace(search.group("url"),
-				foundations.strings.toForwardSlashes(umbra.ui.common.getResourcePath(search.group("url"))))
+				strings.toForwardSlashes(umbra.ui.common.getResourcePath(search.group("url"))))
 			RuntimeGlobals.application.setStyleSheet(QString("".join(styleSheetFile.content)))
 			return True
 		else:
@@ -1620,7 +1620,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 
 	LOGGER.debug("> Retrieving stored logging formatter.")
 	loggingFormatter = RuntimeGlobals.parameters.loggingFormater and RuntimeGlobals.parameters.loggingFormater or \
-	str(RuntimeGlobals.settings.getKey("Settings", "loggingFormatter").toString())
+	strings.encode(RuntimeGlobals.settings.getKey("Settings", "loggingFormatter").toString())
 	loggingFormatter = loggingFormatter in RuntimeGlobals.loggingFormatters and loggingFormatter or None
 	RuntimeGlobals.loggingActiveFormatter = loggingFormatter and loggingFormatter or Constants.loggingDefaultFormatter
 	LOGGER.debug("> Setting logging formatter: '{0}'.".format(RuntimeGlobals.loggingActiveFormatter))

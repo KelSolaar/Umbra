@@ -26,6 +26,7 @@ from PyQt4.QtGui import QTextCursor
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import foundations.strings as strings
 from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
@@ -104,11 +105,11 @@ def indentationPostEventInputAccelerators(editor, event):
 		cursor = editor.textCursor()
 		block = cursor.block().previous()
 		if block.isValid():
-			indent = re.match(r"(\s*)", unicode(block.text())).group(1)
+			indent = re.match(r"(\s*)", strings.encode(block.text())).group(1)
 			indentationSymbols = getEditorCapability(editor, "indentationSymbols")
 			if indentationSymbols:
 				for symbol in indentationSymbols:
-					if unicode(block.text(), Constants.encodingFormat, Constants.encodingError).endswith(symbol):
+					if strings.encode(block.text()).endswith(symbol):
 						indent += editor.indentMarker
 			cursor.insertText(indent)
 	return True
@@ -215,7 +216,7 @@ def symbolsExpandingPreEventInputAccelerators(editor, event):
 	if not symbolsPairs:
 		return processEvent
 
-	text = unicode(event.text(), Constants.encodingFormat, Constants.encodingError)
+	text = strings.encode(event.text())
 	if text in symbolsPairs:
 		cursor = editor.textCursor()
 		cursor.beginEditBlock()
@@ -241,8 +242,7 @@ def symbolsExpandingPreEventInputAccelerators(editor, event):
 			cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor)
 		rightText = cursor.selectedText()
 
-		if symbolsPairs.get(unicode(leftText, Constants.encodingFormat, Constants.encodingError)) == \
-		unicode(rightText, Constants.encodingFormat, Constants.encodingError):
+		if symbolsPairs.get(strings.encode(leftText)) == strings.encode(rightText):
 			cursor.deleteChar()
 		cursor.endEditBlock()
 	return processEvent

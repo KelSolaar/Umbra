@@ -27,6 +27,7 @@ from PyQt4.QtGui import QTextFormat
 #**********************************************************************************************************************
 #import foundations.core as core
 #import foundations.exceptions
+import foundations.strings as strings
 from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
@@ -133,10 +134,10 @@ def highlightMatchingSymbolsPairs(editor):
 
 		cursor = editor.textCursor()
 		if cursor.hasSelection():
-			text = unicode(cursor.selectedText(), Constants.encodingFormat, Constants.encodingError)
+			text = strings.encode(cursor.selectedText())
 		else:
 			cursor.movePosition(QTextCursor.PreviousCharacter, QTextCursor.KeepAnchor)
-			text = unicode(cursor.selectedText(), Constants.encodingFormat, Constants.encodingError)
+			text = strings.encode(cursor.selectedText())
 
 		startSelection.cursor = cursor
 

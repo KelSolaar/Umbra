@@ -35,6 +35,7 @@ import foundations.common
 import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
+import foundations.strings as strings
 import umbra.exceptions
 import umbra.ui.widgets.messageBox as messageBox
 from foundations.parsers import SectionsFileParser
@@ -277,7 +278,7 @@ def storeLastBrowsedPath(path):
 	:return: Provided path. ( String )
 	"""
 
-	path = str(path)
+	path = strings.encode(path)
 
 	lastBrowsedPath = os.path.normpath(os.path.join(os.path.isfile(path) and os.path.dirname(path) or path, ".."))
 	LOGGER.debug("> Storing last browsed path: '%s'.", lastBrowsedPath)

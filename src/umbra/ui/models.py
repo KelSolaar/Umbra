@@ -33,6 +33,7 @@ from PyQt4.QtGui import QIcon
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import foundations.strings as strings
 from foundations.dag import AbstractCompositeNode
 from foundations.dag import Attribute
 from umbra.globals.constants import Constants
@@ -507,7 +508,7 @@ class GraphModel(QAbstractItemModel):
 		if index.column() == 0:
 			if hasattr(node, "roles"):
 				if role == Qt.DecorationRole:
-					return QIcon(node.roles.get(role, str()))
+					return QIcon(node.roles.get(role, unicode()))
 				else:
 					return node.roles.get(role, QVariant())
 		else:
@@ -515,7 +516,7 @@ class GraphModel(QAbstractItemModel):
 			if attribute:
 				if hasattr(attribute, "roles"):
 					if role == Qt.DecorationRole:
-						return QIcon(attribute.roles.get(role, str()))
+						return QIcon(attribute.roles.get(role, unicode()))
 					else:
 						return attribute.roles.get(role, QVariant())
 		return QVariant()
@@ -537,7 +538,7 @@ class GraphModel(QAbstractItemModel):
 
 		node = self.getNode(index)
 		if role == Qt.DisplayRole or role == Qt.EditRole:
-			value = unicode(value.toString(), Constants.encodingFormat, Constants.encodingError)
+			value = strings.encode(value.toString())
 			roles = {Qt.DisplayRole : value, Qt.EditRole : value}
 		else:
 			roles = {role : value}

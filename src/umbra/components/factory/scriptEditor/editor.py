@@ -38,7 +38,7 @@ import foundations.dataStructures
 import foundations.exceptions
 import foundations.io as io
 import foundations.parsers
-import foundations.strings
+import foundations.strings as strings
 import umbra.ui.common
 import umbra.ui.completers
 import umbra.ui.highlighters
@@ -179,13 +179,14 @@ def getLanguageDescription(grammarfile):
 
 	indentMarker = sectionsParser.sectionExists("Syntax") and sectionsParser.getValue("IndentMarker", "Syntax") or \
 					DEFAULT_INDENT_MARKER
-	commentMarker = sectionsParser.sectionExists("Syntax") and sectionsParser.getValue("CommentMarker", "Syntax") or str()
+	commentMarker = sectionsParser.sectionExists("Syntax") and \
+					sectionsParser.getValue("CommentMarker", "Syntax") or unicode()
 	commentBlockMarkerStart = sectionsParser.sectionExists("Syntax") and \
-								sectionsParser.getValue("CommentBlockMarkerStart", "Syntax") or str()
+							sectionsParser.getValue("CommentBlockMarkerStart", "Syntax") or unicode()
 	commentBlockMarkerEnd = sectionsParser.sectionExists("Syntax") and \
-								sectionsParser.getValue("CommentBlockMarkerEnd", "Syntax") or str()
+							sectionsParser.getValue("CommentBlockMarkerEnd", "Syntax") or unicode()
 	symbolsPairs = sectionsParser.sectionExists("Syntax") and \
-								sectionsParser.getValue("SymbolsPairs", "Syntax") or {}
+							sectionsParser.getValue("SymbolsPairs", "Syntax") or {}
 
 	if symbolsPairs:
 		associatedPairs = foundations.dataStructures.Lookup()
@@ -712,7 +713,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		if not self.__file:
 			return
 
-		return foundations.strings.getSplitextBasename(self.__file)
+		return strings.getSplitextBasename(self.__file)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -843,7 +844,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		if not file:
 			return
 
-		file = str(file)
+		file = strings.encode(file)
 		if self.writeFile(file):
 			self.setFile(file)
 			return True

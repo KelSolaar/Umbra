@@ -27,6 +27,7 @@ from PyQt4.QtCore import Qt
 import foundations.core as core
 import foundations.exceptions
 import foundations.ui.common
+import foundations.strings as strings
 from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
@@ -185,7 +186,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if not self.__container.hasEditorTab():
 			return
 
-		language = self.__container.languagesModel.getLanguage(str(self.Languages_comboBox.currentText()))
+		language = self.__container.languagesModel.getLanguage(strings.encode(self.Languages_comboBox.currentText()))
 		if not language:
 			return
 

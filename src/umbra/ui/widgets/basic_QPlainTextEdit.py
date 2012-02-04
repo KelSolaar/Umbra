@@ -38,7 +38,7 @@ from PyQt4.QtGui import QTextOption
 import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
-import foundations.strings
+import foundations.strings as strings
 from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
@@ -432,9 +432,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		words = []
 		block = self.document().findBlockByLineNumber(0)
 		while block.isValid():
-			blockWords = foundations.strings.getWords(unicode(block.text(),
-																Constants.encodingFormat,
-																Constants.encodingError))
+			blockWords = strings.getWords(strings.encode(block.text()))
 			if blockWords:
 				words.extend(blockWords)
 			block = block.next()
@@ -472,9 +470,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		:return: Word under cursor. ( QString )		
 		"""
-		if not re.match(r"^\w+$", unicode(self.getPreviousCharacter(),
-										Constants.encodingFormat,
-										Constants.encodingError)):
+		if not re.match(r"^\w+$", strings.encode(self.getPreviousCharacter())):
 			return
 
 		cursor = self.textCursor()

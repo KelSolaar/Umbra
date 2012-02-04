@@ -39,6 +39,7 @@ from PyQt4.QtGui import QWidget
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import foundations.strings as strings
 from umbra.globals.constants import Constants
 from umbra.ui.widgets.basic_QPlainTextEdit import Basic_QPlainTextEdit
 from umbra.ui.widgets.basic_QPlainTextEdit import anchorTextCursor
@@ -354,10 +355,10 @@ class LinesNumbers_QWidget(QWidget):
 				continue
 
 			block == currentBlock and __setBold(True) or __setBold(False)
-			painter.drawText(self.width() - metrics.width(str(blockNumber)) - self.__margin / 3,
+			painter.drawText(self.width() - metrics.width(strings.encode(blockNumber)) - self.__margin / 3,
 							round(position.y() + metrics.ascent() + metrics.descent() - \
 							(self.__editor.blockBoundingRect(block).height() * 8.0 / 100)),
-							str(blockNumber))
+							strings.encode(blockNumber))
 			block = block.next()
 
 		painter.end()
@@ -372,7 +373,7 @@ class LinesNumbers_QWidget(QWidget):
 		:return: Widget target width. ( Integer )
 		"""
 
-		return self.__margin + self.__editor.fontMetrics().width(str(max(1, self.__editor.blockCount())))
+		return self.__margin + self.__editor.fontMetrics().width(strings.encode(max(1, self.__editor.blockCount())))
 
 	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -1003,9 +1004,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		cursor.beginEditBlock()
 		if not cursor.hasSelection():
 			cursor.movePosition(QTextCursor.StartOfBlock)
-			line = unicode(self.document().findBlockByNumber(cursor.blockNumber()).text(),
-							Constants.encodingFormat,
-							Constants.encodingError)
+			line = strings.encode(self.document().findBlockByNumber(cursor.blockNumber()).text())
 			indentMarker = re.match(r"({0})".format(self.__indentMarker), line)
 			if indentMarker:
 				for i in range(len(indentMarker.group(1))):
@@ -1041,9 +1040,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		cursor.beginEditBlock()
 		if not cursor.hasSelection():
 			cursor.movePosition(QTextCursor.StartOfBlock)
-			line = unicode(self.document().findBlockByNumber(cursor.blockNumber()).text(),
-							Constants.encodingFormat,
-							Constants.encodingError)
+			line = strings.encode(self.document().findBlockByNumber(cursor.blockNumber()).text())
 			if line.startswith(self.__commentMarker):
 				cursor.deleteChar()
 			else:
@@ -1054,9 +1051,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 				blockCursor = self.textCursor()
 				blockCursor.setPosition(block.position())
 
-				if unicode(block.text(),
-							Constants.encodingFormat,
-							Constants.encodingError).startswith(self.__commentMarker):
+				if strings.encode(block.text()).startswith(self.__commentMarker):
 					blockCursor.deleteChar()
 				else:
 					blockCursor.insertText(self.__commentMarker)
@@ -1086,7 +1081,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 			if re.search(r"\s+$", block.text()):
 				cursor.movePosition(QTextCursor.EndOfBlock)
 				cursor.movePosition(QTextCursor.StartOfBlock, QTextCursor.KeepAnchor)
-				cursor.insertText(unicode(block.text(), Constants.encodingFormat, Constants.encodingError).rstrip())
+				cursor.insertText(strings.encode(block.text()).rstrip())
 			block = block.next()
 		cursor.movePosition(QTextCursor.End, QTextCursor.MoveAnchor)
 		if not cursor.block().text().isEmpty():

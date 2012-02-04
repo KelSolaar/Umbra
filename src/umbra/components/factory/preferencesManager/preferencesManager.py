@@ -27,6 +27,7 @@ from PyQt4.QtCore import Qt
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import foundations.strings as strings
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
@@ -302,7 +303,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param index: ComboBox activated item index. ( Integer )
 		"""
 
-		formatter = str(self.Logging_Formatters_comboBox.currentText())
+		formatter = strings.encode(self.Logging_Formatters_comboBox.currentText())
 		LOGGER.debug("> Setting logging formatter: '{0}'.".format(formatter))
 		RuntimeGlobals.loggingActiveFormatter = formatter
 		self.setLoggingFormatter()

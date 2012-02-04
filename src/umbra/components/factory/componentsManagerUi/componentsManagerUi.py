@@ -31,6 +31,7 @@ from PyQt4.QtGui import QAction
 import foundations.core as core
 import foundations.exceptions
 import foundations.walkers
+import foundations.strings as strings
 import manager.exceptions
 import umbra.engine
 import umbra.ui.common
@@ -1055,7 +1056,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 										attributesFlags=attributesFlags,
 										activated=umbra.ui.models.GraphModelAttribute(name="activated",
 										flags=attributesFlags,
-										roles={Qt.DisplayRole: str(component.interface.activated),
+										roles={Qt.DisplayRole: strings.encode(component.interface.activated),
 										Qt.DecorationRole:os.path.join(self.__uiResourcesDirectory,
 																component.interface.activated and \
 																self.__uiActivatedImage or self.__uiDeactivatedImage)}))

@@ -32,6 +32,7 @@ import foundations.core as core
 import foundations.common
 import foundations.exceptions
 import foundations.ui.common
+import foundations.strings as strings
 import umbra.ui.common
 from umbra.components.factory.scriptEditor.models import PatternNode
 from umbra.components.factory.scriptEditor.models import PatternsModel
@@ -269,11 +270,9 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		(("_SearchAndReplace__searchPatternsModel", "recentSearchPatterns", self.Search_comboBox),
 		("_SearchAndReplace__replaceWithPatternsModel", "recentReplaceWithPatterns", self.Replace_With_comboBox)):
 			self.__dict__[model] = PatternsModel(defaultNode=PatternNode)
-			patterns = foundations.common.orderedUniqify(unicode(self.__container.settings.getKey(
+			patterns = foundations.common.orderedUniqify(strings.encode(self.__container.settings.getKey(
 															self.__container.settingsSection,
-															settingsKey).toString(),
-															Constants.encodingFormat,
-															Constants.encodingError).split(","))
+															settingsKey).toString()).split(","))
 			[PatternNode(parent=self.__dict__[model].rootNode, name=pattern) \
 			for pattern in patterns[:self.__maximumStoredPatterns]]
 			comboBox.setInsertPolicy(QComboBox.InsertAtTop)
@@ -379,9 +378,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		model.insertPattern(unicode(pattern,
-									Constants.encodingFormat,
-									Constants.encodingError), index)
+		model.insertPattern(strings.encode(pattern), index)
 		return True
 
 	@core.executionTrace

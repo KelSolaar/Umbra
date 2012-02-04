@@ -28,6 +28,7 @@ import foundations.common
 import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
+import foundations.strings as strings
 import umbra.exceptions
 from foundations.io import File
 from foundations.walkers import OsWalker
@@ -263,7 +264,7 @@ class PatchesManager(object):
 		:return: Method success. ( Boolean )
 		"""
 
-		patch = foundations.strings.getSplitextBasename(path)
+		patch = strings.getSplitextBasename(path)
 		LOGGER.debug("> Current patch: '{0}'.".format(patch))
 
 		directory = os.path.dirname(path)

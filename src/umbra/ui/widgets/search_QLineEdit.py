@@ -34,6 +34,7 @@ from PyQt4.QtGui import QToolButton
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import foundations.strings as strings
 import umbra.ui.common
 from umbra.globals.constants import Constants
 from umbra.ui.widgets.active_QLabel import Active_QLabel
@@ -428,8 +429,9 @@ class Search_QLineEdit(QLineEdit):
 			self.__clearButton.setText("Clear")
 
 		frameWidth = self.style().pixelMetric(QStyle.PM_DefaultFrameWidth)
-		self.setStyleSheet(QString("QLineEdit { padding-left: " + str(self.__searchActiveLabel.sizeHint().width() + \
-		frameWidth) + "px; padding-right: " + str(self.__clearButton.sizeHint().width() + frameWidth)) + "px; }")
+		self.setStyleSheet(QString("QLineEdit {{ padding-left: {0}px; padding-right: {1}px; }}".format(
+		self.__searchActiveLabel.sizeHint().width() + frameWidth, self.__clearButton.sizeHint().width() + frameWidth)))
+
 		self.setMinimumSize(max(self.minimumSizeHint().width(), self.__clearButton.sizeHint().height() + frameWidth * 2),
 		 					max(self.minimumSizeHint().height(), self.__clearButton.sizeHint().height() + frameWidth * 2))
 
