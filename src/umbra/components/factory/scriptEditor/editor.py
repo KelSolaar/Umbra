@@ -665,6 +665,17 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.postInputAccelerators = self.__language.postInputAccelerators
 		self.visualAccelerators = self.__language.visualAccelerators
 
+		color = "rgb({0}, {1}, {2})"
+		background = self.__language.theme.get("default").background()
+		foreground = self.__language.theme.get("default").foreground()
+		self.setStyleSheet(
+		"QPlainTextEdit{{ background-color: {0}; color: {1}; }}".format(color.format(background.color().red(),
+																								background.color().green(),
+																								background.color().blue()),
+																				color.format(foreground.color().red(),
+																							foreground.color().green(),
+																							foreground.color().blue())))
+
 		self.__tabWidth = self.fontMetrics().width(" " * self.indentWidth)
 		self.setTabStopWidth(self.__tabWidth)
 

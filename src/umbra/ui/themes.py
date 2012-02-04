@@ -83,7 +83,7 @@ def getFormat(**kwargs):
 #**********************************************************************************************************************
 DEFAULT_FORMAT = getFormat(color=QColor(192, 192, 192))
 
-DEFAULT_THEME = {"default" : DEFAULT_FORMAT,
+DEFAULT_THEME = {"default" : getFormat(format=DEFAULT_FORMAT, backgroundColor=QColor(40, 40, 40)),
 			"comment" : getFormat(format=DEFAULT_FORMAT, color=QColor(96, 96, 96)),
 			"comment.line" : None,
 			"comment.line.double-slash" : None,
