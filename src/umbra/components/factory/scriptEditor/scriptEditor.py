@@ -2678,7 +2678,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param index: Index of the tab containing the editor. ( Integer )
 		"""
 
-		editor = self.Script_Editor_tabWidget.widget(index)
+		editor = self.getEditor(index)
 		if not editor:
 			return
 
@@ -2806,7 +2806,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		LOGGER.debug("> Removing tab with index '{0}'.".format(index))
-		self.Script_Editor_tabWidget.widget(index).setParent(None)
+		self.getEditor(index).setParent(None)
 		self.Script_Editor_tabWidget.removeTab(index)
 		return True
 
@@ -2821,7 +2821,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		for i in range(self.Script_Editor_tabWidget.count()):
-			if not self.Script_Editor_tabWidget.widget(i) == editor:
+			if not self.getEditor(i) == editor:
 				continue
 			LOGGER.debug("> Editor '{0}': Tab index '{1}'.".format(editor, i))
 			return i
@@ -2837,7 +2837,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		for i in range(self.Script_Editor_tabWidget.count()):
-			if not self.Script_Editor_tabWidget.widget(i).file == file:
+			if not self.getEditor(i).file == file:
 				continue
 			LOGGER.debug("> File '{0}': Tab index '{1}'.".format(file, i))
 			return i
@@ -2862,7 +2862,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Editors. ( List )
 		"""
 
-		return [self.Script_Editor_tabWidget.widget(i) for i in range(self.Script_Editor_tabWidget.count())]
+		return [self.getEditor(i) for i in range(self.Script_Editor_tabWidget.count())]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -2910,20 +2910,33 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getEditor(self, index):
+		"""
+		This method returns the **Script_Editor_tabWidget** Widget tab editor associated with given index.
+
+		:param index: Tab index. ( Integer )
+		:return: Editor. ( Editor )
+		"""
+
+		if index is not None:
+			return self.Script_Editor_tabWidget.widget(index)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def findEditor(self, file):
 		"""
-		This method finds the **Script_Editor_tabWidget** Widget tab editor associated to given file.
+		This method finds the **Script_Editor_tabWidget** Widget tab editor associated with given file.
 
 		:param file: File to search editors for. ( String )
 		:return: Editor. ( Editor )
 		"""
 
 		for i in range(self.Script_Editor_tabWidget.count()):
-			if not self.Script_Editor_tabWidget.widget(i).file == file:
+			if not self.getEditor(i).file == file:
 				continue
 
 			LOGGER.debug("> File '{0}: Editor index '{1}'.".format(file, i))
-			return self.Script_Editor_tabWidget.widget(i)
+			return self.getEditor(i)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -3029,7 +3042,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		index = self.findEditorTab(file)
 		if index >= 0:
 			LOGGER.info("{0} | Reloading '{1}' file!".format(self.__class__.__name__, file))
-			editor = self.Script_Editor_tabWidget.widget(index)
+			editor = self.getEditor(index)
 			return editor.reloadFile()
 
 	@core.executionTrace
@@ -3090,7 +3103,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__engine.startProcessing("Saving All Files ...", editorsCount)
 		success = True
 		for i in range(editorsCount):
-			editor = self.Script_Editor_tabWidget.widget(i)
+			editor = self.getEditor(i)
 			if editor.isModified():
 				LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
 				success *= editor.saveFile()
