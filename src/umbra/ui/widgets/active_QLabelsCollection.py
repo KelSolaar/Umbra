@@ -211,7 +211,7 @@ class Active_QLabelsCollection(QObject):
 
 		for item in self.__activeLabels:
 			if item is not activeLabel:
-				umbra.ui.common.signalsBlocker(item, Active_QLabel.setChecked, False)
+				umbra.ui.common.signalsBlocker(item, item.setChecked, False)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
