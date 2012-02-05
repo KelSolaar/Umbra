@@ -319,6 +319,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__settings = RuntimeGlobals.settings
 		self.__verbosityLevel = RuntimeGlobals.verbosityLevel
 		self.__parameters = RuntimeGlobals.parameters
+		self.__arguments = RuntimeGlobals.arguments
 		self.__workerThreads = []
 		self.__isProcessing = False
 
@@ -1009,6 +1010,38 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "parameters"))
 
 	@property
+	def arguments(self):
+		"""
+		This method is the property for **self.__arguments** attribute.
+
+		:return: self.__arguments. ( List )
+		"""
+
+		return self.__arguments
+
+	@arguments.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def arguments(self, value):
+		"""
+		This method is the setter method for **self.__arguments** attribute.
+
+		:param value: Attribute value. ( List )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "arguments"))
+
+	@arguments.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def arguments(self):
+		"""
+		This method is the deleter method for **self.__arguments** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "arguments"))
+
+	@property
 	def workerThreads(self):
 		"""
 		This method is the property for **self.__workerThreads** attribute.
@@ -1538,7 +1571,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	"""
 
 	# Command line parameters handling.
-	RuntimeGlobals.parameters, RuntimeGlobals.args = parameters
+	RuntimeGlobals.parameters, RuntimeGlobals.arguments = parameters
 
 	if RuntimeGlobals.parameters.about:
 		for line in SESSION_HEADER_TEXT:

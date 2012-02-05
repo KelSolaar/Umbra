@@ -1638,6 +1638,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			if foundations.common.pathExists(startupScript):
 				self.loadFile(startupScript) and self.evaluateScript()
 
+		for argument in self.__engine.arguments[1:]:
+			file = os.path.abspath(argument)
+			if foundations.common.pathExists(file):
+				os.path.isfile(file) and self.loadFile(file)
+
 		return True
 
 	@core.executionTrace
