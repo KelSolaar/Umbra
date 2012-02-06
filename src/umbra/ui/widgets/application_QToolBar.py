@@ -276,6 +276,7 @@ class Application_QToolBar(QToolBar):
 		self.setLayoutDefaultGeometry()
 
 		self.setObjectName("toolBar")
+		self.setWindowTitle("{0} - toolBar".format(Constants.applicationName))
 
 		self.setToolBarChildrenWidgets()
 
