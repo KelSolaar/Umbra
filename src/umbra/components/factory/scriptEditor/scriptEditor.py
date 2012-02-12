@@ -2867,7 +2867,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listEditors(self):
 		"""
-		This method lists the **Script_Editor_tabWidget** Widget tab editors.
+		This method lists the **Script_Editor_tabWidget** Widget editors.
 
 		:return: Editors. ( List )
 		"""
@@ -2952,7 +2952,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def hasFile(self, file):
 		"""
-		This method returns if given file is loaded in any of the **Script_Editor_tabWidget** Widget tab editors.
+		This method returns if given file is loaded in any of the **Script_Editor_tabWidget** Widget editors.
 
 		:param file: File. ( String )
 		:return: Is file loaded. ( Boolean )
