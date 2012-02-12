@@ -234,6 +234,60 @@ class ActionsManager(QObject):
 	#***	Class methods.
 	#******************************************************************************************************************
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __getitem__(self, action):
+		"""
+		This method reimplements the :meth:`object.__getitem__` method.
+
+		:param action: Action name. ( String )
+		:return: Action. ( QAction )
+		"""
+
+		action = self.__normalizeName(action)
+		for path, name, object in foundations.walkers.dictionariesWalker(self.__categories):
+			if action == foundations.namespace.setNamespace(self.__namespaceSplitter.join(path), name):
+				LOGGER.debug("> Retrieved object for '{0}' action name!".format(action))
+				return object
+		raise umbra.exceptions.ActionExistsError("{0} | '{1}' action isn't registered!".format(self.__class__.__name__,
+																								action))
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __iter__(self):
+		"""
+		This method reimplements the :meth:`object.__iter__` method.
+
+		:return: Actions iterator. ( Object )
+		"""
+
+		return foundations.walkers.dictionariesWalker(self.__categories)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __contains__(self, action):
+		"""
+		This method reimplements the :meth:`object.__contains__` method.
+
+		:param action: Action name. ( String )
+		:return: Action existence. ( Boolean )
+		"""
+
+		for path, name, object in self:
+			if foundations.namespace.setNamespace(self.__namespaceSplitter.join(path), name) == action:
+				return True
+		return False
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __len__(self):
+		"""
+		This method reimplements the :meth:`object.__len__` method.
+
+		:return: Actions count. ( Integer )
+		"""
+
+		return len([action for action in self])
+
+	@core.executionTrace
 	def __normalizeName(self, name):
 		"""
 		This method normalizes given action name.
@@ -284,7 +338,7 @@ class ActionsManager(QObject):
 		"""
 
 		actions = []
-		for path, actionName, action in foundations.walkers.dictionariesWalker(self.__categories):
+		for path, actionName, action in self:
 			actions.append(self.__namespaceSplitter.join(itertools.chain(path, (actionName,))))
 		return sorted(actions)
 
@@ -348,21 +402,15 @@ class ActionsManager(QObject):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.ActionExistsError)
-	def getAction(self, name):
+	def getAction(self, action):
 		"""
 		This method returns requested action.
 
-		:param name: Action to get. ( String )
+		:param action: Action name. ( String )
 		:return: Action. ( QAction )
 		"""
 
-		name = self.__normalizeName(name)
-		for path, actionName, action in foundations.walkers.dictionariesWalker(self.__categories):
-			if name == foundations.namespace.setNamespace(self.__namespaceSplitter.join(path), actionName):
-				LOGGER.debug("> Retrieved action for '{0}' action name!".format(name))
-				return action
-		raise umbra.exceptions.ActionExistsError("{0} | '{1}' action isn't registered!".format(self.__class__.__name__,
-																								name))
+		return self[action]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
