@@ -235,6 +235,28 @@ class NotificationsManager(QObject):
 	#***	Class methods.
 	#******************************************************************************************************************
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __iter__(self):
+		"""
+		This method reimplements the :meth:`object.__iter__` method.
+
+		:return: Notifications iterator. ( Object )
+		"""
+
+		return iter(self.__notifications)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __len__(self):
+		"""
+		This method reimplements the :meth:`object.__len__` method.
+
+		:return: Notifications count. ( Integer )
+		"""
+
+		return len(self.__notifications)
+
+	@core.executionTrace
 	def __notifier__fadedOut(self):
 		"""
 		This method is triggered when a **Notification_QLabel** Widget has faded out.
@@ -263,7 +285,7 @@ class NotificationsManager(QObject):
 		:return: Notifications list. ( List )
 		"""
 
-		return [self.formatNotification(notification) for notification in self.__notifications]
+		return [self.formatNotification(notification) for notification in self]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -332,7 +354,6 @@ class NotificationsManager(QObject):
 			LOGGER.warning("!> {0} | '{1}'.".format(self.__class__.__name__, self.formatNotification(notification)))
 		elif messageLevel == "Exception":
 			LOGGER.error("!> {0} | '{1}'.".format(self.__class__.__name__, self.formatNotification(notification)))
-
 		return True
 
 	@core.executionTrace
