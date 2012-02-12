@@ -277,6 +277,52 @@ class LayoutsManager(QObject):
 	#******************************************************************************************************************
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __getitem__(self, layout):
+		"""
+		This method reimplements the :meth:`object.__getitem__` method.
+
+		:param layout: Layout name. ( String )
+		:return: Layout. ( Layout )
+		"""
+
+		return self.__layouts.__getitem__(layout)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __iter__(self):
+		"""
+		This method reimplements the :meth:`object.__iter__` method.
+
+		:return: Layouts iterator. ( Object )
+		"""
+
+		return self.__layouts.iteritems()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __contains__(self, layout):
+		"""
+		This method reimplements the :meth:`object.__contains__` method.
+
+		:param layout: Layout name. ( String )
+		:return: Layout existence. ( Boolean )
+		"""
+
+		return layout in self.__layouts.keys()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __len__(self):
+		"""
+		This method reimplements the :meth:`object.__len__` method.
+
+		:return: Layouts count. ( Integer )
+		"""
+
+		return len(self.__layouts.keys())
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listLayouts(self):
 		"""
 		This method returns the registered layouts.
@@ -297,7 +343,7 @@ class LayoutsManager(QObject):
 		:return: Method success. ( Boolean )
 		"""
 
-		if name in self.__layouts:
+		if name in self:
 			raise umbra.exceptions.LayoutRegistrationError("{0} | '{1}' layout is already registered!".format(
 			self.__class__.__name__, name))
 
