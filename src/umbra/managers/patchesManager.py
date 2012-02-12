@@ -244,6 +244,52 @@ class PatchesManager(object):
 	#******************************************************************************************************************
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __getitem__(self, patch):
+		"""
+		This method reimplements the :meth:`object.__getitem__` method.
+
+		:param patch: Patch name. ( String )
+		:return: Patch. ( Patch )
+		"""
+
+		return self.__patches.__getitem__(patch)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __iter__(self):
+		"""
+		This method reimplements the :meth:`object.__iter__` method.
+
+		:return: Patchs iterator. ( Object )
+		"""
+
+		return self.__patches.iteritems()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __contains__(self, patch):
+		"""
+		This method reimplements the :meth:`object.__contains__` method.
+
+		:param patch: Patch name. ( String )
+		:return: Patch existence. ( Boolean )
+		"""
+
+		return patch in self.__patches.keys()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __len__(self):
+		"""
+		This method reimplements the :meth:`object.__len__` method.
+
+		:return: Patchs count. ( Integer )
+		"""
+
+		return len(self.__patches.keys())
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listPatches(self):
 		"""
 		This method returns the registered patches.
@@ -251,7 +297,7 @@ class PatchesManager(object):
 		:return: Patches list. ( List )
 		"""
 
-		return [name for name, patch in sorted(self.__patches.iteritems())]
+		return sorted(self.__patches.keys())
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.PatchInterfaceError)
@@ -345,7 +391,7 @@ class PatchesManager(object):
 		"""
 
 		success = True
-		for patch in sorted(self.__patches.itervalues()):
+		for name, patch in sorted(self):
 			success = self.applyPatch(patch)
 		return success
 
@@ -359,6 +405,6 @@ class PatchesManager(object):
 		:return: Patch. ( Patch )
 		"""
 
-		for patch in self.__patches.itervalues():
+		for name, patch in self:
 			if patch.uid == uid:
 				return patch
