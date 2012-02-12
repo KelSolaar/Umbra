@@ -2730,9 +2730,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:note: This method may require user interaction.
 		"""
 
-		file = umbra.ui.common.storeLastBrowsedPath((QFileDialog.getOpenFileName(self,
+		file = umbra.ui.common.storeLastBrowsedPath(QFileDialog.getOpenFileName(self,
 																				"Load File:",
-																				RuntimeGlobals.lastBrowsedPath)))
+																				RuntimeGlobals.lastBrowsedPath))
 		if not file:
 			return
 
@@ -2813,8 +2813,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		LOGGER.debug("> Removing tab with index '{0}'.".format(index))
-		self.getEditor(index).setParent(None)
 		self.Script_Editor_tabWidget.removeTab(index)
+		editor = self.getEditor(index)
+		editor and editor.setParent(None)
 		return True
 
 	@core.executionTrace
@@ -2830,6 +2831,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		for i in range(self.Script_Editor_tabWidget.count()):
 			if not self.getEditor(i) == editor:
 				continue
+
 			LOGGER.debug("> Editor '{0}': Tab index '{1}'.".format(editor, i))
 			return i
 
@@ -2846,6 +2848,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		for i in range(self.Script_Editor_tabWidget.count()):
 			if not self.getEditor(i).file == file:
 				continue
+
 			LOGGER.debug("> File '{0}': Tab index '{1}'.".format(file, i))
 			return i
 
@@ -3046,11 +3049,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(
 			self.__class__.__name__, file))
 
-		index = self.findEditorTab(file)
-		if index >= 0:
-			LOGGER.info("{0} | Reloading '{1}' file!".format(self.__class__.__name__, file))
-			editor = self.getEditor(index)
-			return editor.reloadFile()
+		editor = self.findEditor(file)
+		if not editor:
+			return
+
+		LOGGER.info("{0} | Reloading '{1}' file!".format(self.__class__.__name__, file))
+		return editor.reloadFile()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -3062,12 +3066,14 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.hasEditorTab():
-			editor = file and self.findEditor(file) or self.getCurrentEditor()
-			LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
-			self.__stopfileSystemWatcher()
-			editor.saveFile()
-			self.__startfileSystemWatcher()
+		if not self.hasEditorTab():
+			return
+
+		editor = file and self.findEditor(file) or self.getCurrentEditor()
+		LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
+		self.__stopfileSystemWatcher()
+		editor.saveFile()
+		self.__startfileSystemWatcher()
 		return True
 
 	@core.executionTrace
@@ -3248,5 +3254,4 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		code = code.endswith("\n") and code or "{0}\n".format(code)
 		sys.stdout.write(code)
 		self.__console.runcode(code)
-
 		return True
