@@ -354,13 +354,13 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __Restore_Geometry_On_Layout_Change_checkBox__stateChanged(self, state):
 		"""
-		This method is triggered when **Restore_Geometry_On_Layout_Change_checkBox** state changes.
+		This method is triggered when **Restore_Geometry_On_Layout_Change_checkBox** Widget state changes.
 
 		:param state: Checkbox state. ( Integer )
 		"""
 
 		restoreGeometryOnLayoutChange = self.Restore_Geometry_On_Layout_Change_checkBox.checkState()
-		LOGGER.debug("> Restore geometry on layout change state: '{0}'.".format(restoreGeometryOnLayoutChange))
+		LOGGER.debug("> 'Restore Geometry On Layout Change' state: '{0}'.".format(restoreGeometryOnLayoutChange))
 		self.__settings.setKey("Settings", "restoreGeometryOnLayoutChange", restoreGeometryOnLayoutChange)
 		self.__engine.layoutsManager.restoreGeometryOnLayoutChange = restoreGeometryOnLayoutChange and True or False
 
