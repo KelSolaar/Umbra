@@ -60,6 +60,7 @@ class RuntimeGlobalsTestCase(unittest.TestCase):
 								"loggingActiveFormatter",
 								"verbosityLevel",
 								"loggingFile",
+								"requestsStack",
 								"engine",
 								"patchesManager",
 								"componentsManager",

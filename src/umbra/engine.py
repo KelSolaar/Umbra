@@ -19,6 +19,7 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
+import collections
 import functools
 import inspect
 import logging
@@ -305,6 +306,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__visibleComponents = visibleComponents or []
 
 		self.__timer = None
+		self.__requestsStack = RuntimeGlobals.requestsStack
 		self.__patchesManager = RuntimeGlobals.patchesManager
 		self.__componentsManager = None
 		self.__actionsManager = None
@@ -322,6 +324,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__arguments = RuntimeGlobals.arguments
 		self.__workerThreads = []
 		self.__isProcessing = False
+		self.__locals = {}
 
 		self.__processingState = None
 
@@ -344,6 +347,11 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		# --- Initializing the Layouts Manager. ---
 		self.__layoutsManager = RuntimeGlobals.layoutsManager = umbra.managers.layoutsManager.LayoutsManager(self)
+
+		# --- Initializing requestsStack. ---
+		self.__setLocals()
+		# Signals / Slots.
+		self.__timer.timeout.connect(self.__processRequestsStack)
 
 		# Visual style initialization.
 		self.setVisualStyle()
@@ -488,6 +496,38 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "timer"))
+
+	@property
+	def requestsStack(self):
+		"""
+		This method is the property for **self.__requestsStack** attribute.
+
+		:return: self.__requestsStack. ( collections.deque )
+		"""
+
+		return self.__requestsStack
+
+	@requestsStack.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def requestsStack(self, value):
+		"""
+		This method is the setter method for **self.__requestsStack** attribute.
+
+		:param value: Attribute value. ( collections.deque )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "requestsStack"))
+
+	@requestsStack.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def requestsStack(self):
+		"""
+		This method is the deleter method for **self.__requestsStack** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "requestsStack"))
 
 	@property
 	def componentsPaths(self):
@@ -1105,6 +1145,38 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "isProcessing"))
 
+	@property
+	def locals(self):
+		"""
+		This method is the property for **self.__locals** attribute.
+
+		:return: self.__locals. ( Dictionary )
+		"""
+
+		return self.__locals
+
+	@locals.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def locals(self, value):
+		"""
+		This method is the setter method for **self.__locals** attribute.
+
+		:param value: Attribute value. ( Dictionary )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "locals"))
+
+	@locals.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def locals(self):
+		"""
+		This method is the deleter method for **self.__locals** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "locals"))
+
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
@@ -1162,6 +1234,38 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		LOGGER.debug("> Application resize event accepted!")
 		self.sizeChanged.emit(event)
 		event.accept()
+
+	@core.executionTrace
+	def __setLocals(self):
+		"""
+		This method sets the locals for the requestsStack.
+		"""
+
+		for globals in (Constants, RuntimeGlobals, UiConstants):
+			self.__locals[globals.__name__] = globals
+
+		self.__locals[Constants.applicationName] = self
+		self.__locals["application"] = self
+		self.__locals["patchesManager"] = self.__patchesManager
+		self.__locals["componentsManager"] = self.__componentsManager
+		self.__locals["actionsManager"] = self.__actionsManager
+		self.__locals["notificationsManager"] = self.__notificationsManager
+		self.__locals["layoutsManager"] = self.__layoutsManager
+		self.__locals["LOGGER"] = LOGGER
+
+		LOGGER.debug("> Defined locals: '{0}'.".format(self.__locals))
+
+	# @core.executionTrace
+	def __processRequestsStack(self):
+		"""
+		This method process the requests stack.
+		"""
+
+		while self.__requestsStack:
+			try:
+				exec self.__requestsStack.popleft() in self.__locals
+			except Exception as error:
+				umbra.ui.common.notifyExceptionHandler(error, core.getTraceName(self.__processRequestsStack))
 
 	@core.executionTrace
 	def __componentsInstantiationCallback(self, profile):
@@ -1687,6 +1791,10 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 		textColor=Qt.white)
 		RuntimeGlobals.splashscreen.show()
 
+	# Initializing requests stack.
+	RuntimeGlobals.requestsStack = collections.deque()
+
+	# Initializing engine.
 	RuntimeGlobals.engine = engine(None, componentsPaths, requisiteComponents, visibleComponents)
 	RuntimeGlobals.engine.show()
 	RuntimeGlobals.engine.raise_()

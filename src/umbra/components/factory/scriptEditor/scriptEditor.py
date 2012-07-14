@@ -262,7 +262,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 										"Linux" : ("Nimbus Mono L", 10)}
 
 		self.__console = None
-		self.__locals = None
 		self.__memoryHandlerStackDepth = None
 
 		self.__menuBar = None
@@ -1052,38 +1051,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "console"))
 
 	@property
-	def locals(self):
-		"""
-		This method is the property for **self.__locals** attribute.
-
-		:return: self.__locals. ( Dictionary )
-		"""
-
-		return self.__locals
-
-	@locals.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def locals(self, value):
-		"""
-		This method is the setter method for **self.__locals** attribute.
-
-		:param value: Attribute value. ( Dictionary )
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "locals"))
-
-	@locals.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def locals(self):
-		"""
-		This method is the deleter method for **self.__locals** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "locals"))
-
-	@property
 	def memoryHandlerStackDepth(self):
 		"""
 		This method is the property for **self.__memoryHandlerStackDepth** attribute.
@@ -1494,8 +1461,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__defaultScriptEditorFile = os.path.join(self.__defaultScriptEditorDirectory,
 													self.__defaultScriptEditorFile)
 
-		self.__setLocals()
-		self.__console = code.InteractiveConsole(self.__locals)
+		self.__console = code.InteractiveConsole(self.__engine.locals)
 
 		self.activated = True
 		return True
@@ -2692,32 +2658,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		windowTitle = editor.windowTitle()
 		LOGGER.debug("> Setting '{0}' window title to tab with '{1}' index.".format(windowTitle, index))
 		self.Script_Editor_tabWidget.setTabText(index, windowTitle)
-
-	@core.executionTrace
-	def __setLocals(self):
-		"""
-		This method sets the locals for the interactive console.
-
-		:return: Method success. ( Boolean )
-		"""
-
-		self.__locals = {}
-
-		for globals in (Constants, RuntimeGlobals, UiConstants):
-			self.__locals[globals.__name__] = globals
-
-		self.__locals[Constants.applicationName] = self.__engine
-		self.__locals["application"] = self.__engine
-		self.__locals["patchesManager"] = self.__engine.patchesManager
-		self.__locals["componentsManager"] = self.__engine.componentsManager
-		self.__locals["actionsManager"] = self.__engine.actionsManager
-		self.__locals["notificationsManager"] = self.__engine.notificationsManager
-		self.__locals["layoutsManager"] = self.__engine.layoutsManager
-		self.__locals["LOGGER"] = LOGGER
-
-		LOGGER.debug("> Defined locals: '{0}'.".format(self.__locals))
-
-		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)

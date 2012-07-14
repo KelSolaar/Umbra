@@ -62,6 +62,9 @@ class RuntimeGlobals():
 	loggingFile = None
 	"""Application logging file."""
 
+	requestsStack = None
+	"""Application requests stack."""
+
 	engine = None
 	"""Application engine instance."""
 

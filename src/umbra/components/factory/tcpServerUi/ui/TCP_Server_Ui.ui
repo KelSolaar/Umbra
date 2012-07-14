@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TCP_Server_Ui_Form</class>
+ <widget class="QWidget" name="TCP_Server_Ui_Form">
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>145</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>TCP Server Ui</string>
+  </property>
+  <layout class="QGridLayout" name="TCP_Server_Ui_Form_gridLayout">
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="TCP_Server_Ui_groupBox">
+     <property name="title">
+      <string>TCP Server</string>
+     </property>
+     <layout class="QGridLayout" name="TCP_Server_Ui_groupBox_gridLayout">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetMaximumSize</enum>
+      </property>
+      <item row="0" column="0" colspan="2">
+       <layout class="QHBoxLayout" name="Port_horizontalLayout">
+        <item>
+         <widget class="QLabel" name="Port_label">
+          <property name="text">
+           <string>Port:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="Port_spinBox">
+          <property name="statusTip">
+           <string>Port Spin Box: Defines the TCP Server port.</string>
+          </property>
+          <property name="maximum">
+           <number>65535</number>
+          </property>
+          <property name="value">
+           <number>16384</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0">
+       <widget class="QPushButton" name="Start_TCP_Server_pushButton">
+        <property name="statusTip">
+         <string>Start TCP Server Push Button: Starts the TCP Server.</string>
+        </property>
+        <property name="text">
+         <string>Start TCP Server</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QPushButton" name="Stop_TCP_Server_pushButton">
+        <property name="statusTip">
+         <string>Stop TCP Server Push Button: Stops the TCP Server.</string>
+        </property>
+        <property name="text">
+         <string>Stop TCP Server</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <layout class="QHBoxLayout" name="Autostart_TCP_Server_horizontalLayout">
+        <item>
+         <widget class="QLabel" name="Autostart_TCP_Server_label">
+          <property name="text">
+           <string>Autostart TCP Server</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="Autostart_TCP_Server_horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="Autostart_TCP_Server_checkBox">
+          <property name="statusTip">
+           <string>Autostart TCP Server Check Box: The TCP Server will be started automatically upon Application startup.</string>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::RightToLeft</enum>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
