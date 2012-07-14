@@ -330,10 +330,9 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		LOGGER.debug("> Setting verbose level: '{0}'.".format(self.Verbose_Level_comboBox.currentText()))
-		verbosityLevel = int(self.Verbose_Level_comboBox.currentIndex())
-		self.__engine.verbosityLevel = verbosityLevel
-		core.setVerbosityLevel(verbosityLevel)
-		self.__settings.setKey("Settings", "verbosityLevel", verbosityLevel)
+		self.__engine.verbosityLevel = index
+		core.setVerbosityLevel(index)
+		self.__settings.setKey("Settings", "verbosityLevel", index)
 
 	@core.executionTrace
 	def __Restore_Geometry_On_Layout_Change_checkBox_setUi(self):
@@ -359,10 +358,9 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param state: Checkbox state. ( Integer )
 		"""
 
-		restoreGeometryOnLayoutChange = self.Restore_Geometry_On_Layout_Change_checkBox.checkState()
-		LOGGER.debug("> 'Restore Geometry On Layout Change' state: '{0}'.".format(restoreGeometryOnLayoutChange))
-		self.__settings.setKey("Settings", "restoreGeometryOnLayoutChange", restoreGeometryOnLayoutChange)
-		self.__engine.layoutsManager.restoreGeometryOnLayoutChange = restoreGeometryOnLayoutChange and True or False
+		LOGGER.debug("> 'Restore Geometry On Layout Change' state: '{0}'.".format(state))
+		self.__settings.setKey("Settings", "restoreGeometryOnLayoutChange", state)
+		self.__engine.layoutsManager.restoreGeometryOnLayoutChange = state and True or False
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
