@@ -103,7 +103,7 @@ class RequestsStackDataHandler(SocketServer.BaseRequestHandler):
 		This method shutdowns the TCP Server.
 		"""
 
-		self.container.stop(terminate=True)
+		return self.container.stop(terminate=True)
 
 class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
@@ -583,7 +583,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param checked: Checked state. ( Boolean )
 		"""
 
-		self.startTCPServer(self.Port_spinBox.value())
+		self.startTcpServer(self.Port_spinBox.value())
 
 	@core.executionTrace
 	def __Stop_TCP_Server_pushButton__clicked(self, checked):
@@ -593,11 +593,11 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param checked: Checked state. ( Boolean )
 		"""
 
-		self.stopTCPServer()
+		self.stopTcpServer()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def startTCPServer(self, port):
+	def startTcpServer(self, port):
 		"""
 		This method starts the TCP server using given port.
 
@@ -621,7 +621,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def stopTCPServer(self):
+	def stopTcpServer(self):
 		"""
 		This method stops the TCP server.
 
