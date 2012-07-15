@@ -97,6 +97,7 @@ import foundations.ui.common
 import manager.exceptions
 import umbra.exceptions
 import umbra.managers.actionsManager
+import umbra.managers.fileSystemEventsManager
 import umbra.managers.notificationsManager
 import umbra.managers.patchesManager
 import umbra.managers.layoutsManager
@@ -310,6 +311,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__patchesManager = RuntimeGlobals.patchesManager
 		self.__componentsManager = None
 		self.__actionsManager = None
+		self.__fileSystemEventsManager = None
 		self.__notificationsManager = None
 		self.__layoutsManager = None
 		self.__userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory
@@ -340,6 +342,12 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		# --- Initializing the Actions Manager. ---
 		self.__actionsManager = RuntimeGlobals.actionsManager = umbra.managers.actionsManager.ActionsManager(self)
+
+		# --- Initializing the File System Events Manager. ---
+		self.__fileSystemEventsManager = RuntimeGlobals.fileSystemEventsManager = \
+							umbra.managers.fileSystemEventsManager.FileSystemEventsManager(self)
+		self.__workerThreads.append(self.__fileSystemEventsManager)
+		self.__fileSystemEventsManager.start()
 
 		# --- Initializing the Notifications Manager. ---
 		self.__notificationsManager = RuntimeGlobals.notificationsManager = \
@@ -757,6 +765,37 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "actionsManager"))
+	@property
+	def fileSystemEventsManager(self):
+		"""
+		This method is the property for **self.__fileSystemEventsManager** attribute.
+
+		:return: self.__fileSystemEventsManager. ( FileSystemEventsManager )
+		"""
+
+		return self.__fileSystemEventsManager
+
+	@fileSystemEventsManager.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def fileSystemEventsManager(self, value):
+		"""
+		This method is the setter method for **self.__fileSystemEventsManager** attribute.
+
+		:param value: Attribute value. ( FileSystemEventsManager )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "fileSystemEventsManager"))
+
+	@fileSystemEventsManager.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def fileSystemEventsManager(self):
+		"""
+		This method is the deleter method for **self.__fileSystemEventsManager** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "fileSystemEventsManager"))
 
 	@property
 	def layoutsManager(self):
@@ -1249,6 +1288,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.__locals["patchesManager"] = self.__patchesManager
 		self.__locals["componentsManager"] = self.__componentsManager
 		self.__locals["actionsManager"] = self.__actionsManager
+		self.__locals["fileSystemEventsManager"] = self.__fileSystemEventsManager
 		self.__locals["notificationsManager"] = self.__notificationsManager
 		self.__locals["layoutsManager"] = self.__layoutsManager
 		self.__locals["LOGGER"] = LOGGER

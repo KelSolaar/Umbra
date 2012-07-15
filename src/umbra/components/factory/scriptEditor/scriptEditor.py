@@ -242,7 +242,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__defaultScriptLanguage = "Python"
 
 		self.__files = []
-		self.__modifiedFiles = set()
 
 		self.__defaultWindowTitle = "Script Editor"
 		self.__defaultScriptEditorDirectory = "scriptEditor"
@@ -272,10 +271,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__searchMenu = None
 		self.__commandMenu = None
 		self.__viewMenu = None
-
-		self.__fileSystemWatcher = None
-		self.__timer = None
-		self.__timerCycleMultiplier = 10
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -631,38 +626,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "files"))
-
-	@property
-	def modifiedFiles(self):
-		"""
-		This method is the property for **self.__modifiedFiles** attribute.
-
-		:return: self.__modifiedFiles. ( Set )
-		"""
-
-		return self.__modifiedFiles
-
-	@modifiedFiles.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def modifiedFiles(self, value):
-		"""
-		This method is the setter method for **self.__modifiedFiles** attribute.
-
-		:param value: Attribute value. ( Set )
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "modifiedFiles"))
-
-	@modifiedFiles.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def modifiedFiles(self):
-		"""
-		This method is the deleter method for **self.__modifiedFiles** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "modifiedFiles"))
 
 	@property
 	def defaultWindowTitle(self):
@@ -1338,102 +1301,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "viewMenu"))
 
-	@property
-	def fileSystemWatcher(self):
-		"""
-		This method is the property for **self.__fileSystemWatcher** attribute.
-
-		:return: self.__fileSystemWatcher. ( QFileSystemWatcher )
-		"""
-
-		return self.__fileSystemWatcher
-
-	@fileSystemWatcher.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def fileSystemWatcher(self, value):
-		"""
-		This method is the setter method for **self.__fileSystemWatcher** attribute.
-
-		:param value: Attribute value. ( QFileSystemWatcher )
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "fileSystemWatcher"))
-
-	@fileSystemWatcher.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def fileSystemWatcher(self):
-		"""
-		This method is the deleter method for **self.__fileSystemWatcher** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "fileSystemWatcher"))
-
-	@property
-	def timer(self):
-		"""
-		This method is the property for **self.__timer** attribute.
-
-		:return: self.__timer. ( QTimer )
-		"""
-
-		return self.__timer
-
-	@timer.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def timer(self, value):
-		"""
-		This method is the setter method for **self.__timer** attribute.
-
-		:param value: Attribute value. ( QTimer )
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "timer"))
-
-	@timer.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def timer(self):
-		"""
-		This method is the deleter method for **self.__timer** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "timer"))
-
-	@property
-	def timerCycleMultiplier(self):
-		"""
-		This method is the property for **self.__timerCycleMultiplier** attribute.
-
-		:return: self.__timerCycleMultiplier. ( Float )
-		"""
-
-		return self.__timerCycleMultiplier
-
-	@timerCycleMultiplier.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def timerCycleMultiplier(self, value):
-		"""
-		This method is the setter method for **self.__timerCycleMultiplier** attribute.
-
-		:param value: Attribute value. ( Float )
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "timerCycleMultiplier"))
-
-	@timerCycleMultiplier.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def timerCycleMultiplier(self):
-		"""
-		This method is the deleter method for **self.__timerCycleMultiplier** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "timerCycleMultiplier"))
-
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
@@ -1514,10 +1381,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__searchAndReplace = SearchAndReplace(self, Qt.Window)
 		self.__searchInFiles = SearchInFiles(self, Qt.Window)
 
-		self.__fileSystemWatcher = QFileSystemWatcher(self)
-		self.__timer = QTimer(self)
-		self.__timer.start(Constants.defaultTimerCycle * self.__timerCycleMultiplier)
-
 		self.__initializeLanguagesModel()
 
 		self.Editor_Status_editorStatus = EditorStatus(self)
@@ -1533,8 +1396,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.visibilityChanged.connect(self.__scriptEditor__visibilityChanged)
 		self.uiRefresh.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.recentFilesChanged.connect(self.__setRecentFilesActions)
-		self.__fileSystemWatcher.fileChanged.connect(self.__fileSystemWatcher__fileChanged)
-		self.__timer.timeout.connect(self.__reloadModifiedFiles)
+		self.__engine.fileSystemEventsManager.fileChanged.connect(self.__fileSystemEventsManager__fileChanged)
 		return True
 
 	@core.executionTrace
@@ -1621,8 +1483,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Calling '{0}' Component Framework 'onClose' method.".format(self.__class__.__name__))
 
 		if self.closeAllFiles(leaveLastEditor=False):
-			self.__timer.stop()
-			self.__timer = None
 			return True
 
 	@core.executionTrace
@@ -2465,41 +2325,16 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Editor_Status_editorStatus._EditorStatus__Languages_comboBox_setDefaultViewState()
 
 	@core.executionTrace
-	def __fileSystemWatcher__fileChanged(self, file):
+	def __fileSystemEventsManager__fileChanged(self, file):
 		"""
-		This method is triggered by the :obj:`ScriptEditor.fileSystemWatcher` class property when a file is modified.
+		This method is triggered by the :obj:`ScriptEditor.fileSystemWatcher` class property when a file is changed.
 		
-		:param file: File modified. ( String )
+		:param file: File changed. ( String )
 		"""
 
-		LOGGER.debug("> Adding '{0}' file **modifiedFiles** stack.".format(file))
+		LOGGER.debug("> Reloading '{0}'changed  file.".format(file))
 
-		self.__modifiedFiles.add(file)
-
-	@core.executionTrace
-	def __startfileSystemWatcher(self):
-		"""
-		This method starts the :obj:`ScriptEditor.fileSystemWatcher` class property bound instance.
-		"""
-
-		self.__files and self.__fileSystemWatcher.addPaths(self.__files)
-
-	@core.executionTrace
-	def __stopfileSystemWatcher(self):
-		"""
-		This method stops the :obj:`ScriptEditor.fileSystemWatcher` class property bound instance.
-		"""
-
-		self.__files and self.__fileSystemWatcher.removePaths(self.__files)
-
-	@core.executionTrace
-	def __reloadModifiedFiles(self):
-		"""
-		This method reloads modfied files.
-		"""
-
-		while self.__modifiedFiles:
-			self.reloadFile(self.__modifiedFiles.pop())
+		self.reloadFile(file)
 
 	@core.executionTrace
 	def __initializeLanguagesModel(self):
@@ -2527,6 +2362,24 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__languagesModel = LanguagesModel(self, sorted(languages, key=lambda x: (x.name)))
 
 	@core.executionTrace
+	def __encapsulateEditorFileSystemEvents(self, editor, attribute, *args, **kwargs):
+		"""
+		This method encapsulates given editor file system events.
+		
+		:param editor: Editor to encapsulate. ( Editor )
+		:param attribute: Editor attribute to call. ( String )
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:return: Attribute value. ( Object )
+		"""
+
+		self.__engine.fileSystemEventsManager.unregisterPath(editor.file)
+		value = getattr(editor, attribute)(*args, **kwargs)
+		self.__engine.fileSystemEventsManager.registerPath(editor.file)
+
+		return value
+
+	@core.executionTrace
 	def __registerFile(self, file):
 		"""
 		This method registers given file in the :obj:`ScriptEditor.files` class property.
@@ -2537,7 +2390,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Registering '{0}' file.".format(file))
 
 		self.__files.append(file)
-		self.__fileSystemWatcher.addPath(file)
+		self.__engine.fileSystemEventsManager.registerPath(file)
 
 	@core.executionTrace
 	def __unregisterFile(self, file):
@@ -2550,7 +2403,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if file in self.__files:
 			LOGGER.debug("> Unregistering '{0}' file.".format(file))
 			self.__files.remove(file)
-			self.__fileSystemWatcher.removePath(file)
+			self.__engine.fileSystemEventsManager.unregisterPath(file)
 
 	@core.executionTrace
 	def __setRecentFilesActions(self):
@@ -3012,9 +2865,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		editor = file and self.findEditor(file) or self.getCurrentEditor()
 		LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
-		self.__stopfileSystemWatcher()
-		editor.saveFile()
-		self.__startfileSystemWatcher()
+		self.__encapsulateEditorFileSystemEvents(editor, "saveFile")
 		return True
 
 	@core.executionTrace
@@ -3031,7 +2882,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
-		if editor.saveFileAs():
+		if self.__encapsulateEditorFileSystemEvents(editor, "saveFileAs"):
 			self.__storeRecentFile(editor.file)
 			self.__registerFile(editor.file)
 			language = self.__languagesModel.getFileLanguage(editor.file) or \
@@ -3050,8 +2901,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		self.__stopfileSystemWatcher()
-
 		editorsCount = self.Script_Editor_tabWidget.count()
 
 		self.__engine.startProcessing("Saving All Files ...", editorsCount)
@@ -3060,11 +2909,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			editor = self.getEditor(i)
 			if editor.isModified():
 				LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
-				success *= editor.saveFile()
+				self.__encapsulateEditorFileSystemEvents(editor, "saveFile")
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
 
-		self.__startfileSystemWatcher()
 		return success
 
 	@core.executionTrace

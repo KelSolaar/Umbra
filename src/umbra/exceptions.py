@@ -42,7 +42,10 @@ __all__ = ["AbstractEngineError",
 			"PatchApplyError",
 			"AbstractLayoutsManagerError",
 			"LayoutRegistrationError",
-			"LayoutExistError"]
+			"LayoutExistError",
+			"AbstractFileSystemEventsManagerError",
+			"PathRegistrationError",
+			"PathExistsError"]
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -141,6 +144,28 @@ class LayoutRegistrationError(AbstractLayoutsManagerError):
 class LayoutExistError(AbstractLayoutsManagerError):
 	"""
 	This class is used for non existing layout exceptions.
+	"""
+
+	pass
+
+class AbstractFileSystemEventsManagerError(foundations.exceptions.AbstractError):
+	"""
+	This class is the abstract base class for :class:`umbra.managers.fileSystemEventsManager.FileSystemEventsManager`
+	related exceptions.
+	"""
+
+	pass
+
+class PathRegistrationError(AbstractFileSystemEventsManagerError):
+	"""
+	This class is used for path registration exceptions.
+	"""
+
+	pass
+
+class PathExistsError(AbstractFileSystemEventsManagerError):
+	"""
+	This class is used for non existing path exceptions.
 	"""
 
 	pass
