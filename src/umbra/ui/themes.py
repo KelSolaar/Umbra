@@ -156,7 +156,7 @@ DEFAULT_THEME = {"default" : getFormat(format=DEFAULT_FORMAT, backgroundColor=QC
 			"accelerator.occurence": getFormat(format=DEFAULT_FORMAT, backgroundColor=QColor(64, 64, 64)),
 			"accelerator.pair": getFormat(format=DEFAULT_FORMAT, backgroundColor=QColor(64, 64, 64))}
 
-LOGGING_THEME = {"default" : DEFAULT_FORMAT,
+LOGGING_THEME = {"default" : getFormat(format=DEFAULT_FORMAT, backgroundColor=QColor(40, 40, 40)),
 			"logging.message" : getFormat(format=DEFAULT_FORMAT),
 			"logging.message.critical" : getFormat(format=DEFAULT_FORMAT, color=QColor(48, 48, 48),
 										backgroundColor=QColor(255, 64, 64)),
