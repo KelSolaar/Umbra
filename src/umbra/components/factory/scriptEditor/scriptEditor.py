@@ -2754,7 +2754,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Removing tab with index '{0}'.".format(index))
 		self.Script_Editor_tabWidget.removeTab(index)
-		# Deleting the tab widget seems enough to garbage collect the associated editor.		
+		# Deleting the tab widget seems enough to garbage collect the associated editor.
 		# editor = self.getEditor(index)
 		# editor and editor.setParent(None)
 		return True
