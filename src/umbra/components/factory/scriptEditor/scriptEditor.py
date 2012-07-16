@@ -244,7 +244,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__files = []
 
 		self.__defaultWindowTitle = "Script Editor"
+
 		self.__defaultScriptEditorDirectory = "scriptEditor"
+		self.__defaultSessionDirectory = "session"
 		self.__defaultScriptEditorFile = "defaultScript.py"
 		self.__factoryDefaultScriptEditorFile = "others/defaultScript.py"
 		self.__scriptEditorFile = None
@@ -690,6 +692,38 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultScriptEditorDirectory"))
+
+	@property
+	def defaultSessionDirectory(self):
+		"""
+		This method is the property for **self.__defaultSessionDirectory** attribute.
+
+		:return: self.__defaultSessionDirectory. ( String )
+		"""
+
+		return self.__defaultSessionDirectory
+
+	@defaultSessionDirectory.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultSessionDirectory(self, value):
+		"""
+		This method is the setter method for **self.__defaultSessionDirectory** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultSessionDirectory"))
+
+	@defaultSessionDirectory.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultSessionDirectory(self):
+		"""
+		This method is the deleter method for **self.__defaultSessionDirectory** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultSessionDirectory"))
 
 	@property
 	def defaultScriptEditorFile(self):
@@ -1325,6 +1359,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 															self.__defaultScriptEditorDirectory)
 		not foundations.common.pathExists(self.__defaultScriptEditorDirectory) and \
 		os.makedirs(self.__defaultScriptEditorDirectory)
+		self.__defaultSessionDirectory = os.path.join(self.__defaultScriptEditorDirectory, self.__defaultSessionDirectory)
+		not foundations.common.pathExists(self.__defaultSessionDirectory) and os.makedirs(self.__defaultSessionDirectory)
 		self.__defaultScriptEditorFile = os.path.join(self.__defaultScriptEditorDirectory,
 													self.__defaultScriptEditorFile)
 
@@ -1462,9 +1498,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.newFile()
 
 		startupScript = self.__engine.parameters.startupScript
-		if startupScript:
-			if foundations.common.pathExists(startupScript):
-				self.loadFile(startupScript) and self.evaluateScript()
+		if foundations.common.pathExists(startupScript):
+			self.loadFile(startupScript) and self.evaluateScript()
+
+		self.restoreSession()
 
 		for argument in self.__engine.arguments[1:]:
 			file = os.path.abspath(argument)
@@ -1482,7 +1519,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Calling '{0}' Component Framework 'onClose' method.".format(self.__class__.__name__))
 
-		if self.closeAllFiles(leaveLastEditor=False):
+		if self.storeSession() and self.closeAllFiles(leaveLastEditor=False):
 			return True
 
 	@core.executionTrace
@@ -2411,9 +2448,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method sets the recent files actions.
 		"""
 
-		recentFiles = [strings.encode(recentFile)
-					for recentFile in self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",")
-					if foundations.common.pathExists(recentFile)]
+		recentFiles = [strings.encode(file)
+					for file in self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",")
+					if foundations.common.pathExists(file)]
 		if not recentFiles:
 			return
 
@@ -3044,3 +3081,42 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		sys.stdout.write(code)
 		self.__console.runcode(code)
 		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
+	def storeSession(self):
+		"""
+		This method stores the current session.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		session = []
+		for editor in self.listEditors():
+			if editor.isUntitled and not editor.isEmpty():
+				editor.setFile(os.path.join(self.__defaultSessionDirectory, editor.file))
+				editor.saveFile() and session.append(editor.file)
+				continue
+
+			session.append(editor.file)
+
+		self.__settings.setKey(self.__settingsSection, "session", ",".join(session))
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
+	def restoreSession(self):
+		"""
+		This method restores the stored session.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		session = [strings.encode(file)
+					for file in self.__settings.getKey(self.__settingsSection, "session").toString().split(",")
+					if foundations.common.pathExists(file)]
+
+		success = True
+		for file in session:
+			success *= self.loadFile(file)
+		return success and True or False
