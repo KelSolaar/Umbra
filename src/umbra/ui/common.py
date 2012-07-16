@@ -270,22 +270,25 @@ def getSectionsFileParser(file):
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
-def storeLastBrowsedPath(path):
+def storeLastBrowsedPath(*paths):
 	"""
 	This definition is a wrapper method used to store the last browsed path.
 
-	:param path: Provided path. ( QString )
-	:return: Provided path. ( String )
+	:param \*paths: Paths. ( \* )
+	:return: Last browsed path. ( String )
 	"""
 
-	path = strings.encode(path)
+	paths = [strings.encode(path) for path in paths]
+	for path in paths:
+		if foundations.common.pathExists(path):
+			lastBrowsedPath = os.path.normpath(path)
+			if os.path.isfile(path):
+				lastBrowsedPath = os.path.dirname(lastBrowsedPath)
 
-	lastBrowsedPath = os.path.normpath(os.path.join(os.path.isfile(path) and os.path.dirname(path) or path, ".."))
-	LOGGER.debug("> Storing last browsed path: '%s'.", lastBrowsedPath)
-
-	RuntimeGlobals.lastBrowsedPath = lastBrowsedPath
-
-	return path
+			LOGGER.debug("> Storing last browsed path: '%s'.", lastBrowsedPath)
+			RuntimeGlobals.lastBrowsedPath = lastBrowsedPath
+			break
+	return paths
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)

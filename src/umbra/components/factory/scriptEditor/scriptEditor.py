@@ -2397,6 +2397,19 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				languages.append(languageDescription)
 
 		self.__languagesModel = LanguagesModel(self, sorted(languages, key=lambda x: (x.name)))
+		self.__getSupportedFileTypesDialogString()
+
+	@core.executionTrace
+	def __getSupportedFileTypesDialogString(self):
+		"""
+		This method returns the supported file types dialog string.
+		"""
+
+		languages = ["All Files (*)"]
+		for language in self.__languagesModel.languages:
+			languages.append("{0} Files ({1})".format(language.name,
+													" ".join(language.extensions.split("|")).replace("\\", "*")))
+		return ";;".join(languages)
 
 	@core.executionTrace
 	def __encapsulateEditorFileSystemEvents(self, editor, attribute, *args, **kwargs):
@@ -2553,20 +2566,21 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def loadFileUi(self):
 		"""
-		This method loads user chosen file into in the current **Script_Editor_tabWidget** Widget tab editor.
+		This method loads user chosen file(s) into **Script_Editor_tabWidget** Widget tab editor(s).
 
 		:return: Method success. ( Boolean )
 		
 		:note: This method may require user interaction.
 		"""
 
-		file = umbra.ui.common.storeLastBrowsedPath(QFileDialog.getOpenFileName(self,
-																				"Load File:",
-																				RuntimeGlobals.lastBrowsedPath))
-		if not file:
-			return
-
-		return self.loadFile(file)
+		files = umbra.ui.common.storeLastBrowsedPath(*QFileDialog.getOpenFileNames(self,
+																			"Load File(s):",
+																			RuntimeGlobals.lastBrowsedPath,
+																			self.__getSupportedFileTypesDialogString()))
+		success = True
+		for file in files:
+			success *= self.loadFile(file)
+		return success
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
@@ -3119,4 +3133,4 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		success = True
 		for file in session:
 			success *= self.loadFile(file)
-		return success and True or False
+		return success
