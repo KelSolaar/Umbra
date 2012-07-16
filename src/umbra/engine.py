@@ -356,11 +356,6 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		# --- Initializing the Layouts Manager. ---
 		self.__layoutsManager = RuntimeGlobals.layoutsManager = umbra.managers.layoutsManager.LayoutsManager(self)
 
-		# --- Initializing requestsStack. ---
-		self.__setLocals()
-		# Signals / Slots.
-		self.__timer.timeout.connect(self.__processRequestsStack)
-
 		# Visual style initialization.
 		self.setVisualStyle()
 		umbra.ui.common.setWindowDefaultIcon(self)
@@ -441,6 +436,11 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 				umbra.ui.common.uiExtendedExceptionHandler(manager.exceptions.ComponentActivationError(
 				"'{0}' Component failed to activate, unexpected behavior may occur!\nException raised: {1}".format(
 				component, error)), self.__class__.__name__)
+
+		# --- Initializing requestsStack. ---
+		self.__setLocals()
+		# Signals / Slots.
+		self.__timer.timeout.connect(self.__processRequestsStack)
 
 		# Hiding splashscreen.
 		LOGGER.debug("> Hiding splashscreen.")
