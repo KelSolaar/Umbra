@@ -3089,7 +3089,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not code:
 			return
 
-		LOGGER.debug("> Evaluating provided code.")
+		LOGGER.debug("> Evaluating given code.")
 
 		code = code.endswith("\n") and code or "{0}\n".format(code)
 		sys.stdout.write(code)
@@ -3114,6 +3114,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 			session.append(editor.file)
 
+		LOGGER.debug("> Storing session :'{0}'.".format(session))
 		self.__settings.setKey(self.__settingsSection, "session", ",".join(session))
 		return True
 
@@ -3130,6 +3131,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 					for file in self.__settings.getKey(self.__settingsSection, "session").toString().split(",")
 					if foundations.common.pathExists(file)]
 
+		LOGGER.debug("> Restoring session :'{0}'.".format(session))
 		success = True
 		for file in session:
 			success *= self.loadFile(file)
