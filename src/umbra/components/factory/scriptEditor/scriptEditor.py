@@ -26,9 +26,7 @@ import sys
 import shutil
 from PyQt4.QtCore import QChar
 from PyQt4.QtCore import QEvent
-from PyQt4.QtCore import QFileSystemWatcher
 from PyQt4.QtCore import QString
-from PyQt4.QtCore import QTimer
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtGui import QAction
