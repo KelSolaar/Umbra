@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**databaseOperations.py**
+**tcpServerUi.py**
 
 **Platform:**
 	Windows, Linux, Mac Os X.
