@@ -41,7 +41,6 @@ import foundations.strings as strings
 import foundations.ui.common
 import umbra.ui.common
 from foundations.io import File
-from umbra.ui.delegates import RichText_QStyledItemDelegate
 from umbra.components.factory.scriptEditor.models import ReplaceResultNode
 from umbra.components.factory.scriptEditor.models import SearchFileNode
 from umbra.components.factory.scriptEditor.models import SearchOccurenceNode
@@ -53,6 +52,7 @@ from umbra.components.factory.scriptEditor.workers import CacheData
 from umbra.components.factory.scriptEditor.workers import Search_worker
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
+from umbra.ui.delegates import RichText_QStyledItemDelegate
 from umbra.ui.widgets.search_QLineEdit import Search_QLineEdit
 
 #**********************************************************************************************************************

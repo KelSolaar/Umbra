@@ -233,8 +233,8 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 		This method reimplements the :meth:`QStyledItemDelegate.sizeHint` method.
 		"""
 
-		text = index.model().data(index)
 		document = QTextDocument()
 		document.setDefaultFont(option.font)
-		document.setHtml(text)
+		text = index.model().data(index)
+		text and document.setHtml(text)
 		return QSize(document.idealWidth() + self.__indent, option.fontMetrics.height())

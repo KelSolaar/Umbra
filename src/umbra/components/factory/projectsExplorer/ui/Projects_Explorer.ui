@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Projects_Explorer_DockWidget</class>
+ <widget class="QDockWidget" name="Projects_Explorer_DockWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>280</width>
+    <height>242</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Projects Explorer</string>
+  </property>
+  <widget class="QWidget" name="Projects_Explorer_dockWidgetContents">
+   <layout class="QGridLayout" name="Projects_Explorer_dockWidgetContents_gridLayout">
+    <item row="0" column="0">
+     <widget class="QTreeView" name="Projects_Explorer_treeView"/>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

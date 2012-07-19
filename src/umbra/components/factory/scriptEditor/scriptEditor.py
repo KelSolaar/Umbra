@@ -59,6 +59,11 @@ from umbra.components.factory.scriptEditor.editor import LOGGING_LANGUAGE
 from umbra.components.factory.scriptEditor.editor import PYTHON_LANGUAGE
 from umbra.components.factory.scriptEditor.editor import TEXT_LANGUAGE
 from umbra.components.factory.scriptEditor.editorStatus import EditorStatus
+from umbra.components.factory.scriptEditor.models import DirectoryNode
+from umbra.components.factory.scriptEditor.models import FileNode
+from umbra.components.factory.scriptEditor.models import LanguagesModel
+from umbra.components.factory.scriptEditor.models import ProjectsModel
+from umbra.components.factory.scriptEditor.models import ProjectNode
 from umbra.components.factory.scriptEditor.models import LanguagesModel
 from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace
 from umbra.components.factory.scriptEditor.searchInFiles import SearchInFiles
@@ -191,7 +196,7 @@ class ScriptEditor_QTabWidget(QTabWidget):
 
 class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
-	This class is the :mod:`umbra.components.addons.scriptEditor.scriptEditor` Component Interface class.
+	This class is the :mod:`sibl_gui.components.addons.scriptEditor.scriptEditor` Component Interface class.
 	"""
 
 	# Custom signals definitions.
@@ -203,6 +208,20 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	recentFilesChanged = pyqtSignal()
 	"""
 	This signal is emited by the :class:`ScriptEditor` class when the recent files list has changed. ( pyqtSignal )
+	"""
+
+	fileLoaded = pyqtSignal(str)
+	"""
+	This signal is emited by the :class:`ScriptEditor` class when a file is loaded. ( pyqtSignal )
+
+	:return: Loaded file. ( String )	
+	"""
+
+	fileClosed = pyqtSignal(str)
+	"""
+	This signal is emited by the :class:`ScriptEditor` class when a file is closed. ( pyqtSignal )
+
+	:return: Closed file. ( String )	
 	"""
 
 	@core.executionTrace
@@ -234,12 +253,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__grammarsDirectory = "grammars"
 		self.__extension = "grc"
 
+		self.__model = None
 		self.__languagesModel = None
 
+		self.__defaultProject = "defaultProject"
 		self.__defaultLanguage = "Text"
 		self.__defaultScriptLanguage = "Python"
-
-		self.__files = []
 
 		self.__defaultWindowTitle = "Script Editor"
 
@@ -500,6 +519,38 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "extension"))
 
 	@property
+	def model(self):
+		"""
+		This method is the property for **self.__model** attribute.
+
+		:return: self.__model. ( ProjectsModel )
+		"""
+
+		return self.__model
+
+	@model.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def model(self, value):
+		"""
+		This method is the setter method for **self.__model** attribute.
+
+		:param value: Attribute value. ( ProjectsModel )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "model"))
+
+	@model.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def model(self):
+		"""
+		This method is the deleter method for **self.__model** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "model"))
+
+	@property
 	def languagesModel(self):
 		"""
 		This method is the property for **self.__languagesModel** attribute.
@@ -530,6 +581,38 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "languagesModel"))
+
+	@property
+	def defaultProject(self):
+		"""
+		This method is the property for **self.__defaultProject** attribute.
+
+		:return: self.__defaultProject. ( String )
+		"""
+
+		return self.__defaultProject
+
+	@defaultProject.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultProject(self, value):
+		"""
+		This method is the setter method for **self.__defaultProject** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultProject"))
+
+	@defaultProject.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultProject(self):
+		"""
+		This method is the deleter method for **self.__defaultProject** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultProject"))
 
 	@property
 	def defaultLanguage(self):
@@ -594,38 +677,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultScriptLanguage"))
-
-	@property
-	def files(self):
-		"""
-		This method is the property for **self.__files** attribute.
-
-		:return: self.__files. ( List )
-		"""
-
-		return self.__files
-
-	@files.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def files(self, value):
-		"""
-		This method is the setter method for **self.__files** attribute.
-
-		:param value: Attribute value. ( List )
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "files"))
-
-	@files.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def files(self):
-		"""
-		This method is the deleter method for **self.__files** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "files"))
 
 	@property
 	def defaultWindowTitle(self):
@@ -1390,6 +1441,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
 
+		self.__model = ProjectsModel(self, defaultProject=self.__defaultProject)
+
 		self.Script_Editor_tabWidget = ScriptEditor_QTabWidget(self.__engine)
 		self.Script_Editor_tabWidget_frame_gridLayout.addWidget(self.Script_Editor_tabWidget, 0, 0)
 		self.__Script_Editor_tabWidget_setUi()
@@ -1424,13 +1477,17 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__engine.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.__engine.layoutsManager.layoutRestored.connect(self.__engine__layoutRestored)
 		self.__engine.contentDropped.connect(self.__engine__contentDropped)
+		self.__engine.fileSystemEventsManager.fileChanged.connect(self.__fileSystemEventsManager__fileChanged)
 		self.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
 		self.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
 		self.Script_Editor_tabWidget.contentDropped.connect(self.__Script_Editor_tabWidget__contentDropped)
 		self.visibilityChanged.connect(self.__scriptEditor__visibilityChanged)
 		self.uiRefresh.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.recentFilesChanged.connect(self.__setRecentFilesActions)
-		self.__engine.fileSystemEventsManager.fileChanged.connect(self.__fileSystemEventsManager__fileChanged)
+		self.__model.fileRegistered.connect(self.__model__fileRegistered)
+		self.__model.fileUnregistered.connect(self.__model__fileUnregistered)
+		self.__model.editorRegistered.connect(self.__model__editorRegistered)
+		self.__model.editorUnregistered.connect(self.__model__editorUnregistered)
 		return True
 
 	@core.executionTrace
@@ -1811,6 +1868,18 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		self.__handleContentDroppedEvent(event)
+
+	@core.executionTrace
+	def __fileSystemEventsManager__fileChanged(self, file):
+		"""
+		This method is triggered by the :obj:`ScriptEditor.fileSystemWatcher` class property when a file is changed.
+		
+		:param file: File changed. ( String )
+		"""
+
+		LOGGER.debug("> Reloading '{0}'changed  file.".format(file))
+
+		self.reloadFile(file)
 
 	@core.executionTrace
 	def __scriptEditor__visibilityChanged(self, visibility):
@@ -2360,16 +2429,45 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Editor_Status_editorStatus._EditorStatus__Languages_comboBox_setDefaultViewState()
 
 	@core.executionTrace
-	def __fileSystemEventsManager__fileChanged(self, file):
+	def __model__fileRegistered(self, file):
 		"""
-		This method is triggered by the :obj:`ScriptEditor.fileSystemWatcher` class property when a file is changed.
+		This method is triggered by the :obj:`ScriptEditor.model` class property when a file is registered.
 		
-		:param file: File changed. ( String )
+		:param file: File registered. ( String )
 		"""
 
-		LOGGER.debug("> Reloading '{0}'changed  file.".format(file))
+		self.__engine.fileSystemEventsManager.registerPath(file)
+		self.__storeRecentFile(strings.encode(file))
 
-		self.reloadFile(file)
+	@core.executionTrace
+	def __model__fileUnregistered(self, file):
+		"""
+		This method is triggered by the :obj:`ScriptEditor.model` class property when a file is unregistered.
+		
+		:param file: File registered. ( String )
+		"""
+
+		self.__engine.fileSystemEventsManager.unregisterPath(file)
+
+	@core.executionTrace
+	def __model__editorRegistered(self, editor):
+		"""
+		This method is triggered by the :obj:`ScriptEditor.model` class property when an editor is registered.
+		
+		:param editor: Editor registered. ( Editor )
+		"""
+
+		self.addEditorTab(editor)
+
+	@core.executionTrace
+	def __model__editorUnregistered(self, editor):
+		"""
+		This method is triggered by the :obj:`ScriptEditor.model` class property when an editor is unregistered.
+		
+		:param editor: Editor registered. ( Editor )
+		"""
+
+		self.removeEditorTab(editor)
 
 	@core.executionTrace
 	def __initializeLanguagesModel(self):
@@ -2426,32 +2524,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__engine.fileSystemEventsManager.registerPath(editor.file)
 
 		return value
-
-	@core.executionTrace
-	def __registerFile(self, file):
-		"""
-		This method registers given file in the :obj:`ScriptEditor.files` class property.
-		
-		:param file: File to register. ( String )
-		"""
-
-		LOGGER.debug("> Registering '{0}' file.".format(file))
-
-		self.__files.append(file)
-		self.__engine.fileSystemEventsManager.registerPath(file)
-
-	@core.executionTrace
-	def __unregisterFile(self, file):
-		"""
-		This method unregisters given file in the :obj:`ScriptEditor.files` class property.
-		
-		:param file: File to unregister. ( String )
-		"""
-
-		if file in self.__files:
-			LOGGER.debug("> Unregistering '{0}' file.".format(file))
-			self.__files.remove(file)
-			self.__engine.fileSystemEventsManager.unregisterPath(file)
 
 	@core.executionTrace
 	def __setRecentFilesActions(self):
@@ -2556,9 +2628,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor:
 			return
 
-		windowTitle = editor.windowTitle()
-		LOGGER.debug("> Setting '{0}' window title to tab with '{1}' index.".format(windowTitle, index))
-		self.Script_Editor_tabWidget.setTabText(index, windowTitle)
+		title = editor.title
+		LOGGER.debug("> Setting '{0}' window title to tab with '{1}' index.".format(title, index))
+		self.Script_Editor_tabWidget.setTabText(index, title)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
@@ -2822,11 +2894,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor.loadDocument(document, file, self.__languagesModel.getFileLanguage(file)):
 			return
 
-		index = self.addEditorTab(editor)
-		self.__setEditorTabName(index)
+		self.__model.registerFile(file)
+		self.__setEditorTabName(self.addEditorTab(editor))
 		self.__setWindowTitle()
 		self.__storeRecentFile(file)
-		self.__registerFile(file)
+		self.fileLoaded.emit(file)
 		return True
 
 	@core.executionTrace
@@ -2842,6 +2914,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.info("{0} | Creating '{1}' file!".format(self.__class__.__name__, editor.getNextUntitledFileName()))
 		if editor.newFile():
 			self.addEditorTab(editor)
+			self.fileLoaded.emit(editor.file)
 			return True
 
 	@core.executionTrace
@@ -2865,17 +2938,18 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		currentEditor = self.getCurrentEditor()
 		if self.Script_Editor_tabWidget.count() == 1 and currentEditor.isUntitled and \
 		not currentEditor.isModified():
-			self.__unregisterFile(currentEditor.file)
+			self.__model.unregisterFile(file, raiseException=False)
 			self.removeEditorTab(self.Script_Editor_tabWidget.currentIndex())
 
 		LOGGER.info("{0} | Loading '{1}' file!".format(self.__class__.__name__, file))
-		editor = Editor(parent=self, language=self.__languagesModel.getFileLanguage(file) or \
-		self.__languagesModel.getLanguage(self.__defaultLanguage))
+		language = self.__languagesModel.getFileLanguage(file) or self.__languagesModel.getLanguage(self.__defaultLanguage)
+		editor = Editor(parent=self, language=language)
 
 		if editor.loadFile(file):
-			self.addEditorTab(editor)
-			self.__storeRecentFile(file)
-			self.__registerFile(file)
+			projectNode = self.__model.getProjectNode(self.__model.defaultProject)
+			fileNode = self.__model.registerFile(file, projectNode)
+			editorNode = self.__model.registerEditor(editor, fileNode)
+			self.fileLoaded.emit(file)
 			return True
 
 	@core.executionTrace
@@ -2932,8 +3006,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
 		if self.__encapsulateEditorFileSystemEvents(editor, "saveFileAs"):
+			self.__model.registerFile(editor.file)
 			self.__storeRecentFile(editor.file)
-			self.__registerFile(editor.file)
 			language = self.__languagesModel.getFileLanguage(editor.file) or \
 					self.__languagesModel.getLanguage(self.__defaultLanguage)
 			if editor.language.name != language.name:
@@ -2982,7 +3056,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor.closeFile():
 			return
 
-		self.__unregisterFile(editor.file)
+		self.__model.unregisterFile(editor.file, raiseException=False)
+		self.fileClosed.emit(editor.file)
 
 		if self.removeEditorTab(self.Script_Editor_tabWidget.currentIndex()):
 			not self.hasEditorTab() and self.newFile()
@@ -3005,7 +3080,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			if not editor.closeFile():
 				return
 
-			self.__unregisterFile(editor.file)
+			self.__model.unregisterFile(editor.file, raiseException=False)
+			self.fileClosed.emit(editor.file)
 
 			if self.removeEditorTab(self.Script_Editor_tabWidget.currentIndex()):
 				if not self.hasEditorTab() and leaveLastEditor:

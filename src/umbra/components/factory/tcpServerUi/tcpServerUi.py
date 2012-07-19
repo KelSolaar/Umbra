@@ -107,7 +107,7 @@ class RequestsStackDataHandler(SocketServer.BaseRequestHandler):
 
 class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
-	| This class is the :mod:`umbra.components.addons.tcpServerUi.tcpServerUi` Component Interface class.
+	| This class is the :mod:`umbra.components.factory.tcpServerUi.tcpServerUi` Component Interface class.
 	| It provides various methods to operate the TCP Server.
 	"""
 
