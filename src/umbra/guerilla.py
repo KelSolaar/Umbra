@@ -20,6 +20,11 @@
 import inspect
 
 #**********************************************************************************************************************
+#***	Internal imports.
+#**********************************************************************************************************************
+import foundations.common
+
+#**********************************************************************************************************************
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
@@ -67,7 +72,7 @@ def baseWarfare(name, bases, attributes):
 
 	assert len(bases) == 1, "{0} | '{1}' object has multiple bases!".format(inspect.getmodulename(__file__), name)
 
-	base = bases[0]
+	base = foundations.common.getFirstItem(bases)
 	for name, value in attributes.iteritems():
 		if name != "__metaclass__":
 			setattr(base, name, value)

@@ -24,6 +24,8 @@ import logging
 import os
 import platform
 import re
+from PyQt4.QtCore import QString
+from PyQt4.QtCore import QStringList
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QApplication
 from PyQt4.QtGui import QIcon
@@ -175,7 +177,7 @@ def uiSystemExitExceptionHandler(exception, origin, *args, **kwargs):
 	"""
 
 	uiExtendedExceptionHandler(exception, origin, *args, **kwargs)
-	return foundations.common.exit(1)
+	return core.exit(1)
 
 @core.executionTrace
 def notifyExceptionHandler(exception, origin, *args, **kwargs):
@@ -269,26 +271,32 @@ def getSectionsFileParser(file):
 	return sectionsFileParser
 
 @core.executionTrace
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
-def storeLastBrowsedPath(*paths):
+@foundations.exceptions.exceptionsHandler(None, False, TypeError)
+def storeLastBrowsedPath(data):
 	"""
 	This definition is a wrapper method used to store the last browsed path.
 
-	:param \*paths: Paths. ( \* )
+	:param data: Path data. ( QString / QList  )
 	:return: Last browsed path. ( String )
 	"""
 
-	paths = [strings.encode(path) for path in paths]
-	for path in paths:
-		if foundations.common.pathExists(path):
-			lastBrowsedPath = os.path.normpath(path)
-			if os.path.isfile(path):
-				lastBrowsedPath = os.path.dirname(lastBrowsedPath)
+	if type(data) in (tuple, list, QStringList):
+		data = [strings.encode(path) for path in data]
+		lastBrowsedPath = foundations.commom.getFirst(data)
+	elif type(data) in (str, unicode, QString):
+		data = lastBrowsedPath = strings.encode(data)
+	else:
+		raise TypeError("{0} | '{1}' type is not supported!".format(
+		inspect.getmodulename(__file__), type(data)))
 
-			LOGGER.debug("> Storing last browsed path: '%s'.", lastBrowsedPath)
-			RuntimeGlobals.lastBrowsedPath = lastBrowsedPath
-			break
-	return paths
+	if foundations.common.pathExists(lastBrowsedPath):
+		lastBrowsedPath = os.path.normpath(lastBrowsedPath)
+		if os.path.isfile(lastBrowsedPath):
+			lastBrowsedPath = os.path.dirname(lastBrowsedPath)
+
+		LOGGER.debug("> Storing last browsed path: '%s'.", lastBrowsedPath)
+		RuntimeGlobals.lastBrowsedPath = lastBrowsedPath
+	return data
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)

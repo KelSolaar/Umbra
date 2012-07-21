@@ -24,6 +24,7 @@ from PyQt4.QtGui import QSyntaxHighlighter
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
+import foundations.common
 import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
@@ -205,7 +206,7 @@ class FormatsTree(object):
 			currentNode = self.__rootNode
 			for format in item.split("."):
 				nodes = [node for node in currentNode.children if node.name == format]
-				formatNode = nodes and nodes[0] or None
+				formatNode = foundations.common.getFirstItem(nodes)
 				if not formatNode:
 					formatNode = FormatNode(format, format=theme[item])
 					currentNode.addChild(formatNode)
@@ -481,8 +482,8 @@ class DefaultHighlighter(AbstractHighlighter):
 		for rule in self.rules:
 			if re.match("comment\.block\.[\w\.]*start", rule.name):
 				format = self.formats.getFormat(rule.name) or self.formats.getFormat("default")
-				if self.highlightMultilineBlock(block, rule.pattern, [item for item in self.rules
-										if item.name == rule.name.replace("start", "end")][0].pattern, state, format):
+				if self.highlightMultilineBlock(block, rule.pattern, foundations.common.getFirstItem([item for item in self.rules
+										if item.name == rule.name.replace("start", "end")]).pattern, state, format):
 					break
 				state += 1
 

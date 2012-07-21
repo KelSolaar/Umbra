@@ -802,7 +802,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 		This method creates a new editor file.
 
-		:return: Method success. ( Boolean )
+		:return: File name. ( String )
 		"""
 
 		file = self.getNextUntitledFileName()
@@ -815,7 +815,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		# Signals / Slots.
 		self.document().contentsChanged.connect(self.__document__contentsChanged)
 		self.document().modificationChanged.connect(self.__document__modificationChanged)
-		return True
+		return file
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
@@ -876,16 +876,16 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
-	def saveFileAs(self):
+	def saveFileAs(self, file=None):
 		"""
-		This method saves the editor file content into user chosen file.
+		This method saves the editor file content either using given file or user chosen file.
 
 		:return: Method success. ( Boolean )
 		
 		:note: This method may require user interaction.
 		"""
 
-		file = umbra.ui.common.storeLastBrowsedPath(QFileDialog.getSaveFileName(self, "Save As:", self.__file))
+		file = file or umbra.ui.common.storeLastBrowsedPath(QFileDialog.getSaveFileName(self, "Save As:", self.__file))
 		if not file:
 			return
 

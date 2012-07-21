@@ -1903,6 +1903,54 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return self.newFile()
 
 	@core.executionTrace
+	def __model__fileRegistered(self, file):
+		"""
+		This method is triggered by the :obj:`ScriptEditor.model` class property when a file is registered.
+		
+		:param file: File registered. ( String )
+		"""
+
+		file = strings.encode(file)
+		if not foundations.common.pathExists(file):
+			return
+
+		self.__storeRecentFile(strings.encode(file))
+		not self.__engine.fileSystemEventsManager.isPathRegistered(file) and \
+		self.__engine.fileSystemEventsManager.registerPath(file)
+
+	@core.executionTrace
+	def __model__fileUnregistered(self, file):
+		"""
+		This method is triggered by the :obj:`ScriptEditor.model` class property when a file is unregistered.
+		
+		:param file: File registered. ( String )
+		"""
+
+		file = strings.encode(file)
+		self.__engine.fileSystemEventsManager.isPathRegistered(file) and \
+		self.__engine.fileSystemEventsManager.unregisterPath(file)
+
+	@core.executionTrace
+	def __model__editorRegistered(self, editor):
+		"""
+		This method is triggered by the :obj:`ScriptEditor.model` class property when an editor is registered.
+		
+		:param editor: Editor registered. ( Editor )
+		"""
+
+		self.addEditorTab(editor)
+
+	@core.executionTrace
+	def __model__editorUnregistered(self, editor):
+		"""
+		This method is triggered by the :obj:`ScriptEditor.model` class property when an editor is unregistered.
+		
+		:param editor: Editor registered. ( Editor )
+		"""
+
+		self.removeEditorTab(editor)
+
+	@core.executionTrace
 	def __loadFileAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Load ...'** action.
@@ -2428,46 +2476,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.Editor_Status_editorStatus._EditorStatus__Languages_comboBox_setDefaultViewState()
 
-	@core.executionTrace
-	def __model__fileRegistered(self, file):
-		"""
-		This method is triggered by the :obj:`ScriptEditor.model` class property when a file is registered.
-		
-		:param file: File registered. ( String )
-		"""
-
-		self.__engine.fileSystemEventsManager.registerPath(file)
-		self.__storeRecentFile(strings.encode(file))
-
-	@core.executionTrace
-	def __model__fileUnregistered(self, file):
-		"""
-		This method is triggered by the :obj:`ScriptEditor.model` class property when a file is unregistered.
-		
-		:param file: File registered. ( String )
-		"""
-
-		self.__engine.fileSystemEventsManager.unregisterPath(file)
-
-	@core.executionTrace
-	def __model__editorRegistered(self, editor):
-		"""
-		This method is triggered by the :obj:`ScriptEditor.model` class property when an editor is registered.
-		
-		:param editor: Editor registered. ( Editor )
-		"""
-
-		self.addEditorTab(editor)
-
-	@core.executionTrace
-	def __model__editorUnregistered(self, editor):
-		"""
-		This method is triggered by the :obj:`ScriptEditor.model` class property when an editor is unregistered.
-		
-		:param editor: Editor registered. ( Editor )
-		"""
-
-		self.removeEditorTab(editor)
 
 	@core.executionTrace
 	def __initializeLanguagesModel(self):
@@ -2496,6 +2504,35 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__getSupportedFileTypesDialogString()
 
 	@core.executionTrace
+	@umbra.engine.encapsulateProcessing
+	def __handleContentDroppedEvent(self, event):
+		"""
+		This method handles dopped content event.
+		
+		:param event: Content dropped event. ( QEvent )
+		"""
+
+		if not event.mimeData().hasUrls():
+			return
+
+		urls = event.mimeData().urls()
+
+		self.__engine.startProcessing("Loading Files ...", len(urls))
+		for url in event.mimeData().urls():
+			LOGGER.debug("> Handling dropped '{0}' file.".format(url.path()))
+			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and \
+			re.search(r"^\/[A-Z]:", strings.encode(url.path())) and strings.encode(url.path())[1:] or \
+			strings.encode(url.path())
+			if os.path.isdir(path):
+				continue
+
+			if self.loadFile(path):
+				self.__engine.layoutsManager.currentLayout != self.__developmentLayout and \
+				self.__engine.layoutsManager.restoreLayout(self.__developmentLayout)
+			self.__engine.stepProcessing()
+		self.__engine.stopProcessing()
+
+	@core.executionTrace
 	def __getSupportedFileTypesDialogString(self):
 		"""
 		This method returns the supported file types dialog string.
@@ -2519,9 +2556,15 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Attribute value. ( Object )
 		"""
 
-		self.__engine.fileSystemEventsManager.unregisterPath(editor.file)
+		file = editor.file
+		if not foundations.common.pathExists(file):
+			return
+
+		self.__engine.fileSystemEventsManager.isPathRegistered(file) and \
+		self.__engine.fileSystemEventsManager.unregisterPath(file)
 		value = getattr(editor, attribute)(*args, **kwargs)
-		self.__engine.fileSystemEventsManager.registerPath(editor.file)
+		not self.__engine.fileSystemEventsManager.isPathRegistered(file) and \
+		self.__engine.fileSystemEventsManager.registerPath(file)
 
 		return value
 
@@ -2574,35 +2617,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.recentFilesChanged.emit()
 
 	@core.executionTrace
-	@umbra.engine.encapsulateProcessing
-	def __handleContentDroppedEvent(self, event):
-		"""
-		This method handles dopped content event.
-		
-		:param event: Content dropped event. ( QEvent )
-		"""
-
-		if not event.mimeData().hasUrls():
-			return
-
-		urls = event.mimeData().urls()
-
-		self.__engine.startProcessing("Loading Files ...", len(urls))
-		for url in event.mimeData().urls():
-			LOGGER.debug("> Handling dropped '{0}' file.".format(url.path()))
-			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and \
-			re.search(r"^\/[A-Z]:", strings.encode(url.path())) and strings.encode(url.path())[1:] or \
-			strings.encode(url.path())
-			if os.path.isdir(path):
-				continue
-
-			if self.loadFile(path):
-				self.__engine.layoutsManager.currentLayout != self.__developmentLayout and \
-				self.__engine.layoutsManager.restoreLayout(self.__developmentLayout)
-			self.__engine.stepProcessing()
-		self.__engine.stopProcessing()
-
-	@core.executionTrace
 	def __setWindowTitle(self):
 		"""
 		This method sets the Component window title.
@@ -2621,10 +2635,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method sets the name of the **Script_Editor_tabWidget** Widget tab with given index.
 
-		:param index: Index of the tab containing the editor. ( Integer )
+		:param index: Index of the tab containing the Model editor. ( Integer )
 		"""
 
-		editor = self.getEditor(index)
+		editor = self.getWidget(index)
 		if not editor:
 			return
 
@@ -2633,20 +2647,52 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Script_Editor_tabWidget.setTabText(index, title)
 
 	@core.executionTrace
+	def __setEditingNodes(self, file, editor):
+		"""
+		This method sets the Model editing nodes using given file and editor.
+
+		:param file: File to set. ( String )
+		:param editor: Editor to set. ( Editor )
+		:return: Method success. ( Boolean )
+		"""
+
+		projectNode = self.__model.getProjectNode(self.__model.defaultProject)
+		fileNode = self.__model.registerFile(file, projectNode)
+		editorNode = self.__model.registerEditor(editor, fileNode)
+		return True
+
+	@core.executionTrace
+	def __deleteEditingNodes(self, file, editor):
+		"""
+		This method deletes the Model editing nodes associated with given file and editor.
+
+		:param file: File. ( String )
+		:param editor: Editor. ( Editor )
+		:return: Method success. ( Boolean )
+		"""
+
+		self.__model.unregisterEditor(editor)
+		self.__model.unregisterFile(editor.file, raiseException=False)
+		return True
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def loadFileUi(self):
 		"""
-		This method loads user chosen file(s) into **Script_Editor_tabWidget** Widget tab editor(s).
+		This method loads user chosen file(s) into **Script_Editor_tabWidget** Widget tab Model editor(s).
 
 		:return: Method success. ( Boolean )
 		
 		:note: This method may require user interaction.
 		"""
 
-		files = umbra.ui.common.storeLastBrowsedPath(*QFileDialog.getOpenFileNames(self,
-																			"Load File(s):",
-																			RuntimeGlobals.lastBrowsedPath,
-																			self.__getSupportedFileTypesDialogString()))
+		files = umbra.ui.common.storeLastBrowsedPath(QFileDialog.getOpenFileNames(self,
+																				"Load File(s):",
+																				RuntimeGlobals.lastBrowsedPath,
+																				self.__getSupportedFileTypesDialogString()))
+		if not files:
+			return
+
 		success = True
 		for file in files:
 			success *= self.loadFile(file)
@@ -2656,7 +2702,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def searchAndReplaceUi(self):
 		"""
-		This method performs a search and replace in the current **Script_Editor_tabWidget** Widget tab editor.
+		This method performs a search and replace in the current **Script_Editor_tabWidget** Widget tab Model editor.
 
 		:return: Method success. ( Boolean )
 
@@ -2682,6 +2728,19 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getWidget(self, index):
+		"""
+		This method returns the **Script_Editor_tabWidget** Widget associated with given index.
+
+		:param index: Tab index. ( Integer )
+		:return: Widget. ( QWidget )
+		"""
+
+		if index is not None:
+			return self.Script_Editor_tabWidget.widget(index)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getFocusWidget(self):
 		"""
 		This method returns the Widget with focus.
@@ -2693,6 +2752,23 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if currentWidget.objectName() == "Script_Editor_Output_plainTextEdit" or \
 			isinstance(currentWidget, Editor):
 			return currentWidget
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getEditorTab(self, editor):
+		"""
+		This method returns the **Script_Editor_tabWidget** Widget tab associated with the given editor.
+
+		:param Editor: Editor to search tab for. ( Editor )
+		:return: Tab index. ( Editor )
+		"""
+
+		for i in range(self.Script_Editor_tabWidget.count()):
+			if not self.getWidget(i) == editor:
+				continue
+
+			LOGGER.debug("> Editor '{0}': Tab index '{1}'.".format(editor, i))
+			return i
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -2718,37 +2794,20 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def removeEditorTab(self, index):
+	def removeEditorTab(self, editor):
 		"""
-		This method removes the **Script_Editor_tabWidget** Widget tab with given index.
+		This method removes the **Script_Editor_tabWidget** Widget tab with given editor.
 
-		:param index: Tab index. ( Integer )
+		:param editor: Editor. ( Editor )
 		:return: Method success. ( Boolean )
 		"""
 
-		LOGGER.debug("> Removing tab with index '{0}'.".format(index))
-		self.Script_Editor_tabWidget.removeTab(index)
+		LOGGER.debug("> Removing tab with Editor '{0}'.".format(editor))
+		self.Script_Editor_tabWidget.removeTab(self.getEditorTab(editor))
 		# Deleting the tab widget seems enough to garbage collect the associated editor.
-		# editor = self.getEditor(index)
+		# editor = self.getWidget(index)
 		# editor and editor.setParent(None)
 		return True
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getEditorTab(self, editor):
-		"""
-		This method returns the **Script_Editor_tabWidget** Widget tab associated with the given editor.
-
-		:param Editor: Editor to search tab for. ( Editor )
-		:return: Tab index. ( Editor )
-		"""
-
-		for i in range(self.Script_Editor_tabWidget.count()):
-			if not self.getEditor(i) == editor:
-				continue
-
-			LOGGER.debug("> Editor '{0}': Tab index '{1}'.".format(editor, i))
-			return i
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -2761,7 +2820,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		for i in range(self.Script_Editor_tabWidget.count()):
-			if not self.getEditor(i).file == file:
+			if not self.getWidget(i).file == file:
 				continue
 
 			LOGGER.debug("> File '{0}': Tab index '{1}'.".format(file, i))
@@ -2780,35 +2839,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def listEditors(self):
-		"""
-		This method lists the **Script_Editor_tabWidget** Widget editors.
-
-		:return: Editors. ( List )
-		"""
-
-		return [self.getEditor(i) for i in range(self.Script_Editor_tabWidget.count())]
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def setEditorLanguage(self, editor, language):
-		"""
-		This method sets given language to given **Script_Editor_tabWidget** Widget tab editor.
-		
-		:param editor: Editor to set language to. ( Editor )
-		:param language: Language to set. ( Language )
-		:return: Method success. ( Boolean )
-		"""
-
-		LOGGER.debug("> Setting '{0}' language to '{1}' editor.".format(language.name, editor))
-
-		return editor.setLanguage(language)
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getCurrentEditor(self):
 		"""
-		This method returns the current **Script_Editor_tabWidget** Widget tab editor.
+		This method returns the current **Script_Editor_tabWidget** Widget tab Model editor.
 
 		:return: Current editor. ( Editor )
 		"""
@@ -2820,9 +2853,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def focusEditor(self, file):
+	def setCurrentEditor(self, file):
 		"""
-		This method focus the **Script_Editor_tabWidget** Widget tab editor with given file.
+		This method focus the **Script_Editor_tabWidget** Widget tab Model editor with given file.
 
 		:param file: File. ( String )
 		:return: Method success. ( Boolean )
@@ -2834,72 +2867,38 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getEditor(self, index):
-		"""
-		This method returns the **Script_Editor_tabWidget** Widget tab editor associated with given index.
-
-		:param index: Tab index. ( Integer )
-		:return: Editor. ( Editor )
-		"""
-
-		if index is not None:
-			return self.Script_Editor_tabWidget.widget(index)
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def findEditor(self, file):
-		"""
-		This method finds the **Script_Editor_tabWidget** Widget tab editor associated with given file.
-
-		:param file: File to search editors for. ( String )
-		:return: Editor. ( Editor )
-		"""
-
-		for i in range(self.Script_Editor_tabWidget.count()):
-			if not self.getEditor(i).file == file:
-				continue
-
-			LOGGER.debug("> File '{0}: Editor index '{1}'.".format(file, i))
-			return self.getEditor(i)
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def hasFile(self, file):
-		"""
-		This method returns if given file is loaded in any of the **Script_Editor_tabWidget** Widget editors.
-
-		:param file: File. ( String )
-		:return: Is file loaded. ( Boolean )
-		"""
-
-		return self.findEditor(file) and True or False
-
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, 	Exception)
 	def loadDocument(self, document, file):
 		"""
-		This method loads given document into a new **Script_Editor_tabWidget** Widget tab editor.
+		This method loads given document into a new **Script_Editor_tabWidget** Widget tab Model editor.
 
 		:param document: Document to load. ( QTextDocument )
 		:param file: Document file. ( String )
 		:return: Method success. ( Boolean )
 		"""
 
-		editor = Editor(parent=self, language=self.__languagesModel.getLanguage(self.__defaultLanguage))
+		if not foundations.common.pathExists(file):
+			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(
+			self.__class__.__name__, file))
+
+		if self.getEditor(file):
+			LOGGER.info("{0} | '{1}' is already loaded!".format(self.__class__.__name__, file))
+			return True
+
+		self.closeFirstFile()
+		language = self.__languagesModel.getLanguage(self.__defaultLanguage)
+		editor = Editor(parent=self, language=language)
 		if not editor.newFile():
 			return
 
-		LOGGER.info("{0} | Loading '{1}' file!".format(self.__class__.__name__, file))
-		if not editor.loadDocument(document, file, self.__languagesModel.getFileLanguage(file)):
+		LOGGER.info("{0} | Loading '{1}' file document!".format(self.__class__.__name__, file))
+		language = self.__languagesModel.getFileLanguage(file) or self.__languagesModel.getLanguage(self.__defaultLanguage)
+		if not editor.loadDocument(document, file, language):
 			return
 
-		self.__model.registerFile(file)
-		self.__setEditorTabName(self.addEditorTab(editor))
-		self.__setWindowTitle()
-		self.__storeRecentFile(file)
-		self.fileLoaded.emit(file)
-		return True
+		if self.__setEditingNodes(file, editor):
+			self.fileLoaded.emit(file)
+			return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -2910,18 +2909,23 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		editor = Editor(parent=self, language=self.__languagesModel.getLanguage(self.__defaultScriptLanguage))
+		language = self.__languagesModel.getLanguage(self.__defaultScriptLanguage)
+		editor = Editor(parent=self, language=language)
+
 		LOGGER.info("{0} | Creating '{1}' file!".format(self.__class__.__name__, editor.getNextUntitledFileName()))
-		if editor.newFile():
-			self.addEditorTab(editor)
-			self.fileLoaded.emit(editor.file)
+		file = editor.newFile()
+		if not file:
+			return
+
+		if self.__setEditingNodes(file, editor):
+			self.fileLoaded.emit(file)
 			return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def loadFile(self, file):
 		"""
-		This method loads user chosen file in a new **Script_Editor_tabWidget** Widget tab editor.
+		This method loads user chosen file in a new **Script_Editor_tabWidget** Widget tab Model editor.
 
 		:param file: File to load. ( String )
 		:return: Method success. ( Boolean )
@@ -2931,24 +2935,20 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(
 			self.__class__.__name__, file))
 
-		if self.focusEditor(file):
+		if self.getEditor(file):
 			LOGGER.info("{0} | '{1}' is already loaded!".format(self.__class__.__name__, file))
 			return True
 
-		currentEditor = self.getCurrentEditor()
-		if self.Script_Editor_tabWidget.count() == 1 and currentEditor.isUntitled and \
-		not currentEditor.isModified():
-			self.__model.unregisterFile(file, raiseException=False)
-			self.removeEditorTab(self.Script_Editor_tabWidget.currentIndex())
+		self.closeFirstFile()
 
 		LOGGER.info("{0} | Loading '{1}' file!".format(self.__class__.__name__, file))
 		language = self.__languagesModel.getFileLanguage(file) or self.__languagesModel.getLanguage(self.__defaultLanguage)
 		editor = Editor(parent=self, language=language)
 
-		if editor.loadFile(file):
-			projectNode = self.__model.getProjectNode(self.__model.defaultProject)
-			fileNode = self.__model.registerFile(file, projectNode)
-			editorNode = self.__model.registerEditor(editor, fileNode)
+		if not editor.loadFile(file):
+			return
+
+		if self.__setEditingNodes(file, editor):
 			self.fileLoaded.emit(file)
 			return True
 
@@ -2956,7 +2956,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def reloadFile(self, file):
 		"""
-		This method reloads current **Script_Editor_tabWidget** Widget tab editor file content.
+		This method reloads given file Model editor content.
 
 		:param file: File to reload. ( String )
 		:return: Method success. ( Boolean )
@@ -2966,7 +2966,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(
 			self.__class__.__name__, file))
 
-		editor = self.findEditor(file)
+		editor = self.getEditor(file)
 		if not editor:
 			return
 
@@ -2977,25 +2977,25 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def saveFile(self, file=None):
 		"""
-		This method saves either given file or current **Script_Editor_tabWidget** Widget tab editor file.
+		This method saves either given file or current **Script_Editor_tabWidget** Widget tab Model editor file.
 
 		:param file: File to save. ( String )
 		:return: Method success. ( Boolean )
 		"""
 
-		if not self.hasEditorTab():
+		editor = file and self.getEditor(file) or self.getCurrentEditor()
+		if not editor:
 			return
 
-		editor = file and self.findEditor(file) or self.getCurrentEditor()
 		LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
 		self.__encapsulateEditorFileSystemEvents(editor, "saveFile")
 		return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def saveFileAs(self):
 		"""
-		This method saves current **Script_Editor_tabWidget** Widget tab editor file as user chosen file.
+		This method saves current **Script_Editor_tabWidget** Widget tab Model editor file as user chosen file.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -3004,14 +3004,25 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor:
 			return
 
-		LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
-		if self.__encapsulateEditorFileSystemEvents(editor, "saveFileAs"):
-			self.__model.registerFile(editor.file)
-			self.__storeRecentFile(editor.file)
-			language = self.__languagesModel.getFileLanguage(editor.file) or \
-					self.__languagesModel.getLanguage(self.__defaultLanguage)
+		file = umbra.ui.common.storeLastBrowsedPath(QFileDialog.getSaveFileName(self, "Save As:", editor.file))
+		if not file:
+			return
+
+		candidateEditor = self.getEditor(file)
+		if candidateEditor:
+			if not candidateEditor is editor:
+				raise Exception("{0} | '{1}' file is already opened!".format(
+				self.__class__.__name__, file))
+			else:
+				return self.saveFile(file)
+
+		LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, file))
+		if self.__encapsulateEditorFileSystemEvents(editor, "saveFileAs", file):
+			language = self.__languagesModel.getFileLanguage(file) or self.__languagesModel.getLanguage(self.__defaultLanguage)
 			if editor.language.name != language.name:
-				self.setEditorLanguage(editor, language)
+				self.setLanguage(editor, language)
+			self.__model.getFileNode(file).path = file
+			self.__model.fileRegistered.emit(file)
 			return True
 
 	@core.executionTrace
@@ -3019,20 +3030,18 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@umbra.engine.encapsulateProcessing
 	def saveAllFiles(self):
 		"""
-		This method saves all **Script_Editor_tabWidget** Widget tab editor files.
+		This method saves all **Script_Editor_tabWidget** Widget tab Model editor files.
 
 		:return: Method success. ( Boolean )
 		"""
 
-		editorsCount = self.Script_Editor_tabWidget.count()
-
-		self.__engine.startProcessing("Saving All Files ...", editorsCount)
+		self.__engine.startProcessing("Saving All Files ...", len(self.listEditors()))
 		success = True
-		for i in range(editorsCount):
-			editor = self.getEditor(i)
-			if editor.isModified():
-				LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
-				self.__encapsulateEditorFileSystemEvents(editor, "saveFile")
+		for editor in self.listFiles():
+			if not self.getEditor(file):
+				continue
+
+			success *= self.saveFile(file)
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
 
@@ -3040,27 +3049,28 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def closeFile(self, file=None):
+	def closeFile(self, file=None, leaveLastEditor=True):
 		"""
-		This method closes either given file or current **Script_Editor_tabWidget** Widget tab editor file.
+		This method closes either given file or current **Script_Editor_tabWidget** Widget tab Model editor file.
 
 		:param file: File to save. ( String )
+		:param leaveLastEditor: Leave last editor. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
 
-		editor = file and self.findEditor(file) or self.getCurrentEditor()
+		editor = file and self.getEditor(file) or self.getCurrentEditor()
 		if not editor:
 			return
 
-		LOGGER.info("{0} | Closing '{1}' file!".format(self.__class__.__name__, editor.file))
+		file = editor.file
+		LOGGER.info("{0} | Closing '{1}' file!".format(self.__class__.__name__, file))
 		if not editor.closeFile():
 			return
 
-		self.__model.unregisterFile(editor.file, raiseException=False)
-		self.fileClosed.emit(editor.file)
-
-		if self.removeEditorTab(self.Script_Editor_tabWidget.currentIndex()):
-			not self.hasEditorTab() and self.newFile()
+		if self.__deleteEditingNodes(file, editor):
+			if not self.hasEditorTab() and leaveLastEditor:
+				self.newFile()
+			self.fileClosed.emit(file)
 			return True
 
 	@core.executionTrace
@@ -3073,28 +3083,107 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		editorsCount = self.Script_Editor_tabWidget.count()
-		self.__engine.startProcessing("Closing All Files ...", editorsCount)
-		for editor in self.listEditors():
-			LOGGER.info("{0} | Closing '{1}' file!".format(self.__class__.__name__, editor.file))
-			if not editor.closeFile():
-				return
+		self.__engine.startProcessing("Closing All Files ...", len(self.listEditors()))
+		success = True
+		for file in self.listFiles():
+			if not self.getEditor(file):
+				continue
 
-			self.__model.unregisterFile(editor.file, raiseException=False)
-			self.fileClosed.emit(editor.file)
-
-			if self.removeEditorTab(self.Script_Editor_tabWidget.currentIndex()):
-				if not self.hasEditorTab() and leaveLastEditor:
-					self.newFile()
+			success *= self.closeFile(file, leaveLastEditor)
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
-		return True
+		return success
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def closeFirstFile(self):
+		"""
+		This method attemtps to close the first file.
+
+		:return: Method success. ( Boolean )
+		"""
+
+		editor = self.getCurrentEditor()
+		if len(self.__model.listEditors()) == 1 and editor.isUntitled and not editor.isModified():
+			self.closeFile(leaveLastEditor=False)
+			return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listEditors(self):
+		"""
+		This method returns the Model editors.
+
+		:return: Editors. ( List )
+		"""
+
+		return self.__model.listEditors()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listFiles(self):
+		"""
+		This method returns the Model files.
+		
+		:return: FileNode nodes. ( List )
+		"""
+
+		return self.__model.listFiles()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listDirectories(self):
+		"""
+		This method returns the Model directories.
+		
+		:return: DirectoryNode nodes. ( List )
+		"""
+
+		return self.__model.listDirectories()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listProjects(self):
+		"""
+		This method returns the Model projects.
+		
+		:return: ProjectNode nodes. ( List )
+		"""
+
+		return self.__model.listProjects()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getEditor(self, file):
+		"""
+		This method returns the Model editor associated with given file.
+
+		:param file: File to search editors for. ( String )
+		:return: Editor. ( Editor )
+		"""
+
+		return self.__model.getEditor(file)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def setLanguage(self, editor, language):
+		"""
+		This method sets given language to given Model editor.
+		
+		:param editor: Editor to set language to. ( Editor )
+		:param language: Language to set. ( Language )
+		:return: Method success. ( Boolean )
+		"""
+
+		LOGGER.debug("> Setting '{0}' language to '{1}' editor.".format(language.name, editor))
+
+		return editor.setLanguage(language)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def gotoLine(self):
 		"""
-		This method moves current **Script_Editor_tabWidget** Widget tab editor cursor to user defined line.
+		This method moves current **Script_Editor_tabWidget** Widget tab Model editor cursor to user defined line.
 
 		:return: Method success. ( Boolean )
 
@@ -3116,7 +3205,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def evaluateSelection(self):
 		"""
-		This method evaluates current **Script_Editor_tabWidget** Widget tab editor
+		This method evaluates current **Script_Editor_tabWidget** Widget tab Model editor
 		selected content in the interactive console.
 
 		:return: Method success. ( Boolean )
@@ -3136,7 +3225,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def evaluateScript(self):
 		"""
-		This method evaluates current **Script_Editor_tabWidget** Widget tab editor content into the interactive console.
+		This method evaluates current **Script_Editor_tabWidget** Widget tab Model editor content
+		into the interactive console.
 
 		:return: Method success. ( Boolean )
 		"""

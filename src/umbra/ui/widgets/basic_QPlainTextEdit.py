@@ -35,6 +35,7 @@ from PyQt4.QtGui import QTextOption
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
+import foundations.common
 import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
@@ -77,14 +78,14 @@ def anchorTextCursor(object):
 		"""
 
 		if args:
-			if hasattr(args[0], "storeTextCursorAnchor"):
-				args[0].storeTextCursorAnchor()
+			if hasattr(foundations.common.getFirstItem(args), "storeTextCursorAnchor"):
+				foundations.common.getFirstItem(args).storeTextCursorAnchor()
 
 		value = object(*args, **kwargs)
 
 		if args:
-			if hasattr(args[0], "restoreTextCursorAnchor"):
-				args[0].storeTextCursorAnchor()
+			if hasattr(foundations.common.getFirstItem(args), "restoreTextCursorAnchor"):
+				foundations.common.getFirstItem(args).storeTextCursorAnchor()
 
 		return value
 
@@ -109,14 +110,14 @@ def centerTextCursor(object):
 		"""
 
 		if args:
-			if hasattr(args[0], "setCenterOnScroll"):
-				args[0].setCenterOnScroll(True)
+			if hasattr(foundations.common.getFirstItem(args), "setCenterOnScroll"):
+				foundations.common.getFirstItem(args).setCenterOnScroll(True)
 
 		value = object(*args, **kwargs)
 
 		if args:
-			if hasattr(args[0], "setCenterOnScroll"):
-				args[0].setCenterOnScroll(False)
+			if hasattr(foundations.common.getFirstItem(args), "setCenterOnScroll"):
+				foundations.common.getFirstItem(args).setCenterOnScroll(False)
 
 		return value
 

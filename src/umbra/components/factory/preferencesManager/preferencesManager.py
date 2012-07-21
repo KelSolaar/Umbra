@@ -25,6 +25,7 @@ from PyQt4.QtCore import Qt
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
+import foundations.common
 import foundations.core as core
 import foundations.exceptions
 import foundations.strings as strings
@@ -318,7 +319,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Verbose_Level_comboBox.clear()
 		LOGGER.debug("> Available verbose levels: '{0}'.".format(Constants.verbosityLabels))
 		self.Verbose_Level_comboBox.insertItems(0, QStringList (Constants.verbosityLabels))
-		self.__engine.verbosityLevel = self.__settings.getKey("Settings", "verbosityLevel").toInt()[0]
+		self.__engine.verbosityLevel = foundations.common.getFirstItem(
+									self.__settings.getKey("Settings", "verbosityLevel").toInt())
 		self.Verbose_Level_comboBox.setCurrentIndex(self.__engine.verbosityLevel)
 
 	@core.executionTrace
@@ -344,7 +346,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings.getKey("Settings", "restoreGeometryOnLayoutChange").isNull() and \
 		self.__settings.setKey("Settings", "restoreGeometryOnLayoutChange", Qt.Unchecked)
 
-		restoreGeometryOnLayoutChange = self.__settings.getKey("Settings", "restoreGeometryOnLayoutChange").toInt()[0]
+		restoreGeometryOnLayoutChange = foundations.common.getFirstItem(
+										self.__settings.getKey("Settings", "restoreGeometryOnLayoutChange").toInt())
 		LOGGER.debug("> Setting '{0}' with value '{1}'.".format("Restore_Geometry_On_Layout_Change_checkBox",
 																restoreGeometryOnLayoutChange))
 		self.Restore_Geometry_On_Layout_Change_checkBox.setCheckState(restoreGeometryOnLayoutChange)

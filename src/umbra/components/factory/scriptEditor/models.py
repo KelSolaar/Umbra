@@ -508,7 +508,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listEditorNodes(self):
 		"""
-		This method returns the :class:`EditorNode` nodes.
+		This method returns the Model :class:`EditorNode` nodes.
 		
 		:return: EditorNode nodes. ( List )
 		"""
@@ -519,7 +519,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listFileNodes(self):
 		"""
-		This method returns the :class:`FileNode` nodes.
+		This method returns the Model :class:`FileNode` nodes.
 		
 		:return: FileNode nodes. ( List )
 		"""
@@ -530,7 +530,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listDirectoryNodes(self):
 		"""
-		This method returns the :class:`DirectoryNode` nodes.
+		This method returns the Model :class:`DirectoryNode` nodes.
 		
 		:return: DirectoryNode nodes. ( List )
 		"""
@@ -541,7 +541,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listProjectNodes(self):
 		"""
-		This method returns the :class:`ProjectNode` nodes.
+		This method returns the Model :class:`ProjectNode` nodes.
 		
 		:return: ProjectNode nodes. ( List )
 		"""
@@ -550,9 +550,53 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listEditors(self):
+		"""
+		This method returns the Model editors.
+		
+		:return: Editors. ( List )
+		"""
+
+		return [editorNode.editor for editorNode in self.listFamily("EditorNode") if editorNode.editor]
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listFiles(self):
+		"""
+		This method returns the Model files.
+		
+		:return: FileNode nodes. ( List )
+		"""
+
+		return [fileNode.path for fileNode in self.listFamily("FileNode") if fileNode.path]
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listDirectories(self):
+		"""
+		This method returns the Model directories.
+		
+		:return: DirectoryNode nodes. ( List )
+		"""
+
+		return [directoryNode.path for directoryNode in self.listFamily("DirectoryNode") if directoryNode.path]
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listProjects(self):
+		"""
+		This method returns the Model projects.
+		
+		:return: ProjectNode nodes. ( List )
+		"""
+
+		return [projectNode.name for projectNode in self.listFamily("ProjectNode") if projectNode.name]
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getEditorNode(self, editor):
 		"""
-		This method returns the :class:`EditorNode` node with editor.
+		This method returns the :class:`EditorNode` node with given editor.
 		
 		:param editor: Editor. ( Editor )
 		:return: EditorNode node. ( EditorNode )
@@ -603,6 +647,20 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		for projectNode in self.listProjectNodes():
 			if projectNode.name == name:
 				return projectNode
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getEditor(self, file):
+		"""
+		This method returns the Model editor associated with given file.
+
+		:param file: File to search editors for. ( String )
+		:return: Editor. ( Editor )
+		"""
+
+		for editor in self.listEditors():
+			if editor.file == file:
+				return editor
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)

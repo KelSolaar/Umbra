@@ -1006,6 +1006,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			location = self.__filtersInFormat.format(self.__defaultFilterIn)
 		elif type == "excludeFilter":
 			location = self.__filtersOutFormat.format(self.__defaultFilterOut)
+
 		location and self.Where_lineEdit.setText(", ".join(filter(bool, (strings.encode(
 		self.Where_lineEdit.text()), location))))
 
@@ -1061,7 +1062,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:param occurence: Occurence to highlight. ( Occurence / SearchOccurenceNode )
 		"""
 
-		if not self.__container.hasFile(file):
+		if not self.__container.getEditor(file):
 			cacheData = self.__filesCache.getContent(file)
 			if cacheData:
 				document = cacheData.document or self.__getDocument(cacheData.content)
@@ -1070,7 +1071,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			else:
 				self.__container.loadFile(file)
 		else:
-			self.__container.focusEditor(file)
+			self.__container.setCurrentEditor(file)
 
 		if not occurence:
 			return
