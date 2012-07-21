@@ -300,6 +300,18 @@ class PatchesManager(object):
 		return sorted(self.__patches.keys())
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def isPatchRegistered(self, patch):
+		"""
+		This method returns if the given patch is registered.
+
+		:param patch: Patch. ( String )
+		:return: Is patch registered. ( Boolean )
+		"""
+
+		return patch in self
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.PatchInterfaceError)
 	def registerPatch(self, name, path):
 		"""

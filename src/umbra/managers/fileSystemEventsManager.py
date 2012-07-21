@@ -313,6 +313,18 @@ class FileSystemEventsManager(QThread):
 		return sorted(self.__paths.keys())
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def isPathRegistered(self, path):
+		"""
+		This method returns if the given path is registered.
+
+		:param path: Path name. ( String )
+		:return: Is path registered. ( Boolean )
+		"""
+
+		return path in self
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None,
 											False,
 											foundations.exceptions.PathExistsError,
