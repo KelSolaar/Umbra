@@ -59,12 +59,8 @@ from umbra.components.factory.scriptEditor.editor import LOGGING_LANGUAGE
 from umbra.components.factory.scriptEditor.editor import PYTHON_LANGUAGE
 from umbra.components.factory.scriptEditor.editor import TEXT_LANGUAGE
 from umbra.components.factory.scriptEditor.editorStatus import EditorStatus
-from umbra.components.factory.scriptEditor.models import DirectoryNode
-from umbra.components.factory.scriptEditor.models import FileNode
 from umbra.components.factory.scriptEditor.models import LanguagesModel
 from umbra.components.factory.scriptEditor.models import ProjectsModel
-from umbra.components.factory.scriptEditor.models import ProjectNode
-from umbra.components.factory.scriptEditor.models import LanguagesModel
 from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace
 from umbra.components.factory.scriptEditor.searchInFiles import SearchInFiles
 from umbra.globals.constants import Constants
@@ -1574,7 +1570,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Calling '{0}' Component Framework 'onClose' method.".format(self.__class__.__name__))
 
-		if self.storeSession() and self.closeAllFiles(leaveLastEditor=False):
+		if self.storeSession() and self.closeAllFiles(leaveFirstEditor=False):
 			return True
 
 	@core.executionTrace
@@ -1905,7 +1901,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __model__fileRegistered(self, file):
 		"""
-		This method is triggered by the :obj:`ScriptEditor.model` class property when a file is registered.
+		This method is triggered by the Model when a file is registered.
 		
 		:param file: File registered. ( String )
 		"""
@@ -1921,7 +1917,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __model__fileUnregistered(self, file):
 		"""
-		This method is triggered by the :obj:`ScriptEditor.model` class property when a file is unregistered.
+		This method is triggered by the Model when a file is unregistered.
 		
 		:param file: File registered. ( String )
 		"""
@@ -1933,7 +1929,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __model__editorRegistered(self, editor):
 		"""
-		This method is triggered by the :obj:`ScriptEditor.model` class property when an editor is registered.
+		This method is triggered by the Model when an editor is registered.
 		
 		:param editor: Editor registered. ( Editor )
 		"""
@@ -1943,7 +1939,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __model__editorUnregistered(self, editor):
 		"""
-		This method is triggered by the :obj:`ScriptEditor.model` class property when an editor is unregistered.
+		This method is triggered by the Model when an editor is unregistered.
 		
 		:param editor: Editor registered. ( Editor )
 		"""
@@ -2454,7 +2450,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __editor__titleChanged(self):
 		"""
-		This method is triggered when an editor content is changed.
+		This method is triggered when an editor title is changed.
 		"""
 
 		self.__setEditorTabName(self.getEditorTab(self.sender()))
@@ -2480,7 +2476,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __initializeLanguagesModel(self):
 		"""
-		This method initializes given file in the :obj:`ScriptEditor.languagesModel` class property.
+		This method initializes the languages Model.
 		"""
 
 		languages = [PYTHON_LANGUAGE, LOGGING_LANGUAGE, TEXT_LANGUAGE]
@@ -2716,7 +2712,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def searchInFilesUi(self):
 		"""
-		This method performs a search in files in the current user chosen files.
+		This method performs a search in the current user chosen files.
 
 		:return: Method success. ( Boolean )
 
@@ -2774,7 +2770,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addEditorTab(self, editor):
 		"""
-		This method adds a new tab to the **Script_Editor_tabWidget** Widget and sets given editor as child widget.
+		This method adds a new tab to the **Script_Editor_tabWidget** Widget and sets the given editor as child widget.
 
 		:param editor: Editor. ( Editor )
 		:return: New tab index. ( Integer )
@@ -2804,16 +2800,13 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Removing tab with Editor '{0}'.".format(editor))
 		self.Script_Editor_tabWidget.removeTab(self.getEditorTab(editor))
-		# Deleting the tab widget seems enough to garbage collect the associated editor.
-		# editor = self.getWidget(index)
-		# editor and editor.setParent(None)
 		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def findEditorTab(self, file):
 		"""
-		This method finds the **Script_Editor_tabWidget** Widget tab associated with the given file.
+		This method finds the **Script_Editor_tabWidget** Widget tab associated to the given file.
 
 		:param file: File to search tab for. ( String )
 		:return: Tab index. ( Editor )
@@ -2956,7 +2949,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def reloadFile(self, file):
 		"""
-		This method reloads given file Model editor content.
+		This method reloads given file **Script_Editor_tabWidget** Widget tab Model editor content.
 
 		:param file: File to reload. ( String )
 		:return: Method success. ( Boolean )
@@ -3049,12 +3042,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def closeFile(self, file=None, leaveLastEditor=True):
+	def closeFile(self, file=None, leaveFirstEditor=True):
 		"""
 		This method closes either given file or current **Script_Editor_tabWidget** Widget tab Model editor file.
 
 		:param file: File to save. ( String )
-		:param leaveLastEditor: Leave last editor. ( Boolean )
+		:param leaveFirstEditor: Leave first editor. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
 
@@ -3068,7 +3061,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		if self.__deleteEditingNodes(file, editor):
-			if not self.hasEditorTab() and leaveLastEditor:
+			if not self.hasEditorTab() and leaveFirstEditor:
 				self.newFile()
 			self.fileClosed.emit(file)
 			return True
@@ -3076,7 +3069,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	@umbra.engine.encapsulateProcessing
-	def closeAllFiles(self, leaveLastEditor=True):
+	def closeAllFiles(self, leaveFirstEditor=True):
 		"""
 		This method closes every opened files and removes their associated **Script_Editor_tabWidget** Widget tabs.
 
@@ -3089,7 +3082,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			if not self.getEditor(file):
 				continue
 
-			success *= self.closeFile(file, leaveLastEditor)
+			success *= self.closeFile(file, leaveFirstEditor)
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
 		return success
@@ -3098,14 +3091,14 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def closeFirstFile(self):
 		"""
-		This method attemtps to close the first file.
+		This method attemtps to close the first **Script_Editor_tabWidget** Widget tab Model editor file.
 
 		:return: Method success. ( Boolean )
 		"""
 
 		editor = self.getCurrentEditor()
 		if len(self.__model.listEditors()) == 1 and editor.isUntitled and not editor.isModified():
-			self.closeFile(leaveLastEditor=False)
+			self.closeFile(leaveFirstEditor=False)
 			return True
 
 	@core.executionTrace
