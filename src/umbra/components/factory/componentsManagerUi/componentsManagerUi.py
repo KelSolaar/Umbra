@@ -35,11 +35,12 @@ import foundations.strings as strings
 import manager.exceptions
 import umbra.engine
 import umbra.ui.common
+import umbra.ui.nodes
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.globals.constants import Constants
 from umbra.components.factory.componentsManagerUi.models import ComponentsModel
-from umbra.components.factory.componentsManagerUi.models import ComponentNode
-from umbra.components.factory.componentsManagerUi.models import PathNode
+from umbra.components.factory.componentsManagerUi.nodes import ComponentNode
+from umbra.components.factory.componentsManagerUi.nodes import PathNode
 from umbra.components.factory.componentsManagerUi.views import Components_QTreeView
 
 #**********************************************************************************************************************
@@ -1027,7 +1028,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		nodeFlags = attributesFlags = int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
 
-		rootNode = umbra.ui.models.DefaultNode(name="InvisibleRootNode")
+		rootNode = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
 
 		for path in self.__engine.componentsManager.paths:
 			components = {name : component
@@ -1040,10 +1041,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 								parent=rootNode,
 								nodeFlags=nodeFlags,
 								attributesFlags=attributesFlags,
-								activated=umbra.ui.models.GraphModelAttribute(name="activated", flags=attributesFlags),
-								category=umbra.ui.models.GraphModelAttribute(name="category", flags=attributesFlags),
-								rank=umbra.ui.models.GraphModelAttribute(name="rank", flags=attributesFlags),
-								version=umbra.ui.models.GraphModelAttribute(name="version", flags=attributesFlags))
+								activated=umbra.ui.nodes.GraphModelAttribute(name="activated", flags=attributesFlags),
+								category=umbra.ui.nodes.GraphModelAttribute(name="category", flags=attributesFlags),
+								rank=umbra.ui.nodes.GraphModelAttribute(name="rank", flags=attributesFlags),
+								version=umbra.ui.nodes.GraphModelAttribute(name="version", flags=attributesFlags))
 
 			for component in components.itervalues():
 				if not component.interface:
@@ -1054,7 +1055,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 										parent=pathNode,
 										nodeFlags=nodeFlags,
 										attributesFlags=attributesFlags,
-										activated=umbra.ui.models.GraphModelAttribute(name="activated",
+										activated=umbra.ui.nodes.GraphModelAttribute(name="activated",
 										flags=attributesFlags,
 										roles={Qt.DisplayRole: strings.encode(component.interface.activated),
 										Qt.DecorationRole:os.path.join(self.__uiResourcesDirectory,

@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the Application models classes.
+	This module defines the Application Models classes.
 
 **Others:**
 
@@ -34,8 +34,8 @@ from PyQt4.QtGui import QIcon
 import foundations.core as core
 import foundations.exceptions
 import foundations.strings as strings
+import umbra.ui.nodes
 from foundations.dag import AbstractCompositeNode
-from foundations.dag import Attribute
 from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
@@ -48,238 +48,13 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "GraphModelAttribute", "GraphModelNode", "DefaultNode", "GraphModel"]
+__all__ = ["LOGGER", "GraphModel"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class GraphModelAttribute(Attribute):
-	"""
-	This class represents a storage object for the :class:`GraphModelNode` class attributes.
-	"""
-
-	@core.executionTrace
-	def __init__(self, name=None, value=None, roles=None, flags=None, **kwargs):
-		"""
-		This method initializes the class.
-
-		:param name: Attribute name. ( String )
-		:param value: Attribute value. ( Object )
-		:param roles: Roles. ( Dictionary )
-		:param flags: Flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		Attribute.__init__(self, name, value, **kwargs)
-
-		# --- Setting class attributes. ---
-		self.__roles = None
-		self.roles = roles or {Qt.DisplayRole : value, Qt.EditRole : value}
-		self.__flags = None
-		self.flags = flags or int(Qt.ItemIsSelectable | Qt.ItemIsEditable | Qt.ItemIsEnabled)
-
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
-	@property
-	def roles(self):
-		"""
-		This method is the property for **self.__roles** attribute.
-	
-		:return: self.__roles. ( Dictionary )
-		"""
-
-		return self.__roles
-
-	@roles.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def roles(self, value):
-		"""
-		This method is the setter method for **self.__roles** attribute.
-	
-		:param value: Attribute value. ( Dictionary )
-		"""
-
-		if value is not None:
-			assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("roles", value)
-			for key in value:
-				assert type(key) is Qt.ItemDataRole, "'{0}' attribute: '{1}' type is not 'Qt.ItemDataRole'!".format("roles", key)
-		self.__roles = value
-
-	@roles.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def roles(self):
-		"""
-		This method is the deleter method for **self.__roles** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "roles"))
-
-	@property
-	def flags(self):
-		"""
-		This method is the property for **self.__flags** attribute.
-	
-		:return: self.__flags. ( Integer )
-		"""
-
-		return self.__flags
-
-	@flags.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def flags(self, value):
-		"""
-		This method is the setter method for **self.__flags** attribute.
-	
-		:param value: Attribute value. ( Integer )
-		"""
-
-		if value is not None:
-			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("flags", value)
-		self.__flags = value
-
-	@flags.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def flags(self):
-		"""
-		This method is the deleter method for **self.__flags** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "flags"))
-
-class GraphModelNode(AbstractCompositeNode):
-	"""
-	This class defines :class:`GraphModel` class base node object.
-	"""
-
-	__family = "GraphModel"
-	"""Node family. ( String )"""
-
-	@core.executionTrace
-	def __init__(self, name=None, parent=None, children=None, roles=None, flags=None, **kwargs):
-		"""
-		This method initializes the class.
-
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( AbstractNode / AbstractCompositeNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param flags: Flags. ( Qt.ItemFlag )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		AbstractCompositeNode.__init__(self, name, parent, children, **kwargs)
-
-		# --- Setting class attributes. ---
-		self.__roles = None
-		self.roles = roles or {Qt.DisplayRole : name, Qt.EditRole : name}
-		self.__flags = None
-		self.flags = flags or int(Qt.ItemIsSelectable | Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsDragEnabled)
-
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
-	@property
-	def roles(self):
-		"""
-		This method is the property for **self.__roles** attribute.
-
-		:return: self.__roles. ( Dictionary )
-		"""
-
-		return self.__roles
-
-	@roles.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def roles(self, value):
-		"""
-		This method is the setter method for **self.__roles** attribute.
-
-		:param value: Attribute value. ( Dictionary )
-		"""
-
-		if value is not None:
-			assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("roles", value)
-			for key in value:
-				assert type(key) is Qt.ItemDataRole, "'{0}' attribute: '{1}' type is not 'Qt.ItemDataRole'!".format(
-				"roles", key)
-		self.__roles = value
-
-	@roles.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def roles(self):
-		"""
-		This method is the deleter method for **self.__roles** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "roles"))
-
-	@property
-	def flags(self):
-		"""
-		This method is the property for **self.__flags** attribute.
-	
-		:return: self.__flags. ( Integer )
-		"""
-
-		return self.__flags
-
-	@flags.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def flags(self, value):
-		"""
-		This method is the setter method for **self.__flags** attribute.
-	
-		:param value: Attribute value. ( Integer )
-		"""
-
-		if value is not None:
-			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("flags", value)
-		self.__flags = value
-
-	@flags.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def flags(self):
-		"""
-		This method is the deleter method for **self.__flags** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "flags"))
-
-class DefaultNode(AbstractCompositeNode):
-	"""
-	| This class defines the default node used in :class:`GraphModel` class model.
-	| This simple node is used as an invisible root node for :class:`GraphModel` class models.
-	"""
-
-	__family = "Default"
-	"""Node family. ( String )"""
-
-	@core.executionTrace
-	def __init__(self, name=None, parent=None, children=None, **kwargs):
-		"""
-		This method initializes the class.
-
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( AbstractCompositeNode )
-		:param children: Children. ( List )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		AbstractCompositeNode.__init__(self, name, parent, children, **kwargs)
-
 class GraphModel(QAbstractItemModel):
 	"""
 	| This class is a `QAbstractItemModel <http://doc.qt.nokia.com/qabstractitemmodel.html>`_ subclass
@@ -312,13 +87,13 @@ class GraphModel(QAbstractItemModel):
 
 		# --- Setting class attributes. ---
 		self.__rootNode = None
-		self.rootNode = rootNode or DefaultNode(name="InvisibleRootNode")
+		self.rootNode = rootNode or umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
 		self.__horizontalHeaders = None
 		self.horizontalHeaders = horizontalHeaders or OrderedDict([("Graph Model", "graphModel")])
 		self.__verticalHeaders = None
 		self.verticalHeaders = verticalHeaders or OrderedDict()
 		self.__defaultNode = None
-		self.defaultNode = defaultNode or DefaultNode
+		self.defaultNode = defaultNode or umbra.ui.nodes.DefaultNode
 
 	#******************************************************************************************************************
 	#***	Attributes properties.

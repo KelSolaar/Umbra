@@ -40,11 +40,12 @@ import foundations.exceptions
 import foundations.strings as strings
 import foundations.ui.common
 import umbra.ui.common
+import umbra.ui.nodes
 from foundations.io import File
-from umbra.components.factory.scriptEditor.models import ReplaceResultNode
-from umbra.components.factory.scriptEditor.models import SearchFileNode
-from umbra.components.factory.scriptEditor.models import SearchOccurenceNode
 from umbra.components.factory.scriptEditor.models import SearchResultsModel
+from umbra.components.factory.scriptEditor.nodes import ReplaceResultNode
+from umbra.components.factory.scriptEditor.nodes import SearchFileNode
+from umbra.components.factory.scriptEditor.nodes import SearchOccurenceNode
 from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace
 from umbra.components.factory.scriptEditor.searchAndReplace import ValidationFilter
 from umbra.components.factory.scriptEditor.views import SearchResults_QTreeView
@@ -1151,7 +1152,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		rootNode = umbra.ui.models.DefaultNode(name="InvisibleRootNode")
+		rootNode = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
 		for searchResult in searchResults:
 			searchFileNode = SearchFileNode(name=searchResult.file,
 											parent=rootNode)
@@ -1179,7 +1180,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		rootNode = umbra.ui.models.DefaultNode(name="InvisibleRootNode")
+		rootNode = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
 		for file, metrics in sorted(replaceResults.iteritems()):
 			replaceResultNode = ReplaceResultNode(name=self.__formatReplaceMetrics(file, metrics),
 												parent=rootNode,

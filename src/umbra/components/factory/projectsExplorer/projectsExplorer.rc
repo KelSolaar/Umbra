@@ -1,5 +1,5 @@
 [Component]
-Name = factory.tcpServerUi
+Name = factory.projectsEplorer
 Title = Projects Explorer
 Module = projectsExplorer
 Object = ProjectsExplorer

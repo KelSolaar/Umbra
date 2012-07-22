@@ -34,8 +34,8 @@ import foundations.exceptions
 import foundations.ui.common
 import foundations.strings as strings
 import umbra.ui.common
-from umbra.components.factory.scriptEditor.models import PatternNode
 from umbra.components.factory.scriptEditor.models import PatternsModel
+from umbra.components.factory.scriptEditor.nodes import PatternNode
 from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************

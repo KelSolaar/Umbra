@@ -27,6 +27,7 @@ from PyQt4.QtCore import Qt
 import foundations.core as core
 import foundations.exceptions
 import umbra.ui.models
+import umbra.ui.nodes
 from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
@@ -46,7 +47,7 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class FileNode(umbra.ui.models.GraphModelNode):
+class FileNode(umbra.ui.nodes.GraphModelNode):
 	"""
 	This class factory defines :class:`umbra.components.factory.projectsExplorer.projectsExplorer.ProjectsExplorer`
 	Component Interface class Model **File* node.
@@ -77,7 +78,7 @@ class FileNode(umbra.ui.models.GraphModelNode):
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
+		umbra.ui.nodes.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
 
 		FileNode.__initializeNode(self, attributesFlags)
 
@@ -94,7 +95,7 @@ class FileNode(umbra.ui.models.GraphModelNode):
 
 		pass
 
-class OpenFilesNode(umbra.ui.models.GraphModelNode):
+class OpenFilesNode(umbra.ui.nodes.GraphModelNode):
 	"""
 	This class factory defines :class:`umbra.components.factory.projectsExplorer.projectsExplorer.ProjectsExplorer`
 	Component Interface class Model **OpenFiles* node.
@@ -125,7 +126,7 @@ class OpenFilesNode(umbra.ui.models.GraphModelNode):
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
+		umbra.ui.nodes.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
 
 		OpenFilesNode.__initializeNode(self, attributesFlags)
 

@@ -19,7 +19,6 @@
 #***	External imports.
 #**********************************************************************************************************************
 import logging
-import os
 import re
 from PyQt4.QtCore import QAbstractListModel
 from PyQt4.QtCore import QModelIndex
@@ -34,8 +33,13 @@ import foundations.core as core
 import foundations.exceptions
 import foundations.walkers
 import umbra.ui.models
+import umbra.ui.nodes
 from umbra.components.factory.scriptEditor.editor import Editor
 from umbra.components.factory.scriptEditor.editor import Language
+from umbra.components.factory.scriptEditor.nodes import ProjectNode
+from umbra.components.factory.scriptEditor.nodes import EditorNode
+from umbra.components.factory.scriptEditor.nodes import FileNode
+from umbra.components.factory.scriptEditor.nodes import PatternNode
 from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
@@ -49,17 +53,9 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-			"ProjectNode",
-			"EditorNode",
-			"FileNode",
-			"DirectoryNode",
 			"ProjectsModel",
 			"LanguagesModel",
-			"PatternNode",
 			"PatternsModel",
-			"SearchFileNode",
-			"SearchOccurenceNode",
-			"ReplaceResultNode",
 			"SearchResultsModel"]
 
 LOGGER = logging.getLogger(Constants.logger)
@@ -67,323 +63,6 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class EditorNode(umbra.ui.models.GraphModelNode):
-	"""
-	This class factory defines :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
-	Component Interface class **Editor* node.
-	"""
-
-	__family = "EditorNode"
-
-	@core.executionTrace
-	def __init__(self,
-				editor=None,
-				name=None,
-				parent=None,
-				children=None,
-				roles=None,
-				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				**kwargs):
-		"""
-		This method initializes the class.
-
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
-
-		# --- Setting class attributes. ---
-		self.__editor = None
-		self.editor = editor
-
-		EditorNode.__initializeNode(self, attributesFlags)
-
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
-	@property
-	def editor(self):
-		"""
-		This method is the property for **self.__editor** attribute.
-
-		:return: self.__editor. ( Editor )
-		"""
-
-		return self.__editor
-
-	@editor.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def editor(self, value):
-		"""
-		This method is the setter method for **self.__editor** attribute.
-
-		:param value: Attribute value. ( Editor )
-		"""
-
-		if value is not None:
-			assert type(value) is Editor, "'{0}' attribute: '{1}' type is not 'Editor'!".format("editor", value)
-		self.__editor = value
-
-	@editor.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def editor(self):
-		"""
-		This method is the deleter method for **self.__editor** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "editor"))
-
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	@core.executionTrace
-	def __initializeNode(self, attributesFlags):
-		"""
-		This method initializes the node.
-		
-		:param attributesFlags: Attributes flags. ( Integer )
-		"""
-
-		pass
-
-class FileNode(umbra.ui.models.GraphModelNode):
-	"""
-	This class factory defines :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
-	Component Interface class **File* node.
-	"""
-
-	__family = "FileNode"
-
-	@core.executionTrace
-	def __init__(self,
-				path=None,
-				name=None,
-				parent=None,
-				roles=None,
-				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				**kwargs):
-		"""
-		This method initializes the class.
-
-		:param path: File path.  ( String )
-		:param editor: File editor.  ( Editor )
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		umbra.ui.models.GraphModelNode.__init__(self, name, parent, None, roles, nodeFlags, **kwargs)
-
-		# --- Setting class attributes. ---
-		self.__path = None
-		self.path = path
-
-		FileNode.__initializeNode(self, attributesFlags)
-
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
-	@property
-	def path(self):
-		"""
-		This method is the property for **self.__path** attribute.
-
-		:return: self.__path. ( String )
-		"""
-
-		return self.__path
-
-	@path.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def path(self, value):
-		"""
-		This method is the setter method for **self.__path** attribute.
-
-		:param value: Attribute value. ( String )
-		"""
-
-		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("path", value)
-		self.__path = value
-
-	@path.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def path(self):
-		"""
-		This method is the deleter method for **self.__path** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "path"))
-
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	@core.executionTrace
-	def __initializeNode(self, attributesFlags):
-		"""
-		This method initializes the node.
-		
-		:param attributesFlags: Attributes flags. ( Integer )
-		"""
-
-		pass
-
-class DirectoryNode(umbra.ui.models.GraphModelNode):
-	"""
-	This class factory defines :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
-	Component Interface class **Directory* node.
-	"""
-
-	__family = "DirectoryNode"
-
-	@core.executionTrace
-	def __init__(self,
-				path=None,
-				name=None,
-				parent=None,
-				children=None,
-				roles=None,
-				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				**kwargs):
-		"""
-		This method initializes the class.
-
-		:param path: Directory path.  ( String )
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
-
-		# --- Setting class attributes. ---
-		self.__path = None
-		self.path = path
-
-		DirectoryNode.__initializeNode(self, attributesFlags)
-
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
-	@property
-	def path(self):
-		"""
-		This method is the property for **self.__path** attribute.
-
-		:return: self.__path. ( String )
-		"""
-
-		return self.__path
-
-	@path.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def path(self, value):
-		"""
-		This method is the setter method for **self.__path** attribute.
-
-		:param value: Attribute value. ( String )
-		"""
-
-		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("path", value)
-			assert os.path.exists(value), "'{0}' attribute: '{1}' path doesn't exists!".format("source", value)
-		self.__path = value
-
-	@path.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def path(self):
-		"""
-		This method is the deleter method for **self.__path** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "path"))
-
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	@core.executionTrace
-	def __initializeNode(self, attributesFlags):
-		"""
-		This method initializes the node.
-		
-		:param attributesFlags: Attributes flags. ( Integer )
-		"""
-
-		pass
-
-class ProjectNode(umbra.ui.models.GraphModelNode):
-	"""
-	This class factory defines :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
-	Component Interface class **Project* node.
-	"""
-
-	__family = "ProjectNode"
-
-	@core.executionTrace
-	def __init__(self,
-				name=None,
-				parent=None,
-				children=None,
-				roles=None,
-				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				**kwargs):
-		"""
-		This method initializes the class.
-
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
-
-		ProjectNode.__initializeNode(self, attributesFlags)
-
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	@core.executionTrace
-	def __initializeNode(self, attributesFlags):
-		"""
-		This method initializes the node.
-		
-		:param attributesFlags: Attributes flags. ( Integer )
-		"""
-
-		pass
-
 class ProjectsModel(umbra.ui.models.GraphModel):
 	"""
 	This class defines the Model used by :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
@@ -497,7 +176,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		LOGGER.debug("> Initializing model.")
 
 		self.beginResetModel()
-		self.rootNode = umbra.ui.models.DefaultNode(name="InvisibleRootNode")
+		self.rootNode = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
 		defaultProjectNode = ProjectNode(name=self.__defaultProject,
 								parent=self.rootNode,
 								nodeFlags=int(Qt.ItemIsEnabled),
@@ -960,55 +639,6 @@ class LanguagesModel(QAbstractListModel):
 				LOGGER.debug("> '{0}' file detected language: '{1}'.".format(file, language.name))
 				return language
 
-class PatternNode(umbra.ui.models.GraphModelNode):
-	"""
-	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchAndReplace.SearchAndReplace` class
-	search and replace pattern node.
-	"""
-
-	__family = "Pattern"
-	"""Node family. ( String )"""
-
-	@core.executionTrace
-	def __init__(self,
-				name=None,
-				parent=None,
-				children=None,
-				roles=None,
-				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				**kwargs):
-		"""
-		This method initializes the class.
-
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
-
-		PatternNode.__initializeNode(self, attributesFlags)
-
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	@core.executionTrace
-	def __initializeNode(self, attributesFlags):
-		"""
-		This method initializes the node.
-		
-		:param attributesFlags: Attributes flags. ( Integer )
-		"""
-
-		pass
-
 class PatternsModel(umbra.ui.models.GraphModel):
 	"""
 	This class defines the Model used the by
@@ -1093,153 +723,6 @@ class PatternsModel(umbra.ui.models.GraphModel):
 			self.endRemoveRows()
 			self.patternRemoved.emit(self.getNodeIndex(self.rootNode.children[index]))
 			return True
-
-class SearchFileNode(umbra.ui.models.GraphModelNode):
-	"""
-	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
-	search file node.
-	"""
-
-	__family = "SearchFile"
-	"""Node family. ( String )"""
-
-	@core.executionTrace
-	def __init__(self,
-				name=None,
-				parent=None,
-				children=None,
-				roles=None,
-				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				**kwargs):
-		"""
-		This method initializes the class.
-
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
-
-		SearchFileNode.__initializeNode(self, attributesFlags)
-
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	@core.executionTrace
-	def __initializeNode(self, attributesFlags):
-		"""
-		This method initializes the node.
-		
-		:param attributesFlags: Attributes flags. ( Integer )
-		"""
-
-		pass
-
-class SearchOccurenceNode(umbra.ui.models.GraphModelNode):
-	"""
-	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
-	search occurence node.
-	"""
-
-	__family = "SearchOccurence"
-	"""Node family. ( String )"""
-
-	@core.executionTrace
-	def __init__(self,
-				name=None,
-				parent=None,
-				children=None,
-				roles=None,
-				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				**kwargs):
-		"""
-		This method initializes the class.
-
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
-
-		SearchOccurenceNode.__initializeNode(self, attributesFlags)
-
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	@core.executionTrace
-	def __initializeNode(self, attributesFlags):
-		"""
-		This method initializes the node.
-		
-		:param attributesFlags: Attributes flags. ( Integer )
-		"""
-
-		pass
-
-class ReplaceResultNode(umbra.ui.models.GraphModelNode):
-	"""
-	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
-	replace result node.
-	"""
-
-	__family = "ReplaceResult"
-	"""Node family. ( String )"""
-
-	@core.executionTrace
-	def __init__(self,
-				name=None,
-				parent=None,
-				children=None,
-				roles=None,
-				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				**kwargs):
-		"""
-		This method initializes the class.
-
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
-
-		ReplaceResultNode.__initializeNode(self, attributesFlags)
-
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	@core.executionTrace
-	def __initializeNode(self, attributesFlags):
-		"""
-		This method initializes the node.
-		
-		:param attributesFlags: Attributes flags. ( Integer )
-		"""
-
-		pass
 
 class SearchResultsModel(umbra.ui.models.GraphModel):
 	"""

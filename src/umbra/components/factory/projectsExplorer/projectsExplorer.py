@@ -26,7 +26,7 @@ from PyQt4.QtCore import Qt
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
-import umbra.ui.models
+import umbra.ui.nodes
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.globals.constants import Constants
 from umbra.components.factory.projectsExplorer.models import ProjectsModel
@@ -496,7 +496,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method sets the Projects Model nodes.
 		"""
 
-		rootNode = umbra.ui.models.DefaultNode(name="InvisibleRootNode")
+		rootNode = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
 
 		openFilesNode = OpenFilesNode(name="<b>Open Files</b>",
 									parent=rootNode,
