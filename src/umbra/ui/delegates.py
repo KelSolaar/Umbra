@@ -31,6 +31,8 @@ from PyQt4.QtGui import QTextDocument
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import foundations.strings as strings
+import umbra.ui.common
 from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
@@ -219,8 +221,8 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 														self.__backgroundColor.green(),
 														self.__backgroundColor.blue()))
 		self.__label.setStyleSheet(syleSheet)
-		text = index.model().data(index, Qt.DisplayRole)
-		self.__label.setText(text)
+		data = index.model().data(index, Qt.DisplayRole)
+		self.__label.setText(umbra.ui.common.getQVariantAsString(data))
 		self.__label.setFixedSize(option.rect.size())
 		painter.save()
 		painter.translate(option.rect.topLeft())
@@ -235,6 +237,8 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 
 		document = QTextDocument()
 		document.setDefaultFont(option.font)
-		text = index.model().data(index)
-		text and document.setHtml(text)
+		data = index.model().data(index)
+		text = umbra.ui.common.getQVariantAsString(data)
+		self.__label.setText(text)
+		document.setHtml(text)
 		return QSize(document.idealWidth() + self.__indent, option.fontMetrics.height())

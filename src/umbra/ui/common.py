@@ -26,6 +26,7 @@ import platform
 import re
 from PyQt4.QtCore import QString
 from PyQt4.QtCore import QStringList
+from PyQt4.QtCore import QVariant
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QApplication
 from PyQt4.QtGui import QIcon
@@ -67,6 +68,7 @@ __all__ = ["LOGGER",
 			"centerWidgetOnScreen",
 			"getSectionsFileParser",
 			"storeLastBrowsedPath",
+			"getQVariantAsString",
 			"parentsWalker",
 			"signalsBlocker",
 			"showWaitCursor"]
@@ -215,7 +217,7 @@ def getResourcePath(name, raiseException=False):
 
 	if raiseException:
 		raise umbra.exceptions.ResourceExistsError(
-		"{0} | No resource file path found for '{0}' name!".format(inspect.getmodulename(__file__), name))
+		"{0} | No resource file path found for '{1}' name!".format(inspect.getmodulename(__file__), name))
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -300,11 +302,27 @@ def storeLastBrowsedPath(data):
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
+def getQVariantAsString(data):
+	"""
+	This definition returns given `QVariant <http://doc.qt.nokia.com/qvariant.html>`_ data as a string.
+
+	:param data: Given dat. ( Object )
+	:return: QVariant data as string. ( String )		
+	"""
+
+	if isinstance(data, QVariant):
+		data = data.toString()
+
+	data = QString(data)
+	return strings.encode(data)
+
+@core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
 def parentsWalker(object):
 	"""
 	This definition is a generator used to retrieve the chain of parents of the given :class:`QObject` instance.
 
-	:param object: Provided path. ( QObject )
+	:param object: Given path. ( QObject )
 	:yield: Object parent. ( QObject )
 	"""
 

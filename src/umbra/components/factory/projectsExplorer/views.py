@@ -118,7 +118,6 @@ class Projects_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		"""
 
 		self.setAutoScroll(True)
-		self.setSelectionMode(QAbstractItemView.ExtendedSelection)
 		self.setIndentation(self.__treeViewIndentation)
 		self.setRootIsDecorated(False)
 		self.setDragDropMode(QAbstractItemView.DragOnly)

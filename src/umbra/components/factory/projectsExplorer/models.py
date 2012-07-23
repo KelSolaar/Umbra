@@ -24,8 +24,6 @@ from PyQt4.QtGui import QSortFilterProxyModel
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
-import foundations.exceptions
 from umbra.components.factory.scriptEditor.nodes import EditorNode
 from umbra.globals.constants import Constants
 
@@ -52,8 +50,8 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 	:class:`umbra.components.factory.projectsExplorer.projectsExplorer.ProjectsExplorer` Component Interface class. 
 	"""
 
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def filterAcceptsRow(self, row, parent):
 		"""
 		This method reimplements the :meth:`QSortFilterProxyModel.filterAcceptsRow` method.
@@ -67,7 +65,32 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 		if not child:
 			return False
 
-		if type(child) is EditorNode:
+		if isinstance(child, EditorNode):
 			return False
 
 		return True
+
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getNode(self, index):
+		"""
+		This method returns the node at given index.
+		
+		:param index: Index. ( QModelIndex )
+		:return: Node. ( AbstractCompositeNode )
+		"""
+
+		index = self.mapToSource(index)
+		if not index.isValid():
+			return self.sourceModel().rootNode
+
+		return index.internalPointer() or self.sourceModel().rootNode
+
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getAttribute(self, *args):
+		"""
+		This method is an implementation requisite method.
+		"""
+
+		pass

@@ -17,10 +17,13 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
+import inspect
 import logging
 import re
 from PyQt4.QtCore import QEvent
 from PyQt4.QtCore import QObject
+from PyQt4.QtGui import QItemSelection
+from PyQt4.QtGui import QItemSelectionModel
 from PyQt4.QtGui import QListView
 from PyQt4.QtGui import QTreeView
 
@@ -49,6 +52,7 @@ __all__ = ["LOGGER",
 		"getViewNodesFromIndexes",
 		"getViewSelectedNodes",
 		"ReadOnlyFilter",
+		"selectViewIndexes",
 		"Abstract_QListView",
 		"Abstract_QTreeView"]
 
@@ -85,7 +89,7 @@ def filterNodes(view, pattern, attribute, flags=re.IGNORECASE):
 	return [node for node in getNodes(view) if re.search(pattern, getattr(node, attribute), flags)]
 
 @core.executionTrace
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
+@foundations.exceptions.exceptionsHandler(None, False, NotImplementedError)
 @core.memoize(None)
 def getViewNodesFromIndexes(view, *indexes):
 	"""
@@ -95,6 +99,18 @@ def getViewNodesFromIndexes(view, *indexes):
 	:param \*indexes: Indexes. ( List )
 	:return: View nodes. ( Dictionary )
 	"""
+
+	model = view.model()
+	if not model:
+		return
+
+	if not hasattr(model, "getNode"):
+		raise NotImplementedError(
+		"{0} | '{1}' Model doesn't implement a 'getNode' method!".format(inspect.getmodulename(__file__), model))
+
+	if not hasattr(model, "getAttribute"):
+		raise NotImplementedError(
+		"{0} | '{1}' Model doesn't implement a 'getAttribute' method!".format(inspect.getmodulename(__file__), model))
 
 	nodes = {}
 	for index in indexes:
@@ -153,6 +169,25 @@ class ReadOnlyFilter(QObject):
 
 		raise foundations.exceptions.UserError("{0} | Cannot perform action, '{1}' View has been set read only!".format(
 		self.__class__.__name__, view.objectName() or view))
+
+@core.executionTrace
+@foundations.exceptions.exceptionsHandler(None, False, Exception)
+def selectViewIndexes(view, indexes, flags=QItemSelectionModel.Select | QItemSelectionModel.Rows):
+	"""
+	This method selects given view indexes.
+
+	:param view: View. ( QWidget )
+	:param indexes: Indexes to select. ( List )
+	:param flags: Selection flags. ( QItemSelectionModel.SelectionFlags )
+	:return: Definition success. ( Boolean )
+	"""
+
+	if view.selectionModel():
+		selection = QItemSelection()
+		for index in indexes:
+			selection.merge(QItemSelection(index, index), flags)
+		view.selectionModel().select(selection, flags)
+	return True
 
 class Abstract_QListView(QListView):
 	"""
@@ -261,6 +296,18 @@ class Abstract_QListView(QListView):
 
 		return getViewSelectedNodes(self)
 
+	@core.executionTrace
+	def selectIndexes(self, indexes, flags=QItemSelectionModel.Select | QItemSelectionModel.Rows):
+		"""
+		This method selects given indexes.
+
+		:param indexes: Indexes to select. ( List )
+		:param flags: Selection flags. ( QItemSelectionModel.SelectionFlags )
+		:return: Method success. ( Boolean )
+		"""
+
+		return selectViewIndexes(self, indexes, flags)
+
 class Abstract_QTreeView(QTreeView):
 	"""
 	This class is a `QTreeView <http://doc.qt.nokia.com/qtreeview.html>`_ subclass used as base
@@ -367,3 +414,15 @@ class Abstract_QTreeView(QTreeView):
 		"""
 
 		return getViewSelectedNodes(self)
+
+	@core.executionTrace
+	def selectIndexes(self, indexes, flags=QItemSelectionModel.Select | QItemSelectionModel.Rows):
+		"""
+		This method selects given indexes.
+
+		:param indexes: Indexes to select. ( List )
+		:param flags: Selection flags. ( QItemSelectionModel.SelectionFlags )
+		:return: Method success. ( Boolean )
+		"""
+
+		return selectViewIndexes(self, indexes, flags)

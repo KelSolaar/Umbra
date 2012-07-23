@@ -26,10 +26,12 @@ from PyQt4.QtCore import Qt
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import umbra.ui.common
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.globals.constants import Constants
 from umbra.components.factory.projectsExplorer.models import ProjectsProxyModel
 from umbra.components.factory.projectsExplorer.views import Projects_QTreeView
+from umbra.components.factory.scriptEditor.nodes import FileNode
 from umbra.ui.delegates import RichText_QStyledItemDelegate
 
 #**********************************************************************************************************************
@@ -404,16 +406,19 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		projectNode = self.__factoryScriptEditor.model.getProjectNode(self.__factoryScriptEditor.defaultProject)
 		projectNode.roles.update({Qt.DisplayRole : "<b>Open Files</b>",
 										Qt.EditRole : projectNode.name})
-#		self.__delegate = RichText_QStyledItemDelegate(self)
+		self.__delegate = RichText_QStyledItemDelegate(self)
 
 		self.Projects_Explorer_treeView.setParent(None)
 		self.Projects_Explorer_treeView = Projects_QTreeView(self, self.__model)
-#		self.Projects_Explorer_treeView.setItemDelegate(self.__delegate)
+		self.Projects_Explorer_treeView.setItemDelegate(self.__delegate)
 		self.Projects_Explorer_treeView.setObjectName("Projects_Explorer_treeView")
 		self.Projects_Explorer_dockWidgetContents_gridLayout.addWidget(self.Projects_Explorer_treeView, 0, 0)
 		self.__view = self.Projects_Explorer_treeView
 
 		# Signals / Slots.
+		self.__view.selectionModel().selectionChanged.connect(self.__view_selectionModel__selectionChanged)
+		self.__factoryScriptEditor.Script_Editor_tabWidget.currentChanged.connect(
+		self.__factoryScriptEditor_Script_Editor_tabWidget__currentChanged)
 		self.__factoryScriptEditor.model.fileRegistered.connect(self.__factoryScriptEditor_model__fileRegistered)
 		self.__factoryScriptEditor.model.editorRegistered.connect(self.__factoryScriptEditor_model__editorRegistered)
 		return True
@@ -466,6 +471,40 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.setParent(None)
 
 		return True
+
+	@core.executionTrace
+	def __view_selectionModel__selectionChanged(self, selectedItems, deselectedItems):
+		"""
+		This method is triggered when the View **selectionModel** has changed.
+
+		:param selectedItems: Selected items. ( QItemSelection )
+		:param deselectedItems: Deselected items. ( QItemSelection )
+		"""
+
+		for node in self.__view.getSelectedNodes():
+			if isinstance(node, FileNode):
+				self.__factoryScriptEditor.setCurrentEditor(node.path)
+
+	@core.executionTrace
+	def __factoryScriptEditor_Script_Editor_tabWidget__currentChanged(self, index):
+		"""
+		This method is triggered by the :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
+		Component Interface class when the current tab is changed.
+
+		:param index: Tab index. ( Integer )
+		"""
+
+		editor = self.__factoryScriptEditor.getCurrentEditor()
+		if not editor:
+			return
+
+		fileNode = self.__factoryScriptEditor.model.getFileNode(editor.file)
+		if not fileNode:
+			return
+
+		indexes = [self.__model.mapFromSource(self.__model.sourceModel().getNodeIndex(fileNode))]
+		umbra.ui.common.signalsBlocker(self.__view, "clearSelection")
+		umbra.ui.common.signalsBlocker(self.__view, "selectIndexes", indexes)
 
 	@core.executionTrace
 	def __factoryScriptEditor_model__fileRegistered(self, file):
