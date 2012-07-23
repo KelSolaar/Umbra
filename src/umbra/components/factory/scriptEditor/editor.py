@@ -758,7 +758,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		if not self.__file:
 			return
 
-		return strings.getSplitextBasename(self.__file)
+		return os.path.basename(self.__file)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

@@ -282,7 +282,7 @@ def storeLastBrowsedPath(data):
 
 	if type(data) in (tuple, list, QStringList):
 		data = [strings.encode(path) for path in data]
-		lastBrowsedPath = foundations.commom.getFirst(data)
+		lastBrowsedPath = foundations.common.getFirstItem(data)
 	elif type(data) in (str, unicode, QString):
 		data = lastBrowsedPath = strings.encode(data)
 	else:

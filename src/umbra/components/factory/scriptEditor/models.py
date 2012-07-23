@@ -92,7 +92,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	editorUnregistered = pyqtSignal(Editor)
 	"""
-	This signal is emited by the :class:`ProjectsModel` class when an editor is runegistered. ( pyqtSignal )
+	This signal is emited by the :class:`ProjectsModel` class when an editor is unregistered. ( pyqtSignal )
 
 	:return: Unregistered editor. ( Editor )	
 	"""

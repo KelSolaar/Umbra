@@ -26,12 +26,9 @@ from PyQt4.QtCore import Qt
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
-import umbra.ui.nodes
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.globals.constants import Constants
-from umbra.components.factory.projectsExplorer.models import ProjectsModel
-from umbra.components.factory.projectsExplorer.models import FileNode
-from umbra.components.factory.projectsExplorer.models import OpenFilesNode
+from umbra.components.factory.projectsExplorer.models import ProjectsProxyModel
 from umbra.components.factory.projectsExplorer.views import Projects_QTreeView
 from umbra.ui.delegates import RichText_QStyledItemDelegate
 
@@ -402,20 +399,23 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
-
-		self.__model = ProjectsModel(self)
-		self.__delegate = RichText_QStyledItemDelegate(self)
+		self.__model = ProjectsProxyModel(self)
+		self.__model.setSourceModel(self.__factoryScriptEditor.model)
+		projectNode = self.__factoryScriptEditor.model.getProjectNode(self.__factoryScriptEditor.defaultProject)
+		projectNode.roles.update({Qt.DisplayRole : "<b>Open Files</b>",
+										Qt.EditRole : projectNode.name})
+#		self.__delegate = RichText_QStyledItemDelegate(self)
 
 		self.Projects_Explorer_treeView.setParent(None)
 		self.Projects_Explorer_treeView = Projects_QTreeView(self, self.__model)
-		self.Projects_Explorer_treeView.setItemDelegate(self.__delegate)
+#		self.Projects_Explorer_treeView.setItemDelegate(self.__delegate)
 		self.Projects_Explorer_treeView.setObjectName("Projects_Explorer_treeView")
 		self.Projects_Explorer_dockWidgetContents_gridLayout.addWidget(self.Projects_Explorer_treeView, 0, 0)
 		self.__view = self.Projects_Explorer_treeView
 
 		# Signals / Slots.
-		self.__factoryScriptEditor.fileLoaded.connect(self.__factoryScriptEditor__fileLoaded)
-		self.__factoryScriptEditor.fileClosed.connect(self.__factoryScriptEditor__fileClosed)
+		self.__factoryScriptEditor.model.fileRegistered.connect(self.__factoryScriptEditor_model__fileRegistered)
+		self.__factoryScriptEditor.model.editorRegistered.connect(self.__factoryScriptEditor_model__editorRegistered)
 		return True
 
 	@core.executionTrace
@@ -468,45 +468,29 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return True
 
 	@core.executionTrace
-	def __factoryScriptEditor__fileLoaded(self, file):
+	def __factoryScriptEditor_model__fileRegistered(self, file):
 		"""
 		| This method is triggered by the:class:`umbra.components.factory.scriptEditor.scriptEditor` class
-		when a file is opened.
+		Model when a file is registered.
 		
-		:param file: Loaded file. ( String )
+		:param file: File registered. ( String )
 		"""
 
-		self.setProjects()
+		fileNode = self.__factoryScriptEditor.model.getFileNode(file)
+		basename = os.path.basename(fileNode.path)
+		fileNode.roles.update({Qt.DisplayRole : "<span style=\"color: rgb(144, 144, 144);\">{0}</span>".format(basename),
+								Qt.EditRole : basename})
 
 	@core.executionTrace
-	def __factoryScriptEditor__fileClosed(self, file):
+	def __factoryScriptEditor_model__editorRegistered(self, editor):
 		"""
 		| This method is triggered by the:class:`umbra.components.factory.scriptEditor.scriptEditor` class
-		when a file is closed.
+		Model when an editor is registered
 		
-		:param file: Closed file. ( String )
+		:param editor: Editor registered. ( Editor )
 		"""
 
-		self.setProjects()
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def setProjects(self):
-		"""
-		This method sets the Projects Model nodes.
-		"""
-
-		rootNode = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
-
-		openFilesNode = OpenFilesNode(name="<b>Open Files</b>",
-									parent=rootNode,
-									nodeFlags=int(Qt.ItemIsEnabled),
-									attributesFlags=int(Qt.ItemIsEnabled))
-		for editor in self.__factoryScriptEditor.listEditors():
-			fileNode = FileNode(name="<span style=\"color: rgb(144, 144, 144);\">{0}</span>".format(editor.title),
-								parent=openFilesNode,
-								nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-								attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled))
-		self.__model.initializeModel(rootNode)
-		return True
+		editorNode = self.__factoryScriptEditor.model.getEditorNode(editor)
+		editorNode.roles.update({Qt.DisplayRole : editorNode.name,
+								Qt.EditRole : editorNode.name})
 

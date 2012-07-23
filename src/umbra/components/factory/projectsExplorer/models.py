@@ -9,7 +9,7 @@
 
 **Description:**
 	This module defines the :class:`umbra.components.factory.projectsExplorer.projectsExplorer.ProjectsExplorer`
-	Component Interface class Model.
+	Component Interface class Models.
 
 **Others:**
 
@@ -19,15 +19,14 @@
 #***	External imports.
 #**********************************************************************************************************************
 import logging
-from PyQt4.QtCore import Qt
+from PyQt4.QtGui import QSortFilterProxyModel
 
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
-import umbra.ui.models
-import umbra.ui.nodes
+from umbra.components.factory.scriptEditor.nodes import EditorNode
 from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
@@ -40,147 +39,35 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "FileNode", "OpenFilesNode", "ProjectsModel"]
+__all__ = ["LOGGER", "ProjectsProxyModel"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class FileNode(umbra.ui.nodes.GraphModelNode):
+class ProjectsProxyModel(QSortFilterProxyModel):
 	"""
-	This class factory defines :class:`umbra.components.factory.projectsExplorer.projectsExplorer.ProjectsExplorer`
-	Component Interface class Model **File* node.
-	"""
-
-	__family = "FileNode"
-
-	@core.executionTrace
-	def __init__(self,
-				name=None,
-				parent=None,
-				children=None,
-				roles=None,
-				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				**kwargs):
-		"""
-		This method initializes the class.
-
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		umbra.ui.nodes.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
-
-		FileNode.__initializeNode(self, attributesFlags)
-
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	@core.executionTrace
-	def __initializeNode(self, attributesFlags):
-		"""
-		This method initializes the node.
-		
-		:param attributesFlags: Attributes flags. ( Integer )
-		"""
-
-		pass
-
-class OpenFilesNode(umbra.ui.nodes.GraphModelNode):
-	"""
-	This class factory defines :class:`umbra.components.factory.projectsExplorer.projectsExplorer.ProjectsExplorer`
-	Component Interface class Model **OpenFiles* node.
-	"""
-
-	__family = "OpenFiles"
-
-	@core.executionTrace
-	def __init__(self,
-				name=None,
-				parent=None,
-				children=None,
-				roles=None,
-				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				**kwargs):
-		"""
-		This method initializes the class.
-
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		umbra.ui.nodes.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
-
-		OpenFilesNode.__initializeNode(self, attributesFlags)
-
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	@core.executionTrace
-	def __initializeNode(self, attributesFlags):
-		"""
-		This method initializes the node.
-		
-		:param attributesFlags: Attributes flags. ( Integer )
-		"""
-
-		pass
-
-class ProjectsModel(umbra.ui.models.GraphModel):
-	"""
-	This class defines the Model used the by 
+	This class defines the proxy Model used the by 
 	:class:`umbra.components.factory.projectsExplorer.projectsExplorer.ProjectsExplorer` Component Interface class. 
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None, verticalHeaders=None, defaultNode=None):
-		"""
-		This method initializes the class.
-
-		:param parent: Object parent. ( QObject )
-		:param rootNode: Root node. ( AbstractCompositeNode )
-		:param horizontalHeaders: Headers. ( OrderedDict )
-		:param verticalHeaders: Headers. ( OrderedDict )
-		:param defaultNode: Default node. ( AbstractCompositeNode )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		umbra.ui.models.GraphModel.__init__(self, parent, rootNode, horizontalHeaders, verticalHeaders, defaultNode)
-
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def initializeModel(self, rootNode):
+	def filterAcceptsRow(self, row, parent):
 		"""
-		This method initializes the Model using given root node.
+		This method reimplements the :meth:`QSortFilterProxyModel.filterAcceptsRow` method.
 		
-		:param rootNode: Graph root node. ( DefaultNode )
-		:return: Method success ( Boolean )
+		:param row: Source row. ( Integer )
+		:param parent: Source parent. ( QModelIndex )
+		:return: Filter result ( Boolean )
 		"""
 
-		LOGGER.debug("> Initializing model with '{0}' root node.".format(rootNode))
+		child = self.sourceModel().getNode(parent).child(row)
+		if not child:
+			return False
 
-		self.beginResetModel()
-		self.rootNode = rootNode
-		self.endResetModel()
+		if type(child) is EditorNode:
+			return False
+
 		return True
