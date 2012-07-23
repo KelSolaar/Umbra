@@ -27,6 +27,7 @@ from PyQt4.QtCore import Qt
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
+import foundations.common
 import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
@@ -107,7 +108,7 @@ class RequestsStackDataHandler(SocketServer.BaseRequestHandler):
 
 class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
-	| This class is the :mod:`umbra.components.addons.tcpServerUi.tcpServerUi` Component Interface class.
+	| This class is the :mod:`umbra.components.factory.tcpServerUi.tcpServerUi` Component Interface class.
 	| It provides various methods to operate the TCP Server.
 	"""
 
@@ -530,7 +531,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings.getKey(self.__settingsSection, "port").isNull() and \
 		self.__settings.setKey(self.__settingsSection, "port", self.__port)
 
-		port = self.__settings.getKey(self.__settingsSection, "port").toInt()[0]
+		port = foundations.common.getFirstItem(self.__settings.getKey(self.__settingsSection, "port").toInt())
 		LOGGER.debug("> Setting '{0}' with value '{1}'.".format("Port_spinBox",
 																port))
 		self.Port_spinBox.setValue(port)
@@ -558,7 +559,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings.getKey(self.__settingsSection, "autostartTcpServer").isNull() and \
 		self.__settings.setKey(self.__settingsSection, "autostartTcpServer", Qt.Checked)
 
-		autostartTcpServer = self.__settings.getKey(self.__settingsSection, "autostartTcpServer").toInt()[0]
+		autostartTcpServer = foundations.common.getFirstItem(
+							self.__settings.getKey(self.__settingsSection, "autostartTcpServer").toInt())
 		LOGGER.debug("> Setting '{0}' with value '{1}'.".format("Autostart_TCP_Server_checkBox",
 																autostartTcpServer))
 		self.Autostart_TCP_Server_checkBox.setCheckState(autostartTcpServer)

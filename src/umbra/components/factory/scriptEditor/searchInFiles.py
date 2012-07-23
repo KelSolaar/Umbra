@@ -40,12 +40,12 @@ import foundations.exceptions
 import foundations.strings as strings
 import foundations.ui.common
 import umbra.ui.common
+import umbra.ui.nodes
 from foundations.io import File
-from umbra.ui.delegates import RichText_QStyledItemDelegate
-from umbra.components.factory.scriptEditor.models import ReplaceResultNode
-from umbra.components.factory.scriptEditor.models import SearchFileNode
-from umbra.components.factory.scriptEditor.models import SearchOccurenceNode
 from umbra.components.factory.scriptEditor.models import SearchResultsModel
+from umbra.components.factory.scriptEditor.nodes import ReplaceResultNode
+from umbra.components.factory.scriptEditor.nodes import SearchFileNode
+from umbra.components.factory.scriptEditor.nodes import SearchOccurenceNode
 from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace
 from umbra.components.factory.scriptEditor.searchAndReplace import ValidationFilter
 from umbra.components.factory.scriptEditor.views import SearchResults_QTreeView
@@ -53,6 +53,7 @@ from umbra.components.factory.scriptEditor.workers import CacheData
 from umbra.components.factory.scriptEditor.workers import Search_worker
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
+from umbra.ui.delegates import RichText_QStyledItemDelegate
 from umbra.ui.widgets.search_QLineEdit import Search_QLineEdit
 
 #**********************************************************************************************************************
@@ -1006,6 +1007,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			location = self.__filtersInFormat.format(self.__defaultFilterIn)
 		elif type == "excludeFilter":
 			location = self.__filtersOutFormat.format(self.__defaultFilterOut)
+
 		location and self.Where_lineEdit.setText(", ".join(filter(bool, (strings.encode(
 		self.Where_lineEdit.text()), location))))
 
@@ -1061,7 +1063,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:param occurence: Occurence to highlight. ( Occurence / SearchOccurenceNode )
 		"""
 
-		if not self.__container.hasFile(file):
+		if not self.__container.getEditor(file):
 			cacheData = self.__filesCache.getContent(file)
 			if cacheData:
 				document = cacheData.document or self.__getDocument(cacheData.content)
@@ -1070,7 +1072,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			else:
 				self.__container.loadFile(file)
 		else:
-			self.__container.focusEditor(file)
+			self.__container.setCurrentEditor(file)
 
 		if not occurence:
 			return
@@ -1150,7 +1152,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		rootNode = umbra.ui.models.DefaultNode(name="InvisibleRootNode")
+		rootNode = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
 		for searchResult in searchResults:
 			searchFileNode = SearchFileNode(name=searchResult.file,
 											parent=rootNode)
@@ -1178,7 +1180,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		rootNode = umbra.ui.models.DefaultNode(name="InvisibleRootNode")
+		rootNode = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
 		for file, metrics in sorted(replaceResults.iteritems()):
 			replaceResultNode = ReplaceResultNode(name=self.__formatReplaceMetrics(file, metrics),
 												parent=rootNode,

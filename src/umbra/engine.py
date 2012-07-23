@@ -91,6 +91,7 @@ _extendResourcesPaths()
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import foundations.environment
 import foundations.io as io
 import foundations.strings as strings
 import foundations.ui.common
@@ -1603,9 +1604,9 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 				workerThread.quit()
 			workerThread.wait()
 
-		foundations.common.removeLoggingHandler(LOGGER, self.__loggingFileHandler)
-		foundations.common.removeLoggingHandler(LOGGER, self.__loggingSessionHandler)
-		# foundations.common.removeLoggingHandler(LOGGER, self.__loggingConsoleHandler)
+		core.removeLoggingHandler(LOGGER, self.__loggingFileHandler)
+		core.removeLoggingHandler(LOGGER, self.__loggingSessionHandler)
+		# core.removeLoggingHandler(LOGGER, self.__loggingConsoleHandler)
 
 		# Stopping the Application timer.
 		self.__timer.stop()
@@ -1720,7 +1721,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	if RuntimeGlobals.parameters.about:
 		for line in SESSION_HEADER_TEXT:
 			sys.stdout.write("{0}\n".format(line))
-		foundations.common.exit(1)
+		core.exit(1)
 
 	# Redirecting standard output and error messages.
 	sys.stdout = core.StandardMessageHook(LOGGER)
@@ -1733,7 +1734,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	if RuntimeGlobals.parameters.userApplicationDataDirectory:
 		RuntimeGlobals.userApplicationDataDirectory = RuntimeGlobals.parameters.userApplicationDataDirectory
 	else:
-		RuntimeGlobals.userApplicationDataDirectory = foundations.common.getUserApplicationDataDirectory()
+		RuntimeGlobals.userApplicationDataDirectory = foundations.environment.getUserApplicationDataDirectory()
 
 	if not setUserApplicationDataDirectory(RuntimeGlobals.userApplicationDataDirectory):
 		raise umbra.exceptions.EngineConfigurationError(
@@ -1791,7 +1792,8 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 
 	LOGGER.debug("> Retrieving stored verbose level.")
 	RuntimeGlobals.verbosityLevel = RuntimeGlobals.parameters.verbosityLevel and \
-	RuntimeGlobals.parameters.verbosityLevel or RuntimeGlobals.settings.getKey("Settings", "verbosityLevel").toInt()[0]
+	RuntimeGlobals.parameters.verbosityLevel or \
+	foundations.common.getFirstItem(RuntimeGlobals.settings.getKey("Settings", "verbosityLevel").toInt())
 	LOGGER.debug("> Setting logger verbosity level to: '{0}'.".format(RuntimeGlobals.verbosityLevel))
 	core.setVerbosityLevel(RuntimeGlobals.verbosityLevel)
 
@@ -1852,6 +1854,6 @@ def exit(exitCode=0):
 	for line in SESSION_FOOTER_TEXT:
 		LOGGER.info(line)
 
-	foundations.common.removeLoggingHandler(LOGGER, RuntimeGlobals.loggingConsoleHandler)
+	core.removeLoggingHandler(LOGGER, RuntimeGlobals.loggingConsoleHandler)
 
 	RuntimeGlobals.application.exit(exitCode)

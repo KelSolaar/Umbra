@@ -333,6 +333,18 @@ class LayoutsManager(QObject):
 		return sorted(self.__layouts.keys())
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def isLayoutRegistered(self, name):
+		"""
+		This method returns if the given layout name is registered.
+
+		:param name: Layout name. ( String )
+		:return: Is layout registered. ( Boolean )
+		"""
+
+		return name in self
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.LayoutRegistrationError)
 	def registerLayout(self, name, layout):
 		"""
@@ -348,6 +360,24 @@ class LayoutsManager(QObject):
 			self.__class__.__name__, name))
 
 		self.__layouts[name] = layout
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.LayoutRegistrationError)
+	def unregisterLayout(self, name):
+		"""
+		This method unregisters given layout.
+
+		:param name: Layout name. ( String )
+		:param layout: Layout object. ( Layout )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not name in self:
+			raise umbra.exceptions.LayoutRegistrationError("{0} | '{1}' layout is not registered!".format(
+			self.__class__.__name__, name))
+
+		del(self.__layouts[name])
 		return True
 
 	@core.executionTrace

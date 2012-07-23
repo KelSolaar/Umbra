@@ -33,7 +33,13 @@ import foundations.core as core
 import foundations.exceptions
 import foundations.walkers
 import umbra.ui.models
+import umbra.ui.nodes
+from umbra.components.factory.scriptEditor.editor import Editor
 from umbra.components.factory.scriptEditor.editor import Language
+from umbra.components.factory.scriptEditor.nodes import ProjectNode
+from umbra.components.factory.scriptEditor.nodes import EditorNode
+from umbra.components.factory.scriptEditor.nodes import FileNode
+from umbra.components.factory.scriptEditor.nodes import PatternNode
 from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
@@ -47,12 +53,9 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
+			"ProjectsModel",
 			"LanguagesModel",
-			"PatternNode",
 			"PatternsModel",
-			"SearchFileNode",
-			"SearchOccurenceNode",
-			"ReplaceResultNode",
 			"SearchResultsModel"]
 
 LOGGER = logging.getLogger(Constants.logger)
@@ -60,6 +63,398 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
+class ProjectsModel(umbra.ui.models.GraphModel):
+	"""
+	This class defines the Model used by :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Component Interface class. 
+	"""
+
+	fileRegistered = pyqtSignal(str)
+	"""
+	This signal is emited by the :class:`ProjectsModel` class when a file is registered. ( pyqtSignal )
+
+	:return: Registered file. ( String )	
+	"""
+
+	fileUnregistered = pyqtSignal(str)
+	"""
+	This signal is emited by the :class:`ProjectsModel` class when a file is runegistered. ( pyqtSignal )
+
+	:return: Unregistered file. ( String )	
+	"""
+
+	editorRegistered = pyqtSignal(Editor)
+	"""
+	This signal is emited by the :class:`ProjectsModel` class when an editor is registered. ( pyqtSignal )
+
+	:return: Registered editor. ( Editor )	
+	"""
+
+	editorUnregistered = pyqtSignal(Editor)
+	"""
+	This signal is emited by the :class:`ProjectsModel` class when an editor is runegistered. ( pyqtSignal )
+
+	:return: Unregistered editor. ( Editor )	
+	"""
+
+	@core.executionTrace
+	def __init__(self,
+				parent=None,
+				rootNode=None,
+				horizontalHeaders=None,
+				verticalHeaders=None,
+				defaultNode=None,
+				defaultProject=None):
+		"""
+		This method initializes the class.
+
+		:param defaultProject: Default project name. ( String )
+		:param parent: Object parent. ( QObject )
+		:param rootNode: Root node. ( AbstractCompositeNode )
+		:param horizontalHeaders: Headers. ( OrderedDict )
+		:param verticalHeaders: Headers. ( OrderedDict )
+		:param defaultNode: Default node. ( AbstractCompositeNode )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		umbra.ui.models.GraphModel.__init__(self, parent, rootNode, horizontalHeaders, verticalHeaders, defaultNode)
+
+		# --- Setting class attributes. ---
+		self.__defaultProject = None
+		self.defaultProject = defaultProject or "defaultProject"
+
+		ProjectsModel.__initializeModel(self)
+
+	#******************************************************************************************************************
+	#***	Attributes properties.
+	#******************************************************************************************************************
+	@property
+	def defaultProject(self):
+		"""
+		This method is the property for **self.__defaultProject** attribute.
+
+		:return: self.__defaultProject. ( String )
+		"""
+
+		return self.__defaultProject
+
+	@defaultProject.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def defaultProject(self, value):
+		"""
+		This method is the setter method for **self.__defaultProject** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		if value is not None:
+			assert type(value) in (str, unicode), \
+			 "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("defaultProject", value)
+		self.__defaultProject = value
+
+	@defaultProject.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultProject(self):
+		"""
+		This method is the deleter method for **self.__defaultProject** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultProject"))
+
+	#******************************************************************************************************************
+	#***	Class methods.
+	#******************************************************************************************************************
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __initializeModel(self):
+		"""
+		This method initializes the Model.
+		"""
+
+		LOGGER.debug("> Initializing model.")
+
+		self.beginResetModel()
+		self.rootNode = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
+		defaultProjectNode = ProjectNode(name=self.__defaultProject,
+								parent=self.rootNode,
+								nodeFlags=int(Qt.ItemIsEnabled),
+								attributesFlags=int(Qt.ItemIsEnabled))
+		self.endResetModel()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listEditorNodes(self):
+		"""
+		This method returns the Model :class:`EditorNode` nodes.
+		
+		:return: EditorNode nodes. ( List )
+		"""
+
+		return self.listFamily("EditorNode")
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listFileNodes(self):
+		"""
+		This method returns the Model :class:`FileNode` nodes.
+		
+		:return: FileNode nodes. ( List )
+		"""
+
+		return self.listFamily("FileNode")
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listDirectoryNodes(self):
+		"""
+		This method returns the Model :class:`DirectoryNode` nodes.
+		
+		:return: DirectoryNode nodes. ( List )
+		"""
+
+		return self.listFamily("DirectoryNode")
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listProjectNodes(self):
+		"""
+		This method returns the Model :class:`ProjectNode` nodes.
+		
+		:return: ProjectNode nodes. ( List )
+		"""
+
+		return self.listFamily("ProjectNode")
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listEditors(self):
+		"""
+		This method returns the Model editors.
+		
+		:return: Editors. ( List )
+		"""
+
+		return [editorNode.editor for editorNode in self.listFamily("EditorNode") if editorNode.editor]
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listFiles(self):
+		"""
+		This method returns the Model files.
+		
+		:return: FileNode nodes. ( List )
+		"""
+
+		return [fileNode.path for fileNode in self.listFamily("FileNode") if fileNode.path]
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listDirectories(self):
+		"""
+		This method returns the Model directories.
+		
+		:return: DirectoryNode nodes. ( List )
+		"""
+
+		return [directoryNode.path for directoryNode in self.listFamily("DirectoryNode") if directoryNode.path]
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def listProjects(self):
+		"""
+		This method returns the Model projects.
+		
+		:return: ProjectNode nodes. ( List )
+		"""
+
+		return [projectNode.name for projectNode in self.listFamily("ProjectNode") if projectNode.name]
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getEditorNode(self, editor):
+		"""
+		This method returns the :class:`EditorNode` node with given editor.
+		
+		:param editor: Editor. ( Editor )
+		:return: EditorNode node. ( EditorNode )
+		"""
+
+		for editorNode in self.listEditorNodes():
+			if editorNode.editor == editor:
+				return editorNode
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getFileNode(self, path):
+		"""
+		This method returns the :class:`FileNode` node with given path.
+		
+		:param path: File path. ( String )
+		:return: FileNode node. ( FileNode )
+		"""
+
+		for fileNode in self.listFileNodes():
+			if fileNode.path == path:
+				return fileNode
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getDirectoryNode(self, path):
+		"""
+		This method returns the :class:`DirectoryNode` node with given path.
+		
+		:param path: Directory path. ( String )
+		:return: DirectoryNode node. ( DirectoryNode )
+		"""
+
+		for directoryNode in self.listDirectoryNodes():
+			if directoryNode.path == path:
+				return directoryNode
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getProjectNode(self, name):
+		"""
+		This method returns the :class:`ProjectNode` node with given name.
+		
+		:param name: Project path. ( String )
+		:return: ProjectNode node. ( ProjectNode )
+		"""
+
+		for projectNode in self.listProjectNodes():
+			if projectNode.name == name:
+				return projectNode
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getEditor(self, file):
+		"""
+		This method returns the Model editor associated with given file.
+
+		:param file: File to search editors for. ( String )
+		:return: Editor. ( Editor )
+		"""
+
+		for editor in self.listEditors():
+			if editor.file == file:
+				return editor
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def registerFile(self, file, parent):
+		"""
+		This method registers given file in the Model.
+		
+		:param file: File to register. ( String )
+		:param parent: FileNode parent. ( GraphModelNode )
+		:return: FileNode. ( FileNode )
+		"""
+
+		if self.getFileNode(file):
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' file is already registered!".format(
+			self.__class__.__name__, file))
+
+		LOGGER.debug("> Registering '{0}' file.".format(file))
+
+		row = parent.childrenCount()
+		self.beginInsertRows(self.getNodeIndex(parent), row, row + 1)
+		fileNode = FileNode(file, parent=parent)
+		self.endInsertRows()
+
+		self.fileRegistered.emit(file)
+
+		return fileNode
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def unregisterFile(self, file, raiseException=True):
+		"""
+		This method unregisters given file from the Model.
+		
+		:param file: File to unregister. ( String )
+		:param raiseException: Raise the exception. ( Boolean )
+		:return: FileNode. ( FileNode )
+		"""
+
+		fileNode = self.getFileNode(file)
+		if not fileNode:
+			if not raiseException:
+				return
+
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' file isn't registered!".format(
+			self.__class__.__name__, file))
+
+		LOGGER.debug("> Unregistering '{0}' file.".format(file))
+
+		parent = fileNode.parent
+		row = fileNode.row()
+		self.beginRemoveRows(self.getNodeIndex(parent), row, row + 1)
+		parent.removeChild(row)
+		self.endRemoveRows()
+
+		self.fileUnregistered.emit(file)
+
+		return fileNode
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def registerEditor(self, editor, parent):
+		"""
+		This method registers given :class:`umbra.components.factory.scriptEditor.editor.Editor` class in the Model.
+		
+		:param editor: Editor to register. ( Editor )
+		:param parent: EditorNode parent. ( GraphModelNode )
+		:return: EditorNode. ( EditorNode )
+		"""
+
+		if self.getEditorNode(editor):
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' editor is already registered!".format(
+			self.__class__.__name__, editor))
+
+		LOGGER.debug("> Registering '{0}' editor.".format(editor))
+
+		row = parent.childrenCount()
+		self.beginInsertRows(self.getNodeIndex(parent), row, row + 1)
+		editorNode = EditorNode(editor, parent=parent)
+		self.endInsertRows()
+
+		self.editorRegistered.emit(editor)
+
+		return editorNode
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def unregisterEditor(self, editor, raiseException=True):
+		"""
+		This method unregisters given :class:`umbra.components.factory.scriptEditor.editor.Editor` class from the Model.
+		
+		:param editor: Editor to unregister. ( String )
+		:param raiseException: Raise the exception. ( Boolean )
+		:return: EditorNode. ( EditorNode )
+		"""
+
+		editorNode = self.getEditorNode(editor)
+		if not editorNode:
+			if not raiseException:
+				return
+
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' editor isn't registered!".format(
+			self.__class__.__name__, editor))
+
+		LOGGER.debug("> Unregistering '{0}' editor.".format(editor))
+
+		parent = editorNode.parent
+		row = editorNode.row()
+		self.beginRemoveRows(self.getNodeIndex(parent), row, row + 1)
+		parent.removeChild(row)
+		self.endRemoveRows()
+
+		self.editorUnregistered.emit(editor)
+
+		return editorNode
+
 class LanguagesModel(QAbstractListModel):
 	"""
 	This class is a `QAbstractListModel <http://doc.qt.nokia.com/qabstractListmodel.html>`_ subclass used
@@ -244,55 +639,6 @@ class LanguagesModel(QAbstractListModel):
 				LOGGER.debug("> '{0}' file detected language: '{1}'.".format(file, language.name))
 				return language
 
-class PatternNode(umbra.ui.models.GraphModelNode):
-	"""
-	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchAndReplace.SearchAndReplace` class
-	search and replace pattern node.
-	"""
-
-	__family = "Pattern"
-	"""Node family. ( String )"""
-
-	@core.executionTrace
-	def __init__(self,
-				name=None,
-				parent=None,
-				children=None,
-				roles=None,
-				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				**kwargs):
-		"""
-		This method initializes the class.
-
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
-
-		PatternNode.__initializeNode(self, attributesFlags)
-
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	@core.executionTrace
-	def __initializeNode(self, attributesFlags):
-		"""
-		This method initializes the node.
-		
-		:param attributesFlags: Attributes flags. ( Integer )
-		"""
-
-		pass
-
 class PatternsModel(umbra.ui.models.GraphModel):
 	"""
 	This class defines the Model used the by
@@ -377,153 +723,6 @@ class PatternsModel(umbra.ui.models.GraphModel):
 			self.endRemoveRows()
 			self.patternRemoved.emit(self.getNodeIndex(self.rootNode.children[index]))
 			return True
-
-class SearchFileNode(umbra.ui.models.GraphModelNode):
-	"""
-	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
-	search file node.
-	"""
-
-	__family = "SearchFile"
-	"""Node family. ( String )"""
-
-	@core.executionTrace
-	def __init__(self,
-				name=None,
-				parent=None,
-				children=None,
-				roles=None,
-				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				**kwargs):
-		"""
-		This method initializes the class.
-
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
-
-		SearchFileNode.__initializeNode(self, attributesFlags)
-
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	@core.executionTrace
-	def __initializeNode(self, attributesFlags):
-		"""
-		This method initializes the node.
-		
-		:param attributesFlags: Attributes flags. ( Integer )
-		"""
-
-		pass
-
-class SearchOccurenceNode(umbra.ui.models.GraphModelNode):
-	"""
-	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
-	search occurence node.
-	"""
-
-	__family = "SearchOccurence"
-	"""Node family. ( String )"""
-
-	@core.executionTrace
-	def __init__(self,
-				name=None,
-				parent=None,
-				children=None,
-				roles=None,
-				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				**kwargs):
-		"""
-		This method initializes the class.
-
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
-
-		SearchOccurenceNode.__initializeNode(self, attributesFlags)
-
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	@core.executionTrace
-	def __initializeNode(self, attributesFlags):
-		"""
-		This method initializes the node.
-		
-		:param attributesFlags: Attributes flags. ( Integer )
-		"""
-
-		pass
-
-class ReplaceResultNode(umbra.ui.models.GraphModelNode):
-	"""
-	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
-	replace result node.
-	"""
-
-	__family = "ReplaceResult"
-	"""Node family. ( String )"""
-
-	@core.executionTrace
-	def __init__(self,
-				name=None,
-				parent=None,
-				children=None,
-				roles=None,
-				nodeFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-				**kwargs):
-		"""
-		This method initializes the class.
-
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		umbra.ui.models.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
-
-		ReplaceResultNode.__initializeNode(self, attributesFlags)
-
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	@core.executionTrace
-	def __initializeNode(self, attributesFlags):
-		"""
-		This method initializes the node.
-		
-		:param attributesFlags: Attributes flags. ( Integer )
-		"""
-
-		pass
 
 class SearchResultsModel(umbra.ui.models.GraphModel):
 	"""

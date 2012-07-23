@@ -378,7 +378,7 @@ class Search_worker(QThread):
 			if self.__interrupt:
 				return
 
-			editor = self.__container.factoryScriptEditor.findEditor(file)
+			editor = self.__container.factoryScriptEditor.getEditor(file)
 			if not editor:
 				continue
 

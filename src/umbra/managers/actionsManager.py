@@ -414,6 +414,18 @@ class ActionsManager(QObject):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def isActionRegistered(self, name):
+		"""
+		This method returns if the given action name is registered.
+
+		:param name: Action name. ( String )
+		:return: Is action registered. ( Boolean )
+		"""
+
+		return name in self
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def registerAction(self, name, **kwargs):
 		"""
 		This method registers given action name, optional arguments like a parent, icon, slot etc ... can be given.

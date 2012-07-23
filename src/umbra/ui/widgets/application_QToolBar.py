@@ -33,6 +33,7 @@ from PyQt4.QtGui import QToolBar
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
+import foundations.common
 import foundations.core as core
 import foundations.exceptions
 import umbra.managers.layoutsManager
@@ -317,8 +318,8 @@ class Application_QToolBar(QToolBar):
 		:param layout: Layout name. ( String )
 		"""
 
-		layoutActiveLabel = self.__layoutsActiveLabelsCollection.getActiveLabelFromIndex(self.__settings.getKey(
-							"Layouts", "{0}_activeLabel".format(layout)).toInt()[0])
+		layoutActiveLabel = self.__layoutsActiveLabelsCollection.getActiveLabelFromIndex(foundations.common.getFirstItem(
+							self.__settings.getKey("Layouts", "{0}_activeLabel".format(layout)).toInt()))
 		layoutActiveLabel and layoutActiveLabel.setChecked(True)
 
 	@core.executionTrace

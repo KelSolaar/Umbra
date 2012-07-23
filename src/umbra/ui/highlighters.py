@@ -24,12 +24,14 @@ from PyQt4.QtGui import QSyntaxHighlighter
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
+import foundations.common
 import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
 from foundations.dag import AbstractCompositeNode
 from umbra.globals.constants import Constants
-from umbra.ui.models import DefaultNode
+from umbra.ui.nodes import DefaultNode
+from umbra.ui.nodes import FormatNode
 from umbra.ui.themes import DEFAULT_THEME
 
 #**********************************************************************************************************************
@@ -44,7 +46,6 @@ __status__ = "Production"
 
 __all__ = ["LOGGER",
 			"Rule",
-			"FormatNode",
 			"FormatsTree",
 			"AbstractHighlighter",
 			"DefaultHighlighter"]
@@ -70,68 +71,6 @@ class Rule(foundations.dataStructures.Structure):
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
 		foundations.dataStructures.Structure.__init__(self, **kwargs)
-
-class FormatNode(AbstractCompositeNode):
-	"""
-	This class defines the format base node object.
-	"""
-
-	__family = "Format"
-	"""Node family. ( String )"""
-
-	@core.executionTrace
-	def __init__(self, name=None, parent=None, children=None, format=None, **kwargs):
-		"""
-		This method initializes the class.
-
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( AbstractNode / AbstractCompositeNode )
-		:param children: Children. ( List )
-		:param format: Format. ( Object )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		AbstractCompositeNode.__init__(self, name, parent, children, **kwargs)
-
-		# --- Setting class attributes. ---
-		self.__format = None
-		self.format = format
-
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
-	@property
-	def format(self):
-		"""
-		This method is the property for **self.__format** attribute.
-
-		:return: self.__format. ( Object )
-		"""
-
-		return self.__format
-
-	@format.setter
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def format(self, value):
-		"""
-		This method is the setter method for **self.__format** attribute.
-
-		:param value: Attribute value. ( Object )
-		"""
-
-		self.__format = value
-
-	@format.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def format(self):
-		"""
-		This method is the deleter method for **self.__format** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "format"))
 
 class FormatsTree(object):
 	"""
@@ -205,7 +144,7 @@ class FormatsTree(object):
 			currentNode = self.__rootNode
 			for format in item.split("."):
 				nodes = [node for node in currentNode.children if node.name == format]
-				formatNode = nodes and nodes[0] or None
+				formatNode = foundations.common.getFirstItem(nodes)
 				if not formatNode:
 					formatNode = FormatNode(format, format=theme[item])
 					currentNode.addChild(formatNode)
@@ -481,8 +420,8 @@ class DefaultHighlighter(AbstractHighlighter):
 		for rule in self.rules:
 			if re.match("comment\.block\.[\w\.]*start", rule.name):
 				format = self.formats.getFormat(rule.name) or self.formats.getFormat("default")
-				if self.highlightMultilineBlock(block, rule.pattern, [item for item in self.rules
-										if item.name == rule.name.replace("start", "end")][0].pattern, state, format):
+				if self.highlightMultilineBlock(block, rule.pattern, foundations.common.getFirstItem([item for item in self.rules
+										if item.name == rule.name.replace("start", "end")]).pattern, state, format):
 					break
 				state += 1
 

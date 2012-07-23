@@ -289,6 +289,18 @@ class NotificationsManager(QObject):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def isNotificationRegistered(self, notification):
+		"""
+		This method returns if the given notification is registered.
+
+		:param notification: Notification. ( String )
+		:return: Is notification registered. ( Boolean )
+		"""
+
+		return notification in self
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def registerNotification(self, notification):
 		"""
 		This method registers given notification.

@@ -343,6 +343,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 										"Linux" : ("Monospace", 10)}
 		self.__tabWidth = None
 
+		self.__title = None
 		self.__isUntitled = True
 		self.__defaultFileName = "Untitled"
 		self.__defaultFileExtension = "py"
@@ -484,6 +485,38 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "tabWidth"))
 
 	@property
+	def title(self):
+		"""
+		This method is the property for **self.__title** attribute.
+
+		:return: self.__title. ( String )
+		"""
+
+		return self.__title
+
+	@title.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def title(self, value):
+		"""
+		This method is the setter method for **self.__title** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "title"))
+
+	@title.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def title(self):
+		"""
+		This method is the deleter method for **self.__title** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "title"))
+
+	@property
 	def isUntitled(self):
 		"""
 		This method is the property for **self.__isUntitled** attribute.
@@ -606,16 +639,17 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.__setLanguageDescription()
 
 	@core.executionTrace
-	def __setWindowTitle(self):
+	def __setTitle(self):
 		"""
-		This method sets the editor window title.
+		This method sets the editor title.
 		"""
 
 		titleTemplate = self.isModified() and "{0} *" or "{0}"
-		windowTitle = titleTemplate.format(self.getFileShortName())
+		title = titleTemplate.format(self.getFileShortName())
 
-		LOGGER.debug("> Setting editor title to '{0}'.".format(windowTitle))
-		self.setWindowTitle(windowTitle)
+		LOGGER.debug("> Setting editor title to '{0}'.".format(title))
+		self.__title = title
+		self.setWindowTitle(title)
 		self.titleChanged.emit()
 
 	@core.executionTrace
@@ -624,7 +658,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method is triggered when the editor document content changes.
 		"""
 
-		self.__setWindowTitle()
+		self.__setTitle()
 
 	@core.executionTrace
 	def __document__modificationChanged(self, changed):
@@ -634,7 +668,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param changed: File modification state. ( Boolean )
 		"""
 
-		self.__setWindowTitle()
+		self.__setTitle()
 
 	@core.executionTrace
 	def __setLanguageDescription(self):
@@ -692,7 +726,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.__file = file
 		self.__isUntitled = False
 #		self.setModified(self.isModified())
-		self.__setWindowTitle()
+		self.__setTitle()
 
 		self.fileChanged.emit()
 
@@ -768,7 +802,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 		This method creates a new editor file.
 
-		:return: Method success. ( Boolean )
+		:return: File name. ( String )
 		"""
 
 		file = self.getNextUntitledFileName()
@@ -781,7 +815,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		# Signals / Slots.
 		self.document().contentsChanged.connect(self.__document__contentsChanged)
 		self.document().modificationChanged.connect(self.__document__modificationChanged)
-		return True
+		return file
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
@@ -842,16 +876,16 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
-	def saveFileAs(self):
+	def saveFileAs(self, file=None):
 		"""
-		This method saves the editor file content into user chosen file.
+		This method saves the editor file content either using given file or user chosen file.
 
 		:return: Method success. ( Boolean )
 		
 		:note: This method may require user interaction.
 		"""
 
-		file = umbra.ui.common.storeLastBrowsedPath(QFileDialog.getSaveFileName(self, "Save As:", self.__file))
+		file = file or umbra.ui.common.storeLastBrowsedPath(QFileDialog.getSaveFileName(self, "Save As:", self.__file))
 		if not file:
 			return
 
@@ -875,7 +909,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		writer.content = [self.toPlainText()]
 		if writer.write():
 			self.setModified(False)
-			self.__setWindowTitle()
+			self.__setTitle()
 			return True
 
 	@core.executionTrace

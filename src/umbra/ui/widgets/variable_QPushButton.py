@@ -25,6 +25,7 @@ from PyQt4.QtGui import QPushButton
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
+import foundations.common
 import foundations.core as core
 import foundations.exceptions
 from umbra.globals.constants import Constants
@@ -53,10 +54,10 @@ class Variable_QPushButton(QPushButton):
 	"""
 
 	@core.executionTrace
-	def __init__(self, 
-				parent=None, 
-				state=True, 
-				colors=(QColor(240, 240, 240), 
+	def __init__(self,
+				parent=None,
+				state=True,
+				colors=(QColor(240, 240, 240),
 				QColor(160, 160, 160)),
 				labels=("Yes", "No")):
 		"""
@@ -226,11 +227,11 @@ class Variable_QPushButton(QPushButton):
 		self.__state = True
 
 		palette = QPalette()
-		palette.setColor(QPalette.Button, self.__colors[0])
+		palette.setColor(QPalette.Button, foundations.common.getFirstItem(self.__colors))
 		self.setPalette(palette)
 
 		self.setChecked(True)
-		self.setText(self.__labels[0])
+		self.setText(foundations.common.getFirstItem(self.__labels))
 
 	@core.executionTrace
 	def __setFalseState(self):
