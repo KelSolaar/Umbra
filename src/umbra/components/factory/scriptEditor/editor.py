@@ -340,7 +340,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		self.__defaultFontsSettings = {"Windows" : ("Consolas", 10),
 										"Darwin" : ("Monaco", 12),
-										"Linux" : ("Nimbus Mono L", 10)}
+										"Linux" : ("Monospace", 10)}
 		self.__tabWidth = None
 
 		self.__title = None
