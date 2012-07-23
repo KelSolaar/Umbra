@@ -273,7 +273,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__indentWidth = 20
 		self.__defaultFontsSettings = {"Windows" : ("Consolas", 10),
 										"Darwin" : ("Monaco", 12),
-										"Linux" : ("Nimbus Mono L", 10)}
+										"Linux" : ("Monospace", 10)}
 
 		self.__console = None
 		self.__memoryHandlerStackDepth = None
