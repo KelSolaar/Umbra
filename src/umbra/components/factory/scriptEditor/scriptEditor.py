@@ -2571,7 +2571,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		recentFiles = [strings.encode(file)
-					for file in self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",")
+					for file in self.__settings.getKey(self.__settingsSection, "recentFiles").toStringList()
 					if foundations.common.pathExists(file)]
 		if not recentFiles:
 			return
@@ -2600,7 +2600,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Storing '{0}' file in recent files.".format(file))
 
 		recentFiles = [strings.encode(recentFile)
-					for recentFile in self.__settings.getKey(self.__settingsSection, "recentFiles").toString().split(",")
+					for recentFile in self.__settings.getKey(self.__settingsSection, "recentFiles").toStringList()
 					if foundations.common.pathExists(recentFile)]
 		if not recentFiles:
 			recentFiles = []
@@ -2609,7 +2609,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			recentFiles.pop(recentFiles.index(file))
 		recentFiles.insert(0, file)
 		del recentFiles[self.__maximumRecentFiles:]
-		recentFiles = self.__settings.setKey(self.__settingsSection, "recentFiles", ",".join(recentFiles))
+		recentFiles = self.__settings.setKey(self.__settingsSection, "recentFiles", recentFiles)
 		self.recentFilesChanged.emit()
 
 	@core.executionTrace
@@ -3280,7 +3280,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			session.append(editor.file)
 
 		LOGGER.debug("> Storing session :'{0}'.".format(session))
-		self.__settings.setKey(self.__settingsSection, "session", ",".join(session))
+		self.__settings.setKey(self.__settingsSection, "session", session)
 		return True
 
 	@core.executionTrace
@@ -3293,7 +3293,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		session = [strings.encode(file)
-					for file in self.__settings.getKey(self.__settingsSection, "session").toString().split(",")
+					for file in self.__settings.getKey(self.__settingsSection, "session").toStringList()
 					if foundations.common.pathExists(file)]
 
 		LOGGER.debug("> Restoring session :'{0}'.".format(session))
