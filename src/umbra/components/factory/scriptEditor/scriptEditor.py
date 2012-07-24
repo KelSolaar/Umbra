@@ -2682,9 +2682,15 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:note: This method may require user interaction.
 		"""
 
+		browsedPath = RuntimeGlobals.lastBrowsedPath
+		editor = self.getCurrentEditor()
+		file = editor and editor.file or None
+		if foundations.common.pathExists(file):
+			browsedPath = os.path.dirname(file)
+
 		files = umbra.ui.common.storeLastBrowsedPath(QFileDialog.getOpenFileNames(self,
 																				"Load File(s):",
-																				RuntimeGlobals.lastBrowsedPath,
+																				browsedPath,
 																				self.__getSupportedFileTypesDialogString()))
 		if not files:
 			return
