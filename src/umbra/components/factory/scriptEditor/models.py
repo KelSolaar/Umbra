@@ -647,19 +647,19 @@ class PatternsModel(umbra.ui.models.GraphModel):
 	"""
 
 	# Custom signals definitions.
-	patternInserted = pyqtSignal(QModelIndex)
+	patternInserted = pyqtSignal(PatternNode)
 	"""
 	This signal is emited by the :class:`PatternsModel` class when a pattern has been inserted. ( pyqtSignal )
 
-	:return: Inserted pattern index. ( QModelIndex )
+	:return: Inserted pattern node. ( PatternNode )
 	"""
 
 	# Custom signals definitions.
-	patternRemoved = pyqtSignal(QModelIndex)
+	patternRemoved = pyqtSignal(PatternNode)
 	"""
 	This signal is emited by the :class:`PatternsModel` class when a pattern has been removed. ( pyqtSignal )
 
-	:return: Removed pattern index. ( QModelIndex )
+	:return: Removed pattern node. ( PatternNode )
 	"""
 
 	@core.executionTrace
@@ -697,9 +697,10 @@ class PatternsModel(umbra.ui.models.GraphModel):
 		self.removePattern(pattern)
 
 		self.beginInsertRows(self.getNodeIndex(self.rootNode), index, index)
-		self.rootNode.insertChild(PatternNode(name=pattern), index)
+		patternNode = PatternNode(name=pattern)
+		self.rootNode.insertChild(patternNode, index)
 		self.endInsertRows()
-		self.patternInserted.emit(self.getNodeIndex(self.rootNode.children[index]))
+		self.patternInserted.emit(patternNode)
 		return True
 
 	@core.executionTrace
@@ -719,9 +720,10 @@ class PatternsModel(umbra.ui.models.GraphModel):
 			LOGGER.debug("> Removing '{0}' at '{1}' index.".format(pattern, index))
 
 			self.beginRemoveRows(self.getNodeIndex(self.rootNode), index, index)
+			patternNode = self.rootNode.child(index)
 			self.rootNode.removeChild(index)
 			self.endRemoveRows()
-			self.patternRemoved.emit(self.getNodeIndex(self.rootNode.children[index]))
+			self.patternRemoved.emit(patternNode)
 			return True
 
 class SearchResultsModel(umbra.ui.models.GraphModel):

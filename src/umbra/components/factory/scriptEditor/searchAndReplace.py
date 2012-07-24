@@ -271,9 +271,9 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		(("_SearchAndReplace__searchPatternsModel", "recentSearchPatterns", self.Search_comboBox),
 		("_SearchAndReplace__replaceWithPatternsModel", "recentReplaceWithPatterns", self.Replace_With_comboBox)):
 			self.__dict__[model] = PatternsModel(defaultNode=PatternNode)
-			patterns = foundations.common.orderedUniqify(strings.encode(self.__container.settings.getKey(
-															self.__container.settingsSection,
-															settingsKey).toString()).split(","))
+			patterns = foundations.common.orderedUniqify([strings.encode(pattern) for pattern in \
+														self.__container.settings.getKey(self.__container.settingsSection,
+																						settingsKey).toStringList()])
 			[PatternNode(parent=self.__dict__[model].rootNode, name=pattern) \
 			for pattern in patterns[:self.__maximumStoredPatterns]]
 			comboBox.setInsertPolicy(QComboBox.InsertAtTop)
@@ -309,8 +309,8 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		self.__container.settings.setKey(self.__container.settingsSection,
 										settingsKey,
-										",".join((patternNode.name for patternNode in \
-												patternsModel.rootNode.children[:self.maximumStoredPatterns])))
+										[patternNode.name for patternNode in \
+										patternsModel.rootNode.children[:self.maximumStoredPatterns]])
 		comboBox.setCurrentIndex(index.row())
 
 	@core.executionTrace
@@ -378,6 +378,9 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:param index: Insertion indes. ( Integer )
 		:return: Method success. ( Boolean )
 		"""
+
+		if not pattern:
+			return
 
 		model.insertPattern(strings.encode(pattern), index)
 		return True
