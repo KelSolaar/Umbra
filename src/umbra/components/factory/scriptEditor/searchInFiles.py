@@ -1247,8 +1247,9 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		replaceResults = {}
 		for file, occurences in files.iteritems():
-			if self.__container.hasFile(file):
-				document = self.__container.findEditor(file).document()
+			editor = self.__container.getEditor(file)
+			if editor:
+				document = editor.document()
 			else:
 				cacheData = self.__filesCache.getContent(file)
 				if cacheData is None:
@@ -1280,7 +1281,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		metrics = {"Opened" : 0, "Cached" : 0}
 		for node in nodes:
 			file = node.file
-			if self.__container.hasFile(file):
+			if self.__container.getEditor(file):
 				if self.__container.saveFile(file):
 					metrics["Opened"] += 1
 			else:
