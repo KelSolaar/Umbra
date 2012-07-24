@@ -768,10 +768,11 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		selectedText = self.__container.getCurrentEditor().getSelectedText()
 		selectedText and SearchAndReplace.insertPattern(selectedText, self.__searchPatternsModel)
+		self.Search_comboBox.lineEdit().selectAll()
+		self.Search_comboBox.setFocus()
 
 		super(SearchInFiles, self).show()
 		self.raise_()
-		self.Search_comboBox.setFocus()
 
 	@core.executionTrace
 	def closeEvent(self, event):

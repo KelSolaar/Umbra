@@ -253,10 +253,11 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		selectedText = self.__container.getCurrentEditor().getSelectedText()
 		selectedText and self.insertPattern(selectedText, self.__searchPatternsModel)
+		self.Search_comboBox.lineEdit().selectAll()
+		self.Search_comboBox.setFocus()
 
 		super(SearchAndReplace, self).show()
 		self.raise_()
-		self.Search_comboBox.setFocus()
 
 	@core.executionTrace
 	def __initializeUi(self):
