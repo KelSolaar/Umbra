@@ -1,13 +1,13 @@
 [Component]
-Name = factory.tcpServerUi
+Name = addins.tcpServerUi
 Title = TCP Server Ui
 Module = tcpServerUi
 Object = TCPServerUi
-Rank = 5
+Rank = 15
 Version = 1.0
 
 [Informations]
 Author = Thomas Mansencal
 Email = thomas.mansencal@gmail.com
 Url = http://www.hdrlabs.com/
-Description = TCP Server factory Ui Component.
+Description = TCP Server addins Ui Component.

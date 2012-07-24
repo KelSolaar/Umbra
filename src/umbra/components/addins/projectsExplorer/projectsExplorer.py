@@ -29,8 +29,8 @@ import foundations.exceptions
 import umbra.ui.common
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.globals.constants import Constants
-from umbra.components.factory.projectsExplorer.models import ProjectsProxyModel
-from umbra.components.factory.projectsExplorer.views import Projects_QTreeView
+from umbra.components.addins.projectsExplorer.models import ProjectsProxyModel
+from umbra.components.addins.projectsExplorer.views import Projects_QTreeView
 from umbra.components.factory.scriptEditor.nodes import FileNode
 from umbra.ui.delegates import RichText_QStyledItemDelegate
 

@@ -70,6 +70,7 @@ class ConstantsTestCase(unittest.TestCase):
 								"ioDirectory",
 								"preferencesDirectories",
 								"factoryComponentsDirectory",
+								"addinsComponentsDirectory",
 								"resourcesDirectory",
 								"patchesFile",
 								"settingsFile",
@@ -240,6 +241,13 @@ class ConstantsTestCase(unittest.TestCase):
 		"""
 
 		self.assertRegexpMatches(Constants.factoryComponentsDirectory, "\w+")
+
+	def testAddinsComponentsDirectoryAttribute(self):
+		"""
+		This method tests :attr:`umbra.globals.constants.Constants.addinsComponentsDirectory` attribute.
+		"""
+
+		self.assertRegexpMatches(Constants.addinsComponentsDirectory, "\w+")
 
 	def testResourcesDirectoryAttribute(self):
 		"""

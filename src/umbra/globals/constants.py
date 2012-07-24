@@ -95,7 +95,10 @@ class Constants():
 	"""Application preferences directories ( Tuple )"""
 
 	factoryComponentsDirectory = "components/factory"
-	"""Application core components directory: '**components/factory**' ( String )"""
+	"""Application factory components directory: '**components/factory**' ( String )"""
+
+	addinsComponentsDirectory = "components/addins"
+	"""Application addins components directory: '**components/addins**' ( String )"""
 
 	resourcesDirectory = "resources"
 	"""Application resources directory: '**resources**' ( String )"""

@@ -1,5 +1,5 @@
 [Component]
-Name = factory.projectsEplorer
+Name = addins.projectsEplorer
 Title = Projects Explorer
 Module = projectsExplorer
 Object = ProjectsExplorer
@@ -10,4 +10,4 @@ Version = 1.0
 Author = Thomas Mansencal
 Email = thomas.mansencal@gmail.com
 Url = http://www.hdrlabs.com/
-Description = Projects Explorer factory Component.
+Description = Projects Explorer addins Component.
