@@ -65,7 +65,6 @@ __all__ = ["LOGGER",
 			"notifyExceptionHandler",
 			"getResourcePath",
 			"setWindowDefaultIcon",
-			"centerWidgetOnScreen",
 			"getSectionsFileParser",
 			"storeLastBrowsedPath",
 			"getQVariantAsString",
@@ -235,23 +234,6 @@ def setWindowDefaultIcon(window):
 		window.setWindowIcon(QIcon(getResourcePath(UiConstants.applicationDarwinIcon)))
 	elif platform.system() == "Linux":
 		pass
-	return True
-
-@core.executionTrace
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
-def centerWidgetOnScreen(widget, screen=None):
-	"""
-	This definition centers the given Widget on the screen.
-
-	:param widget: Current Widget. ( QWidget )
-	:param screen: Screen used for centering. ( Integer )
-	:return: Definition success. ( Boolean )
-	"""
-
-	screen = screen and screen or QApplication.desktop().primaryScreen()
-	desktopWidth = QApplication.desktop().screenGeometry(screen).width()
-	desktopHeight = QApplication.desktop().screenGeometry(screen).height()
-	widget.move(desktopWidth / 2 - widget.width() / 2, desktopHeight / 2 - widget.height() / 2)
 	return True
 
 @core.executionTrace

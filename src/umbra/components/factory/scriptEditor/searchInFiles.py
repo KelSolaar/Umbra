@@ -783,7 +783,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 
 		self.__interruptSearch()
-		event.accept()
+		super(SearchInFiles, self).closeEvent(event)
 
 	@core.executionTrace
 	def __initializeUi(self):
