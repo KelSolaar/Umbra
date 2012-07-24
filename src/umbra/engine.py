@@ -1578,7 +1578,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"""
 
 		# --- Running onClose components methods. ---
-		for component in self.__componentsManager.listComponents():
+		for component in reversed(self.__componentsManager.listComponents()):
 			interface = self.__componentsManager.getInterface(component)
 			if not interface:
 				continue
