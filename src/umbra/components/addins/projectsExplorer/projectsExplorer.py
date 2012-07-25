@@ -26,7 +26,6 @@ from PyQt4.QtCore import Qt
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
-import umbra.ui.common
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.globals.constants import Constants
 from umbra.components.addins.projectsExplorer.models import ProjectsProxyModel
@@ -503,8 +502,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		indexes = [self.__model.mapFromSource(self.__model.sourceModel().getNodeIndex(fileNode))]
-		umbra.ui.common.signalsBlocker(self.__view, "clearSelection")
-		umbra.ui.common.signalsBlocker(self.__view, "selectIndexes", indexes)
+		self.__view.clearSelection()
+		self.__view.selectIndexes(indexes)
 
 	@core.executionTrace
 	def __factoryScriptEditor_model__fileRegistered(self, file):
