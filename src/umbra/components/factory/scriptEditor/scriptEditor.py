@@ -3088,7 +3088,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			if not self.getEditor(file):
 				continue
 
-			success *= self.closeFile(file, leaveFirstEditor)
+			success *= self.closeFile(file, leaveFirstEditor) and True or False
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
 		return success
