@@ -719,13 +719,13 @@ class Editor(CodeEditor_QPlainTextEdit):
 		This method sets the editor file.
 
 		:param File: File to set. ( String )
-		:param isModified: File modified state. ( String )
+		:param isModified: File modified state. ( Boolean )
 		"""
 
 		LOGGER.debug("> Setting '{0}' editor file.".format(file))
 		self.__file = file
 		self.__isUntitled = False
-		self.setModified(self.isModified())
+		self.setModified(isModified)
 		self.__setTitle()
 
 		self.fileChanged.emit()
@@ -843,10 +843,11 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
-	def reloadFile(self):
+	def reloadFile(self, isModified=True):
 		"""
 		This method reloads the current editor file.
 
+		:param isModified: File modified state. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
 
@@ -858,6 +859,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		reader = io.File(self.__file)
 		if reader.read():
 			self.setContent(reader.content)
+			self.setModified(isModified)
 			return True
 
 	@core.executionTrace

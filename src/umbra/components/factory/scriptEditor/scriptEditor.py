@@ -1605,6 +1605,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		slot=self.__saveAllFilesAction__triggered))
 		self.__fileMenu.addSeparator()
 		self.__fileMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&File|Revert",
+		slot=self.__revertFileAction__triggered))
+		self.__fileMenu.addSeparator()
+		self.__fileMenu.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|&File|Close ...",
 		shortcut=QKeySequence.Close,
 		slot=self.__closeFileAction__triggered))
@@ -2001,6 +2005,17 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		return self.saveAllFiles()
+
+	@core.executionTrace
+	def __revertFileAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Revert'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.revertFile()
 
 	@core.executionTrace
 	def __closeFileAction__triggered(self, checked):
@@ -2953,11 +2968,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
-	def reloadFile(self, file):
+	def reloadFile(self, file, isModified=True):
 		"""
 		This method reloads given file **Script_Editor_tabWidget** Widget tab Model editor content.
 
 		:param file: File to reload. ( String )
+		:param isModified: File modified state. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
 
@@ -2970,7 +2986,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		LOGGER.info("{0} | Reloading '{1}' file!".format(self.__class__.__name__, file))
-		return editor.reloadFile()
+		return editor.reloadFile(isModified)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -3045,6 +3061,26 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__engine.stopProcessing()
 
 		return success
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@umbra.engine.encapsulateProcessing
+	def revertFile(self, file=None):
+		"""
+		This method reverts either given file or current **Script_Editor_tabWidget** Widget tab Model editor file.
+
+		:param file: File to revert. ( String )
+		:return: Method success. ( Boolean )
+		"""
+
+		editor = file and self.getEditor(file) or self.getCurrentEditor()
+		if not editor:
+			return
+
+		file = editor.file
+		LOGGER.info("{0} | Reverting '{1}' file!".format(self.__class__.__name__, file))
+		if self.reloadFile(file, isModified=False):
+			return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
