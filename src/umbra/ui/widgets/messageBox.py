@@ -28,6 +28,7 @@ from PyQt4.QtGui import QTextEdit
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.core as core
+import foundations.ui.common
 from umbra.globals.runtimeGlobals import RuntimeGlobals
 from umbra.globals.constants import Constants
 
@@ -127,5 +128,6 @@ def messageBox(type, title, message, icon=None, buttons=QMessageBox.Ok, customBu
 
 	messageBox.setStandardButtons(buttons)
 	messageBox.setWindowFlags(Qt.WindowStaysOnTopHint)
-
+	messageBox.show()
+	foundations.ui.common.centerWidgetOnScreen(messageBox)
 	return messageBox.exec_()
