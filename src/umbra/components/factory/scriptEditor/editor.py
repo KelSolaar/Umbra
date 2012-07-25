@@ -725,7 +725,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		LOGGER.debug("> Setting '{0}' editor file.".format(file))
 		self.__file = file
 		self.__isUntitled = False
-#		self.setModified(self.isModified())
+		self.setModified(self.isModified())
 		self.__setTitle()
 
 		self.fileChanged.emit()
