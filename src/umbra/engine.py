@@ -37,6 +37,7 @@ from PyQt4.QtCore import Qt
 from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtGui import QApplication
 from PyQt4.QtGui import QPixmap
+from PyQt4.QtGui import QWidget
 
 #**********************************************************************************************************************
 #***	Path manipulations.
@@ -1252,6 +1253,14 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 		LOGGER.debug("> Application drop event accepted!")
 		self.contentDropped.emit(event)
+
+	@core.executionTrace
+	def show(self):
+		"""
+		This method reimplements the :meth:`QWidget.show` method.
+		"""
+
+		super(Umbra, self).show(setGeometry=False)
 
 	@core.executionTrace
 	def closeEvent(self, event):
