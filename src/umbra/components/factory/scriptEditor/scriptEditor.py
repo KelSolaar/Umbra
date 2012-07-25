@@ -3314,12 +3314,20 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		session = []
 		for editor in self.listEditors():
+			file = editor.file
+			ignoreFile = True
 			if editor.isUntitled and not editor.isEmpty():
-				editor.setFile(os.path.join(self.__defaultSessionDirectory, editor.file))
-				editor.saveFile() and session.append(editor.file)
+				file = os.path.join(self.__defaultSessionDirectory, file)
+				editor.setFile(file)
+				ignoreFile = False
+			elif os.path.dirname(file) == self.__defaultSessionDirectory:
+				ignoreFile = False
+
+			if not ignoreFile:
+				self.saveFile(file) and session.append(file)
 				continue
 
-			session.append(editor.file)
+			session.append(file)
 
 		LOGGER.debug("> Storing session :'{0}'.".format(session))
 		self.__settings.setKey(self.__settingsSection, "session", session)
