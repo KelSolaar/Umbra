@@ -69,6 +69,20 @@ class FileSystemEventsManager(QThread):
 	:return: Current invalidated file. ( String )	
 	"""
 
+	directoryChanged = pyqtSignal(str)
+	"""
+	This signal is emited by the :class:`FileSystemEventsManager` class when a directory is changed. ( pyqtSignal )
+
+	:return: Current changed directory. ( String )	
+	"""
+
+	directoryInvalidated = pyqtSignal(str)
+	"""
+	This signal is emited by the :class:`FileSystemEventsManager` class when a directory is invalidated. ( pyqtSignal )
+
+	:return: Current invalidated directory. ( String )	
+	"""
+
 	@core.executionTrace
 	def __init__(self, parent):
 		"""
@@ -287,19 +301,26 @@ class FileSystemEventsManager(QThread):
 		This method watches the file system for paths that have been changed or invalidated on disk.
 		"""
 
-		for path, storedStatus in self:
+		for path, data in self.__paths.items():
+			storedStatus, isFile = data
 			if not foundations.common.pathExists(path):
 				del(self.__paths[path])
 				LOGGER.warning(
 				"!> {0} | '{1}' path has been invalidated and will be unregistered!".format(self.__class__.__name__, path))
-				self.fileInvalidated.emit(path)
+				if isFile:
+					self.fileInvalidated.emit(path)
+				else:
+					self.directoryInvalidated.emit(path)
 				continue
 
 			status = os.stat(path)
 			if storedStatus.st_mtime != status.st_mtime:
-				self.__paths[path] = status
+				self.__paths[path] = (status, os.path.isfile(path))
 				LOGGER.debug("> {0} | '{1}' path has been changed!".format(self.__class__.__name__, path))
-				self.fileChanged.emit(path)
+				if isFile:
+					self.fileChanged.emit(path)
+				else:
+					self.directoryChanged.emit(path)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -345,7 +366,7 @@ class FileSystemEventsManager(QThread):
 			raise umbra.exceptions.PathRegistrationError("{0} | '{1}' path is already registered!".format(
 			self.__class__.__name__, path))
 
-		self.__paths[path] = os.stat(path)
+		self.__paths[path] = (os.stat(path), os.path.isfile(path))
 		return True
 
 	@core.executionTrace

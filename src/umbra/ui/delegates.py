@@ -30,8 +30,8 @@ from PyQt4.QtGui import QTextDocument
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.core as core
+import foundations.dataStructures
 import foundations.exceptions
-import foundations.strings as strings
 import umbra.ui.common
 from umbra.globals.constants import Constants
 
@@ -52,6 +52,23 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
+class Style(foundations.dataStructures.Structure):
+	"""
+	This class represents a storage object for the :class:`RichText_QStyledItemDelegate` class style. 
+	"""
+
+	@core.executionTrace
+	def __init__(self, **kwargs):
+		"""
+		This method initializes the class.
+
+		:param \*\*kwargs: . ( Key / Value pairs )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		foundations.dataStructures.Structure.__init__(self, **kwargs)
+
 class RichText_QStyledItemDelegate(QStyledItemDelegate):
 	"""
 	This class is a `QStyledItemDelegate <http://doc.qt.nokia.com/qstyleditemdelegate.html>`_ subclass used as a rich
@@ -61,16 +78,17 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 	@core.executionTrace
 	def __init__(self,
 				parent=None,
+				style=None,
+				highlightColor=None,
+				hoverColor=None,
 				backgroundColor=None,
-				selectedBackgroundColor=None,
+				highlightBackgroundColor=None,
 				hoverBackgroundColor=None):
 		"""
 		This method initializes the class.
 
 		:param parent: Widget parent. ( QObject )
-		:param backgroundColor: Default background color. ( QColor )
-		:param selectedBackgroundColor: Selected background color. ( QColor )
-		:param hoverBackgroundColor: Hover border color. ( QColor )
+		:param style: Style. ( Style )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -79,124 +97,75 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 
 		# --- Setting class attributes. ---
 		self.__indent = 5
-		self.__style = """
-						QLabel, QLabel link {{
-							background-color: {0};
-						}}
-						"""
-
-		self.__backgroundColor = QColor(40, 40, 40)
-		self.__selectedBackgroundColor = QColor(96, 96, 96)
-		self.__hoverBackgroundColor = QColor(80, 80, 80)
-		self.backgroundColor = backgroundColor or self.__backgroundColor
-		self.selectedBackgroundColor = selectedBackgroundColor or self.__selectedBackgroundColor
-		self.hoverBackgroundColor = hoverBackgroundColor or self.__hoverBackgroundColor
 
 		self.__label = QLabel()
 		self.__label.setIndent(self.__indent)
 		self.__label.setTextFormat(Qt.RichText)
 
+		self.__defaultStyle = Style(default=\
+								"""
+								QLabel, QLabel link {
+									background-color: rgb(40, 40, 40);
+									color: rgb(192, 192, 192);
+								}
+								""",
+								hover=\
+								"""
+								QLabel, QLabel link {
+									background-color: rgb(80, 80, 80);
+									color: rgb(192, 192, 192);
+								}
+								""",
+								highlight=\
+								"""
+								QLabel, QLabel link {
+									background-color: rgb(128, 128, 128);
+									color: rgb(224, 224, 224);
+								}
+								""")
+
+		self.__style = self.__defaultStyle
+		self.style = style or self.__style
+
 	#******************************************************************************************************************
 	#***	Attributes properties.
 	#******************************************************************************************************************
 	@property
-	def backgroundColor(self):
+	def style(self):
 		"""
-		This method is the property for **self.__backgroundColor** attribute.
+		This method is the property for **self.__style** attribute.
 
-		:return: self.__backgroundColor. ( QColor )
+		:return: self.__style. ( Style )
 		"""
 
-		return self.__backgroundColor
+		return self.__style
 
-	@backgroundColor.setter
+	@style.setter
 	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def backgroundColor(self, value):
+	def style(self, value):
 		"""
-		This method is the setter method for **self.__backgroundColor** attribute.
+		This method is the setter method for **self.__style** attribute.
 
-		:param value: Attribute value. ( QColor )
+		:param value: Attribute value. ( Style )
 		"""
 
 		if value is not None:
-			assert type(value) is QColor, "'{0}' attribute: '{1}' type is not 'QColor'!".format("backgroundColor", value)
-		self.__backgroundColor = value
+			assert type(value) is Style, "'{0}' attribute: '{1}' type is not 'Style'!".format("style", value)
+			style = Style()
+			for item in(self.__defaultStyle, value):
+				style.update(item)
+			value = style
+		self.__style = value
 
-	@backgroundColor.deleter
+	@style.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def backgroundColor(self):
+	def style(self):
 		"""
-		This method is the deleter method for **self.__backgroundColor** attribute.
+		This method is the deleter method for **self.__style** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "backgroundColor"))
-
-	@property
-	def selectedBackgroundColor(self):
-		"""
-		This method is the property for **self.__selectedBackgroundColor** attribute.
-
-		:return: self.__selectedBackgroundColor. ( QColor )
-		"""
-
-		return self.__selectedBackgroundColor
-
-	@selectedBackgroundColor.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def selectedBackgroundColor(self, value):
-		"""
-		This method is the setter method for **self.__selectedBackgroundColor** attribute.
-
-		:param value: Attribute value. ( QColor )
-		"""
-
-		if value is not None:
-			assert type(value) is QColor, "'{0}' attribute: '{1}' type is not 'QColor'!".format("selectedBackgroundColor", value)
-		self.__selectedBackgroundColor = value
-
-	@selectedBackgroundColor.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def selectedBackgroundColor(self):
-		"""
-		This method is the deleter method for **self.__selectedBackgroundColor** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "selectedBackgroundColor"))
-
-	@property
-	def hoverBackgroundColor(self):
-		"""
-		This method is the property for **self.__hoverBackgroundColor** attribute.
-
-		:return: self.__hoverBackgroundColor. ( QColor )
-		"""
-
-		return self.__hoverBackgroundColor
-
-	@hoverBackgroundColor.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
-	def hoverBackgroundColor(self, value):
-		"""
-		This method is the setter method for **self.__hoverBackgroundColor** attribute.
-
-		:param value: Attribute value. ( QColor )
-		"""
-
-		if value is not None:
-			assert type(value) is QColor, "'{0}' attribute: '{1}' type is not 'QColor'!".format("hoverBackgroundColor", value)
-		self.__hoverBackgroundColor = value
-
-	@hoverBackgroundColor.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def hoverBackgroundColor(self):
-		"""
-		This method is the deleter method for **self.__hoverBackgroundColor** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "hoverBackgroundColor"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "style"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -207,20 +176,14 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 		This method reimplements the :meth:`QStyledItemDelegate.paint` method.
 		"""
 
-		color = "rgb({0}, {1}, {2})"
 		if option.state & QStyle.State_MouseOver:
-			syleSheet = self.__style.format(color.format(self.__hoverBackgroundColor.red(),
-														self.__hoverBackgroundColor.green(),
-														self.__hoverBackgroundColor.blue()))
+			styleSheet = self.__style.hover
 		elif option.state & QStyle.State_Selected:
-			syleSheet = self.__style.format(color.format(self.__selectedBackgroundColor.red(),
-														self.__selectedBackgroundColor.green(),
-														self.__selectedBackgroundColor.blue()))
+			styleSheet = self.__style.highlight
 		else:
-			syleSheet = self.__style.format(color.format(self.__backgroundColor.red(),
-														self.__backgroundColor.green(),
-														self.__backgroundColor.blue()))
-		self.__label.setStyleSheet(syleSheet)
+			styleSheet = self.__style.default
+
+		self.__label.setStyleSheet(styleSheet)
 		data = index.model().data(index, Qt.DisplayRole)
 		self.__label.setText(umbra.ui.common.getQVariantAsString(data))
 		self.__label.setFixedSize(option.rect.size())

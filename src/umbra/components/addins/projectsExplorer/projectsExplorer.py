@@ -32,6 +32,7 @@ from umbra.components.addins.projectsExplorer.models import ProjectsProxyModel
 from umbra.components.addins.projectsExplorer.views import Projects_QTreeView
 from umbra.components.factory.scriptEditor.nodes import FileNode
 from umbra.ui.delegates import RichText_QStyledItemDelegate
+from umbra.ui.delegates import Style
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -86,6 +87,27 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__model = None
 		self.__view = None
 		self.__delegate = None
+		self.__style = Style(default=\
+								"""
+								QLabel, QLabel link {
+									background-color: rgb(40, 40, 40);
+									color: rgb(192, 192, 192);
+								}
+								""",
+								hover=\
+								"""
+								QLabel, QLabel link {
+									background-color: rgb(80, 80, 80);
+									color: rgb(192, 192, 192);
+								}
+								""",
+								highlight=\
+								"""
+								QLabel, QLabel link {
+									background-color: rgb(128, 128, 128);
+									color: rgb(224, 224, 224);
+								}
+								""")
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -346,6 +368,38 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "delegate"))
 
+	@property
+	def style(self):
+		"""
+		This method is the property for **self.__style** attribute.
+
+		:return: self.__style. ( Style )
+		"""
+
+		return self.__style
+
+	@style.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def style(self, value):
+		"""
+		This method is the setter method for **self.__style** attribute.
+
+		:param value: Attribute value. ( Style )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "style"))
+
+	@style.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def style(self):
+		"""
+		This method is the deleter method for **self.__style** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "style"))
+
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
@@ -405,7 +459,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		projectNode = self.__factoryScriptEditor.model.getProjectNode(self.__factoryScriptEditor.defaultProject)
 		projectNode.roles.update({Qt.DisplayRole : "<b>Open Files</b>",
 										Qt.EditRole : projectNode.name})
-		self.__delegate = RichText_QStyledItemDelegate(self)
+		self.__delegate = RichText_QStyledItemDelegate(self, self.__style)
 
 		self.Projects_Explorer_treeView.setParent(None)
 		self.Projects_Explorer_treeView = Projects_QTreeView(self, self.__model)
@@ -516,7 +570,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		fileNode = self.__factoryScriptEditor.model.getFileNode(file)
 		basename = os.path.basename(fileNode.path)
-		fileNode.roles.update({Qt.DisplayRole : "<span style=\"color: rgb(144, 144, 144);\">{0}</span>".format(basename),
+		fileNode.roles.update({Qt.DisplayRole : "<span>{0}</span>".format(basename),
 								Qt.EditRole : basename})
 
 	@core.executionTrace
