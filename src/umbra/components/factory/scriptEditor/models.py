@@ -359,7 +359,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		LOGGER.debug("> Registering '{0}' file.".format(file))
 
 		row = parent.childrenCount()
-		self.beginInsertRows(self.getNodeIndex(parent), row, row + 1)
+		self.beginInsertRows(self.getNodeIndex(parent), row, row)
 		fileNode = FileNode(file, parent=parent)
 		self.endInsertRows()
 
@@ -390,7 +390,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		parent = fileNode.parent
 		row = fileNode.row()
-		self.beginRemoveRows(self.getNodeIndex(parent), row, row + 1)
+		self.beginRemoveRows(self.getNodeIndex(parent), row, row)
 		parent.removeChild(row)
 		self.endRemoveRows()
 
@@ -416,7 +416,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		LOGGER.debug("> Registering '{0}' editor.".format(editor))
 
 		row = parent.childrenCount()
-		self.beginInsertRows(self.getNodeIndex(parent), row, row + 1)
+		self.beginInsertRows(self.getNodeIndex(parent), row, row)
 		editorNode = EditorNode(editor, parent=parent)
 		self.endInsertRows()
 
@@ -447,7 +447,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		parent = editorNode.parent
 		row = editorNode.row()
-		self.beginRemoveRows(self.getNodeIndex(parent), row, row + 1)
+		self.beginRemoveRows(self.getNodeIndex(parent), row, row)
 		parent.removeChild(row)
 		self.endRemoveRows()
 

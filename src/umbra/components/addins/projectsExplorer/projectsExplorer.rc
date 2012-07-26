@@ -1,5 +1,5 @@
 [Component]
-Name = addins.projectsEplorer
+Name = addins.projectsExplorer
 Title = Projects Explorer
 Module = projectsExplorer
 Object = ProjectsExplorer

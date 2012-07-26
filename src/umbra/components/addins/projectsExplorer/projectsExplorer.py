@@ -562,7 +562,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __factoryScriptEditor_model__fileRegistered(self, file):
 		"""
-		| This method is triggered by the:class:`umbra.components.factory.scriptEditor.scriptEditor` class
+		This method is triggered by the:class:`umbra.components.factory.scriptEditor.scriptEditor` class
 		Model when a file is registered.
 		
 		:param file: File registered. ( String )
@@ -576,7 +576,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __factoryScriptEditor_model__editorRegistered(self, editor):
 		"""
-		| This method is triggered by the:class:`umbra.components.factory.scriptEditor.scriptEditor` class
+		This method is triggered by the:class:`umbra.components.factory.scriptEditor.scriptEditor` class
 		Model when an editor is registered
 		
 		:param editor: Editor registered. ( Editor )

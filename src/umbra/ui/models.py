@@ -476,6 +476,15 @@ class GraphModel(QAbstractItemModel):
 		self.endRemoveRows()
 		return success
 
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def movesRows(self, fromParent, fromFirstRow, fromLastRow, toParent, toRow):
+		"""
+		This method moves given rows from parent to parent row.
+		"""
+
+		return True
+
 	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def mimeTypes(self):

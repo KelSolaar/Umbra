@@ -1477,6 +1477,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
 		self.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
 		self.Script_Editor_tabWidget.contentDropped.connect(self.__Script_Editor_tabWidget__contentDropped)
+		self.Script_Editor_tabWidget.tabBar().tabMoved.connect(self.__Script_Editor_tabWidget_tabBar__tabMoved)
 		self.visibilityChanged.connect(self.__scriptEditor__visibilityChanged)
 		self.uiRefresh.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.recentFilesChanged.connect(self.__setRecentFilesActions)
@@ -1848,6 +1849,21 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		self.__handleContentDroppedEvent(event)
+
+	@core.executionTrace
+	def __Script_Editor_tabWidget_tabBar__tabMoved(self, toIndex, fromIndex):
+		"""
+		This method is triggered when a **Script_Editor_tabWidget** Widget tab is moved.
+
+		:param toIndex: Index to. ( Integer )
+		:param fromIndex: Index from. ( Integer )
+		"""
+
+		editor = self.getCurrentEditor()
+		if not editor:
+			return
+
+		print "TabMoved"
 
 	@core.executionTrace
 	def __engine__layoutRestored(self, currentLayout):
