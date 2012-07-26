@@ -20,8 +20,10 @@
 import functools
 import logging
 import os
+from PyQt4.QtCore import QChar
 from PyQt4.QtCore import QObject
 from PyQt4.QtCore import QEvent
+from PyQt4.QtCore import QString
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QComboBox
 
@@ -382,7 +384,11 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if not pattern:
 			return
 
+		pattern = pattern.replace(QChar(QChar.ParagraphSeparator), QString("\n"))
+		pattern = foundations.common.getFirstItem(strings.encode(pattern).split("\n"))
+
 		model.insertPattern(strings.encode(pattern), index)
+
 		return True
 
 	@core.executionTrace
