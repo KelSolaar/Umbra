@@ -297,8 +297,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 	the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` Component Interface class. 
 	"""
 
-	__instanceId = 1
-	"""Editor instance id. ( Integer )"""
+	__untitledNameId = 1
+	"""Editor untitled name id. ( Integer )"""
 
 	# Custom signals definitions.
 	languageChanged = pyqtSignal()
@@ -762,14 +762,15 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getNextUntitledFileName(self):
+	def getUntitledFileName(self):
 		"""
-		This method returns the next untitled editor file name.
+		This method returns an untitled editor file name.
 
-		:return: File short name. ( String )
+		:return: Untitled file name. ( String )
 		"""
 
-		name = "{0} {1}.{2}".format(self.__defaultFileName, Editor._Editor__instanceId, self.defaultFileExtension)
+		name = "{0} {1}.{2}".format(self.__defaultFileName, Editor._Editor__untitledNameId, self.defaultFileExtension)
+		Editor._Editor__untitledNameId += 1
 		LOGGER.debug("> Next untitled file name: '{0}'.".format(name))
 		return name
 
@@ -805,11 +806,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:return: File name. ( String )
 		"""
 
-		file = self.getNextUntitledFileName()
+		file = self.getUntitledFileName()
 		LOGGER.debug("> Creating '{0}' file.".format(file))
 		self.__file = file
 		self.__isUntitled = True
-		Editor._Editor__instanceId += 1
 		self.setWindowTitle("{0}".format(self.__file))
 
 		# Signals / Slots.

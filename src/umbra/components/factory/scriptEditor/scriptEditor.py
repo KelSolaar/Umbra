@@ -255,6 +255,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__defaultProject = "defaultProject"
 		self.__defaultLanguage = "Text"
 		self.__defaultScriptLanguage = "Python"
+		self.__defaultFileName = "Untitled"
+		self.__defaultFileExtension = "py"
 
 		self.__defaultWindowTitle = "Script Editor"
 
@@ -673,6 +675,70 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultScriptLanguage"))
+
+	@property
+	def defaultFileName(self):
+		"""
+		This method is the property for **self.__defaultFileName** attribute.
+
+		:return: self.__defaultFileName. ( String )
+		"""
+
+		return self.__defaultFileName
+
+	@defaultFileName.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultFileName(self, value):
+		"""
+		This method is the setter method for **self.__defaultFileName** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultFileName"))
+
+	@defaultFileName.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultFileName(self):
+		"""
+		This method is the deleter method for **self.__defaultFileName** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultFileName"))
+
+	@property
+	def defaultFileExtension(self):
+		"""
+		This method is the property for **self.__defaultFileExtension** attribute.
+
+		:return: self.__defaultFileExtension. ( String )
+		"""
+
+		return self.__defaultFileExtension
+
+	@defaultFileExtension.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultFileExtension(self, value):
+		"""
+		This method is the setter method for **self.__defaultFileExtension** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultFileExtension"))
+
+	@defaultFileExtension.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultFileExtension(self):
+		"""
+		This method is the deleter method for **self.__defaultFileExtension** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultFileExtension"))
 
 	@property
 	def defaultWindowTitle(self):
@@ -1469,6 +1535,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Editor_Status_editorStatus = EditorStatus(self)
 		self.__engine.statusBar.insertPermanentWidget(0, self.Editor_Status_editorStatus)
 
+		Editor.getUntitledFileName = self.__getUntitledFileName
+
 		# Signals / Slots.
 		self.__engine.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
 		self.__engine.layoutsManager.layoutRestored.connect(self.__engine__layoutRestored)
@@ -1862,8 +1930,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		editor = self.getCurrentEditor()
 		if not editor:
 			return
-
-		print "TabMoved"
 
 	@core.executionTrace
 	def __engine__layoutRestored(self, currentLayout):
@@ -2584,15 +2650,16 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		file = editor.file
-		if not foundations.common.pathExists(file):
-			return
 
-		self.__engine.fileSystemEventsManager.isPathRegistered(file) and \
-		self.__engine.fileSystemEventsManager.unregisterPath(file)
+		if foundations.common.pathExists(file):
+			self.__engine.fileSystemEventsManager.isPathRegistered(file) and \
+			self.__engine.fileSystemEventsManager.unregisterPath(file)
+
 		value = getattr(editor, attribute)(*args, **kwargs)
-		not self.__engine.fileSystemEventsManager.isPathRegistered(file) and \
-		self.__engine.fileSystemEventsManager.registerPath(file)
 
+		if foundations.common.pathExists(file):
+			not self.__engine.fileSystemEventsManager.isPathRegistered(file) and \
+			self.__engine.fileSystemEventsManager.registerPath(file)
 		return value
 
 	@core.executionTrace
@@ -2672,6 +2739,31 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		title = editor.title
 		LOGGER.debug("> Setting '{0}' window title to tab with '{1}' index.".format(title, index))
 		self.Script_Editor_tabWidget.setTabText(index, title)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def __getUntitledFileName(self):
+		"""
+		This method returns an untitled file name.
+
+		:return: Untitled file name. ( String )
+		"""
+
+		untitledNameId = Editor._Editor__untitledNameId
+		for file in self.listFiles():
+			if not os.path.dirname(file) == self.__defaultSessionDirectory:
+				continue
+
+			search = re.search(r"\d+", os.path.basename(file))
+			if not search:
+				continue
+
+			untitledNameId = max(int(search.group(0)), untitledNameId) + 1
+
+		name = "{0} {1}.{2}".format(self.__defaultFileName, untitledNameId, self.__defaultFileExtension)
+		Editor._Editor__untitledNameId += 1
+		LOGGER.debug("> Next untitled file name: '{0}'.".format(name))
+		return name
 
 	@core.executionTrace
 	def __setEditingNodes(self, file, editor):
@@ -2942,10 +3034,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		language = self.__languagesModel.getLanguage(self.__defaultScriptLanguage)
 		editor = Editor(parent=self, language=language)
 
-		LOGGER.info("{0} | Creating '{1}' file!".format(self.__class__.__name__, editor.getNextUntitledFileName()))
 		file = editor.newFile()
 		if not file:
 			return
+
+		LOGGER.info("{0} | Creating '{1}' file!".format(self.__class__.__name__, file))
 
 		if self.__setEditingNodes(file, editor):
 			self.fileLoaded.emit(file)
