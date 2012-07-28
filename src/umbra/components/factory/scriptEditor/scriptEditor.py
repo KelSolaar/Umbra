@@ -1931,6 +1931,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor:
 			return
 
+		editor = self.getCurrentEditor()
+		fileNode = self.__model.getFileNode(editor.file)
+		parent = fileNode.parent
+
+		self.__model.moveNode(parent, fromIndex, toIndex)
+
 	@core.executionTrace
 	def __engine__layoutRestored(self, currentLayout):
 		"""

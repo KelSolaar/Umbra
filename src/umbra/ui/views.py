@@ -90,7 +90,8 @@ def filterNodes(view, pattern, attribute, flags=re.IGNORECASE):
 
 @core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, NotImplementedError)
-@core.memoize(None)
+# TODO: Implement a way to invalidate indexes in the cache, disabling the cache until yet.
+# @core.memoize(None)
 def getViewNodesFromIndexes(view, *indexes):
 	"""
 	This method returns the given View nodes from given indexes.

@@ -62,9 +62,6 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 		"""
 
 		child = self.sourceModel().getNode(parent).child(row)
-		if not child:
-			return False
-
 		if isinstance(child, EditorNode):
 			return False
 

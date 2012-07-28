@@ -342,6 +342,56 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 				return editor
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def moveNode(self, parent, fromIndex, toIndex):
+		"""
+		This method moves given parent child to given index.
+
+		:param toIndex: Index to. ( Integer )
+		:param fromIndex: Index from. ( Integer )
+		:return: Method success. ( Boolean )
+		"""
+
+		# TODO: This method should be refactored once this ticket is solved: https://bugreports.qt-project.org/browse/PYSIDE-78 
+		if not fromIndex >= 0 or not fromIndex < parent.childrenCount() or not toIndex >= 0 or not toIndex < parent.childrenCount():
+			return
+
+		parentIndex = self.getNodeIndex(parent)
+		self.beginRemoveRows(parentIndex, fromIndex, fromIndex)
+		child = parent.removeChild(fromIndex)
+		self.endRemoveRows()
+
+		if toIndex == 0:
+			self.beginRemoveRows(parentIndex, 0, parent.childrenCount() - 1)
+			tail = list(reversed([parent.removeChild(i) for i in range(parent.childrenCount() - 1, -1, -1)]))
+			self.endRemoveRows()
+		elif toIndex == parent.childrenCount() - 1:
+			row = parent.childrenCount() - 1
+			self.beginRemoveRows(parentIndex, row, row)
+			tail = [parent.removeChild(row)]
+			self.endRemoveRows()
+		else:
+			tailFromIndex = toIndex - 1
+			tailToIndex = parent.childrenCount() - 1
+
+			tail = []
+			for i in range(tailToIndex, tailFromIndex, -1):
+				self.beginRemoveRows(parentIndex, i, i)
+				tail.append(parent.removeChild(i))
+				self.endRemoveRows()
+			tail = list(reversed(tail))
+
+		tail.insert(0, child)
+
+		for node in tail:
+			row = parent.childrenCount()
+			self.beginInsertRows(parentIndex, row, row)
+			parent.addChild(node)
+			self.endInsertRows()
+
+		return True
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def registerFile(self, file, parent):
 		"""
