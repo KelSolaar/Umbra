@@ -59,7 +59,7 @@ LOGGER = logging.getLogger(Constants.logger)
 class EditorNode(umbra.ui.nodes.GraphModelNode):
 	"""
 	This class factory defines :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
-	Component Interface class **Editor* node.
+	Component Interface class **Editor** node.
 	"""
 
 	__family = "EditorNode"
@@ -148,7 +148,7 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 class FileNode(umbra.ui.nodes.GraphModelNode):
 	"""
 	This class factory defines :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
-	Component Interface class **File* node.
+	Component Interface class **File** node.
 	"""
 
 	__family = "FileNode"
@@ -237,7 +237,7 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 	"""
 	This class factory defines :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
-	Component Interface class **Directory* node.
+	Component Interface class **Directory** node.
 	"""
 
 	__family = "DirectoryNode"
@@ -328,13 +328,14 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 class ProjectNode(umbra.ui.nodes.GraphModelNode):
 	"""
 	This class factory defines :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
-	Component Interface class **Project* node.
+	Component Interface class **Project** node.
 	"""
 
 	__family = "ProjectNode"
 
 	@core.executionTrace
 	def __init__(self,
+				path=None,
 				name=None,
 				parent=None,
 				children=None,
@@ -345,6 +346,7 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		This method initializes the class.
 
+		:param path: Project path.  ( String )
 		:param name: Node name.  ( String )
 		:param parent: Node parent. ( GraphModelNode )
 		:param children: Children. ( List )
@@ -358,7 +360,48 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 
 		umbra.ui.nodes.GraphModelNode.__init__(self, name, parent, children, roles, nodeFlags, **kwargs)
 
+		# --- Setting class attributes. ---
+		self.__path = None
+		self.path = path
+
 		ProjectNode.__initializeNode(self, attributesFlags)
+
+	#******************************************************************************************************************
+	#***	Attributes properties.
+	#******************************************************************************************************************
+	@property
+	def path(self):
+		"""
+		This method is the property for **self.__path** attribute.
+
+		:return: self.__path. ( String )
+		"""
+
+		return self.__path
+
+	@path.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def path(self, value):
+		"""
+		This method is the setter method for **self.__path** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		if value is not None:
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("path", value)
+			assert os.path.exists(value), "'{0}' attribute: '{1}' path doesn't exists!".format("source", value)
+		self.__path = value
+
+	@path.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def path(self):
+		"""
+		This method is the deleter method for **self.__path** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "path"))
 
 	#******************************************************************************************************************
 	#***	Class methods.

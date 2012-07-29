@@ -2781,7 +2781,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		projectNode = self.__model.getProjectNode(self.__model.defaultProject)
+		projectNode = self.__model.defaultProjectNode
 		fileNode = self.__model.registerFile(file, projectNode)
 		editorNode = self.__model.registerEditor(editor, fileNode)
 		return True
@@ -3027,6 +3027,19 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if self.__setEditingNodes(file, editor):
 			self.fileLoaded.emit(file)
 			return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def addProject(self, path):
+		"""
+		:return: Method success. ( Boolean )
+		"""
+
+		if not foundations.common.pathExists(path):
+			return
+
+		self.__model.registerProject(path)
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

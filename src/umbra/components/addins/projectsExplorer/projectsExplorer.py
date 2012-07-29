@@ -456,7 +456,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
 		self.__model = ProjectsProxyModel(self)
 		self.__model.setSourceModel(self.__factoryScriptEditor.model)
-		projectNode = self.__factoryScriptEditor.model.getProjectNode(self.__factoryScriptEditor.defaultProject)
+		projectNode = self.__factoryScriptEditor.model.defaultProjectNode
 		projectNode.roles.update({Qt.DisplayRole : "<b>Open Files</b>",
 										Qt.EditRole : projectNode.name})
 		self.__delegate = RichText_QStyledItemDelegate(self, self.__style)

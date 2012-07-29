@@ -19,6 +19,7 @@
 #***	External imports.
 #**********************************************************************************************************************
 import logging
+import os
 import re
 from PyQt4.QtCore import QAbstractListModel
 from PyQt4.QtCore import QModelIndex
@@ -78,7 +79,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	fileUnregistered = pyqtSignal(str)
 	"""
-	This signal is emited by the :class:`ProjectsModel` class when a file is runegistered. ( pyqtSignal )
+	This signal is emited by the :class:`ProjectsModel` class when a file is unregistered. ( pyqtSignal )
 
 	:return: Unregistered file. ( String )	
 	"""
@@ -95,6 +96,20 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	This signal is emited by the :class:`ProjectsModel` class when an editor is unregistered. ( pyqtSignal )
 
 	:return: Unregistered editor. ( Editor )	
+	"""
+
+	projectRegistered = pyqtSignal(str)
+	"""
+	This signal is emited by the :class:`ProjectsModel` class when a project is registered. ( pyqtSignal )
+
+	:return: Registered project. ( String )	
+	"""
+
+	projectUnregistered = pyqtSignal(str)
+	"""
+	This signal is emited by the :class:`ProjectsModel` class when a project is unregistered. ( pyqtSignal )
+
+	:return: Unregistered project. ( String )	
 	"""
 
 	@core.executionTrace
@@ -123,6 +138,8 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		# --- Setting class attributes. ---
 		self.__defaultProject = None
 		self.defaultProject = defaultProject or "defaultProject"
+
+		self.__defaultProjectNode = None
 
 		ProjectsModel.__initializeModel(self)
 
@@ -163,6 +180,38 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultProject"))
 
+	@property
+	def defaultProjectNode(self):
+		"""
+		This method is the property for **self.__defaultProjectNode** attribute.
+
+		:return: self.__defaultProjectNode. ( String )
+		"""
+
+		return self.__defaultProjectNode
+
+	@defaultProjectNode.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultProjectNode(self, value):
+		"""
+		This method is the setter method for **self.__defaultProjectNode** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultProjectNode"))
+
+	@defaultProjectNode.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def defaultProjectNode(self):
+		"""
+		This method is the deleter method for **self.__defaultProjectNode** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultProjectNode"))
+
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
@@ -177,7 +226,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		self.beginResetModel()
 		self.rootNode = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
-		defaultProjectNode = ProjectNode(name=self.__defaultProject,
+		self.__defaultProjectNode = ProjectNode(name=self.__defaultProject,
 								parent=self.rootNode,
 								nodeFlags=int(Qt.ItemIsEnabled),
 								attributesFlags=int(Qt.ItemIsEnabled))
@@ -269,7 +318,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		:return: ProjectNode nodes. ( List )
 		"""
 
-		return [projectNode.name for projectNode in self.listFamily("ProjectNode") if projectNode.name]
+		return [projectNode.path for projectNode in self.listFamily("ProjectNode") if projectNode.path]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -315,16 +364,16 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getProjectNode(self, name):
+	def getProjectNode(self, path):
 		"""
-		This method returns the :class:`ProjectNode` node with given name.
+		This method returns the :class:`ProjectNode` node with given path.
 		
-		:param name: Project path. ( String )
+		:param path: Project path. ( String )
 		:return: ProjectNode node. ( ProjectNode )
 		"""
 
 		for projectNode in self.listProjectNodes():
-			if projectNode.name == name:
+			if projectNode.path == path:
 				return projectNode
 
 	@core.executionTrace
@@ -352,7 +401,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		:return: Method success. ( Boolean )
 		"""
 
-		# TODO: This method should be refactored once this ticket is solved: https://bugreports.qt-project.org/browse/PYSIDE-78 
+		# TODO: This method should be refactored once this ticket is fixed: https://bugreports.qt-project.org/browse/PYSIDE-78 
 		if not fromIndex >= 0 or not fromIndex < parent.childrenCount() or not toIndex >= 0 or not toIndex < parent.childrenCount():
 			return
 
@@ -361,26 +410,18 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		child = parent.removeChild(fromIndex)
 		self.endRemoveRows()
 
+		startIndex = parent.childrenCount() - 1
 		if toIndex == 0:
-			self.beginRemoveRows(parentIndex, 0, parent.childrenCount() - 1)
-			tail = list(reversed([parent.removeChild(i) for i in range(parent.childrenCount() - 1, -1, -1)]))
-			self.endRemoveRows()
-		elif toIndex == parent.childrenCount() - 1:
-			row = parent.childrenCount() - 1
-			self.beginRemoveRows(parentIndex, row, row)
-			tail = [parent.removeChild(row)]
-			self.endRemoveRows()
+			endIndex = 0
 		else:
-			tailFromIndex = toIndex - 1
-			tailToIndex = parent.childrenCount() - 1
+			endIndex = toIndex - 1
 
-			tail = []
-			for i in range(tailToIndex, tailFromIndex, -1):
-				self.beginRemoveRows(parentIndex, i, i)
-				tail.append(parent.removeChild(i))
-				self.endRemoveRows()
-			tail = list(reversed(tail))
-
+		tail = []
+		for i in range(startIndex, endIndex, -1):
+			self.beginRemoveRows(parentIndex, i, i)
+			tail.append(parent.removeChild(i))
+			self.endRemoveRows()
+		tail = list(reversed(tail))
 		tail.insert(0, child)
 
 		for node in tail:
@@ -504,6 +545,35 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		self.editorUnregistered.emit(editor)
 
 		return editorNode
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def registerProject(self, path):
+		"""
+		This method registers given path in the Model as a project.
+
+		:param path: Project path to register. ( String )
+		:return: ProjectNode. ( ProjectNode )		
+		"""
+
+		if self.getProjectNode(path):
+			raise foundations.exceptions.ProgrammingError("{0} | '{1}' project is already registered!".format(
+			self.__class__.__name__, path))
+
+		LOGGER.debug("> Registering '{0}' project.".format(path))
+
+		row = self.rootNode.childrenCount()
+		self.beginInsertRows(self.getNodeIndex(self.rootNode,), row, row)
+		projectNode = ProjectNode(name=os.path.basename(path),
+								path=path,
+								parent=self.rootNode,
+								nodeFlags=int(Qt.ItemIsEnabled),
+								attributesFlags=int(Qt.ItemIsEnabled))
+		self.endInsertRows()
+
+		self.projectRegistered.emit(path)
+
+		return projectNode
 
 class LanguagesModel(QAbstractListModel):
 	"""
