@@ -31,7 +31,7 @@ import foundations.exceptions
 import foundations.strings as strings
 import umbra.exceptions
 from foundations.io import File
-from foundations.walkers import OsWalker
+from foundations.walkers import FilesWalker
 from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
@@ -352,12 +352,12 @@ class PatchesManager(object):
 		if not self.__paths:
 			return
 
-		osWalker = OsWalker()
+		filesWalker = FilesWalker()
 		unregisteredPatches = []
 		for path in self.paths:
-			osWalker.root = path
-			osWalker.walk(("\.{0}$".format(self.__extension),), ("\._",))
-			for name, file in osWalker.files.iteritems():
+			filesWalker.root = path
+			filesWalker.walk(("\.{0}$".format(self.__extension),), ("\._",))
+			for name, file in filesWalker.files.iteritems():
 				if not self.registerPatch(name, file):
 					unregisteredPatches.append(name)
 
