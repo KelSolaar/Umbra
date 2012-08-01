@@ -469,11 +469,13 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__view = self.Projects_Explorer_treeView
 
 		# Signals / Slots.
+		self.__view.expanded.connect(self.__view__expanded)
 		self.__view.selectionModel().selectionChanged.connect(self.__view_selectionModel__selectionChanged)
 		self.__factoryScriptEditor.Script_Editor_tabWidget.currentChanged.connect(
 		self.__factoryScriptEditor_Script_Editor_tabWidget__currentChanged)
 		self.__factoryScriptEditor.model.fileRegistered.connect(self.__factoryScriptEditor_model__fileRegistered)
 		self.__factoryScriptEditor.model.editorRegistered.connect(self.__factoryScriptEditor_model__editorRegistered)
+		self.__factoryScriptEditor.model.projectRegistered.connect(self.__factoryScriptEditor_model_projectRegistered)
 		return True
 
 	@core.executionTrace
@@ -490,8 +492,13 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__model = None
 
 		# Signals / Slots.
-		self.__factoryScriptEditor.fileLoaded.disconnect(self.__factoryScriptEditor__fileLoaded)
-		self.__factoryScriptEditor.fileClosed.disconnect(self.__factoryScriptEditor__fileClosed)
+		self.__view.expanded.disconnect(self.__view__expanded)
+		self.__view.selectionModel().selectionChanged.disconnect(self.__view_selectionModel__selectionChanged)
+		self.__factoryScriptEditor.Script_Editor_tabWidget.currentChanged.disconnect(
+		self.__factoryScriptEditor_Script_Editor_tabWidget__currentChanged)
+		self.__factoryScriptEditor.model.fileRegistered.disconnect(self.__factoryScriptEditor_model__fileRegistered)
+		self.__factoryScriptEditor.model.editorRegistered.disconnect(self.__factoryScriptEditor_model__editorRegistered)
+		self.__factoryScriptEditor.model.projectRegistered.disconnect(self.__factoryScriptEditor_model_projectRegistered)
 		return True
 
 	@core.executionTrace
@@ -526,6 +533,20 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return True
 
 	@core.executionTrace
+	def __view__expanded(self, index):
+		"""
+		This method is triggered when a View item is expanded.
+
+		:param index: Expdanded item. ( QModelIndex )
+		"""
+
+		node = self.__model.getNode(index)
+		if node.family != "DirectoryNode":
+			return
+
+		self.__factoryScriptEditor._ScriptEditor__setProjectNodes(node)
+
+	@core.executionTrace
 	def __view_selectionModel__selectionChanged(self, selectedItems, deselectedItems):
 		"""
 		This method is triggered when the View **selectionModel** has changed.
@@ -551,38 +572,46 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor:
 			return
 
-		fileNode = self.__factoryScriptEditor.model.getFileNode(editor.file)
-		if not fileNode:
+		editorNode = foundations.common.getFirstItem(self.__factoryScriptEditor.model.getEditorNodes(editor))
+		if not editorNode:
 			return
 
-		indexes = [self.__model.mapFromSource(self.__model.sourceModel().getNodeIndex(fileNode))]
+		indexes = [self.__model.mapFromSource(self.__model.sourceModel().getNodeIndex(editorNode.parent))]
 		self.__view.clearSelection()
 		self.__view.selectIndexes(indexes)
 
 	@core.executionTrace
-	def __factoryScriptEditor_model__fileRegistered(self, file):
+	def __factoryScriptEditor_model__fileRegistered(self, fileNode):
 		"""
 		This method is triggered by the:class:`umbra.components.factory.scriptEditor.scriptEditor` class
 		Model when a file is registered.
 		
-		:param file: File registered. ( String )
+		:param fileNode: Registered file FileNode. ( FileNode )
 		"""
 
-		fileNode = self.__factoryScriptEditor.model.getFileNode(file)
-		basename = os.path.basename(fileNode.path)
-		fileNode.roles.update({Qt.DisplayRole : "<span>{0}</span>".format(basename),
-								Qt.EditRole : basename})
+		fileNode.roles.update({Qt.DisplayRole : "<span>{0}</span>".format(fileNode.name),
+								Qt.EditRole : fileNode.name})
 
 	@core.executionTrace
-	def __factoryScriptEditor_model__editorRegistered(self, editor):
+	def __factoryScriptEditor_model__editorRegistered(self, editorNode):
 		"""
 		This method is triggered by the:class:`umbra.components.factory.scriptEditor.scriptEditor` class
 		Model when an editor is registered
 		
-		:param editor: Editor registered. ( Editor )
+		:param editorNode: Registered editor EditorNode. ( EditorNode )
 		"""
 
-		editorNode = self.__factoryScriptEditor.model.getEditorNode(editor)
 		editorNode.roles.update({Qt.DisplayRole : editorNode.name,
 								Qt.EditRole : editorNode.name})
 
+	@core.executionTrace
+	def __factoryScriptEditor_model_projectRegistered(self, projectNode):
+		"""
+		This method is triggered by the:class:`umbra.components.factory.scriptEditor.scriptEditor` class
+		Model when a project is registered
+		
+		:param projectNode: Registered project ProjectNode. ( ProjectNode )
+		"""
+
+		projectNode.roles.update({Qt.DisplayRole : "<b>{0}</b>".format(projectNode.name),
+										Qt.EditRole : projectNode.name})

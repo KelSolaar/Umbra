@@ -597,12 +597,14 @@ class GraphModel(QAbstractItemModel):
 
 	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def listFamily(self, family):
+	def findFamily(self, pattern=r".*", flags=0, node=None):
 		"""
 		This method returns the nodes from given family.
 		
-		:param family: Family to retrieve nodes from. ( String )
+		:param pattern: Matching pattern. ( String )
+		:param flags: Matching regex flags. ( Integer )
+		:param node: Node to start walking from. (  AbstractNode / AbstractCompositeNode / Object )
 		:return: Family nodes. ( List )
 		"""
 
-		return [node for node in foundations.walkers.nodesWalker(self.__rootNode) if node.family == family]
+		return self.__rootNode.findFamily(pattern, flags, node or self.__rootNode)

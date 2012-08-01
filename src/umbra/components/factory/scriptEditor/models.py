@@ -38,6 +38,7 @@ import umbra.ui.nodes
 from umbra.components.factory.scriptEditor.editor import Editor
 from umbra.components.factory.scriptEditor.editor import Language
 from umbra.components.factory.scriptEditor.nodes import ProjectNode
+from umbra.components.factory.scriptEditor.nodes import DirectoryNode
 from umbra.components.factory.scriptEditor.nodes import EditorNode
 from umbra.components.factory.scriptEditor.nodes import FileNode
 from umbra.components.factory.scriptEditor.nodes import PatternNode
@@ -70,46 +71,60 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	Component Interface class. 
 	"""
 
-	fileRegistered = pyqtSignal(str)
+	fileRegistered = pyqtSignal(FileNode)
 	"""
 	This signal is emited by the :class:`ProjectsModel` class when a file is registered. ( pyqtSignal )
 
-	:return: Registered file. ( String )	
+	:return: Registered file FileNode. ( FileNode )	
 	"""
 
-	fileUnregistered = pyqtSignal(str)
+	fileUnregistered = pyqtSignal(FileNode)
 	"""
 	This signal is emited by the :class:`ProjectsModel` class when a file is unregistered. ( pyqtSignal )
 
-	:return: Unregistered file. ( String )	
+	:return: Unregistered file FileNode. ( FileNode )	
 	"""
 
-	editorRegistered = pyqtSignal(Editor)
+	editorRegistered = pyqtSignal(EditorNode)
 	"""
 	This signal is emited by the :class:`ProjectsModel` class when an editor is registered. ( pyqtSignal )
 
-	:return: Registered editor. ( Editor )	
+	:return: Registered editor EditorNode. ( EditorNode )	
 	"""
 
-	editorUnregistered = pyqtSignal(Editor)
+	editorUnregistered = pyqtSignal(EditorNode)
 	"""
 	This signal is emited by the :class:`ProjectsModel` class when an editor is unregistered. ( pyqtSignal )
 
-	:return: Unregistered editor. ( Editor )	
+	:return: Unregistered editor EditorNode. ( EditorNode )	
 	"""
 
-	projectRegistered = pyqtSignal(str)
+	directoryRegistered = pyqtSignal(DirectoryNode)
+	"""
+	This signal is emited by the :class:`ProjectsModel` class when a directory is registered. ( pyqtSignal )
+
+	:return: Registered directory DirectoryNode. ( DirectoryNode )	
+	"""
+
+	directoryUnregistered = pyqtSignal(DirectoryNode)
+	"""
+	This signal is emited by the :class:`ProjectsModel` class when a directory is unregistered. ( pyqtSignal )
+
+	:return: Unregistered directory DirectoryNode. ( DirectoryNode )	
+	"""
+
+	projectRegistered = pyqtSignal(ProjectNode)
 	"""
 	This signal is emited by the :class:`ProjectsModel` class when a project is registered. ( pyqtSignal )
 
-	:return: Registered project. ( String )	
+	:return: Registered project ProjectNode. ( ProjectNode )	
 	"""
 
-	projectUnregistered = pyqtSignal(str)
+	projectUnregistered = pyqtSignal(ProjectNode)
 	"""
 	This signal is emited by the :class:`ProjectsModel` class when a project is unregistered. ( pyqtSignal )
 
-	:return: Unregistered project. ( String )	
+	:return: Unregistered project ProjectNode. ( ProjectNode )	
 	"""
 
 	@core.executionTrace
@@ -234,69 +249,75 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def listEditorNodes(self):
+	def listEditorNodes(self, node=None):
 		"""
-		This method returns the Model :class:`EditorNode` nodes.
+		This method returns the Model :class:`umbra.components.factory.scriptEditor.nodes.EditorNode` class nodes.
 		
+		:param node: Node to start walking from. (  AbstractNode / AbstractCompositeNode / Object )
 		:return: EditorNode nodes. ( List )
 		"""
 
-		return self.listFamily("EditorNode")
+		return self.findFamily("EditorNode", node=node or self.__defaultProjectNode)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def listFileNodes(self):
+	def listFileNodes(self, node=None):
 		"""
-		This method returns the Model :class:`FileNode` nodes.
+		This method returns the Model :class:`umbra.components.factory.scriptEditor.nodes.FileNode` class nodes.
 		
+		:param node: Node to start walking from. (  AbstractNode / AbstractCompositeNode / Object )
 		:return: FileNode nodes. ( List )
 		"""
 
-		return self.listFamily("FileNode")
+		return self.findFamily("FileNode", node=node or self.__defaultProjectNode)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listDirectoryNodes(self):
 		"""
-		This method returns the Model :class:`DirectoryNode` nodes.
+		This method returns the Model :class:`umbra.components.factory.scriptEditor.nodes.DirectoryNode` class nodes.
 		
 		:return: DirectoryNode nodes. ( List )
 		"""
 
-		return self.listFamily("DirectoryNode")
+		return self.findFamily("DirectoryNode")
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listProjectNodes(self):
 		"""
-		This method returns the Model :class:`ProjectNode` nodes.
+		This method returns the Model :class:`umbra.components.factory.scriptEditor.nodes.ProjectNode` class nodes.
 		
 		:return: ProjectNode nodes. ( List )
 		"""
 
-		return self.listFamily("ProjectNode")
+		return self.findFamily("ProjectNode")
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def listEditors(self):
+	def listEditors(self, node=None):
 		"""
 		This method returns the Model editors.
 		
+		:param node: Node to start walking from. (  AbstractNode / AbstractCompositeNode / Object )
 		:return: Editors. ( List )
 		"""
 
-		return [editorNode.editor for editorNode in self.listFamily("EditorNode") if editorNode.editor]
+		return [editorNode.editor for editorNode in self.findFamily("EditorNode", node=node or self.__defaultProjectNode) \
+				if editorNode.editor]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def listFiles(self):
+	def listFiles(self, node=None):
 		"""
 		This method returns the Model files.
 		
+		:param node: Node to start walking from. (  AbstractNode / AbstractCompositeNode / Object )
 		:return: FileNode nodes. ( List )
 		"""
 
-		return [fileNode.path for fileNode in self.listFamily("FileNode") if fileNode.path]
+		return [fileNode.path for fileNode in self.findFamily("FileNode", node=node or self.__defaultProjectNode) \
+				if fileNode.path]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -307,7 +328,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		:return: DirectoryNode nodes. ( List )
 		"""
 
-		return [directoryNode.path for directoryNode in self.listFamily("DirectoryNode") if directoryNode.path]
+		return [directoryNode.path for directoryNode in self.findFamily("DirectoryNode") if directoryNode.path]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -322,73 +343,53 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getEditorNode(self, editor):
+	def getEditorNodes(self, editor, node=None):
 		"""
-		This method returns the :class:`EditorNode` node with given editor.
+		This method returns the :class:`umbra.components.factory.scriptEditor.nodes.EditorNode` class nodes with given editor.
 		
+		:param node: Node to start walking from. (  AbstractNode / AbstractCompositeNode / Object )
 		:param editor: Editor. ( Editor )
-		:return: EditorNode node. ( EditorNode )
+		:return: EditorNode nodes. ( List )
 		"""
 
-		for editorNode in self.listEditorNodes():
-			if editorNode.editor == editor:
-				return editorNode
+		return [editorNode for editorNode in self.listEditorNodes(node) if editorNode.editor == editor]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getFileNode(self, path):
+	def getFileNodes(self, path, node=None):
 		"""
-		This method returns the :class:`FileNode` node with given path.
+		This method returns the :class:`umbra.components.factory.scriptEditor.nodes.FileNode` class nodes with given path.
 		
+		:param node: Node to start walking from. (  AbstractNode / AbstractCompositeNode / Object )
 		:param path: File path. ( String )
-		:return: FileNode node. ( FileNode )
+		:return: FileNode nodes. ( List )
 		"""
 
-		for fileNode in self.listFileNodes():
-			if fileNode.path == path:
-				return fileNode
+		return [fileNode for fileNode in self.listFileNodes(node) if fileNode.path == path]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getDirectoryNode(self, path):
+	def getDirectoryNodes(self, path):
 		"""
-		This method returns the :class:`DirectoryNode` node with given path.
+		This method returns the :class:`umbra.components.factory.scriptEditor.nodes.DirectoryNode` class nodes with given path.
 		
 		:param path: Directory path. ( String )
-		:return: DirectoryNode node. ( DirectoryNode )
+		:return: DirectoryNode nodes. ( List )
 		"""
 
-		for directoryNode in self.listDirectoryNodes():
-			if directoryNode.path == path:
-				return directoryNode
+		return [directoryNode for directoryNode in self.listDirectoryNodes() if directoryNode.path == path]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getProjectNode(self, path):
+	def getProjectNodes(self, path):
 		"""
-		This method returns the :class:`ProjectNode` node with given path.
+		This method returns the :class:`umbra.components.factory.scriptEditor.nodes.ProjectNode` class nodes with given path.
 		
 		:param path: Project path. ( String )
-		:return: ProjectNode node. ( ProjectNode )
+		:return: ProjectNode nodes. ( List )
 		"""
 
-		for projectNode in self.listProjectNodes():
-			if projectNode.path == path:
-				return projectNode
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def getEditor(self, file):
-		"""
-		This method returns the Model editor associated with given file.
-
-		:param file: File to search editors for. ( String )
-		:return: Editor. ( Editor )
-		"""
-
-		for editor in self.listEditors():
-			if editor.file == file:
-				return editor
+		return [projectNode for projectNode in self.listProjectNodes() if projectNode.path == path]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -411,10 +412,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		self.endRemoveRows()
 
 		startIndex = parent.childrenCount() - 1
-		if toIndex == 0:
-			endIndex = 0
-		else:
-			endIndex = toIndex - 1
+		endIndex = 0 if toIndex == 0 else toIndex - 1
 
 		tail = []
 		for i in range(startIndex, endIndex, -1):
@@ -434,50 +432,51 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def registerFile(self, file, parent):
+	def registerFile(self, file, parent, ensureUniqueness=False):
 		"""
 		This method registers given file in the Model.
 		
 		:param file: File to register. ( String )
 		:param parent: FileNode parent. ( GraphModelNode )
+		:param ensureUniqueness: Ensure registrar uniqueness. ( Boolean )
 		:return: FileNode. ( FileNode )
 		"""
 
-		if self.getFileNode(file):
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' file is already registered!".format(
-			self.__class__.__name__, file))
+		if ensureUniqueness:
+			if self.getFileNodes(file):
+				raise foundations.exceptions.ProgrammingError("{0} | '{1}' file is already registered!".format(
+				self.__class__.__name__, file))
 
 		LOGGER.debug("> Registering '{0}' file.".format(file))
 
 		row = parent.childrenCount()
 		self.beginInsertRows(self.getNodeIndex(parent), row, row)
-		fileNode = FileNode(file, parent=parent)
+		fileNode = FileNode(name=os.path.basename(file),
+							path=file,
+							parent=parent)
 		self.endInsertRows()
 
-		self.fileRegistered.emit(file)
+		self.fileRegistered.emit(fileNode)
 
 		return fileNode
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def unregisterFile(self, file, raiseException=True):
+	def unregisterFile(self, fileNode, raiseException=False):
 		"""
-		This method unregisters given file from the Model.
+		This method unregisters given :class:`umbra.components.factory.scriptEditor.nodes.FileNode` class node from the Model.
 		
-		:param file: File to unregister. ( String )
+		:param fileNode: FileNode to unregister. ( FileNode )
 		:param raiseException: Raise the exception. ( Boolean )
 		:return: FileNode. ( FileNode )
 		"""
 
-		fileNode = self.getFileNode(file)
-		if not fileNode:
-			if not raiseException:
-				return
+		if raiseException:
+			if not fileNode in self.listFileNodes():
+				raise foundations.exceptions.ProgrammingError("{0} | '{1}' file 'FileNode' isn't registered!".format(
+				self.__class__.__name__, fileNode))
 
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' file isn't registered!".format(
-			self.__class__.__name__, file))
-
-		LOGGER.debug("> Unregistering '{0}' file.".format(file))
+		LOGGER.debug("> Unregistering '{0}' file 'FileNode'.".format(fileNode))
 
 		parent = fileNode.parent
 		row = fileNode.row()
@@ -485,56 +484,86 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		parent.removeChild(row)
 		self.endRemoveRows()
 
-		self.fileUnregistered.emit(file)
+		self.fileUnregistered.emit(fileNode)
 
 		return fileNode
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def registerEditor(self, editor, parent):
+	def registerDirectory(self, directory, parent, ensureUniqueness=False):
 		"""
-		This method registers given :class:`umbra.components.factory.scriptEditor.editor.Editor` class in the Model.
+		This method registers given directory in the Model.
+		
+		:param directory: Directory to register. ( String )
+		:param parent: DirectoryNode parent. ( GraphModelNode )
+		:param ensureUniqueness: Ensure registrar uniqueness. ( Boolean )
+		:return: DirectoryNode. ( DirectoryNode )
+		"""
+
+		if ensureUniqueness:
+			if self.getDirectoryNodes(directory):
+				raise foundations.exceptions.ProgrammingError("{0} | '{1}' directory is already registered!".format(
+				self.__class__.__name__, directory))
+
+		LOGGER.debug("> Registering '{0}' directory.".format(directory))
+
+		row = parent.childrenCount()
+		self.beginInsertRows(self.getNodeIndex(parent), row, row)
+		directoryNode = DirectoryNode(name=os.path.basename(directory),
+									path=directory,
+									parent=parent)
+		self.endInsertRows()
+
+		self.directoryRegistered.emit(directoryNode)
+
+		return directoryNode
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def registerEditor(self, editor, parent, ensureUniqueness=False):
+		"""
+		This method registers given :class:`umbra.components.factory.scriptEditor.editor.Editor` class editor in the Model.
 		
 		:param editor: Editor to register. ( Editor )
 		:param parent: EditorNode parent. ( GraphModelNode )
+		:param ensureUniqueness: Ensure registrar uniqueness. ( Boolean )
 		:return: EditorNode. ( EditorNode )
 		"""
 
-		if self.getEditorNode(editor):
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' editor is already registered!".format(
-			self.__class__.__name__, editor))
+		if ensureUniqueness:
+			if self.getEditorNodes(editor):
+				raise foundations.exceptions.ProgrammingError("{0} | '{1}' editor is already registered!".format(
+				self.__class__.__name__, editor))
 
 		LOGGER.debug("> Registering '{0}' editor.".format(editor))
 
 		row = parent.childrenCount()
 		self.beginInsertRows(self.getNodeIndex(parent), row, row)
-		editorNode = EditorNode(editor, parent=parent)
+		editorNode = EditorNode(editor=editor,
+								parent=parent)
 		self.endInsertRows()
 
-		self.editorRegistered.emit(editor)
+		self.editorRegistered.emit(editorNode)
 
 		return editorNode
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def unregisterEditor(self, editor, raiseException=True):
+	def unregisterEditor(self, editorNode, raiseException=False):
 		"""
-		This method unregisters given :class:`umbra.components.factory.scriptEditor.editor.Editor` class from the Model.
+		This method unregisters given :class:`umbra.components.factory.scriptEditor.nodes.EditorNode` class node from the Model.
 		
-		:param editor: Editor to unregister. ( String )
+		:param editorNode: EditorNode to unregister. ( EditorNode )
 		:param raiseException: Raise the exception. ( Boolean )
 		:return: EditorNode. ( EditorNode )
 		"""
 
-		editorNode = self.getEditorNode(editor)
-		if not editorNode:
-			if not raiseException:
-				return
+		if raiseException:
+			if not editorNode in self.listEditorNodes():
+				raise foundations.exceptions.ProgrammingError("{0} | '{1}' editor 'EditorNode' isn't registered!".format(
+				self.__class__.__name__, editorNode))
 
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' editor isn't registered!".format(
-			self.__class__.__name__, editor))
-
-		LOGGER.debug("> Unregistering '{0}' editor.".format(editor))
+		LOGGER.debug("> Unregistering '{0}' editor 'EditorNode'.".format(editorNode))
 
 		parent = editorNode.parent
 		row = editorNode.row()
@@ -542,23 +571,25 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		parent.removeChild(row)
 		self.endRemoveRows()
 
-		self.editorUnregistered.emit(editor)
+		self.editorUnregistered.emit(editorNode)
 
 		return editorNode
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def registerProject(self, path):
+	def registerProject(self, path, ensureUniqueness=False):
 		"""
 		This method registers given path in the Model as a project.
 
 		:param path: Project path to register. ( String )
+		:param ensureUniqueness: Ensure registrar uniqueness. ( Boolean )
 		:return: ProjectNode. ( ProjectNode )		
 		"""
 
-		if self.getProjectNode(path):
-			raise foundations.exceptions.ProgrammingError("{0} | '{1}' project is already registered!".format(
-			self.__class__.__name__, path))
+		if ensureUniqueness:
+			if self.getProjectNodes(path):
+				raise foundations.exceptions.ProgrammingError("{0} | '{1}' project is already registered!".format(
+				self.__class__.__name__, path))
 
 		LOGGER.debug("> Registering '{0}' project.".format(path))
 
@@ -571,7 +602,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 								attributesFlags=int(Qt.ItemIsEnabled))
 		self.endInsertRows()
 
-		self.projectRegistered.emit(path)
+		self.projectRegistered.emit(projectNode)
 
 		return projectNode
 
