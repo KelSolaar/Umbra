@@ -154,9 +154,9 @@ class Projects_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		:param model: Model to set. ( QObject )
 		"""
 
+		LOGGER.debug("> Setting '{0}' model.".format(model))
+
 		if not model:
 			return
-
-		LOGGER.debug("> Setting '{0}' model.".format(model))
 
 		umbra.ui.views.Abstract_QTreeView.setModel(self, model)

@@ -470,6 +470,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		# Signals / Slots.
 		self.__view.expanded.connect(self.__view__expanded)
+		self.__view.doubleClicked.connect(self.__view__doubleClicked)
 		self.__view.selectionModel().selectionChanged.connect(self.__view_selectionModel__selectionChanged)
 		self.__factoryScriptEditor.Script_Editor_tabWidget.currentChanged.connect(
 		self.__factoryScriptEditor_Script_Editor_tabWidget__currentChanged)
@@ -547,6 +548,20 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__factoryScriptEditor._ScriptEditor__setProjectNodes(node)
 
 	@core.executionTrace
+	def __view__doubleClicked(self, index):
+		"""
+		This method is triggered when a View Widget is double clicked.
+
+		:param index: Clicked item index. ( QModelIndex )
+		"""
+
+		node = self.__model.getNode(index)
+		if not node.family == "FileNode":
+			return
+
+		self.__factoryScriptEditor.loadFile(node.path)
+
+	@core.executionTrace
 	def __view_selectionModel__selectionChanged(self, selectedItems, deselectedItems):
 		"""
 		This method is triggered when the View **selectionModel** has changed.
@@ -615,3 +630,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		projectNode.roles.update({Qt.DisplayRole : "<b>{0}</b>".format(projectNode.name),
 										Qt.EditRole : projectNode.name})
+
+		index = self.__model.mapFromSource(self.__factoryScriptEditor.model.getNodeIndex(projectNode))
+		self.__view.setExpanded(index, True)
+

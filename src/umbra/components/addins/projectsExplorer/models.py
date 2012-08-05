@@ -87,7 +87,7 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getAttribute(self, *args):
 		"""
-		This method is an implementation requisite method.
+		This method reimplements requisite method.
 		"""
 
 		pass

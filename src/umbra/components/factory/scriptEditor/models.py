@@ -520,6 +520,34 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def unregisterDirectory(self, directoryNode, raiseException=False):
+		"""
+		This method unregisters given :class:`umbra.components.factory.scriptEditor.nodes.DirectoryNode` class node from the Model.
+		
+		:param directoryNode: DirectoryNode to unregister. ( DirectoryNode )
+		:param raiseException: Raise the exception. ( Boolean )
+		:return: DirectoryNode. ( DirectoryNode )
+		"""
+
+		if raiseException:
+			if not directoryNode in self.listDirectoryNodes():
+				raise foundations.exceptions.ProgrammingError("{0} | '{1}' directory 'DirectoryNode' isn't registered!".format(
+				self.__class__.__name__, directoryNode))
+
+		LOGGER.debug("> Unregistering '{0}' directory 'DirectoryNode'.".format(directoryNode))
+
+		parent = directoryNode.parent
+		row = directoryNode.row()
+		self.beginRemoveRows(self.getNodeIndex(parent), row, row)
+		parent.removeChild(row)
+		self.endRemoveRows()
+
+		self.directoryUnregistered.emit(directoryNode)
+
+		return directoryNode
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def registerEditor(self, editor, parent, ensureUniqueness=False):
 		"""
 		This method registers given :class:`umbra.components.factory.scriptEditor.editor.Editor` class editor in the Model.
@@ -603,6 +631,34 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		self.endInsertRows()
 
 		self.projectRegistered.emit(projectNode)
+
+		return projectNode
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def unregisterProject(self, projectNode, raiseException=False):
+		"""
+		This method unregisters given :class:`umbra.components.factory.scriptProject.nodes.ProjectNode` class node from the Model.
+		
+		:param projectNode: ProjectNode to unregister. ( ProjectNode )
+		:param raiseException: Raise the exception. ( Boolean )
+		:return: ProjectNode. ( ProjectNode )
+		"""
+
+		if raiseException:
+			if not projectNode in self.listProjectNodes():
+				raise foundations.exceptions.ProgrammingError("{0} | '{1}' project 'ProjectNode' isn't registered!".format(
+				self.__class__.__name__, projectNode))
+
+		LOGGER.debug("> Unregistering '{0}' project 'ProjectNode'.".format(projectNode))
+
+		parent = projectNode.parent
+		row = projectNode.row()
+		self.beginRemoveRows(self.getNodeIndex(parent), row, row)
+		parent.removeChild(row)
+		self.endRemoveRows()
+
+		self.projectUnregistered.emit(projectNode)
 
 		return projectNode
 

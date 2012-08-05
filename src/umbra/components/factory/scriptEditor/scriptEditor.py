@@ -2841,6 +2841,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				if path in paths:
 					continue
 
+				if foundations.common.isBinaryFile(path):
+					continue
+
 				fileNode = self.__model.registerFile(path, parentNode)
 		return True
 
@@ -3082,11 +3085,31 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not foundations.common.pathExists(path):
 			return
 
+		if self.__model.getProjectNodes(path):
+			self.__engine.notificationsManager.warnify(
+			"{0} | '{1}' project is already opened!".format(self.__class__.__name__, path))
+			return
+
 		projectNode = self.__model.registerProject(path)
 		if not projectNode:
 			return
 
 		self.__setProjectNodes(projectNode)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def removeProject(self, path):
+		"""
+		:return: Method success. ( Boolean )
+		"""
+
+		projectNode = foundations.common.getFirstItem(self.__model.getProjectNodes(path))
+		if not projectNode:
+			self.__engine.notificationsManager.warnify(
+			"{0} | '{1}' project is not opened!".format(self.__class__.__name__, path))
+			return
+
+		self.__model.unregisterProject(projectNode)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -3182,7 +3205,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
+											False,
+											foundations.exceptions.UserError)
 	def saveFileAs(self):
 		"""
 		This method saves current **Script_Editor_tabWidget** Widget tab Model editor file as user chosen file.
@@ -3201,7 +3226,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		candidateEditor = self.getEditor(file)
 		if candidateEditor:
 			if not candidateEditor is editor:
-				raise Exception("{0} | '{1}' file is already opened!".format(
+				raise foundations.exceptions.UserError("{0} | '{1}' file is already opened!".format(
 				self.__class__.__name__, file))
 			else:
 				return self.saveFile(file)
