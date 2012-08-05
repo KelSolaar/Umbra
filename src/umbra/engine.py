@@ -21,6 +21,7 @@
 #**********************************************************************************************************************
 import collections
 import functools
+import gc
 import inspect
 import logging
 import os
@@ -1575,6 +1576,18 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.Application_Progress_Status_processing.Processing_progressBar.setValue(0)
 		self.Application_Progress_Status_processing.hide()
 		return True
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def garbageCollect(self):
+		"""
+		This method triggers the garbage collecting.
+
+		:return: Number of unreachable objects found. ( Integer )
+		"""
+
+		LOGGER.debug("> Garbage collecting!")
+
+		return gc.collect()
 
 	@core.executionTrace
 	def quit(self, exitCode=0, event=None):
