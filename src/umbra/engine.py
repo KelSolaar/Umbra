@@ -37,7 +37,6 @@ from PyQt4.QtCore import Qt
 from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtGui import QApplication
 from PyQt4.QtGui import QPixmap
-from PyQt4.QtGui import QWidget
 
 #**********************************************************************************************************************
 #***	Path manipulations.
