@@ -625,9 +625,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		self.beginInsertRows(self.getNodeIndex(self.rootNode,), row, row)
 		projectNode = ProjectNode(name=os.path.basename(path),
 								path=path,
-								parent=self.rootNode,
-								nodeFlags=int(Qt.ItemIsEnabled),
-								attributesFlags=int(Qt.ItemIsEnabled))
+								parent=self.rootNode)
 		self.endInsertRows()
 
 		self.projectRegistered.emit(projectNode)

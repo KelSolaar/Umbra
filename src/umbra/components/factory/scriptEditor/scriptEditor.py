@@ -1662,6 +1662,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		slot=self.__sourceFileAction__triggered))
 		self.__fileMenu.addSeparator()
 		self.__fileMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&File|Add Project ...",
+		slot=self.__addProjectAction__triggered))
+		self.__fileMenu.addSeparator()
+		self.__fileMenu.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|&File|&Save",
 		shortcut=QKeySequence.Save,
 		slot=self.__saveFileAction__triggered))
@@ -2060,6 +2064,17 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		if self.loadFileUi():
 			return self.evaluateScript()
+
+	@core.executionTrace
+	def __addProjectAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Add Project ...'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.addProjectUi()
 
 	@core.executionTrace
 	def __saveFileAction__triggered(self, checked):
@@ -2858,12 +2873,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:note: This method may require user interaction.
 		"""
 
-		browsedPath = RuntimeGlobals.lastBrowsedPath
 		editor = self.getCurrentEditor()
 		file = editor and editor.file or None
-		if foundations.common.pathExists(file):
-			browsedPath = os.path.dirname(file)
 
+		browsedPath = os.path.dirname(file) if foundations.common.pathExists(file) else RuntimeGlobals.lastBrowsedPath
 		files = umbra.ui.common.storeLastBrowsedPath(QFileDialog.getOpenFileNames(self,
 																				"Load File(s):",
 																				browsedPath,
@@ -2875,6 +2888,25 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		for file in files:
 			success *= self.loadFile(file)
 		return success
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
+	def addProjectUi(self):
+		"""
+		This method adds user chosen project **Script_Editor_tabWidget** Widget tab Model.
+
+		:return: Method success. ( Boolean )
+		
+		:note: This method may require user interaction.
+		"""
+
+		directory = umbra.ui.common.storeLastBrowsedPath(QFileDialog.getExistingDirectory(self,
+																				"Add Project:",
+																				RuntimeGlobals.lastBrowsedPath))
+		if not directory:
+			return
+
+		self.addProject(directory)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
@@ -3079,6 +3111,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addProject(self, path):
 		"""
+		This method adds a project.
+		
+		:param path: Project path. ( String )
 		:return: Method success. ( Boolean )
 		"""
 
@@ -3094,12 +3129,15 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not projectNode:
 			return
 
-		self.__setProjectNodes(projectNode)
+		return self.__setProjectNodes(projectNode)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeProject(self, path):
 		"""
+		This method removes a project.
+		
+		:param path: Project path. ( String )
 		:return: Method success. ( Boolean )
 		"""
 
@@ -3109,7 +3147,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			"{0} | '{1}' project is not opened!".format(self.__class__.__name__, path))
 			return
 
-		self.__model.unregisterProject(projectNode)
+		return self.__model.unregisterProject(projectNode)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

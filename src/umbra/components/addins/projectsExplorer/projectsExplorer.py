@@ -20,6 +20,7 @@
 import logging
 import os
 from PyQt4.QtCore import Qt
+from PyQt4.QtGui import QAction
 
 #**********************************************************************************************************************
 #***	Internal imports.
@@ -465,8 +466,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Projects_Explorer_treeView = Projects_QTreeView(self, self.__model)
 		self.Projects_Explorer_treeView.setItemDelegate(self.__delegate)
 		self.Projects_Explorer_treeView.setObjectName("Projects_Explorer_treeView")
+		self.Projects_Explorer_treeView.setContextMenuPolicy(Qt.ActionsContextMenu)
 		self.Projects_Explorer_dockWidgetContents_gridLayout.addWidget(self.Projects_Explorer_treeView, 0, 0)
 		self.__view = self.Projects_Explorer_treeView
+		self.__view_addActions()
 
 		# Signals / Slots.
 		self.__view.expanded.connect(self.__view__expanded)
@@ -534,6 +537,19 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return True
 
 	@core.executionTrace
+	def __view_addActions(self):
+		"""
+		This method sets the View actions.
+		"""
+
+		self.__view.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|addins.projectsExplorer|Add Project ...",
+		slot=self.__view_addProjectAction__triggered))
+		self.__view.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|addins.projectsExplorer|Remove Project",
+		slot=self.__view_removeProjectAction__triggered))
+
+	@core.executionTrace
 	def __view__expanded(self, index):
 		"""
 		This method is triggered when a View item is expanded.
@@ -571,7 +587,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		for node in self.__view.getSelectedNodes():
-			if isinstance(node, FileNode):
+			if node.family == "FileNode":
 				self.__factoryScriptEditor.setCurrentEditor(node.path)
 
 	@core.executionTrace
@@ -634,3 +650,35 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		index = self.__model.mapFromSource(self.__factoryScriptEditor.model.getNodeIndex(projectNode))
 		self.__view.setExpanded(index, True)
 
+	@core.executionTrace
+	def __view_addProjectAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|addins.projectsExplorer|Add Project ...'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.__factoryScriptEditor.addProjectUi()
+
+	@core.executionTrace
+	def __view_removeProjectAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|addins.projectsExplorer|Remove Project'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		node = foundations.common.getFirstItem(self.__view.getSelectedNodes().iterkeys())
+		if not node:
+			return
+
+		if node.family == "ProjectNode":
+			self.__factoryScriptEditor.removeProject(node.path)
+			return
+
+		for node in foundations.walkers.nodesWalker(node, ascendants=True):
+			if node.family == "ProjectNode" and not node is self.__factoryScriptEditor.model.defaultProjectNode:
+				self.__factoryScriptEditor.removeProject(node.path)
+				return
