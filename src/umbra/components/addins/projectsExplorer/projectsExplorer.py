@@ -20,7 +20,6 @@
 import logging
 import os
 from PyQt4.QtCore import Qt
-from PyQt4.QtGui import QAction
 
 #**********************************************************************************************************************
 #***	Internal imports.
@@ -31,7 +30,6 @@ from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.globals.constants import Constants
 from umbra.components.addins.projectsExplorer.models import ProjectsProxyModel
 from umbra.components.addins.projectsExplorer.views import Projects_QTreeView
-from umbra.components.factory.scriptEditor.nodes import FileNode
 from umbra.ui.delegates import RichText_QStyledItemDelegate
 from umbra.ui.delegates import Style
 
@@ -493,16 +491,20 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Uninitializing '{0}' Component ui.".format(self.__class__.__name__))
 
-		self.__model = None
-
 		# Signals / Slots.
 		self.__view.expanded.disconnect(self.__view__expanded)
+		self.__view.doubleClicked.disconnect(self.__view__doubleClicked)
 		self.__view.selectionModel().selectionChanged.disconnect(self.__view_selectionModel__selectionChanged)
 		self.__factoryScriptEditor.Script_Editor_tabWidget.currentChanged.disconnect(
 		self.__factoryScriptEditor_Script_Editor_tabWidget__currentChanged)
 		self.__factoryScriptEditor.model.fileRegistered.disconnect(self.__factoryScriptEditor_model__fileRegistered)
 		self.__factoryScriptEditor.model.editorRegistered.disconnect(self.__factoryScriptEditor_model__editorRegistered)
 		self.__factoryScriptEditor.model.projectRegistered.disconnect(self.__factoryScriptEditor_model_projectRegistered)
+
+		self.__model = None
+		self.__delegate = None
+		self.__view = None
+
 		return True
 
 	@core.executionTrace

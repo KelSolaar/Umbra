@@ -2822,7 +2822,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		:param rootNode: Root node. ( ProjectNode / DirectoryNode )
 		:param maximumDepth: Maximum nodes nesting depth. ( Integer )
-		:return: Method success. ( Boolean )
 		"""
 
 		rootDirectory = rootNode.path
@@ -2861,6 +2860,17 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 				fileNode = self.__model.registerFile(path, parentNode)
 		return True
+
+	@core.executionTrace
+	def __deleteProjectNodes(self, node):
+		"""
+		This method deletes the Model project nodes associated with given node.
+
+		:param node: Node. ( ProjectNode )
+		:return: Method success. ( Boolean )
+		"""
+
+		self.__model.unregisterProject(node)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
@@ -3125,11 +3135,13 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			"{0} | '{1}' project is already opened!".format(self.__class__.__name__, path))
 			return
 
+		LOGGER.info("{0} | Adding '{1}' project!".format(self.__class__.__name__, path))
 		projectNode = self.__model.registerProject(path)
 		if not projectNode:
 			return
 
-		return self.__setProjectNodes(projectNode)
+		self.__setProjectNodes(projectNode)
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -3147,7 +3159,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			"{0} | '{1}' project is not opened!".format(self.__class__.__name__, path))
 			return
 
-		return self.__model.unregisterProject(projectNode)
+		LOGGER.info("{0} | Removing '{1}' project!".format(self.__class__.__name__, path))
+		self.__deleteProjectNodes(projectNode)
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
