@@ -86,11 +86,11 @@ class Application_QToolBar(QToolBar):
 		self.__customLayoutsMenu = None
 		self.__miscellaneousMenu = None
 
-		self.__userLayouts = (("1", Qt.Key_1, "one"),
-							("2", Qt.Key_2, "two"),
-							("3", Qt.Key_3, "three"),
-							("4", Qt.Key_4, "four"),
-							("5", Qt.Key_5, "five"))
+		self.__userLayouts = (umbra.managers.layoutsManager.Layout(name="1", identity="one", shortcut=Qt.Key_1),
+							umbra.managers.layoutsManager.Layout(name="2", identity="two", shortcut=Qt.Key_2),
+							umbra.managers.layoutsManager.Layout(name="3", identity="three", shortcut=Qt.Key_3),
+							umbra.managers.layoutsManager.Layout(name="4", identity="four", shortcut=Qt.Key_4),
+							umbra.managers.layoutsManager.Layout(name="5", identity="five", shortcut=Qt.Key_5))
 
 		Application_QToolBar.__initializeUi(self)
 
@@ -486,22 +486,20 @@ class Application_QToolBar(QToolBar):
 
 		self.__customLayoutsMenu = QMenu("Layouts", layoutActiveLabel)
 
-		for identity, shortcut, name in self.__userLayouts:
-			self.__container.layoutsManager.registerLayout(identity, umbra.managers.layoutsManager.Layout(name=name,
-																									identity=identity,
-																									shortcut=shortcut))
+		for layout in self.__userLayouts:
+			self.__container.layoutsManager.registerLayout(layout.identity, layout)
 			self.__customLayoutsMenu.addAction(self.__container.actionsManager.registerAction(
-			"Actions|Umbra|ToolBar|Layouts|Restore layout {0}".format(identity),
-			shortcut=shortcut,
-			slot=functools.partial(self.__container.layoutsManager.restoreLayout, identity)))
+			"Actions|Umbra|ToolBar|Layouts|Restore layout {0}".format(layout.name),
+			shortcut=layout.shortcut,
+			slot=functools.partial(self.__container.layoutsManager.restoreLayout, layout.identity)))
 
 		self.__customLayoutsMenu.addSeparator()
 
-		for identity, shortcut, name in self.__userLayouts:
+		for layout in self.__userLayouts:
 			self.__customLayoutsMenu.addAction(self.__container.actionsManager.registerAction(
-			"Actions|Umbra|ToolBar|Layouts|Store layout {0}".format(identity),
-			shortcut=Qt.CTRL + shortcut,
-			slot=functools.partial(self.__container.layoutsManager.storeLayout, identity)))
+			"Actions|Umbra|ToolBar|Layouts|Store layout {0}".format(layout.name),
+			shortcut=Qt.CTRL + layout.shortcut,
+			slot=functools.partial(self.__container.layoutsManager.storeLayout, layout.identity)))
 
 		self.__customLayoutsMenu.addSeparator()
 
