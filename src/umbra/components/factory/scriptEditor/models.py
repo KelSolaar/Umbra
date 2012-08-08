@@ -412,7 +412,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		self.endRemoveRows()
 
 		startIndex = parent.childrenCount() - 1
-		endIndex = 0 if toIndex == 0 else toIndex - 1
+		endIndex = toIndex - 1
 
 		tail = []
 		for i in range(startIndex, endIndex, -1):
