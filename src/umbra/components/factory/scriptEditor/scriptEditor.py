@@ -1995,18 +1995,18 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return self.newFile()
 
 	@core.executionTrace
-	def __model__fileRegistered(self, file):
+	def __model__fileRegistered(self, fileNode):
 		"""
 		This method is triggered by the Model when a file is registered.
 		
-		:param file: File registered. ( String )
+		:param fileNode: Registered file FileNode. ( FileNode )
 		"""
 
-		file = strings.encode(file)
+		file = strings.encode(fileNode.path)
 		if not foundations.common.pathExists(file):
 			return
 
-		self.__storeRecentFile(strings.encode(file))
+		self.__storeRecentFile(file)
 		not self.__engine.fileSystemEventsManager.isPathRegistered(file) and \
 		self.__engine.fileSystemEventsManager.registerPath(file)
 
@@ -2015,7 +2015,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method is triggered by the Model when a file is unregistered.
 		
-		:param fileNode: FileNode file unregistered. ( FileNode )
+		:param fileNode: Unregistered file FileNode. ( FileNode )
 		"""
 
 		file = strings.encode(fileNode.path)
@@ -2037,7 +2037,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method is triggered by the Model when an editor is unregistered.
 		
-		:param editorNode: EditorNode editor registered. ( EditorNode )
+		:param editorNode: Unregistered editor EditorNode. ( EditorNode )
 		"""
 
 		self.removeEditorTab(editorNode.editor)
