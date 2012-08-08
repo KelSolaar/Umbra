@@ -284,14 +284,17 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def listProjectNodes(self):
+	def listProjectNodes(self, ignoreDefaultProjectNode=True):
 		"""
 		This method returns the Model :class:`umbra.components.factory.scriptEditor.nodes.ProjectNode` class nodes.
 		
+		:param ignoreDefaultProjectNode: Default ProjectNode will be ignored. (  Boolean )
 		:return: ProjectNode nodes. ( List )
 		"""
 
-		return self.findFamily("ProjectNode")
+		projectNodes = self.findFamily("ProjectNode")
+		return filter(lambda x: x != self.__defaultProjectNode, projectNodes) \
+		if ignoreDefaultProjectNode else projectNodes
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -303,8 +306,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		:return: Editors. ( List )
 		"""
 
-		return [editorNode.editor for editorNode in self.findFamily("EditorNode", node=node or self.__defaultProjectNode) \
-				if editorNode.editor]
+		return [editorNode.editor for editorNode in self.listEditorNodes(node) 	if editorNode.editor]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -316,8 +318,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		:return: FileNode nodes. ( List )
 		"""
 
-		return [fileNode.path for fileNode in self.findFamily("FileNode", node=node or self.__defaultProjectNode) \
-				if fileNode.path]
+		return [fileNode.path for fileNode in self.listFileNodes(node) if fileNode.path]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -328,18 +329,19 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		:return: DirectoryNode nodes. ( List )
 		"""
 
-		return [directoryNode.path for directoryNode in self.findFamily("DirectoryNode") if directoryNode.path]
+		return [directoryNode.path for directoryNode in self.listDirectoryNodes() if directoryNode.path]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def listProjects(self):
+	def listProjects(self, ignoreDefaultProjectNode=True):
 		"""
 		This method returns the Model projects.
 		
+		:param ignoreDefaultProjectNode: Default ProjectNode will be ignored. (  Boolean )
 		:return: ProjectNode nodes. ( List )
 		"""
 
-		return [projectNode.path for projectNode in self.listFamily("ProjectNode") if projectNode.path]
+		return [projectNode.path for projectNode in self.listProjectNodes(ignoreDefaultProjectNode) if projectNode.path]
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

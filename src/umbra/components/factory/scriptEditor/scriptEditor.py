@@ -1542,6 +1542,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__engine.layoutsManager.layoutRestored.connect(self.__engine__layoutRestored)
 		self.__engine.contentDropped.connect(self.__engine__contentDropped)
 		self.__engine.fileSystemEventsManager.fileChanged.connect(self.__fileSystemEventsManager__fileChanged)
+		self.__engine.fileSystemEventsManager.directoryChanged.connect(self.__fileSystemEventsManager__directoryChanged)
+		self.__engine.fileSystemEventsManager.directoryInvalidated.connect(self.__fileSystemEventsManager__directoryInvalidated)
 		self.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
 		self.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
 		self.Script_Editor_tabWidget.contentDropped.connect(self.__Script_Editor_tabWidget__contentDropped)
@@ -1964,7 +1966,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __fileSystemEventsManager__fileChanged(self, file):
 		"""
-		This method is triggered by the :obj:`ScriptEditor.fileSystemWatcher` class property when a file is changed.
+		This method is triggered by the **fileSystemWatcher** manager when a file is changed.
 		
 		:param file: File changed. ( String )
 		"""
@@ -1972,6 +1974,28 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Reloading '{0}'changed  file.".format(file))
 
 		self.reloadFile(file)
+
+	@core.executionTrace
+	def __fileSystemEventsManager__directoryChanged(self, directory):
+		"""
+		This method is triggered by the **fileSystemWatcher** manager when a directory is changed.
+		
+		:param directory: Directory changed. ( String )
+		"""
+
+		for projectNode in self.__model.listProjectNodes():
+			if projectNode.path == directory:
+				print projectNode.path
+
+	@core.executionTrace
+	def __fileSystemEventsManager__directoryInvalidated(self, directory):
+		"""
+		This method is triggered by the **fileSystemWatcher** manager when a directory is invalidated.
+		
+		:param directory: Directory invalidated. ( String )
+		"""
+
+		pass
 
 	@core.executionTrace
 	def __scriptEditor__visibilityChanged(self, visibility):
@@ -2825,6 +2849,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		rootDirectory = rootNode.path
+		not self.__engine.fileSystemEventsManager.isPathRegistered(rootDirectory) and \
+		self.__engine.fileSystemEventsManager.registerPath(rootDirectory)
+
 		for parentDirectory, directories, files in foundations.walkers.depthWalker(rootDirectory, maximumDepth):
 			if parentDirectory == rootDirectory:
 				parentNode = rootNode
@@ -2846,6 +2873,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 					continue
 
 				directoryNode = self.__model.registerDirectory(path, parentNode)
+				not self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
+				self.__engine.fileSystemEventsManager.registerPath(path)
 
 			for file in files:
 				if file.startswith("."):
@@ -3430,7 +3459,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def listProjects(self):
+	def listProjects(self, ignoreDefaultProject=True):
 		"""
 		This method returns the Model projects.
 		
@@ -3583,6 +3612,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 			session.append(file)
 
+		for directory in self.listProjects():
+			if not os.path.exists(directory):
+				continue
+
+			session.append(directory)
+
 		LOGGER.debug("> Storing session :'{0}'.".format(session))
 		self.__settings.setKey(self.__settingsSection, "session", session)
 		return True
@@ -3596,12 +3631,16 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		session = [strings.encode(file)
-					for file in self.__settings.getKey(self.__settingsSection, "session").toStringList()
-					if foundations.common.pathExists(file)]
+		session = [strings.encode(path)
+					for path in self.__settings.getKey(self.__settingsSection, "session").toStringList()
+					if foundations.common.pathExists(path)]
 
 		LOGGER.debug("> Restoring session :'{0}'.".format(session))
 		success = True
-		for file in session:
-			success *= self.loadFile(file)
+		for path in session:
+			if os.path.isfile(path):
+				success *= self.loadFile(path)
+			else:
+				success *= self.addProject(path)
+
 		return success
