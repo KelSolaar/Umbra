@@ -1989,15 +1989,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		for projectNode in self.__model.listProjectNodes():
 			if projectNode.path == directory:
-				for node in reversed(projectNode.children):
-					if node.family == "DirectoryNode":
-						self.__model.unregisterDirectory(node)
-					elif node.family == "FileNode":
-						self.__model.unregisterFile(node)
-				self.__setProjectNodes(projectNode)
+				self.__updateProjectNodes(projectNode)
 			else:
 				for node in foundations.walkers.nodesWalker(projectNode):
-					print node
+					if node.path == directory:
+						self.__updateProjectNodes(node)
 
 	@core.executionTrace
 	def __fileSystemEventsManager__directoryInvalidated(self, directory):
@@ -2872,26 +2868,17 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__engine.fileSystemEventsManager.registerPath(path)
 
 	@core.executionTrace
-	def __unregisterNodePath(self, node, walk=False):
+	def __unregisterNodePath(self, node):
 		"""
 		This method unregisters given node and node children paths.
 
 		:param node: Node. ( FileNode / DirectoryNode / ProjectNode )
-		:param walk: Walk through children. ( Boolean )
 		"""
 
-		if hasattr(node, "path"):
-			path = strings.encode(node.path)
-			self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
-			self.__engine.fileSystemEventsManager.unregisterPath(path)
-
-		for node in foundations.walkers.nodesWalker(node):
-			if not hasattr(node, "path"):
-				continue
-
-			path = strings.encode(node.path)
-			self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
-			self.__engine.fileSystemEventsManager.unregisterPath(path)
+		path = strings.encode(node.path)
+		print path
+		self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
+		self.__engine.fileSystemEventsManager.unregisterPath(path)
 
 	@core.executionTrace
 	def __setEditingNodes(self, editor):
@@ -2967,19 +2954,41 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 				fileNode = self.__model.registerFile(path, parentNode)
 
-		return True
-
 	@core.executionTrace
 	def __deleteProjectNodes(self, node):
 		"""
 		This method deletes the Model project nodes associated with given node.
 
 		:param node: Node. ( ProjectNode )
-		:return: Method success. ( Boolean )
 		"""
 
-		self.__unregisterNodePath(node, walk=True)
+		self.__unregisterProjectNodes(node)
 		self.__model.unregisterProject(node)
+
+	@core.executionTrace
+	def __unregisterProjectNodes(self, node):
+		"""
+		This method unregisters given node children.
+		
+		:param node: Node. ( ProjectNode / DirectoryNode )
+		"""
+
+		for node in reversed(list(foundations.walkers.nodesWalker(node))):
+			if node.family == "DirectoryNode":
+				self.__model.unregisterDirectory(node)
+			elif node.family == "FileNode":
+				self.__model.unregisterFile(node)
+
+	@core.executionTrace
+	def __updateProjectNodes(self, node):
+		"""
+		This method updates given root node children.
+		
+		:param node: Node. ( ProjectNode / DirectoryNode )
+		"""
+
+		self.__unregisterProjectNodes(node)
+		self.__setProjectNodes(node)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
