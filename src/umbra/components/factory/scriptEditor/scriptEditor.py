@@ -1553,6 +1553,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.recentFilesChanged.connect(self.__setRecentFilesActions)
 		self.__model.fileRegistered.connect(self.__model__fileRegistered)
 		self.__model.fileUnregistered.connect(self.__model__fileUnregistered)
+		self.__model.directoryRegistered.connect(self.__model__directoryRegistered)
+		self.__model.directoryUnregistered.connect(self.__model__directoryUnregistered)
+		self.__model.projectRegistered.connect(self.__model__projectRegistered)
+		self.__model.projectUnregistered.connect(self.__model__projectUnregistered)
 		self.__model.editorRegistered.connect(self.__model__editorRegistered)
 		self.__model.editorUnregistered.connect(self.__model__editorUnregistered)
 		return True
@@ -1985,7 +1989,15 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		for projectNode in self.__model.listProjectNodes():
 			if projectNode.path == directory:
-				print projectNode.path
+				for node in reversed(projectNode.children):
+					if node.family == "DirectoryNode":
+						self.__model.unregisterDirectory(node)
+					elif node.family == "FileNode":
+						self.__model.unregisterFile(node)
+				self.__setProjectNodes(projectNode)
+			else:
+				for node in foundations.walkers.nodesWalker(projectNode):
+					print node
 
 	@core.executionTrace
 	def __fileSystemEventsManager__directoryInvalidated(self, directory):
@@ -1995,7 +2007,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param directory: Directory invalidated. ( String )
 		"""
 
-		pass
+		for projectNode in self.__model.listProjectNodes():
+			if projectNode.path == directory:
+				print projectNode.path
 
 	@core.executionTrace
 	def __scriptEditor__visibilityChanged(self, visibility):
@@ -2026,13 +2040,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param fileNode: Registered file FileNode. ( FileNode )
 		"""
 
-		file = strings.encode(fileNode.path)
-		if not foundations.common.pathExists(file):
-			return
-
-		self.__storeRecentFile(file)
-		not self.__engine.fileSystemEventsManager.isPathRegistered(file) and \
-		self.__engine.fileSystemEventsManager.registerPath(file)
+		self.__registerNodePath(fileNode)
 
 	@core.executionTrace
 	def __model__fileUnregistered(self, fileNode):
@@ -2042,9 +2050,47 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param fileNode: Unregistered file FileNode. ( FileNode )
 		"""
 
-		file = strings.encode(fileNode.path)
-		self.__engine.fileSystemEventsManager.isPathRegistered(file) and \
-		self.__engine.fileSystemEventsManager.unregisterPath(file)
+		self.__unregisterNodePath(fileNode)
+
+	@core.executionTrace
+	def __model__directoryRegistered(self, directoryNode):
+		"""
+		This method is triggered by the Model when a directory is registered.
+		
+		:param directoryNode: Registered directory DirectoryNode. ( DirectoryNode )
+		"""
+
+		self.__registerNodePath(directoryNode)
+
+	@core.executionTrace
+	def __model__directoryUnregistered(self, directoryNode):
+		"""
+		This method is triggered by the Model when a directory is unregistered.
+		
+		:param directoryNode: Unregistered directory DirectoryNode. ( DirectoryNode )
+		"""
+
+		self.__unregisterNodePath(directoryNode)
+
+	@core.executionTrace
+	def __model__projectRegistered(self, projectNode):
+		"""
+		This method is triggered by the Model when a project is registered.
+		
+		:param projectNode: Registered project ProjectNode. ( ProjectNode )
+		"""
+
+		self.__registerNodePath(projectNode)
+
+	@core.executionTrace
+	def __model__projectUnregistered(self, projectNode):
+		"""
+		This method is triggered by the Model when a project is unregistered.
+		
+		:param projectNode: Unregistered project ProjectNode. ( ProjectNode )
+		"""
+
+		self.__unregisterNodePath(projectNode)
 
 	@core.executionTrace
 	def __model__editorRegistered(self, editorNode):
@@ -2614,7 +2660,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.Editor_Status_editorStatus._EditorStatus__Languages_comboBox_setDefaultViewState()
 
-
 	@core.executionTrace
 	def __initializeLanguagesModel(self):
 		"""
@@ -2811,6 +2856,44 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return name
 
 	@core.executionTrace
+	def __registerNodePath(self, node):
+		"""
+		This method registers given node path.
+
+		:param node: Node. ( FileNode / DirectoryNode / ProjectNode )
+		"""
+
+		path = strings.encode(node.path)
+		if not foundations.common.pathExists(path):
+			return
+
+		path = strings.encode(node.path)
+		not self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
+		self.__engine.fileSystemEventsManager.registerPath(path)
+
+	@core.executionTrace
+	def __unregisterNodePath(self, node, walk=False):
+		"""
+		This method unregisters given node and node children paths.
+
+		:param node: Node. ( FileNode / DirectoryNode / ProjectNode )
+		:param walk: Walk through children. ( Boolean )
+		"""
+
+		if hasattr(node, "path"):
+			path = strings.encode(node.path)
+			self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
+			self.__engine.fileSystemEventsManager.unregisterPath(path)
+
+		for node in foundations.walkers.nodesWalker(node):
+			if not hasattr(node, "path"):
+				continue
+
+			path = strings.encode(node.path)
+			self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
+			self.__engine.fileSystemEventsManager.unregisterPath(path)
+
+	@core.executionTrace
 	def __setEditingNodes(self, editor):
 		"""
 		This method sets the Model editing nodes using given editor.
@@ -2849,9 +2932,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		rootDirectory = rootNode.path
-		not self.__engine.fileSystemEventsManager.isPathRegistered(rootDirectory) and \
-		self.__engine.fileSystemEventsManager.registerPath(rootDirectory)
-
 		for parentDirectory, directories, files in foundations.walkers.depthWalker(rootDirectory, maximumDepth):
 			if parentDirectory == rootDirectory:
 				parentNode = rootNode
@@ -2873,8 +2953,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 					continue
 
 				directoryNode = self.__model.registerDirectory(path, parentNode)
-				not self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
-				self.__engine.fileSystemEventsManager.registerPath(path)
 
 			for file in files:
 				if file.startswith("."):
@@ -2888,6 +2966,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 					continue
 
 				fileNode = self.__model.registerFile(path, parentNode)
+
 		return True
 
 	@core.executionTrace
@@ -2899,6 +2978,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
+		self.__unregisterNodePath(node, walk=True)
 		self.__model.unregisterProject(node)
 
 	@core.executionTrace
@@ -3143,6 +3223,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		if self.__setEditingNodes(editor):
+			self.__storeRecentFile(file)
 			self.fileLoaded.emit(file)
 			return True
 
@@ -3211,6 +3292,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.info("{0} | Creating '{1}' file!".format(self.__class__.__name__, file))
 
 		if self.__setEditingNodes(editor):
+			self.__storeRecentFile(file)
 			self.fileLoaded.emit(file)
 			return True
 
@@ -3242,6 +3324,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		if self.__setEditingNodes(editor):
+			self.__storeRecentFile(file)
 			self.fileLoaded.emit(file)
 			return True
 
