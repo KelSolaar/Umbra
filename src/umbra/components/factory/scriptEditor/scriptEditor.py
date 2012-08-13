@@ -1994,6 +1994,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				for node in foundations.walkers.nodesWalker(projectNode):
 					if node.path == directory:
 						self.__updateProjectNodes(node)
+						break
 
 	@core.executionTrace
 	def __fileSystemEventsManager__directoryInvalidated(self, directory):
@@ -2005,7 +2006,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		for projectNode in self.__model.listProjectNodes():
 			if projectNode.path == directory:
-				print projectNode.path
+				self.__model.unregisterProject(projectNode)
+				break
 
 	@core.executionTrace
 	def __scriptEditor__visibilityChanged(self, visibility):
@@ -2876,7 +2878,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		path = strings.encode(node.path)
-		print path
 		self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
 		self.__engine.fileSystemEventsManager.unregisterPath(path)
 

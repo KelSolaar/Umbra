@@ -303,14 +303,19 @@ class FileSystemEventsManager(QThread):
 
 		for path, data in self.__paths.items():
 			storedStatus, isFile = data
-			if not foundations.common.pathExists(path):
-				del(self.__paths[path])
-				LOGGER.warning(
-				"!> {0} | '{1}' path has been invalidated and will be unregistered!".format(self.__class__.__name__, path))
-				if isFile:
-					self.fileInvalidated.emit(path)
-				else:
-					self.directoryInvalidated.emit(path)
+			try:
+				if not foundations.common.pathExists(path):
+					LOGGER.warning(
+					"!> {0} | '{1}' path has been invalidated and will be unregistered!".format(self.__class__.__name__, path))
+					del(self.__paths[path])
+					if isFile:
+						self.fileInvalidated.emit(path)
+					else:
+						self.directoryInvalidated.emit(path)
+					continue
+			except KeyError:
+				LOGGER.debug("> {0} | '{1}' path has been removed while iterating over registered paths!".format(
+				self.__class__.__name__, path))
 				continue
 
 			status = os.stat(path)
