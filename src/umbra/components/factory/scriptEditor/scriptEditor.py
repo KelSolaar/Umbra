@@ -1539,11 +1539,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		# Signals / Slots.
 		self.__engine.timer.timeout.connect(self.__Script_Editor_Output_plainTextEdit_refreshUi)
-		self.__engine.layoutsManager.layoutRestored.connect(self.__engine__layoutRestored)
 		self.__engine.contentDropped.connect(self.__engine__contentDropped)
-		self.__engine.fileSystemEventsManager.fileChanged.connect(self.__fileSystemEventsManager__fileChanged)
-		self.__engine.fileSystemEventsManager.directoryChanged.connect(self.__fileSystemEventsManager__directoryChanged)
-		self.__engine.fileSystemEventsManager.directoryInvalidated.connect(self.__fileSystemEventsManager__directoryInvalidated)
+		self.__engine.layoutsManager.layoutRestored.connect(self.__engine_layoutsManager__layoutRestored)
+		self.__engine.fileSystemEventsManager.fileChanged.connect(self.__engine_fileSystemEventsManager__fileChanged)
+		self.__engine.fileSystemEventsManager.directoryChanged.connect(self.__engine_fileSystemEventsManager__directoryChanged)
+		self.__engine.fileSystemEventsManager.directoryInvalidated.connect(self.__engine_fileSystemEventsManager__directoryInvalidated)
 		self.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
 		self.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
 		self.Script_Editor_tabWidget.contentDropped.connect(self.__Script_Editor_tabWidget__contentDropped)
@@ -1948,16 +1948,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__model.moveNode(projectNode, fromIndex, toIndex)
 
 	@core.executionTrace
-	def __engine__layoutRestored(self, currentLayout):
-		"""
-		This method is triggered when the engine layout is changed.
-
-		:param currentLayout: Current layout. ( String )
-		"""
-
-		self.Editor_Status_editorStatus.setVisible(not self.isHidden())
-
-	@core.executionTrace
 	def __engine__contentDropped(self, event):
 		"""
 		This method is triggered when content is dropped into the engine.
@@ -1968,21 +1958,29 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__handleContentDroppedEvent(event)
 
 	@core.executionTrace
-	def __fileSystemEventsManager__fileChanged(self, file):
+	def __engine_layoutsManager__layoutRestored(self, currentLayout):
 		"""
-		This method is triggered by the **fileSystemWatcher** manager when a file is changed.
+		This method is triggered when the engine layout is changed.
+
+		:param currentLayout: Current layout. ( String )
+		"""
+
+		self.Editor_Status_editorStatus.setVisible(not self.isHidden())
+
+	@core.executionTrace
+	def __engine_fileSystemEventsManager__fileChanged(self, file):
+		"""
+		This method is triggered by the **fileSystemEventsManager** when a file is changed.
 		
 		:param file: File changed. ( String )
 		"""
 
-		LOGGER.debug("> Reloading '{0}'changed  file.".format(file))
-
 		self.reloadFile(file)
 
 	@core.executionTrace
-	def __fileSystemEventsManager__directoryChanged(self, directory):
+	def __engine_fileSystemEventsManager__directoryChanged(self, directory):
 		"""
-		This method is triggered by the **fileSystemWatcher** manager when a directory is changed.
+		This method is triggered by the **fileSystemEventsManager** when a directory is changed.
 		
 		:param directory: Directory changed. ( String )
 		"""
@@ -1997,9 +1995,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 						break
 
 	@core.executionTrace
-	def __fileSystemEventsManager__directoryInvalidated(self, directory):
+	def __engine_fileSystemEventsManager__directoryInvalidated(self, directory):
 		"""
-		This method is triggered by the **fileSystemWatcher** manager when a directory is invalidated.
+		This method is triggered by the **fileSystemEventsManager** when a directory is invalidated.
 		
 		:param directory: Directory invalidated. ( String )
 		"""
@@ -2726,31 +2724,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return ";;".join(languages)
 
 	@core.executionTrace
-	def __encapsulateEditorFileSystemEvents(self, editor, attribute, *args, **kwargs):
-		"""
-		This method encapsulates given editor file system events.
-		
-		:param editor: Editor to encapsulate. ( Editor )
-		:param attribute: Editor attribute to call. ( String )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		:return: Attribute value. ( Object )
-		"""
-
-		file = editor.file
-
-		if foundations.common.pathExists(file):
-			self.__engine.fileSystemEventsManager.isPathRegistered(file) and \
-			self.__engine.fileSystemEventsManager.unregisterPath(file)
-
-		value = getattr(editor, attribute)(*args, **kwargs)
-
-		if foundations.common.pathExists(file):
-			not self.__engine.fileSystemEventsManager.isPathRegistered(file) and \
-			self.__engine.fileSystemEventsManager.registerPath(file)
-		return value
-
-	@core.executionTrace
 	def __setRecentFilesActions(self):
 		"""
 		This method sets the recent files actions.
@@ -2827,6 +2800,37 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		title = editor.title
 		LOGGER.debug("> Setting '{0}' window title to tab with '{1}' index.".format(title, index))
 		self.Script_Editor_tabWidget.setTabText(index, title)
+
+	@core.executionTrace
+	def __hasEditorLock(self, editor):
+		"""
+		This method returns if given editor has a lock.
+
+		:param editor: Editor. ( Editor )
+		:return: Has editor lock. ( Boolean )
+		"""
+
+		return hasattr(editor, "__lock")
+
+	@core.executionTrace
+	def __lockEditor(self, editor):
+		"""
+		This method locks given editor.
+
+		:param editor: Editor. ( Editor )
+		"""
+
+		setattr(editor, "__lock", True)
+
+	@core.executionTrace
+	def __unlockEditor(self, editor):
+		"""
+		This method locks given editor.
+
+		:param editor: Editor. ( Editor )
+		"""
+
+		delattr(editor, "__lock")
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -3357,6 +3361,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor:
 			return
 
+		if self.__hasEditorLock(editor):
+			self.__unlockEditor(editor)
+			return True
+
 		LOGGER.info("{0} | Reloading '{1}' file!".format(self.__class__.__name__, file))
 		return editor.reloadFile(isModified)
 
@@ -3375,8 +3383,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
-		self.__encapsulateEditorFileSystemEvents(editor, "saveFile")
-		return True
+		self.__lockEditor(editor)
+		return editor.saveFile()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
@@ -3406,7 +3414,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				return self.saveFile(file)
 
 		LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, file))
-		if self.__encapsulateEditorFileSystemEvents(editor, "saveFileAs", file):
+		self.__lockEditor(editor)
+		if editor.saveFileAs(file):
 			language = self.__languagesModel.getFileLanguage(file) or self.__languagesModel.getLanguage(self.__defaultLanguage)
 			if editor.language.name != language.name:
 				self.setLanguage(editor, language)
