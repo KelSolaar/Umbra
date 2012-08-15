@@ -101,8 +101,8 @@ class FileSystemEventsManager(QThread):
 		self.__timer = None
 		self.__timerCycleMultiplier = 5
 
-		self.__registerPaths = {}
-		self.__unregisterPaths = []
+		self.__toRegisterPaths = {}
+		self.__toUnregisterPaths = []
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -304,16 +304,9 @@ class FileSystemEventsManager(QThread):
 		This method watches the file system for paths that have been changed or invalidated on disk.
 		"""
 
-		self.__paths.update(self.__registerPaths)
-		self.__registerPaths.clear()
-
-		while self.__unregisterPaths:
-			path = self.__unregisterPaths.pop()
-			self.isPathRegistered(path) and	self.__paths.pop(path)
-
 		for path, data in self.__paths.items():
 			storedModifiedTime, isFile = data
-			if not foundations.common.pathExists(path):
+			if not foundations.common.pathExists(path) and self.isPathRegistered(path):
 				LOGGER.warning(
 				"!> {0} | '{1}' path has been invalidated and will be unregistered!".format(self.__class__.__name__, path))
 				del(self.__paths[path])
@@ -377,7 +370,7 @@ class FileSystemEventsManager(QThread):
 			raise umbra.exceptions.PathRegistrationError("{0} | '{1}' path is already registered!".format(
 			self.__class__.__name__, path))
 
-		self.__registerPaths[path] = (os.path.getmtime(path) if modifiedTime is None else modifiedTime, os.path.isfile(path))
+		self.__paths[path] = (os.path.getmtime(path) if modifiedTime is None else modifiedTime, os.path.isfile(path))
 		return True
 
 	@core.executionTrace
@@ -394,5 +387,5 @@ class FileSystemEventsManager(QThread):
 			raise umbra.exceptions.PathExistsError("{0} | '{1}' path isn't registered!".format(
 			self.__class__.__name__, path))
 
-		self.__unregisterPaths.append(path)
+		del(self.__paths[path])
 		return True
