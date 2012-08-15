@@ -2637,7 +2637,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is triggered when an editor title is changed.
 		"""
 
-		self.__setEditorTabName(self.getEditorTab(self.sender()))
+		self.__setTabTitle(self.getEditorTab(self.sender()))
 		self.__setWindowTitle()
 
 	@core.executionTrace
@@ -2646,7 +2646,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is triggered when an editor file is changed.
 		"""
 
-		self.__setEditorTabName(self.getEditorTab(self.sender()))
+		self.__setTabTitle(self.getEditorTab(self.sender()))
 
 	@core.executionTrace
 	def __editor__languageChanged(self):
@@ -2786,9 +2786,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.setWindowTitle(windowTitle)
 
 	@core.executionTrace
-	def __setEditorTabName(self, index):
+	def __setTabTitle(self, index):
 		"""
-		This method sets the name of the **Script_Editor_tabWidget** Widget tab with given index.
+		This method sets the name and toolTip of the **Script_Editor_tabWidget** Widget tab with given index.
 
 		:param index: Index of the tab containing the Model editor. ( Integer )
 		"""
@@ -2797,9 +2797,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor:
 			return
 
-		title = editor.title
-		LOGGER.debug("> Setting '{0}' window title to tab with '{1}' index.".format(title, index))
-		self.Script_Editor_tabWidget.setTabText(index, title)
+		title, toolTip = editor.title, editor.file
+		LOGGER.debug("> Setting '{0}' window title and '{1}' toolTip to tab with '{2}' index.".format(title, toolTip, index))
+		self.Script_Editor_tabWidget.setTabText(index, strings.encode(title))
+		self.Script_Editor_tabWidget.setTabToolTip(index, strings.encode(toolTip))
 
 	@core.executionTrace
 	def __hasEditorLock(self, editor):
@@ -3126,6 +3127,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		index = self.Script_Editor_tabWidget.addTab(editor, editor.getFileShortName())
 		LOGGER.debug("> Assigning '{0}' editor to '{1}' tab index.".format(editor, index))
 		self.Script_Editor_tabWidget.setCurrentIndex(index)
+		self.__setTabTitle(index)
 
 		# Signals / Slots.
 		editor.patternsReplaced.connect(self.__editor__patternsReplaced)
