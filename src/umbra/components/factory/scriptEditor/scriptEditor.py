@@ -3493,7 +3493,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	@umbra.engine.encapsulateProcessing
+	# @umbra.engine.encapsulateProcessing
 	def closeAllFiles(self, leaveFirstEditor=True):
 		"""
 		This method closes every opened files and removes their associated **Script_Editor_tabWidget** Widget tabs.
@@ -3501,15 +3501,15 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		self.__engine.startProcessing("Closing All Files ...", len(self.listEditors()))
+		# self.__engine.startProcessing("Closing All Files ...", len(self.listEditors()))
 		success = True
 		for file in self.listFiles():
 			if not self.getEditor(file):
 				continue
 
 			success *= self.closeFile(file, leaveFirstEditor) and True or False
-			self.__engine.stepProcessing()
-		self.__engine.stopProcessing()
+			# self.__engine.stepProcessing()
+		# self.__engine.stopProcessing()
 		return success
 
 	@core.executionTrace
