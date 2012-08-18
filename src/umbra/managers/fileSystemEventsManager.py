@@ -306,17 +306,28 @@ class FileSystemEventsManager(QThread):
 
 		for path, data in self.__paths.items():
 			storedModifiedTime, isFile = data
-			if not foundations.common.pathExists(path) and self.isPathRegistered(path):
-				LOGGER.warning(
-				"!> {0} | '{1}' path has been invalidated and will be unregistered!".format(self.__class__.__name__, path))
-				del(self.__paths[path])
-				if isFile:
-					self.fileInvalidated.emit(path)
-				else:
-					self.directoryInvalidated.emit(path)
+			try:
+				if not foundations.common.pathExists(path):
+					LOGGER.warning(
+					"!> {0} | '{1}' path has been invalidated and will be unregistered!".format(self.__class__.__name__, path))
+					del(self.__paths[path])
+					if isFile:
+						self.fileInvalidated.emit(path)
+					else:
+						self.directoryInvalidated.emit(path)
+					continue
+			except KeyError:
+				LOGGER.debug("> {0} | '{1}' path has been unregistered while iterating!".format(
+				self.__class__.__name__, path))
 				continue
 
-			modifiedTime = os.path.getmtime(path)
+			try:
+				modifiedTime = os.path.getmtime(path)
+			except OSError:
+				LOGGER.debug("> {0} | '{1}' path has been invalidated while iterating!".format(
+				self.__class__.__name__, path))
+				continue
+
 			if storedModifiedTime != modifiedTime:
 				self.__paths[path] = (modifiedTime, os.path.isfile(path))
 				LOGGER.debug("> {0} | '{1}' path has been changed!".format(self.__class__.__name__, path))
