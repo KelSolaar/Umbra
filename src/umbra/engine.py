@@ -349,7 +349,11 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__fileSystemEventsManager = RuntimeGlobals.fileSystemEventsManager = \
 							umbra.managers.fileSystemEventsManager.FileSystemEventsManager(self)
 		self.__workerThreads.append(self.__fileSystemEventsManager)
-		self.__fileSystemEventsManager.start()
+		if not self.__parameters.deactivateWorkerThreads:
+			self.__fileSystemEventsManager.start()
+		else:
+			LOGGER.info("{0} | File system events ignored by '{1}' command line parameter value!".format(
+			self.__class__.__name__, "deactivateWorkerThreads"))
 
 		# --- Initializing the Notifications Manager. ---
 		self.__notificationsManager = RuntimeGlobals.notificationsManager = \
@@ -1712,6 +1716,12 @@ def getCommandLineParametersParser():
 					default=False,
 					dest="hideSplashScreen",
 					help="'Hide splashscreen'.")
+	parser.add_option("-t",
+					"--deactivateWorkerThreads",
+					action="store_true",
+					default=False,
+					dest="deactivateWorkerThreads",
+					help="'Deactivate worker threads'.")
 	parser.add_option("-x",
 					"--startupScript",
 					action="store",
