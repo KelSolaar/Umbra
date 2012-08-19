@@ -478,6 +478,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__factoryScriptEditor.model.fileRegistered.connect(self.__factoryScriptEditor_model__fileRegistered)
 		self.__factoryScriptEditor.model.editorRegistered.connect(self.__factoryScriptEditor_model__editorRegistered)
 		self.__factoryScriptEditor.model.projectRegistered.connect(self.__factoryScriptEditor_model_projectRegistered)
+
+		self.initializedUi = True
 		return True
 
 	@core.executionTrace
@@ -505,6 +507,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__delegate = None
 		self.__view = None
 
+		self.initializedUi = False
 		return True
 
 	@core.executionTrace

@@ -76,6 +76,28 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	model needs to be refreshed. ( pyqtSignal )
 	"""
 
+	activatedComponent = pyqtSignal(str)
+	"""
+	This signal is emited by the :class:`ComponentsManagerUi` class when a Component is activated. ( pyqtSignal )
+
+	:return: Activated Component name. ( String )	
+	"""
+
+	deactivatedComponent = pyqtSignal(str)
+	"""
+	This signal is emited by the :class:`ComponentsManagerUi` class when a Component is deactivated. ( pyqtSignal )
+
+	:return: Deactivated Component name. ( String )	
+	"""
+
+	reloadedComponent = pyqtSignal(str)
+	"""
+	This signal is emited by the :class:`ComponentsManagerUi` class when a Component is reloaded. ( pyqtSignal )
+
+	:return: Reloaded Component name. ( String )	
+	"""
+
+
 	@core.executionTrace
 	def __init__(self, parent=None, name=None, *args, **kwargs):
 		"""
@@ -617,6 +639,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__view.selectionModel().selectionChanged.connect(self.__view_selectionModel__selectionChanged)
 		self.modelRefresh.connect(self.__componentsManagerUi__modelRefresh)
 
+		self.initializedUi = True
 		return True
 
 	@core.executionTrace
@@ -923,6 +946,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			component.interface.initializeUi()
 			component.interface.addWidget()
 		LOGGER.info("{0} | '{1}' Component has been activated!".format(self.__class__.__name__, component.name))
+		self.activatedComponent.emit(name)
 		self.modelRefresh.emit()
 		return True
 
@@ -957,6 +981,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				component.interface.removeWidget()
 			component.interface.deactivate()
 			LOGGER.info("{0} | '{1}' Component has been deactivated!".format(self.__class__.__name__, component.name))
+			self.deactivatedComponent.emit(name)
 			self.modelRefresh.emit()
 			return True
 		else:
@@ -990,6 +1015,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			if not component.interface.activated:
 				self.activateComponent(name)
 			LOGGER.info("{0} | '{1}' Component has been reloaded!".format(self.__class__.__name__, component.name))
+			self.reloadedComponent.emit(name)
 			self.modelRefresh.emit()
 			return True
 		else:

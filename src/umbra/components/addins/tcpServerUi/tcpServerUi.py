@@ -444,6 +444,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__Autostart_TCP_Server_checkBox__stateChanged)
 		self.Start_TCP_Server_pushButton.clicked.connect(self.__Start_TCP_Server_pushButton__clicked)
 		self.Stop_TCP_Server_pushButton.clicked.connect(self.__Stop_TCP_Server_pushButton__clicked)
+
+		self.initializedUi = True
 		return True
 
 	@core.executionTrace
@@ -463,6 +465,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__Autostart_TCP_Server_checkBox__stateChanged)
 		self.Start_TCP_Server_pushButton.clicked.disconnect(self.__Start_TCP_Server_pushButton__clicked)
 		self.Stop_TCP_Server_pushButton.clicked.disconnect(self.__Stop_TCP_Server_pushButton__clicked)
+
+		self.initializedUi = False
 		return True
 
 	@core.executionTrace

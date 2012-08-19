@@ -1559,6 +1559,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__model.projectUnregistered.connect(self.__model__projectUnregistered)
 		self.__model.editorRegistered.connect(self.__model__editorRegistered)
 		self.__model.editorUnregistered.connect(self.__model__editorUnregistered)
+
+		self.initializedUi = True
 		return True
 
 	@core.executionTrace

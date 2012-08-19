@@ -235,6 +235,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Restore_Geometry_On_Layout_Change_checkBox.stateChanged.connect(
 		self.__Restore_Geometry_On_Layout_Change_checkBox__stateChanged)
 
+		self.initializedUi = True
 		return True
 
 	@core.executionTrace
