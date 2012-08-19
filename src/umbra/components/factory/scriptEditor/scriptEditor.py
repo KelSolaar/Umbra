@@ -2939,7 +2939,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				continue
 
 			paths = [node.path for node in parentNode.children]
-			for directory in directories:
+			for directory in sorted(directories):
 				if directory.startswith("."):
 					continue
 
@@ -2949,7 +2949,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 				directoryNode = self.__model.registerDirectory(path, parentNode)
 
-			for file in files:
+			for file in sorted(files):
 				if file.startswith("."):
 					continue
 
