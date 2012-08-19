@@ -61,7 +61,7 @@ class Patch(foundations.dataStructures.Structure):
 		"""
 		This method initializes the class.
 
-		:param \*\*kwargs: name, path, import\_, apply, uid. ( Key / Value pairs )
+		:param \*\*kwargs: name, path, module, apply, uid. ( Key / Value pairs )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -324,13 +324,13 @@ class PatchesManager(object):
 		directory = os.path.dirname(path)
 		not directory in sys.path and sys.path.append(directory)
 
-		import_ = __import__(patch)
-		if hasattr(import_, "apply") and hasattr(import_, "UID"):
+		module = __import__(patch)
+		if hasattr(module, "apply") and hasattr(module, "UID"):
 			self.__patches[name] = Patch(name=name,
 										path=path,
-										import_=import_,
-										apply=getattr(import_, "apply"),
-										uid=getattr(import_, "UID"))
+										module=module,
+										apply=getattr(module, "apply"),
+										uid=getattr(module, "UID"))
 		else:
 			raise umbra.exceptions.PatchInterfaceError(
 			"{0} | '{1}' is not a valid patch and has been rejected!".format(self.__class__.__name__, patch))
