@@ -1033,7 +1033,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		for path in self.__engine.componentsManager.paths:
 			components = {name : component
 						for name, component in self.__engine.componentsManager.components.iteritems()
-						if os.path.normpath(path) in os.path.normpath(component.path)}
+						if os.path.normpath(path) in os.path.normpath(component.directory)}
 			if not components:
 				break
 
