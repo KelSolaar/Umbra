@@ -35,7 +35,6 @@ import foundations.exceptions
 import foundations.walkers
 import umbra.ui.models
 import umbra.ui.nodes
-from umbra.components.factory.scriptEditor.editor import Editor
 from umbra.components.factory.scriptEditor.editor import Language
 from umbra.components.factory.scriptEditor.nodes import ProjectNode
 from umbra.components.factory.scriptEditor.nodes import DirectoryNode
