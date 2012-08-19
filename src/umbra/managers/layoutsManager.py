@@ -276,7 +276,6 @@ class LayoutsManager(QObject):
 	#***	Class methods.
 	#******************************************************************************************************************
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __getitem__(self, layout):
 		"""
 		This method reimplements the :meth:`object.__getitem__` method.
@@ -288,7 +287,6 @@ class LayoutsManager(QObject):
 		return self.__layouts.__getitem__(layout)
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __iter__(self):
 		"""
 		This method reimplements the :meth:`object.__iter__` method.
@@ -299,7 +297,6 @@ class LayoutsManager(QObject):
 		return self.__layouts.iteritems()
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __contains__(self, layout):
 		"""
 		This method reimplements the :meth:`object.__contains__` method.
@@ -311,7 +308,6 @@ class LayoutsManager(QObject):
 		return layout in self.__layouts.keys()
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __len__(self):
 		"""
 		This method reimplements the :meth:`object.__len__` method.

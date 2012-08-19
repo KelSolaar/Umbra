@@ -234,7 +234,6 @@ class ActionsManager(QObject):
 	#***	Class methods.
 	#******************************************************************************************************************
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __getitem__(self, action):
 		"""
 		This method reimplements the :meth:`object.__getitem__` method.
@@ -251,7 +250,6 @@ class ActionsManager(QObject):
 		raise umbra.exceptions.ActionExistsError("{0} | '{1}' action isn't registered!".format(self.__class__.__name__,
 																								action))
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __iter__(self):
 		"""
 		This method reimplements the :meth:`object.__iter__` method.
@@ -262,7 +260,6 @@ class ActionsManager(QObject):
 		return foundations.walkers.dictionariesWalker(self.__categories)
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __contains__(self, action):
 		"""
 		This method reimplements the :meth:`object.__contains__` method.
@@ -277,7 +274,6 @@ class ActionsManager(QObject):
 		return False
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __len__(self):
 		"""
 		This method reimplements the :meth:`object.__len__` method.

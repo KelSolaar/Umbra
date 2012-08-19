@@ -235,7 +235,6 @@ class NotificationsManager(QObject):
 	#***	Class methods.
 	#******************************************************************************************************************
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __iter__(self):
 		"""
 		This method reimplements the :meth:`object.__iter__` method.
@@ -246,7 +245,6 @@ class NotificationsManager(QObject):
 		return iter(self.__notifications)
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __len__(self):
 		"""
 		This method reimplements the :meth:`object.__len__` method.

@@ -243,7 +243,6 @@ class PatchesManager(object):
 	#***	Class methods.
 	#******************************************************************************************************************
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __getitem__(self, patch):
 		"""
 		This method reimplements the :meth:`object.__getitem__` method.
@@ -255,7 +254,6 @@ class PatchesManager(object):
 		return self.__patches.__getitem__(patch)
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __iter__(self):
 		"""
 		This method reimplements the :meth:`object.__iter__` method.
@@ -266,7 +264,6 @@ class PatchesManager(object):
 		return self.__patches.iteritems()
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __contains__(self, patch):
 		"""
 		This method reimplements the :meth:`object.__contains__` method.
@@ -278,7 +275,6 @@ class PatchesManager(object):
 		return patch in self.__patches.keys()
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __len__(self):
 		"""
 		This method reimplements the :meth:`object.__len__` method.

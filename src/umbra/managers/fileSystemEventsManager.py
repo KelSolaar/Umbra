@@ -239,7 +239,6 @@ class FileSystemEventsManager(QThread):
 	#***	Class methods.
 	#******************************************************************************************************************
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __getitem__(self, path):
 		"""
 		This method reimplements the :meth:`object.__getitem__` method.
@@ -251,7 +250,6 @@ class FileSystemEventsManager(QThread):
 		return self.__paths.__getitem__(path)
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __iter__(self):
 		"""
 		This method reimplements the :meth:`object.__iter__` method.
@@ -262,7 +260,6 @@ class FileSystemEventsManager(QThread):
 		return self.__paths.iteritems()
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __contains__(self, path):
 		"""
 		This method reimplements the :meth:`object.__contains__` method.
@@ -274,7 +271,6 @@ class FileSystemEventsManager(QThread):
 		return path in self.__paths.keys()
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __len__(self):
 		"""
 		This method reimplements the :meth:`object.__len__` method.
