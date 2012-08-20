@@ -33,7 +33,7 @@ __status__ = "Production"
 
 __all__ = ["uEdit"]
 
-COMMAND_TEMPLATE = ["[application.componentsManager[\"factory.scriptEditor\"].interface.loadFile(file) for file in {0}]",
+COMMAND_TEMPLATE = ["[application.componentsManager[\"factory.scriptEditor\"].loadFile(file) for file in {0}]",
 					"application.layoutsManager.restoreLayout(\"developmentCentric\")",
 					"application.raise_()"]
 
