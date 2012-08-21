@@ -3640,7 +3640,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		LOGGER.debug("> Evaluating 'Script Editor' selected content.")
-		if self.evaluateCode(strings.encode(editor.textCursor().selectedText().replace(QChar(QChar.ParagraphSeparator),
+		if self.evaluateCode(strings.encode(editor.getSelectedText().replace(QChar(QChar.ParagraphSeparator),
 																			QString("\n")))):
 			self.uiRefresh.emit()
 			return True
