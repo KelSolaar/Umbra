@@ -419,7 +419,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings = self.__engine.settings
 		self.__settingsSection = self.name
 
-		self.__factoryScriptEditor = self.__engine.componentsManager.components["factory.scriptEditor"].interface
+		self.__factoryScriptEditor = self.__engine.componentsManager["factory.scriptEditor"]
 
 		self.activated = True
 		return True

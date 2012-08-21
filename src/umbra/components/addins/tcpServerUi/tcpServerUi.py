@@ -393,8 +393,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings = self.__engine.settings
 		self.__settingsSection = self.name
 
-		self.__factoryPreferencesManager = self.__engine.componentsManager.components[
-											"factory.preferencesManager"].interface
+		self.__factoryPreferencesManager = self.__engine.componentsManager["factory.preferencesManager"]
 
 		self.__tcpServer = TCPServer(self.__address, self.__port, RequestsStackDataHandler)
 
