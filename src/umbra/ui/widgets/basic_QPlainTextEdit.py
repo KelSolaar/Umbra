@@ -471,6 +471,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		:return: Word under cursor. ( QString )		
 		"""
+
 		if not re.match(r"^\w+$", strings.encode(self.getPreviousCharacter())):
 			return
 
