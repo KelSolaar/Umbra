@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TCP_Client_Ui_Form</class>
+ <widget class="QWidget" name="TCP_Client_Ui_Form">
+  <property name="windowTitle">
+   <string>TCP Client Ui</string>
+  </property>
+  <layout class="QGridLayout" name="TCP_Client_Ui_Form_gridLayout">
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="TCP_Client_Ui_groupBox">
+     <property name="title">
+      <string>TCP Client</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QFrame" name="Remote_Connection_Options_frame">
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="Remote_Connection_Options_frame_gridLayout">
+         <property name="margin">
+          <number>0</number>
+         </property>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="Address_lineEdit">
+           <property name="statusTip">
+            <string>Address Line Edit: Address of the computer running the Server.</string>
+           </property>
+           <property name="text">
+            <string>127.0.0.1</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="Address_label">
+           <property name="text">
+            <string>Address:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="Connection_End_Token_lineEdit">
+           <property name="statusTip">
+            <string>Connection End Token Edit: Optional connection end token.</string>
+           </property>
+           <property name="text">
+            <string>&lt;!RE&gt;</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="Connection_End_Token_label">
+           <property name="text">
+            <string>Connection End Token</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="Port_label">
+           <property name="text">
+            <string>Port:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QSpinBox" name="Port_spinBox">
+           <property name="statusTip">
+            <string>Software Port Spin Box: Port of the target Server.</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="maximum">
+            <number>65535</number>
+           </property>
+           <property name="value">
+            <number>2048</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
