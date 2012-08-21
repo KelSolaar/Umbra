@@ -1007,8 +1007,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 			line = strings.encode(self.document().findBlockByNumber(cursor.blockNumber()).text())
 			indentMarker = re.match(r"({0})".format(self.__indentMarker), line)
 			if indentMarker:
-				for i in range(len(indentMarker.group(1))):
-					cursor.deleteChar()
+				foundations.common.repeat(cursor.deleteChar, len(indentMarker.group(1)))
 		else:
 			block = self.document().findBlock(cursor.selectionStart())
 			while True:
@@ -1016,8 +1015,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 				blockCursor.setPosition(block.position())
 				indentMarker = re.match(r"({0})".format(self.__indentMarker), block.text())
 				if indentMarker:
-					for i in range(len(indentMarker.group(1))):
-						blockCursor.deleteChar()
+					foundations.common.repeat(blockCursor.deleteChar, len(indentMarker.group(1)))
 				if block.contains(cursor.selectionEnd()):
 					break
 				block = block.next()
@@ -1042,7 +1040,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 			cursor.movePosition(QTextCursor.StartOfBlock)
 			line = strings.encode(self.document().findBlockByNumber(cursor.blockNumber()).text())
 			if line.startswith(self.__commentMarker):
-				cursor.deleteChar()
+				foundations.common.repeat(cursor.deleteChar, len(self.__commentMarker))
 			else:
 				cursor.insertText(self.__commentMarker)
 		else:
@@ -1052,7 +1050,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 				blockCursor.setPosition(block.position())
 
 				if strings.encode(block.text()).startswith(self.__commentMarker):
-					blockCursor.deleteChar()
+					foundations.common.repeat(blockCursor.deleteChar, len(self.__commentMarker))
 				else:
 					blockCursor.insertText(self.__commentMarker)
 
@@ -1109,8 +1107,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 			if search:
 				cursor.movePosition(QTextCursor.StartOfBlock, QTextCursor.MoveAnchor)
 				searchLength = len(search.group(0))
-				for i in range(searchLength):
-					cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor)
+				foundations.common.repeat(
+				lambda: cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor), searchLength)
 				cursor.insertText(self.__indentMarker * (searchLength / self.__indentWidth))
 			block = block.next()
 		cursor.endEditBlock()
@@ -1136,8 +1134,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 			if search:
 				cursor.movePosition(QTextCursor.StartOfBlock, QTextCursor.MoveAnchor)
 				searchLength = len(search.group(0))
-				for i in range(searchLength):
-					cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor)
+				foundations.common.repeat(
+				lambda: cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor), searchLength)
 				cursor.insertText(" " * (searchLength * self.__indentWidth))
 			block = block.next()
 		cursor.endEditBlock()
