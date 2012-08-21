@@ -844,8 +844,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 		textCursor = self.textCursor()
 		extra = (completion.length() - self.__completer.completionPrefix().length())
-		textCursor.movePosition(QTextCursor.Left)
-		textCursor.movePosition(QTextCursor.EndOfWord)
 		textCursor.insertText(completion.right(extra))
 		self.setTextCursor(textCursor)
 

@@ -124,7 +124,7 @@ def performCompletion(editor):
 	:return: Method success. ( Boolean )
 	"""
 
-	completionPrefix = editor.getWordUnderCursor()
+	completionPrefix = editor.getPartialWordUnderCursor()
 	if not completionPrefix:
 		return
 
@@ -136,9 +136,6 @@ def performCompletion(editor):
 		completion = editor.completer.completionModel().data(
 					editor.completer.completionModel().index(0, 0)).toString()
 		cursor = editor.textCursor()
-		if completionPrefix != editor.getWordUnderCursorLegacy():
-			cursor.movePosition(QTextCursor.PreviousWord, QTextCursor.MoveAnchor)
-		cursor.movePosition(QTextCursor.EndOfWord, QTextCursor.MoveAnchor)
 		cursor.insertText(completion[len(completionPrefix):])
 		editor.setTextCursor(cursor)
 	else:

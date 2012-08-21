@@ -482,6 +482,23 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getPartialWordUnderCursor(self):
+		"""
+		This method returns the document partial word under cursor ( From word start to cursor position ).
+
+		:return: Partial word under cursor. ( QString )		
+		"""
+
+		if not re.match(r"^\w+$", strings.encode(self.getPreviousCharacter())):
+			return
+
+		cursor = self.textCursor()
+		position = cursor.position()
+		cursor.movePosition(QTextCursor.PreviousWord, QTextCursor.KeepAnchor)
+		return cursor.selectedText()
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def isModified(self):
 		"""
 		This method returns if the document is modified.
