@@ -86,7 +86,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__address = socket.gethostbyname(socket.gethostname())
 		self.__port = 16384
-		self.__connectionEndToken = "<!RE>"
+		self.__fileCommand = "execfile(\"{0}\", {{}}, {{}})"
+		self.__connectionEnd = "<!RE>"
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -322,38 +323,72 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "port"))
 
 	@property
-	def connectionEndToken(self):
+	def fileCommand(self):
 		"""
-		This method is the property for **self.__connectionEndToken** attribute.
+		This method is the property for **self.__fileCommand** attribute.
 
-		:return: self.__connectionEndToken. ( String )
+		:return: self.__fileCommand. ( String )
 		"""
 
-		return self.__connectionEndToken
+		return self.__fileCommand
 
-	@connectionEndToken.setter
+	@fileCommand.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def connectionEndToken(self, value):
+	def fileCommand(self, value):
 		"""
-		This method is the setter method for **self.__connectionEndToken** attribute.
+		This method is the setter method for **self.__fileCommand** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
 
 		if value is not None:
 			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
-			"connectionEndToken", value)
-		self.__connectionEndToken = value
+			"fileCommand", value)
+		self.__fileCommand = value
 
-	@connectionEndToken.deleter
+	@fileCommand.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def connectionEndToken(self):
+	def fileCommand(self):
 		"""
-		This method is the deleter method for **self.__connectionEndToken** attribute.
+		This method is the deleter method for **self.__fileCommand** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "connectionEndToken"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "fileCommand"))
+
+	@property
+	def connectionEnd(self):
+		"""
+		This method is the property for **self.__connectionEnd** attribute.
+
+		:return: self.__connectionEnd. ( String )
+		"""
+
+		return self.__connectionEnd
+
+	@connectionEnd.setter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def connectionEnd(self, value):
+		"""
+		This method is the setter method for **self.__connectionEnd** attribute.
+
+		:param value: Attribute value. ( String )
+		"""
+
+		if value is not None:
+			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			"connectionEnd", value)
+		self.__connectionEnd = value
+
+	@connectionEnd.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def connectionEnd(self):
+		"""
+		This method is the deleter method for **self.__connectionEnd** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "connectionEnd"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -413,14 +448,16 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__Port_spinBox_setUi()
 		self.__Address_lineEdit_setUi()
-		self.__Connection_End_Token_lineEdit_setUi()
+		self.__File_Command_lineEdit_setUi()
+		self.__Connection_End_lineEdit_setUi()
 
 		self.__addActions()
 
 		# Signals / Slots.
 		self.Port_spinBox.valueChanged.connect(self.__Port_spinBox__valueChanged)
 		self.Address_lineEdit.editingFinished.connect(self.__Address_lineEdit__editFinished)
-		self.Connection_End_Token_lineEdit.editingFinished.connect(self.__Connection_End_Token_lineEdit__editFinished)
+		self.File_Command_lineEdit.editingFinished.connect(self.__File_Command_lineEdit__editFinished)
+		self.Connection_End_lineEdit.editingFinished.connect(self.__Connection_End_lineEdit__editFinished)
 
 		self.initializedUi = True
 		return True
@@ -441,7 +478,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		# Signals / Slots.
 		self.Port_spinBox.valueChanged.disconnect(self.__Port_spinBox__valueChanged)
 		self.Address_lineEdit.editingFinished.disconnect(self.__Address_lineEdit__editFinished)
-		self.Connection_End_Token_lineEdit.editingFinished.disconnect(self.__Connection_End_Token_lineEdit__editFinished)
+		self.File_Command_lineEdit.editingFinished.disconnect(self.__File_Command_lineEdit__editFinished)
+		self.Connection_End_lineEdit.editingFinished.disconnect(self.__Connection_End_lineEdit__editFinished)
 
 		self.initializedUi = False
 		return True
@@ -522,8 +560,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		port = foundations.common.getFirstItem(self.__settings.getKey(self.__settingsSection, "port").toInt())
 		LOGGER.debug("> Setting '{0}' with value '{1}'.".format("Port_spinBox",
 																port))
-		self.Port_spinBox.setValue(port)
 		self.__port = port
+		self.Port_spinBox.setValue(port)
 
 	@core.executionTrace
 	def __Port_spinBox__valueChanged (self, value):
@@ -534,8 +572,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		LOGGER.debug("> 'Port' value: '{0}'.".format(value))
+		self.__port = int(value)
 		self.__settings.setKey(self.__settingsSection, "port", value)
-		self.__port = value
 
 	@core.executionTrace
 	def __Address_lineEdit_setUi(self):
@@ -550,6 +588,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		address = self.__settings.getKey(self.__settingsSection, "address").toString()
 		LOGGER.debug("> Setting '{0}' with value '{1}'.".format("Address_lineEdit",
 																address))
+		self.__address = address
 		self.Address_lineEdit.setText(address)
 
 	@core.executionTrace
@@ -558,30 +597,61 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is triggered when **Address_lineEdit** Widget is edited.
 		"""
 
-		self.__settings.setKey(self.__settingsSection, "address", self.Address_lineEdit.text())
+		address = self.Address_lineEdit.text()
+		self.__settings.setKey(self.__settingsSection, "address", address)
+		self.__address = address
 
 	@core.executionTrace
-	def __Connection_End_Token_lineEdit_setUi(self):
+	def __File_Command_lineEdit_setUi(self):
 		"""
-		This method fills **Connection_End_Token_lineEdit** Widget.
+		This method fills **File_Command_lineEdit** Widget.
 		"""
 
 		# Adding settings key if it doesn't exists.
-		self.__settings.getKey(self.__settingsSection, "connectionEndToken").isNull() and \
-		self.__settings.setKey(self.__settingsSection, "connectionEndToken", self.__connectionEndToken)
+		self.__settings.getKey(self.__settingsSection, "fileCommand").isNull() and \
+		self.__settings.setKey(self.__settingsSection, "fileCommand", self.__fileCommand)
 
-		connectionEndToken = self.__settings.getKey(self.__settingsSection, "connectionEndToken").toString()
-		LOGGER.debug("> Setting '{0}' with value '{1}'.".format("Connection_End_Token_lineEdit",
-																connectionEndToken))
-		self.Connection_End_Token_lineEdit.setText(connectionEndToken)
+		fileCommand = self.__settings.getKey(self.__settingsSection, "fileCommand").toString()
+		LOGGER.debug("> Setting '{0}' with value '{1}'.".format("File_Command_lineEdit",
+																fileCommand))
+		self.__fileCommand = fileCommand
+		self.File_Command_lineEdit.setText(fileCommand)
 
 	@core.executionTrace
-	def __Connection_End_Token_lineEdit__editFinished(self):
+	def __File_Command_lineEdit__editFinished(self):
 		"""
-		This method is triggered when **Connection_End_Token_lineEdit** Widget is edited.
+		This method is triggered when **File_Command_lineEdit** Widget is edited.
 		"""
 
-		self.__settings.setKey(self.__settingsSection, "connectionEndToken", self.Connection_End_Token_lineEdit.text())
+		fileCommand = self.File_Command_lineEdit.text()
+		self.__settings.setKey(self.__settingsSection, "fileCommand", fileCommand)
+		self.__fileCommand = fileCommand
+
+	@core.executionTrace
+	def __Connection_End_lineEdit_setUi(self):
+		"""
+		This method fills **Connection_End_lineEdit** Widget.
+		"""
+
+		# Adding settings key if it doesn't exists.
+		self.__settings.getKey(self.__settingsSection, "connectionEnd").isNull() and \
+		self.__settings.setKey(self.__settingsSection, "connectionEnd", self.__connectionEnd)
+
+		connectionEnd = self.__settings.getKey(self.__settingsSection, "connectionEnd").toString()
+		LOGGER.debug("> Setting '{0}' with value '{1}'.".format("Connection_End_lineEdit",
+																connectionEnd))
+		self.__connectionEnd = connectionEnd
+		self.Connection_End_lineEdit.setText(connectionEnd)
+
+	@core.executionTrace
+	def __Connection_End_lineEdit__editFinished(self):
+		"""
+		This method is triggered when **Connection_End_lineEdit** Widget is edited.
+		"""
+
+		connectionEnd = self.Connection_End_lineEdit.text()
+		self.__settings.setKey(self.__settingsSection, "connectionEnd", connectionEnd)
+		self.__connectionEnd = connectionEnd
 
 	@core.executionTrace
 	def __sendSelectionToServerAction__triggered(self, checked):
@@ -617,7 +687,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		if self.__factoryScriptEditor.saveFile():
-			return self.sendDataToServer("execfile(\"{0}\", {{}}, {{}})".format(editor.file))
+			return self.sendDataToServer(strings.encode(self.__fileCommand).format(editor.file))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -628,11 +698,13 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not data.endswith(self.__connectionEndToken):
-			data = "{0}{1}".format(data, self.__connectionEndToken)
+		if not data.endswith(self.__connectionEnd):
+			data = "{0}{1}".format(data, self.__connectionEnd)
 
 		connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		connection.connect((self.__address, self.__port))
+		connection.connect((strings.encode(self.__address), int(self.__port)))
 		connection.send(data)
+		self.__engine.notificationsManager.notify(
+		"{0} | Socket connection command dispatched!".format(self.__class__.__name__))
 		connection.close()
 		return True
