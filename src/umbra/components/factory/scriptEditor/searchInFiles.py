@@ -808,10 +808,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__searchPatternsModel = self.__container.searchAndReplace.searchPatternsModel
 		self.Search_comboBox.setModel(self.__container.searchAndReplace.searchPatternsModel)
 		self.Search_comboBox.setInsertPolicy(QComboBox.InsertAtTop)
+		self.Search_comboBox.completer().setCaseSensitivity(Qt.CaseSensitive)
 
 		self.__replaceWithPatternsModel = self.__container.searchAndReplace.replaceWithPatternsModel
 		self.Replace_With_comboBox.setModel(self.__container.searchAndReplace.replaceWithPatternsModel)
 		self.Replace_With_comboBox.setInsertPolicy(QComboBox.InsertAtTop)
+		self.Replace_With_comboBox.completer().setCaseSensitivity(Qt.CaseSensitive)
 
 		self.Where_lineEdit.setParent(None)
 		self.Where_lineEdit = Search_QLineEdit(self)

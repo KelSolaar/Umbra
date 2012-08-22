@@ -281,6 +281,8 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			comboBox.setInsertPolicy(QComboBox.InsertAtTop)
 			comboBox.setModel(self.__dict__[model])
 
+			comboBox.completer().setCaseSensitivity(Qt.CaseSensitive)
+
 			# Signals / Slots.
 			self.__dict__[model].patternInserted.connect(
 			functools.partial(self.__patternsModel__patternInserted, settingsKey, comboBox))
