@@ -397,7 +397,7 @@ class LayoutsManager(QObject):
 		for component, profile in self.__container.componentsManager.components.iteritems():
 			if profile.category == "QWidget" and component not in self.__container.visibleComponents:
 				interface = self.__container.componentsManager.getInterface(component)
-				interface and self.__container.componentsManager.getInterface(component).hide()
+				interface and interface.hide()
 
 		self.__currentLayout = name
 		self.__container.centralwidget.setVisible(

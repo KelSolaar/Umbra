@@ -238,7 +238,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		# --- Setting class attributes. ---
 		self.deactivatable = False
 
-		self.__dockArea = 8
+		self.__dockArea = 2
 
 		self.__engine = None
 		self.__settings = None
