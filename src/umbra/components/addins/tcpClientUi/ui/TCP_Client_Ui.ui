@@ -96,7 +96,7 @@
             <string>File Command Line Edit: File command used to execute the file by the Server.</string>
            </property>
            <property name="text">
-            <string>execfile(\&quot;{0}\&quot;, {{}}, {{}})</string>
+            <string>execfile(\&quot;{0}\&quot;)</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
