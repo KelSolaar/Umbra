@@ -701,7 +701,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not data.endswith(self.__connectionEnd):
-			data = "{0}{1}".format(data, self.__connectionEnd)
+			data = "{0}{1}".format(data, strings.encode(self.__connectionEnd).decode("string_escape"))
 
 		connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		connection.settimeout(timeOut)
