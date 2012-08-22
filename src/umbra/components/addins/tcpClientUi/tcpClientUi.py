@@ -691,10 +691,12 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def sendDataToServer(self, data):
+	def sendDataToServer(self, data, timeOut=5):
 		"""
 		This method sends given data to the Server.
 
+		:param data: Data to send. ( String )
+		:param timeOut: Connection timeout in seconds. ( Float )
 		:return: Method success. ( Boolean )
 		"""
 
@@ -702,6 +704,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			data = "{0}{1}".format(data, self.__connectionEnd)
 
 		connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		connection.settimeout(timeOut)
 		connection.connect((strings.encode(self.__address), int(self.__port)))
 		connection.send(data)
 		self.__engine.notificationsManager.notify(
