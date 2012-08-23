@@ -3439,14 +3439,13 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__engine.startProcessing("Saving All Files ...", len(self.listEditors()))
 		success = True
-		for editor in self.listFiles():
+		for file in self.listFiles():
 			if not self.getEditor(file):
 				continue
 
 			success *= self.saveFile(file)
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
-
 		return success
 
 	@core.executionTrace
