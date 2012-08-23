@@ -21,12 +21,15 @@ import logging
 import os
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QAction
+from PyQt4.QtGui import QInputDialog
 
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
+import foundations.strings as strings
+import umbra.ui.common
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.globals.constants import Constants
 from umbra.components.addins.projectsExplorer.models import ProjectsProxyModel
@@ -470,6 +473,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__view = self.Projects_Explorer_treeView
 		self.__view_addActions()
 
+		self.__addActions()
+
 		# Signals / Slots.
 		self.__view.expanded.connect(self.__view__expanded)
 		self.__view.doubleClicked.connect(self.__view__doubleClicked)
@@ -493,6 +498,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		LOGGER.debug("> Uninitializing '{0}' Component ui.".format(self.__class__.__name__))
+
+		self.__removeActions()
 
 		# Signals / Slots.
 		self.__view.expanded.disconnect(self.__view__expanded)
@@ -543,6 +550,36 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.setParent(None)
 
 		return True
+
+	@core.executionTrace
+	def __addActions(self):
+		"""
+		This method sets Component actions.
+		"""
+
+		LOGGER.debug("> Adding '{0}' Component actions.".format(self.__class__.__name__))
+
+		addProjectAction = self.__engine.actionsManager.getAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&File|Add Project ...")
+		removeProjectAction = self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&File|Remove Project",
+		slot=self.__view_removeProjectAction__triggered)
+		self.__factoryScriptEditor.fileMenu.insertAction(addProjectAction, removeProjectAction)
+		self.__factoryScriptEditor.fileMenu.removeAction(addProjectAction)
+		self.__factoryScriptEditor.fileMenu.insertAction(removeProjectAction, addProjectAction)
+
+	@core.executionTrace
+	def __removeActions(self):
+		"""
+		This method removes actions.
+		"""
+
+		LOGGER.debug("> Removing '{0}' Component actions.".format(self.__class__.__name__))
+
+		removeProjectAction = self.__engine.actionsManager.getAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&File|Remove Project")
+		self.__factoryScriptEditor.commandMenu.removeAction(self.__engine.actionsManager.getAction(removeProjectAction))
+		self.__engine.actionsManager.unregisterAction(removeProjectAction)
 
 	@core.executionTrace
 	def __view_addActions(self):
@@ -751,14 +788,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not node:
 			return
 
-		if node.family == "ProjectNode":
-			self.__factoryScriptEditor.removeProject(node.path)
-			return
-
-		for node in foundations.walkers.nodesWalker(node, ascendants=True):
-			if node.family == "ProjectNode" and not node is self.__factoryScriptEditor.model.defaultProjectNode:
-				self.__factoryScriptEditor.removeProject(node.path)
-				return True
+		self.removeProject(node)
 
 	@core.executionTrace
 	def __view_addNewFileAction__triggered(self, checked):
@@ -769,7 +799,11 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		print "Actions|Umbra|Components|addins.projectsExplorer|Add New File ..."
+		node = foundations.common.getFirstItem(self.__view.getSelectedNodes().iterkeys())
+		if not node:
+			return
+
+		return self.addNewFile(node)
 
 	@core.executionTrace
 	def __view_addNewDirectoryAction__triggered(self, checked):
@@ -780,7 +814,11 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		print "Actions|Umbra|Components|addins.projectsExplorer|Add New Directory ..."
+		node = foundations.common.getFirstItem(self.__view.getSelectedNodes().iterkeys())
+		if not node:
+			return
+
+		return self.addNewDirectory(node)
 
 	@core.executionTrace
 	def __view_renameAction__triggered(self, checked):
@@ -840,4 +878,105 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		LOGGER.info("{0} | '{1}'.".format(self.__class__.__name__, node.path))
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def removeProject(self, node):
+		"""
+		This method removes the project associated with given node.
+
+		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
+		:return: Method success. ( Boolean )
+		"""
+
+		if node.family == "ProjectNode":
+			self.__factoryScriptEditor.removeProject(node.path)
+			return
+
+		for node in foundations.walkers.nodesWalker(node, ascendants=True):
+			if node.family == "ProjectNode" and not node is self.__factoryScriptEditor.model.defaultProjectNode:
+				self.__factoryScriptEditor.removeProject(node.path)
+				return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
+											False,
+											foundations.exceptions.FileExistsError,
+											foundations.exceptions.DirectoryExistsError,
+											Exception)
+	def addNewFile(self, node):
+		"""
+		This method adds a new file next to given node.
+
+		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
+		:return: Method success. ( Boolean )
+		"""
+
+		if node.parent is self.__factoryScriptEditor.model.defaultProjectNode:
+			return self.__factoryScriptEditor.newFile()
+
+		file, state = QInputDialog.getText(self, "Add File", "Enter your new file name:")
+		if not state:
+			return
+
+		if node.family in ("ProjectNode", "DirectoryNode"):
+			directory = node.path
+		elif node.family == "FileNode":
+			directory = os.path.dirname(node.path)
+
+		file = strings.encode(file)
+		if not file in os.listdir(directory):
+			open(os.path.join(directory, file), "w").close()
+		else:
+			path = os.path.join(directory, file)
+			if os.path.isfile(path):
+				raise foundations.exceptions.FileExistsError(
+				"{0} | A '{1}' file already exists in '{2}' directory!".format(self.__class__.__name__, file, directory))
+			else:
+				raise foundations.exceptions.DirectoryExistsError(
+				"{0} | A '{1}' directory already exists in '{2}' directory!".format(self.__class__.__name__, file, directory))
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
+											False,
+											foundations.exceptions.FileExistsError,
+											foundations.exceptions.DirectoryExistsError,
+											Exception)
+	def addNewDirectory(self, node):
+		"""
+		This method adds a new directory next to given node.
+
+		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
+		:return: Method success. ( Boolean )
+		"""
+
+		if node.parent is self.__factoryScriptEditor.model.defaultProjectNode:
+			return
+
+		directory, state = QInputDialog.getText(self, "Add Directory", "Enter your new directory name:")
+		if not state:
+			return
+
+		if node.family in ("ProjectNode", "DirectoryNode"):
+			parentDirectory = node.path
+		elif node.family == "FileNode":
+			parentDirectory = os.path.dirname(node.path)
+
+		directory = strings.encode(directory)
+		if not directory in os.listdir(parentDirectory):
+			os.makedirs(os.path.join(parentDirectory, directory))
+		else:
+			path = os.path.join(parentDirectory, directory)
+			if os.path.isfile(path):
+				raise foundations.exceptions.FileExistsError(
+				"{0} | A '{1}' file already exists in '{2}' directory!".format(self.__class__.__name__,
+																			directory,
+																			parentDirectory))
+			else:
+				raise foundations.exceptions.DirectoryExistsError(
+				"{0} | A '{1}' directory already exists in '{2}' directory!".format(self.__class__.__name__,
+																				directory,
+																				parentDirectory))
 		return True
