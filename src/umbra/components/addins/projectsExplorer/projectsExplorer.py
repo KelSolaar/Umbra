@@ -481,9 +481,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__view.selectionModel().selectionChanged.connect(self.__view_selectionModel__selectionChanged)
 		self.__factoryScriptEditor.Script_Editor_tabWidget.currentChanged.connect(
 		self.__factoryScriptEditor_Script_Editor_tabWidget__currentChanged)
-		self.__factoryScriptEditor.model.fileRegistered.connect(self.__factoryScriptEditor_model__fileRegistered)
 		self.__factoryScriptEditor.model.editorRegistered.connect(self.__factoryScriptEditor_model__editorRegistered)
-		self.__factoryScriptEditor.model.projectRegistered.connect(self.__factoryScriptEditor_model_projectRegistered)
+		self.__factoryScriptEditor.model.fileRegistered.connect(self.__factoryScriptEditor_model__fileRegistered)
+		self.__factoryScriptEditor.model.projectRegistered.connect(self.__factoryScriptEditor_model__projectRegistered)
+		self.__factoryScriptEditor.model.authoringNodesUpdated.connect(self.__factoryScriptEditor_model__authoringNodesUpdated)
 
 		self.initializedUi = True
 		return True
@@ -507,9 +508,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__view.selectionModel().selectionChanged.disconnect(self.__view_selectionModel__selectionChanged)
 		self.__factoryScriptEditor.Script_Editor_tabWidget.currentChanged.disconnect(
 		self.__factoryScriptEditor_Script_Editor_tabWidget__currentChanged)
-		self.__factoryScriptEditor.model.fileRegistered.disconnect(self.__factoryScriptEditor_model__fileRegistered)
 		self.__factoryScriptEditor.model.editorRegistered.disconnect(self.__factoryScriptEditor_model__editorRegistered)
-		self.__factoryScriptEditor.model.projectRegistered.disconnect(self.__factoryScriptEditor_model_projectRegistered)
+		self.__factoryScriptEditor.model.fileRegistered.disconnect(self.__factoryScriptEditor_model__fileRegistered)
+		self.__factoryScriptEditor.model.projectRegistered.disconnect(self.__factoryScriptEditor_model__projectRegistered)
+		self.__factoryScriptEditor.model.authoringNodesUpdated.disconnect(self.__factoryScriptEditor_model__authoringNodesUpdated)
 
 		self.__view_removeActions()
 
@@ -675,7 +677,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if node.family != "DirectoryNode":
 			return
 
-		self.__factoryScriptEditor._ScriptEditor__setProjectNodes(node)
+		self.__factoryScriptEditor.model.setProjectNodes(node)
 
 	@core.executionTrace
 	def __view__doubleClicked(self, index):
@@ -726,6 +728,17 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__view.selectIndexes(indexes)
 
 	@core.executionTrace
+	def __factoryScriptEditor_model__editorRegistered(self, editorNode):
+		"""
+		This method is triggered by the:class:`umbra.components.factory.scriptEditor.scriptEditor` class
+		Model when an editor is registered.
+		
+		:param editorNode: Registered editor EditorNode. ( EditorNode )
+		"""
+
+		self.__setEditorNodeDisplayRole(editorNode)
+
+	@core.executionTrace
 	def __factoryScriptEditor_model__fileRegistered(self, fileNode):
 		"""
 		This method is triggered by the:class:`umbra.components.factory.scriptEditor.scriptEditor` class
@@ -734,35 +747,33 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param fileNode: Registered file FileNode. ( FileNode )
 		"""
 
-		fileNode.roles.update({Qt.DisplayRole : "<span>{0}</span>".format(fileNode.name),
-								Qt.EditRole : fileNode.name})
+		self.__setAuthoringNodesNodeDisplayRole(fileNode)
 
 	@core.executionTrace
-	def __factoryScriptEditor_model__editorRegistered(self, editorNode):
+	def __factoryScriptEditor_model__projectRegistered(self, projectNode):
 		"""
 		This method is triggered by the:class:`umbra.components.factory.scriptEditor.scriptEditor` class
-		Model when an editor is registered
-		
-		:param editorNode: Registered editor EditorNode. ( EditorNode )
-		"""
-
-		editorNode.roles.update({Qt.DisplayRole : editorNode.name,
-								Qt.EditRole : editorNode.name})
-
-	@core.executionTrace
-	def __factoryScriptEditor_model_projectRegistered(self, projectNode):
-		"""
-		This method is triggered by the:class:`umbra.components.factory.scriptEditor.scriptEditor` class
-		Model when a project is registered
+		Model when a project is registered.
 		
 		:param projectNode: Registered project ProjectNode. ( ProjectNode )
 		"""
 
-		projectNode.roles.update({Qt.DisplayRole : "<b>{0}</b>".format(projectNode.name),
-										Qt.EditRole : projectNode.name})
-
+		self.__setProjectDisplayRole(projectNode)
 		index = self.__model.mapFromSource(self.__factoryScriptEditor.model.getNodeIndex(projectNode))
 		self.__view.setExpanded(index, True)
+
+	@core.executionTrace
+	def __factoryScriptEditor_model__authoringNodesUpdated(self, fileNode):
+		"""
+		This method is triggered by the:class:`umbra.components.factory.scriptEditor.scriptEditor` class
+		Model when a authoring nodes are updated.
+		
+		:param fileNode: Updated authoring FileNode. ( FileNode )
+		"""
+
+		self.__setAuthoringNodesNodeDisplayRole(fileNode)
+		for editorNode in self.__factoryScriptEditor.model.listEditorNodes(fileNode):
+			self.__setEditorNodeDisplayRole(editorNode)
 
 	@core.executionTrace
 	def __view_addProjectAction__triggered(self, checked):
@@ -784,7 +795,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		node = foundations.common.getFirstItem(self.__view.getSelectedNodes().iterkeys())
+		node = foundations.common.getFirstItem(self.getSelectedNodes())
 		if not node:
 			return
 
@@ -799,7 +810,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		node = foundations.common.getFirstItem(self.__view.getSelectedNodes().iterkeys())
+		node = foundations.common.getFirstItem(self.getSelectedNodes())
 		if not node:
 			return
 
@@ -814,7 +825,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		node = foundations.common.getFirstItem(self.__view.getSelectedNodes().iterkeys())
+		node = foundations.common.getFirstItem(self.getSelectedNodes())
 		if not node:
 			return
 
@@ -829,7 +840,11 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		print "Actions|Umbra|Components|addins.projectsExplorer|Rename ..."
+		node = foundations.common.getFirstItem(self.getSelectedNodes())
+		if not node:
+			return
+
+		return self.rename(node)
 
 	@core.executionTrace
 	def __view_copyAction__triggered(self, checked):
@@ -881,6 +896,108 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return True
 
 	@core.executionTrace
+	def __setAuthoringNodesNodeDisplayRole(self, fileNode):
+		"""
+		This method sets given FileNode display role.
+
+		:param fileNode: FileNode. ( FileNode )
+		"""
+
+		fileNode.roles.update({Qt.DisplayRole : "<span>{0}</span>".format(fileNode.name), Qt.EditRole : fileNode.name})
+		self.__factoryScriptEditor.model.nodeChanged(fileNode)
+
+	@core.executionTrace
+	def __setEditorNodeDisplayRole(self, editorNode):
+		"""
+		This method sets given EditorNode display role.
+
+		:param editorNode: EditorNode. ( EditorNode )
+		"""
+
+		editorNode.roles.update({Qt.DisplayRole : editorNode.name, Qt.EditRole : editorNode.name})
+		self.__factoryScriptEditor.model.nodeChanged(editorNode)
+
+	@core.executionTrace
+	def __setProjectDisplayRole(self, projectNode):
+		"""
+		This method sets given ProjectNode display role.
+
+		:param projectNode: ProjectNode. ( ProjectNode )
+		"""
+
+		projectNode.roles.update({Qt.DisplayRole : "<b>{0}</b>".format(projectNode.name),
+										Qt.EditRole : projectNode.name})
+		self.__factoryScriptEditor.model.nodeChanged(projectNode)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
+											False,
+											foundations.exceptions.FileExistsError,
+											foundations.exceptions.DirectoryExistsError,
+											Exception)
+	def __raiseFileSystemException(self, item, directory):
+		"""
+		This method raises a common fileSystem exception.
+
+		:param item: Name of the item generating the exception. ( String )
+		:param directory: Name of the target directory. ( String )
+		"""
+
+		path = os.path.join(directory, item)
+		if os.path.isfile(path):
+			raise foundations.exceptions.FileExistsError(
+			"{0} | A file with '{1}' name already exists in '{2}' directory!".format(self.__class__.__name__,
+																					item,
+																					directory))
+		else:
+			raise foundations.exceptions.DirectoryExistsError(
+			"{0} | A directory with '{1}' name already exists in '{2}' directory!".format(self.__class__.__name__,
+																						item,
+																						directory))
+
+	@core.executionTrace
+	def __setAuthoringNodes(self, source, target):
+		"""
+		This method sets given editor authoring nodes.
+
+		:param source: Source file. ( String )
+		:param target: Target file. ( String )
+		"""
+
+		editor = self.__factoryScriptEditor.getEditor(source)
+		editor.setFile(target)
+		self.__factoryScriptEditor.model.updateAuthoringNodes(editor)
+
+	@core.executionTrace
+	def __renameFile(self, source, target):
+		"""
+		This method renames given file and updates its authoring nodes.
+
+		:param source: Source file. ( String )
+		:param target: Target file. ( String )
+		"""
+
+		fileNode = foundations.common.getFirstItem(self.__factoryScriptEditor.model.getFileNodes(source))
+		if not fileNode:
+			return
+
+		self.__factoryScriptEditor.unregisterNodePath(fileNode)
+		os.rename(source, target)
+		self.__setAuthoringNodes(source, target)
+		self.__factoryScriptEditor.registerNodePath(fileNode)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def getSelectedNodes(self):
+		"""
+		This method returns the View selected nodes.
+
+		:return: View selected nodes. ( Dictionary )
+		"""
+
+		return self.__view.getSelectedNodes()
+
+	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeProject(self, node):
 		"""
@@ -900,20 +1017,16 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
-											False,
-											foundations.exceptions.FileExistsError,
-											foundations.exceptions.DirectoryExistsError,
-											Exception)
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addNewFile(self, node):
 		"""
-		This method adds a new file next to given node.
+		This method adds a new file next to given node associated path.
 
 		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
 		:return: Method success. ( Boolean )
 		"""
 
-		if node.parent is self.__factoryScriptEditor.model.defaultProjectNode:
+		if self.__factoryScriptEditor.model.isAuthoringNode(node):
 			return self.__factoryScriptEditor.newFile()
 
 		file, state = QInputDialog.getText(self, "Add File", "Enter your new file name:")
@@ -929,30 +1042,20 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not file in os.listdir(directory):
 			open(os.path.join(directory, file), "w").close()
 		else:
-			path = os.path.join(directory, file)
-			if os.path.isfile(path):
-				raise foundations.exceptions.FileExistsError(
-				"{0} | A '{1}' file already exists in '{2}' directory!".format(self.__class__.__name__, file, directory))
-			else:
-				raise foundations.exceptions.DirectoryExistsError(
-				"{0} | A '{1}' directory already exists in '{2}' directory!".format(self.__class__.__name__, file, directory))
+			self.__raiseFileSystemException(file, directory)
 		return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
-											False,
-											foundations.exceptions.FileExistsError,
-											foundations.exceptions.DirectoryExistsError,
-											Exception)
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addNewDirectory(self, node):
 		"""
-		This method adds a new directory next to given node.
+		This method adds a new directory next to given node associated path.
 
 		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
 		:return: Method success. ( Boolean )
 		"""
 
-		if node.parent is self.__factoryScriptEditor.model.defaultProjectNode:
+		if self.__factoryScriptEditor.model.isAuthoringNode(node):
 			return
 
 		directory, state = QInputDialog.getText(self, "Add Directory", "Enter your new directory name:")
@@ -968,15 +1071,43 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not directory in os.listdir(parentDirectory):
 			os.makedirs(os.path.join(parentDirectory, directory))
 		else:
-			path = os.path.join(parentDirectory, directory)
-			if os.path.isfile(path):
-				raise foundations.exceptions.FileExistsError(
-				"{0} | A '{1}' file already exists in '{2}' directory!".format(self.__class__.__name__,
-																			directory,
-																			parentDirectory))
-			else:
-				raise foundations.exceptions.DirectoryExistsError(
-				"{0} | A '{1}' directory already exists in '{2}' directory!".format(self.__class__.__name__,
-																				directory,
-																				parentDirectory))
+			self.__raiseFileSystemException(file, parentDirectory)
 		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
+											False,
+											foundations.exceptions.DirectoryExistsError,
+											Exception)
+	def rename(self, node):
+		"""
+		This method renames given node associated path.
+
+		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
+		:return: Method success. ( Boolean )
+		"""
+
+		path = node.path
+		name, state = QInputDialog.getText(self, "Rename", "Enter your new name:", text=os.path.basename(path))
+		if not state:
+			return
+
+		name = strings.encode(name)
+		if name == os.path.basename(path):
+			return
+
+		if self.__factoryScriptEditor.model.isAuthoringNode(node):
+			parentDirectory = os.path.dirname(path)
+			target = os.path.join(parentDirectory, name)
+			if not foundations.common.pathExists(parentDirectory):
+				self.__setAuthoringNodes(path, target)
+				return
+
+			if not name in os.listdir(parentDirectory):
+				self.__renameFile(path, target)
+				return
+			else:
+				self.__raiseFileSystemException(name, parentDirectory)
+
+		if node.family == "ProjectNode":
+			return

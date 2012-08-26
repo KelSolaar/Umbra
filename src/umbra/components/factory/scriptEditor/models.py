@@ -126,6 +126,13 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	:return: Unregistered project ProjectNode. ( ProjectNode )	
 	"""
 
+	authoringNodesUpdated = pyqtSignal(FileNode)
+	"""
+	This signal is emited by the :class:`ProjectsModel` class when authoring nodes have been updated. ( pyqtSignal )
+
+	:return: Updated authoring FileNode. ( FileNode )	
+	"""
+
 	@core.executionTrace
 	def __init__(self,
 				parent=None,
@@ -660,6 +667,156 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		self.projectUnregistered.emit(projectNode)
 
 		return projectNode
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def isAuthoringNode(self, node):
+		"""
+		This method returns if given node is an authoring node.
+
+		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
+		:return: Is authoring node. ( Boolean )
+		"""
+
+		for parentNode in foundations.walkers.nodesWalker(node, ascendants=True):
+			if parentNode is self.__defaultProjectNode:
+				return True
+		return False
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def setAuthoringNodes(self, editor):
+		"""
+		This method sets the Model authoring nodes using given editor.
+
+		:param editor: Editor to set. ( Editor )
+		:return: Method success. ( Boolean )
+		"""
+
+		projectNode = self.defaultProjectNode
+		fileNode = self.registerFile(editor.file, projectNode)
+		editorNode = self.registerEditor(editor, fileNode)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def deleteAuthoringNodes(self, editor):
+		"""
+		This method deletes the Model authoring nodes associated with given editor.
+
+		:param editor: Editor. ( Editor )
+		:return: Method success. ( Boolean )
+		"""
+
+		editorNode = foundations.common.getFirstItem(self.getEditorNodes(editor))
+		fileNode = editorNode.parent
+		self.unregisterEditor(editorNode)
+		self.unregisterFile(fileNode, raiseException=False)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def updateAuthoringNodes(self, editor):
+		"""
+		This method updates given editor Model authoring nodes.
+		
+		:param editor: Editor. ( Editor )
+		:return: Method success. ( Boolean )
+		"""
+
+		editorNode = foundations.common.getFirstItem(self.getEditorNodes(editor))
+		fileNode = editorNode.parent
+		file = editor.file
+		fileNode.name = editorNode.name = os.path.basename(file)
+		fileNode.path = editorNode.path = file
+
+		self.authoringNodesUpdated.emit(fileNode)
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def setProjectNodes(self, rootNode, maximumDepth=1):
+		"""
+		This method sets the project Model children nodes using given root node.
+
+		:param rootNode: Root node. ( ProjectNode / DirectoryNode )
+		:param maximumDepth: Maximum nodes nesting depth. ( Integer )
+		"""
+
+		rootDirectory = rootNode.path
+		for parentDirectory, directories, files in foundations.walkers.depthWalker(rootDirectory, maximumDepth):
+			if parentDirectory == rootDirectory:
+				parentNode = rootNode
+			else:
+				parentNode = foundations.common.getFirstItem(
+							[node for node in foundations.walkers.nodesWalker(rootNode) \
+							if node.family == "DirectoryNode" and node.path == parentDirectory])
+
+			if not parentNode:
+				continue
+
+			paths = [node.path for node in parentNode.children]
+			for directory in sorted(directories):
+				if directory.startswith("."):
+					continue
+
+				path = os.path.join(parentDirectory, directory)
+				if path in paths:
+					continue
+
+				directoryNode = self.registerDirectory(path, parentNode)
+
+			for file in sorted(files):
+				if file.startswith("."):
+					continue
+
+				path = os.path.join(parentDirectory, file)
+				if path in paths:
+					continue
+
+				if foundations.common.isBinaryFile(path):
+					continue
+
+				fileNode = self.registerFile(path, parentNode)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def deleteProjectNodes(self, node):
+		"""
+		This method deletes the Model project nodes associated with given node.
+
+		:param node: Node. ( ProjectNode )
+		"""
+
+		self.unregisterProjectNodes(node)
+		self.unregisterProject(node)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def unregisterProjectNodes(self, node):
+		"""
+		This method unregisters given node children.
+		
+		:param node: Node. ( ProjectNode / DirectoryNode )
+		"""
+
+		for node in reversed(list(foundations.walkers.nodesWalker(node))):
+			if node.family == "DirectoryNode":
+				self.unregisterDirectory(node)
+			elif node.family == "FileNode":
+				self.unregisterFile(node)
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def updateProjectNodes(self, node):
+		"""
+		This method updates given root node children.
+		
+		:param node: Node. ( ProjectNode / DirectoryNode )
+		"""
+
+		self.unregisterProjectNodes(node)
+		self.setProjectNodes(node)
 
 class LanguagesModel(QAbstractListModel):
 	"""

@@ -312,9 +312,19 @@ class Editor(CodeEditor_QPlainTextEdit):
 	This signal is emited by the :class:`Editor` class when the current title is changed. ( pyqtSignal )
 	"""
 
-	fileChanged = pyqtSignal()
+	fileLoaded = pyqtSignal()
 	"""
-	This signal is emited by the :class:`Editor` class when the current file is changed. ( pyqtSignal )
+	This signal is emited by the :class:`Editor` class when the current file is loaded. ( pyqtSignal )
+	"""
+
+	fileSaved = pyqtSignal()
+	"""
+	This signal is emited by the :class:`Editor` class when the current file is saved. ( pyqtSignal )
+	"""
+
+	fileReloaded = pyqtSignal()
+	"""
+	This signal is emited by the :class:`Editor` class when the current file is reloaded. ( pyqtSignal )
 	"""
 
 	@core.executionTrace
@@ -639,26 +649,12 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.__setLanguageDescription()
 
 	@core.executionTrace
-	def __setTitle(self):
-		"""
-		This method sets the editor title.
-		"""
-
-		titleTemplate = self.isModified() and "{0} *" or "{0}"
-		title = titleTemplate.format(self.getFileShortName())
-
-		LOGGER.debug("> Setting editor title to '{0}'.".format(title))
-		self.__title = title
-		self.setWindowTitle(title)
-		self.titleChanged.emit()
-
-	@core.executionTrace
 	def __document__contentsChanged(self):
 		"""
 		This method is triggered when the editor document content changes.
 		"""
 
-		self.__setTitle()
+		self.setTitle()
 
 	@core.executionTrace
 	def __document__modificationChanged(self, changed):
@@ -668,7 +664,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:param changed: File modification state. ( Boolean )
 		"""
 
-		self.__setTitle()
+		self.setTitle()
 
 	@core.executionTrace
 	def __setLanguageDescription(self):
@@ -714,21 +710,39 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.setTabStopWidth(self.__tabWidth)
 
 	@core.executionTrace
+	def setTitle(self, title=None):
+		"""
+		This method sets the editor title.
+
+		:param title: Editor title. ( String )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not title:
+			titleTemplate = self.isModified() and "{0} *" or "{0}"
+			title = titleTemplate.format(self.getFileShortName())
+
+		LOGGER.debug("> Setting editor title to '{0}'.".format(title))
+		self.__title = title
+		self.setWindowTitle(title)
+		self.titleChanged.emit()
+
+	@core.executionTrace
 	def setFile(self, file, isModified=False):
 		"""
 		This method sets the editor file.
 
 		:param File: File to set. ( String )
 		:param isModified: File modified state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
 		LOGGER.debug("> Setting '{0}' editor file.".format(file))
 		self.__file = file
 		self.__isUntitled = False
 		self.setModified(isModified)
-		self.__setTitle()
-
-		self.fileChanged.emit()
+		self.setTitle()
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -792,6 +806,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		language and self.setLanguage(language)
 		self.highlighter and self.highlighter.rehighlight()
 
+		self.fileLoaded.emit()
+
 		# Signals / Slots.
 		self.document().contentsChanged.connect(self.__document__contentsChanged)
 		self.document().modificationChanged.connect(self.__document__modificationChanged)
@@ -810,7 +826,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		LOGGER.debug("> Creating '{0}' file.".format(file))
 		self.__file = file
 		self.__isUntitled = True
-		self.setWindowTitle("{0}".format(self.__file))
+		self.setTitle(self.__file)
 
 		# Signals / Slots.
 		self.document().contentsChanged.connect(self.__document__contentsChanged)
@@ -836,6 +852,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.setPlainText(reader.readAll())
 		self.setFile(file)
 
+		self.fileLoaded.emit()
+
 		# Signals / Slots.
 		self.document().contentsChanged.connect(self.__document__contentsChanged)
 		self.document().modificationChanged.connect(self.__document__modificationChanged)
@@ -860,6 +878,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 		if reader.read():
 			self.setContent(reader.content)
 			self.setModified(isModified)
+
+			self.fileReloaded.emit()
 			return True
 
 	@core.executionTrace
@@ -871,7 +891,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:return: Method success. ( Boolean )
 		"""
 
-		if not self.__isUntitled:
+		if not self.__isUntitled and foundations.common.pathExists(self.__file):
 			return self.writeFile(self.__file)
 		else:
 			return self.saveFileAs()
@@ -911,7 +931,9 @@ class Editor(CodeEditor_QPlainTextEdit):
 		writer.content = [self.toPlainText()]
 		if writer.write():
 			self.setModified(False)
-			self.__setTitle()
+			self.setTitle()
+
+			self.fileSaved.emit()
 			return True
 
 	@core.executionTrace

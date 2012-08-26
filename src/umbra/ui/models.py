@@ -584,6 +584,35 @@ class GraphModel(QAbstractItemModel):
 
 	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def nodeChanged(self, node):
+		"""
+		This method calls :meth:`QAbstractItemModel.dataChanged` with given node index.
+		
+		:param node: Node. ( AbstractCompositeNode )
+		:return: Method success. ( Boolean )
+		"""
+
+		index = self.getNodeIndex(node)
+		self.dataChanged.emit(index, index)
+		return True
+
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def attributeChanged(self, node, column):
+		"""
+		This method calls :meth:`QAbstractItemModel.dataChanged` with given node attribute index.
+		
+		:param node: Node. ( AbstractCompositeNode )
+		:param column: Attribute column. ( Integer )
+		:return: Method success. ( Boolean )
+		"""
+
+		index = self.getAttributeIndex(node, column)
+		self.dataChanged.emit(index, index)
+		return True
+
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def findChildren(self, pattern=".*", flags=0):
 		"""
 		This method finds the children matching the given patten.

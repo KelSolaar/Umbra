@@ -1542,6 +1542,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__engine.contentDropped.connect(self.__engine__contentDropped)
 		self.__engine.layoutsManager.layoutRestored.connect(self.__engine_layoutsManager__layoutRestored)
 		self.__engine.fileSystemEventsManager.fileChanged.connect(self.__engine_fileSystemEventsManager__fileChanged)
+		self.__engine.fileSystemEventsManager.fileInvalidated.connect(self.__engine_fileSystemEventsManager__fileInvalidated)
 		self.__engine.fileSystemEventsManager.directoryChanged.connect(self.__engine_fileSystemEventsManager__directoryChanged)
 		self.__engine.fileSystemEventsManager.directoryInvalidated.connect(self.__engine_fileSystemEventsManager__directoryInvalidated)
 		self.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
@@ -1980,6 +1981,17 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.reloadFile(file)
 
 	@core.executionTrace
+	def __engine_fileSystemEventsManager__fileInvalidated(self, file):
+		"""
+		This method is triggered by the **fileSystemEventsManager** when a file is invalidated.
+		
+		:param file: File changed. ( String )
+		"""
+
+		if file in self.listFiles():
+			self.getEditor(file).setModified(True)
+
+	@core.executionTrace
 	def __engine_fileSystemEventsManager__directoryChanged(self, directory):
 		"""
 		This method is triggered by the **fileSystemEventsManager** when a directory is changed.
@@ -1989,11 +2001,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		for projectNode in self.__model.listProjectNodes():
 			if projectNode.path == directory:
-				self.__updateProjectNodes(projectNode)
+				self.__model.updateProjectNodes(projectNode)
 			else:
 				for node in foundations.walkers.nodesWalker(projectNode):
 					if node.path == directory:
-						self.__updateProjectNodes(node)
+						self.__model.updateProjectNodes(node)
 						break
 
 	@core.executionTrace
@@ -2038,7 +2050,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param fileNode: Registered file FileNode. ( FileNode )
 		"""
 
-		self.__registerNodePath(fileNode)
+		self.registerNodePath(fileNode)
 
 	@core.executionTrace
 	def __model__fileUnregistered(self, fileNode):
@@ -2048,7 +2060,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param fileNode: Unregistered file FileNode. ( FileNode )
 		"""
 
-		self.__unregisterNodePath(fileNode)
+		self.unregisterNodePath(fileNode)
 
 	@core.executionTrace
 	def __model__directoryRegistered(self, directoryNode):
@@ -2058,7 +2070,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param directoryNode: Registered directory DirectoryNode. ( DirectoryNode )
 		"""
 
-		self.__registerNodePath(directoryNode)
+		self.registerNodePath(directoryNode)
 
 	@core.executionTrace
 	def __model__directoryUnregistered(self, directoryNode):
@@ -2068,7 +2080,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param directoryNode: Unregistered directory DirectoryNode. ( DirectoryNode )
 		"""
 
-		self.__unregisterNodePath(directoryNode)
+		self.unregisterNodePath(directoryNode)
 
 	@core.executionTrace
 	def __model__projectRegistered(self, projectNode):
@@ -2078,7 +2090,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param projectNode: Registered project ProjectNode. ( ProjectNode )
 		"""
 
-		self.__registerNodePath(projectNode)
+		self.registerNodePath(projectNode)
 
 	@core.executionTrace
 	def __model__projectUnregistered(self, projectNode):
@@ -2088,7 +2100,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param projectNode: Unregistered project ProjectNode. ( ProjectNode )
 		"""
 
-		self.__unregisterNodePath(projectNode)
+		self.unregisterNodePath(projectNode)
 
 	@core.executionTrace
 	def __model__editorRegistered(self, editorNode):
@@ -2643,12 +2655,25 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__setWindowTitle()
 
 	@core.executionTrace
-	def __editor__fileChanged(self):
+	def __editor__fileLoaded(self):
 		"""
-		This method is triggered when an editor file is changed.
+		This method is triggered when an editor file is loaded.
 		"""
 
 		self.__setTabTitle(self.getEditorTab(self.sender()))
+
+	@core.executionTrace
+	def __editor__fileSaved(self):
+		"""
+		This method is triggered when an editor file is saved.
+		"""
+
+		path = strings.encode(self.sender().file)
+		if not foundations.common.pathExists(path):
+			return
+
+		not self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
+		self.__engine.fileSystemEventsManager.registerPath(path)
 
 	@core.executionTrace
 	def __editor__languageChanged(self):
@@ -2705,11 +2730,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			re.search(r"^\/[A-Z]:", strings.encode(url.path())) and strings.encode(url.path())[1:] or \
 			strings.encode(url.path())
 			if os.path.isdir(path):
-				continue
-
-			if self.loadFile(path):
-				self.__engine.layoutsManager.currentLayout != self.__developmentLayout and \
-				self.__engine.layoutsManager.restoreLayout(self.__developmentLayout)
+				self.addProject(os.path.normpath(path))
+			else:
+				if self.loadFile(path):
+					self.__engine.layoutsManager.currentLayout != self.__developmentLayout and \
+					self.__engine.layoutsManager.restoreLayout(self.__developmentLayout)
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
 
@@ -2861,142 +2886,35 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return name
 
 	@core.executionTrace
-	def __registerNodePath(self, node):
+	def registerNodePath(self, node):
 		"""
-		This method registers given node path.
+		This method registers given node path in the **fileSystemEventsManager**.
 
 		:param node: Node. ( FileNode / DirectoryNode / ProjectNode )
+		:return: Method success. ( Boolean )
 		"""
 
 		path = strings.encode(node.path)
 		if not foundations.common.pathExists(path):
 			return
 
-		path = strings.encode(node.path)
 		not self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
 		self.__engine.fileSystemEventsManager.registerPath(path)
+		return True
 
 	@core.executionTrace
-	def __unregisterNodePath(self, node):
+	def unregisterNodePath(self, node):
 		"""
-		This method unregisters given node and node children paths.
+		This method unregisters given node path from the **fileSystemEventsManager**..
 
 		:param node: Node. ( FileNode / DirectoryNode / ProjectNode )
+		:return: Method success. ( Boolean )
 		"""
 
 		path = strings.encode(node.path)
 		self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
 		self.__engine.fileSystemEventsManager.unregisterPath(path)
-
-	@core.executionTrace
-	def __setEditingNodes(self, editor):
-		"""
-		This method sets the Model editing nodes using given editor.
-
-		:param editor: Editor to set. ( Editor )
-		:return: Method success. ( Boolean )
-		"""
-
-		projectNode = self.__model.defaultProjectNode
-		fileNode = self.__model.registerFile(editor.file, projectNode)
-		editorNode = self.__model.registerEditor(editor, fileNode)
 		return True
-
-	@core.executionTrace
-	def __deleteEditingNodes(self, editor):
-		"""
-		This method deletes the Model editing nodes associated with given editor.
-
-		:param editor: Editor. ( Editor )
-		:return: Method success. ( Boolean )
-		"""
-
-		editorNode = foundations.common.getFirstItem(self.__model.getEditorNodes(editor))
-		fileNode = editorNode.parent
-		self.__model.unregisterEditor(editorNode)
-		self.__model.unregisterFile(fileNode, raiseException=False)
-		return True
-
-	@core.executionTrace
-	def __setProjectNodes(self, rootNode, maximumDepth=1):
-		"""
-		This method sets the project Model children nodes using given root node.
-
-		:param rootNode: Root node. ( ProjectNode / DirectoryNode )
-		:param maximumDepth: Maximum nodes nesting depth. ( Integer )
-		"""
-
-		rootDirectory = rootNode.path
-		for parentDirectory, directories, files in foundations.walkers.depthWalker(rootDirectory, maximumDepth):
-			if parentDirectory == rootDirectory:
-				parentNode = rootNode
-			else:
-				parentNode = foundations.common.getFirstItem(
-							[node for node in foundations.walkers.nodesWalker(rootNode) \
-							if node.family == "DirectoryNode" and node.path == parentDirectory])
-
-			if not parentNode:
-				continue
-
-			paths = [node.path for node in parentNode.children]
-			for directory in sorted(directories):
-				if directory.startswith("."):
-					continue
-
-				path = os.path.join(parentDirectory, directory)
-				if path in paths:
-					continue
-
-				directoryNode = self.__model.registerDirectory(path, parentNode)
-
-			for file in sorted(files):
-				if file.startswith("."):
-					continue
-
-				path = os.path.join(parentDirectory, file)
-				if path in paths:
-					continue
-
-				if foundations.common.isBinaryFile(path):
-					continue
-
-				fileNode = self.__model.registerFile(path, parentNode)
-
-	@core.executionTrace
-	def __deleteProjectNodes(self, node):
-		"""
-		This method deletes the Model project nodes associated with given node.
-
-		:param node: Node. ( ProjectNode )
-		"""
-
-		self.__unregisterProjectNodes(node)
-		self.__model.unregisterProject(node)
-
-	@core.executionTrace
-	def __unregisterProjectNodes(self, node):
-		"""
-		This method unregisters given node children.
-		
-		:param node: Node. ( ProjectNode / DirectoryNode )
-		"""
-
-		for node in reversed(list(foundations.walkers.nodesWalker(node))):
-			if node.family == "DirectoryNode":
-				self.__model.unregisterDirectory(node)
-			elif node.family == "FileNode":
-				self.__model.unregisterFile(node)
-
-	@core.executionTrace
-	def __updateProjectNodes(self, node):
-		"""
-		This method updates given root node children.
-		
-		:param node: Node. ( ProjectNode / DirectoryNode )
-		"""
-
-		self.__unregisterProjectNodes(node)
-		self.__setProjectNodes(node)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
@@ -3135,7 +3053,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		editor.patternsReplaced.connect(self.__editor__patternsReplaced)
 		editor.languageChanged.connect(self.__editor__languageChanged)
 		editor.titleChanged.connect(self.__editor__titleChanged)
-		editor.fileChanged.connect(self.__editor__fileChanged)
+		editor.fileLoaded.connect(self.__editor__fileLoaded)
+		editor.fileSaved.connect(self.__editor__fileSaved)
 		editor.cursorPositionChanged.connect(self.Editor_Status_editorStatus._EditorStatus__editor__cursorPositionChanged)
 		return index
 
@@ -3240,7 +3159,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor.loadDocument(document, file, language):
 			return
 
-		if self.__setEditingNodes(editor):
+		if self.__model.setAuthoringNodes(editor):
 			self.__storeRecentFile(file)
 			self.fileLoaded.emit(file)
 			return True
@@ -3268,7 +3187,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not projectNode:
 			return
 
-		self.__setProjectNodes(projectNode)
+		self.__model.setProjectNodes(projectNode)
 		return True
 
 	@core.executionTrace
@@ -3288,7 +3207,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		LOGGER.info("{0} | Removing '{1}' project!".format(self.__class__.__name__, path))
-		self.__deleteProjectNodes(projectNode)
+		self.__model.deleteProjectNodes(projectNode)
 		return True
 
 	@core.executionTrace
@@ -3309,7 +3228,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.info("{0} | Creating '{1}' file!".format(self.__class__.__name__, file))
 
-		if self.__setEditingNodes(editor):
+		if self.__model.setAuthoringNodes(editor):
 			self.__storeRecentFile(file)
 			self.fileLoaded.emit(file)
 			return True
@@ -3341,7 +3260,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor.loadFile(file):
 			return
 
-		if self.__setEditingNodes(editor):
+		if self.__model.setAuthoringNodes(editor):
 			self.__storeRecentFile(file)
 			self.fileLoaded.emit(file)
 			return True
@@ -3420,11 +3339,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, file))
 		self.__lockEditor(editor)
 		if editor.saveFileAs(file):
+			self.__model.updateAuthoringNodes(editor)
 			language = self.__languagesModel.getFileLanguage(file) or self.__languagesModel.getLanguage(self.__defaultLanguage)
 			if editor.language.name != language.name:
 				self.setLanguage(editor, language)
-			editor.parent.path = file
-			self.__model.fileRegistered.emit(file)
 			return True
 
 	@core.executionTrace
@@ -3440,9 +3358,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__engine.startProcessing("Saving All Files ...", len(self.listEditors()))
 		success = True
 		for file in self.listFiles():
-			if not self.getEditor(file):
-				continue
-
 			success *= self.saveFile(file)
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
@@ -3488,7 +3403,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor.closeFile():
 			return
 
-		if self.__deleteEditingNodes(editor):
+		if self.__model.deleteAuthoringNodes(editor):
 			if not self.hasEditorTab() and leaveFirstEditor:
 				self.newFile()
 			self.fileClosed.emit(file)
@@ -3507,9 +3422,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		# self.__engine.startProcessing("Closing All Files ...", len(self.listEditors()))
 		success = True
 		for file in self.listFiles():
-			if not self.getEditor(file):
-				continue
-
 			success *= self.closeFile(file, leaveFirstEditor) and True or False
 			# self.__engine.stepProcessing()
 		# self.__engine.stopProcessing()
@@ -3747,5 +3659,4 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				success *= self.loadFile(path)
 			else:
 				success *= self.addProject(path)
-
 		return success
