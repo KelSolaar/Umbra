@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`ScriptEditor` Component Interface class and :class:`ScriptEditor_QTabWidget` class.
+	This module defines the :class:`ScriptEditor` Component Interface class.
 
 **Others:**
 
@@ -37,7 +37,6 @@ from PyQt4.QtGui import QInputDialog
 from PyQt4.QtGui import QKeySequence
 from PyQt4.QtGui import QMenu
 from PyQt4.QtGui import QMenuBar
-from PyQt4.QtGui import QTabWidget
 from PyQt4.QtGui import QTextCursor
 from PyQt4.QtGui import QTextOption
 
@@ -63,6 +62,7 @@ from umbra.components.factory.scriptEditor.models import LanguagesModel
 from umbra.components.factory.scriptEditor.models import ProjectsModel
 from umbra.components.factory.scriptEditor.searchAndReplace import SearchAndReplace
 from umbra.components.factory.scriptEditor.searchInFiles import SearchInFiles
+from umbra.components.factory.scriptEditor.views import ScriptEditor_QTabWidget
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
 from umbra.globals.uiConstants import UiConstants
@@ -78,7 +78,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "COMPONENT_UI_FILE", "ScriptEditor_QTabWidget", "ScriptEditor"]
+__all__ = ["LOGGER", "COMPONENT_UI_FILE", "ScriptEditor"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
@@ -87,109 +87,6 @@ COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Script_Editor
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class ScriptEditor_QTabWidget(QTabWidget):
-	"""
-	| This class is a `QTabWidget <http://doc.qt.nokia.com/qtabwidget.html>`_ subclass used
-		to display **ScriptEditor** editors.
-	| It provides support for drag'n'drop by reimplementing relevant methods.
-	"""
-
-	# Custom signals definitions.
-	contentDropped = pyqtSignal(QEvent)
-	"""
-	This signal is emited by the :class:`ScriptEditor_QTabWidget` class when it receives dropped content. ( pyqtSignal )
-
-	:return: Event. ( QEvent )	
-	"""
-
-	@core.executionTrace
-	def __init__(self, parent):
-		"""
-		This method initializes the class.
-
-		:param parent: Parent object. ( QObject )
-		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
-		QTabWidget.__init__(self, parent)
-
-		self.setAcceptDrops(True)
-
-		# --- Setting class attributes. ---
-		self.__container = parent
-
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
-	@property
-	def container(self):
-		"""
-		This method is the property for **self.__container** attribute.
-
-		:return: self.__container. ( QObject )
-		"""
-
-		return self.__container
-
-	@container.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def container(self, value):
-		"""
-		This method is the setter method for **self.__container** attribute.
-
-		:param value: Attribute value. ( QObject )
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
-
-	@container.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def container(self):
-		"""
-		This method is the deleter method for **self.__container** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
-
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	@core.executionTrace
-	def dragEnterEvent(self, event):
-		"""
-		This method reimplements the :meth:`QTabWidget.dragEnterEvent` method.
-
-		:param event: QEvent. ( QEvent )
-		"""
-
-		LOGGER.debug("> '{0}' widget drag enter event accepted!".format(self.__class__.__name__))
-		event.accept()
-
-	@core.executionTrace
-	def dragMoveEvent(self, event):
-		"""
-		This method reimplements the :meth:`QTabWidget.dragMoveEvent` method.
-
-		:param event: QEvent. ( QEvent )
-		"""
-
-		LOGGER.debug("> '{0}' widget drag move event accepted!".format(self.__class__.__name__))
-		event.accept()
-
-	@core.executionTrace
-	def dropEvent(self, event):
-		"""
-		This method reimplements the :meth:`QTabWidget.dropEvent` method.
-
-		:param event: QEvent. ( QEvent )
-		"""
-
-		LOGGER.debug("> '{0}' widget drop event accepted!".format(self.__class__.__name__))
-		self.contentDropped.emit(event)
-
 class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
 	This class is the :mod:`sibl_gui.components.addons.scriptEditor.scriptEditor` Component Interface class.
