@@ -26,6 +26,7 @@ from PyQt4.QtGui import QSortFilterProxyModel
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
+import foundations.core as core
 from umbra.components.factory.scriptEditor.nodes import EditorNode
 from umbra.globals.constants import Constants
 
@@ -52,6 +53,31 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 	:class:`umbra.components.factory.projectsExplorer.projectsExplorer.ProjectsExplorer` Component Interface class. 
 	"""
 
+	@core.executionTrace
+	def __init__(self, parent, *args, **kwargs):
+		"""
+		This method initializes the class.
+
+		:param parent: Object parent. ( QObject )
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		QSortFilterProxyModel.__init__(self, parent, *args, **kwargs)
+
+		# --- Setting class attributes. ---
+		color = "rgb({0}, {1}, {2})"
+		self.__editorNodeFormat = "<span>{0}</span>"
+		self.__fileNodeFormat = "<span style=\"color: {0};\">{{0}}</span>".format(color.format(160, 160, 160))
+		self.__directoryNodeFormat = "{0}"
+		self.__projectNodeFormat = "<b>{0}</b>"
+		self.__defaultProjectNodeFormat = "<b>Open Files</b>"
+
+	#******************************************************************************************************************
+	#***	Class methods
+	#******************************************************************************************************************
 	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def filterAcceptsRow(self, row, parent):
@@ -83,16 +109,16 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 		if role == Qt.DisplayRole:
 			node = self.getNode(index)
 			if node.family == "EditorNode":
-				data = "<span>{0}</span>".format(node.name)
+				data = self.__editorNodeFormat.format(node.name)
 			elif node.family == "FileNode":
-				data = "<b>{0}<b>".format(node.name)
+				data = self.__fileNodeFormat.format(node.name)
 			elif node.family == "DirectoryNode":
-				data = "<span>{0}</span>".format(node.name)
+				data = self.__directoryNodeFormat.format(node.name)
 			elif node.family == "ProjectNode":
 				if node is self.sourceModel().defaultProjectNode:
-					data = "<b>Open Files</b>".format(node.name)
+					data = self.__defaultProjectNodeFormat.format(node.name)
 				else:
-					data = "<b>{0}</b>".format(node.name)
+					data = self.__projectNodeFormat.format(node.name)
 			else:
 				data = QVariant()
 			return data
