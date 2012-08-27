@@ -19,6 +19,8 @@
 #***	External imports.
 #**********************************************************************************************************************
 import logging
+from PyQt4.QtCore import Qt
+from PyQt4.QtCore import QVariant
 from PyQt4.QtGui import QSortFilterProxyModel
 
 #**********************************************************************************************************************
@@ -66,6 +68,36 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 			return False
 
 		return True
+
+	# @core.executionTrace
+	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def data(self, index, role=Qt.DisplayRole):
+		"""
+		This method reimplements the :meth:`QSortFilterProxyModel.data` method.
+		
+		:param index: Index. ( QModelIndex )
+		:param role: Role. ( Integer )
+		:return: Data. ( QVariant )
+		"""
+
+		if role == Qt.DisplayRole:
+			node = self.getNode(index)
+			if node.family == "EditorNode":
+				data = "<span>{0}</span>".format(node.name)
+			elif node.family == "FileNode":
+				data = "<b>{0}<b>".format(node.name)
+			elif node.family == "DirectoryNode":
+				data = "<span>{0}</span>".format(node.name)
+			elif node.family == "ProjectNode":
+				if node is self.sourceModel().defaultProjectNode:
+					data = "<b>Open Files</b>".format(node.name)
+				else:
+					data = "<b>{0}</b>".format(node.name)
+			else:
+				data = QVariant()
+			return data
+		else:
+			return QSortFilterProxyModel.data(self, index, role)
 
 	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)

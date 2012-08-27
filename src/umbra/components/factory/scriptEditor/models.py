@@ -126,13 +126,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	:return: Unregistered project ProjectNode. ( ProjectNode )	
 	"""
 
-	authoringNodesUpdated = pyqtSignal(FileNode)
-	"""
-	This signal is emited by the :class:`ProjectsModel` class when authoring nodes have been updated. ( pyqtSignal )
-
-	:return: Updated authoring FileNode. ( FileNode )	
-	"""
-
 	@core.executionTrace
 	def __init__(self,
 				parent=None,
@@ -730,7 +723,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		fileNode.name = editorNode.name = os.path.basename(file)
 		fileNode.path = editorNode.path = file
 
-		self.authoringNodesUpdated.emit(fileNode)
+		self.nodeChanged(fileNode)
 		return True
 
 	@core.executionTrace
