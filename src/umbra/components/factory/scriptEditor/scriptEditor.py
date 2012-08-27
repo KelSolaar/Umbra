@@ -1865,6 +1865,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		font = QFont(fontFamily)
 		font.setPointSize(fontSize)
 		self.Script_Editor_Output_plainTextEdit.setFont(font)
+		self.Script_Editor_Output_plainTextEdit.contextMenuEvent = \
+		self.__Script_Editor_Output_plainTextEdit_contextMenuEvent
 		self.__Script_Editor_Output_plainTextEdit_setDefaultViewState()
 
 	# @core.executionTrace
@@ -1890,6 +1892,21 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				self.Script_Editor_Output_plainTextEdit.insertPlainText(line)
 			self.__Script_Editor_Output_plainTextEdit_setDefaultViewState()
 			self.__memoryHandlerStackDepth = memoryHandlerStackDepth
+
+	# @core.executionTrace
+	def __Script_Editor_Output_plainTextEdit_contextMenuEvent(self, event):
+		"""
+		This method reimplements the :meth:`QPlainTextEdit.contextMenuEvent` method.
+
+		:param event: QEvent. ( QEvent )
+		"""
+
+		menu = self.Script_Editor_Output_plainTextEdit.createStandardContextMenu()
+		menu.addSeparator()
+		menu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|Edit Selected Path",
+		slot=self.__editSelectedPathAction__triggered))
+		menu.exec_(event.globalPos())
 
 	@core.executionTrace
 	def __Script_Editor_tabWidget_setUi(self):
@@ -1934,7 +1951,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param event: Event. ( QEvent )
 		"""
 
-		self.__handleContentDroppedEvent(event)
+		self.__handleDroppedContent(event)
 
 	@core.executionTrace
 	def __Script_Editor_tabWidget_tabBar__tabMoved(self, toIndex, fromIndex):
@@ -1963,7 +1980,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param event: Event. ( QEvent )
 		"""
 
-		self.__handleContentDroppedEvent(event)
+		self.__handleDroppedContent(event)
 
 	@core.executionTrace
 	def __engine_layoutsManager__layoutRestored(self, currentLayout):
@@ -2652,6 +2669,17 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return self.loopThroughEditors()
 
 	@core.executionTrace
+	def __editSelectedPathAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|Edit Selected Path'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.__handlePath(strings.encode(self.Script_Editor_Output_plainTextEdit.getSelectedText()))
+
+	@core.executionTrace
 	def __editor__patternsReplaced(self, patterns):
 		"""
 		This method is triggered when an editor patterns have been replaced.
@@ -2723,11 +2751,33 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				languages.append(languageDescription)
 
 		self.__languagesModel = LanguagesModel(self, sorted(languages, key=lambda x: (x.name)))
-		self.__getSupportedFileTypesDialogString()
+		self.__getSupportedFileTypesString()
+
+	@core.executionTrace
+	def __handlePath(self, path):
+		"""
+		This method handles given path and tries to load it.
+		
+		:param path: Path to load. ( String )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not foundations.common.pathExists(path):
+			return
+
+		if os.path.isfile(path):
+			if path in self.listFiles():
+				self.setCurrentEditor(path)
+			else:
+				self.loadFile(path)
+		else:
+			if not path in self.listProjects():
+				self.addProject(path)
+		return True
 
 	@core.executionTrace
 	@umbra.engine.encapsulateProcessing
-	def __handleContentDroppedEvent(self, event):
+	def __handleDroppedContent(self, event):
 		"""
 		This method handles dopped content event.
 		
@@ -2745,17 +2795,14 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and \
 			re.search(r"^\/[A-Z]:", strings.encode(url.path())) and strings.encode(url.path())[1:] or \
 			strings.encode(url.path())
-			if os.path.isdir(path):
-				self.addProject(os.path.normpath(path))
-			else:
-				if self.loadFile(path):
-					self.__engine.layoutsManager.currentLayout != self.__developmentLayout and \
-					self.__engine.layoutsManager.restoreLayout(self.__developmentLayout)
+			if self.__handlePath(path):
+				self.__engine.layoutsManager.currentLayout != self.__developmentLayout and \
+				self.__engine.layoutsManager.restoreLayout(self.__developmentLayout)
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
 
 	@core.executionTrace
-	def __getSupportedFileTypesDialogString(self):
+	def __getSupportedFileTypesString(self):
 		"""
 		This method returns the supported file types dialog string.
 		"""
@@ -2877,7 +2924,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		delattr(editor, "__lock")
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __getUntitledFileName(self):
 		"""
 		This method returns an untitled file name.
@@ -2902,6 +2948,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return name
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def registerNodePath(self, node):
 		"""
 		This method registers given node path in the **fileSystemEventsManager**.
@@ -2919,6 +2966,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return True
 
 	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def unregisterNodePath(self, node):
 		"""
 		This method unregisters given node path from the **fileSystemEventsManager**..
@@ -2950,7 +2998,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		files = umbra.ui.common.storeLastBrowsedPath(QFileDialog.getOpenFileNames(self,
 																				"Load File(s):",
 																				browsedPath,
-																				self.__getSupportedFileTypesDialogString()))
+																				self.__getSupportedFileTypesString()))
 		if not files:
 			return
 
@@ -3193,6 +3241,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not foundations.common.pathExists(path):
 			return
 
+		path = os.path.normpath(path)
 		if self.__model.getProjectNodes(path):
 			self.__engine.notificationsManager.warnify(
 			"{0} | '{1}' project is already opened!".format(self.__class__.__name__, path))
