@@ -17,12 +17,14 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
+import itertools
 import logging
 import os
-import itertools
+import shutil
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QAction
 from PyQt4.QtGui import QInputDialog
+from PyQt4.QtGui import QMessageBox
 
 #**********************************************************************************************************************
 #***	Internal imports.
@@ -31,12 +33,14 @@ import foundations.core as core
 import foundations.exceptions
 import foundations.strings as strings
 import umbra.ui.common
+import umbra.ui.widgets.messageBox as messageBox
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.globals.constants import Constants
 from umbra.components.addins.projectsExplorer.models import ProjectsProxyModel
 from umbra.components.addins.projectsExplorer.views import Projects_QTreeView
 from umbra.ui.delegates import RichText_QStyledItemDelegate
 from umbra.ui.delegates import Style
+from logging import raiseExceptions
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -606,12 +610,12 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__view.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|addins.projectsExplorer|Rename ...",
 		slot=self.__view_renameAction__triggered))
-		self.__view.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|addins.projectsExplorer|Copy ...",
-		slot=self.__view_copyAction__triggered))
-		self.__view.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|addins.projectsExplorer|Move ...",
-		slot=self.__view_moveAction__triggered))
+		# self.__view.addAction(self.__engine.actionsManager.registerAction(
+		# "Actions|Umbra|Components|addins.projectsExplorer|Copy ...",
+		# slot=self.__view_copyAction__triggered))
+		# self.__view.addAction(self.__engine.actionsManager.registerAction(
+		# "Actions|Umbra|Components|addins.projectsExplorer|Move ...",
+		# slot=self.__view_moveAction__triggered))
 
 		separatorAction = QAction(self.__view)
 		separatorAction.setSeparator(True)
@@ -620,6 +624,14 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__view.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|addins.projectsExplorer|Delete ...",
 		slot=self.__view_deleteAction__triggered))
+
+		separatorAction = QAction(self.__view)
+		separatorAction.setSeparator(True)
+		self.__view.addAction(separatorAction)
+
+		self.__view.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|addins.projectsExplorer|Find In Files ...",
+		slot=self.__view_findInFilesAction__triggered))
 
 		separatorAction = QAction(self.__view)
 		separatorAction.setSeparator(True)
@@ -640,9 +652,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		addNewFileAction = "Actions|Umbra|Components|addins.projectsExplorer|Add New File ..."
 		addNewDirectoryAction = "Actions|Umbra|Components|addins.projectsExplorer|Add New Directory ..."
 		renameAction = "Actions|Umbra|Components|addins.projectsExplorer|Rename ..."
-		copyAction = "Actions|Umbra|Components|addins.projectsExplorer|Copy ..."
-		moveAction = "Actions|Umbra|Components|addins.projectsExplorer|Move ..."
+		# copyAction = "Actions|Umbra|Components|addins.projectsExplorer|Copy ..."
+		# moveAction = "Actions|Umbra|Components|addins.projectsExplorer|Move ..."
 		deleteAction = "Actions|Umbra|Components|addins.projectsExplorer|Delete ..."
+		findInFilesAction = "Actions|Umbra|Components|addins.projectsExplorer|Find In Files ..."
 		outputSelectedPathAction = "Actions|Umbra|Components|addins.projectsExplorer|Output Selected Path"
 
 		for action in (addProjectAction,
@@ -650,8 +663,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 						addNewFileAction,
 						addNewDirectoryAction,
 						renameAction,
-						copyAction,
-						moveAction,
+						# copyAction,
+						# moveAction,
 						deleteAction,
 						outputSelectedPathAction):
 			self.__view.removeAction(self.__engine.actionsManager.getAction(action))
@@ -802,27 +815,27 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.rename(node)
 
-	@core.executionTrace
-	def __view_copyAction__triggered(self, checked):
-		"""
-		This method is triggered by **'"Actions|Umbra|Components|addins.projectsExplorer|Copy ..."'** action.
+	# @core.executionTrace
+	# def __view_copyAction__triggered(self, checked):
+	# 	"""
+	# 	This method is triggered by **'"Actions|Umbra|Components|addins.projectsExplorer|Copy ..."'** action.
+	# 
+	# 	:param checked: Checked state. ( Boolean )
+	# 	:return: Method success. ( Boolean )
+	# 	"""
+	# 
+	# 	print "Actions|Umbra|Components|addins.projectsExplorer|Copy ..."
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
-		"""
-
-		print "Actions|Umbra|Components|addins.projectsExplorer|Copy ..."
-
-	@core.executionTrace
-	def __view_moveAction__triggered(self, checked):
-		"""
-		This method is triggered by **'"Actions|Umbra|Components|addins.projectsExplorer|Move ..."'** action.
-
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
-		"""
-
-		print "Actions|Umbra|Components|addins.projectsExplorer|Move ..."
+	# @core.executionTrace
+	# def __view_moveAction__triggered(self, checked):
+	# 	"""
+	# 	This method is triggered by **'"Actions|Umbra|Components|addins.projectsExplorer|Move ..."'** action.
+	# 
+	# 	:param checked: Checked state. ( Boolean )
+	# 		:return: Method success. ( Boolean )
+	# 	"""
+	# 
+	# 	print "Actions|Umbra|Components|addins.projectsExplorer|Move ..."
 
 	@core.executionTrace
 	def __view_deleteAction__triggered(self, checked):
@@ -833,7 +846,27 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		print "Actions|Umbra|Components|addins.projectsExplorer|Delete ..."
+		node = foundations.common.getFirstItem(self.getSelectedNodes())
+		if not node:
+			return
+
+		return self.delete(node)
+
+	@core.executionTrace
+	def __view_findInFilesAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|addins.projectsExplorer|Find In Files ...'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		node = foundations.common.getFirstItem(self.__view.getSelectedNodes().iterkeys())
+		if not node:
+			return
+
+		self.__factoryScriptEditor.searchInFiles.Where_lineEdit.setText(node.path)
+		self.__factoryScriptEditor.searchInFiles.show()
 
 	@core.executionTrace
 	def __view_outputSelectedPathAction__triggered(self, checked):
@@ -891,9 +924,47 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__factoryScriptEditor.model.updateAuthoringNodes(editor)
 
 	@core.executionTrace
+	def __renamePath(self, source, target):
+		"""
+		This method renames given source with given target name.
+
+		:param source: Source file. ( String )
+		:param target: Target file. ( String )
+		"""
+
+		if not foundations.common.pathExists(source):
+			return
+
+		parentDirectory = os.path.dirname(source)
+		isPathRegistered = self.__engine.fileSystemEventsManager.isPathRegistered(parentDirectory)
+		isPathRegistered and self.__engine.fileSystemEventsManager.unregisterPath(parentDirectory)
+		os.rename(source, target)
+		isPathRegistered and self.__engine.fileSystemEventsManager.registerPath(parentDirectory)
+
+	@core.executionTrace
+	def __deletePath(self, path):
+		"""
+		This method deletes given path.
+
+		:param path: Path to delete. ( String )
+		"""
+
+		if not foundations.common.pathExists(path):
+			return
+
+		parentDirectory = os.path.dirname(path)
+		isPathRegistered = self.__engine.fileSystemEventsManager.isPathRegistered(parentDirectory)
+		isPathRegistered and self.__engine.fileSystemEventsManager.unregisterPath(parentDirectory)
+		if os.path.isfile(path):
+			os.remove(path)
+		else:
+			shutil.rmtree(path)
+		isPathRegistered and self.__engine.fileSystemEventsManager.registerPath(parentDirectory)
+
+	@core.executionTrace
 	def __renameFile(self, source, target):
 		"""
-		This method renames a file and updates its authoring nodes using given source and target names.
+		This method renames a file using given source and target names.
 
 		:param source: Source file. ( String )
 		:param target: Target file. ( String )
@@ -901,9 +972,12 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		for fileNode in self.__factoryScriptEditor.model.getFileNodes(source, self.__factoryScriptEditor.model.rootNode):
 			self.__factoryScriptEditor.unregisterNodePath(fileNode)
-			foundations.common.pathExists(source) and os.rename(source, target)
-			self.__factoryScriptEditor.model.isAuthoringNode(fileNode) and self.__setAuthoringNodes(source, target)
+			self.__renamePath(source, target)
 			self.__factoryScriptEditor.registerNodePath(fileNode)
+			if self.__factoryScriptEditor.model.isAuthoringNode(fileNode):
+				 self.__setAuthoringNodes(source, target)
+			else:
+				self.__factoryScriptEditor.model.updateProjectNodes(fileNode.parent)
 
 	@core.executionTrace
 	def __renameDirectory(self, source, target):
@@ -918,7 +992,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 											self.__factoryScriptEditor.model.getDirectoryNodes(source)):
 			self.__factoryScriptEditor.model.unregisterProjectNodes(node)
 			self.__factoryScriptEditor.unregisterNodePath(node)
-			foundations.common.pathExists(source) and os.rename(source, target)
+			self.__renamePath(source, target)
 			node.name = os.path.basename(target)
 			node.path = target
 			self.__factoryScriptEditor.model.nodeChanged(node)
@@ -935,6 +1009,40 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		self.__renameDirectory(source, target)
+
+	@core.executionTrace
+	def __deleteFile(self, file):
+		"""
+		This method deletes given file.
+
+		:param file: File to delete. ( String )
+		"""
+
+		for fileNode in self.__factoryScriptEditor.model.getFileNodes(file, self.__factoryScriptEditor.model.rootNode):
+			self.__factoryScriptEditor.unregisterNodePath(fileNode)
+			self.__deletePath(file)
+			if self.__factoryScriptEditor.model.isAuthoringNode(fileNode):
+				self.__factoryScriptEditor.getEditor(file).setModified(True)
+			else:
+				self.__factoryScriptEditor.model.unregisterFile(fileNode)
+
+	@core.executionTrace
+	def __deleteDirectory(self, directory):
+		"""
+		This method deletes given directory.
+
+		:param directory: Directory to delete. ( String )
+		"""
+
+		for node in itertools.chain(self.__factoryScriptEditor.model.getProjectNodes(directory),
+											self.__factoryScriptEditor.model.getDirectoryNodes(directory)):
+			self.__factoryScriptEditor.model.unregisterProjectNodes(node)
+			if node.family == "DirectoryNode":
+				self.__factoryScriptEditor.model.unregisterProjectNodes(node)
+				self.__factoryScriptEditor.model.unregisterDirectory(node)
+			elif node.family == "ProjectNode":
+				self.__factoryScriptEditor.removeProject(directory)
+			self.__deletePath(directory)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -990,7 +1098,9 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		file = strings.encode(file)
 		if not file in os.listdir(directory):
-			open(os.path.join(directory, file), "w").close()
+			file = os.path.join(directory, file)
+			LOGGER.info("{0} | Adding '{1}' file!".format(self.__class__.__name__, file))
+			open(file, "w").close()
 		else:
 			self.__raiseFileSystemException(file, directory)
 		return True
@@ -1019,16 +1129,15 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		directory = strings.encode(directory)
 		if not directory in os.listdir(parentDirectory):
-			os.makedirs(os.path.join(parentDirectory, directory))
+			directory = os.path.join(parentDirectory, directory)
+			LOGGER.info("{0} | Adding '{1}' directory!".format(self.__class__.__name__, directory))
+			os.makedirs(directory)
 		else:
 			self.__raiseFileSystemException(file, parentDirectory)
 		return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
-											False,
-											foundations.exceptions.DirectoryExistsError,
-											Exception)
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def rename(self, node):
 		"""
 		This method renames given node associated path.
@@ -1050,18 +1159,48 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		target = os.path.join(parentDirectory, baseName)
 
 		if self.__factoryScriptEditor.model.isAuthoringNode(node):
-			if not foundations.common.pathExists(parentDirectory):
+			if not foundations.common.pathExists(source):
+				LOGGER.info("{0} | Renaming '{1}' untitled file to '{2}'!".format(self.__class__.__name__, source, target))
 				self.__setAuthoringNodes(source, target)
 				return
 
 		if not baseName in os.listdir(parentDirectory):
 			if node.family == "FileNode":
+				LOGGER.info("{0} | Renaming '{1}' file to '{2}'!".format(self.__class__.__name__, source, target))
 				self.__renameFile(source, target)
 			elif node.family == "DirectoryNode":
+				LOGGER.info("{0} | Renaming '{1}' directory to '{2}'!".format(self.__class__.__name__, source, target))
 				self.__renameDirectory(source, target)
 			elif node.family == "ProjectNode":
+				LOGGER.info("{0} | Renaming '{1}' project to '{2}'!".format(self.__class__.__name__, source, target))
 				self.__renameProject(source, target)
 		else:
 			self.__raiseFileSystemException(baseName, parentDirectory)
 
+		return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def delete(self, node):
+		"""
+		This method deletes given node associated path.
+
+		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
+		:return: Method success. ( Boolean )
+		"""
+
+		path = node.path
+		if self.__factoryScriptEditor.model.isAuthoringNode(node):
+			if not foundations.common.pathExists(path):
+				return
+
+		if messageBox.messageBox("Question", "Question",
+		"Are you sure you want to delete '{0}' {1}?".format(path, "file" if os.path.isfile(path) else "directory"),
+		buttons=QMessageBox.Yes | QMessageBox.No) == QMessageBox.Yes:
+			if os.path.isfile(path):
+				LOGGER.info("{0} | Deleting '{1}' file!".format(self.__class__.__name__, path))
+				self.__deleteFile(path)
+			else:
+				LOGGER.info("{0} | Deleting '{1}' directory!".format(self.__class__.__name__, path))
+				self.__deleteDirectory(path)
 		return True
