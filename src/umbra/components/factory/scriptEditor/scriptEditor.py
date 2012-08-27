@@ -1835,6 +1835,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__viewMenu.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|&View|Toggle White Spaces",
 		slot=self.__toggleWhiteSpacesAction__triggered))
+		self.__viewMenu.addSeparator()
+		self.__viewMenu.addAction(self.__engine.actionsManager.registerAction(
+		"Actions|Umbra|Components|factory.scriptEditor|&View|Loop Through Editors",
+		shortcut=Qt.SHIFT + Qt.Key_Tab,
+		slot=self.__loopThroughEditorsAction__triggered))
 		self.__menuBar.addMenu(self.__viewMenu)
 
 	# @core.executionTrace
@@ -2634,6 +2639,17 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return
 
 		return currentWidget.toggleWhiteSpaces()
+
+	@core.executionTrace
+	def __loopThroughEditorsAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Loop Through Editors'** action.
+
+		:param checked: Checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		return self.loopThroughEditors()
 
 	@core.executionTrace
 	def __editor__patternsReplaced(self, patterns):
@@ -3604,7 +3620,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def storeSession(self):
 		"""
 		This method stores the current session.
@@ -3640,7 +3656,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return True
 
 	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def restoreSession(self):
 		"""
 		This method restores the stored session.
@@ -3660,3 +3676,23 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			else:
 				success *= self.addProject(path)
 		return success
+
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def loopThroughEditors(self, backward=False):
+		"""
+		This method loops through the editor tabs.
+
+		:param backward: Looping backward. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
+		step = not backward and 1 or -1
+		idx = self.Script_Editor_tabWidget.currentIndex() + step
+		if idx < 0:
+			idx = self.Script_Editor_tabWidget.count() - 1
+		elif idx > self.Script_Editor_tabWidget.count() - 1:
+			idx = 0
+		self.Script_Editor_tabWidget.setCurrentIndex(idx)
+		return True
