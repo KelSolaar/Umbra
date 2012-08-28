@@ -2574,7 +2574,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		return self.__handlePath(strings.encode(self.Script_Editor_Output_plainTextEdit.getSelectedText()))
+		return self.loadPath(strings.encode(self.Script_Editor_Output_plainTextEdit.getSelectedText()))
 
 	@core.executionTrace
 	def __editor__patternsReplaced(self, patterns):
@@ -2651,28 +2651,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__getSupportedFileTypesString()
 
 	@core.executionTrace
-	def __handlePath(self, path):
-		"""
-		This method handles given path and tries to load it.
-		
-		:param path: Path to load. ( String )
-		:return: Method success. ( Boolean )
-		"""
-
-		if not foundations.common.pathExists(path):
-			return
-
-		if os.path.isfile(path):
-			if path in self.listFiles():
-				self.setCurrentEditor(path)
-			else:
-				self.loadFile(path)
-		else:
-			if not path in self.listProjects():
-				self.addProject(path)
-		return True
-
-	@core.executionTrace
 	@umbra.engine.encapsulateProcessing
 	def __handleDroppedContent(self, event):
 		"""
@@ -2692,7 +2670,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and \
 			re.search(r"^\/[A-Z]:", strings.encode(url.path())) and strings.encode(url.path())[1:] or \
 			strings.encode(url.path())
-			if self.__handlePath(path):
+			if self.loadPath(path):
 				self.__engine.layoutsManager.currentLayout != self.__developmentLayout and \
 				self.__engine.layoutsManager.restoreLayout(self.__developmentLayout)
 			self.__engine.stepProcessing()
@@ -3089,6 +3067,29 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if index is not None:
 			self.Script_Editor_tabWidget.setCurrentIndex(index)
 			return True
+
+	@core.executionTrace
+	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	def loadPath(self, path):
+		"""
+		This method loads given path.
+		
+		:param path: Path to load. ( String )
+		:return: Method success. ( Boolean )
+		"""
+
+		if not foundations.common.pathExists(path):
+			return
+
+		if os.path.isfile(path):
+			if path in self.listFiles():
+				self.setCurrentEditor(path)
+			else:
+				self.loadFile(path)
+		else:
+			if not path in self.listProjects():
+				self.addProject(path)
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, 	Exception)

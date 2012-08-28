@@ -33,37 +33,34 @@ __status__ = "Production"
 
 __all__ = ["uEdit"]
 
-COMMAND_TEMPLATE = ["[application.componentsManager[\"factory.scriptEditor\"].loadFile(file) for file in {0}]",
+COMMAND_TEMPLATE = ["[application.componentsManager[\"factory.scriptEditor\"].loadPath(path) for path in {0}]",
 					"application.layoutsManager.restoreLayout(\"developmentCentric\")",
 					"application.raise_()"]
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-def uEdit(*paths):
+def uEdit(*args):
 	"""
 	This definition edits given paths into Umbra.
 
-	:param \*paths: Paths. ( \* )
+	:param \*args: Arguments. ( \* )
 	:return: Definition success. ( Boolean )
 	"""
 
-	files = []
-	for path in paths:
-		if not os.path.isfile(path):
-			continue
-
+	paths = []
+	for path in args:
 		if not os.path.exists(path):
 			continue
 
-		files.append(os.path.abspath(path))
+		paths.append(os.path.abspath(path))
 
-	if not files:
+	if not paths:
 		return
 
 	connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	connection.connect((socket.gethostbyname(socket.gethostname()), 16384))
-	connection.send("{0}<!RE>".format("\n".join(COMMAND_TEMPLATE).format(files)))
+	connection.send("{0}<!RE>".format("\n".join(COMMAND_TEMPLATE).format(paths)))
 	connection.close()
 	return True
 
