@@ -832,6 +832,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		# Signals / Slots.
 		self.__view.selectionModel().selectionChanged.connect(self.__view_selectionModel__selectionChanged)
+		self.__view.doubleClicked.connect(self.__view__doubleClicked)
 		self.__searchPatternsModel.patternInserted.connect(functools.partial(
 		self.__patternsModel__patternInserted, self.Search_comboBox))
 		self.__replaceWithPatternsModel.patternInserted.connect(functools.partial(
@@ -945,6 +946,25 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.close()
 
 	@core.executionTrace
+	def __view__doubleClicked(self, index):
+		"""
+		This method is triggered when a View Widget is double clicked.
+
+		:param index: Clicked item index. ( QModelIndex )
+		"""
+
+		node = self.__model.getNode(index)
+
+		if node.family == "SearchOccurence":
+			file = node.parent.file
+			occurence = node
+		elif node.family in ("SearchFile", "ReplaceResult"):
+			file = node.file
+			occurence = None
+
+		self.__highlightOccurence(file, occurence)
+
+	@core.executionTrace
 	def __view_selectionModel__selectionChanged(self, selectedItems, deselectedItems):
 		"""
 		This method is triggered when the View **selectionModel** has changed.
@@ -966,7 +986,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			file = node.file
 			occurence = None
 
-		self.__highlightOccurence(file, occurence)
+		if self.__container.getEditor(file):
+			self.__highlightOccurence(file, occurence)
 
 	@core.executionTrace
 	def __searchWorkerThread__searchFinished(self, searchResults):
@@ -1071,7 +1092,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			if cacheData:
 				document = cacheData.document or self.__getDocument(cacheData.content)
 				self.__container.loadDocument(document, file)
-				self.__filesCache.removeContent(file)
+				self.__uncache(file)
 			else:
 				self.__container.loadFile(file)
 		else:
@@ -1144,6 +1165,29 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			self.__searchWorkerThread.quit()
 			self.__searchWorkerThread.wait()
 			self.__container.engine.stopProcessing(warning=False)
+
+	@core.executionTrace
+	def __cache(self, file, content, document):
+		"""
+		This method caches given file.
+
+		:param file: File to cache. ( String )
+		:param content: File content. ( List )
+		:param document: File document. ( QTextDocument )
+		"""
+
+		self.__filesCache.addContent(**{file : CacheData(content=content, document=document)})
+
+	@core.executionTrace
+	def __uncache(self, file):
+		"""
+		This method uncaches given file.
+
+		:param file: File to uncache. ( String )
+		"""
+
+		if file in self.__filesCache:
+			self.__filesCache.removeContent(file)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -1261,7 +1305,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 				content = self.__filesCache.getContent(file).content
 				document = self.__getDocument(content)
-				self.__filesCache.addContent(**{file : CacheData(content=content, document=document)})
+				self.__cache(file, content, document)
 			replaceResults[file] = self.__replaceWithinDocument(document, occurences, replacementPattern)
 
 		self.setReplaceResults(replaceResults)
@@ -1286,6 +1330,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			if self.__container.getEditor(file):
 				if self.__container.saveFile(file):
 					metrics["Opened"] += 1
+					self.__uncache(file)
 			else:
 				cacheData = self.__filesCache.getContent(file)
 				if cacheData is None:
@@ -1298,6 +1343,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 					fileHandle.content = [cacheData.document.toPlainText()]
 					if fileHandle.write():
 						metrics["Cached"] += 1
+						self.__uncache(file)
 				else:
 					LOGGER.warning(
 					"!> {0} | '{1}' file document doesn't exists in files cache!".format(self.__class__.__name__, file))

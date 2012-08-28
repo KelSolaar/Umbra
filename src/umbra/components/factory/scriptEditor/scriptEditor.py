@@ -1897,6 +1897,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param file: File changed. ( String )
 		"""
 
+		file = strings.encode(file)
+		self.searchInFiles._SearchInFiles__uncache(file)
 		self.reloadFile(file)
 
 	@core.executionTrace
@@ -1907,8 +1909,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param file: File changed. ( String )
 		"""
 
-		if file in self.listFiles():
-			self.getEditor(file).setModified(True)
+		file = strings.encode(file)
+		self.searchInFiles._SearchInFiles__uncache(file)
+		editor = self.getEditor(file)
+		editor and	editor.setModified(True)
 
 	@core.executionTrace
 	def __engine_fileSystemEventsManager__directoryChanged(self, directory):
@@ -2625,6 +2629,16 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Editor_Status_editorStatus._EditorStatus__Languages_comboBox_setDefaultViewState()
 
 	@core.executionTrace
+	def __editor__modificationChanged(self, changed):
+		"""
+		This method is triggered when an editor document is modified.
+		
+		:param changed: File modification state. ( Boolean )
+		"""
+
+		self.searchInFiles._SearchInFiles__uncache(self.sender().file)
+
+	@core.executionTrace
 	def __initializeLanguagesModel(self):
 		"""
 		This method initializes the languages Model.
@@ -2990,10 +3004,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		# Signals / Slots.
 		editor.patternsReplaced.connect(self.__editor__patternsReplaced)
-		editor.languageChanged.connect(self.__editor__languageChanged)
 		editor.titleChanged.connect(self.__editor__titleChanged)
 		editor.fileLoaded.connect(self.__editor__fileLoaded)
 		editor.fileSaved.connect(self.__editor__fileSaved)
+		editor.languageChanged.connect(self.__editor__languageChanged)
+		editor.modificationChanged.connect(self.__editor__modificationChanged)
 		editor.cursorPositionChanged.connect(self.Editor_Status_editorStatus._EditorStatus__editor__cursorPositionChanged)
 		return index
 
