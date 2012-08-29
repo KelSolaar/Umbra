@@ -165,6 +165,7 @@ def completionPreEventInputAccelerators(editor, event):
 	processEvent = True
 
 	if editor.completer:
+		# TODO: Investigate the slowdown on popup visibility test.
 		if editor.completer.popup().isVisible():
 			if event.key() in (Qt.Key_Enter, Qt.Key_Return, Qt.Key_Escape, Qt.Key_Tab, Qt.Key_Backtab):
 				event.ignore()
