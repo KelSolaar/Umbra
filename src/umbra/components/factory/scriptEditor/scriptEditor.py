@@ -31,6 +31,7 @@ from PyQt4.QtCore import Qt
 from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtGui import QAction
 from PyQt4.QtGui import QApplication
+from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QFileDialog
 from PyQt4.QtGui import QFont
 from PyQt4.QtGui import QInputDialog
@@ -2596,7 +2597,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is triggered when an editor title is changed.
 		"""
 
-		self.__setTabTitle(self.getEditorTab(self.sender()))
+		self.__setTabTitle(self.getEditorTab(self.sender()), textColorOnly=True)
 		self.__setWindowTitle()
 
 	@core.executionTrace
@@ -2605,7 +2606,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is triggered when an editor file is loaded.
 		"""
 
-		self.__setTabTitle(self.getEditorTab(self.sender()))
+		editor = self.sender()
+		self.__setTabTitle(self.getEditorTab(editor))
+		self.registerNodePath(editor)
 
 	@core.executionTrace
 	def __editor__fileSaved(self):
@@ -2613,12 +2616,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is triggered when an editor file is saved.
 		"""
 
-		path = strings.encode(self.sender().file)
-		if not foundations.common.pathExists(path):
-			return
-
-		not self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
-		self.__engine.fileSystemEventsManager.registerPath(path)
+		editor = self.sender()
+		self.__setTabTitle(self.getEditorTab(editor))
+		self.registerNodePath(editor)
 
 	@core.executionTrace
 	def __editor__languageChanged(self):
@@ -2765,7 +2765,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.setWindowTitle(windowTitle)
 
 	@core.executionTrace
-	def __setTabTitle(self, index):
+	def __setTabTitle(self, index, textColorOnly=False):
 		"""
 		This method sets the name and toolTip of the **Script_Editor_tabWidget** Widget tab with given index.
 
@@ -2778,7 +2778,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		title, toolTip = editor.title, editor.file
 		LOGGER.debug("> Setting '{0}' window title and '{1}' toolTip to tab with '{2}' index.".format(title, toolTip, index))
-		self.Script_Editor_tabWidget.setTabText(index, strings.encode(title))
+		# TODO: https://bugreports.qt-project.org/browse/QTBUG-27084
+		if textColorOnly:
+			color = QColor(224, 224, 224) if editor.isModified() else QColor(160, 160, 160)
+			self.Script_Editor_tabWidget.tabBar().setTabTextColor(index, color)
+		else:
+			self.Script_Editor_tabWidget.setTabText(index, strings.encode(title))
 		self.Script_Editor_tabWidget.setTabToolTip(index, strings.encode(toolTip))
 
 	@core.executionTrace
@@ -2846,7 +2851,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		path = strings.encode(node.path)
+		path = node.file if hasattr(node, "file") else node.path
+		path = strings.encode(path)
 		if not foundations.common.pathExists(path):
 			return
 
@@ -2864,7 +2870,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		path = strings.encode(node.path)
+		path = node.file if hasattr(node, "file") else node.path
+		path = strings.encode(path)
 		self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
 		self.__engine.fileSystemEventsManager.unregisterPath(path)
 		return True
@@ -3316,6 +3323,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, file))
 		self.__lockEditor(editor)
+		self.unregisterNodePath(editor)
 		if editor.saveFileAs(file):
 			self.__model.updateAuthoringNodes(editor)
 			language = self.__languagesModel.getFileLanguage(file) or self.__languagesModel.getLanguage(self.__defaultLanguage)

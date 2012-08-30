@@ -741,8 +741,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 
 		if not title:
-			titleTemplate = self.isModified() and "{0} *" or "{0}"
-			title = titleTemplate.format(self.getFileShortName())
+			# TODO: https://bugreports.qt-project.org/browse/QTBUG-27084
+			# titleTemplate = self.isModified() and "{0} *" or "{0}"
+			# title = titleTemplate.format(self.getFileShortName())
+			title = self.getFileShortName()
 
 		LOGGER.debug("> Setting editor title to '{0}'.".format(title))
 		self.__title = title
@@ -922,10 +924,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		if not file:
 			return
 
-		file = strings.encode(file)
-		if self.writeFile(file):
-			self.setFile(file)
-			return True
+		return self.writeFile(strings.encode(file))
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -941,8 +940,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		writer = io.File(file)
 		writer.content = [self.toPlainText()]
 		if writer.write():
-			self.setModified(False)
-			self.setTitle()
+			self.setFile(file)
 
 			self.fileSaved.emit()
 			return True
