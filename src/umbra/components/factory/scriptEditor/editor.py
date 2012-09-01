@@ -327,6 +327,11 @@ class Editor(CodeEditor_QPlainTextEdit):
 	This signal is emited by the :class:`Editor` class when the current file is reloaded. ( pyqtSignal )
 	"""
 
+	fileClosed = pyqtSignal()
+	"""
+	This signal is emited by the :class:`Editor` class when the current file is closed. ( pyqtSignal )
+	"""
+
 	contentsChanged = pyqtSignal()
 	"""
 	This signal is emited by the :class:`Editor` class when the current editor document content has changed. ( pyqtSignal )
@@ -691,6 +696,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 			self.setHighlighter(self.__language.highlighter(self.document(),
 															self.__language.rules,
 															self.__language.theme))
+			self.highlighter.rehighlight()
 		else:
 			self.removeHighlighter()
 
@@ -720,9 +726,9 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.setTabStopWidth(self.__tabWidth)
 
 	@core.executionTrace
-	def __connectSignals(self):
+	def __setDocumentSignals(self):
 		"""
-		This method connects the editor signals.
+		This method connects the editor document signals.
 		"""
 
 		# Signals / Slots.
@@ -749,21 +755,24 @@ class Editor(CodeEditor_QPlainTextEdit):
 		LOGGER.debug("> Setting editor title to '{0}'.".format(title))
 		self.__title = title
 		self.setWindowTitle(title)
+
 		self.titleChanged.emit()
+		return True
 
 	@core.executionTrace
-	def setFile(self, file, isModified=False):
+	def setFile(self, file=None, isModified=False, isUntitled=False):
 		"""
 		This method sets the editor file.
 
 		:param File: File to set. ( String )
 		:param isModified: File modified state. ( Boolean )
+		:param isUntitled: File untitled state. ( Boolean )
 		:return: Method success. ( Boolean )
 		"""
 
 		LOGGER.debug("> Setting '{0}' editor file.".format(file))
 		self.__file = file
-		self.__isUntitled = False
+		self.__isUntitled = isUntitled
 		self.setModified(isModified)
 		self.setTitle()
 		return True
@@ -779,7 +788,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 
 		LOGGER.debug("> Setting editor language to '{0}'.".format(language.name))
-		self.__language = language
+		self.__language = language or PYTHON_LANGUAGE
 		self.__setLanguageDescription()
 		self.languageChanged.emit()
 		return True
@@ -826,10 +835,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		document.setDocumentLayout(QPlainTextDocumentLayout(document))
 		self.setDocument(document)
-		file and self.setFile(file)
-		language and self.setLanguage(language)
-		self.highlighter and self.highlighter.rehighlight()
-		self.__connectSignals()
+		self.setFile(file)
+		self.setLanguage(language)
+		self.__setDocumentSignals()
+
 		self.fileLoaded.emit()
 		return True
 
@@ -844,10 +853,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		file = self.getUntitledFileName()
 		LOGGER.debug("> Creating '{0}' file.".format(file))
-		self.__file = file
-		self.__isUntitled = True
-		self.setTitle(self.__file)
-		self.__connectSignals()
+		self.setFile(file, isModified=False, isUntitled=True)
+		self.__setDocumentSignals()
 		return file
 
 	@core.executionTrace
@@ -868,7 +875,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		reader = io.File(file)
 		self.setPlainText(reader.readAll())
 		self.setFile(file)
-		self.__connectSignals()
+		self.__setDocumentSignals()
 		self.fileLoaded.emit()
 		return True
 
@@ -890,7 +897,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		reader = io.File(self.__file)
 		if reader.read():
 			self.setContent(reader.content)
-			self.setModified(isModified)
+			self.setFile(self.__file, isModified=isModified)
 
 			self.fileReloaded.emit()
 			return True
@@ -956,6 +963,8 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		if not self.isModified():
 			LOGGER.debug("> Closing '{0}' file.".format(self.__file))
+
+			self.fileClosed.emit()
 			return True
 
 		choice = messageBox.messageBox("Warning", "Warning",
@@ -967,4 +976,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 				return True
 		elif choice == QMessageBox.Discard:
 			LOGGER.debug("> Discarding '{0}' file.".format(self.__file))
+
+			self.fileClosed.emit()
 			return True

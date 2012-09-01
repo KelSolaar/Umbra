@@ -2597,7 +2597,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is triggered when an editor title is changed.
 		"""
 
-		self.__setTabTitle(self.getEditorTab(self.sender()), textColorOnly=True)
+		self.__setTabTitle(self.getEditorTab(self.sender()))
 		self.__setWindowTitle()
 
 	@core.executionTrace
@@ -2606,9 +2606,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is triggered when an editor file is loaded.
 		"""
 
-		editor = self.sender()
-		self.__setTabTitle(self.getEditorTab(editor))
-		self.registerNodePath(editor)
+		self.registerNodePath(self.sender())
 
 	@core.executionTrace
 	def __editor__fileSaved(self):
@@ -2616,9 +2614,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is triggered when an editor file is saved.
 		"""
 
-		editor = self.sender()
-		self.__setTabTitle(self.getEditorTab(editor))
-		self.registerNodePath(editor)
+		self.registerNodePath(self.sender())
 
 	@core.executionTrace
 	def __editor__languageChanged(self):
@@ -2765,7 +2761,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.setWindowTitle(windowTitle)
 
 	@core.executionTrace
-	def __setTabTitle(self, index, textColorOnly=False):
+	def __setTabTitle(self, index):
 		"""
 		This method sets the name and toolTip of the **Script_Editor_tabWidget** Widget tab with given index.
 
@@ -2776,15 +2772,14 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor:
 			return
 
-		title, toolTip = editor.title, editor.file
+		title, toolTip = strings.encode(editor.title), strings.encode(editor.file)
 		LOGGER.debug("> Setting '{0}' window title and '{1}' toolTip to tab with '{2}' index.".format(title, toolTip, index))
 		# TODO: https://bugreports.qt-project.org/browse/QTBUG-27084
-		if textColorOnly:
-			color = QColor(224, 224, 224) if editor.isModified() else QColor(160, 160, 160)
-			self.Script_Editor_tabWidget.tabBar().setTabTextColor(index, color)
-		else:
-			self.Script_Editor_tabWidget.setTabText(index, strings.encode(title))
-		self.Script_Editor_tabWidget.setTabToolTip(index, strings.encode(toolTip))
+		color = QColor(224, 224, 224) if editor.isModified() else QColor(160, 160, 160)
+		self.Script_Editor_tabWidget.tabBar().setTabTextColor(index, color)
+		tabText = self.Script_Editor_tabWidget.tabText(index)
+		tabText != title and self.Script_Editor_tabWidget.setTabText(index, title)
+		self.Script_Editor_tabWidget.setTabToolTip(index, toolTip)
 
 	@core.executionTrace
 	def __hasEditorLock(self, editor):
