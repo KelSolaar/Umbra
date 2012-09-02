@@ -25,6 +25,7 @@ from PyQt4.QtGui import QTextCursor
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.core as core
+import foundations.common
 import foundations.exceptions
 import foundations.strings as strings
 from umbra.globals.constants import Constants
@@ -105,13 +106,30 @@ def indentationPostEventInputAccelerators(editor, event):
 		cursor = editor.textCursor()
 		block = cursor.block().previous()
 		if block.isValid():
-			indent = re.match(r"(\s*)", strings.encode(block.text())).group(1)
+			indent = match = re.match(r"(\s*)", strings.encode(block.text())).group(1)
 			indentationSymbols = getEditorCapability(editor, "indentationSymbols")
 			if indentationSymbols:
 				for symbol in indentationSymbols:
 					if strings.encode(block.text()).endswith(symbol):
 						indent += editor.indentMarker
 			cursor.insertText(indent)
+			symbolsPairs = getEditorCapability(editor, "symbolsPairs")
+			if not symbolsPairs:
+				return True
+
+			position = cursor.position()
+			cursor.movePosition(QTextCursor.PreviousBlock, QTextCursor.MoveAnchor)
+			cursor.movePosition(QTextCursor.EndOfLine, QTextCursor.MoveAnchor)
+			cursor.movePosition(QTextCursor.PreviousCharacter, QTextCursor.KeepAnchor)
+			if not strings.encode(cursor.selectedText()) in symbolsPairs:
+				return True
+
+			cursor.setPosition(position)
+			cursor.insertBlock()
+			cursor.insertText(match)
+			cursor.movePosition(QTextCursor.PreviousBlock, QTextCursor.MoveAnchor)
+			cursor.movePosition(QTextCursor.EndOfLine, QTextCursor.MoveAnchor)
+			editor.setTextCursor(cursor)
 	return True
 
 @core.executionTrace
@@ -242,8 +260,7 @@ def symbolsExpandingPreEventInputAccelerators(editor, event):
 		cursor.beginEditBlock()
 		cursor.movePosition(QTextCursor.Left, QTextCursor.KeepAnchor)
 		leftText = cursor.selectedText()
-		for i in range(2):
-			cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor)
+		foundations.common.repeat(lambda: cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor), 2)
 		rightText = cursor.selectedText()
 
 		if symbolsPairs.get(strings.encode(leftText)) == strings.encode(rightText):

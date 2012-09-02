@@ -1,0 +1,64 @@
+[Language]
+Name = C / C++
+Extensions = \.c|\.cpp
+
+[Syntax]
+CommentMarker = //
+CommentBlockMarkerStart = /*
+CommentBlockMarkerEnd = */
+SymbolsPairs = ()|[]|{}|""|''
+IndentationSymbols = {
+
+[Accelerators]
+Highlighter = DefaultHighlighter
+Completer = DefaultCompleter
+PreInputAccelerators = indentationPreEventInputAccelerators|symbolsExpandingPreEventInputAccelerators|completionPreEventInputAccelerators
+PostInputAccelerators = completionPostEventInputAccelerators|indentationPostEventInputAccelerators
+VisualAccelerators = highlightCurrentLine|highlightOccurences|highlightMatchingSymbolsPairs
+Dictionary = C_C++.drc
+Theme = DefaultTheme
+
+[Rules]
+keyword.control.c = \b(break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while)\b
+keyword.control.import.c = ^\s*#\s*(define|defined|elif|else|if|ifdef|ifndef|line|pragma|undef)\b
+keyword.control.import.define.c = ^\s*\#\s*(define)\b
+keyword.control.import.error.c = ^\s*#\s*(error|warning)\b
+keyword.control.import.include.c = ^\s*#\s*(include|import)\b
+keyword.control.c++ = \b(catch|operator|try|throw|using)\b|\bdelete\b(\s*\[\])?|\bnew\b(?!])
+
+keyword.operator.sizeof.c = \b(sizeof)\b
+keyword.operator.cast.c++ = \b(const_cast|dynamic_cast|reinterpret_cast|static_cast)\b\s*
+keyword.operator.c++ = \b(and|and_eq|bitand|bitor|compl|not|not_eq|or|or_eq|typeid|xor|xor_eq)\b
+
+storage.type.c = \b(asm|__asm__|auto|bool|_Bool|char|_Complex|double|enum|float|_Imaginary|int|long|short|signed|struct|typedef|union|unsigned|void)\b
+storage.type.c++ = \b(class|wchar_t)\b|\b(namespace)\b
+
+storage.modifier.c = \b(const|extern|register|restrict|static|volatile|inline)\b
+storage.modifier.c++ = \b(friend|explicit|virtual)\b|\b(private|protected|public)|\b(export|mutable|typename)\b
+
+constant.other.variable.mac-classic.c = \bk[A-Z]\w*\b
+variable.other.readwrite.global.mac-classic.c = \bg[A-Z]\w*\b
+variable.other.readwrite.static.mac-classic.c = \bs[A-Z]\w*\b
+variable.other.readwrite.member.c++ = \b(f|m)[A-Z]\w*\b
+variable.language.c++ = \b(this)\b
+
+storage.type.template.c++ = \btemplate\b\s* 
+
+constant.language.c = \b(NULL|true|false|TRUE|FALSE)\b
+constant.numeric.c = \b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b
+
+support.type.sys-types.c = \b(u_char|u_short|u_int|u_long|ushort|uint|u_quad_t|quad_t|qaddr_t|caddr_t|daddr_t|dev_t|fixpt_t|blkcnt_t|blksize_t|gid_t|in_addr_t|in_port_t|ino_t|key_t|mode_t|nlink_t|id_t|pid_t|off_t|segsz_t|swblk_t|uid_t|id_t|clock_t|size_t|ssize_t|time_t|useconds_t|suseconds_t)\b
+support.type.pthread.c = \b(pthread_attr_t|pthread_cond_t|pthread_condattr_t|pthread_mutex_t|pthread_mutexattr_t|pthread_once_t|pthread_rwlock_t|pthread_rwlockattr_t|pthread_t|pthread_key_t)\b
+support.type.stdint.c = \b(int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t|int_least8_t|int_least16_t|int_least32_t|int_least64_t|uint_least8_t|uint_least16_t|uint_least32_t|uint_least64_t|int_fast8_t|int_fast16_t|int_fast32_t|int_fast64_t|uint_fast8_t|uint_fast16_t|uint_fast32_t|uint_fast64_t|intptr_t|uintptr_t|intmax_t|intmax_t|uintmax_t|uintmax_t)\b
+support.constant.mac-classic.c = \b(noErr|kNilOptions|kInvalidID|kVariableLengthArray)\b
+support.type.mac-classic.c = \b(AbsoluteTime|Boolean|Byte|ByteCount|ByteOffset|BytePtr|CompTimeValue|ConstLogicalAddress|ConstStrFileNameParam|ConstStringPtr|Duration|Fixed|FixedPtr|Float32|Float32Point|Float64|Float80|Float96|FourCharCode|Fract|FractPtr|Handle|ItemCount|LogicalAddress|OptionBits|OSErr|OSStatus|OSType|OSTypePtr|PhysicalAddress|ProcessSerialNumber|ProcessSerialNumberPtr|ProcHandle|Ptr|ResType|ResTypePtr|ShortFixed|ShortFixedPtr|SignedByte|SInt16|SInt32|SInt64|SInt8|Size|StrFileName|StringHandle|StringPtr|TimeBase|TimeRecord|TimeScale|TimeValue|TimeValue64|UInt16|UInt32|UInt64|UInt8|UniChar|UniCharCount|UniCharCountPtr|UniCharPtr|UnicodeScalarValue|UniversalProcHandle|UniversalProcPtr|UnsignedFixed|UnsignedFixedPtr|UnsignedWide|UTF16Char|UTF32Char|UTF8Char)\b
+
+support.function.C99.c = \b(_Exit|abort|abs|acos|acosf|acosh|acoshf|acoshl|acosl|asctime|asin|asinf|asinh|asinhf|asinhl|asinl|assert|atan|atan2|atan2f|atan2l|atanf|atanh|atanhf|atanhl|atanl|atexit|atof|atoi|atol|atoll|bsearch|btowc|cabs|cabsf|cabsl|cacos|cacosf|cacosh|cacoshf|cacoshl|cacosl|calloc|carg|cargf|cargl|casin|casinf|casinh|casinhf|casinhl|casinl|catan|catanf|catanh|catanhf|catanhl|catanl|cbrt|cbrtf|cbrtl|ccos|ccosf|ccosh|ccoshf|ccosl|ceil|ceilf|ceill|cexp|cexpf|cexpl|cimag|cimagf|cimagl|clearerr|clock|clog|clogf|clogl|conj|conjf|conjl|copysign|copysignf|copysignl|cos|cosf|cosh|coshf|coshl|cosl|cpow|cpowf|cpowl|cproj|cprojf|cprojl|creal|crealf|creall|csin|csinf|csinh|csinhf|csinhl|csinl|csqrt|csqrtf|csqrtl|ctan|ctanf|ctanh|ctanhf|ctanhl|ctanl|ctime|difftime|div|erf|erfc|erfcf|erfcl|erff|erfl|exit|exp|exp2|exp2f|exp2l|expf|expl|expm1|expm1f|expm1l|fabs|fabsf|fabsl|fclose|fdim|fdimf|fdiml|feclearexcept|fegetenv|fegetexceptflag|fegetround|feholdexcept|feof|feraiseexcept|ferror|fesetenv|fesetexceptflag|fesetround|fetestexcept|feupdateenv|fflush|fgetc|fgetpos|fgets|fgetwc|fgetws|floor|floorf|floorl|fma|fmaf|fmal|fmax|fmaxf|fmaxl|fmin|fminf|fminl|fmod|fmodf|fmodl|fopen|fpclassify|fprintf|fputc|fputs|fputwc|fputws|fread|free|freopen|frexp|frexpf|frexpl|fscanf|fseek|fsetpos|ftell|fwide|fwprintf|fwrite|fwscanf|getc|getchar|getenv|gets|getwc|getwchar|gmtime|hypot|hypotf|hypotl|ilogb|ilogbf|ilogbl|imaxabs|imaxdiv|isalnum|isalpha|isblank|iscntrl|isdigit|isfinite|isgraph|isgreater|isgreaterequal|isinf|isless|islessequal|islessgreater|islower|isnan|isnormal|isprint|ispunct|isspace|isunordered|isupper|iswalnum|iswalpha|iswblank|iswcntrl|iswctype|iswdigit|iswgraph|iswlower|iswprint|iswpunct|iswspace|iswupper|iswxdigit|isxdigit|labs|ldexp|ldexpf|ldexpl|ldiv|lgamma|lgammaf|lgammal|llabs|lldiv|llrint|llrintf|llrintl|llround|llroundf|llroundl|localeconv|localtime|log|log10|log10f|log10l|log1p|log1pf|log1pl|log2|log2f|log2l|logb|logbf|logbl|logf|logl|longjmp|lrint|lrintf|lrintl|lround|lroundf|lroundl|malloc|mblen|mbrlen|mbrtowc|mbsinit|mbsrtowcs|mbstowcs|mbtowc|memchr|memcmp|memcpy|memmove|memset|mktime|modf|modff|modfl|nan|nanf|nanl|nearbyint|nearbyintf|nearbyintl|nextafter|nextafterf|nextafterl|nexttoward|nexttowardf|nexttowardl|perror|pow|powf|powl|printf|putc|putchar|puts|putwc|putwchar|qsort|raise|rand|realloc|remainder|remainderf|remainderl|remove|remquo|remquof|remquol|rename|rewind|rint|rintf|rintl|round|roundf|roundl|scalbln|scalblnf|scalblnl|scalbn|scalbnf|scalbnl|scanf|setbuf|setjmp|setlocale|setvbuf|signal|signbit|sin|sinf|sinh|sinhf|sinhl|sinl|snprintf|sprintf|sqrt|sqrtf|sqrtl|srand|sscanf|strcat|strchr|strcmp|strcoll|strcpy|strcspn|strerror|strftime|strlen|strncat|strncmp|strncpy|strpbrk|strrchr|strspn|strstr|strtod|strtof|strtoimax|strtok|strtol|strtold|strtoll|strtoul|strtoull|strtoumax|strxfrm|swprintf|swscanf|system|tan|tanf|tanh|tanhf|tanhl|tanl|tgamma|tgammaf|tgammal|time|tmpfile|tmpnam|tolower|toupper|trunc|truncf|truncl|ungetc|ungetwc|va_arg|va_copy|va_end|va_start|vfprintf|vfscanf|vfwprintf|vfwscanf|vprintf|vscanf|vsnprintf|vsprintf|vsscanf|vswprintf|vswscanf|vwprintf|vwscanf|wcrtomb|wcscat|wcschr|wcscmp|wcscoll|wcscpy|wcscspn|wcsftime|wcslen|wcsncat|wcsncmp|wcsncpy|wcspbrk|wcsrchr|wcsrtombs|wcsspn|wcsstr|wcstod|wcstof|wcstoimax|wcstok|wcstol|wcstold|wcstoll|wcstombs|wcstoul|wcstoull|wcstoumax|wcsxfrm|wctob|wctomb|wmemchr|wmemcmp|wmemcpy|wmemmove|wmemset|wprintf|wscanf)\b
+
+string.quoted.double.c = \"([^\"\\]|\\.)*\"
+string.quoted.single.c = '([^'\\]|\\.)*'
+
+comment.line.double-slash.c++ = //.*$\n?
+
+comment.block.start.c = /\*
+comment.block.end.c = /*\/ 
