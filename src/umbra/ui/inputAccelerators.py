@@ -108,10 +108,13 @@ def indentationPostEventInputAccelerators(editor, event):
 		if block.isValid():
 			indent = match = re.match(r"(\s*)", strings.encode(block.text())).group(1)
 			indentationSymbols = getEditorCapability(editor, "indentationSymbols")
-			if indentationSymbols:
-				for symbol in indentationSymbols:
-					if strings.encode(block.text()).endswith(symbol):
-						indent += editor.indentMarker
+			if not indentationSymbols:
+				return True
+
+			if not strings.encode(block.text())[-1] in indentationSymbols:
+				return True
+
+			indent += editor.indentMarker
 			cursor.insertText(indent)
 			symbolsPairs = getEditorCapability(editor, "symbolsPairs")
 			if not symbolsPairs:
@@ -121,15 +124,16 @@ def indentationPostEventInputAccelerators(editor, event):
 			cursor.movePosition(QTextCursor.PreviousBlock, QTextCursor.MoveAnchor)
 			cursor.movePosition(QTextCursor.EndOfLine, QTextCursor.MoveAnchor)
 			cursor.movePosition(QTextCursor.PreviousCharacter, QTextCursor.KeepAnchor)
-			if not strings.encode(cursor.selectedText()) in symbolsPairs:
-				return True
-
+			previousCharacter = strings.encode(cursor.selectedText())
 			cursor.setPosition(position)
-			cursor.insertBlock()
-			cursor.insertText(match)
-			cursor.movePosition(QTextCursor.PreviousBlock, QTextCursor.MoveAnchor)
-			cursor.movePosition(QTextCursor.EndOfLine, QTextCursor.MoveAnchor)
-			editor.setTextCursor(cursor)
+			nextCharacter = editor.getNextCharacter()
+			if previousCharacter in symbolsPairs:
+				if nextCharacter in symbolsPairs.values():
+					cursor.insertBlock()
+					cursor.insertText(match)
+					cursor.movePosition(QTextCursor.PreviousBlock, QTextCursor.MoveAnchor)
+					cursor.movePosition(QTextCursor.EndOfLine, QTextCursor.MoveAnchor)
+					editor.setTextCursor(cursor)
 	return True
 
 @core.executionTrace
