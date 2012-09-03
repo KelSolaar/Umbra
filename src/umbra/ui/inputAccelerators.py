@@ -111,6 +111,9 @@ def indentationPostEventInputAccelerators(editor, event):
 			if not indentationSymbols:
 				return True
 
+			if not block.text():
+				return True
+
 			if not strings.encode(block.text())[-1] in indentationSymbols:
 				return True
 
