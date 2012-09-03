@@ -101,9 +101,10 @@ def getViewNodesFromIndexes(view, *indexes):
 	:return: View nodes. ( Dictionary )
 	"""
 
+	nodes = {}
 	model = view.model()
 	if not model:
-		return
+		return nodes
 
 	if not hasattr(model, "getNode"):
 		raise NotImplementedError(
@@ -113,7 +114,6 @@ def getViewNodesFromIndexes(view, *indexes):
 		raise NotImplementedError(
 		"{0} | '{1}' Model doesn't implement a 'getAttribute' method!".format(inspect.getmodulename(__file__), model))
 
-	nodes = {}
 	for index in indexes:
 		node = view.model().getNode(index)
 		if not node in nodes:

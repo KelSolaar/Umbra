@@ -936,7 +936,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		component = self.__engine.componentsManager.components[name]
 		if component.interface.activated:
 			LOGGER.warning("!> {0} | '{1}' Component is already activated!".format(self.__class__.__name__, name))
-			return
+			return False
 
 		LOGGER.debug("> Attempting '{0}' Component activation.".format(component.name))
 		component.interface.activate(self.__engine)
@@ -970,7 +970,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		component = self.__engine.componentsManager.components[name]
 		if not component.interface.activated:
 			LOGGER.warning("!> {0} | '{1}' Component is already deactivated!".format(self.__class__.__name__, name))
-			return
+			return False
 
 		LOGGER.debug("> Attempting '{0}' Component deactivation.".format(component.name))
 		if component.interface.deactivatable:

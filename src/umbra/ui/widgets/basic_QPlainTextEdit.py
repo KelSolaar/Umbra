@@ -313,7 +313,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		selectedText = self.getSelectedText()
 		if not selectedText:
-			return
+			return tuple()
 
 		return (selectedText, self.getCursorLine(), self.getCursorColumn() - len(selectedText))
 
@@ -365,7 +365,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if not self.__textCursorAnchor:
-			return
+			return False
 
 		textCursor, horizontalScrollBarSliderPosition, verticalScrollBarSliderPosition = self.__textCursorAnchor
 		self.setTextCursor(textCursor)
@@ -473,7 +473,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if not re.match(r"^\w+$", strings.encode(self.getPreviousCharacter())):
-			return
+			return QString()
 
 		cursor = self.textCursor()
 		cursor.movePosition(QTextCursor.PreviousWord, QTextCursor.MoveAnchor)
@@ -490,7 +490,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if not re.match(r"^\w+$", strings.encode(self.getPreviousCharacter())):
-			return
+			return QString()
 
 		cursor = self.textCursor()
 		position = cursor.position()
@@ -625,7 +625,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		cursor = self.textCursor()
 		if (direction == QTextCursor.Up and cursor.block() == cursor.document().firstBlock()) or \
 		(direction == QTextCursor.Down and cursor.block() == cursor.document().lastBlock()):
-			return
+			return False
 
 		cursor.beginEditBlock()
 		self.__selectTextUnderCursorBlocks(cursor)
@@ -745,7 +745,7 @@ backwardSearch=True, wrapAround=True)
 
 		pattern = self.getSelectedText() or self.__searchPattern
 		if not pattern:
-			return
+			return False
 
 		return self.search(pattern, **{"caseSensitive" : True,
 										"wholeWord" : False,
@@ -765,7 +765,7 @@ backwardSearch=True, wrapAround=True)
 
 		pattern = self.getSelectedText() or self.__searchPattern
 		if not pattern:
-			return
+			return False
 
 		return self.search(pattern, **{"caseSensitive" : True,
 										"wholeWord" : False,
@@ -799,16 +799,16 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		selectedText = self.getSelectedText()
 		if not selectedText or selectedText != pattern:
 			self.search(pattern, **kwargs)
-			return
+			return False
 
 		cursor = self.textCursor()
 		metrics = self.getSelectedTextMetrics()
 		cursor.beginEditBlock()
 		if cursor.isNull():
-			return
+			return False
 
 		if not cursor.hasSelection():
-			return
+			return False
 
 		cursor.insertText(replacementPattern)
 		cursor.endEditBlock()
@@ -954,7 +954,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		font = self.font()
 		pointSize = font.pointSize() + value
 		if pointSize < self.__minimumFontPointSize or pointSize > self.__maximumFontPointSize:
-			return
+			return False
 
 		font.setPointSize(pointSize)
 		self.setFont(font)

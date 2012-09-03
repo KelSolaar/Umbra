@@ -1498,7 +1498,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 			warning and LOGGER.warning(
 			"!> {0} | Engine not processing, 'setProcessingMessage' request has been ignored!".format(
 			self.__class__.__name__))
-			return
+			return False
 
 		LOGGER.debug("> Setting processing message!")
 
@@ -1522,7 +1522,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 			warning and LOGGER.warning(
 			"!> {0} | Engine is already processing, 'startProcessing' request has been ignored!".format(
 			self.__class__.__name__))
-			return
+			return False
 
 		LOGGER.debug("> Starting processing operation!")
 
@@ -1547,7 +1547,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 			warning and	LOGGER.warning(
 			"!> {0} | Engine is not processing, 'stepProcessing' request has been ignored!".format(
 			self.__class__.__name__))
-			return
+			return False
 
 		LOGGER.debug("> Stepping processing operation!")
 
@@ -1570,7 +1570,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 			warning and LOGGER.warning(
 			"!> {0} | Engine is not processing, 'stopProcessing' request has been ignored!".format(
 			self.__class__.__name__))
-			return
+			return False
 
 		LOGGER.debug("> Stopping processing operation!")
 

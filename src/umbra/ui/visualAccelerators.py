@@ -62,7 +62,7 @@ def highlightCurrentLine(editor):
 
 	format = editor.language.theme.get("accelerator.line")
 	if not format:
-		return
+		return False
 
 	extraSelections = editor.extraSelections() or []
 	if not editor.isReadOnly():
@@ -87,13 +87,13 @@ def highlightOccurences(editor):
 
 	format = editor.language.theme.get("accelerator.occurence")
 	if not format:
-		return
+		return False
 
 	extraSelections = editor.extraSelections() or []
 	if not editor.isReadOnly():
 		word = editor.getWordUnderCursor()
 		if not word:
-			return
+			return False
 
 		block = editor.document().findBlock(0)
 		cursor = editor.document().find(word,
@@ -123,7 +123,7 @@ def highlightMatchingSymbolsPairs(editor):
 
 	format = editor.language.theme.get("accelerator.pair")
 	if not format:
-		return
+		return False
 
 	extraSelections = editor.extraSelections() or []
 	if not editor.isReadOnly():
@@ -153,7 +153,7 @@ def highlightMatchingSymbolsPairs(editor):
 																editor.language.symbolsPairs.getFirstKeyFromValue(text),
 																True)
 		else:
-			return
+			return False
 
 		extraSelections.append(endSelection)
 	editor.setExtraSelections(extraSelections)

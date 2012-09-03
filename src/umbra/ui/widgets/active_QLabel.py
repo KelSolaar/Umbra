@@ -387,7 +387,7 @@ class Active_QLabel(QLabel):
 		"""
 
 		if not self.__checkable:
-			return
+			return False
 
 		if state:
 			self.__checked = True
@@ -422,7 +422,7 @@ class Active_QLabel(QLabel):
 		self.__menu = menu
 
 		if not self.parent():
-			return
+			return False
 
 		parent = [parent for parent in umbra.ui.common.parentsWalker(self)].pop()
 		for action in self.__menu.actions():

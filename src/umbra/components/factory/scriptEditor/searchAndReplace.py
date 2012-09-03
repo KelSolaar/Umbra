@@ -384,7 +384,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 
 		if not pattern:
-			return
+			return False
 
 		pattern = pattern.replace(QChar(QChar.ParagraphSeparator), QString("\n"))
 		pattern = foundations.common.getFirstItem(strings.encode(pattern).split("\n"))
@@ -407,7 +407,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		replacementPattern = self.Replace_With_comboBox.currentText()
 
 		if not editor or not searchPattern:
-			return
+			return False
 
 		self.insertPattern(searchPattern, self.__searchPatternsModel)
 		self.insertPattern(replacementPattern, self.__replaceWithPatternsModel)
@@ -432,7 +432,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		replacementPattern = self.Replace_With_comboBox.currentText()
 
 		if not editor or not searchPattern:
-			return
+			return False
 
 		self.insertPattern(searchPattern, self.__searchPatternsModel)
 		self.insertPattern(replacementPattern, self.__replaceWithPatternsModel)
@@ -458,7 +458,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		replacementPattern = self.Replace_With_comboBox.currentText()
 
 		if not editor or not searchPattern:
-			return
+			return False
 
 		self.insertPattern(searchPattern, self.__searchPatternsModel)
 		self.insertPattern(replacementPattern, self.__replaceWithPatternsModel)

@@ -405,7 +405,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		# TODO: This method should be refactored once this ticket is fixed: https://bugreports.qt-project.org/browse/PYSIDE-78 
 		if not fromIndex >= 0 or not fromIndex < parent.childrenCount() or not toIndex >= 0 or not toIndex < parent.childrenCount():
-			return
+			return False
 
 		parentIndex = self.getNodeIndex(parent)
 		self.beginRemoveRows(parentIndex, fromIndex, fromIndex)

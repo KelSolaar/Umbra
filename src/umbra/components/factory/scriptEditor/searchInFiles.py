@@ -1249,7 +1249,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		searchPattern = self.Search_comboBox.currentText()
 		replacementPattern = self.Replace_With_comboBox.currentText()
 		if not searchPattern:
-			return
+			return False
 
 		SearchAndReplace.insertPattern(searchPattern, self.__searchPatternsModel)
 		SearchAndReplace.insertPattern(replacementPattern, self.__replaceWithPatternsModel)
@@ -1267,6 +1267,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__container.engine.workerThreads.append(self.__searchWorkerThread)
 		self.__container.engine.startProcessing("Searching In Files ...")
 		self.__searchWorkerThread.start()
+		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

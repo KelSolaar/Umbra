@@ -766,9 +766,9 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		node = foundations.common.getFirstItem(self.getSelectedNodes())
 		if not node:
-			return
+			return False
 
-		self.removeProject(node)
+		return self.removeProject(node)
 
 	@core.executionTrace
 	def __view_addNewFileAction__triggered(self, checked):
@@ -781,7 +781,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		node = foundations.common.getFirstItem(self.getSelectedNodes())
 		if not node:
-			return
+			return False
 
 		return self.addNewFile(node)
 
@@ -796,7 +796,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		node = foundations.common.getFirstItem(self.getSelectedNodes())
 		if not node:
-			return
+			return False
 
 		return self.addNewDirectory(node)
 
@@ -811,7 +811,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		node = foundations.common.getFirstItem(self.getSelectedNodes())
 		if not node:
-			return
+			return False
 
 		return self.rename(node)
 
@@ -848,7 +848,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		node = foundations.common.getFirstItem(self.getSelectedNodes())
 		if not node:
-			return
+			return False
 
 		return self.delete(node)
 
@@ -863,10 +863,11 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		node = foundations.common.getFirstItem(self.__view.getSelectedNodes().iterkeys())
 		if not node:
-			return
+			return False
 
 		self.__factoryScriptEditor.searchInFiles.Where_lineEdit.setText(node.path)
 		self.__factoryScriptEditor.searchInFiles.show()
+		return True
 
 	@core.executionTrace
 	def __view_outputSelectedPathAction__triggered(self, checked):
@@ -879,7 +880,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		node = foundations.common.getFirstItem(self.__view.getSelectedNodes().iterkeys())
 		if not node:
-			return
+			return False
 
 		LOGGER.info("{0} | '{1}'.".format(self.__class__.__name__, node.path))
 		return True
@@ -1067,7 +1068,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		if node.family == "ProjectNode":
 			self.__factoryScriptEditor.removeProject(node.path)
-			return
+			return True
 
 		for node in foundations.walkers.nodesWalker(node, ascendants=True):
 			if node.family == "ProjectNode" and not node is self.__factoryScriptEditor.model.defaultProjectNode:
@@ -1089,7 +1090,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		file, state = QInputDialog.getText(self, "Add File", "Enter your new file name:")
 		if not state:
-			return
+			return False
 
 		if node.family in ("ProjectNode", "DirectoryNode"):
 			directory = node.path
@@ -1116,11 +1117,11 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if self.__factoryScriptEditor.model.isAuthoringNode(node):
-			return
+			return False
 
 		directory, state = QInputDialog.getText(self, "Add Directory", "Enter your new directory name:")
 		if not state:
-			return
+			return False
 
 		if node.family in ("ProjectNode", "DirectoryNode"):
 			parentDirectory = node.path
@@ -1149,11 +1150,11 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		source = node.path
 		baseName, state = QInputDialog.getText(self, "Rename", "Enter your new name:", text=os.path.basename(source))
 		if not state:
-			return
+			return False
 
 		baseName = strings.encode(baseName)
 		if baseName == os.path.basename(source):
-			return
+			return False
 
 		parentDirectory = os.path.dirname(source)
 		target = os.path.join(parentDirectory, baseName)
@@ -1162,7 +1163,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			if not foundations.common.pathExists(source):
 				LOGGER.info("{0} | Renaming '{1}' untitled file to '{2}'!".format(self.__class__.__name__, source, target))
 				self.__setAuthoringNodes(source, target)
-				return
+				return True
 
 		if not baseName in os.listdir(parentDirectory):
 			if node.family == "FileNode":
@@ -1192,7 +1193,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		path = node.path
 		if self.__factoryScriptEditor.model.isAuthoringNode(node):
 			if not foundations.common.pathExists(path):
-				return
+				return False
 
 		if messageBox.messageBox("Question", "Question",
 		"Are you sure you want to delete '{0}' {1}?".format(path, "file" if os.path.isfile(path) else "directory"),

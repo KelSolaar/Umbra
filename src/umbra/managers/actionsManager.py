@@ -371,7 +371,7 @@ class ActionsManager(QObject):
 
 		category = self.getCategory(category, vivify=True)
 		if not isinstance(category, dict):
-			return
+			return False
 
 		category[name] = action
 		LOGGER.debug("> Added '{0}' action to '{1}' category!".format(category, name))
@@ -390,7 +390,7 @@ class ActionsManager(QObject):
 
 		category = self.getCategory(category)
 		if not isinstance(category, dict):
-			return
+			return False
 
 		del(category[name])
 		LOGGER.debug("> Removed '{0}' action from '{1}' category!".format(category, name))
@@ -480,7 +480,7 @@ class ActionsManager(QObject):
 		name = self.__normalizeName(name)
 		action = self.getAction(name)
 		if not action:
-			return
+			return False
 
 		action.triggered.disconnect(self.__actionsSignalsSlots.pop(action))
 
@@ -517,7 +517,7 @@ class ActionsManager(QObject):
 		name = self.__normalizeName(name)
 		action = self.getAction(name)
 		if not action:
-			return
+			return str()
 
 		return action.shortcut().toString()
 

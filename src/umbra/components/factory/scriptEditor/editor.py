@@ -803,7 +803,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 
 		if not self.__file:
-			return
+			return str()
 
 		return os.path.basename(self.__file)
 
@@ -929,7 +929,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		file = file or umbra.ui.common.storeLastBrowsedPath(QFileDialog.getSaveFileName(self, "Save As:", self.__file))
 		if not file:
-			return
+			return False
 
 		return self.writeFile(strings.encode(file))
 

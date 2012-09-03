@@ -346,7 +346,7 @@ class PatchesManager(object):
 		"""
 
 		if not self.__paths:
-			return
+			return False
 
 		filesWalker = FilesWalker()
 		unregisteredPatches = []

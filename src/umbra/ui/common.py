@@ -104,10 +104,10 @@ def parseLocation(data):
 	"""
 
 	tokens = data.split(",")
-	if not tokens:
-		return
-
 	location = Location(directories=[], files=[], filtersIn=[], filtersOut=[], targets=[])
+	if not tokens:
+		return location
+
 	for token in tokens:
 		token = token.strip()
 		if not token:

@@ -2169,7 +2169,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not self.hasEditorTab():
-			return
+			return False
 
 		self.getCurrentEditor().undo()
 		return True
@@ -2184,7 +2184,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not self.hasEditorTab():
-			return
+			return False
 
 		self.getCurrentEditor().redo()
 		return True
@@ -2200,7 +2200,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		currentWidget = self.getFocusWidget()
 		if not currentWidget:
-			return
+			return False
 
 		if currentWidget.objectName() == "Script_Editor_Output_plainTextEdit":
 			currentWidget.copy()
@@ -2219,7 +2219,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		currentWidget = self.getFocusWidget()
 		if not currentWidget:
-			return
+			return False
 
 		currentWidget.copy()
 		return True
@@ -2234,7 +2234,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not self.hasEditorTab():
-			return
+			return False
 
 		self.getCurrentEditor().paste()
 		return True
@@ -2249,7 +2249,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not self.hasEditorTab():
-			return
+			return False
 
 		self.getCurrentEditor().delete()
 		return True
@@ -2265,7 +2265,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		currentWidget = self.getFocusWidget()
 		if not currentWidget:
-			return
+			return False
 
 		currentWidget.selectAll()
 		return True
@@ -2280,7 +2280,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not self.hasEditorTab():
-			return
+			return False
 
 		return self.getCurrentEditor().deleteLines()
 
@@ -2294,7 +2294,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not self.hasEditorTab():
-			return
+			return False
 
 		return self.getCurrentEditor().duplicateLines()
 
@@ -2308,7 +2308,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not self.hasEditorTab():
-			return
+			return False
 
 		return self.getCurrentEditor().moveLinesUp()
 
@@ -2322,7 +2322,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not self.hasEditorTab():
-			return
+			return False
 
 		return self.getCurrentEditor().moveLinesDown()
 
@@ -2336,7 +2336,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not self.hasEditorTab():
-			return
+			return False
 
 		return self.getCurrentEditor().indent()
 
@@ -2350,7 +2350,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not self.hasEditorTab():
-			return
+			return False
 
 		return self.getCurrentEditor().unindent()
 
@@ -2365,7 +2365,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not self.hasEditorTab():
-			return
+			return False
 
 		return self.getCurrentEditor().convertIndentationToTabs()
 
@@ -2380,7 +2380,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not self.hasEditorTab():
-			return
+			return False
 
 		return self.getCurrentEditor().convertIndentationToSpaces()
 
@@ -2395,7 +2395,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not self.hasEditorTab():
-			return
+			return False
 
 		return self.getCurrentEditor().removeTrailingWhiteSpaces()
 
@@ -2409,7 +2409,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not self.hasEditorTab():
-			return
+			return False
 
 		return self.getCurrentEditor().toggleComments()
 
@@ -2458,7 +2458,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not self.hasEditorTab():
-			return
+			return False
 
 		return self.getCurrentEditor().searchNext()
 
@@ -2472,7 +2472,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not self.hasEditorTab():
-			return
+			return False
 
 		return self.getCurrentEditor().searchPrevious()
 
@@ -2510,7 +2510,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		currentWidget = self.getFocusWidget()
 		if not currentWidget:
-			return
+			return False
 
 		return currentWidget.zoomIn()
 
@@ -2525,7 +2525,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		currentWidget = self.getFocusWidget()
 		if not currentWidget:
-			return
+			return False
 
 		return currentWidget.zoomOut()
 
@@ -2540,7 +2540,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		currentWidget = self.getFocusWidget()
 		if not currentWidget:
-			return
+			return False
 
 		return currentWidget.toggleWordWrap()
 
@@ -2555,7 +2555,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		currentWidget = self.getFocusWidget()
 		if not currentWidget:
-			return
+			return False
 
 		return currentWidget.toggleWhiteSpaces()
 
@@ -2849,7 +2849,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		path = node.file if hasattr(node, "file") else node.path
 		path = strings.encode(path)
 		if not foundations.common.pathExists(path):
-			return
+			return False
 
 		not self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
 		self.__engine.fileSystemEventsManager.registerPath(path)
@@ -2891,7 +2891,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 																				browsedPath,
 																				self.__getSupportedFileTypesString()))
 		if not files:
-			return
+			return False
 
 		success = True
 		for file in files:
@@ -2913,9 +2913,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 																				"Add Project:",
 																				RuntimeGlobals.lastBrowsedPath))
 		if not directory:
-			return
+			return False
 
-		self.addProject(directory)
+		return self.addProject(directory)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
@@ -3096,7 +3096,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not foundations.common.pathExists(path):
-			return
+			return False
 
 		if os.path.isfile(path):
 			if path in self.listFiles():
@@ -3131,12 +3131,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		language = self.__languagesModel.getLanguage(self.__defaultLanguage)
 		editor = Editor(parent=self, language=language)
 		if not editor.newFile():
-			return
+			return False
 
 		LOGGER.info("{0} | Loading '{1}' file document!".format(self.__class__.__name__, file))
 		language = self.__languagesModel.getFileLanguage(file) or self.__languagesModel.getLanguage(self.__defaultLanguage)
 		if not editor.loadDocument(document, file, language):
-			return
+			return False
 
 		if self.__model.setAuthoringNodes(editor):
 			self.__storeRecentFile(file)
@@ -3154,18 +3154,18 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not foundations.common.pathExists(path):
-			return
+			return False
 
 		path = os.path.normpath(path)
 		if self.__model.getProjectNodes(path):
 			self.__engine.notificationsManager.warnify(
 			"{0} | '{1}' project is already opened!".format(self.__class__.__name__, path))
-			return
+			return False
 
 		LOGGER.info("{0} | Adding '{1}' project!".format(self.__class__.__name__, path))
 		projectNode = self.__model.registerProject(path)
 		if not projectNode:
-			return
+			return False
 
 		self.__model.setProjectNodes(projectNode)
 		return True
@@ -3184,7 +3184,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not projectNode:
 			self.__engine.notificationsManager.warnify(
 			"{0} | '{1}' project is not opened!".format(self.__class__.__name__, path))
-			return
+			return False
 
 		LOGGER.info("{0} | Removing '{1}' project!".format(self.__class__.__name__, path))
 		self.__model.deleteProjectNodes(projectNode)
@@ -3204,7 +3204,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		file = editor.newFile()
 		if not file:
-			return
+			return False
 
 		LOGGER.info("{0} | Creating '{1}' file!".format(self.__class__.__name__, file))
 
@@ -3238,7 +3238,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		editor = Editor(parent=self, language=language)
 
 		if not editor.loadFile(file):
-			return
+			return False
 
 		if self.__model.setAuthoringNodes(editor):
 			self.__storeRecentFile(file)
@@ -3262,7 +3262,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		editor = self.getEditor(file)
 		if not editor:
-			return
+			return False
 
 		if self.__hasEditorLock(editor):
 			self.__unlockEditor(editor)
@@ -3283,7 +3283,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		editor = file and self.getEditor(file) or self.getCurrentEditor()
 		if not editor:
-			return
+			return False
 
 		LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
 		self.__lockEditor(editor)
@@ -3302,11 +3302,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		editor = self.getCurrentEditor()
 		if not editor:
-			return
+			return False
 
 		file = umbra.ui.common.storeLastBrowsedPath(QFileDialog.getSaveFileName(self, "Save As:", editor.file))
 		if not file:
-			return
+			return False
 
 		candidateEditor = self.getEditor(file)
 		if candidateEditor:
@@ -3357,7 +3357,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		editor = file and self.getEditor(file) or self.getCurrentEditor()
 		if not editor:
-			return
+			return False
 
 		file = editor.file
 		LOGGER.info("{0} | Reverting '{1}' file!".format(self.__class__.__name__, file))
@@ -3377,12 +3377,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		editor = file and self.getEditor(file) or self.getCurrentEditor()
 		if not editor:
-			return
+			return False
 
 		file = editor.file
 		LOGGER.info("{0} | Closing '{1}' file!".format(self.__class__.__name__, file))
 		if not editor.closeFile():
-			return
+			return False
 
 		if self.__model.deleteAuthoringNodes(editor):
 			if not self.hasEditorTab() and leaveFirstEditor:
@@ -3508,11 +3508,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		editor = self.getCurrentEditor()
 		if not editor:
-			return
+			return False
 
 		line, state = QInputDialog.getInt(self, "Goto Line Number", "Line number:", min=1)
 		if not state:
-			return
+			return False
 
 		LOGGER.debug("> Chosen line number: '{0}'.".format(line))
 		return editor.gotoLine(line)
@@ -3529,7 +3529,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		editor = self.getCurrentEditor()
 		if not editor:
-			return
+			return False
 
 		LOGGER.debug("> Evaluating 'Script Editor' selected content.")
 		if self.evaluateCode(strings.encode(editor.getSelectedText().replace(QChar(QChar.ParagraphSeparator),
@@ -3549,7 +3549,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		editor = self.getCurrentEditor()
 		if not editor:
-			return
+			return False
 
 		LOGGER.debug("> Evaluating 'Script Editor' content.")
 		if self.evaluateCode(strings.encode(editor.toPlainText())):
@@ -3567,7 +3567,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not code:
-			return
+			return False
 
 		LOGGER.debug("> Evaluating given code.")
 

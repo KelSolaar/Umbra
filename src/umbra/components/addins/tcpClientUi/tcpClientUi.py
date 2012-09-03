@@ -664,12 +664,12 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		editor = self.__factoryScriptEditor.getCurrentEditor()
 		if not editor:
-			return
+			return False
 
 		selectedText = strings.encode(editor.getSelectedText().replace(QChar(QChar.ParagraphSeparator),
 																			QString("\n")))
 		if not selectedText:
-			return
+			return False
 
 		return self.sendDataToServer(selectedText)
 
@@ -684,7 +684,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		editor = self.__factoryScriptEditor.getCurrentEditor()
 		if not editor:
-			return
+			return False
 
 		if self.__factoryScriptEditor.saveFile():
 			return self.sendDataToServer(strings.encode(self.__fileCommand).format(editor.file))

@@ -20,6 +20,7 @@
 import logging
 import re
 from PyQt4.QtGui import QSyntaxHighlighter
+from PyQt4.QtGui import QTextCharFormat
 
 #**********************************************************************************************************************
 #***	Internal imports.
@@ -183,7 +184,7 @@ class FormatsTree(object):
 
 		formats = [format for format in self.listFormats(self.__rootNode) if format in name]
 		if not formats:
-			return
+			return QTextCharFormat()
 
 		name = max(formats)
 
