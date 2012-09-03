@@ -1,6 +1,6 @@
 [Language]
 Name = Python
-Extensions = \.py|\.rpy|\.pyw|\.cpy
+Extensions = \.py$|\.rpy$|\.pyw$|\.cpy$
 
 [Syntax]
 CommentMarker = #

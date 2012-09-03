@@ -1,6 +1,6 @@
 [Language]
 Name = C / C++
-Extensions = \.c|\.cpp
+Extensions = \.c$|\.cpp$|\.h$
 
 [Syntax]
 CommentMarker = //

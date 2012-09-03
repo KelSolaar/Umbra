@@ -1,6 +1,6 @@
 [Language]
 Name = Logging
-Extensions = \.log
+Extensions = \.log$
 
 [Accelerators]
 Highlighter = DefaultHighlighter

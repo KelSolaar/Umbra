@@ -1,6 +1,6 @@
 [Language]
 Name = Text
-Extensions = \.txt
+Extensions = \.txt$
 
 [Accelerators]
 Completer = DefaultCompleter
