@@ -90,7 +90,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings = None
 		self.__settingsSection = None
 
-		self.__factoryScriptEditor = None
+		self.__scriptEditor = None
 
 		self.__model = None
 		self.__view = None
@@ -249,36 +249,36 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settingsSection"))
 
 	@property
-	def factoryScriptEditor(self):
+	def scriptEditor(self):
 		"""
-		This method is the property for **self.__factoryScriptEditor** attribute.
+		This method is the property for **self.__scriptEditor** attribute.
 
-		:return: self.__factoryScriptEditor. ( QWidget )
+		:return: self.__scriptEditor. ( QWidget )
 		"""
 
-		return self.__factoryScriptEditor
+		return self.__scriptEditor
 
-	@factoryScriptEditor.setter
+	@scriptEditor.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def factoryScriptEditor(self, value):
+	def scriptEditor(self, value):
 		"""
-		This method is the setter method for **self.__factoryScriptEditor** attribute.
+		This method is the setter method for **self.__scriptEditor** attribute.
 
 		:param value: Attribute value. ( QWidget )
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "factoryScriptEditor"))
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "scriptEditor"))
 
-	@factoryScriptEditor.deleter
+	@scriptEditor.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def factoryScriptEditor(self):
+	def scriptEditor(self):
 		"""
-		This method is the deleter method for **self.__factoryScriptEditor** attribute.
+		This method is the deleter method for **self.__scriptEditor** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "factoryScriptEditor"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "scriptEditor"))
 
 	@property
 	def model(self):
@@ -427,7 +427,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings = self.__engine.settings
 		self.__settingsSection = self.name
 
-		self.__factoryScriptEditor = self.__engine.componentsManager["factory.scriptEditor"]
+		self.__scriptEditor = self.__engine.componentsManager["factory.scriptEditor"]
 
 		self.activated = True
 		return True
@@ -447,7 +447,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings = None
 		self.__settingsSection = None
 
-		self.__factoryScriptEditor = None
+		self.__scriptEditor = None
 
 		self.activated = False
 		return True
@@ -463,7 +463,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
 		self.__model = ProjectsProxyModel(self)
-		self.__model.setSourceModel(self.__factoryScriptEditor.model)
+		self.__model.setSourceModel(self.__scriptEditor.model)
 		self.__delegate = RichText_QStyledItemDelegate(self, self.__style)
 
 		self.Projects_Explorer_treeView.setParent(None)
@@ -481,9 +481,9 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__view.expanded.connect(self.__view__expanded)
 		self.__view.doubleClicked.connect(self.__view__doubleClicked)
 		self.__view.selectionModel().selectionChanged.connect(self.__view_selectionModel__selectionChanged)
-		self.__factoryScriptEditor.Script_Editor_tabWidget.currentChanged.connect(
-		self.__factoryScriptEditor_Script_Editor_tabWidget__currentChanged)
-		self.__factoryScriptEditor.model.projectRegistered.connect(self.__factoryScriptEditor_model__projectRegistered)
+		self.__scriptEditor.Script_Editor_tabWidget.currentChanged.connect(
+		self.__scriptEditor_Script_Editor_tabWidget__currentChanged)
+		self.__scriptEditor.model.projectRegistered.connect(self.__scriptEditor_model__projectRegistered)
 
 		self.initializedUi = True
 		return True
@@ -505,9 +505,9 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__view.expanded.disconnect(self.__view__expanded)
 		self.__view.doubleClicked.disconnect(self.__view__doubleClicked)
 		self.__view.selectionModel().selectionChanged.disconnect(self.__view_selectionModel__selectionChanged)
-		self.__factoryScriptEditor.Script_Editor_tabWidget.currentChanged.disconnect(
-		self.__factoryScriptEditor_Script_Editor_tabWidget__currentChanged)
-		self.__factoryScriptEditor.model.projectRegistered.disconnect(self.__factoryScriptEditor_model__projectRegistered)
+		self.__scriptEditor.Script_Editor_tabWidget.currentChanged.disconnect(
+		self.__scriptEditor_Script_Editor_tabWidget__currentChanged)
+		self.__scriptEditor.model.projectRegistered.disconnect(self.__scriptEditor_model__projectRegistered)
 
 		self.__view_removeActions()
 
@@ -562,9 +562,9 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		removeProjectAction = self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|&File|Remove Project",
 		slot=self.__view_removeProjectAction__triggered)
-		self.__factoryScriptEditor.fileMenu.insertAction(addProjectAction, removeProjectAction)
-		self.__factoryScriptEditor.fileMenu.removeAction(addProjectAction)
-		self.__factoryScriptEditor.fileMenu.insertAction(removeProjectAction, addProjectAction)
+		self.__scriptEditor.fileMenu.insertAction(addProjectAction, removeProjectAction)
+		self.__scriptEditor.fileMenu.removeAction(addProjectAction)
+		self.__scriptEditor.fileMenu.insertAction(removeProjectAction, addProjectAction)
 
 	@core.executionTrace
 	def __removeActions(self):
@@ -576,7 +576,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		removeProjectAction = self.__engine.actionsManager.getAction(
 		"Actions|Umbra|Components|factory.scriptEditor|&File|Remove Project")
-		self.__factoryScriptEditor.commandMenu.removeAction(self.__engine.actionsManager.getAction(removeProjectAction))
+		self.__scriptEditor.commandMenu.removeAction(self.__engine.actionsManager.getAction(removeProjectAction))
 		self.__engine.actionsManager.unregisterAction(removeProjectAction)
 
 	@core.executionTrace
@@ -682,7 +682,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if node.family != "DirectoryNode":
 			return
 
-		self.__factoryScriptEditor.model.setProjectNodes(node)
+		self.__scriptEditor.model.setProjectNodes(node)
 
 	@core.executionTrace
 	def __view__doubleClicked(self, index):
@@ -696,7 +696,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not node.family == "FileNode":
 			return
 
-		self.__factoryScriptEditor.loadFile(node.path)
+		self.__scriptEditor.loadFile(node.path)
 
 	@core.executionTrace
 	def __view_selectionModel__selectionChanged(self, selectedItems, deselectedItems):
@@ -709,10 +709,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		for node in self.__view.getSelectedNodes():
 			if node.family == "FileNode":
-				self.__factoryScriptEditor.setCurrentEditor(node.path)
+				self.__scriptEditor.setCurrentEditor(node.path)
 
 	@core.executionTrace
-	def __factoryScriptEditor_Script_Editor_tabWidget__currentChanged(self, index):
+	def __scriptEditor_Script_Editor_tabWidget__currentChanged(self, index):
 		"""
 		This method is triggered by the :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
 		Component Interface class when the current tab is changed.
@@ -720,11 +720,11 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param index: Tab index. ( Integer )
 		"""
 
-		editor = self.__factoryScriptEditor.getCurrentEditor()
+		editor = self.__scriptEditor.getCurrentEditor()
 		if not editor:
 			return
 
-		editorNode = foundations.common.getFirstItem(self.__factoryScriptEditor.model.getEditorNodes(editor))
+		editorNode = foundations.common.getFirstItem(self.__scriptEditor.model.getEditorNodes(editor))
 		if not editorNode:
 			return
 
@@ -733,7 +733,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__view.selectIndexes(indexes)
 
 	@core.executionTrace
-	def __factoryScriptEditor_model__projectRegistered(self, projectNode):
+	def __scriptEditor_model__projectRegistered(self, projectNode):
 		"""
 		This method is triggered by the:class:`umbra.components.factory.scriptEditor.scriptEditor` class
 		Model when a project is registered.
@@ -741,7 +741,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param projectNode: Registered project ProjectNode. ( ProjectNode )
 		"""
 
-		index = self.__model.mapFromSource(self.__factoryScriptEditor.model.getNodeIndex(projectNode))
+		index = self.__model.mapFromSource(self.__scriptEditor.model.getNodeIndex(projectNode))
 		self.__view.setExpanded(index, True)
 
 	@core.executionTrace
@@ -753,7 +753,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		return self.__factoryScriptEditor.addProjectUi()
+		return self.__scriptEditor.addProjectUi()
 
 	@core.executionTrace
 	def __view_removeProjectAction__triggered(self, checked):
@@ -865,8 +865,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not node:
 			return False
 
-		self.__factoryScriptEditor.searchInFiles.Where_lineEdit.setText(node.path)
-		self.__factoryScriptEditor.searchInFiles.show()
+		self.__scriptEditor.searchInFiles.Where_lineEdit.setText(node.path)
+		self.__scriptEditor.searchInFiles.show()
 		return True
 
 	@core.executionTrace
@@ -920,9 +920,9 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param target: Target file. ( String )
 		"""
 
-		editor = self.__factoryScriptEditor.getEditor(source)
+		editor = self.__scriptEditor.getEditor(source)
 		editor.setFile(target)
-		self.__factoryScriptEditor.model.updateAuthoringNodes(editor)
+		self.__scriptEditor.model.updateAuthoringNodes(editor)
 
 	@core.executionTrace
 	def __renamePath(self, source, target):
@@ -971,14 +971,14 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param target: Target file. ( String )
 		"""
 
-		for fileNode in self.__factoryScriptEditor.model.getFileNodes(source, self.__factoryScriptEditor.model.rootNode):
-			self.__factoryScriptEditor.unregisterNodePath(fileNode)
+		for fileNode in self.__scriptEditor.model.getFileNodes(source, self.__scriptEditor.model.rootNode):
+			self.__scriptEditor.unregisterNodePath(fileNode)
 			self.__renamePath(source, target)
-			self.__factoryScriptEditor.registerNodePath(fileNode)
-			if self.__factoryScriptEditor.model.isAuthoringNode(fileNode):
+			self.__scriptEditor.registerNodePath(fileNode)
+			if self.__scriptEditor.model.isAuthoringNode(fileNode):
 				 self.__setAuthoringNodes(source, target)
 			else:
-				self.__factoryScriptEditor.model.updateProjectNodes(fileNode.parent)
+				self.__scriptEditor.model.updateProjectNodes(fileNode.parent)
 
 	@core.executionTrace
 	def __renameDirectory(self, source, target):
@@ -989,16 +989,16 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param target: Target file. ( String )
 		"""
 
-		for node in itertools.chain(self.__factoryScriptEditor.model.getProjectNodes(source),
-											self.__factoryScriptEditor.model.getDirectoryNodes(source)):
-			self.__factoryScriptEditor.model.unregisterProjectNodes(node)
-			self.__factoryScriptEditor.unregisterNodePath(node)
+		for node in itertools.chain(self.__scriptEditor.model.getProjectNodes(source),
+											self.__scriptEditor.model.getDirectoryNodes(source)):
+			self.__scriptEditor.model.unregisterProjectNodes(node)
+			self.__scriptEditor.unregisterNodePath(node)
 			self.__renamePath(source, target)
 			node.name = os.path.basename(target)
 			node.path = target
-			self.__factoryScriptEditor.model.nodeChanged(node)
-			self.__factoryScriptEditor.registerNodePath(node)
-			self.__factoryScriptEditor.model.setProjectNodes(node)
+			self.__scriptEditor.model.nodeChanged(node)
+			self.__scriptEditor.registerNodePath(node)
+			self.__scriptEditor.model.setProjectNodes(node)
 
 	@core.executionTrace
 	def __renameProject(self, source, target):
@@ -1019,13 +1019,13 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param file: File to delete. ( String )
 		"""
 
-		for fileNode in self.__factoryScriptEditor.model.getFileNodes(file, self.__factoryScriptEditor.model.rootNode):
-			self.__factoryScriptEditor.unregisterNodePath(fileNode)
+		for fileNode in self.__scriptEditor.model.getFileNodes(file, self.__scriptEditor.model.rootNode):
+			self.__scriptEditor.unregisterNodePath(fileNode)
 			self.__deletePath(file)
-			if self.__factoryScriptEditor.model.isAuthoringNode(fileNode):
-				self.__factoryScriptEditor.getEditor(file).setModified(True)
+			if self.__scriptEditor.model.isAuthoringNode(fileNode):
+				self.__scriptEditor.getEditor(file).setModified(True)
 			else:
-				self.__factoryScriptEditor.model.unregisterFile(fileNode)
+				self.__scriptEditor.model.unregisterFile(fileNode)
 
 	@core.executionTrace
 	def __deleteDirectory(self, directory):
@@ -1035,14 +1035,14 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param directory: Directory to delete. ( String )
 		"""
 
-		for node in itertools.chain(self.__factoryScriptEditor.model.getProjectNodes(directory),
-											self.__factoryScriptEditor.model.getDirectoryNodes(directory)):
-			self.__factoryScriptEditor.model.unregisterProjectNodes(node)
+		for node in itertools.chain(self.__scriptEditor.model.getProjectNodes(directory),
+											self.__scriptEditor.model.getDirectoryNodes(directory)):
+			self.__scriptEditor.model.unregisterProjectNodes(node)
 			if node.family == "DirectoryNode":
-				self.__factoryScriptEditor.model.unregisterProjectNodes(node)
-				self.__factoryScriptEditor.model.unregisterDirectory(node)
+				self.__scriptEditor.model.unregisterProjectNodes(node)
+				self.__scriptEditor.model.unregisterDirectory(node)
 			elif node.family == "ProjectNode":
-				self.__factoryScriptEditor.removeProject(directory)
+				self.__scriptEditor.removeProject(directory)
 			self.__deletePath(directory)
 
 	@core.executionTrace
@@ -1067,12 +1067,12 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if node.family == "ProjectNode":
-			self.__factoryScriptEditor.removeProject(node.path)
+			self.__scriptEditor.removeProject(node.path)
 			return True
 
 		for node in foundations.walkers.nodesWalker(node, ascendants=True):
-			if node.family == "ProjectNode" and not node is self.__factoryScriptEditor.model.defaultProjectNode:
-				self.__factoryScriptEditor.removeProject(node.path)
+			if node.family == "ProjectNode" and not node is self.__scriptEditor.model.defaultProjectNode:
+				self.__scriptEditor.removeProject(node.path)
 				return True
 
 	@core.executionTrace
@@ -1085,8 +1085,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.__factoryScriptEditor.model.isAuthoringNode(node):
-			return self.__factoryScriptEditor.newFile()
+		if self.__scriptEditor.model.isAuthoringNode(node):
+			return self.__scriptEditor.newFile()
 
 		file, state = QInputDialog.getText(self, "Add File", "Enter your new file name:")
 		if not state:
@@ -1116,7 +1116,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		if self.__factoryScriptEditor.model.isAuthoringNode(node):
+		if self.__scriptEditor.model.isAuthoringNode(node):
 			return False
 
 		directory, state = QInputDialog.getText(self, "Add Directory", "Enter your new directory name:")
@@ -1159,7 +1159,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		parentDirectory = os.path.dirname(source)
 		target = os.path.join(parentDirectory, baseName)
 
-		if self.__factoryScriptEditor.model.isAuthoringNode(node):
+		if self.__scriptEditor.model.isAuthoringNode(node):
 			if not foundations.common.pathExists(source):
 				LOGGER.info("{0} | Renaming '{1}' untitled file to '{2}'!".format(self.__class__.__name__, source, target))
 				self.__setAuthoringNodes(source, target)
@@ -1191,7 +1191,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		path = node.path
-		if self.__factoryScriptEditor.model.isAuthoringNode(node):
+		if self.__scriptEditor.model.isAuthoringNode(node):
 			if not foundations.common.pathExists(path):
 				return False
 

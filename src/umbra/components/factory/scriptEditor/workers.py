@@ -347,7 +347,7 @@ class Search_worker(QThread):
 		"""
 
 		editorsFiles = self.__container.defaultTarget in self.__location.targets and \
-		[editor.file for editor in self.__container.factoryScriptEditor.listEditors()] or []
+		[editor.file for editor in self.__container.scriptEditor.listEditors()] or []
 
 		files = self.__location.files
 		for directory in self.__location.directories:
@@ -378,7 +378,7 @@ class Search_worker(QThread):
 			if self.__interrupt:
 				return
 
-			editor = self.__container.factoryScriptEditor.getEditor(file)
+			editor = self.__container.scriptEditor.getEditor(file)
 			if not editor:
 				continue
 

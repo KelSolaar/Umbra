@@ -95,7 +95,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		super(SearchInFiles, self).__init__(parent, *args, **kwargs)
 
 		# --- Setting class attributes. ---
-		self.__container = self.__factoryScriptEditor = parent
+		self.__container = self.__scriptEditor = parent
 
 		self.__filesCache = foundations.cache.Cache()
 
@@ -163,36 +163,36 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
 	@property
-	def factoryScriptEditor(self):
+	def scriptEditor(self):
 		"""
-		This method is the property for **self.__factoryScriptEditor** attribute.
+		This method is the property for **self.__scriptEditor** attribute.
 
-		:return: self.__factoryScriptEditor. ( QWidget )
+		:return: self.__scriptEditor. ( QWidget )
 		"""
 
-		return self.__factoryScriptEditor
+		return self.__scriptEditor
 
-	@factoryScriptEditor.setter
+	@scriptEditor.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def factoryScriptEditor(self, value):
+	def scriptEditor(self, value):
 		"""
-		This method is the setter method for **self.__factoryScriptEditor** attribute.
+		This method is the setter method for **self.__scriptEditor** attribute.
 
 		:param value: Attribute value. ( QWidget )
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "factoryScriptEditor"))
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "scriptEditor"))
 
-	@factoryScriptEditor.deleter
+	@scriptEditor.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def factoryScriptEditor(self):
+	def scriptEditor(self):
 		"""
-		This method is the deleter method for **self.__factoryScriptEditor** attribute.
+		This method is the deleter method for **self.__scriptEditor** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "factoryScriptEditor"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "scriptEditor"))
 
 	@property
 	def filesCache(self):

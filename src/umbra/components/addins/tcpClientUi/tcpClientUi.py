@@ -81,8 +81,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings = None
 		self.__settingsSection = None
 
-		self.__factoryPreferencesManager = None
-		self.__factoryScriptEditor = None
+		self.__preferencesManager = None
+		self.__scriptEditor = None
 
 		self.__address = socket.gethostbyname(socket.gethostname())
 		self.__port = 16384
@@ -189,68 +189,68 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settingsSection"))
 
 	@property
-	def factoryPreferencesManager(self):
+	def preferencesManager(self):
 		"""
-		This method is the property for **self.__factoryPreferencesManager** attribute.
+		This method is the property for **self.__preferencesManager** attribute.
 
-		:return: self.__factoryPreferencesManager. ( QWidget )
+		:return: self.__preferencesManager. ( QWidget )
 		"""
 
-		return self.__factoryPreferencesManager
+		return self.__preferencesManager
 
-	@factoryPreferencesManager.setter
+	@preferencesManager.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def factoryPreferencesManager(self, value):
+	def preferencesManager(self, value):
 		"""
-		This method is the setter method for **self.__factoryPreferencesManager** attribute.
+		This method is the setter method for **self.__preferencesManager** attribute.
 
 		:param value: Attribute value. ( QWidget )
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "factoryPreferencesManager"))
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "preferencesManager"))
 
-	@factoryPreferencesManager.deleter
+	@preferencesManager.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def factoryPreferencesManager(self):
+	def preferencesManager(self):
 		"""
-		This method is the deleter method for **self.__factoryPreferencesManager** attribute.
+		This method is the deleter method for **self.__preferencesManager** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "factoryPreferencesManager"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "preferencesManager"))
 
 	@property
-	def factoryScriptEditor(self):
+	def scriptEditor(self):
 		"""
-		This method is the property for **self.__factoryScriptEditor** attribute.
+		This method is the property for **self.__scriptEditor** attribute.
 
-		:return: self.__factoryScriptEditor. ( QWidget )
+		:return: self.__scriptEditor. ( QWidget )
 		"""
 
-		return self.__factoryScriptEditor
+		return self.__scriptEditor
 
-	@factoryScriptEditor.setter
+	@scriptEditor.setter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def factoryScriptEditor(self, value):
+	def scriptEditor(self, value):
 		"""
-		This method is the setter method for **self.__factoryScriptEditor** attribute.
+		This method is the setter method for **self.__scriptEditor** attribute.
 
 		:param value: Attribute value. ( QWidget )
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "factoryScriptEditor"))
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "scriptEditor"))
 
-	@factoryScriptEditor.deleter
+	@scriptEditor.deleter
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
-	def factoryScriptEditor(self):
+	def scriptEditor(self):
 		"""
-		This method is the deleter method for **self.__factoryScriptEditor** attribute.
+		This method is the deleter method for **self.__scriptEditor** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "factoryScriptEditor"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "scriptEditor"))
 
 	@property
 	def address(self):
@@ -409,8 +409,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings = self.__engine.settings
 		self.__settingsSection = self.name
 
-		self.__factoryPreferencesManager = self.__engine.componentsManager["factory.preferencesManager"]
-		self.__factoryScriptEditor = self.__engine.componentsManager["factory.scriptEditor"]
+		self.__preferencesManager = self.__engine.componentsManager["factory.preferencesManager"]
+		self.__scriptEditor = self.__engine.componentsManager["factory.scriptEditor"]
 
 		self.activated = True
 		return True
@@ -430,7 +430,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings = None
 		self.__settingsSection = None
 
-		self.__factoryPreferencesManager = None
+		self.__preferencesManager = None
 
 		self.activated = False
 		return True
@@ -495,7 +495,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Adding '{0}' Component Widget.".format(self.__class__.__name__))
 
-		self.__factoryPreferencesManager.Others_Preferences_gridLayout.addWidget(self.TCP_Client_Ui_groupBox)
+		self.__preferencesManager.Others_Preferences_gridLayout.addWidget(self.TCP_Client_Ui_groupBox)
 
 		return True
 
@@ -510,7 +510,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Removing '{0}' Component Widget.".format(self.__class__.__name__))
 
-		self.__factoryPreferencesManager.findChild(QGridLayout, "Others_Preferences_gridLayout").removeWidget(self)
+		self.__preferencesManager.findChild(QGridLayout, "Others_Preferences_gridLayout").removeWidget(self)
 		self.TCP_Client_Ui_groupBox.setParent(None)
 
 		return True
@@ -523,12 +523,12 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Adding '{0}' Component actions.".format(self.__class__.__name__))
 
-		self.__factoryScriptEditor.commandMenu.addSeparator()
-		self.__factoryScriptEditor.commandMenu.addAction(self.__engine.actionsManager.registerAction(
+		self.__scriptEditor.commandMenu.addSeparator()
+		self.__scriptEditor.commandMenu.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|addins.tcpServerUi|&Command|Send Selection To Server",
 		shortcut=Qt.ControlModifier + Qt.AltModifier + Qt.Key_Return,
 		slot=self.__sendSelectionToServerAction__triggered))
-		self.__factoryScriptEditor.commandMenu.addAction(self.__engine.actionsManager.registerAction(
+		self.__scriptEditor.commandMenu.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|addins.tcpServerUi|&Command|&Send Current File To Server",
 		shortcut=Qt.SHIFT + Qt.AltModifier + Qt.CTRL + Qt.Key_Return,
 		slot=self.__sendFileToServerAction__triggered))
@@ -544,7 +544,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		sendSelectionToServerAction = "Actions|Umbra|Components|addins.tcpServerUi|&Command|Send Selection To Server"
 		sendFileToServerAction = "Actions|Umbra|Components|addins.tcpServerUi|&Command|&Send Current File To Server"
 		for action in (sendSelectionToServerAction, sendFileToServerAction):
-			self.__factoryScriptEditor.commandMenu.removeAction(self.__engine.actionsManager.getAction(action))
+			self.__scriptEditor.commandMenu.removeAction(self.__engine.actionsManager.getAction(action))
 			self.__engine.actionsManager.unregisterAction(action)
 
 	@core.executionTrace
@@ -662,7 +662,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		editor = self.__factoryScriptEditor.getCurrentEditor()
+		editor = self.__scriptEditor.getCurrentEditor()
 		if not editor:
 			return False
 
@@ -682,11 +682,11 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		editor = self.__factoryScriptEditor.getCurrentEditor()
+		editor = self.__scriptEditor.getCurrentEditor()
 		if not editor:
 			return False
 
-		if self.__factoryScriptEditor.saveFile():
+		if self.__scriptEditor.saveFile():
 			return self.sendDataToServer(strings.encode(self.__fileCommand).format(editor.file))
 
 	@core.executionTrace
