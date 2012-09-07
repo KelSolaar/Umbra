@@ -8,6 +8,6 @@
 *.pyc
 *.pyo
 
-src/umbra/resources/images/builders/
-support/documentation/sphinx/build
-support/documentation/sphinx/source/resources/src
+umbra/resources/images/builders/
+docs/documentation/sphinx/build
+docs/documentation/sphinx/source/resources/packages
