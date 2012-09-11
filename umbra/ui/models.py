@@ -35,7 +35,7 @@ import foundations.core as core
 import foundations.exceptions
 import foundations.strings as strings
 import umbra.ui.nodes
-from foundations.dag import AbstractCompositeNode
+from foundations.nodes import AbstractCompositeNode
 from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************

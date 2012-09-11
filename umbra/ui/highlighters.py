@@ -29,7 +29,7 @@ import foundations.common
 import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
-from foundations.dag import AbstractCompositeNode
+from foundations.nodes import AbstractCompositeNode
 from umbra.globals.constants import Constants
 from umbra.ui.nodes import DefaultNode
 from umbra.ui.nodes import FormatNode
