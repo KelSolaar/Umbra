@@ -29,9 +29,9 @@ import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
 import foundations.strings as strings
+import foundations.walkers
 import umbra.exceptions
 from foundations.io import File
-from foundations.walkers import FilesWalker
 from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
@@ -348,12 +348,10 @@ class PatchesManager(object):
 		if not self.__paths:
 			return False
 
-		filesWalker = FilesWalker()
 		unregisteredPatches = []
 		for path in self.paths:
-			filesWalker.root = path
-			filesWalker.walk(("\.{0}$".format(self.__extension),), ("\._",))
-			for name, file in filesWalker.files.iteritems():
+			for file in foundations.walkers.filesWalker(path, ("\.{0}$".format(self.__extension),), ("\._",)):
+				name = strings.getSplitextBasename(file)
 				if not self.registerPatch(name, file):
 					unregisteredPatches.append(name)
 

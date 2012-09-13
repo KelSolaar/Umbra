@@ -2644,9 +2644,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		existingGrammarFiles = [os.path.normpath(language.file) for language in languages]
 
 		for directory in RuntimeGlobals.resourcesDirectories:
-			filesWalker = foundations.walkers.FilesWalker(directory)
-			filesWalker.walk(("\.{0}$".format(self.__extension),), ("\._",))
-			for file in filesWalker.files.itervalues():
+			for file in foundations.walkers.filesWalker(directory, ("\.{0}$".format(self.__extension),), ("\._",)):
 				if os.path.normpath(file) in existingGrammarFiles:
 					continue
 

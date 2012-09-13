@@ -35,8 +35,8 @@ import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
 import foundations.io as io
+import foundations.walkers
 import umbra.ui.common
-from foundations.walkers import FilesWalker
 from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
@@ -354,11 +354,10 @@ class Search_worker(QThread):
 			if self.__interrupt:
 				return
 
-			filesWalker = FilesWalker(directory)
-			filesWalker.walk(self.__location.filtersIn,
-						self.__location.filtersOut,
-						visitor=lambda x, y: foundations.common.isBinaryFile(x.get(y)) and x.pop(y))
-			files.extend(filesWalker.files.values())
+			walkerFiles = foundations.walkers.filesWalker(directory,
+														self.__location.filtersIn,
+														self.__location.filtersOut)
+			files.extend(filter(foundations.common.isBinaryFile, walkerFiles))
 		files = filter(lambda x: x not in editorsFiles, foundations.common.orderedUniqify(files))
 
 		self.__searchResults = []
