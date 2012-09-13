@@ -7,8 +7,8 @@ Introduction
 Umbra is the main package of 
 Foundations is the core package of `sIBL_GUI <http://github.com/KelSolaar/sIBL_GUI>`_ and `sIBL_Reporter <http://github.com/KelSolaar/sIBL_Reporter>`_.
 
-Installation / Usage
---------------------
+Installation
+------------
 
 Umbra depends on some other packages / repositories:
 -  Foundations package available from Github: https://github.com/KelSolaar/Foundations. You will need to create a symbolic link from "Foundations/src/foundations" to "Umbra/src/foundations" and from "Foundations/src/tests/testsFoundations" to "Umbra/src/tests/testsFoundations" or ensure the packages are available in Python path.
@@ -21,6 +21,9 @@ Quick Repositories Cloning Commands::
    git clone git://github.com/KelSolaar/Umbra.git && git clone git://github.com/KelSolaar/Foundations.git &&  git clone git://github.com/KelSolaar/Manager.git
    cd Umbra/src
    python Umbra.py
+
+Usage
+-----
 
 About
 -----
