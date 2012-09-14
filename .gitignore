@@ -10,4 +10,5 @@
 
 umbra/resources/images/builders/
 docs/sphinx/build
-docs/sphinx/source/resources/packages
+docs/sphinx/source/resources/packages/
+releases/

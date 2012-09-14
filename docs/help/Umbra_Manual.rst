@@ -12,8 +12,8 @@ Table Of Content
 
 -  `Introduction`_
 -  `Installation`_
--  `Changes`_
 -  `Api`_
+-  `Changes`_
 -  `About`_
 
 .. raw:: html
@@ -57,7 +57,7 @@ _`Api`
 _`Changes`
 ==========
 
-**Umbra - Changes**: Change_Log.html
+**Umbra - Changes**: Changes.html
 
 .. raw:: html
 

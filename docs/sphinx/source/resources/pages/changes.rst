@@ -1,7 +1,7 @@
 _`Changes`
 ==========
 
-**Umbra - Changes**: Change_Log.html
+**Umbra - Changes**: Changes.html
 
 .. raw:: html
 
