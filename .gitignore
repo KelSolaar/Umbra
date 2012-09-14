@@ -9,5 +9,5 @@
 *.pyo
 
 umbra/resources/images/builders/
-docs/documentation/sphinx/build
-docs/documentation/sphinx/source/resources/packages
+docs/sphinx/build
+docs/sphinx/source/resources/packages
