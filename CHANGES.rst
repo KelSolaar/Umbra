@@ -29,7 +29,7 @@ Changes
 1.0.0 - Stable
 --------------
 
--  Initial Release of Umbra.
+-  Initial release of Umbra.
 
 .. .about
 

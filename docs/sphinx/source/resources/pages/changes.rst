@@ -1,9 +1,28 @@
-_`Changes`
-==========
+Changes
+=======
 
-**Umbra - Changes**: Changes.html
+1.0.2 - Stable
+--------------
 
-.. raw:: html
+-  Implemented **TCPServerUi** Component.
 
-    <br/>
+
+1.0.1 - Stable
+--------------
+
+-  Implemented notifications manager code.
+-  Implemented **Search In Files** in **Script Editor** Component.
+-  Implemented matching symbols pairs highlighting in **Script Editor** Component.
+-  Implemented occurences highlighting in **Script Editor** Component.
+-  Implemented **Duplicate Line(s)** methods in **Script Editor** Component.
+-  Implemented **Delete Line(s)** methods in **Script Editor** Component.
+-  Implemented **Move Up / Down** methods in **Script Editor** Component.
+-  Implemented **Font Size Increase / Decrease** methods in **Script Editor** Component.
+-  Refactored the layouts management code.
+-  Added support for command line files arguments.
+
+1.0.0 - Stable
+--------------
+
+-  Initial release of Umbra.
 
