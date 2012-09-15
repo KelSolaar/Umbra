@@ -42,6 +42,7 @@ import foundations.exceptions
 import foundations.strings as strings
 from umbra.globals.constants import Constants
 from umbra.ui.widgets.basic_QPlainTextEdit import Basic_QPlainTextEdit
+from umbra.ui.widgets.basic_QPlainTextEdit import editBlock
 from umbra.ui.widgets.basic_QPlainTextEdit import anchorTextCursor
 
 #**********************************************************************************************************************
@@ -803,6 +804,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		self.__marginArea_LinesNumbers_widget.updateGeometry()
 
 	@core.executionTrace
+	@editBlock
 	def keyPressEvent(self, event):
 		"""
 		This method reimplements the :meth:`Basic_QPlainTextEdit.keyPressEvent` method.
@@ -966,6 +968,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@editBlock
 	def indent(self):
 		"""
 		This method indents the document text under cursor.
@@ -974,7 +977,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 
 		cursor = self.textCursor()
-		cursor.beginEditBlock()
 		if not cursor.hasSelection():
 			cursor.insertText(self.__indentMarker)
 		else:
@@ -986,11 +988,11 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 				if block.contains(cursor.selectionEnd()):
 					break
 				block = block.next()
-		cursor.endEditBlock()
 		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@editBlock
 	def unindent(self):
 		"""
 		This method unindents the document text under cursor.
@@ -999,7 +1001,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 
 		cursor = self.textCursor()
-		cursor.beginEditBlock()
 		if not cursor.hasSelection():
 			cursor.movePosition(QTextCursor.StartOfBlock)
 			line = strings.encode(self.document().findBlockByNumber(cursor.blockNumber()).text())
@@ -1017,11 +1018,11 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 				if block.contains(cursor.selectionEnd()):
 					break
 				block = block.next()
-		cursor.endEditBlock()
 		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@editBlock
 	def toggleComments(self):
 		"""
 		This method toggles comments on the document selected lines.
@@ -1033,7 +1034,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 			return True
 
 		cursor = self.textCursor()
-		cursor.beginEditBlock()
 		if not cursor.hasSelection():
 			cursor.movePosition(QTextCursor.StartOfBlock)
 			line = strings.encode(self.document().findBlockByNumber(cursor.blockNumber()).text())
@@ -1055,12 +1055,12 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 				if block.contains(cursor.selectionEnd()):
 					break
 				block = block.next()
-		cursor.endEditBlock()
 		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	@anchorTextCursor
+	@editBlock
 	def removeTrailingWhiteSpaces(self):
 		"""
 		This method removes document trailing white spaces.
@@ -1070,7 +1070,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 		cursor = self.textCursor()
 
-		cursor.beginEditBlock()
 		block = self.document().findBlockByLineNumber(0)
 		while block.isValid():
 			cursor.setPosition(block.position())
@@ -1082,12 +1081,12 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		cursor.movePosition(QTextCursor.End, QTextCursor.MoveAnchor)
 		if not cursor.block().text().isEmpty():
 			cursor.insertText("\n")
-		cursor.endEditBlock()
 		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	@anchorTextCursor
+	@editBlock
 	def convertIndentationToTabs(self):
 		"""
 		This method converts document indentation to tabs.
@@ -1097,7 +1096,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 		cursor = self.textCursor()
 
-		cursor.beginEditBlock()
 		block = self.document().findBlockByLineNumber(0)
 		while block.isValid():
 			cursor.setPosition(block.position())
@@ -1109,12 +1107,12 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 				lambda: cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor), searchLength)
 				cursor.insertText(self.__indentMarker * (searchLength / self.__indentWidth))
 			block = block.next()
-		cursor.endEditBlock()
 		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	@anchorTextCursor
+	@editBlock
 	def convertIndentationToSpaces(self):
 		"""
 		This method converts document indentation to spaces.
@@ -1124,7 +1122,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 		cursor = self.textCursor()
 
-		cursor.beginEditBlock()
 		block = self.document().findBlockByLineNumber(0)
 		while block.isValid():
 			cursor.setPosition(block.position())
@@ -1136,6 +1133,5 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 				lambda: cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor), searchLength)
 				cursor.insertText(" " * (searchLength * self.__indentWidth))
 			block = block.next()
-		cursor.endEditBlock()
 		return True
 

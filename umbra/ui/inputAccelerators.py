@@ -82,7 +82,7 @@ def indentationPreEventInputAccelerators(editor, event):
 	"""
 
 	processEvent = True
-	if not hasattr(editor, "indent") and hasattr(editor, "unindent"):
+	if not hasattr(editor, "indent"):
 		return processEvent
 
 	if event.key() == Qt.Key_Tab:
@@ -107,6 +107,8 @@ def indentationPostEventInputAccelerators(editor, event):
 		block = cursor.block().previous()
 		if block.isValid():
 			indent = match = re.match(r"(\s*)", strings.encode(block.text())).group(1)
+			cursor.insertText(indent)
+
 			indentationSymbols = getEditorCapability(editor, "indentationSymbols")
 			if not indentationSymbols:
 				return True
@@ -117,11 +119,11 @@ def indentationPostEventInputAccelerators(editor, event):
 			if not strings.encode(block.text())[-1] in indentationSymbols:
 				return True
 
-			indent += editor.indentMarker
-			cursor.insertText(indent)
 			symbolsPairs = getEditorCapability(editor, "symbolsPairs")
 			if not symbolsPairs:
 				return True
+
+			cursor.insertText(editor.indentMarker)
 
 			position = cursor.position()
 			cursor.movePosition(QTextCursor.PreviousBlock, QTextCursor.MoveAnchor)
@@ -242,7 +244,6 @@ def symbolsExpandingPreEventInputAccelerators(editor, event):
 	text = strings.encode(event.text())
 	if text in symbolsPairs:
 		cursor = editor.textCursor()
-		cursor.beginEditBlock()
 		if not cursor.hasSelection():
 			cursor.insertText(event.text())
 			# TODO: Provide an efficient code alternative.
@@ -259,12 +260,10 @@ def symbolsExpandingPreEventInputAccelerators(editor, event):
 			cursor.insertText(selectionText)
 			cursor.insertText(symbolsPairs[text])
 		editor.setTextCursor(cursor)
-		cursor.endEditBlock()
 		processEvent = False
 
 	if event.key() in (Qt.Key_Backspace,):
 		cursor = editor.textCursor()
-		cursor.beginEditBlock()
 		cursor.movePosition(QTextCursor.Left, QTextCursor.KeepAnchor)
 		leftText = cursor.selectedText()
 		foundations.common.repeat(lambda: cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor), 2)
@@ -272,5 +271,4 @@ def symbolsExpandingPreEventInputAccelerators(editor, event):
 
 		if symbolsPairs.get(strings.encode(leftText)) == strings.encode(rightText):
 			cursor.deleteChar()
-		cursor.endEditBlock()
 	return processEvent

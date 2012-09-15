@@ -52,13 +52,43 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "anchorTextCursor", "centerTextCursor", "Basic_QPlainTextEdit"]
+__all__ = ["LOGGER", "editBlock", "anchorTextCursor", "centerTextCursor", "Basic_QPlainTextEdit"]
 
 LOGGER = logging.getLogger(Constants.logger)
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
+def editBlock(object):
+	"""
+	This decorator is used to handle edit blocks undo states.
+	
+	:param object: Object to decorate. ( Object )
+	:return: Object. ( Object )
+	"""
+
+	@functools.wraps(object)
+	def function(*args, **kwargs):
+		"""
+		This decorator is used to handle edit blocks undo states.
+
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:return: Object. ( Object )
+		"""
+
+		if args:
+			cursor = foundations.common.getFirstItem(args).textCursor()
+			cursor.beginEditBlock()
+		try:
+			value = object(*args, **kwargs)
+		finally:
+			if args:
+				cursor.endEditBlock()
+			return value
+
+	return function
+
 def anchorTextCursor(object):
 	"""
 	This decorator is used to anchor the text cursor position.
@@ -534,6 +564,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@editBlock
 	def setContent(self, content):
 		"""
 		This method sets document with given content while providing undo capability.
@@ -543,14 +574,12 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		cursor = self.textCursor()
-		cursor.beginEditBlock()
 		cursor.movePosition(QTextCursor.Start, QTextCursor.MoveAnchor)
 		cursor.movePosition(QTextCursor.End, QTextCursor.KeepAnchor)
 		cursor.removeSelectedText()
 		for line in content:
 			self.moveCursor(QTextCursor.End)
 			self.insertPlainText(line)
-		cursor.endEditBlock()
 		return True
 
 	@core.executionTrace
@@ -567,6 +596,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@editBlock
 	def deleteLines(self):
 		"""
 		This method deletes the document lines under cursor.
@@ -575,15 +605,14 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		cursor = self.textCursor()
-		cursor.beginEditBlock()
 		self.__selectTextUnderCursorBlocks(cursor)
 		cursor.removeSelectedText()
 		cursor.deleteChar()
-		cursor.endEditBlock()
 		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@editBlock
 	def duplicateLines(self):
 		"""
 		This method duplicates the document lines under cursor.
@@ -592,7 +621,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		cursor = self.textCursor()
-		cursor.beginEditBlock()
 		self.__selectTextUnderCursorBlocks(cursor)
 		text = cursor.selectedText()
 
@@ -608,12 +636,12 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		cursor.setPosition(startPosition, QTextCursor.MoveAnchor)
 		cursor.setPosition(endPosition, QTextCursor.KeepAnchor)
 		self.setTextCursor(cursor)
-		cursor.endEditBlock()
 
 		return True
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@editBlock
 	def moveLines(self, direction=QTextCursor.Up):
 		"""
 		This method moves the document lines under cursor.
@@ -627,7 +655,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		(direction == QTextCursor.Down and cursor.block() == cursor.document().lastBlock()):
 			return False
 
-		cursor.beginEditBlock()
 		self.__selectTextUnderCursorBlocks(cursor)
 		text = cursor.selectedText()
 		cursor.removeSelectedText()
@@ -647,7 +674,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		cursor.setPosition(startPosition, QTextCursor.MoveAnchor)
 		cursor.setPosition(endPosition, QTextCursor.KeepAnchor)
 		self.setTextCursor(cursor)
-		cursor.endEditBlock()
 
 		return True
 
@@ -776,6 +802,7 @@ backwardSearch=True, wrapAround=True)
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	@centerTextCursor
+	@editBlock
 	def replace(self, pattern, replacementPattern, **kwargs):
 		"""
 		This method replaces current given pattern occurence in the document with the replacement pattern.
@@ -803,7 +830,6 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 		cursor = self.textCursor()
 		metrics = self.getSelectedTextMetrics()
-		cursor.beginEditBlock()
 		if cursor.isNull():
 			return False
 
@@ -811,7 +837,6 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 			return False
 
 		cursor.insertText(replacementPattern)
-		cursor.endEditBlock()
 
 		self.patternsReplaced.emit([metrics])
 
@@ -823,6 +848,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	@centerTextCursor
 	@anchorTextCursor
+	@editBlock
 	def replaceAll(self, pattern, replacementPattern, **kwargs):
 		"""
 		| This method replaces every given pattern occurences in the document with the replacement pattern.
@@ -839,7 +865,6 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		"""
 
 		editCursor = self.textCursor()
-		editCursor.beginEditBlock()
 
 		editCursor.movePosition(QTextCursor.Start, QTextCursor.MoveAnchor)
 		self.setTextCursor(editCursor)
@@ -858,7 +883,6 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 				break
 			cursor.insertText(replacementPattern)
 			patternsReplaced.append(metrics)
-		editCursor.endEditBlock()
 
 		self.patternsReplaced.emit(patternsReplaced)
 
