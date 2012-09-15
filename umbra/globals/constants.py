@@ -97,8 +97,8 @@ class Constants():
 	factoryComponentsDirectory = "components/factory"
 	"""Application factory components directory: '**components/factory**' ( String )"""
 
-	addinsComponentsDirectory = "components/addins"
-	"""Application addins components directory: '**components/addins**' ( String )"""
+	factoryAddonsComponentsDirectory = "components/addons"
+	"""Application addons components directory: '**components/addons**' ( String )"""
 
 	resourcesDirectory = "resources"
 	"""Application resources directory: '**resources**' ( String )"""

@@ -6,11 +6,11 @@ Modules Summary:
 .. toctree::
    :maxdepth: 1
 
-   umbra.components.addins.projectsExplorer.models <api/umbra.components.addins.projectsExplorer.models>
-   umbra.components.addins.projectsExplorer.projectsExplorer <api/umbra.components.addins.projectsExplorer.projectsExplorer>
-   umbra.components.addins.projectsExplorer.views <api/umbra.components.addins.projectsExplorer.views>
-   umbra.components.addins.tcpClientUi.tcpClientUi <api/umbra.components.addins.tcpClientUi.tcpClientUi>
-   umbra.components.addins.tcpServerUi.tcpServerUi <api/umbra.components.addins.tcpServerUi.tcpServerUi>
+   umbra.components.addons.projectsExplorer.models <api/umbra.components.addons.projectsExplorer.models>
+   umbra.components.addons.projectsExplorer.projectsExplorer <api/umbra.components.addons.projectsExplorer.projectsExplorer>
+   umbra.components.addons.projectsExplorer.views <api/umbra.components.addons.projectsExplorer.views>
+   umbra.components.addons.tcpClientUi.tcpClientUi <api/umbra.components.addons.tcpClientUi.tcpClientUi>
+   umbra.components.addons.tcpServerUi.tcpServerUi <api/umbra.components.addons.tcpServerUi.tcpServerUi>
    umbra.components.factory.componentsManagerUi.componentsManagerUi <api/umbra.components.factory.componentsManagerUi.componentsManagerUi>
    umbra.components.factory.componentsManagerUi.models <api/umbra.components.factory.componentsManagerUi.models>
    umbra.components.factory.componentsManagerUi.nodes <api/umbra.components.factory.componentsManagerUi.nodes>

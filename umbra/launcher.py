@@ -50,7 +50,7 @@ def main():
 
 	componentsPaths = []
 	for path in (os.path.join(umbra.__path__[0], Constants.factoryComponentsDirectory),
-				os.path.join(umbra.__path__[0], Constants.addinsComponentsDirectory)):
+				os.path.join(umbra.__path__[0], Constants.factoryAddonsComponentsDirectory)):
 		os.path.exists(path) and componentsPaths.append(path)
 	return umbra.engine.run(umbra.engine.Umbra,
 							umbra.engine.getCommandLineParametersParser().parse_args(sys.argv),

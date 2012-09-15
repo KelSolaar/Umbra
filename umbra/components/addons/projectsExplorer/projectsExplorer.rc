@@ -1,5 +1,5 @@
 [Component]
-Name = addins.projectsExplorer
+Name = addons.projectsExplorer
 Title = Projects Explorer
 Module = projectsExplorer
 Object = ProjectsExplorer
@@ -10,4 +10,4 @@ Version = 1.0
 Author = Thomas Mansencal
 Email = thomas.mansencal@gmail.com
 Url = http://www.hdrlabs.com/
-Description = Projects Explorer addins Component.
+Description = Projects Explorer addons Component.

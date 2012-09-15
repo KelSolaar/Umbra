@@ -1,5 +1,5 @@
 [Component]
-Name = addins.tcpServerUi
+Name = addons.tcpServerUi
 Title = TCP Server Ui
 Module = tcpServerUi
 Object = TCPServerUi
@@ -10,4 +10,4 @@ Version = 1.0
 Author = Thomas Mansencal
 Email = thomas.mansencal@gmail.com
 Url = http://www.hdrlabs.com/
-Description = TCP Server addins Ui Component.
+Description = TCP Server addons Ui Component.

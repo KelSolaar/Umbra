@@ -36,8 +36,8 @@ import umbra.ui.common
 import umbra.ui.widgets.messageBox as messageBox
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.globals.constants import Constants
-from umbra.components.addins.projectsExplorer.models import ProjectsProxyModel
-from umbra.components.addins.projectsExplorer.views import Projects_QTreeView
+from umbra.components.addons.projectsExplorer.models import ProjectsProxyModel
+from umbra.components.addons.projectsExplorer.views import Projects_QTreeView
 from umbra.ui.delegates import RichText_QStyledItemDelegate
 from umbra.ui.delegates import Style
 from logging import raiseExceptions
@@ -574,8 +574,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Removing '{0}' Component actions.".format(self.__class__.__name__))
 
-		removeProjectAction = self.__engine.actionsManager.getAction(
-		"Actions|Umbra|Components|factory.scriptEditor|&File|Remove Project")
+		removeProjectAction = "Actions|Umbra|Components|factory.scriptEditor|&File|Remove Project"
 		self.__scriptEditor.commandMenu.removeAction(self.__engine.actionsManager.getAction(removeProjectAction))
 		self.__engine.actionsManager.unregisterAction(removeProjectAction)
 
@@ -586,10 +585,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		self.__view.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|addins.projectsExplorer|Add Project ...",
+		"Actions|Umbra|Components|addons.projectsExplorer|Add Project ...",
 		slot=self.__view_addProjectAction__triggered))
 		self.__view.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|addins.projectsExplorer|Remove Project",
+		"Actions|Umbra|Components|addons.projectsExplorer|Remove Project",
 		slot=self.__view_removeProjectAction__triggered))
 
 		separatorAction = QAction(self.__view)
@@ -597,10 +596,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__view.addAction(separatorAction)
 
 		self.__view.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|addins.projectsExplorer|Add New File ...",
+		"Actions|Umbra|Components|addons.projectsExplorer|Add New File ...",
 		slot=self.__view_addNewFileAction__triggered))
 		self.__view.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|addins.projectsExplorer|Add New Directory ...",
+		"Actions|Umbra|Components|addons.projectsExplorer|Add New Directory ...",
 		slot=self.__view_addNewDirectoryAction__triggered))
 
 		separatorAction = QAction(self.__view)
@@ -608,13 +607,13 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__view.addAction(separatorAction)
 
 		self.__view.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|addins.projectsExplorer|Rename ...",
+		"Actions|Umbra|Components|addons.projectsExplorer|Rename ...",
 		slot=self.__view_renameAction__triggered))
 		# self.__view.addAction(self.__engine.actionsManager.registerAction(
-		# "Actions|Umbra|Components|addins.projectsExplorer|Copy ...",
+		# "Actions|Umbra|Components|addons.projectsExplorer|Copy ...",
 		# slot=self.__view_copyAction__triggered))
 		# self.__view.addAction(self.__engine.actionsManager.registerAction(
-		# "Actions|Umbra|Components|addins.projectsExplorer|Move ...",
+		# "Actions|Umbra|Components|addons.projectsExplorer|Move ...",
 		# slot=self.__view_moveAction__triggered))
 
 		separatorAction = QAction(self.__view)
@@ -622,7 +621,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__view.addAction(separatorAction)
 
 		self.__view.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|addins.projectsExplorer|Delete ...",
+		"Actions|Umbra|Components|addons.projectsExplorer|Delete ...",
 		slot=self.__view_deleteAction__triggered))
 
 		separatorAction = QAction(self.__view)
@@ -630,7 +629,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__view.addAction(separatorAction)
 
 		self.__view.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|addins.projectsExplorer|Find In Files ...",
+		"Actions|Umbra|Components|addons.projectsExplorer|Find In Files ...",
 		slot=self.__view_findInFilesAction__triggered))
 
 		separatorAction = QAction(self.__view)
@@ -638,7 +637,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__view.addAction(separatorAction)
 
 		self.__view.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|addins.projectsExplorer|Output Selected Path",
+		"Actions|Umbra|Components|addons.projectsExplorer|Output Selected Path",
 		slot=self.__view_outputSelectedPathAction__triggered))
 
 	@core.executionTrace
@@ -647,16 +646,16 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method removes the View actions.
 		"""
 
-		addProjectAction = "Actions|Umbra|Components|addins.projectsExplorer|Add Project ..."
-		removeProjectAction = "Actions|Umbra|Components|addins.projectsExplorer|Remove Project"
-		addNewFileAction = "Actions|Umbra|Components|addins.projectsExplorer|Add New File ..."
-		addNewDirectoryAction = "Actions|Umbra|Components|addins.projectsExplorer|Add New Directory ..."
-		renameAction = "Actions|Umbra|Components|addins.projectsExplorer|Rename ..."
-		# copyAction = "Actions|Umbra|Components|addins.projectsExplorer|Copy ..."
-		# moveAction = "Actions|Umbra|Components|addins.projectsExplorer|Move ..."
-		deleteAction = "Actions|Umbra|Components|addins.projectsExplorer|Delete ..."
-		findInFilesAction = "Actions|Umbra|Components|addins.projectsExplorer|Find In Files ..."
-		outputSelectedPathAction = "Actions|Umbra|Components|addins.projectsExplorer|Output Selected Path"
+		addProjectAction = "Actions|Umbra|Components|addons.projectsExplorer|Add Project ..."
+		removeProjectAction = "Actions|Umbra|Components|addons.projectsExplorer|Remove Project"
+		addNewFileAction = "Actions|Umbra|Components|addons.projectsExplorer|Add New File ..."
+		addNewDirectoryAction = "Actions|Umbra|Components|addons.projectsExplorer|Add New Directory ..."
+		renameAction = "Actions|Umbra|Components|addons.projectsExplorer|Rename ..."
+		# copyAction = "Actions|Umbra|Components|addons.projectsExplorer|Copy ..."
+		# moveAction = "Actions|Umbra|Components|addons.projectsExplorer|Move ..."
+		deleteAction = "Actions|Umbra|Components|addons.projectsExplorer|Delete ..."
+		findInFilesAction = "Actions|Umbra|Components|addons.projectsExplorer|Find In Files ..."
+		outputSelectedPathAction = "Actions|Umbra|Components|addons.projectsExplorer|Output Selected Path"
 
 		for action in (addProjectAction,
 						removeProjectAction,
@@ -747,7 +746,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __view_addProjectAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|addins.projectsExplorer|Add Project ...'** action.
+		This method is triggered by **'Actions|Umbra|Components|addons.projectsExplorer|Add Project ...'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
@@ -758,7 +757,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __view_removeProjectAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|addins.projectsExplorer|Remove Project'** action.
+		This method is triggered by **'Actions|Umbra|Components|addons.projectsExplorer|Remove Project'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
@@ -773,7 +772,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __view_addNewFileAction__triggered(self, checked):
 		"""
-		This method is triggered by **'"Actions|Umbra|Components|addins.projectsExplorer|Add New File ..."'** action.
+		This method is triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Add New File ..."'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
@@ -788,7 +787,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __view_addNewDirectoryAction__triggered(self, checked):
 		"""
-		This method is triggered by **'"Actions|Umbra|Components|addins.projectsExplorer|Add New Directory ..."'** action.
+		This method is triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Add New Directory ..."'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
@@ -803,7 +802,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __view_renameAction__triggered(self, checked):
 		"""
-		This method is triggered by **'"Actions|Umbra|Components|addins.projectsExplorer|Rename ..."'** action.
+		This method is triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Rename ..."'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
@@ -818,29 +817,29 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	# @core.executionTrace
 	# def __view_copyAction__triggered(self, checked):
 	# 	"""
-	# 	This method is triggered by **'"Actions|Umbra|Components|addins.projectsExplorer|Copy ..."'** action.
+	# 	This method is triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Copy ..."'** action.
 	# 
 	# 	:param checked: Checked state. ( Boolean )
 	# 	:return: Method success. ( Boolean )
 	# 	"""
 	# 
-	# 	print "Actions|Umbra|Components|addins.projectsExplorer|Copy ..."
+	# 	print "Actions|Umbra|Components|addons.projectsExplorer|Copy ..."
 
 	# @core.executionTrace
 	# def __view_moveAction__triggered(self, checked):
 	# 	"""
-	# 	This method is triggered by **'"Actions|Umbra|Components|addins.projectsExplorer|Move ..."'** action.
+	# 	This method is triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Move ..."'** action.
 	# 
 	# 	:param checked: Checked state. ( Boolean )
 	# 		:return: Method success. ( Boolean )
 	# 	"""
 	# 
-	# 	print "Actions|Umbra|Components|addins.projectsExplorer|Move ..."
+	# 	print "Actions|Umbra|Components|addons.projectsExplorer|Move ..."
 
 	@core.executionTrace
 	def __view_deleteAction__triggered(self, checked):
 		"""
-		This method is triggered by **'"Actions|Umbra|Components|addins.projectsExplorer|Delete ..."'** action.
+		This method is triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Delete ..."'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
@@ -855,7 +854,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __view_findInFilesAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|addins.projectsExplorer|Find In Files ...'** action.
+		This method is triggered by **'Actions|Umbra|Components|addons.projectsExplorer|Find In Files ...'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
@@ -872,7 +871,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __view_outputSelectedPathAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|addins.projectsExplorer|Output Selected Path'** action.
+		This method is triggered by **'Actions|Umbra|Components|addons.projectsExplorer|Output Selected Path'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )

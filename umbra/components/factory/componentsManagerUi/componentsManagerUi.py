@@ -1056,14 +1056,18 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		rootNode = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
 
+		paths = {}
 		for path in self.__engine.componentsManager.paths:
-			components = {name : component
-						for name, component in self.__engine.componentsManager.components.iteritems()
-						if os.path.normpath(path) in os.path.normpath(component.directory)}
-			if not components:
-				break
+			name = os.path.basename(path)
+			if not paths.get(name):
+				paths[name] = {}
 
-			pathNode = PathNode(name=os.path.basename(path).title(),
+			paths[name].update({name : component
+						for name, component in self.__engine.componentsManager.components.iteritems()
+						if os.path.normpath(path) in os.path.normpath(component.directory)})
+
+		for path, components in paths.iteritems():
+			pathNode = PathNode(name=path.title(),
 								parent=rootNode,
 								nodeFlags=nodeFlags,
 								attributesFlags=attributesFlags,

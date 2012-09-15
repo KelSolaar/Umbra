@@ -525,11 +525,11 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__scriptEditor.commandMenu.addSeparator()
 		self.__scriptEditor.commandMenu.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|addins.tcpServerUi|&Command|Send Selection To Server",
+		"Actions|Umbra|Components|addons.tcpServerUi|&Command|Send Selection To Server",
 		shortcut=Qt.ControlModifier + Qt.AltModifier + Qt.Key_Return,
 		slot=self.__sendSelectionToServerAction__triggered))
 		self.__scriptEditor.commandMenu.addAction(self.__engine.actionsManager.registerAction(
-		"Actions|Umbra|Components|addins.tcpServerUi|&Command|&Send Current File To Server",
+		"Actions|Umbra|Components|addons.tcpServerUi|&Command|&Send Current File To Server",
 		shortcut=Qt.SHIFT + Qt.AltModifier + Qt.CTRL + Qt.Key_Return,
 		slot=self.__sendFileToServerAction__triggered))
 
@@ -541,8 +541,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Removing '{0}' Component actions.".format(self.__class__.__name__))
 
-		sendSelectionToServerAction = "Actions|Umbra|Components|addins.tcpServerUi|&Command|Send Selection To Server"
-		sendFileToServerAction = "Actions|Umbra|Components|addins.tcpServerUi|&Command|&Send Current File To Server"
+		sendSelectionToServerAction = "Actions|Umbra|Components|addons.tcpServerUi|&Command|Send Selection To Server"
+		sendFileToServerAction = "Actions|Umbra|Components|addons.tcpServerUi|&Command|&Send Current File To Server"
 		for action in (sendSelectionToServerAction, sendFileToServerAction):
 			self.__scriptEditor.commandMenu.removeAction(self.__engine.actionsManager.getAction(action))
 			self.__engine.actionsManager.unregisterAction(action)
@@ -656,7 +656,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __sendSelectionToServerAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|addins.tcpServerUi|&Command|Send Selection To Server'** action.
+		This method is triggered by **'Actions|Umbra|Components|addons.tcpServerUi|&Command|Send Selection To Server'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
@@ -676,7 +676,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@core.executionTrace
 	def __sendFileToServerAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|addins.tcpServerUi|&Command|&Send Current File To Server'** action.
+		This method is triggered by **'Actions|Umbra|Components|addons.tcpServerUi|&Command|&Send Current File To Server'** action.
 
 		:param checked: Checked state. ( Boolean )
 		:return: Method success. ( Boolean )
