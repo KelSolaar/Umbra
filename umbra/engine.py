@@ -94,6 +94,7 @@ import foundations.core as core
 import foundations.exceptions
 import foundations.environment
 import foundations.io as io
+import foundations.namespace
 import foundations.strings as strings
 import foundations.ui.common
 import manager.exceptions
@@ -389,59 +390,16 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__componentsManager.registerComponents()
 
 		if not self.__componentsManager.components:
-			self.__engine.notificationsManager.warnify("{0} | '{1}' Components Manager has no Components!".format(
+			self.notificationsManager.warnify("{0} | '{1}' Components Manager has no Components!".format(
 			self.__class__.__name__, Constants.applicationName))
 
 		self.__componentsManager.instantiateComponents(self.__componentsInstantiationCallback)
 
-		# --- Activating mandatory Components. ---
-		for component in self.__requisiteComponents:
-			try:
-				profile = self.__componentsManager.components[component]
-				interface = self.__componentsManager.getInterface(component)
-				setattr(self, "_{0}__{1}".format(self.__class__.__name__, Manager.getComponentAttributeName(component)),
-																											interface)
-				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage(
-				"{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component),
-				textColor=Qt.white)
-				interface.activate(self)
-				if profile.category in ("Default", "QObject"):
-					interface.initialize()
-				elif profile.category == "QWidget":
-					interface.addWidget()
-					interface.initializeUi()
-			except Exception as error:
-				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
-				umbra.ui.common.uiSystemExitExceptionHandler(manager.exceptions.ComponentActivationError(
-				"'{0}' Component failed to activate!\nException raised: {1}".format(component, error)),
-				self.__class__.__name__)
+		# --- Activating requisite Components. ---
+		self.__setComponents(requisite=True)
 
 		# --- Activating others Components. ---
-		deactivatedComponents = self.__settings.getKey("Settings", "deactivatedComponents").toString().split(",")
-		for component in self.__componentsManager.listComponents():
-			try:
-				if component in deactivatedComponents:
-					continue
-
-				profile = self.__componentsManager.components[component]
-				interface = self.__componentsManager.getInterface(component)
-				if interface.activated:
-					continue
-
-				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage(
-				"{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component),
-				textColor=Qt.white)
-				interface.activate(self)
-				if profile.category in ("Default", "QObject"):
-					interface.initialize()
-				elif profile.category == "QWidget":
-					interface.addWidget()
-					interface.initializeUi()
-			except Exception as error:
-				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
-				umbra.ui.common.uiExtendedExceptionHandler(manager.exceptions.ComponentActivationError(
-				"'{0}' Component failed to activate, unexpected behavior may occur!\nException raised: {1}".format(
-				component, error)), self.__class__.__name__)
+		self.__setComponents(requisite=False)
 
 		# --- Initializing requestsStack. ---
 		self.__setLocals()
@@ -1287,6 +1245,48 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		LOGGER.debug("> Application resize event accepted!")
 		self.sizeChanged.emit(event)
 		event.accept()
+
+	@core.executionTrace
+	def __setComponents(self, requisite=True):
+		"""
+		This method sets the Components.
+
+		:param requisite: Set only requisite Components. ( Boolean )
+		"""
+
+		attribute = "intersection" if requisite else "difference"
+		components = list(getattr(set(self.__componentsManager.listComponents()), attribute)(self.__requisiteComponents))
+		deactivatedComponents = self.__settings.getKey("Settings", "deactivatedComponents").toString().split(",")
+		components = filter(lambda x: x not in deactivatedComponents, components)
+
+		for component in components:
+			try:
+				profile = self.__componentsManager.components[component]
+				interface = self.__componentsManager.getInterface(component)
+
+				setattr(self, "_{0}__{1}".format(self.__class__.__name__, foundations.namespace.getLeaf(component, ".")),
+																											interface)
+
+				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage(
+				"{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component),
+				textColor=Qt.white)
+				interface.activate(self)
+				if profile.category in ("Default", "QObject"):
+					interface.initialize()
+				elif profile.category == "QWidget":
+					interface.addWidget()
+					interface.initializeUi()
+			except Exception as error:
+				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
+
+				exceptionHandler = umbra.ui.common.uiSystemExitExceptionHandler if requisite else \
+				umbra.ui.common.uiExtendedExceptionHandler
+
+				message = "'{0}' Component failed to activate!\nException raised: {1}" if requisite else \
+				"'{0}' Component failed to activate, unexpected behavior may occur!\nException raised: {1}"
+
+				exceptionHandler(manager.exceptions.ComponentActivationError(message.format(component, error)),
+																							self.__class__.__name__)
 
 	@core.executionTrace
 	def __setLocals(self):
