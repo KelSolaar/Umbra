@@ -8,7 +8,9 @@
 *.pyc
 *.pyo
 
-umbra/resources/images/builders/
+Umbra.egg-info/
+dist/
 docs/sphinx/build
 docs/sphinx/source/resources/packages/
 releases/
+umbra/resources/images/builders/

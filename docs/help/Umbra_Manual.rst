@@ -25,8 +25,7 @@ Table Of Content
 _`Introduction`
 ===============
 
-Umbra is the main package of 
-Foundations is the core package of `sIBL_GUI <http://github.com/KelSolaar/sIBL_GUI>`_ and `sIBL_Reporter <http://github.com/KelSolaar/sIBL_Reporter>`_.
+Umbra is the main package of `sIBL_GUI <http://github.com/KelSolaar/sIBL_GUI>`_ and `sIBL_Reporter <http://github.com/KelSolaar/sIBL_Reporter>`_.
 
 .. raw:: html
 
