@@ -25,7 +25,6 @@ import re
 import sys
 import shutil
 from PyQt4.QtCore import QChar
-from PyQt4.QtCore import QEvent
 from PyQt4.QtCore import QString
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import pyqtSignal
@@ -1736,7 +1735,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__viewMenu.addSeparator()
 		self.__viewMenu.addAction(self.__engine.actionsManager.registerAction(
 		"Actions|Umbra|Components|factory.scriptEditor|&View|Loop Through Editors",
-		shortcut=Qt.SHIFT + Qt.Key_Tab,
+		shortcut=Qt.AltModifier + Qt.SHIFT + Qt.Key_Tab,
 		slot=self.__loopThroughEditorsAction__triggered))
 		self.__menuBar.addMenu(self.__viewMenu)
 
