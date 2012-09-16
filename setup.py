@@ -1,7 +1,8 @@
-import umbra.globals.constants
-
+import re
 from setuptools import setup
 from setuptools import find_packages
+
+import umbra.globals.constants
 
 def getLongDescription():
 	"""
@@ -10,14 +11,17 @@ def getLongDescription():
 	:return: Package long description. ( String )
 	"""
 
-	description = str()
+	description = []
 	with open("README.rst") as file:
 		for line in file:
-			if ".. code:: python" in line:
+			if ".. code:: python" in line and len(description) >= 2:
+				blockLine = description[-2]
+				if re.search(r":$", blockLine) and not re.search(r"::$", blockLine):
+					description[-2] = "::".join(blockLine.rsplit(":", 1))
 				continue
 
-			description += line
-	return description
+			description.append(line)
+	return str().join(description)
 
 setup(name=umbra.globals.constants.Constants.applicationName,
 	version=umbra.globals.constants.Constants.releaseVersion,
@@ -30,7 +34,7 @@ setup(name=umbra.globals.constants.Constants.applicationName,
 	license="GPLv3",
 	description="Umbra is the main package of sIBL_GUI and sIBL_Reporter.",
 	long_description=getLongDescription(),
-	install_requires=["Foundations>=2.0.2", "Manager>=2.0.1"],
+	install_requires=["sphinx>=1.1.3", "Foundations>=2.0.2", "Manager>=2.0.1"],
 	classifiers=["Development Status :: 5 - Production/Stable",
 				"Environment :: Console",
 				"Environment :: MacOS X",

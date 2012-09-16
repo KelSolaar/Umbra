@@ -6,23 +6,41 @@ Introduction
 
 Umbra is the main package of `sIBL_GUI <http://github.com/KelSolaar/sIBL_GUI>`_ and `sIBL_Reporter <http://github.com/KelSolaar/sIBL_Reporter>`_.
 
+..  image:: http://thomasmansencal.com/Sharing/Umbra/Support/Documentation/Help/resources/pictures/Umbra_DevelopmentCentricLayout.jpg
+
 Installation
 ------------
 
-Umbra depends on some other packages / repositories:
--  Foundations package available from Github: https://github.com/KelSolaar/Foundations. You will need to create a symbolic link from "Foundations/src/foundations" to "Umbra/src/foundations" and from "Foundations/src/tests/testsFoundations" to "Umbra/src/tests/testsFoundations" or ensure the packages are available in Python path.
--  Manager package available from Github: https://github.com/KelSolaar/Manager. You will need to create a symbolic link from "Manager/src/manager" to "Umbra/src/manager" and from "Manager/src/tests/testsManager" to "Umbra/src/tests/testsManager" or ensure the packages are available in Python path.
+The following dependencies are needed:
 
-Quick Repositories Cloning Commands::
+-  **Python 2.7.3**: http://www.python.org/
+-  **PyQt**: http://www.riverbankcomputing.co.uk/
 
-   mkdir HDRLabs
-   cd HDRLabs/
-   git clone git://github.com/KelSolaar/Umbra.git && git clone git://github.com/KelSolaar/Foundations.git &&  git clone git://github.com/KelSolaar/Manager.git
-   cd Umbra/src
-   python Umbra.py
+To install **Umbra** from the `Python Package Index <http://pypi.python.org/pypi/Umbra>`_ you can issue this command in a shell::
+
+	pip install Umbra
+
+or this alternative command::
+
+	easy_install Umbra
+
+Alternatively, if you want to directly install from `Github <http://github.com/KelSolaar/Umbra>`_ source repository::
+
+	git clone git://github.com/KelSolaar/Umbra.git
+	python setup.py install
+
+If you want to build the documentation you will also need:
+
+-  **Tidy** http://tidy.sourceforge.net/
 
 Usage
 -----
+
+Once installed, you can launch **Umbra** using this shell command::
+
+	Umbra
+
+Please refer to `Umbra - Api <http://thomasmansencal.com/Sharing/Umbra/Support/Documentation/Api/index.html>`_ for precise usage examples.
 
 About
 -----
