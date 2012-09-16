@@ -411,7 +411,7 @@ class Search_worker(QThread):
 				if content is None:
 					LOGGER.warning("!> Error occured while reading '{0}' file proceeding to next one!".format(file))
 					continue
-				self.__container.filesCache.addContent(**{file : CacheData(content=content, document=None)})
+				self.__container.filesCache.addContent(**{str(file) : CacheData(content=content, document=None)})
 			else:
 				content = cacheData.content
 			occurences = self.__searchDocument(QTextDocument(QString(content)), self.__pattern, self.__settings)

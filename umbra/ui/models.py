@@ -19,7 +19,11 @@
 #**********************************************************************************************************************
 import logging
 import pickle
-from collections import OrderedDict
+import sys
+if sys.version_info[:2] <= (2, 6):
+	from ordereddict import OrderedDict
+else:
+	from collections import OrderedDict
 from PyQt4.QtCore import QAbstractItemModel
 from PyQt4.QtCore import QMimeData
 from PyQt4.QtCore import QModelIndex

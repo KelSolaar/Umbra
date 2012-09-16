@@ -20,7 +20,11 @@
 import functools
 import logging
 import os
-from collections import OrderedDict
+import sys
+if sys.version_info[:2] <= (2, 6):
+	from ordereddict import OrderedDict
+else:
+	from collections import OrderedDict
 from PyQt4.QtCore import QString
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QAction
@@ -1176,7 +1180,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:param document: File document. ( QTextDocument )
 		"""
 
-		self.__filesCache.addContent(**{file : CacheData(content=content, document=document)})
+		self.__filesCache.addContent(**{str(file) : CacheData(content=content, document=document)})
 
 	@core.executionTrace
 	def __uncache(self, file):
@@ -1208,7 +1212,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			max(self.__defaultLineNumberWidth,
 			max([len(strings.encode(occurence.line)) for occurence in searchResult.occurences]))
 			for occurence in searchResult.occurences:
-				formatter = "{{:>{0}}}".format(width)
+				formatter = "{{0:>{0}}}".format(width)
 				name = "{0}:{1}".format(formatter.format(occurence.line + 1).replace(" ", "&nbsp;"),
 										self.__formatOccurence(occurence))
 				searchOccurenceNode = SearchOccurenceNode(name=name,
