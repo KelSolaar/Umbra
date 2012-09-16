@@ -1,6 +1,8 @@
 Umbra
 =====
 
+..  image:: https://secure.travis-ci.org/KelSolaar/Umbra.png?branch=master
+
 Introduction
 ------------
 
