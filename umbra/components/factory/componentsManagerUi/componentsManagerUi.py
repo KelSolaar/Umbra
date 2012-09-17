@@ -1062,13 +1062,18 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		paths = {}
 		for path in self.__engine.componentsManager.paths:
-			name = os.path.basename(path)
-			if not paths.get(name):
-				paths[name] = {}
+			basename = os.path.basename(path)
+			if not paths.get(basename):
+				paths[basename] = {}
 
-			paths[name].update({name : component
-						for name, component in self.__engine.componentsManager.components.iteritems()
-						if os.path.normpath(path) in os.path.normpath(component.directory)})
+			components = {}
+			for name, component in self.__engine.componentsManager.components.iteritems():
+				if os.path.normpath(path) in os.path.normpath(component.directory):
+					continue
+
+				components[name] = component
+			
+			paths[basename].update(components)
 
 		for path, components in paths.iteritems():
 			pathNode = PathNode(name=path.title(),
