@@ -1,10 +1,15 @@
-Umbra - 1.0.2 - Stable
+Umbra - 1.0.3 - Stable
 ======================
 
 .. .changes
 
 Changes
 =======
+
+1.0.3 - Stable
+--------------
+
+-  Added support for "Python 2.6".
 
 1.0.2 - Stable
 --------------
