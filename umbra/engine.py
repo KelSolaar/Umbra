@@ -1257,7 +1257,8 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		attribute = "intersection" if requisite else "difference"
 		components = list(getattr(set(self.__componentsManager.listComponents()), attribute)(self.__requisiteComponents))
 		deactivatedComponents = self.__settings.getKey("Settings", "deactivatedComponents").toString().split(",")
-		components = filter(lambda x: x not in deactivatedComponents, components)
+		components = sorted(filter(lambda x: x not in deactivatedComponents, components),
+		key=lambda x: self.__componentsManager.getProfile(x).rank)
 
 		for component in components:
 			try:
