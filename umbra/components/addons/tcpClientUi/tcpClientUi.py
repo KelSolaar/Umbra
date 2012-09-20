@@ -548,6 +548,32 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.__engine.actionsManager.unregisterAction(action)
 
 	@core.executionTrace
+	def __Address_lineEdit_setUi(self):
+		"""
+		This method fills **Address_lineEdit** Widget.
+		"""
+
+		# Adding settings key if it doesn't exists.
+		self.__settings.getKey(self.__settingsSection, "address").isNull() and \
+		self.__settings.setKey(self.__settingsSection, "address", self.__address)
+
+		address = self.__settings.getKey(self.__settingsSection, "address").toString()
+		LOGGER.debug("> Setting '{0}' with value '{1}'.".format("Address_lineEdit",
+																address))
+		self.__address = address
+		self.Address_lineEdit.setText(address)
+
+	@core.executionTrace
+	def __Address_lineEdit__editFinished(self):
+		"""
+		This method is triggered when **Address_lineEdit** Widget is edited.
+		"""
+
+		address = self.Address_lineEdit.text()
+		self.__settings.setKey(self.__settingsSection, "address", address)
+		self.__address = address
+
+	@core.executionTrace
 	def __Port_spinBox_setUi(self):
 		"""
 		This method sets the **Port_spinBox** Widget.
@@ -574,32 +600,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> 'Port' value: '{0}'.".format(value))
 		self.__port = int(value)
 		self.__settings.setKey(self.__settingsSection, "port", value)
-
-	@core.executionTrace
-	def __Address_lineEdit_setUi(self):
-		"""
-		This method fills **Address_lineEdit** Widget.
-		"""
-
-		# Adding settings key if it doesn't exists.
-		self.__settings.getKey(self.__settingsSection, "address").isNull() and \
-		self.__settings.setKey(self.__settingsSection, "address", self.__address)
-
-		address = self.__settings.getKey(self.__settingsSection, "address").toString()
-		LOGGER.debug("> Setting '{0}' with value '{1}'.".format("Address_lineEdit",
-																address))
-		self.__address = address
-		self.Address_lineEdit.setText(address)
-
-	@core.executionTrace
-	def __Address_lineEdit__editFinished(self):
-		"""
-		This method is triggered when **Address_lineEdit** Widget is edited.
-		"""
-
-		address = self.Address_lineEdit.text()
-		self.__settings.setKey(self.__settingsSection, "address", address)
-		self.__address = address
 
 	@core.executionTrace
 	def __File_Command_lineEdit_setUi(self):
