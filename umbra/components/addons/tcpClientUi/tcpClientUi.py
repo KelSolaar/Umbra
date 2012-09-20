@@ -274,6 +274,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if value is not None:
 			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
 			"address", value)
+			self.Address_lineEdit.setText(value)
 		self.__address = value
 
 	@address.deleter
@@ -310,6 +311,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			"port", value)
 			assert type(value) >= 0 and type(value) >= 65535, \
 			"'{0}' attribute: '{1}' value must be in 0-65535 range!".format("port", value)
+			self.Port_spinBox.setValue(value)
 		self.__port = value
 
 	@port.deleter
