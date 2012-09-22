@@ -298,3 +298,52 @@ class Active_QLabelsCollection(QObject):
 		"""
 
 		return self.__activeLabels[index]
+
+if __name__ == "__main__":
+	import sys
+	from PyQt4.QtGui import QGridLayout
+	from PyQt4.QtGui import QPixmap
+	from PyQt4.QtGui import QWidget
+
+	import umbra.engine
+	from umbra.globals.uiConstants import UiConstants
+
+	application = umbra.ui.common.getApplicationInstance()
+
+	widget = QWidget()
+
+	gridLayout = QGridLayout()
+	widget.setLayout(gridLayout)
+
+	activeLabelA = Active_QLabel(widget, QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentIcon)),
+									QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentHoverIcon)),
+									QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentActiveIcon)),
+									checkable=True,
+									checked=True)
+	activeLabelB = Active_QLabel(widget, QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesIcon)),
+									QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesHoverIcon)),
+									QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesActiveIcon)),
+									checkable=True,
+									checked=False)
+	activeLabelC = Active_QLabel(widget, QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsIcon)),
+									QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsHoverIcon)),
+									QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsActiveIcon)),
+									checkable=True,
+									checked=False)
+	activeLabelD = Active_QLabel(widget, QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousIcon)),
+									QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousHoverIcon)),
+									QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousActiveIcon)),
+									checkable=True,
+									checked=False)
+	for activeLabel in (activeLabelA, activeLabelB, activeLabelC, activeLabelD):
+		gridLayout.addWidget(activeLabel)
+
+	active_QLabelsCollection = Active_QLabelsCollection()
+	for activeLabel in (activeLabelA, activeLabelB, activeLabelC, activeLabelD):
+		active_QLabelsCollection.addActiveLabel(activeLabel)
+
+	widget.show()
+	widget.raise_()
+
+	sys.exit(application.exec_())
+
