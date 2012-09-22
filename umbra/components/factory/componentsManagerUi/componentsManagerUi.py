@@ -1010,17 +1010,38 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			"{0} | '{1}' Component isn't registered in the Components Manager!".format(self.__class__.__name__, name))
 
 		component = self.__engine.componentsManager.components[name]
-
 		LOGGER.debug("> Attempting '{0}' Component reload.".format(component.name))
 		if component.interface.deactivatable:
-			if component.interface.activated:
-				self.deactivateComponent(name)
+			dependents = list(reversed(self.__engine.componentsManager.listDependents(component.name)))
+
+			if filter(lambda x: not self.__engine.componentsManager[x].deactivatable, dependents):
+				LOGGER.warning(
+				"!> {0} | '{1}' Component has non reloadable dependencies and won't be reloaded!".format(
+				self.__class__.__name__, component.name))
+				return False
+
+			LOGGER.info("{0} | '{1}' Component dependents: '{2}'.".format(self.__class__.__name__,
+																					component.name,
+																					", ".join(dependents)))
+
+			LOGGER.debug("> Deactivating '{0}' Component dependents.".format(component.name))
+			dependents.append(component.name)
+			for dependent in dependents:
+				if self.__engine.componentsManager[dependent].activated:
+					self.deactivateComponent(dependent)
+				self.__engine.processEvents()
+
+			LOGGER.debug("> Reloading '{0}' Component dependents.".format(component.name))
 			self.__engine.componentsManager.reloadComponent(component.name)
-			if not component.interface.activated:
-				self.activateComponent(name)
+
+			LOGGER.debug("> Activating '{0}' Component dependents.".format(component.name))
+			for dependent in reversed(dependents):
+				if not self.__engine.componentsManager[dependent].activated:
+					self.activateComponent(dependent)
+				self.__engine.processEvents()
+
 			LOGGER.info("{0} | '{1}' Component has been reloaded!".format(self.__class__.__name__, component.name))
-			self.reloadedComponent.emit(name)
-			self.modelRefresh.emit()
+			self.reloadedComponent.emit(component.name)
 			return True
 		else:
 			raise manager.exceptions.ComponentReloadError(
