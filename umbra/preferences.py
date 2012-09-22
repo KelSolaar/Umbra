@@ -50,7 +50,7 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class Preferences():
+class Preferences(object):
 	"""
 	| This class provides methods to manipulate Application preferences / settings.
 	| Those are stored and retrieved using a `QSettings <http://doc.qt.nokia.com/qsettings.html>`_ class.
@@ -68,9 +68,9 @@ class Preferences():
 
 		# --- Setting class attributes. ---
 		self.__file = None
-		self.__file = file
+		self.file = file
 
-		self.__settings = QSettings(self.__file, QSettings.IniFormat)
+		self.__settings = QSettings(self.__file, QSettings.IniFormat) if self.__file is not None else QSettings()
 
 		self.__defaultSettings = None
 		self.__defaultLayoutsSettings = None
