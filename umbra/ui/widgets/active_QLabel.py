@@ -115,7 +115,10 @@ class Active_QLabel(QLabel):
 
 		self.__menu = None
 
-		self.__checked and self.setPixmap(self.__activePixmap) or self.setPixmap(self.__defaultPixmap)
+		if self.__checked:
+			self.setPixmap(self.__activePixmap)
+		else:
+			self.setPixmap(self.__defaultPixmap)
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -368,7 +371,7 @@ class Active_QLabel(QLabel):
 
 		if self.underMouse():
 			if self.__checkable:
-				self.setChecked(True)
+				self.setChecked(not self.__checked)
 			else:
 				self.setPixmap(self.__activePixmap)
 			self.clicked.emit()
@@ -428,3 +431,34 @@ class Active_QLabel(QLabel):
 		for action in self.__menu.actions():
 			not action.shortcut().isEmpty() and parent.addAction(action)
 		return True
+
+if __name__ == "__main__":
+	import sys
+	from PyQt4.QtGui import QGridLayout
+	from PyQt4.QtGui import QWidget
+
+	import umbra.engine
+	from umbra.globals.uiConstants import UiConstants
+
+	application = umbra.ui.common.getApplicationInstance()
+
+	widget = QWidget()
+
+	gridLayout = QGridLayout()
+	widget.setLayout(gridLayout)
+
+	activeLabelA = Active_QLabel(widget, QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentIcon)),
+									QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentHoverIcon)),
+									QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentActiveIcon)))
+	activeLabelB = Active_QLabel(widget, QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesIcon)),
+									QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesHoverIcon)),
+									QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesActiveIcon)),
+									checkable=True,
+									checked=True)
+	for activeLabel in (activeLabelA, activeLabelB):
+		gridLayout.addWidget(activeLabel)
+
+	widget.show()
+	widget.raise_()
+
+	sys.exit(application.exec_())
