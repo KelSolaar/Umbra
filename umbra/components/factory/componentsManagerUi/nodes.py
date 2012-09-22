@@ -138,7 +138,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 				<p><b>{0}</b></p>
 				<p><b>Author: </b>{1}<br>
 				<b>Category: </b>{2}<br>
-				<b>Require: </b>{3}<br>
+				<b>Dependencies: </b>{3}<br>
 				<b>Version: </b>{4}<br>
 				<b>Description: </b>{5}<br></p>
 				"""

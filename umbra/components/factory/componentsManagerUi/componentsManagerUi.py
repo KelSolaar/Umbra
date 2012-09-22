@@ -135,7 +135,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__headers = OrderedDict([("Components", "name"),
 										("Activated", "activated"),
 										("Category", "category"),
-										("Require", "require"),
+										("Dependencies", "require"),
 										("Version", "version")])
 
 		self.__treeViewInnerMargins = QMargins(0, 0, 0, 12)
