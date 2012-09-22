@@ -80,6 +80,7 @@ def editBlock(object):
 		if args:
 			cursor = foundations.common.getFirstItem(args).textCursor()
 			cursor.beginEditBlock()
+		value = None
 		try:
 			value = object(*args, **kwargs)
 		finally:
@@ -730,7 +731,9 @@ backwardSearch=True, wrapAround=True)
 
 		self.__searchPattern = pattern
 
-		pattern = settings.regularExpressions and QRegExp(pattern) or pattern
+		if settings.regularExpressions:
+			pattern = QRegExp(pattern)
+			pattern.setCaseSensitivity(Qt.CaseSensitive if settings.caseSensitive else Qt.CaseInsensitive)
 
 		flags = QTextDocument.FindFlags()
 		if settings.caseSensitive:
@@ -823,8 +826,15 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		:return: Method success. ( Boolean )
 		"""
 
+		settings = foundations.dataStructures.Structure(**{"caseSensitive" : False,
+														"regularExpressions" : False})
+		settings.update(kwargs)
+
+
 		selectedText = self.getSelectedText()
-		if not selectedText or selectedText != pattern:
+		regex = "^{0}$".format(pattern if settings.regularExpressions else re.escape(pattern))
+		flags = int() if settings.caseSensitive else re.IGNORECASE
+		if not selectedText or not re.search(regex, selectedText, flags=flags):
 			self.search(pattern, **kwargs)
 			return False
 
@@ -1013,6 +1023,8 @@ if __name__ == "__main__":
 	from PyQt4.QtGui import QPushButton
 	from PyQt4.QtGui import QWidget
 
+	import foundations.tests.utilities
+	import umbra.tests.utilities
 	import umbra.ui.common
 
 	application = umbra.ui.common.getApplicationInstance()
@@ -1022,10 +1034,17 @@ if __name__ == "__main__":
 	gridLayout = QGridLayout()
 	widget.setLayout(gridLayout)
 
+	content = "\n".join(("Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+			"Phasellus tincidunt tempus volutpat.",
+			"Cras malesuada nunc id neque fermentum accumsan.",
+			"Aenean mauris lorem, faucibus et viverra iaculis, vulputate ac augue.",
+			"Mauris consequat urna enim."))
+
 	basic_QPlainTextEdit = Basic_QPlainTextEdit()
+	basic_QPlainTextEdit.setContent(content)
 	gridLayout.addWidget(basic_QPlainTextEdit)
 
-	lineEdit = QLineEdit("basic_QPlainTextEdit.setContent(\"Lorem ipsum dolor sit amet\")")
+	lineEdit = QLineEdit("basic_QPlainTextEdit.replace(\"Lorem\", \"Nemo\")")
 	gridLayout.addWidget(lineEdit)
 
 	def pushButton__clicked(*args):
