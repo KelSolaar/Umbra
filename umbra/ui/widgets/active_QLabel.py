@@ -374,7 +374,7 @@ class Active_QLabel(QLabel):
 				self.setChecked(not self.__checked)
 			else:
 				self.setPixmap(self.__activePixmap)
-			self.clicked.emit()
+				self.clicked.emit()
 		else:
 			self.setPixmap(self.__defaultPixmap)
 			self.released.emit()
