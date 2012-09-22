@@ -567,3 +567,33 @@ class Application_QToolBar(QToolBar):
 		spacer.setObjectName("Closure_Spacer_label")
 		spacer.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Expanding)
 		return spacer
+
+if __name__ == "__main__":
+	import sys
+	from PyQt4.QtGui import QMainWindow
+
+	import umbra.engine
+	from manager.componentsManager import Manager
+	from umbra.managers.actionsManager import ActionsManager
+	from umbra.managers.layoutsManager import LayoutsManager
+	from umbra.preferences import Preferences
+
+	application = umbra.ui.common.getApplicationInstance()
+
+	mainWindow = QMainWindow()
+
+	mainWindow.settings = Preferences()
+	mainWindow.actionsManager = ActionsManager(mainWindow)
+	mainWindow.layoutsManager = LayoutsManager(mainWindow)
+	mainWindow.componentsManager = Manager()
+	mainWindow.toggleFullScreen = lambda: sys.stdout.write("toggleFullScreen()\n")
+
+	mainWindow.setCentralWidget(QLabel())
+
+	application_QToolBar = Application_QToolBar(mainWindow)
+	mainWindow.addToolBar(application_QToolBar)
+
+	mainWindow.show()
+	mainWindow.raise_()
+
+	sys.exit(application.exec_())
