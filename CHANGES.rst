@@ -1,4 +1,4 @@
-Umbra - 1.0.3 - Stable
+**Umbra** - 1.0.4 - Stable
 ======================
 
 .. .changes
@@ -6,15 +6,24 @@ Umbra - 1.0.3 - Stable
 Changes
 =======
 
+1.0.4 - Stable
+--------------
+
+| **Umbra** 1.0.4 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=4&state=closed
+
+-  Reloading a Component will reload its dependents Components in "componentsManagerUi" Component.
+
 1.0.3 - Stable
 --------------
+
+| **Umbra** 1.0.3 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=3&state=closed
 
 -  Added support for **Python 2.6**.
 
 1.0.2 - Stable
 --------------
 
-| Umbra 1.0.2 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=2&state=closed
+| **Umbra** 1.0.2 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=2&state=closed
 
 -  Updated package directory structure to be compliant with **Python Package Index**.
 -  Added documentation / Api files.
@@ -47,7 +56,7 @@ Changes
 1.0.0 - Stable
 --------------
 
--  Initial release of Umbra.
+-  Initial release of **Umbra**.
 
 .. .about
 
