@@ -85,7 +85,7 @@ class LayoutsManager(QObject):
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent):
+	def __init__(self, parent=None):
 		"""
 		This method initializes the class.
 		"""
@@ -400,7 +400,7 @@ class LayoutsManager(QObject):
 				interface and interface.hide()
 
 		self.__currentLayout = name
-		self.__container.centralwidget.setVisible(
+		self.__container.centralWidget().setVisible(
 		self.__settings.getKey("Layouts", "{0}_centralWidget".format(name)).toBool())
 		self.__container.restoreState(
 		self.__settings.getKey("Layouts", "{0}_windowState".format(name)).toByteArray())
@@ -431,7 +431,7 @@ class LayoutsManager(QObject):
 		self.__currentLayout = name
 		self.__settings.setKey("Layouts", "{0}_geometry".format(name), self.__container.saveGeometry())
 		self.__settings.setKey("Layouts", "{0}_windowState".format(name), self.__container.saveState())
-		self.__settings.setKey("Layouts", "{0}_centralWidget".format(name), self.__container.centralwidget.isVisible())
+		self.__settings.setKey("Layouts", "{0}_centralWidget".format(name), self.__container.centralWidget().isVisible())
 		self.layoutStored.emit(self.__currentLayout)
 		return True
 

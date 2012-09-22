@@ -81,7 +81,7 @@ class NotificationsManager(QObject):
 	"""
 
 	@core.executionTrace
-	def __init__(self, parent):
+	def __init__(self, parent=None):
 		"""
 		This method initializes the class.
 		"""
