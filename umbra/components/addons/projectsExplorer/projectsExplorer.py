@@ -40,7 +40,6 @@ from umbra.components.addons.projectsExplorer.models import ProjectsProxyModel
 from umbra.components.addons.projectsExplorer.views import Projects_QTreeView
 from umbra.ui.delegates import RichText_QStyledItemDelegate
 from umbra.ui.delegates import Style
-from logging import raiseExceptions
 
 #**********************************************************************************************************************
 #***	Module attributes.

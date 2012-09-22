@@ -3,7 +3,7 @@ Name = addons.projectsExplorer
 Title = Projects Explorer
 Module = projectsExplorer
 Object = ProjectsExplorer
-Rank = 15
+Requrire = factory.scriptEditor
 Version = 1.0
 
 [Informations]

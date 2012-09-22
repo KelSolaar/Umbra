@@ -3,7 +3,6 @@ Name = factory.preferencesManager
 Title = Preferences Manager
 Module = preferencesManager
 Object = PreferencesManager
-Rank = 10
 Version = 1.0
 
 [Informations]

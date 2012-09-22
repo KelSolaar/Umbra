@@ -3,7 +3,7 @@ Name = addons.tcpServerUi
 Title = TCP Server Ui
 Module = tcpServerUi
 Object = TCPServerUi
-Rank = 15
+Require = factory.preferencesManager
 Version = 1.0
 
 [Informations]

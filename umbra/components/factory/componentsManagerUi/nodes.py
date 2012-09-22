@@ -138,7 +138,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 				<p><b>{0}</b></p>
 				<p><b>Author: </b>{1}<br>
 				<b>Category: </b>{2}<br>
-				<b>Rank: </b>{3}<br>
+				<b>Require: </b>{3}<br>
 				<b>Version: </b>{4}<br>
 				<b>Description: </b>{5}<br></p>
 				"""
@@ -234,6 +234,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 				continue
 
 			value = getattr(self.__component, attribute)
+			value = ", ".join(value) if type(value) in (tuple, list) else value
 			roles = {Qt.DisplayRole : value,
 					Qt.EditRole : value}
 			self[attribute] = umbra.ui.nodes.GraphModelAttribute(attribute, value, roles, attributesFlags)
@@ -252,7 +253,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 		self.roles[Qt.ToolTipRole] = self.__toolTipText.format(self.component.name,
 																self.component.author,
 																self.component.category,
-																self.component.rank,
+																", ".join(self.component.require),
 																self.component.version,
 																self.component.description)
 		return True

@@ -9,14 +9,14 @@ Changes
 1.0.3 - Stable
 --------------
 
--  Added support for "Python 2.6".
+-  Added support for **Python 2.6**.
 
 1.0.2 - Stable
 --------------
 
 | Umbra 1.0.2 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=2&state=closed
 
--  Updated package directory structure to be compliant with "Python Package Index".
+-  Updated package directory structure to be compliant with **Python Package Index**.
 -  Added documentation / Api files.
 -  Implemented **TCPServerUi** Component.
 -  Implemented **Script Editor** Component file revert.

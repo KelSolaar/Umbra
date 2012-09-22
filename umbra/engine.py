@@ -1254,13 +1254,12 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		:param requisite: Set only requisite Components. ( Boolean )
 		"""
 
-		attribute = "intersection" if requisite else "difference"
-		components = list(getattr(set(self.__componentsManager.listComponents()), attribute)(self.__requisiteComponents))
+		components = self.__componentsManager.listComponents()
+		candidateComponents = getattr(set(components), "intersection" if requisite else "difference")(self.__requisiteComponents)
 		deactivatedComponents = self.__settings.getKey("Settings", "deactivatedComponents").toString().split(",")
-		components = sorted(filter(lambda x: x not in deactivatedComponents, components),
-		key=lambda x: self.__componentsManager.getProfile(x).rank)
+		candidateComponents = sorted(filter(lambda x: x not in deactivatedComponents, candidateComponents), key=(components).index)
 
-		for component in components:
+		for component in candidateComponents:
 			try:
 				profile = self.__componentsManager.components[component]
 				interface = self.__componentsManager.getInterface(component)

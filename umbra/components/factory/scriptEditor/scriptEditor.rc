@@ -3,7 +3,6 @@ Name = factory.scriptEditor
 Title = Script Editor
 Module = scriptEditor
 Object = ScriptEditor
-Rank = 5
 Version = 1.0
 
 [Informations]

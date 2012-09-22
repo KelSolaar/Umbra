@@ -135,7 +135,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__headers = OrderedDict([("Components", "name"),
 										("Activated", "activated"),
 										("Category", "category"),
-										("Rank", "rank"),
+										("Require", "require"),
 										("Version", "version")])
 
 		self.__treeViewInnerMargins = QMargins(0, 0, 0, 12)
@@ -1077,7 +1077,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 								attributesFlags=attributesFlags,
 								activated=umbra.ui.nodes.GraphModelAttribute(name="activated", flags=attributesFlags),
 								category=umbra.ui.nodes.GraphModelAttribute(name="category", flags=attributesFlags),
-								rank=umbra.ui.nodes.GraphModelAttribute(name="rank", flags=attributesFlags),
+								require=umbra.ui.nodes.GraphModelAttribute(name="require", flags=attributesFlags),
 								version=umbra.ui.nodes.GraphModelAttribute(name="version", flags=attributesFlags))
 
 			for component in components.itervalues():

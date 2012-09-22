@@ -3,7 +3,7 @@ Name = addons.tcpClientUi
 Title = TCP Client Ui
 Module = tcpClientUi
 Object = TCPClientUi
-Rank = 20
+Require = factory.preferencesManager
 Version = 1.0
 
 [Informations]
