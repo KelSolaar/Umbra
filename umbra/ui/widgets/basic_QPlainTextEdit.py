@@ -1005,3 +1005,38 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		"""
 
 		return self.setFontIncrement(-1)
+
+if __name__ == "__main__":
+	import sys
+	from PyQt4.QtGui import QGridLayout
+	from PyQt4.QtGui import QLineEdit
+	from PyQt4.QtGui import QPushButton
+	from PyQt4.QtGui import QWidget
+
+	import umbra.ui.common
+
+	application = umbra.ui.common.getApplicationInstance()
+
+	widget = QWidget()
+
+	gridLayout = QGridLayout()
+	widget.setLayout(gridLayout)
+
+	basic_QPlainTextEdit = Basic_QPlainTextEdit()
+	gridLayout.addWidget(basic_QPlainTextEdit)
+
+	lineEdit = QLineEdit("basic_QPlainTextEdit.setContent(\"Lorem ipsum dolor sit amet\")")
+	gridLayout.addWidget(lineEdit)
+
+	def pushButton__clicked(*args):
+		statement = str(lineEdit.text())
+		exec(statement)
+
+	pushButton = QPushButton("Execute Statement")
+	pushButton.clicked.connect(pushButton__clicked)
+	gridLayout.addWidget(pushButton)
+
+	widget.show()
+	widget.raise_()
+
+	sys.exit(application.exec_())
