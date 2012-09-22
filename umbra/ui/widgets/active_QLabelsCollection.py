@@ -195,7 +195,7 @@ class Active_QLabelsCollection(QObject):
 		:param state: Active label checked state. ( Boolean )
 		"""
 
-		LOGGER.debug("> Clicked 'Active_QLabel': '{0}'.".format(activeLabel))
+		LOGGER.debug("> Toggled 'Active_QLabel': '{0}'.".format(activeLabel))
 
 		self.__updateSiblingsActiveLabelsStates(activeLabel)
 
@@ -210,8 +210,10 @@ class Active_QLabelsCollection(QObject):
 		LOGGER.debug("> Clicked 'Active_QLabel': '{0}'.".format(activeLabel))
 
 		for item in self.__activeLabels:
-			if item is not activeLabel:
-				umbra.ui.common.signalsBlocker(item, item.setChecked, False)
+			if item is activeLabel:
+				continue
+
+			umbra.ui.common.signalsBlocker(item, item.setChecked, False)
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
