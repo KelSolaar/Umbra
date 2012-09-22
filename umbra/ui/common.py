@@ -24,6 +24,7 @@ import logging
 import os
 import platform
 import re
+import sys
 from PyQt4.QtCore import QString
 from PyQt4.QtCore import QStringList
 from PyQt4.QtCore import QVariant
@@ -58,6 +59,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER",
 			"Location",
+			"getApplicationInstance",
 			"parseLocation",
 			"uiExtendedExceptionHandler",
 			"uiBasicExceptionHandler",
@@ -93,6 +95,20 @@ class Location(foundations.dataStructures.Structure):
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
 		foundations.dataStructures.Structure.__init__(self, **kwargs)
+
+@core.executionTrace
+def getApplicationInstance():
+	"""
+	This definition returns the current `QApplication <http://doc.qt.nokia.com/qapplication.html>`_ instance or
+	create one if it doesn't exists.
+
+	:return: Application instance. ( QApplication )
+	"""
+
+	instance = QApplication.instance()
+	if not instance:
+		instance = QApplication(sys.argv)
+	return instance
 
 @core.executionTrace
 def parseLocation(data):

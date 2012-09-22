@@ -158,7 +158,7 @@ def _initializeApplication():
 	This definition initializes the Application.
 	"""
 
-	RuntimeGlobals.application = QApplication(sys.argv)
+	RuntimeGlobals.application = umbra.ui.common.getApplicationInstance()
 
 _initializeApplication()
 
