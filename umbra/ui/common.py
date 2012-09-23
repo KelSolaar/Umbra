@@ -224,6 +224,9 @@ def getResourcePath(name, raiseException=False):
 	:return: Resource path. ( String )
 	"""
 
+	if not RuntimeGlobals.resourcesDirectories:
+		RuntimeGlobals.resourcesDirectories.append(os.path.join(umbra.__path__[0], Constants.resourcesDirectory))
+
 	for path in RuntimeGlobals.resourcesDirectories:
 		path = os.path.join(path, name)
 		if foundations.common.pathExists(path):

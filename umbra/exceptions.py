@@ -45,7 +45,9 @@ __all__ = ["AbstractEngineError",
 			"LayoutExistError",
 			"AbstractFileSystemEventsManagerError",
 			"PathRegistrationError",
-			"PathExistsError"]
+			"PathExistsError",
+			"AbstractLanguageError",
+			"LanguageGrammarError"]
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -166,6 +168,20 @@ class PathRegistrationError(AbstractFileSystemEventsManagerError):
 class PathExistsError(AbstractFileSystemEventsManagerError):
 	"""
 	This class is used for non existing path exceptions.
+	"""
+
+	pass
+
+class AbstractLanguageError(foundations.exceptions.AbstractError):
+	"""
+	This class is the abstract base class for language related exceptions.
+	"""
+
+	pass
+
+class LanguageGrammarError(AbstractLanguageError):
+	"""
+	This class is used for language grammar exceptions.
 	"""
 
 	pass

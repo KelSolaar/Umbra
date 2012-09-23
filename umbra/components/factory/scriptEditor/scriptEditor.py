@@ -53,10 +53,6 @@ import umbra.ui.common
 import umbra.ui.highlighters
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.components.factory.scriptEditor.editor import Editor
-from umbra.components.factory.scriptEditor.editor import getLanguageDescription
-from umbra.components.factory.scriptEditor.editor import LOGGING_LANGUAGE
-from umbra.components.factory.scriptEditor.editor import PYTHON_LANGUAGE
-from umbra.components.factory.scriptEditor.editor import TEXT_LANGUAGE
 from umbra.components.factory.scriptEditor.editorStatus import EditorStatus
 from umbra.components.factory.scriptEditor.models import LanguagesModel
 from umbra.components.factory.scriptEditor.models import ProjectsModel
@@ -67,6 +63,10 @@ from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
 from umbra.globals.uiConstants import UiConstants
 from umbra.ui.widgets.basic_QPlainTextEdit import Basic_QPlainTextEdit
+from umbra.ui.widgets.codeEditor_QPlainTextEdit import getLanguageDescription
+from umbra.ui.widgets.codeEditor_QPlainTextEdit import LOGGING_LANGUAGE
+from umbra.ui.widgets.codeEditor_QPlainTextEdit import PYTHON_LANGUAGE
+from umbra.ui.widgets.codeEditor_QPlainTextEdit import TEXT_LANGUAGE
 
 #**********************************************************************************************************************
 #***	Module attributes.

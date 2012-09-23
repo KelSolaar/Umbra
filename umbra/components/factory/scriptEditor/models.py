@@ -35,13 +35,13 @@ import foundations.exceptions
 import foundations.walkers
 import umbra.ui.models
 import umbra.ui.nodes
-from umbra.components.factory.scriptEditor.editor import Language
 from umbra.components.factory.scriptEditor.nodes import ProjectNode
 from umbra.components.factory.scriptEditor.nodes import DirectoryNode
 from umbra.components.factory.scriptEditor.nodes import EditorNode
 from umbra.components.factory.scriptEditor.nodes import FileNode
 from umbra.components.factory.scriptEditor.nodes import PatternNode
 from umbra.globals.constants import Constants
+from umbra.ui.widgets.codeEditor_QPlainTextEdit import Language
 
 #**********************************************************************************************************************
 #***	Module attributes.
