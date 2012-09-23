@@ -131,3 +131,21 @@ def messageBox(type, title, message, icon=None, buttons=QMessageBox.Ok, customBu
 	messageBox.show()
 	foundations.ui.common.centerWidgetOnScreen(messageBox)
 	return messageBox.exec_()
+
+if __name__ == "__main__":
+	import sys
+	from PyQt4.QtCore import QString
+
+	import umbra.ui.common
+
+	application = umbra.ui.common.getApplicationInstance()
+
+	messageBox("Critical", "Critical", "This is a 'Critical' QMessageBox!")
+	messageBox("Error", "Error", "This is an 'Error' QMessageBox!")
+	messageBox("Warning", "Warning", "This is a 'Warning' QMessageBox!")
+	messageBox("Information", "Information", "This is an 'Information' QMessageBox!")
+	messageBox("Question", "Question", "This is a 'Question' QMessageBox!")
+	messageBox("Information", "Information", "This QMessageBox is using a custom button!",
+	customButtons=((QString("Custom"), QMessageBox.RejectRole),))
+
+	sys.exit(application.exec_())
