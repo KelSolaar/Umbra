@@ -18,7 +18,6 @@ Modules Summary:
    umbra.components.factory.preferencesManager.preferencesManager <api/umbra.components.factory.preferencesManager.preferencesManager>
    umbra.components.factory.scriptEditor.editor <api/umbra.components.factory.scriptEditor.editor>
    umbra.components.factory.scriptEditor.editorStatus <api/umbra.components.factory.scriptEditor.editorStatus>
-   umbra.components.factory.scriptEditor.exceptions <api/umbra.components.factory.scriptEditor.exceptions>
    umbra.components.factory.scriptEditor.models <api/umbra.components.factory.scriptEditor.models>
    umbra.components.factory.scriptEditor.nodes <api/umbra.components.factory.scriptEditor.nodes>
    umbra.components.factory.scriptEditor.scriptEditor <api/umbra.components.factory.scriptEditor.scriptEditor>
@@ -45,6 +44,7 @@ Modules Summary:
    umbra.ui.delegates <api/umbra.ui.delegates>
    umbra.ui.highlighters <api/umbra.ui.highlighters>
    umbra.ui.inputAccelerators <api/umbra.ui.inputAccelerators>
+   umbra.ui.languages <api/umbra.ui.languages>
    umbra.ui.models <api/umbra.ui.models>
    umbra.ui.nodes <api/umbra.ui.nodes>
    umbra.ui.themes <api/umbra.ui.themes>

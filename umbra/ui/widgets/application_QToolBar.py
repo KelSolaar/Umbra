@@ -599,4 +599,3 @@ if __name__ == "__main__":
 	mainWindow.raise_()
 
 	sys.exit(application.exec_())
-

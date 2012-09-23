@@ -11,6 +11,8 @@ Module Attributes
 Functions
 ---------
 
+.. autofunction:: getApplicationInstance
+
 .. autofunction:: parseLocation
 
 .. autofunction:: uiExtendedExceptionHandler

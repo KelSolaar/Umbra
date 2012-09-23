@@ -1057,4 +1057,3 @@ if __name__ == "__main__":
 	widget.raise_()
 
 	sys.exit(application.exec_())
-

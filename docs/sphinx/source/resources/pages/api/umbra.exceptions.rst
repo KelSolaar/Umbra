@@ -74,3 +74,11 @@ Classes
 	:show-inheritance:
 	:members:
 
+.. autoclass:: AbstractLanguageError
+	:show-inheritance:
+	:members:
+
+.. autoclass:: LanguageGrammarError
+	:show-inheritance:
+	:members:
+
