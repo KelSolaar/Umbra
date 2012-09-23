@@ -394,7 +394,7 @@ class LayoutsManager(QObject):
 
 		LOGGER.debug("> Restoring layout '{0}'.".format(name))
 
-		for component, profile in self.__container.componentsManager.components.iteritems():
+		for component, profile in self.__container.componentsManager:
 			if profile.category == "QWidget" and component not in self.__container.visibleComponents:
 				interface = self.__container.componentsManager.getInterface(component)
 				interface and interface.hide()

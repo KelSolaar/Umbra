@@ -374,10 +374,10 @@ class Active_QLabel(QLabel):
 				self.setChecked(not self.__checked)
 			else:
 				self.setPixmap(self.__activePixmap)
-				self.clicked.emit()
 		else:
 			self.setPixmap(self.__defaultPixmap)
-			self.released.emit()
+		self.released.emit()
+		self.clicked.emit()
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
@@ -400,17 +400,6 @@ class Active_QLabel(QLabel):
 			self.setPixmap(self.__defaultPixmap)
 		self.toggled.emit(state)
 		return True
-
-	@core.executionTrace
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
-	def isChecked(self):
-		"""
-		This method returns the Widget checked state.
-
-		:return: Checked state. ( Boolean )
-		"""
-
-		return self.__checked
 
 	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)

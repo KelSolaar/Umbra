@@ -307,7 +307,7 @@ class Application_QToolBar(QToolBar):
 		layoutActiveLabel = self.__layoutsActiveLabelsCollection.getToggledActiveLabel()
 		layoutActiveLabel and self.__settings.setKey("Layouts",
 										"{0}_activeLabel".format(layout),
-										self.__layoutsActiveLabelsCollection.getActiveLabelIndex(layoutActiveLabel))
+										layoutActiveLabel.objectName())
 
 	@core.executionTrace
 	def __layoutsManager__layoutRestored(self, layout):
@@ -318,9 +318,12 @@ class Application_QToolBar(QToolBar):
 		:param layout: Layout name. ( String )
 		"""
 
-		layoutActiveLabel = self.__layoutsActiveLabelsCollection.getActiveLabelFromIndex(foundations.common.getFirstItem(
-							self.__settings.getKey("Layouts", "{0}_activeLabel".format(layout)).toInt()))
-		layoutActiveLabel and layoutActiveLabel.setChecked(True)
+		layoutActiveLabel = self.__settings.getKey("Layouts", "{0}_activeLabel".format(layout)).toString()
+		for activeLabel in self.__layoutsActiveLabelsCollection.activeLabels:
+			if not activeLabel.objectName() == layoutActiveLabel:
+				continue
+
+			activeLabel.setChecked(True)
 
 	@core.executionTrace
 	def __helpDisplayMiscAction__triggered(self, checked):
@@ -572,7 +575,6 @@ if __name__ == "__main__":
 	import sys
 	from PyQt4.QtGui import QMainWindow
 
-	import umbra.engine
 	from manager.componentsManager import Manager
 	from umbra.managers.actionsManager import ActionsManager
 	from umbra.managers.layoutsManager import LayoutsManager

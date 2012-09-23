@@ -175,18 +175,6 @@ class Active_QLabelsCollection(QObject):
 	#***	Class methods.
 	#******************************************************************************************************************
 	@core.executionTrace
-	def __activeLabel__clicked(self, activeLabel):
-		"""
-		This method is triggered when an **Active_QLabel** Widget is clicked.
-
-		:param activeLabel: Active label. ( Active_QLabel )
-		"""
-
-		LOGGER.debug("> Clicked 'Active_QLabel': '{0}'.".format(activeLabel))
-
-		self.__updateSiblingsActiveLabelsStates(activeLabel)
-
-	@core.executionTrace
 	def __activeLabel__toggled(self, activeLabel, state):
 		"""
 		This method is triggered when an **Active_QLabel** Widget is toggled.
@@ -233,11 +221,11 @@ class Active_QLabelsCollection(QObject):
 			raise foundations.exceptions.ProgrammingError("{0} | '{1}' is already in the collection!".format(
 			self.__class__.__name__, activeLabel))
 
+		activeLabel.checkable = True
 		not self.__activeLabels and activeLabel.setChecked(True) or activeLabel.setChecked(False)
 		self.__activeLabels.append(activeLabel)
 
 		# Signals / Slots.
-		activeLabel.clicked.connect(functools.partial(self.__activeLabel__clicked, activeLabel))
 		activeLabel.toggled.connect(functools.partial(self.__activeLabel__toggled, activeLabel))
 
 		activeLabel.clicked.connect(functools.partial(self.activeLabelClicked.emit, activeLabel))
