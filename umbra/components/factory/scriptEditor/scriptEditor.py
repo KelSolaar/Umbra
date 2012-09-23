@@ -62,11 +62,11 @@ from umbra.components.factory.scriptEditor.views import ScriptEditor_QTabWidget
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
 from umbra.globals.uiConstants import UiConstants
+from umbra.ui.languages import getLanguageDescription
+from umbra.ui.languages import LOGGING_LANGUAGE
+from umbra.ui.languages import PYTHON_LANGUAGE
+from umbra.ui.languages import TEXT_LANGUAGE
 from umbra.ui.widgets.basic_QPlainTextEdit import Basic_QPlainTextEdit
-from umbra.ui.widgets.codeEditor_QPlainTextEdit import getLanguageDescription
-from umbra.ui.widgets.codeEditor_QPlainTextEdit import LOGGING_LANGUAGE
-from umbra.ui.widgets.codeEditor_QPlainTextEdit import PYTHON_LANGUAGE
-from umbra.ui.widgets.codeEditor_QPlainTextEdit import TEXT_LANGUAGE
 
 #**********************************************************************************************************************
 #***	Module attributes.

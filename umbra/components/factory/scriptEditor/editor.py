@@ -39,8 +39,8 @@ import foundations.strings as strings
 import umbra.ui.common
 import umbra.ui.widgets.messageBox as messageBox
 from umbra.globals.constants import Constants
+from umbra.ui.languages import PYTHON_LANGUAGE
 from umbra.ui.widgets.codeEditor_QPlainTextEdit import CodeEditor_QPlainTextEdit
-from umbra.ui.widgets.codeEditor_QPlainTextEdit import PYTHON_LANGUAGE
 
 #**********************************************************************************************************************
 #***	Module attributes.

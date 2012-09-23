@@ -41,7 +41,7 @@ from umbra.components.factory.scriptEditor.nodes import EditorNode
 from umbra.components.factory.scriptEditor.nodes import FileNode
 from umbra.components.factory.scriptEditor.nodes import PatternNode
 from umbra.globals.constants import Constants
-from umbra.ui.widgets.codeEditor_QPlainTextEdit import Language
+from umbra.ui.languages import Language
 
 #**********************************************************************************************************************
 #***	Module attributes.
