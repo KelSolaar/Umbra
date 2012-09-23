@@ -1023,8 +1023,6 @@ if __name__ == "__main__":
 	from PyQt4.QtGui import QPushButton
 	from PyQt4.QtGui import QWidget
 
-	import foundations.tests.utilities
-	import umbra.tests.utilities
 	import umbra.ui.common
 
 	application = umbra.ui.common.getApplicationInstance()

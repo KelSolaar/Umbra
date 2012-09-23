@@ -307,7 +307,6 @@ if __name__ == "__main__":
 	from PyQt4.QtGui import QPixmap
 	from PyQt4.QtGui import QWidget
 
-	import umbra.engine
 	from umbra.globals.uiConstants import UiConstants
 
 	application = umbra.ui.common.getApplicationInstance()
