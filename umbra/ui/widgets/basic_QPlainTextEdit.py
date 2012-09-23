@@ -1045,15 +1045,16 @@ if __name__ == "__main__":
 	lineEdit = QLineEdit("basic_QPlainTextEdit.replace(\"Lorem\", \"Nemo\")")
 	gridLayout.addWidget(lineEdit)
 
-	def pushButton__clicked(*args):
+	def _pushButton__clicked(*args):
 		statement = str(lineEdit.text())
 		exec(statement)
 
 	pushButton = QPushButton("Execute Statement")
-	pushButton.clicked.connect(pushButton__clicked)
+	pushButton.clicked.connect(_pushButton__clicked)
 	gridLayout.addWidget(pushButton)
 
 	widget.show()
 	widget.raise_()
 
 	sys.exit(application.exec_())
+
