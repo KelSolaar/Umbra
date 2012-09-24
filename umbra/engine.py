@@ -340,7 +340,6 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		# --- Initializing Application. ---
 		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage(
 		"{0} - {1} | Initializing interface.".format(self.__class__.__name__, Constants.releaseVersion),
-		textColor=Qt.white,
 		waitTime=0.25)
 
 		# --- Initializing the Actions Manager. ---
@@ -383,7 +382,6 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		# --- Initializing the Components Manager. ---
 		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage(
 		"{0} - {1} | Initializing Components manager.".format(self.__class__.__name__, Constants.releaseVersion),
-		textColor=Qt.white,
 		waitTime=0.25)
 
 		self.__componentsManager = RuntimeGlobals.componentsManager = Manager(componentsPaths)
@@ -410,8 +408,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		LOGGER.debug("> Hiding splashscreen.")
 		if RuntimeGlobals.splashscreen:
 			RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Initialization done.".format(
-			self.__class__.__name__, Constants.releaseVersion),
-			textColor=Qt.white)
+			self.__class__.__name__, Constants.releaseVersion))
 			RuntimeGlobals.splashscreen.hide()
 
 		# --- Running onStartup components methods. ---
@@ -1268,8 +1265,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 																											interface)
 
 				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage(
-				"{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component),
-				textColor=Qt.white)
+				"{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component))
 				interface.activate(self)
 				if profile.category in ("Default", "QObject"):
 					interface.initialize()
@@ -1330,8 +1326,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"""
 
 		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage(
-		"{0} - {1} | Instantiating {2} Component.".format(self.__class__.__name__, Constants.releaseVersion, profile.name),
-		textColor=Qt.white)
+		"{0} - {1} | Instantiating {2} Component.".format(self.__class__.__name__, Constants.releaseVersion, profile.name))
 
 	def __storeProcessingState(self):
 		"""
@@ -1858,10 +1853,9 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 		LOGGER.debug("> Initializing splashscreen.")
 
 		RuntimeGlobals.splashscreenImage = QPixmap(umbra.ui.common.getResourcePath(UiConstants.splashScreenImage))
-		RuntimeGlobals.splashscreen = Delayed_QSplashScreen(RuntimeGlobals.splashscreenImage)
+		RuntimeGlobals.splashscreen = Delayed_QSplashScreen(RuntimeGlobals.splashscreenImage, textColor=Qt.white)
 		RuntimeGlobals.splashscreen.setMessage(
-		"{0} - {1} | Initializing {0}.".format(Constants.applicationName, Constants.releaseVersion),
-		textColor=Qt.white)
+		"{0} - {1} | Initializing {0}.".format(Constants.applicationName, Constants.releaseVersion))
 		RuntimeGlobals.splashscreen.show()
 
 	# Initializing requests stack.

@@ -20,12 +20,12 @@
 import logging
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QApplication
+from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QSplashScreen
 
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.common
 import foundations.core as core
 import foundations.exceptions
 from umbra.globals.constants import Constants
@@ -54,23 +54,27 @@ class Delayed_QSplashScreen(QSplashScreen):
 	"""
 
 	@core.executionTrace
-	def __init__(self, picture, waitTime=None):
+	def __init__(self, pixmap, waitTime=0, textColor=Qt.black, *args, **kwargs):
 		"""
 		This method initializes the class.
 
-		:param picture: Current picture path. ( String )
+		:param pixmap: Current pixmap path. ( String )
 		:param waitTime: wait time. ( Integer )
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		QSplashScreen.__init__(self, picture)
+		QSplashScreen.__init__(self, pixmap, *args, **kwargs)
 
 		self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
 
 		# --- Setting class attributes. ---
 		self.__waitTime = None
 		self.waitTime = waitTime
+		self.__textColor = None
+		self.textColor = textColor
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -97,7 +101,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 		if value is not None:
 			assert type(value) in (int, float), "'{0}' attribute: '{1}' type is not 'int' or 'float'!".format(
 			"waitTime", value)
-			assert value > 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("waitTime", value)
+			assert value >= 0, "'{0}' attribute: '{1}' need to be positive!".format("waitTime", value)
 		self.__waitTime = value
 
 	@waitTime.deleter
@@ -110,11 +114,44 @@ class Delayed_QSplashScreen(QSplashScreen):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "waitTime"))
 
+	@property
+	def textColor(self):
+		"""
+		This method is the property for **self.__textColor** attribute.
+
+		:return: self.__textColor ( Integer / QColor )
+		"""
+
+		return self.__textColor
+
+	@textColor.setter
+	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	def textColor(self, value):
+		"""
+		This method is the setter method for **self.__textColor** attribute.
+
+		:param value: Attribute value. ( Integer / QColor )
+		"""
+
+		if value is not None:
+			assert type(value) in (Qt.GlobalColor, QColor), "'{0}' attribute: '{1}' type is not 'int' or 'QColor'!".format("textColor", value)
+		self.__textColor = value
+
+	@textColor.deleter
+	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	def textColor(self):
+		"""
+		This method is the deleter method for **self.__textColor** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "textColor"))
+
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
 	@core.executionTrace
-	def setMessage(self, message, textAlignement=Qt.AlignLeft, textColor=Qt.black, waitTime=None):
+	def setMessage(self, message, textAlignement=Qt.AlignLeft, textColor=None, waitTime=None):
 		"""
 		This method initializes the class.
 
@@ -124,12 +161,25 @@ class Delayed_QSplashScreen(QSplashScreen):
 		:param waitTime: Wait time. ( Integer )
 		"""
 
-		self.showMessage(message, textAlignement, textColor)
+		self.showMessage(message, textAlignement, self.__textColor if textColor is None else textColor)
 
 		# Force QSplashscreen refresh.
 		QApplication.processEvents()
 
-		if self.__waitTime:
-			waitTime = self.__waitTime
+		core.wait(self.__waitTime if waitTime is None else waitTime)
 
-		waitTime and core.wait(waitTime)
+if __name__ == "__main__":
+	import sys
+	from PyQt4.QtGui import QPixmap
+
+	import umbra.ui.common
+	from umbra.globals.uiConstants import UiConstants
+
+	application = umbra.ui.common.getApplicationInstance()
+
+	splashScreen = Delayed_QSplashScreen(QPixmap(umbra.ui.common.getResourcePath(UiConstants.splashScreenImage)))
+	splashScreen.show()
+	splashScreen.setMessage("This is a test message!", waitTime=1.5)
+	splashScreen.setMessage("This is another test message!", waitTime=1.5)
+	splashScreen.setMessage("This is a white test message!", textColor=Qt.white, waitTime=1.5)
+	splashScreen.setMessage("This is a left aligned message!", textAlignement=Qt.AlignRight, waitTime=1.5)
