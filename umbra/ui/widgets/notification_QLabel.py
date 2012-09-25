@@ -154,7 +154,7 @@ class Notification_QLabel(QLabel):
 		self.__timer.timeout.connect(self.__setOpacity)
 
 		#TODO: Check future Qt releases to remove this hack.
-		RuntimeGlobals.layoutsManager.layoutRestored.connect(self.__raise)
+		RuntimeGlobals.layoutsManager and RuntimeGlobals.layoutsManager.layoutRestored.connect(self.__raise)
 
 		self.__setStyleSheet()
 
@@ -807,3 +807,39 @@ class Notification_QLabel(QLabel):
 
 		self.__setPosition()
 		return True
+
+if __name__ == "__main__":
+	import random
+	import sys
+	from PyQt4.QtGui import QGridLayout
+	from PyQt4.QtGui import QPlainTextEdit
+	from PyQt4.QtGui import QPushButton
+	from PyQt4.QtGui import QWidget
+
+	import umbra.ui.common
+
+	application = umbra.ui.common.getApplicationInstance()
+
+	widget = QWidget()
+
+	gridLayout = QGridLayout()
+	widget.setLayout(gridLayout)
+
+	plainTextEdit = QPlainTextEdit()
+	plainTextEdit.setReadOnly(True)
+	gridLayout.addWidget(plainTextEdit)
+	notification_QLabel = Notification_QLabel(widget, verticalPadding=64)
+
+	def _pushButton__clicked(*args):
+		notification_QLabel.color = QColor(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+		notification_QLabel.showMessage("This is a notification message!", 1500)
+
+	pushButton = QPushButton("Notify!")
+	pushButton.clicked.connect(_pushButton__clicked)
+	gridLayout.addWidget(pushButton)
+
+	widget.show()
+	widget.raise_()
+
+	sys.exit(application.exec_())
+
