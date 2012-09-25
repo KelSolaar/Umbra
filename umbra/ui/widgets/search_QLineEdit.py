@@ -34,7 +34,6 @@ from PyQt4.QtGui import QToolButton
 #**********************************************************************************************************************
 import foundations.core as core
 import foundations.exceptions
-import foundations.strings as strings
 import umbra.ui.common
 from umbra.globals.constants import Constants
 from umbra.ui.widgets.active_QLabel import Active_QLabel
@@ -451,3 +450,28 @@ class Search_QLineEdit(QLineEdit):
 			self.__clearButton.show()
 		else:
 			self.__clearButton.hide()
+
+if __name__ == "__main__":
+	import sys
+	from PyQt4.QtGui import QGridLayout
+	from PyQt4.QtGui import QStringListModel
+	from PyQt4.QtGui import QWidget
+
+	application = umbra.ui.common.getApplicationInstance()
+
+	widget = QWidget()
+
+	gridLayout = QGridLayout()
+	widget.setLayout(gridLayout)
+
+	search_QLineEdit = Search_QLineEdit()
+	gridLayout.addWidget(search_QLineEdit)
+
+	search_QLineEdit.completer.setModel(QStringListModel([(letter * 8).title() for letter in map(chr, range(97, 123))]))
+	search_QLineEdit.setPlaceholderText("Search...")
+
+	widget.show()
+	widget.raise_()
+
+	sys.exit(application.exec_())
+
