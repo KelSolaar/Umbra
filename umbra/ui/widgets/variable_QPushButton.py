@@ -249,3 +249,30 @@ class Variable_QPushButton(QPushButton):
 
 		self.setChecked(False)
 		self.setText(self.__labels[1])
+
+if __name__ == "__main__":
+	import sys
+	from PyQt4.QtGui import QGridLayout
+	from PyQt4.QtGui import QWidget
+
+	import umbra.ui.common
+
+	application = umbra.ui.common.getApplicationInstance()
+
+	widget = QWidget()
+
+	gridLayout = QGridLayout()
+	widget.setLayout(gridLayout)
+
+	variable_QPushButtonA = Variable_QPushButton()
+	variable_QPushButtonB = Variable_QPushButton(labels=("-", "+"))
+	variable_QPushButtonC = Variable_QPushButton(colors=(QColor(120, 240, 120), QColor(240, 120, 120)))
+
+	for variable_QPushButton in (variable_QPushButtonA, variable_QPushButtonB, variable_QPushButtonC):
+		gridLayout.addWidget(variable_QPushButton)
+
+	widget.show()
+	widget.raise_()
+
+	sys.exit(application.exec_())
+
