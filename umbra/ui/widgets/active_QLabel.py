@@ -77,7 +77,6 @@ class Active_QLabel(QLabel):
 	:return: Current checked state. ( Boolean )	
 	"""
 
-	@core.executionTrace
 	def __init__(self,
 				parent=None,
 				defaultPixmap=None,
@@ -323,7 +322,6 @@ class Active_QLabel(QLabel):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def enterEvent(self, event):
 		"""
 		This method reimplements the :meth:`QLabel.enterEvent` method.
@@ -336,7 +334,6 @@ class Active_QLabel(QLabel):
 		else:
 			self.setPixmap(self.__hoverPixmap)
 
-	@core.executionTrace
 	def leaveEvent(self, event):
 		"""
 		This method reimplements the :meth:`QLabel.leaveEvent` method.
@@ -349,7 +346,6 @@ class Active_QLabel(QLabel):
 		else:
 			self.setPixmap(self.__defaultPixmap)
 
-	@core.executionTrace
 	def mousePressEvent(self, event):
 		"""
 		This method reimplements the :meth:`QLabel.mousePressEvent` method.
@@ -361,7 +357,6 @@ class Active_QLabel(QLabel):
 		self.__menu and self.__menu.exec_(QCursor.pos())
 		self.pressed.emit()
 
-	@core.executionTrace
 	def mouseReleaseEvent(self, event):
 		"""
 		This method reimplements the :meth:`QLabel.mouseReleaseEvent` method.
@@ -379,7 +374,6 @@ class Active_QLabel(QLabel):
 		self.released.emit()
 		self.clicked.emit()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setChecked(self, state):
 		"""
@@ -401,7 +395,6 @@ class Active_QLabel(QLabel):
 		self.toggled.emit(state)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setMenu(self, menu):
 		"""

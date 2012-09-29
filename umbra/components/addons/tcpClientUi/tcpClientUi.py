@@ -59,7 +59,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	This class is the :mod:`umbra.components.factory.tcpClientUi.tcpClientUi` Component Interface class.
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent=None, name=None, *args, **kwargs):
 		"""
 		This method initializes the class.
@@ -395,7 +394,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def activate(self, engine):
 		"""
@@ -417,7 +415,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.activated = True
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def deactivate(self):
 		"""
@@ -437,7 +434,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.activated = False
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def initializeUi(self):
 		"""
@@ -464,7 +460,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.initializedUi = True
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def uninitializeUi(self):
 		"""
@@ -486,7 +481,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.initializedUi = False
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addWidget(self):
 		"""
@@ -501,7 +495,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeWidget(self):
 		"""
@@ -517,7 +510,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return True
 
-	@core.executionTrace
 	def __addActions(self):
 		"""
 		This method sets Component actions.
@@ -535,7 +527,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		shortcut=Qt.SHIFT + Qt.AltModifier + Qt.CTRL + Qt.Key_Return,
 		slot=self.__sendFileToServerAction__triggered))
 
-	@core.executionTrace
 	def __removeActions(self):
 		"""
 		This method removes actions.
@@ -549,7 +540,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.__scriptEditor.commandMenu.removeAction(self.__engine.actionsManager.getAction(action))
 			self.__engine.actionsManager.unregisterAction(action)
 
-	@core.executionTrace
 	def __Address_lineEdit_setUi(self):
 		"""
 		This method fills **Address_lineEdit** Widget.
@@ -565,7 +555,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__address = address
 		self.Address_lineEdit.setText(address)
 
-	@core.executionTrace
 	def __Address_lineEdit__editFinished(self):
 		"""
 		This method is triggered when **Address_lineEdit** Widget is edited.
@@ -575,7 +564,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings.setKey(self.__settingsSection, "address", address)
 		self.__address = address
 
-	@core.executionTrace
 	def __Port_spinBox_setUi(self):
 		"""
 		This method sets the **Port_spinBox** Widget.
@@ -591,7 +579,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__port = port
 		self.Port_spinBox.setValue(port)
 
-	@core.executionTrace
 	def __Port_spinBox__valueChanged (self, value):
 		"""
 		This method is triggered when the **Port_spinBox** Widget value is changed.
@@ -603,7 +590,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__port = int(value)
 		self.__settings.setKey(self.__settingsSection, "port", value)
 
-	@core.executionTrace
 	def __File_Command_lineEdit_setUi(self):
 		"""
 		This method fills **File_Command_lineEdit** Widget.
@@ -619,7 +605,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__fileCommand = fileCommand
 		self.File_Command_lineEdit.setText(fileCommand)
 
-	@core.executionTrace
 	def __File_Command_lineEdit__editFinished(self):
 		"""
 		This method is triggered when **File_Command_lineEdit** Widget is edited.
@@ -629,7 +614,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings.setKey(self.__settingsSection, "fileCommand", fileCommand)
 		self.__fileCommand = fileCommand
 
-	@core.executionTrace
 	def __Connection_End_lineEdit_setUi(self):
 		"""
 		This method fills **Connection_End_lineEdit** Widget.
@@ -645,7 +629,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__connectionEnd = connectionEnd
 		self.Connection_End_lineEdit.setText(connectionEnd)
 
-	@core.executionTrace
 	def __Connection_End_lineEdit__editFinished(self):
 		"""
 		This method is triggered when **Connection_End_lineEdit** Widget is edited.
@@ -655,7 +638,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings.setKey(self.__settingsSection, "connectionEnd", connectionEnd)
 		self.__connectionEnd = connectionEnd
 
-	@core.executionTrace
 	def __sendSelectionToServerAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|addons.tcpServerUi|&Command|Send Selection To Server'** action.
@@ -675,7 +657,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.sendDataToServer(selectedText)
 
-	@core.executionTrace
 	def __sendFileToServerAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|addons.tcpServerUi|&Command|&Send Current File To Server'** action.
@@ -691,7 +672,6 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if self.__scriptEditor.saveFile():
 			return self.sendDataToServer(strings.encode(self.__fileCommand).format(editor.file))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def sendDataToServer(self, data, timeOut=5):
 		"""

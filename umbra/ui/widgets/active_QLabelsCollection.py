@@ -87,7 +87,6 @@ class Active_QLabelsCollection(QObject):
 	:return: Current checked active label. ( Active_QLabel )	
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent=None):
 		"""
 		This method initializes the class.
@@ -174,7 +173,6 @@ class Active_QLabelsCollection(QObject):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __activeLabel__toggled(self, activeLabel, state):
 		"""
 		This method is triggered when an **Active_QLabel** Widget is toggled.
@@ -187,7 +185,6 @@ class Active_QLabelsCollection(QObject):
 
 		self.__updateSiblingsActiveLabelsStates(activeLabel)
 
-	@core.executionTrace
 	def __updateSiblingsActiveLabelsStates(self, activeLabel):
 		"""
 		This method updates given **Active_QLabel** widget siblings states.
@@ -203,7 +200,6 @@ class Active_QLabelsCollection(QObject):
 
 			umbra.ui.common.signalsBlocker(item, item.setChecked, False)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def addActiveLabel(self, activeLabel):
 		"""
@@ -235,7 +231,6 @@ class Active_QLabelsCollection(QObject):
 
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeActiveLabel(self, activeLabel):
 		"""
@@ -252,7 +247,6 @@ class Active_QLabelsCollection(QObject):
 		self.__activeLabels.remove(activeLabel)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getToggledActiveLabel(self):
 		"""
@@ -265,7 +259,6 @@ class Active_QLabelsCollection(QObject):
 			if activeLabel.checked:
 				return activeLabel
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getActiveLabelIndex(self, activeLabel):
 		"""
@@ -277,7 +270,6 @@ class Active_QLabelsCollection(QObject):
 
 		return self.__activeLabels.index(activeLabel)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getActiveLabelFromIndex(self, index):
 		"""

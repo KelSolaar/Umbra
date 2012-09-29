@@ -73,7 +73,6 @@ class GraphModel(QAbstractItemModel):
 		to provide maximum execution speed.
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None, verticalHeaders=None, defaultNode=None):
 		"""
 		This method initializes the class.
@@ -241,7 +240,6 @@ class GraphModel(QAbstractItemModel):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def rowCount(self, parent=QModelIndex()):
 		"""
@@ -257,7 +255,6 @@ class GraphModel(QAbstractItemModel):
 			parentNode = parent.internalPointer()
 		return parentNode.childrenCount()
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def columnCount(self, parent=QModelIndex()):
 		"""
@@ -269,7 +266,6 @@ class GraphModel(QAbstractItemModel):
 
 		return len(self.__horizontalHeaders)
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def data(self, index, role=Qt.DisplayRole):
 		"""
@@ -300,7 +296,6 @@ class GraphModel(QAbstractItemModel):
 						return attribute.roles.get(role, QVariant())
 		return QVariant()
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setData(self, index, value, role=Qt.EditRole):
 		"""
@@ -335,7 +330,6 @@ class GraphModel(QAbstractItemModel):
 		self.dataChanged.emit(index, index)
 		return True
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def headerData(self, section, orientation, role=Qt.DisplayRole):
 		"""
@@ -356,7 +350,6 @@ class GraphModel(QAbstractItemModel):
 					return self.__verticalHeaders.keys()[section]
 		return QVariant()
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def flags(self, index):
 		"""
@@ -376,7 +369,6 @@ class GraphModel(QAbstractItemModel):
 			attribute = self.getAttribute(node, index.column())
 			return attribute and hasattr(attribute, "flags") and Qt.ItemFlags(attribute.flags) or Qt.NoItemFlags
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def parent(self, index):
 		"""
@@ -399,7 +391,6 @@ class GraphModel(QAbstractItemModel):
 
 		return self.createIndex(parentNode.row(), 0, parentNode)
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def index(self, row, column=0, parent=QModelIndex()):
 		"""
@@ -418,7 +409,6 @@ class GraphModel(QAbstractItemModel):
 		else:
 			return QModelIndex()
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def sort(self, column, order=Qt.AscendingOrder):
 		"""
@@ -439,7 +429,6 @@ class GraphModel(QAbstractItemModel):
 										reverseOrder=order)
 		self.endResetModel()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def insertRows(self, row, count, parent=QModelIndex()):
 		"""
@@ -460,7 +449,6 @@ class GraphModel(QAbstractItemModel):
 		self.endInsertRows()
 		return success
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeRows(self, row, count, parent=QModelIndex()):
 		"""
@@ -480,7 +468,6 @@ class GraphModel(QAbstractItemModel):
 		self.endRemoveRows()
 		return success
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def movesRows(self, fromParent, fromFirstRow, fromLastRow, toParent, toRow):
 		"""
@@ -489,7 +476,6 @@ class GraphModel(QAbstractItemModel):
 
 		return True
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def mimeTypes(self):
 		"""
@@ -502,7 +488,6 @@ class GraphModel(QAbstractItemModel):
 		types.append("application/x-umbragraphmodeldatalist")
 		return types
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def mimeData(self, indexes):
 		"""
@@ -517,7 +502,6 @@ class GraphModel(QAbstractItemModel):
 		mimeData.setData("application/x-umbragraphmodeldatalist", byteStream)
 		return mimeData
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def clear(self):
 		"""
@@ -530,7 +514,6 @@ class GraphModel(QAbstractItemModel):
 		self.rootNode.children = []
 		self.endResetModel()
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getNode(self, index):
 		"""
@@ -544,7 +527,6 @@ class GraphModel(QAbstractItemModel):
 			return self.__rootNode
 		return index.internalPointer() or self.__rootNode
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getAttribute(self, node, column):
 		"""
@@ -558,7 +540,6 @@ class GraphModel(QAbstractItemModel):
 		if column > 0 and column < len(self.__horizontalHeaders):
 			return node.get(self.__horizontalHeaders[self.__horizontalHeaders.keys()[column]], None)
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getNodeIndex(self, node):
 		"""
@@ -572,7 +553,6 @@ class GraphModel(QAbstractItemModel):
 		else:
 			return self.createIndex(node.row(), 0, node)
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getAttributeIndex(self, node, column):
 		"""
@@ -586,7 +566,6 @@ class GraphModel(QAbstractItemModel):
 		if column > 0 and column < len(self.__horizontalHeaders):
 			return self.createIndex(node.row(), column, node)
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def nodeChanged(self, node):
 		"""
@@ -600,7 +579,6 @@ class GraphModel(QAbstractItemModel):
 		self.dataChanged.emit(index, index)
 		return True
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def attributeChanged(self, node, column):
 		"""
@@ -615,7 +593,6 @@ class GraphModel(QAbstractItemModel):
 		self.dataChanged.emit(index, index)
 		return True
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def findChildren(self, pattern=".*", flags=0):
 		"""
@@ -628,7 +605,6 @@ class GraphModel(QAbstractItemModel):
 
 		return self.__rootNode.findChildren(pattern, flags)
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def findFamily(self, pattern=r".*", flags=0, node=None):
 		"""

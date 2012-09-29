@@ -275,7 +275,6 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	:return: Event. ( QEvent )	
 	"""
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.uiSystemExitExceptionHandler, False, Exception)
 	def __init__(self,
 				parent=None,
@@ -1180,7 +1179,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def dragEnterEvent(self, event):
 		"""
 		This method reimplements the :meth:`QWidget.dragEnterEvent` method.
@@ -1191,7 +1189,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		LOGGER.debug("> Application drag enter event accepted!")
 		event.accept()
 
-	@core.executionTrace
 	def dragMoveEvent(self, event):
 		"""
 		This method reimplements the :meth:`QWidget.dragMoveEvent` method.
@@ -1202,7 +1199,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		LOGGER.debug("> Application drag move event accepted!")
 		event.accept()
 
-	@core.executionTrace
 	def dropEvent(self, event):
 		"""
 		This method reimplements the :meth:`QWidget.dropEvent` method.
@@ -1213,7 +1209,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		LOGGER.debug("> Application drop event accepted!")
 		self.contentDropped.emit(event)
 
-	@core.executionTrace
 	def show(self):
 		"""
 		This method reimplements the :meth:`QWidget.show` method.
@@ -1221,7 +1216,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 		super(Umbra, self).show(setGeometry=False)
 
-	@core.executionTrace
 	def closeEvent(self, event):
 		"""
 		This method reimplements the :meth:`QWidget.closeEvent` method.
@@ -1231,7 +1225,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 		self.quit(event=event)
 
-	@core.executionTrace
 	def resizeEvent(self, event):
 		"""
 		This method reimplements the :meth:`QWidget.resizeEvent` method.
@@ -1243,7 +1236,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.sizeChanged.emit(event)
 		event.accept()
 
-	@core.executionTrace
 	def __setComponents(self, requisite=True):
 		"""
 		This method sets the Components.
@@ -1284,7 +1276,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 				exceptionHandler(manager.exceptions.ComponentActivationError(message.format(component, error)),
 																							self.__class__.__name__)
 
-	@core.executionTrace
 	def __setLocals(self):
 		"""
 		This method sets the locals for the requestsStack.
@@ -1305,7 +1296,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 		LOGGER.debug("> Defined locals: '{0}'.".format(self.__locals))
 
-	# @core.executionTrace
 	def __processRequestsStack(self):
 		"""
 		This method process the requests stack.
@@ -1317,7 +1307,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 			except Exception as error:
 				umbra.ui.common.notifyExceptionHandler(error, core.getTraceName(self.__processRequestsStack))
 
-	@core.executionTrace
 	def __componentsInstantiationCallback(self, profile):
 		"""
 		This method is a callback for Components instantiation.
@@ -1353,7 +1342,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.__isProcessing = state
 		state and self.Application_Progress_Status_processing.show()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def setVerbosityLevel(self, verbosityLevel):
 		"""
@@ -1371,7 +1359,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.verbosityLevelChanged.emit(verbosityLevel)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def setVisualStyle(self, fullScreenStyle=False):
 		"""
@@ -1430,7 +1417,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 			"{0} | '{1}' stylesheet file is not available, visual style will not be applied!".format(
 			self.__class__.__name__, styleSheetFile.file))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def isFullScreen(self):
 		"""
@@ -1441,7 +1427,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 		return self.windowState().__int__() == 4 and True or False
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def toggleFullScreen(self, *args):
 		"""
@@ -1465,7 +1450,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 			self.showFullScreen()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def processEvents(self, flags=QEventLoop.AllEvents):
 		"""
@@ -1478,7 +1462,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		QApplication.processEvents(flags)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setProcessingMessage(self, message, warning=True):
 		"""
@@ -1501,7 +1484,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.processEvents()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def startProcessing(self, message, steps=0, warning=True):
 		"""
@@ -1528,7 +1510,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.setProcessingMessage(message)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def stepProcessing(self, warning=True):
 		"""
@@ -1551,7 +1532,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.processEvents()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def stopProcessing(self, warning=True):
 		"""
@@ -1575,7 +1555,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.Application_Progress_Status_processing.Processing_progressBar.setValue(0)
 		self.Application_Progress_Status_processing.hide()
 		return True
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def garbageCollect(self):
 		"""
@@ -1588,7 +1567,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 		return gc.collect()
 
-	@core.executionTrace
 	def quit(self, exitCode=0, event=None):
 		"""
 		This method quits the Application.
@@ -1637,7 +1615,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 		exit(exitCode)
 
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(umbra.ui.common.uiSystemExitExceptionHandler, False, OSError)
 def setUserApplicationDataDirectory(path):
 	"""
@@ -1661,7 +1638,6 @@ def setUserApplicationDataDirectory(path):
 		raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(
 		inspect.getmodulename(__file__), userApplicationDataDirectory, Constants.applicationName))
 
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def getCommandLineParametersParser():
 	"""
@@ -1725,7 +1701,6 @@ def getCommandLineParametersParser():
 					help="'Execute provided startup script'.")
 	return parser
 
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(umbra.ui.common.uiSystemExitExceptionHandler,
 										False,
 										umbra.exceptions.EngineConfigurationError)
@@ -1868,7 +1843,6 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 
 	return sys.exit(RuntimeGlobals.application.exec_())
 
-@core.executionTrace
 def exit(exitCode=0):
 	"""
 	This definition exits the Application.

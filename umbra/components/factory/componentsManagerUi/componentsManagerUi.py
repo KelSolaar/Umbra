@@ -102,7 +102,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
 
 
-	@core.executionTrace
 	def __init__(self, parent=None, name=None, *args, **kwargs):
 		"""
 		This method initializes the class.
@@ -581,7 +580,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def activate(self, engine):
 		"""
@@ -602,7 +600,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.activated = True
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def deactivate(self):
 		"""
@@ -612,7 +609,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, self.__name))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def initializeUi(self):
 		"""
@@ -646,7 +642,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.initializedUi = True
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def uninitializeUi(self):
 		"""
@@ -656,7 +651,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' Component ui cannot be uninitialized!".format(self.__class__.__name__, self.name))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addWidget(self):
 		"""
@@ -671,7 +665,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def removeWidget(self):
 		"""
@@ -681,7 +674,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' Component Widget cannot be removed!".format(self.__class__.__name__, self.name))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def onStartup(self):
 		"""
@@ -695,7 +687,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.modelRefresh.emit()
 		return True
 
-	@core.executionTrace
 	def __componentsManagerUi__modelRefresh(self):
 		"""
 		This method is triggered when the Model data need refresh.
@@ -705,7 +696,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.setComponents()
 
-	@core.executionTrace
 	def __view_addActions(self):
 		"""
 		This method sets the **Components_Manager_Ui_treeView** actions.
@@ -730,7 +720,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		separatorAction.setSeparator(True)
 		self.Components_Manager_Ui_treeView.addAction(separatorAction)
 
-	@core.executionTrace
 	def __view_activateComponentsAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.ComponentsManagerUi|Activate Component(s)'** action.
@@ -741,7 +730,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.activateComponentsUi()
 
-	@core.executionTrace
 	def __view_deactivateComponentsAction__triggered(self, checked):
 		"""
 		This method is triggered by
@@ -753,7 +741,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.deactivateComponentsUi()
 
-	@core.executionTrace
 	def __view_reloadComponentsAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.ComponentsManagerUi|Reload Component(s)'** action.
@@ -764,7 +751,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.reloadComponentsUi()
 
-	@core.executionTrace
 	def __view_selectionModel__selectionChanged(self, selectedItems, deselectedItems):
 		"""
 		This method sets the **Additional_Informations_textEdit** Widget.
@@ -791,7 +777,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		separator = len(content) == 1 and "" or "<p><center>* * *<center/></p>"
 		self.Components_Informations_textBrowser.setText(separator.join(content))
 
-	@core.executionTrace
 	def __storeDeactivatedComponents(self):
 		"""
 		This method stores deactivated Components in settings file.
@@ -805,7 +790,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Storing '{0}' deactivated Components.".format(", ".join(deactivatedComponents)))
 		self.__settings.setKey("Settings", "deactivatedComponents", ",".join(deactivatedComponents))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
 											False,
 											manager.exceptions.ComponentActivationError)
@@ -843,7 +827,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			"{0} | Exception(s) raised while activating '{1}' Component(s)!".format(self.__class__.__name__,
 			", ". join((activationFailedComponent.name for activationFailedComponent in activationFailedComponents))))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
 											False,
 											manager.exceptions.ComponentDeactivationError)
@@ -886,7 +869,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			", ". join((deactivationFailedComponent.name
 			for deactivationFailedComponent in deactivationFailedComponents))))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
 											False,
 											manager.exceptions.ComponentReloadError)
@@ -923,7 +905,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			"{0} | Exception(s) raised while reloading '{1}' Component(s)!".format(self.__class__.__name__,
 			", ". join((reloadFailedComponent.name for reloadFailedComponent in reloadFailedComponents))))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, manager.exceptions.ComponentExistsError, Exception)
 	def activateComponent(self, name):
 		"""
@@ -954,7 +935,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.modelRefresh.emit()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None,
 											False,
 											manager.exceptions.ComponentExistsError,
@@ -992,7 +972,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			raise manager.exceptions.ComponentDeactivationError(
 			"{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, component.name))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None,
 											False,
 											manager.exceptions.ComponentExistsError,
@@ -1048,7 +1027,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			"{0} | '{1}' Component cannot be deactivated and won't be reloaded!".format(self.__class__.__name__,
 																						component.name))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getComponents(self):
 		"""
@@ -1059,7 +1037,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.__engine.componentsManager.components
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listComponents(self):
 		"""
@@ -1070,7 +1047,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.__engine.componentsManager.listComponents()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setComponents(self):
 		"""
@@ -1124,7 +1100,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__model.initializeModel(rootNode)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getSelectedNodes(self):
 		"""
@@ -1135,7 +1110,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.__view.getSelectedNodes()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getSelectedComponentsNodes(self):
 		"""
@@ -1146,7 +1120,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return [node for node in self.getSelectedNodes() if node.family == "Component"]
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getSelectedComponents(self):
 		"""

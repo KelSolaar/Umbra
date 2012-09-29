@@ -56,7 +56,6 @@ class Preferences(object):
 	| Those are stored and retrieved using a `QSettings <http://doc.qt.nokia.com/qsettings.html>`_ class.
 	"""
 
-	@core.executionTrace
 	def __init__(self, file=None):
 		"""
 		This method initializes the class.
@@ -216,7 +215,6 @@ class Preferences(object):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setKey(self, section, key, value):
 		"""
@@ -233,7 +231,6 @@ class Preferences(object):
 		self.__settings.setValue(key , QVariant(value))
 		self.__settings.endGroup()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getKey(self, section, key):
 		"""
@@ -253,7 +250,6 @@ class Preferences(object):
 
 		return value
 
-	@core.executionTrace
 	def __getDefaultSettings(self):
 		"""
 		This method gets the default settings.
@@ -262,7 +258,6 @@ class Preferences(object):
 		LOGGER.debug("> Accessing '{0}' default settings file!".format(UiConstants.settingsFile))
 		self.__defaultSettings = QSettings(umbra.ui.common.getResourcePath(UiConstants.settingsFile), QSettings.IniFormat)
 
-	@core.executionTrace
 	def __getDefaultLayoutsSettings(self):
 		"""
 		This method gets the default layouts settings.
@@ -272,7 +267,6 @@ class Preferences(object):
 		self.__defaultLayoutsSettings = QSettings(umbra.ui.common.getResourcePath(UiConstants.layoutsFile),
 												QSettings.IniFormat)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setDefaultPreferences(self):
 		"""
@@ -289,7 +283,6 @@ class Preferences(object):
 		self.setDefaultLayouts()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setDefaultLayouts(self, ignoredLayouts=None):
 		"""

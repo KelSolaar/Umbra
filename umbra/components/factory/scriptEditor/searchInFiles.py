@@ -84,7 +84,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	This class defines search and replace in files dialog used by the **ScriptEditor** Component. 
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent, *args, **kwargs):
 		"""
 		This method initializes the class.
@@ -764,7 +763,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	#******************************************************************************************************************
 	#***	Class methods
 	#******************************************************************************************************************
-	@core.executionTrace
 	def show(self):
 		"""
 		This method reimplements the :meth:`QWidget.show` method.
@@ -778,7 +776,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		super(SearchInFiles, self).show()
 		self.raise_()
 
-	@core.executionTrace
 	def closeEvent(self, event):
 		"""
 		This method reimplements the :meth:`QWidget.closeEvent` method.
@@ -789,7 +786,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__interruptSearch()
 		super(SearchInFiles, self).closeEvent(event)
 
-	@core.executionTrace
 	def __initializeUi(self):
 		"""
 		This method initializes the Widget ui.
@@ -844,7 +840,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.Search_pushButton.clicked.connect(self.__Search_pushButton__clicked)
 		self.Close_pushButton.clicked.connect(self.__Close_pushButton__clicked)
 
-	@core.executionTrace
 	def __view_addActions(self):
 		"""
 		This method sets the View actions.
@@ -866,7 +861,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"Actions|Umbra|Components|factory.scriptEditor|Search In Files|Save Selected",
 		slot=self.__view_saveSelectedAction__triggered))
 
-	@core.executionTrace
 	def __view_replaceAllAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Replace All'** action.
@@ -879,7 +873,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if allNodes:
 			return self.replace(allNodes)
 
-	@core.executionTrace
 	def __view_replaceSelectedAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Replace Selected'** action.
@@ -892,7 +885,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if selectedNodes:
 			return self.replace(filter(lambda x: x.parent not in selectedNodes, selectedNodes))
 
-	@core.executionTrace
 	def __view_saveAllAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Save All'** action.
@@ -905,7 +897,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if allNodes:
 			return self.saveFiles(allNodes)
 
-	@core.executionTrace
 	def __view_saveSelectedAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Save Selected'** action.
@@ -918,7 +909,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if selectedNodes:
 			return self.saveFiles(selectedNodes)
 
-	@core.executionTrace
 	def __patternsModel__patternInserted(self, comboBox, index):
 		"""
 		This method is triggered when a pattern has been inserted into a patterns Model.
@@ -929,7 +919,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		comboBox.setCurrentIndex(index.row())
 
-	@core.executionTrace
 	def __Search_pushButton__clicked(self, checked):
 		"""
 		This method is triggered when **Search_pushButton** Widget is clicked.
@@ -939,7 +928,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		self.search()
 
-	@core.executionTrace
 	def __Close_pushButton__clicked(self, checked):
 		"""
 		This method is triggered when **Close_pushButton** Widget is clicked.
@@ -949,7 +937,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		self.close()
 
-	@core.executionTrace
 	def __view__doubleClicked(self, index):
 		"""
 		This method is triggered when a View Widget is double clicked.
@@ -968,7 +955,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		self.__highlightOccurence(file, occurence)
 
-	@core.executionTrace
 	def __view_selectionModel__selectionChanged(self, selectedItems, deselectedItems):
 		"""
 		This method is triggered when the View **selectionModel** has changed.
@@ -993,7 +979,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if self.__container.getEditor(file):
 			self.__highlightOccurence(file, occurence)
 
-	@core.executionTrace
 	def __searchWorkerThread__searchFinished(self, searchResults):
 		"""
 		This method is triggered by the :attr:`SearchInFiles.grepWorkerThread` attribute worker thread
@@ -1011,7 +996,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 																	metrics["SearchOccurence"],
 																	metrics["SearchFile"]))
 
-	@core.executionTrace
 	def __addLocation(self, type, *args):
 		"""
 		This method is triggered when a **Where_lineEdit** Widget context menu entry is clicked.
@@ -1039,7 +1023,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		location and self.Where_lineEdit.setText(", ".join(filter(bool, (strings.encode(
 		self.Where_lineEdit.text()), location))))
 
-	@core.executionTrace
 	def __formatOccurence(self, occurence):
 		"""
 		This method formats the given occurence and returns the matching rich html text.
@@ -1058,7 +1041,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		end = spanFormat.format(line[occurence.column + occurence.length:])
 		return "".join((start, pattern, end))
 
-	@core.executionTrace
 	def __formatReplaceMetrics(self, file, metrics):
 		"""
 		This method formats the given replace metrics and returns the matching rich html text.
@@ -1082,7 +1064,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 						strings.encode(metrics),
 						spanFormat.format("' occurence(s) replaced!")))
 
-	@core.executionTrace
 	def __highlightOccurence(self, file, occurence):
 		"""
 		This method highlights given file occurence.
@@ -1110,7 +1091,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		cursor.setPosition(occurence.position + occurence.length, QTextCursor.KeepAnchor)
 		self.__container.getCurrentEditor().setTextCursor(cursor)
 
-	@core.executionTrace
 	def __getDocument(self, content):
 		"""
 		This method returns a `QTextDocument <http://doc.qt.nokia.com/qtextdocument.html>`_ class instance
@@ -1124,7 +1104,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		document.setModified(False)
 		return document
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __replaceWithinDocument(self, document, occurences, replacementPattern):
 		"""
@@ -1147,7 +1126,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		cursor.endEditBlock()
 		return count
 
-	@core.executionTrace
 	def __getSettings(self):
 		"""
 		This method returns the current search and replace settings.
@@ -1159,7 +1137,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 				"wholeWord" : self.Whole_Word_checkBox.isChecked(),
 				"regularExpressions" : self.Regular_Expressions_checkBox.isChecked()}
 
-	@core.executionTrace
 	def __interruptSearch(self):
 		"""
 		This method interrupt the current search.
@@ -1170,7 +1147,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			self.__searchWorkerThread.wait()
 			self.__container.engine.stopProcessing(warning=False)
 
-	@core.executionTrace
 	def __cache(self, file, content, document):
 		"""
 		This method caches given file.
@@ -1182,7 +1158,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		self.__filesCache.addContent(**{str(file) : CacheData(content=content, document=document)})
 
-	@core.executionTrace
 	def __uncache(self, file):
 		"""
 		This method uncaches given file.
@@ -1193,7 +1168,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if file in self.__filesCache:
 			self.__filesCache.removeContent(file)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setSearchResults(self, searchResults):
 		"""
@@ -1221,7 +1195,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__model.initializeModel(rootNode)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setReplaceResults(self, replaceResults):
 		"""
@@ -1239,7 +1212,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__model.initializeModel(rootNode)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def search(self):
 		"""
@@ -1273,7 +1245,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__searchWorkerThread.start()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def replace(self, nodes):
 		"""
@@ -1319,7 +1290,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 																	sum(replaceResults.values()),
 																	len(replaceResults.keys())))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def saveFiles(self, nodes):
 		"""

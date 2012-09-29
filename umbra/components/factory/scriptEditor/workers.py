@@ -61,7 +61,6 @@ class Occurence(foundations.dataStructures.Structure):
 	This class represents a storage object for the :class:`Search_worker` class search occurence.
 	"""
 
-	@core.executionTrace
 	def __init__(self, **kwargs):
 		"""
 		This method initializes the class.
@@ -78,7 +77,6 @@ class SearchResult(foundations.dataStructures.Structure):
 	This class represents a storage object for the :class:`Search_worker` class search result.
 	"""
 
-	@core.executionTrace
 	def __init__(self, **kwargs):
 		"""
 		This method initializes the class.
@@ -95,7 +93,6 @@ class CacheData(foundations.dataStructures.Structure):
 	This class represents a storage object for the :class:`Search_worker` class cache data.
 	"""
 
-	@core.executionTrace
 	def __init__(self, **kwargs):
 		"""
 		This method initializes the class.
@@ -121,7 +118,6 @@ class Search_worker(QThread):
 	:return: Search results. ( List )
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent, pattern=None, location=None, settings=None):
 		"""
 		This method initializes the class.
@@ -322,7 +318,6 @@ class Search_worker(QThread):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def run(self):
 		"""
 		This method reimplements the :meth:`QThread.run` method.
@@ -330,7 +325,6 @@ class Search_worker(QThread):
 
 		self.__search()
 
-	@core.executionTrace
 	def quit(self):
 		"""
 		This method reimplements the :meth:`QThread.quit` method.
@@ -340,7 +334,6 @@ class Search_worker(QThread):
 
 		QThread.quit(self)
 
-	@core.executionTrace
 	def __search(self):
 		"""
 		This method performs the search.
@@ -365,7 +358,6 @@ class Search_worker(QThread):
 		self.__searchFiles(files)
 		not self.__interrupt and self.searchFinished.emit(self.__searchResults)
 
-	@core.executionTrace
 	def __searchEditorsFiles(self, files):
 		"""
 		This method searches in :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` class editors files.
@@ -389,7 +381,6 @@ class Search_worker(QThread):
 																	settings=self.__settings,
 																	occurences=occurences))
 
-	@core.executionTrace
 	def __searchFiles(self, files):
 		"""
 		This method searches in given files.
@@ -420,7 +411,6 @@ class Search_worker(QThread):
 																	settings=self.__settings,
 																	occurences=occurences))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __searchDocument(self, document, pattern, settings):
 		"""

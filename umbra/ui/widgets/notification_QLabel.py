@@ -74,7 +74,6 @@ class Notification_QLabel(QLabel):
 	This signal is emited by the :class:`Notification_QLabel` class when it has faded out. ( pyqtSignal )
 	"""
 
-	@core.executionTrace
 	def __init__(self,
 				parent=None,
 				color=None,
@@ -609,7 +608,6 @@ class Notification_QLabel(QLabel):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def setParent(self, parent):
 		"""
 		This method reimplements the :meth:`QLabel.setParent` method.
@@ -620,7 +618,6 @@ class Notification_QLabel(QLabel):
 		QLabel.setParent(self, parent)
 		self.__setPosition()
 
-	@core.executionTrace
 	def resizeEvent(self, event):
 		"""
 		This method reimplements the :meth:`QLabel.resizeEvent` method.
@@ -631,7 +628,6 @@ class Notification_QLabel(QLabel):
 		QLabel.resizeEvent(self, event)
 		self.__setPosition()
 
-	@core.executionTrace
 	def mousePressEvent(self, event):
 		"""
 		This method reimplements the :meth:`QLabel.mousePressEvent` method.
@@ -641,7 +637,6 @@ class Notification_QLabel(QLabel):
 
 		self.notificationClicked.emit(self.text())
 
-	@core.executionTrace
 	def showEvent(self, event):
 		"""
 		This method reimplements the :meth:`QLabel.showEvent` method.
@@ -652,7 +647,6 @@ class Notification_QLabel(QLabel):
 		QLabel.showEvent(self, event)
 		self.__setPosition()
 
-	@core.executionTrace
 	def __raise(self, *args):
 		"""
 		This method ensures that the Widget stays on top of the parent stack forcing the redraw.
@@ -667,7 +661,6 @@ class Notification_QLabel(QLabel):
 			self.lower()
 		self.raise_()
 
-	@core.executionTrace
 	def __setPosition(self):
 		"""
 		This method sets the Widget position relatively to its parent.
@@ -709,7 +702,6 @@ class Notification_QLabel(QLabel):
 
 		self.setGeometry(pointX + self.__horizontalOffset, pointY + self.__verticalOffset, self.width(), self.height())
 
-	@core.executionTrace
 	def __fadeIn(self):
 		"""
 		This method starts the Widget fade in.
@@ -719,7 +711,6 @@ class Notification_QLabel(QLabel):
 		self.__vector = self.__fadeSpeed
 		self.__timer.start()
 
-	@core.executionTrace
 	def __fadeOut(self):
 		"""
 		This method starts the Widget fade out.
@@ -729,7 +720,6 @@ class Notification_QLabel(QLabel):
 		self.__vector = -self.__fadeSpeed
 		self.__timer.start()
 
-	@core.executionTrace
 	def __setOpacity(self):
 		"""
 		This method sets the Widget opacity.
@@ -752,7 +742,6 @@ class Notification_QLabel(QLabel):
 				self.fadedOut.emit()
 				self.hide()
 
-	@core.executionTrace
 	def __setStyleSheet(self):
 		"""
 		This method sets the Widget stylesheet.
@@ -762,7 +751,6 @@ class Notification_QLabel(QLabel):
 														(self.__color, self.__backgroundColor, self.__borderColor))
 		self.setStyleSheet(self.__style.format(*colors))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def showMessage(self, message, duration=2500):
 		"""
@@ -784,7 +772,6 @@ class Notification_QLabel(QLabel):
 			self.__fadeOut()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def hideMessage(self):
 		"""
@@ -796,7 +783,6 @@ class Notification_QLabel(QLabel):
 		self.__fadeOut()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def refreshPosition(self):
 		"""

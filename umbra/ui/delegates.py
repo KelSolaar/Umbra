@@ -57,7 +57,6 @@ class Style(foundations.dataStructures.Structure):
 	This class represents a storage object for the :class:`RichText_QStyledItemDelegate` class style. 
 	"""
 
-	@core.executionTrace
 	def __init__(self, **kwargs):
 		"""
 		This method initializes the class.
@@ -75,7 +74,6 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 	text Delegate for Application Views. 
 	"""
 
-	@core.executionTrace
 	def __init__(self,
 				parent=None,
 				style=None,
@@ -170,7 +168,6 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	# @core.executionTrace
 	def paint(self, painter, option, index):
 		"""
 		This method reimplements the :meth:`QStyledItemDelegate.paint` method.
@@ -192,7 +189,6 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 		self.__label.render(painter)
 		painter.restore()
 
-	# @core.executionTrace
 	def sizeHint(self, option, index):
 		"""
 		This method reimplements the :meth:`QStyledItemDelegate.sizeHint` method.

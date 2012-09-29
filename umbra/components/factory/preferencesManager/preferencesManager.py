@@ -59,7 +59,6 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		a dedicated `QDockWidget <http://doc.qt.nokia.com/qdockwidget.html>`_ window.
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent=None, name=None, *args, **kwargs):
 		"""
 		This method initializes the class.
@@ -184,7 +183,6 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def activate(self, engine):
 		"""
@@ -203,7 +201,6 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.activated = True
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def deactivate(self):
 		"""
@@ -213,7 +210,6 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, self.__name))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def initializeUi(self):
 		"""
@@ -238,7 +234,6 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.initializedUi = True
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def uninitializeUi(self):
 		"""
@@ -248,7 +243,6 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' Component ui cannot be uninitialized!".format(self.__class__.__name__, self.name))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addWidget(self):
 		"""
@@ -263,7 +257,6 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def removeWidget(self):
 		"""
@@ -273,7 +266,6 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' Component Widget cannot be removed!".format(self.__class__.__name__, self.name))
 
-	@core.executionTrace
 	def __engine__verbosityLevelChanged(self, verbosityLevel):
 		"""
 		This method is triggered when the engine verbosity level has changed.
@@ -283,7 +275,6 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.Verbose_Level_comboBox.setCurrentIndex(verbosityLevel)
 
-	@core.executionTrace
 	def __Logging_Formatters_comboBox_setUi(self):
 		"""
 		This method fills **Logging_Formatter_comboBox** Widget.
@@ -297,7 +288,6 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Logging_Formatters_comboBox.setCurrentIndex(self.Logging_Formatters_comboBox.findText(
 		self.__engine.loggingActiveFormatter, Qt.MatchExactly))
 
-	@core.executionTrace
 	def __Logging_Formatters_comboBox__activated(self, index):
 		"""
 		This method is triggered when the **Logging_Formatter_comboBox** Widget is activated.
@@ -311,7 +301,6 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.setLoggingFormatter()
 		self.__settings.setKey("Settings", "loggingFormatter", self.Logging_Formatters_comboBox.currentText())
 
-	@core.executionTrace
 	def __Verbose_Level_comboBox_setUi(self):
 		"""
 		This method fills **Verbose_Level_ComboBox** Widget.
@@ -324,7 +313,6 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 									self.__settings.getKey("Settings", "verbosityLevel").toInt())
 		self.Verbose_Level_comboBox.setCurrentIndex(self.__engine.verbosityLevel)
 
-	@core.executionTrace
 	def __Verbose_Level_comboBox__activated(self, index):
 		"""
 		This method is triggered when the **Verbose_Level_ComboBox** Widget is triggered.
@@ -337,7 +325,6 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		core.setVerbosityLevel(index)
 		self.__settings.setKey("Settings", "verbosityLevel", index)
 
-	@core.executionTrace
 	def __Restore_Geometry_On_Layout_Change_checkBox_setUi(self):
 		"""
 		This method sets the **Restore_Geometry_On_Layout_Change_checkBox** Widget.
@@ -354,7 +341,6 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Restore_Geometry_On_Layout_Change_checkBox.setCheckState(restoreGeometryOnLayoutChange)
 		self.__engine.layoutsManager.restoreGeometryOnLayoutChange = restoreGeometryOnLayoutChange and True or False
 
-	@core.executionTrace
 	def __Restore_Geometry_On_Layout_Change_checkBox__stateChanged(self, state):
 		"""
 		This method is triggered when **Restore_Geometry_On_Layout_Change_checkBox** Widget state changes.
@@ -366,7 +352,6 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings.setKey("Settings", "restoreGeometryOnLayoutChange", state)
 		self.__engine.layoutsManager.restoreGeometryOnLayoutChange = state and True or False
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setLoggingFormatter(self):
 		"""

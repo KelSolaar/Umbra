@@ -54,7 +54,6 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	This class is used to display Database Ibl Sets columns.
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent, model=None, readOnly=False):
 		"""
 		This method initializes the class.
@@ -112,7 +111,6 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __initializeUi(self):
 		"""
 		This method initializes the Widget ui.
@@ -129,7 +127,6 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		# Signals / Slots.
 		self.model().modelReset.connect(self.__setDefaultUiState)
 
-	@core.executionTrace
 	def __setDefaultUiState(self, *args):
 		"""
 		This method sets the Widget default ui state.
@@ -162,7 +159,6 @@ class ScriptEditor_QTabWidget(QTabWidget):
 	:return: Event. ( QEvent )	
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent):
 		"""
 		This method initializes the class.
@@ -217,7 +213,6 @@ class ScriptEditor_QTabWidget(QTabWidget):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def dragEnterEvent(self, event):
 		"""
 		This method reimplements the :meth:`QTabWidget.dragEnterEvent` method.
@@ -228,7 +223,6 @@ class ScriptEditor_QTabWidget(QTabWidget):
 		LOGGER.debug("> '{0}' widget drag enter event accepted!".format(self.__class__.__name__))
 		event.accept()
 
-	@core.executionTrace
 	def dragMoveEvent(self, event):
 		"""
 		This method reimplements the :meth:`QTabWidget.dragMoveEvent` method.
@@ -239,7 +233,6 @@ class ScriptEditor_QTabWidget(QTabWidget):
 		LOGGER.debug("> '{0}' widget drag move event accepted!".format(self.__class__.__name__))
 		event.accept()
 
-	@core.executionTrace
 	def dropEvent(self, event):
 		"""
 		This method reimplements the :meth:`QTabWidget.dropEvent` method.

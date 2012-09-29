@@ -59,7 +59,6 @@ class ActionsManager(QObject):
 	This class is a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass providing an actions manager.
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent=None, namespaceSplitter="|", rootNamespace="Actions", defaultNamespace="Others"):
 		"""
 		This method initializes the class.
@@ -233,7 +232,6 @@ class ActionsManager(QObject):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __getitem__(self, action):
 		"""
 		This method reimplements the :meth:`object.__getitem__` method.
@@ -249,7 +247,6 @@ class ActionsManager(QObject):
 				return object
 		raise umbra.exceptions.ActionExistsError("{0} | '{1}' action isn't registered!".format(self.__class__.__name__,
 																								action))
-	@core.executionTrace
 	def __iter__(self):
 		"""
 		This method reimplements the :meth:`object.__iter__` method.
@@ -259,7 +256,6 @@ class ActionsManager(QObject):
 
 		return foundations.walkers.dictionariesWalker(self.__categories)
 
-	@core.executionTrace
 	def __contains__(self, action):
 		"""
 		This method reimplements the :meth:`object.__contains__` method.
@@ -273,7 +269,6 @@ class ActionsManager(QObject):
 				return True
 		return False
 
-	@core.executionTrace
 	def __len__(self):
 		"""
 		This method reimplements the :meth:`object.__len__` method.
@@ -283,7 +278,6 @@ class ActionsManager(QObject):
 
 		return len([action for action in self])
 
-	@core.executionTrace
 	def __normalizeName(self, name):
 		"""
 		This method normalizes given action name.
@@ -301,7 +295,6 @@ class ActionsManager(QObject):
 			LOGGER.debug("> Name '{0}' is already normalized!".format(name))
 			return name
 
-	@core.executionTrace
 	def __getCategory(self, category, name, vivify=False):
 		"""
 		This method gets recusively requested category, alternately if **vivify** argument is set,
@@ -324,7 +317,6 @@ class ActionsManager(QObject):
 				category[name] = {}
 			return category[name]
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listActions(self):
 		"""
@@ -338,7 +330,6 @@ class ActionsManager(QObject):
 			actions.append(self.__namespaceSplitter.join(itertools.chain(path, (actionName,))))
 		return sorted(actions)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.CategoryExistsError)
 	def getCategory(self, name, vivify=False):
 		"""
@@ -357,7 +348,6 @@ class ActionsManager(QObject):
 			raise umbra.exceptions.CategoryExistsError("{0} | '{1}' category doesn't exists!".format
 			(self.__class__.__name__, name))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addToCategory(self, category, name, action):
 		"""
@@ -377,7 +367,6 @@ class ActionsManager(QObject):
 		LOGGER.debug("> Added '{0}' action to '{1}' category!".format(category, name))
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeFromCategory(self, category, name):
 		"""
@@ -396,7 +385,6 @@ class ActionsManager(QObject):
 		LOGGER.debug("> Removed '{0}' action from '{1}' category!".format(category, name))
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.ActionExistsError)
 	def getAction(self, action):
 		"""
@@ -408,7 +396,6 @@ class ActionsManager(QObject):
 
 		return self[action]
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def isActionRegistered(self, name):
 		"""
@@ -420,7 +407,6 @@ class ActionsManager(QObject):
 
 		return name in self
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def registerAction(self, name, **kwargs):
 		"""
@@ -467,7 +453,6 @@ class ActionsManager(QObject):
 			action.triggered.connect(settings.slot)
 		return action
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def unregisterAction(self, name):
 		"""
@@ -489,7 +474,6 @@ class ActionsManager(QObject):
 		self.removeFromCategory(category, name)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def isShortcutInUse(self, shortcut):
 		"""
@@ -504,7 +488,6 @@ class ActionsManager(QObject):
 				return True
 		return False
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getShortcut(self, name):
 		"""
@@ -521,7 +504,6 @@ class ActionsManager(QObject):
 
 		return action.shortcut().toString()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setShortcut(self, name, shortcut):
 		"""

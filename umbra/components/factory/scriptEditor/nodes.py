@@ -64,7 +64,6 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 
 	__family = "EditorNode"
 
-	@core.executionTrace
 	def __init__(self,
 				editor=None,
 				name=None,
@@ -135,7 +134,6 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __initializeNode(self, attributesFlags):
 		"""
 		This method initializes the node.
@@ -153,7 +151,6 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 
 	__family = "FileNode"
 
-	@core.executionTrace
 	def __init__(self,
 				path=None,
 				name=None,
@@ -224,7 +221,6 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __initializeNode(self, attributesFlags):
 		"""
 		This method initializes the node.
@@ -242,7 +238,6 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 
 	__family = "DirectoryNode"
 
-	@core.executionTrace
 	def __init__(self,
 				path=None,
 				name=None,
@@ -315,7 +310,6 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __initializeNode(self, attributesFlags):
 		"""
 		This method initializes the node.
@@ -333,7 +327,6 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 
 	__family = "ProjectNode"
 
-	@core.executionTrace
 	def __init__(self,
 				path=None,
 				name=None,
@@ -406,7 +399,6 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __initializeNode(self, attributesFlags):
 		"""
 		This method initializes the node.
@@ -425,7 +417,6 @@ class PatternNode(umbra.ui.nodes.GraphModelNode):
 	__family = "Pattern"
 	"""Node family. ( String )"""
 
-	@core.executionTrace
 	def __init__(self,
 				name=None,
 				parent=None,
@@ -455,7 +446,6 @@ class PatternNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __initializeNode(self, attributesFlags):
 		"""
 		This method initializes the node.
@@ -474,7 +464,6 @@ class SearchFileNode(umbra.ui.nodes.GraphModelNode):
 	__family = "SearchFile"
 	"""Node family. ( String )"""
 
-	@core.executionTrace
 	def __init__(self,
 				name=None,
 				parent=None,
@@ -504,7 +493,6 @@ class SearchFileNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __initializeNode(self, attributesFlags):
 		"""
 		This method initializes the node.
@@ -523,7 +511,6 @@ class SearchOccurenceNode(umbra.ui.nodes.GraphModelNode):
 	__family = "SearchOccurence"
 	"""Node family. ( String )"""
 
-	@core.executionTrace
 	def __init__(self,
 				name=None,
 				parent=None,
@@ -553,7 +540,6 @@ class SearchOccurenceNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __initializeNode(self, attributesFlags):
 		"""
 		This method initializes the node.
@@ -572,7 +558,6 @@ class ReplaceResultNode(umbra.ui.nodes.GraphModelNode):
 	__family = "ReplaceResult"
 	"""Node family. ( String )"""
 
-	@core.executionTrace
 	def __init__(self,
 				name=None,
 				parent=None,
@@ -602,7 +587,6 @@ class ReplaceResultNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __initializeNode(self, attributesFlags):
 		"""
 		This method initializes the node.

@@ -65,7 +65,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	This class is the :mod:`sibl_gui.components.addons.projectsExplorer.projectsExplorer` Component Interface class.
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent=None, name=None, *args, **kwargs):
 		"""
 		This method initializes the class.
@@ -410,7 +409,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def activate(self, engine):
 		"""
@@ -431,7 +429,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.activated = True
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def deactivate(self):
 		"""
@@ -451,7 +448,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.activated = False
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def initializeUi(self):
 		"""
@@ -487,7 +483,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.initializedUi = True
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def uninitializeUi(self):
 		"""
@@ -517,7 +512,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.initializedUi = False
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addWidget(self):
 		"""
@@ -532,7 +526,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeWidget(self):
 		"""
@@ -548,7 +541,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return True
 
-	@core.executionTrace
 	def __addActions(self):
 		"""
 		This method sets Component actions.
@@ -565,7 +557,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__scriptEditor.fileMenu.removeAction(addProjectAction)
 		self.__scriptEditor.fileMenu.insertAction(removeProjectAction, addProjectAction)
 
-	@core.executionTrace
 	def __removeActions(self):
 		"""
 		This method removes actions.
@@ -577,7 +568,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__scriptEditor.commandMenu.removeAction(self.__engine.actionsManager.getAction(removeProjectAction))
 		self.__engine.actionsManager.unregisterAction(removeProjectAction)
 
-	@core.executionTrace
 	def __view_addActions(self):
 		"""
 		This method sets the View actions.
@@ -639,7 +629,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"Actions|Umbra|Components|addons.projectsExplorer|Output Selected Path",
 		slot=self.__view_outputSelectedPathAction__triggered))
 
-	@core.executionTrace
 	def __view_removeActions(self):
 		"""
 		This method removes the View actions.
@@ -668,7 +657,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.__view.removeAction(self.__engine.actionsManager.getAction(action))
 			self.__engine.actionsManager.unregisterAction(action)
 
-	@core.executionTrace
 	def __view__expanded(self, index):
 		"""
 		This method is triggered when a View item is expanded.
@@ -682,7 +670,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__scriptEditor.model.setProjectNodes(node)
 
-	@core.executionTrace
 	def __view__doubleClicked(self, index):
 		"""
 		This method is triggered when a View Widget is double clicked.
@@ -696,7 +683,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__scriptEditor.loadFile(node.path)
 
-	@core.executionTrace
 	def __view_selectionModel__selectionChanged(self, selectedItems, deselectedItems):
 		"""
 		This method is triggered when the View **selectionModel** has changed.
@@ -709,7 +695,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			if node.family == "FileNode":
 				self.__scriptEditor.setCurrentEditor(node.path)
 
-	@core.executionTrace
 	def __scriptEditor_Script_Editor_tabWidget__currentChanged(self, index):
 		"""
 		This method is triggered by the :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
@@ -730,7 +715,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__view.clearSelection()
 		self.__view.selectIndexes(indexes)
 
-	@core.executionTrace
 	def __scriptEditor_model__projectRegistered(self, projectNode):
 		"""
 		This method is triggered by the:class:`umbra.components.factory.scriptEditor.scriptEditor` class
@@ -742,7 +726,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		index = self.__model.mapFromSource(self.__scriptEditor.model.getNodeIndex(projectNode))
 		self.__view.setExpanded(index, True)
 
-	@core.executionTrace
 	def __view_addProjectAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|addons.projectsExplorer|Add Project ...'** action.
@@ -753,7 +736,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.__scriptEditor.addProjectUi()
 
-	@core.executionTrace
 	def __view_removeProjectAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|addons.projectsExplorer|Remove Project'** action.
@@ -768,7 +750,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.removeProject(node)
 
-	@core.executionTrace
 	def __view_addNewFileAction__triggered(self, checked):
 		"""
 		This method is triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Add New File ..."'** action.
@@ -783,7 +764,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.addNewFile(node)
 
-	@core.executionTrace
 	def __view_addNewDirectoryAction__triggered(self, checked):
 		"""
 		This method is triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Add New Directory ..."'** action.
@@ -798,7 +778,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.addNewDirectory(node)
 
-	@core.executionTrace
 	def __view_renameAction__triggered(self, checked):
 		"""
 		This method is triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Rename ..."'** action.
@@ -813,7 +792,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.rename(node)
 
-	# @core.executionTrace
 	# def __view_copyAction__triggered(self, checked):
 	# 	"""
 	# 	This method is triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Copy ..."'** action.
@@ -824,7 +802,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	# 
 	# 	print "Actions|Umbra|Components|addons.projectsExplorer|Copy ..."
 
-	# @core.executionTrace
 	# def __view_moveAction__triggered(self, checked):
 	# 	"""
 	# 	This method is triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Move ..."'** action.
@@ -835,7 +812,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	# 
 	# 	print "Actions|Umbra|Components|addons.projectsExplorer|Move ..."
 
-	@core.executionTrace
 	def __view_deleteAction__triggered(self, checked):
 		"""
 		This method is triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Delete ..."'** action.
@@ -850,7 +826,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.delete(node)
 
-	@core.executionTrace
 	def __view_findInFilesAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|addons.projectsExplorer|Find In Files ...'** action.
@@ -867,7 +842,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__scriptEditor.searchInFiles.show()
 		return True
 
-	@core.executionTrace
 	def __view_outputSelectedPathAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|addons.projectsExplorer|Output Selected Path'** action.
@@ -883,7 +857,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.info("{0} | '{1}'.".format(self.__class__.__name__, node.path))
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
 											False,
 											foundations.exceptions.FileExistsError,
@@ -909,7 +882,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 																						item,
 																						directory))
 
-	@core.executionTrace
 	def __setAuthoringNodes(self, source, target):
 		"""
 		This method sets given editor authoring nodes.
@@ -922,7 +894,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		editor.setFile(target)
 		self.__scriptEditor.model.updateAuthoringNodes(editor)
 
-	@core.executionTrace
 	def __renamePath(self, source, target):
 		"""
 		This method renames given source with given target name.
@@ -940,7 +911,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		os.rename(source, target)
 		isPathRegistered and self.__engine.fileSystemEventsManager.registerPath(parentDirectory)
 
-	@core.executionTrace
 	def __deletePath(self, path):
 		"""
 		This method deletes given path.
@@ -960,7 +930,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			shutil.rmtree(path)
 		isPathRegistered and self.__engine.fileSystemEventsManager.registerPath(parentDirectory)
 
-	@core.executionTrace
 	def __renameFile(self, source, target):
 		"""
 		This method renames a file using given source and target names.
@@ -978,7 +947,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			else:
 				self.__scriptEditor.model.updateProjectNodes(fileNode.parent)
 
-	@core.executionTrace
 	def __renameDirectory(self, source, target):
 		"""
 		This method renames a directory using given source and target names.
@@ -998,7 +966,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.__scriptEditor.registerNodePath(node)
 			self.__scriptEditor.model.setProjectNodes(node)
 
-	@core.executionTrace
 	def __renameProject(self, source, target):
 		"""
 		This method renames a project using given source and target names.
@@ -1009,7 +976,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__renameDirectory(source, target)
 
-	@core.executionTrace
 	def __deleteFile(self, file):
 		"""
 		This method deletes given file.
@@ -1025,7 +991,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			else:
 				self.__scriptEditor.model.unregisterFile(fileNode)
 
-	@core.executionTrace
 	def __deleteDirectory(self, directory):
 		"""
 		This method deletes given directory.
@@ -1043,7 +1008,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				self.__scriptEditor.removeProject(directory)
 			self.__deletePath(directory)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getSelectedNodes(self):
 		"""
@@ -1054,7 +1018,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.__view.getSelectedNodes()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeProject(self, node):
 		"""
@@ -1073,7 +1036,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				self.__scriptEditor.removeProject(node.path)
 				return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addNewFile(self, node):
 		"""
@@ -1104,7 +1066,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.__raiseFileSystemException(file, directory)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addNewDirectory(self, node):
 		"""
@@ -1135,7 +1096,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.__raiseFileSystemException(file, parentDirectory)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def rename(self, node):
 		"""
@@ -1178,7 +1138,6 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def delete(self, node):
 		"""

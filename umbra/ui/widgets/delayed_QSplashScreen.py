@@ -53,7 +53,6 @@ class Delayed_QSplashScreen(QSplashScreen):
 	delayed messages capabilities.
 	"""
 
-	@core.executionTrace
 	def __init__(self, pixmap, waitTime=0, textColor=Qt.black, *args, **kwargs):
 		"""
 		This method initializes the class.
@@ -150,7 +149,6 @@ class Delayed_QSplashScreen(QSplashScreen):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def setMessage(self, message, textAlignement=Qt.AlignLeft, textColor=None, waitTime=None):
 		"""
 		This method initializes the class.

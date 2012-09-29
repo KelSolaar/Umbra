@@ -54,7 +54,6 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def getEditorCapability(editor, capability):
 	"""
@@ -70,7 +69,6 @@ def getEditorCapability(editor, capability):
 
 	return editor.language.get(capability)
 
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def indentationPreEventInputAccelerators(editor, event):
 	"""
@@ -91,7 +89,6 @@ def indentationPreEventInputAccelerators(editor, event):
 		processEvent = editor.unindent() and False
 	return processEvent
 
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def indentationPostEventInputAccelerators(editor, event):
 	"""
@@ -141,7 +138,6 @@ def indentationPostEventInputAccelerators(editor, event):
 					editor.setTextCursor(cursor)
 	return True
 
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def performCompletion(editor):
 	"""
@@ -178,7 +174,6 @@ def performCompletion(editor):
 		editor.completer.complete(completerRectangle)
 	return True
 
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def completionPreEventInputAccelerators(editor, event):
 	"""
@@ -208,7 +203,6 @@ def completionPreEventInputAccelerators(editor, event):
 
 	return processEvent
 
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def completionPostEventInputAccelerators(editor, event):
 	"""
@@ -224,7 +218,6 @@ def completionPostEventInputAccelerators(editor, event):
 			performCompletion(editor)
 	return True
 
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def symbolsExpandingPreEventInputAccelerators(editor, event):
 	"""

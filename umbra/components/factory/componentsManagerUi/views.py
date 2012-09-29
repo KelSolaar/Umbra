@@ -52,7 +52,6 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	This class is used to display Database Collections.
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent, model=None, readOnly=False):
 		"""
 		This method initializes the class.
@@ -145,7 +144,6 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setModel(self, model):
 		"""
@@ -165,7 +163,6 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		self.model().modelAboutToBeReset.connect(self.__model__modelAboutToBeReset)
 		self.model().modelReset.connect(self.__model__modelReset)
 
-	@core.executionTrace
 	def __model__modelAboutToBeReset(self):
 		"""
 		This method is triggered when the Model is about to be reset.
@@ -173,7 +170,6 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 		pass
 
-	@core.executionTrace
 	def __model__modelReset(self):
 		"""
 		This method is triggered when the Model is changed.
@@ -181,7 +177,6 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 		pass
 
-	@core.executionTrace
 	def __initializeUi(self):
 		"""
 		This method initializes the Widget ui.
@@ -201,7 +196,6 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		# Signals / Slots.
 		self.model().modelReset.connect(self.__setDefaultUiState)
 
-	@core.executionTrace
 	def __setDefaultUiState(self):
 		"""
 		This method sets the Widget default ui state.

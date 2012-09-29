@@ -50,7 +50,6 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def getFormat(**kwargs):
 	"""

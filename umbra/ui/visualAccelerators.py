@@ -50,8 +50,7 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-# @core.executionTrace
-# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+# # @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def highlightCurrentLine(editor):
 	"""
 	This definition highlights given editor current line.
@@ -75,8 +74,7 @@ def highlightCurrentLine(editor):
 	editor.setExtraSelections(extraSelections)
 	return True
 
-# @core.executionTrace
-# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+# # @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def highlightOccurences(editor):
 	"""
 	This definition highlights given editor current line.
@@ -111,8 +109,7 @@ def highlightOccurences(editor):
 	editor.setExtraSelections(extraSelections)
 	return True
 
-# @core.executionTrace
-# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+# # @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def highlightMatchingSymbolsPairs(editor):
 	"""
 	This definition highlights given editor matching pairs.

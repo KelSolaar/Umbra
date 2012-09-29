@@ -72,7 +72,6 @@ class LinesNumbers_QWidget(QWidget):
 	This class is a `QWidget <http://doc.qt.nokia.com/qwidget.html>`_ subclass providing a lines numbers widget.
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent, *args, **kwargs):
 		"""
 		This method initializes the class.
@@ -301,7 +300,6 @@ class LinesNumbers_QWidget(QWidget):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	# @core.executionTrace
 	def sizeHint(self):
 		"""
 		This method reimplements the :meth:`QWidget.sizeHint` method.
@@ -311,7 +309,6 @@ class LinesNumbers_QWidget(QWidget):
 
 		return QSize(self.getWidth(), 0)
 
-	# @core.executionTrace
 	def paintEvent(self, event):
 		"""
 		This method reimplements the :meth:`QWidget.paintEvent` method.
@@ -370,7 +367,6 @@ class LinesNumbers_QWidget(QWidget):
 		painter.end()
 		QWidget.paintEvent(self, event)
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getWidth(self):
 		"""
@@ -381,7 +377,6 @@ class LinesNumbers_QWidget(QWidget):
 
 		return self.__margin + self.__editor.fontMetrics().width(strings.encode(max(1, self.__editor.blockCount())))
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setEditorViewportMargins(self, newBlocksCount):
 		"""
@@ -394,7 +389,6 @@ class LinesNumbers_QWidget(QWidget):
 		self.__editor.setViewportMargins(self.getWidth(), 0, 0, 0)
 		return True
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def updateRectangle(self, rectangle, scrollY):
 		"""
@@ -414,7 +408,6 @@ class LinesNumbers_QWidget(QWidget):
 			self.setEditorViewportMargins(0)
 		return True
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def updateGeometry(self):
 		"""
@@ -440,7 +433,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	is changed. ( pyqtSignal )
 	"""
 
-	@core.executionTrace
 	def __init__(self,
 				parent=None,
 				language=umbra.ui.languages.PYTHON_LANGUAGE,
@@ -831,7 +823,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __initializeUi(self):
 		"""
 		This method initializes the Widget ui.
@@ -848,7 +839,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		self.updateRequest.connect(self.__marginArea_LinesNumbers_widget.updateRectangle)
 		self.cursorPositionChanged.connect(self.__setExtraSelections)
 
-	@core.executionTrace
 	def resizeEvent(self, event):
 		"""
 		This method reimplements the :meth:`Basic_QPlainTextEdit.resizeEvent` method.
@@ -859,7 +849,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		Basic_QPlainTextEdit.resizeEvent(self, event)
 		self.__marginArea_LinesNumbers_widget.updateGeometry()
 
-	@core.executionTrace
 	@editBlock
 	def keyPressEvent(self, event):
 		"""
@@ -880,7 +869,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		for accelerator in self.__postInputAccelerators:
 			accelerator(self, event)
 
-	# @core.executionTrace
 	def __setExtraSelections(self):
 		"""
 		This method sets current document extra selections.
@@ -890,7 +878,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		for accelerator in self.__visualAccelerators:
 			accelerator(self)
 
-	@core.executionTrace
 	def __insertCompletion(self, completion):
 		"""
 		This method inserts the completion text in the current document.
@@ -905,7 +892,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		textCursor.insertText(completion.right(extra))
 		self.setTextCursor(textCursor)
 
-	@core.executionTrace
 	def __setLanguageDescription(self):
 		"""
 		This method sets the language accelerators.
@@ -949,7 +935,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		self.__tabWidth = self.fontMetrics().width(" " * self.indentWidth)
 		self.setTabStopWidth(self.__tabWidth)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setLanguage(self, language):
 		"""
@@ -965,7 +950,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		self.languageChanged.emit()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def setHighlighter(self, highlighter):
 		"""
@@ -987,7 +971,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeHighlighter(self):
 		"""
@@ -1002,7 +985,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 			self.__highlighter = None
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def setCompleter(self, completer):
 		"""
@@ -1028,7 +1010,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeCompleter(self):
 		"""
@@ -1046,7 +1027,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 			self.__completer = None
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getMatchingSymbolsPairs(self, cursor, openingSymbol, closingSymbol, backward=False):
 		"""
@@ -1082,7 +1062,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 		return endCursor.position() != -1 and endCursor or previousEndCursor
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	@editBlock
 	def indent(self):
@@ -1106,7 +1085,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 				block = block.next()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	@editBlock
 	def unindent(self):
@@ -1136,7 +1114,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 				block = block.next()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	@editBlock
 	def toggleComments(self):
@@ -1173,7 +1150,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 				block = block.next()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	@anchorTextCursor
 	@editBlock
@@ -1199,7 +1175,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 			cursor.insertText("\n")
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	@anchorTextCursor
 	@editBlock
@@ -1225,7 +1200,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 			block = block.next()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	@anchorTextCursor
 	@editBlock

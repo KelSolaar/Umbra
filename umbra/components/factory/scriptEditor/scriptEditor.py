@@ -117,7 +117,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	:return: Closed file. ( String )	
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent=None, name=None, *args, **kwargs):
 		"""
 		This method initializes the class.
@@ -1346,7 +1345,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def activate(self, engine):
 		"""
@@ -1377,7 +1375,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.activated = True
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def deactivate(self):
 		"""
@@ -1389,7 +1386,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, self.__name))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def initializeUi(self):
 		"""
@@ -1461,7 +1457,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.initializedUi = True
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def uninitializeUi(self):
 		"""
@@ -1473,7 +1468,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' Component ui cannot be uninitialized!".format(self.__class__.__name__, self.name))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addWidget(self):
 		"""
@@ -1488,7 +1482,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeWidget(self):
 		"""
@@ -1504,7 +1497,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def onStartup(self):
 		"""
@@ -1536,7 +1528,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def onClose(self):
 		"""
@@ -1548,7 +1539,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if self.storeSession() and self.closeAllFiles(leaveFirstEditor=False):
 			return True
 
-	@core.executionTrace
 	def __initializeMenuBar(self):
 		"""
 		This method initializes Component menuBar.
@@ -1739,7 +1729,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		slot=self.__loopThroughEditorsAction__triggered))
 		self.__menuBar.addMenu(self.__viewMenu)
 
-	# @core.executionTrace
 	def __Script_Editor_Output_plainTextEdit_setUi(self):
 		"""
 		This method sets the **Script_Editor_Output_plainTextEdit** Widget.
@@ -1766,7 +1755,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__Script_Editor_Output_plainTextEdit_contextMenuEvent
 		self.__Script_Editor_Output_plainTextEdit_setDefaultViewState()
 
-	# @core.executionTrace
 	def __Script_Editor_Output_plainTextEdit_setDefaultViewState(self):
 		"""
 		This method sets the **Script_Editor_Output_plainTextEdit** Widget default View state.
@@ -1775,7 +1763,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Script_Editor_Output_plainTextEdit.moveCursor(QTextCursor.End)
 		self.Script_Editor_Output_plainTextEdit.ensureCursorVisible()
 
-	# @core.executionTrace
 	def __Script_Editor_Output_plainTextEdit_refreshUi(self):
 		"""
 		This method updates the **Script_Editor_Output_plainTextEdit** Widget.
@@ -1790,7 +1777,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.__Script_Editor_Output_plainTextEdit_setDefaultViewState()
 			self.__memoryHandlerStackDepth = memoryHandlerStackDepth
 
-	# @core.executionTrace
 	def __Script_Editor_Output_plainTextEdit_contextMenuEvent(self, event):
 		"""
 		This method reimplements the :meth:`QPlainTextEdit.contextMenuEvent` method.
@@ -1805,7 +1791,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		slot=self.__editSelectedPathAction__triggered))
 		menu.exec_(event.globalPos())
 
-	@core.executionTrace
 	def __Script_Editor_tabWidget_setUi(self):
 		"""
 		This method sets the **Script_Editor_tabWidget** Widget.
@@ -1814,7 +1799,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Script_Editor_tabWidget.setTabsClosable(True)
 		self.Script_Editor_tabWidget.setMovable(True)
 
-	@core.executionTrace
 	def __Script_Editor_tabWidget__tabCloseRequested(self, index):
 		"""
 		This method is triggered by the **Script_Editor_tabWidget** Widget when a tab is requested to be closed.
@@ -1827,7 +1811,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Script_Editor_tabWidget.setCurrentIndex(index)
 		return self.closeFile()
 
-	@core.executionTrace
 	def __Script_Editor_tabWidget__currentChanged(self, index):
 		"""
 		This method is triggered by the **Script_Editor_tabWidget** Widget when the current tab is changed.
@@ -1840,7 +1823,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Editor_Status_editorStatus._EditorStatus__Languages_comboBox_setDefaultViewState()
 		self.__setWindowTitle()
 
-	@core.executionTrace
 	def __Script_Editor_tabWidget__contentDropped(self, event):
 		"""
 		This method is triggered when content is dropped in the **Script_Editor_tabWidget** Widget.
@@ -1850,7 +1832,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__handleDroppedContent(event)
 
-	@core.executionTrace
 	def __Script_Editor_tabWidget_tabBar__tabMoved(self, toIndex, fromIndex):
 		"""
 		This method is triggered when a **Script_Editor_tabWidget** Widget tab is moved.
@@ -1869,7 +1850,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__model.moveNode(projectNode, fromIndex, toIndex)
 
-	@core.executionTrace
 	def __engine__contentDropped(self, event):
 		"""
 		This method is triggered when content is dropped into the engine.
@@ -1879,7 +1859,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__handleDroppedContent(event)
 
-	@core.executionTrace
 	def __engine_layoutsManager__layoutRestored(self, currentLayout):
 		"""
 		This method is triggered when the engine layout is changed.
@@ -1889,7 +1868,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.Editor_Status_editorStatus.setVisible(not self.isHidden())
 
-	@core.executionTrace
 	def __engine_fileSystemEventsManager__fileChanged(self, file):
 		"""
 		This method is triggered by the **fileSystemEventsManager** when a file is changed.
@@ -1901,7 +1879,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.searchInFiles._SearchInFiles__uncache(file)
 		self.reloadFile(file)
 
-	@core.executionTrace
 	def __engine_fileSystemEventsManager__fileInvalidated(self, file):
 		"""
 		This method is triggered by the **fileSystemEventsManager** when a file is invalidated.
@@ -1914,7 +1891,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		editor = self.getEditor(file)
 		editor and	editor.setModified(True)
 
-	@core.executionTrace
 	def __engine_fileSystemEventsManager__directoryChanged(self, directory):
 		"""
 		This method is triggered by the **fileSystemEventsManager** when a directory is changed.
@@ -1931,7 +1907,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 						self.__model.updateProjectNodes(node)
 						break
 
-	@core.executionTrace
 	def __engine_fileSystemEventsManager__directoryInvalidated(self, directory):
 		"""
 		This method is triggered by the **fileSystemEventsManager** when a directory is invalidated.
@@ -1944,7 +1919,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				self.__model.unregisterProject(projectNode)
 				break
 
-	@core.executionTrace
 	def __scriptEditor__visibilityChanged(self, visibility):
 		"""
 		This method is triggered when the **scriptEditor** Component visibility changed.
@@ -1954,7 +1928,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.Editor_Status_editorStatus.setVisible(visibility)
 
-	@core.executionTrace
 	def __newFileAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&New'** action.
@@ -1965,7 +1938,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.newFile()
 
-	@core.executionTrace
 	def __model__fileRegistered(self, fileNode):
 		"""
 		This method is triggered by the Model when a file is registered.
@@ -1975,7 +1947,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.registerNodePath(fileNode)
 
-	@core.executionTrace
 	def __model__fileUnregistered(self, fileNode):
 		"""
 		This method is triggered by the Model when a file is unregistered.
@@ -1985,7 +1956,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.unregisterNodePath(fileNode)
 
-	@core.executionTrace
 	def __model__directoryRegistered(self, directoryNode):
 		"""
 		This method is triggered by the Model when a directory is registered.
@@ -1995,7 +1965,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.registerNodePath(directoryNode)
 
-	@core.executionTrace
 	def __model__directoryUnregistered(self, directoryNode):
 		"""
 		This method is triggered by the Model when a directory is unregistered.
@@ -2005,7 +1974,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.unregisterNodePath(directoryNode)
 
-	@core.executionTrace
 	def __model__projectRegistered(self, projectNode):
 		"""
 		This method is triggered by the Model when a project is registered.
@@ -2015,7 +1983,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.registerNodePath(projectNode)
 
-	@core.executionTrace
 	def __model__projectUnregistered(self, projectNode):
 		"""
 		This method is triggered by the Model when a project is unregistered.
@@ -2025,7 +1992,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.unregisterNodePath(projectNode)
 
-	@core.executionTrace
 	def __model__editorRegistered(self, editorNode):
 		"""
 		This method is triggered by the Model when an editor is registered.
@@ -2035,7 +2001,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.addEditorTab(editorNode.editor)
 
-	@core.executionTrace
 	def __model__editorUnregistered(self, editorNode):
 		"""
 		This method is triggered by the Model when an editor is unregistered.
@@ -2045,7 +2010,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.removeEditorTab(editorNode.editor)
 
-	@core.executionTrace
 	def __loadFileAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Load ...'** action.
@@ -2056,7 +2020,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.loadFileUi()
 
-	@core.executionTrace
 	def __sourceFileAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Source ...'** action.
@@ -2068,7 +2031,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if self.loadFileUi():
 			return self.evaluateScript()
 
-	@core.executionTrace
 	def __addProjectAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Add Project ...'** action.
@@ -2079,7 +2041,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.addProjectUi()
 
-	@core.executionTrace
 	def __saveFileAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Save'** action.
@@ -2090,7 +2051,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.saveFile()
 
-	@core.executionTrace
 	def __saveFileAsAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Save As ...'** action.
@@ -2101,7 +2061,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.saveFileAs()
 
-	@core.executionTrace
 	def __saveAllFilesAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Save All'** action.
@@ -2112,7 +2071,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.saveAllFiles()
 
-	@core.executionTrace
 	def __revertFileAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Revert'** action.
@@ -2123,7 +2081,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.revertFile()
 
-	@core.executionTrace
 	def __closeFileAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Close ...'** action.
@@ -2134,7 +2091,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.closeFile()
 
-	@core.executionTrace
 	def __closeAllFilesAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Close All ...'** action.
@@ -2145,7 +2101,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.closeAllFiles()
 
-	@core.executionTrace
 	def __loadRecentFile__triggered(self, checked):
 		"""
 		This method is triggered by any recent file related action.
@@ -2158,7 +2113,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if foundations.common.pathExists(file):
 			return self.loadFile(file)
 
-	@core.executionTrace
 	def __undoAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Undo'** action.
@@ -2173,7 +2127,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.getCurrentEditor().undo()
 		return True
 
-	@core.executionTrace
 	def __redoAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Redo'** action.
@@ -2188,7 +2141,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.getCurrentEditor().redo()
 		return True
 
-	@core.executionTrace
 	def __cutAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Cu&t'** action.
@@ -2207,7 +2159,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			currentWidget.cut()
 		return True
 
-	@core.executionTrace
 	def __copyAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Copy'** action.
@@ -2223,7 +2174,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		currentWidget.copy()
 		return True
 
-	@core.executionTrace
 	def __pasteAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Paste'** action.
@@ -2238,7 +2188,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.getCurrentEditor().paste()
 		return True
 
-	@core.executionTrace
 	def __deleteAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete'** action.
@@ -2253,7 +2202,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.getCurrentEditor().delete()
 		return True
 
-	@core.executionTrace
 	def __selectAllAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Select All'** action.
@@ -2269,7 +2217,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		currentWidget.selectAll()
 		return True
 
-	@core.executionTrace
 	def __deleteLinesAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Delete Line(s)'** action.
@@ -2283,7 +2230,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.getCurrentEditor().deleteLines()
 
-	@core.executionTrace
 	def __duplicateLinesAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Duplicate Line(s)'** action.
@@ -2297,7 +2243,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.getCurrentEditor().duplicateLines()
 
-	@core.executionTrace
 	def __moveUpAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Move Up'** action.
@@ -2311,7 +2256,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.getCurrentEditor().moveLinesUp()
 
-	@core.executionTrace
 	def __moveDownAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Move Down'** action.
@@ -2325,7 +2269,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.getCurrentEditor().moveLinesDown()
 
-	@core.executionTrace
 	def __indentSelectionAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Indent Selection'** action.
@@ -2339,7 +2282,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.getCurrentEditor().indent()
 
-	@core.executionTrace
 	def __unindentSelectionAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Unindent Selection'** action.
@@ -2353,7 +2295,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.getCurrentEditor().unindent()
 
-	@core.executionTrace
 	def __convertIndentationToTabsAction__triggered(self, checked):
 		"""
 		This method is triggered by
@@ -2368,7 +2309,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.getCurrentEditor().convertIndentationToTabs()
 
-	@core.executionTrace
 	def __convertIndentationToSpacesAction__triggered(self, checked):
 		"""
 		This method is triggered by
@@ -2383,7 +2323,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.getCurrentEditor().convertIndentationToSpaces()
 
-	@core.executionTrace
 	def __removeTrailingWhiteSpacesAction__triggered(self, checked):
 		"""
 		This method is triggered by
@@ -2398,7 +2337,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.getCurrentEditor().removeTrailingWhiteSpaces()
 
-	@core.executionTrace
 	def __toggleCommentsAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Toggle Comments'** action.
@@ -2412,7 +2350,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.getCurrentEditor().toggleComments()
 
-	@core.executionTrace
 	def __gotoLineAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Navigate|Goto Line ...'** action.
@@ -2423,7 +2360,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.gotoLine()
 
-	@core.executionTrace
 	def __searchAndReplaceAction__triggered(self, checked):
 		"""
 		This method is triggered by
@@ -2435,7 +2371,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.searchAndReplaceUi()
 
-	@core.executionTrace
 	def __searchInFilesAction__triggered(self, checked):
 		"""
 		This method is triggered by
@@ -2447,7 +2382,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.searchInFilesUi()
 
-	@core.executionTrace
 	def __searchNextAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Search|Search Next'** action.
@@ -2461,7 +2395,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.getCurrentEditor().searchNext()
 
-	@core.executionTrace
 	def __searchPreviousAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Search|Search Previous'** action.
@@ -2475,7 +2408,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.getCurrentEditor().searchPrevious()
 
-	@core.executionTrace
 	def __evaluateSelectionAction__triggered(self, checked):
 		"""
 		This method is triggered by
@@ -2487,7 +2419,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.evaluateSelection()
 
-	@core.executionTrace
 	def __evaluateScriptAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script'** action.
@@ -2498,7 +2429,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.evaluateScript()
 
-	@core.executionTrace
 	def __increaseFontSizeAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Increase Font Size'** action.
@@ -2513,7 +2443,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return currentWidget.zoomIn()
 
-	@core.executionTrace
 	def __decreaseFontSizeAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Decrease Font Size'** action.
@@ -2528,7 +2457,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return currentWidget.zoomOut()
 
-	@core.executionTrace
 	def __toggleWordWrapAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Toggle Word Wrap'** action.
@@ -2543,7 +2471,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return currentWidget.toggleWordWrap()
 
-	@core.executionTrace
 	def __toggleWhiteSpacesAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Toggle White Spaces'** action.
@@ -2558,7 +2485,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return currentWidget.toggleWhiteSpaces()
 
-	@core.executionTrace
 	def __loopThroughEditorsAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Loop Through Editors'** action.
@@ -2569,7 +2495,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.loopThroughEditors()
 
-	@core.executionTrace
 	def __editSelectedPathAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|Edit Selected Path'** action.
@@ -2580,7 +2505,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.loadPath(strings.encode(self.Script_Editor_Output_plainTextEdit.getSelectedText()))
 
-	@core.executionTrace
 	def __editor__patternsReplaced(self, patterns):
 		"""
 		This method is triggered when an editor patterns have been replaced.
@@ -2590,7 +2514,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		replacedPatternsCount and self.__engine.notificationsManager.notify(
 		"{0} | '{1}' pattern(s) replaced!".format(self.__class__.__name__, replacedPatternsCount))
 
-	@core.executionTrace
 	def __editor__titleChanged(self):
 		"""
 		This method is triggered when an editor title is changed.
@@ -2599,7 +2522,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__setTabTitle(self.getEditorTab(self.sender()))
 		self.__setWindowTitle()
 
-	@core.executionTrace
 	def __editor__fileLoaded(self):
 		"""
 		This method is triggered when an editor file is loaded.
@@ -2607,7 +2529,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.registerNodePath(self.sender())
 
-	@core.executionTrace
 	def __editor__fileSaved(self):
 		"""
 		This method is triggered when an editor file is saved.
@@ -2615,7 +2536,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.registerNodePath(self.sender())
 
-	@core.executionTrace
 	def __editor__languageChanged(self):
 		"""
 		This method is triggered when an editor language is changed.
@@ -2623,7 +2543,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.Editor_Status_editorStatus._EditorStatus__Languages_comboBox_setDefaultViewState()
 
-	@core.executionTrace
 	def __editor__modificationChanged(self, changed):
 		"""
 		This method is triggered when an editor document is modified.
@@ -2633,7 +2552,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.searchInFiles._SearchInFiles__uncache(self.sender().file)
 
-	@core.executionTrace
 	def __initializeLanguagesModel(self):
 		"""
 		This method initializes the languages Model.
@@ -2657,7 +2575,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__languagesModel = LanguagesModel(self, sorted(languages, key=lambda x: (x.name)))
 		self.__getSupportedFileTypesString()
 
-	@core.executionTrace
 	@umbra.engine.encapsulateProcessing
 	def __handleDroppedContent(self, event):
 		"""
@@ -2683,7 +2600,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
 
-	@core.executionTrace
 	def __getSupportedFileTypesString(self):
 		"""
 		This method returns the supported file types dialog string.
@@ -2695,7 +2611,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 													" ".join(language.extensions.split("|")).replace("\\", "*")))
 		return ";;".join(languages)
 
-	@core.executionTrace
 	def __setRecentFilesActions(self):
 		"""
 		This method sets the recent files actions.
@@ -2720,7 +2635,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.__recentFilesActions[i].data = strings.encode(recentFiles[i])
 			self.__recentFilesActions[i].setVisible(True)
 
-	@core.executionTrace
 	def __storeRecentFile(self, file):
 		"""
 		This method stores given recent file into the settings.
@@ -2743,7 +2657,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		recentFiles = self.__settings.setKey(self.__settingsSection, "recentFiles", recentFiles)
 		self.recentFilesChanged.emit()
 
-	@core.executionTrace
 	def __setWindowTitle(self):
 		"""
 		This method sets the Component window title.
@@ -2757,7 +2670,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Setting 'Script Editor' window title to '{0}'.".format(windowTitle))
 		self.setWindowTitle(windowTitle)
 
-	@core.executionTrace
 	def __setTabTitle(self, index):
 		"""
 		This method sets the name and toolTip of the **Script_Editor_tabWidget** Widget tab with given index.
@@ -2778,7 +2690,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		tabText != title and self.Script_Editor_tabWidget.setTabText(index, title)
 		self.Script_Editor_tabWidget.setTabToolTip(index, toolTip)
 
-	@core.executionTrace
 	def __hasEditorLock(self, editor):
 		"""
 		This method returns if given editor has a lock.
@@ -2789,7 +2700,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return hasattr(editor, "__lock")
 
-	@core.executionTrace
 	def __lockEditor(self, editor):
 		"""
 		This method locks given editor.
@@ -2799,7 +2709,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		setattr(editor, "__lock", True)
 
-	@core.executionTrace
 	def __unlockEditor(self, editor):
 		"""
 		This method locks given editor.
@@ -2809,7 +2718,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		delattr(editor, "__lock")
 
-	@core.executionTrace
 	def __getUntitledFileName(self):
 		"""
 		This method returns an untitled file name.
@@ -2833,7 +2741,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Next untitled file name: '{0}'.".format(name))
 		return name
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def registerNodePath(self, node):
 		"""
@@ -2852,7 +2759,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__engine.fileSystemEventsManager.registerPath(path)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def unregisterNodePath(self, node):
 		"""
@@ -2868,7 +2774,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__engine.fileSystemEventsManager.unregisterPath(path)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def loadFileUi(self):
 		"""
@@ -2895,7 +2800,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			success *= self.loadFile(file)
 		return success
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def addProjectUi(self):
 		"""
@@ -2914,7 +2818,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.addProject(directory)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def searchAndReplaceUi(self):
 		"""
@@ -2928,7 +2831,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__searchAndReplace.show()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def searchInFilesUi(self):
 		"""
@@ -2942,7 +2844,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__searchInFiles.show()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getWidget(self, index):
 		"""
@@ -2955,7 +2856,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if index is not None:
 			return self.Script_Editor_tabWidget.widget(index)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getFocusWidget(self):
 		"""
@@ -2969,7 +2869,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			isinstance(currentWidget, Editor):
 			return currentWidget
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getEditorTab(self, editor):
 		"""
@@ -2986,7 +2885,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			LOGGER.debug("> Editor '{0}': Tab index '{1}'.".format(editor, i))
 			return i
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addEditorTab(self, editor):
 		"""
@@ -3011,7 +2909,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		editor.cursorPositionChanged.connect(self.Editor_Status_editorStatus._EditorStatus__editor__cursorPositionChanged)
 		return index
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeEditorTab(self, editor):
 		"""
@@ -3025,7 +2922,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Script_Editor_tabWidget.removeTab(self.getEditorTab(editor))
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def findEditorTab(self, file):
 		"""
@@ -3042,7 +2938,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			LOGGER.debug("> File '{0}': Tab index '{1}'.".format(file, i))
 			return i
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def hasEditorTab(self):
 		"""
@@ -3053,7 +2948,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.Script_Editor_tabWidget.count() and True or False
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getCurrentEditor(self):
 		"""
@@ -3067,7 +2961,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.Script_Editor_tabWidget.currentWidget()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setCurrentEditor(self, file):
 		"""
@@ -3082,7 +2975,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.Script_Editor_tabWidget.setCurrentIndex(index)
 			return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def loadPath(self, path):
 		"""
@@ -3105,7 +2997,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				self.addProject(path)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, 	Exception)
 	def loadDocument(self, document, file):
 		"""
@@ -3140,7 +3031,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.fileLoaded.emit(file)
 			return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def addProject(self, path):
 		"""
@@ -3167,7 +3057,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__model.setProjectNodes(projectNode)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removeProject(self, path):
 		"""
@@ -3187,7 +3076,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__model.deleteProjectNodes(projectNode)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def newFile(self):
 		"""
@@ -3210,7 +3098,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.fileLoaded.emit(file)
 			return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def loadFile(self, file):
 		"""
@@ -3242,7 +3129,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.fileLoaded.emit(file)
 			return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def reloadFile(self, file, isModified=True):
 		"""
@@ -3268,7 +3154,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.info("{0} | Reloading '{1}' file!".format(self.__class__.__name__, file))
 		return editor.reloadFile(isModified)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def saveFile(self, file=None):
 		"""
@@ -3286,7 +3171,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__lockEditor(editor)
 		return editor.saveFile()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
 											False,
 											foundations.exceptions.UserError)
@@ -3323,7 +3207,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				self.setLanguage(editor, language)
 			return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	@umbra.engine.encapsulateProcessing
 	def saveAllFiles(self):
@@ -3341,7 +3224,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__engine.stopProcessing()
 		return success
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	@umbra.engine.encapsulateProcessing
 	def revertFile(self, file=None):
@@ -3361,7 +3243,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if self.reloadFile(file, isModified=False):
 			return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def closeFile(self, file=None, leaveFirstEditor=True):
 		"""
@@ -3387,7 +3268,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.fileClosed.emit(file)
 			return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	# @umbra.engine.encapsulateProcessing
 	def closeAllFiles(self, leaveFirstEditor=True):
@@ -3405,7 +3285,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		# self.__engine.stopProcessing()
 		return success
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def closeFirstFile(self):
 		"""
@@ -3419,7 +3298,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.closeFile(leaveFirstEditor=False)
 			return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listEditors(self):
 		"""
@@ -3430,7 +3308,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.__model.listEditors()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listFiles(self):
 		"""
@@ -3441,7 +3318,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.__model.listFiles()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listDirectories(self):
 		"""
@@ -3452,7 +3328,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.__model.listDirectories()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listProjects(self, ignoreDefaultProject=True):
 		"""
@@ -3463,7 +3338,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.__model.listProjects()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getEditor(self, file):
 		"""
@@ -3477,7 +3351,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			if editor.file == file:
 				return editor
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setLanguage(self, editor, language):
 		"""
@@ -3492,7 +3365,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return editor.setLanguage(language)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def gotoLine(self):
 		"""
@@ -3514,7 +3386,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Chosen line number: '{0}'.".format(line))
 		return editor.gotoLine(line)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def evaluateSelection(self):
 		"""
@@ -3534,7 +3405,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.uiRefresh.emit()
 			return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def evaluateScript(self):
 		"""
@@ -3553,7 +3423,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.uiRefresh.emit()
 			return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def evaluateCode(self, code):
 		"""
@@ -3581,7 +3450,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__console.runcode(code)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def storeSession(self):
 		"""
@@ -3617,7 +3485,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings.setKey(self.__settingsSection, "session", session)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def restoreSession(self):
 		"""
@@ -3640,7 +3507,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return success
 
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def loopThroughEditors(self, backward=False):
 		"""

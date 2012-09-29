@@ -53,7 +53,6 @@ class Layout(foundations.dataStructures.Structure):
 	This class represents a storage object for :class:`LayoutsManager` class layout.
 	"""
 
-	@core.executionTrace
 	def __init__(self, **kwargs):
 		"""
 		This method initializes the class.
@@ -84,7 +83,6 @@ class LayoutsManager(QObject):
 	:return: Current layout. ( String )	
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent=None):
 		"""
 		This method initializes the class.
@@ -275,7 +273,6 @@ class LayoutsManager(QObject):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __getitem__(self, layout):
 		"""
 		This method reimplements the :meth:`object.__getitem__` method.
@@ -286,7 +283,6 @@ class LayoutsManager(QObject):
 
 		return self.__layouts.__getitem__(layout)
 
-	@core.executionTrace
 	def __iter__(self):
 		"""
 		This method reimplements the :meth:`object.__iter__` method.
@@ -296,7 +292,6 @@ class LayoutsManager(QObject):
 
 		return self.__layouts.iteritems()
 
-	@core.executionTrace
 	def __contains__(self, layout):
 		"""
 		This method reimplements the :meth:`object.__contains__` method.
@@ -307,7 +302,6 @@ class LayoutsManager(QObject):
 
 		return layout in self.__layouts.keys()
 
-	@core.executionTrace
 	def __len__(self):
 		"""
 		This method reimplements the :meth:`object.__len__` method.
@@ -317,7 +311,6 @@ class LayoutsManager(QObject):
 
 		return len(self.__layouts.keys())
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listLayouts(self):
 		"""
@@ -328,7 +321,6 @@ class LayoutsManager(QObject):
 
 		return sorted(self.__layouts.keys())
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def isLayoutRegistered(self, name):
 		"""
@@ -340,7 +332,6 @@ class LayoutsManager(QObject):
 
 		return name in self
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.LayoutRegistrationError)
 	def registerLayout(self, name, layout):
 		"""
@@ -358,7 +349,6 @@ class LayoutsManager(QObject):
 		self.__layouts[name] = layout
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.LayoutRegistrationError)
 	def unregisterLayout(self, name):
 		"""
@@ -376,7 +366,6 @@ class LayoutsManager(QObject):
 		del(self.__layouts[name])
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.LayoutExistError)
 	def restoreLayout(self, name, *args):
 		"""
@@ -410,7 +399,6 @@ class LayoutsManager(QObject):
 		self.layoutRestored.emit(self.__currentLayout)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.LayoutExistError)
 	def storeLayout(self, name, *args):
 		"""
@@ -435,7 +423,6 @@ class LayoutsManager(QObject):
 		self.layoutStored.emit(self.__currentLayout)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def restoreStartupLayout(self):
 		"""
@@ -451,7 +438,6 @@ class LayoutsManager(QObject):
 			self.__settings.getKey("Layouts", "{0}_geometry".format(UiConstants.startupLayout)).toByteArray())
 			return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def storeStartupLayout(self):
 		"""

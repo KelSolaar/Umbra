@@ -49,7 +49,6 @@ LOGGER = logging.getLogger(Constants.logger)
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-@core.executionTrace
 def messageBox(type, title, message, icon=None, buttons=QMessageBox.Ok, customButtons=None):
 	"""
 	This definition provides a fast GUI message box.

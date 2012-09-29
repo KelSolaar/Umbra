@@ -55,7 +55,6 @@ class PathNode(umbra.ui.nodes.GraphModelNode):
 	__family = "Category"
 	"""Node family. ( String )"""
 
-	@core.executionTrace
 	def __init__(self,
 				name=None,
 				parent=None,
@@ -85,7 +84,6 @@ class PathNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __initializeNode(self, attributesFlags):
 		"""
 		This method initializes the node.
@@ -105,7 +103,6 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 	__family = "Component"
 	"""Node family. ( String )"""
 
-	@core.executionTrace
 	def __init__(self,
 				component,
 				name=None,
@@ -217,7 +214,6 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __initializeNode(self, attributesFlags):
 		"""
 		This method initializes the node.
@@ -241,7 +237,6 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 
 		self.synchronizeToolTip()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def synchronizeToolTip(self):
 		"""

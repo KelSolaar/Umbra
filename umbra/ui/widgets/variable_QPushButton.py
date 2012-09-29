@@ -53,7 +53,6 @@ class Variable_QPushButton(QPushButton):
 	a button with different colors and labels depending on its clicked state.
 	"""
 
-	@core.executionTrace
 	def __init__(self,
 				parent=None,
 				state=True,
@@ -204,7 +203,6 @@ class Variable_QPushButton(QPushButton):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __variable_QPushButton__clicked(self, checked):
 		"""
 		This method is triggered when a **Variable_QPushButton** Widget is clicked.
@@ -217,7 +215,6 @@ class Variable_QPushButton(QPushButton):
 		else:
 			self.__setTrueState()
 
-	@core.executionTrace
 	def __setTrueState(self):
 		"""
 		This method sets the variable button true state.
@@ -233,7 +230,6 @@ class Variable_QPushButton(QPushButton):
 		self.setChecked(True)
 		self.setText(foundations.common.getFirstItem(self.__labels))
 
-	@core.executionTrace
 	def __setFalseState(self):
 		"""
 		This method sets the variable QPushButton true state.

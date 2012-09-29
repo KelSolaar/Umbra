@@ -66,7 +66,6 @@ class Application_QToolBar(QToolBar):
 	the Application toolbar.
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent=None):
 		"""
 		This method initializes the class.
@@ -262,7 +261,6 @@ class Application_QToolBar(QToolBar):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __initializeUi(self):
 		"""
 		This method initializes the Widget ui.
@@ -285,7 +283,6 @@ class Application_QToolBar(QToolBar):
 		self.__container.layoutsManager.layoutStored.connect(self.__layoutsManager__layoutStored)
 		self.__container.layoutsManager.layoutRestored.connect(self.__layoutsManager__layoutRestored)
 
-	@core.executionTrace
 	def __layoutActiveLabel__clicked(self, layout):
 		"""
 		This method is triggered when a **Active_QLabel** Widget is clicked.
@@ -295,7 +292,6 @@ class Application_QToolBar(QToolBar):
 
 		self.__container.layoutsManager.restoreLayout(layout)
 
-	@core.executionTrace
 	def __layoutsManager__layoutStored(self, layout):
 		"""
 		This method is triggered by the :class:`umbra.managers.layoutsManager.LayoutsManager` class
@@ -309,7 +305,6 @@ class Application_QToolBar(QToolBar):
 										"{0}_activeLabel".format(layout),
 										layoutActiveLabel.objectName())
 
-	@core.executionTrace
 	def __layoutsManager__layoutRestored(self, layout):
 		"""
 		This method is triggered by the :class:`umbra.managers.layoutsManager.LayoutsManager` class
@@ -325,7 +320,6 @@ class Application_QToolBar(QToolBar):
 
 			activeLabel.setChecked(True)
 
-	@core.executionTrace
 	def __helpDisplayMiscAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|ToolBar|Miscellaneous|Help content ...'** action.
@@ -338,7 +332,6 @@ class Application_QToolBar(QToolBar):
 		QDesktopServices.openUrl(QUrl(QString(UiConstants.helpFile)))
 		return True
 
-	@core.executionTrace
 	def __apiDisplayMiscAction__triggered(self, checked):
 		"""
 		This method is triggered by **'Actions|Umbra|ToolBar|Miscellaneous|Api content ...'** action.
@@ -351,7 +344,6 @@ class Application_QToolBar(QToolBar):
 		QDesktopServices.openUrl(QUrl(QString(UiConstants.apiFile)))
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setLayoutDefaultGeometry(self):
 		"""
@@ -364,7 +356,6 @@ class Application_QToolBar(QToolBar):
 		self.layout().setContentsMargins(0, 0, 0, 0)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setToolBarChildrenWidgets(self):
 		"""
@@ -394,7 +385,6 @@ class Application_QToolBar(QToolBar):
 
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getApplicationLogoLabel(self):
 		"""
@@ -408,7 +398,6 @@ class Application_QToolBar(QToolBar):
 		logoLabel.setPixmap(QPixmap(umbra.ui.common.getResourcePath(UiConstants.logoImage)))
 		return logoLabel
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getLayoutActiveLabel(self, resources, name, title, identity, shortcut):
 		"""
@@ -445,7 +434,6 @@ class Application_QToolBar(QToolBar):
 
 		return layoutActiveLabel
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getLayoutsActiveLabels(self):
 		"""
@@ -473,7 +461,6 @@ class Application_QToolBar(QToolBar):
 																					Qt.Key_0))
 		return self.__layoutsActiveLabelsCollection.activeLabels
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getCustomLayoutsActiveLabel(self):
 		"""
@@ -514,7 +501,6 @@ class Application_QToolBar(QToolBar):
 		layoutActiveLabel.setMenu(self.__customLayoutsMenu)
 		return layoutActiveLabel
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getMiscellaneousActiveLabel(self):
 		"""
@@ -543,7 +529,6 @@ class Application_QToolBar(QToolBar):
 		miscellaneousActiveLabel.setMenu(self.__miscellaneousMenu)
 		return miscellaneousActiveLabel
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getSpacerLabel(self):
 		"""
@@ -557,7 +542,6 @@ class Application_QToolBar(QToolBar):
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		return spacer
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getClosureSpacerLabel(self):
 		"""

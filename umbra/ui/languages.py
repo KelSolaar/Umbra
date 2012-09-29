@@ -99,7 +99,6 @@ class Language(foundations.dataStructures.Structure):
 	This class represents a storage object for the :class:`Editor` class language description. 
 	"""
 
-	@core.executionTrace
 	def __init__(self, **kwargs):
 		"""
 		This method initializes the class.
@@ -113,7 +112,6 @@ class Language(foundations.dataStructures.Structure):
 
 		foundations.dataStructures.Structure.__init__(self, **kwargs)
 
-@core.executionTrace
 def getObjectFromLanguageAccelerators(accelerator):
 	"""
 	This definition returns the object associated to given accelerator.
@@ -124,7 +122,6 @@ def getObjectFromLanguageAccelerators(accelerator):
 
 	return LANGUAGES_ACCELERATORS.get(accelerator)
 
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, LanguageGrammarError)
 def getLanguageDescription(grammarfile):
 	"""
@@ -236,7 +233,6 @@ def getLanguageDescription(grammarfile):
 
 	return Language(**attributes)
 
-@core.executionTrace
 def getPythonLanguage():
 	"""
 	This definition returns the Python language description.
@@ -246,7 +242,6 @@ def getPythonLanguage():
 
 	return getLanguageDescription(PYTHON_GRAMMAR_FILE)
 
-@core.executionTrace
 def getLoggingLanguage():
 	"""
 	This definition returns the Logging language description.
@@ -256,7 +251,6 @@ def getLoggingLanguage():
 
 	return getLanguageDescription(LOGGING_GRAMMAR_FILE)
 
-@core.executionTrace
 def getTextLanguage():
 	"""
 	This definition returns the Text language description.

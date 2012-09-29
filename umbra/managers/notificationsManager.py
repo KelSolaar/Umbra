@@ -55,7 +55,6 @@ class Notification(foundations.dataStructures.Structure):
 	This class represents a storage object for :class:`NotificationsManager` class notification.
 	"""
 
-	@core.executionTrace
 	def __init__(self, **kwargs):
 		"""
 		This method initializes the class.
@@ -80,7 +79,6 @@ class NotificationsManager(QObject):
 	:return: Current registered notification. ( Notification )	
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent=None):
 		"""
 		This method initializes the class.
@@ -234,7 +232,6 @@ class NotificationsManager(QObject):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __iter__(self):
 		"""
 		This method reimplements the :meth:`object.__iter__` method.
@@ -244,7 +241,6 @@ class NotificationsManager(QObject):
 
 		return iter(self.__notifications)
 
-	@core.executionTrace
 	def __len__(self):
 		"""
 		This method reimplements the :meth:`object.__len__` method.
@@ -254,7 +250,6 @@ class NotificationsManager(QObject):
 
 		return len(self.__notifications)
 
-	@core.executionTrace
 	def __notifier__fadedOut(self):
 		"""
 		This method is triggered when a **Notification_QLabel** Widget has faded out.
@@ -262,7 +257,6 @@ class NotificationsManager(QObject):
 
 		self.__notifiers.pop(self.__notifiers.index(self.sender()))
 
-	@core.executionTrace
 	def __offsetNotifiers(self, offset):
 		"""
 		This method offsets existing notifiers.
@@ -274,7 +268,6 @@ class NotificationsManager(QObject):
 			notifier.verticalOffset += offset
 			notifier.refreshPosition()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listNotifications(self):
 		"""
@@ -285,7 +278,6 @@ class NotificationsManager(QObject):
 
 		return [self.formatNotification(notification) for notification in self]
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def isNotificationRegistered(self, notification):
 		"""
@@ -297,7 +289,6 @@ class NotificationsManager(QObject):
 
 		return notification in self
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def registerNotification(self, notification):
 		"""
@@ -313,7 +304,6 @@ class NotificationsManager(QObject):
 		self.notificationRegistered.emit(notification)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def formatNotification(self, notification):
 		"""
@@ -325,7 +315,6 @@ class NotificationsManager(QObject):
 
 		return "{0} | '{1}'".format(time.ctime(notification.time), notification.message)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def notify(self, message, duration=3000, notificationClickedSlot=None, messageLevel="Information", **kwargs):
 		"""
@@ -366,7 +355,6 @@ class NotificationsManager(QObject):
 			LOGGER.error("!> {0} | '{1}'.".format(self.__class__.__name__, self.formatNotification(notification)))
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def warnify(self, message, duration=3000, notificationClickedSlot=None, **kwargs):
 		"""
@@ -388,7 +376,6 @@ class NotificationsManager(QObject):
 					borderColor=QColor(220, 128, 64),
 					**kwargs)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def exceptify(self, message, duration=3000, notificationClickedSlot=None, **kwargs):
 		"""

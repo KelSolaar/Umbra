@@ -57,7 +57,6 @@ class DefaultCompleter(QCompleter):
 	__tokens = {}
 	"""Tokens cache. ( Dictionary )"""
 
-	@core.executionTrace
 	def __init__(self, parent=None, language=None, tokens=None):
 		"""
 		This method initializes the class.
@@ -121,7 +120,6 @@ class DefaultCompleter(QCompleter):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __setCache(self, tokens):
 		"""
 		This method sets the tokens cache.
@@ -134,7 +132,6 @@ class DefaultCompleter(QCompleter):
 
 		DefaultCompleter._DefaultCompleter__tokens[self.__language] = tokens
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def updateModel(self, words):
 		"""

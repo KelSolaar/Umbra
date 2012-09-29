@@ -65,7 +65,6 @@ class ValidationFilter(QObject):
 	for the :class:`SearchAndReplace` class.
 	"""
 
-	# @core.executionTrace
 	def eventFilter(self, object, event):
 		"""
 		This method reimplements the **QObject.eventFilter** method.
@@ -89,7 +88,6 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	This class defines the default search and replace dialog used by the **ScriptEditor** Component. 
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent, *args, **kwargs):
 		"""
 		This method initializes the class.
@@ -247,7 +245,6 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def show(self):
 		"""
 		This method reimplements the :meth:`QWidget.show` method.
@@ -261,7 +258,6 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		super(SearchAndReplace, self).show()
 		self.raise_()
 
-	@core.executionTrace
 	def __initializeUi(self):
 		"""
 		This method initializes the Widget ui.
@@ -297,7 +293,6 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.Replace_All_pushButton.clicked.connect(self.__Replace_All_pushButton__clicked)
 		self.Close_pushButton.clicked.connect(self.__Close_pushButton__clicked)
 
-	@core.executionTrace
 	def __patternsModel__patternInserted(self, settingsKey, comboBox, index):
 		"""
 		This method is triggered when a pattern has been inserted into a patterns Model.
@@ -317,7 +312,6 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 										patternsModel.rootNode.children[:self.maximumStoredPatterns]])
 		comboBox.setCurrentIndex(index.row())
 
-	@core.executionTrace
 	def __Search_pushButton__clicked(self, checked):
 		"""
 		This method is triggered when **Search_pushButton** Widget is clicked.
@@ -327,7 +321,6 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		self.search()
 
-	@core.executionTrace
 	def __Replace_pushButton__clicked(self, checked):
 		"""
 		This method is triggered when **Replace_pushButton** Widget is clicked.
@@ -337,7 +330,6 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		self.replace()
 
-	@core.executionTrace
 	def __Replace_All_pushButton__clicked(self, checked):
 		"""
 		This method is triggered when **Replace_All_pushButton** Widget is clicked.
@@ -347,7 +339,6 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		self.replaceAll()
 
-	@core.executionTrace
 	def __Close_pushButton__clicked(self, checked):
 		"""
 		This method is triggered when **Close_pushButton** Widget is clicked.
@@ -357,7 +348,6 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		self.close()
 
-	@core.executionTrace
 	def __getSettings(self):
 		"""
 		This method returns the current search and replace settings.
@@ -372,7 +362,6 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 				"wrapAround" : self.Wrap_Around_checkBox.isChecked()}
 
 	@staticmethod
-	@core.executionTrace
 	def insertPattern(pattern, model, index=0):
 		"""
 		This definition inserts given pattern into given Model.
@@ -393,7 +382,6 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def search(self):
 		"""
@@ -418,7 +406,6 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		return editor.search(searchPattern, **settings)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def replace(self):
 		"""
@@ -444,7 +431,6 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		return editor.replace(searchPattern, replacementPattern, **settings)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def replaceAll(self):
 		"""

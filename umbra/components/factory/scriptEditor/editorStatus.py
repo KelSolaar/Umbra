@@ -55,7 +55,6 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	:class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` Component Interface class status bar widget. 
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent, *args, **kwargs):
 		"""
 		This method initializes the class.
@@ -146,7 +145,6 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __initializeUi(self):
 		"""
@@ -161,7 +159,6 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		# Signals / Slots.
 		self.Languages_comboBox.currentIndexChanged.connect(self.__Languages_comboBox__currentIndexChanged)
 
-	@core.executionTrace
 	def __Languages_comboBox_setDefaultViewState(self):
 		"""
 		This method sets the **Languages_comboBox** Widget default View state.
@@ -175,7 +172,6 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		self.Languages_comboBox.setCurrentIndex(index)
 
-	@core.executionTrace
 	def __Languages_comboBox__currentIndexChanged(self, index):
 		"""
 		This method is triggered when the **Languages_comboBox** Widget current index is changed.
@@ -195,7 +191,6 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__container.setLanguage(editor, language)
 		editor.blockSignals(False)
 
-	@core.executionTrace
 	def __editor__cursorPositionChanged(self):
 		"""
 		This method is triggered when a

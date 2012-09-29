@@ -84,7 +84,6 @@ class Location(foundations.dataStructures.Structure):
 	This class represents a storage object for the :class:`SearchInFiles` class location.
 	"""
 
-	@core.executionTrace
 	def __init__(self, **kwargs):
 		"""
 		This method initializes the class.
@@ -96,7 +95,6 @@ class Location(foundations.dataStructures.Structure):
 
 		foundations.dataStructures.Structure.__init__(self, **kwargs)
 
-@core.executionTrace
 def getApplicationInstance():
 	"""
 	This definition returns the current `QApplication <http://doc.qt.nokia.com/qapplication.html>`_ instance or
@@ -110,7 +108,6 @@ def getApplicationInstance():
 		instance = QApplication(sys.argv)
 	return instance
 
-@core.executionTrace
 def parseLocation(data):
 	"""
 	This definition parses given location data.
@@ -149,7 +146,6 @@ def parseLocation(data):
 				continue
 	return location
 
-@core.executionTrace
 def uiExtendedExceptionHandler(exception, origin, *args, **kwargs):
 	"""
 	This definition provides a ui extended exception handler.
@@ -165,7 +161,6 @@ def uiExtendedExceptionHandler(exception, origin, *args, **kwargs):
 	messageBox.messageBox("Detailed Error", "Exception", "Exception in '{0}': {1}".format(origin, exception))
 	return True
 
-@core.executionTrace
 def uiBasicExceptionHandler(exception, origin, *args, **kwargs):
 	"""
 	This definition provides a ui basic exception handler.
@@ -181,7 +176,6 @@ def uiBasicExceptionHandler(exception, origin, *args, **kwargs):
 	messageBox.messageBox("Detailed Error", "Exception", "{0}".format(exception))
 	return True
 
-@core.executionTrace
 def uiSystemExitExceptionHandler(exception, origin, *args, **kwargs):
 	"""
 	This definition provides a ui system exit exception handler.
@@ -196,7 +190,6 @@ def uiSystemExitExceptionHandler(exception, origin, *args, **kwargs):
 	uiExtendedExceptionHandler(exception, origin, *args, **kwargs)
 	return core.exit(1)
 
-@core.executionTrace
 def notifyExceptionHandler(exception, origin, *args, **kwargs):
 	"""
 	This definition provides a notifier exception handler.
@@ -213,7 +206,6 @@ def notifyExceptionHandler(exception, origin, *args, **kwargs):
 	RuntimeGlobals.notificationsManager.exceptify(message="{0}".format(exception), notificationClickedSlot=callback)
 	return True
 
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.ResourceExistsError)
 def getResourcePath(name, raiseException=False):
 	"""
@@ -237,7 +229,6 @@ def getResourcePath(name, raiseException=False):
 		raise umbra.exceptions.ResourceExistsError(
 		"{0} | No resource file path found for '{1}' name!".format(inspect.getmodulename(__file__), name))
 
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def setWindowDefaultIcon(window):
 	"""
@@ -255,7 +246,6 @@ def setWindowDefaultIcon(window):
 		pass
 	return True
 
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 def getSectionsFileParser(file):
 	"""
@@ -273,7 +263,6 @@ def getSectionsFileParser(file):
 	sectionsFileParser.read() and sectionsFileParser.parse()
 	return sectionsFileParser
 
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, TypeError)
 def storeLastBrowsedPath(data):
 	"""
@@ -301,7 +290,6 @@ def storeLastBrowsedPath(data):
 		RuntimeGlobals.lastBrowsedPath = lastBrowsedPath
 	return data
 
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def getQVariantAsString(data):
 	"""
@@ -317,7 +305,6 @@ def getQVariantAsString(data):
 	data = QString(data)
 	return strings.encode(data)
 
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def parentsWalker(object):
 	"""
@@ -331,7 +318,6 @@ def parentsWalker(object):
 		object = object.parent()
 		yield object
 
-@core.executionTrace
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def signalsBlocker(instance, attribute, *args, **kwargs):
 	"""

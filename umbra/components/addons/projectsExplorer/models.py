@@ -53,7 +53,6 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 	:class:`umbra.components.factory.projectsExplorer.projectsExplorer.ProjectsExplorer` Component Interface class. 
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent, *args, **kwargs):
 		"""
 		This method initializes the class.
@@ -78,7 +77,6 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 	#******************************************************************************************************************
 	#***	Class methods
 	#******************************************************************************************************************
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def filterAcceptsRow(self, row, parent):
 		"""
@@ -95,7 +93,6 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 
 		return True
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def data(self, index, role=Qt.DisplayRole):
 		"""
@@ -125,7 +122,6 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 		else:
 			return QSortFilterProxyModel.data(self, index, role)
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getNode(self, index):
 		"""
@@ -141,7 +137,6 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 
 		return index.internalPointer() or self.sourceModel().rootNode
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getAttribute(self, *args):
 		"""

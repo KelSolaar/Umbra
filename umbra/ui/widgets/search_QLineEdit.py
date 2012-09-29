@@ -61,7 +61,6 @@ class Search_QLineEdit(QLineEdit):
 	a search field with clearing capabilities.
 	"""
 
-	@core.executionTrace
 	def __init__(self,
 				parent=None,
 				uiSearchImage=None,
@@ -391,7 +390,6 @@ class Search_QLineEdit(QLineEdit):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def resizeEvent(self, event):
 		"""
 		This method reimplements the :meth:`QLineEdit.QResizeEvent` method.
@@ -407,7 +405,6 @@ class Search_QLineEdit(QLineEdit):
 		self.__clearButton.move(self.rect().right() - frameWidth - clearButtonSize.width(),
 		(self.rect().bottom() - clearButtonSize.height()) / 2 + frameWidth / 2)
 
-	@core.executionTrace
 	def __initializeUi(self):
 		"""
 		This method initializes the Widget ui.
@@ -438,7 +435,6 @@ class Search_QLineEdit(QLineEdit):
 		self.__completer.setCompletionMode(QCompleter.UnfilteredPopupCompletion)
 		self.__completer.setMaxVisibleItems(self.__completerVisibleItemsCount)
 
-	@core.executionTrace
 	def __setClearButtonVisibility(self, text):
 		"""
 		This method sets the clear button visibility.

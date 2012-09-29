@@ -126,7 +126,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	:return: Unregistered project ProjectNode. ( ProjectNode )	
 	"""
 
-	@core.executionTrace
 	def __init__(self,
 				parent=None,
 				rootNode=None,
@@ -229,7 +228,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __initializeModel(self):
 		"""
@@ -246,7 +244,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 								attributesFlags=int(Qt.ItemIsEnabled))
 		self.endResetModel()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listEditorNodes(self, node=None):
 		"""
@@ -258,7 +255,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return self.findFamily("EditorNode", node=node or self.__defaultProjectNode)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listFileNodes(self, node=None):
 		"""
@@ -270,7 +266,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return self.findFamily("FileNode", node=node or self.__defaultProjectNode)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listDirectoryNodes(self):
 		"""
@@ -281,7 +276,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return self.findFamily("DirectoryNode")
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listProjectNodes(self, ignoreDefaultProjectNode=True):
 		"""
@@ -295,7 +289,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		return filter(lambda x: x != self.__defaultProjectNode, projectNodes) \
 		if ignoreDefaultProjectNode else projectNodes
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listEditors(self, node=None):
 		"""
@@ -307,7 +300,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return [editorNode.editor for editorNode in self.listEditorNodes(node) 	if editorNode.editor]
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listFiles(self, node=None):
 		"""
@@ -319,7 +311,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return [fileNode.path for fileNode in self.listFileNodes(node) if fileNode.path]
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listDirectories(self):
 		"""
@@ -330,7 +321,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return [directoryNode.path for directoryNode in self.listDirectoryNodes() if directoryNode.path]
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listProjects(self, ignoreDefaultProjectNode=True):
 		"""
@@ -342,7 +332,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return [projectNode.path for projectNode in self.listProjectNodes(ignoreDefaultProjectNode) if projectNode.path]
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getEditorNodes(self, editor, node=None):
 		"""
@@ -355,7 +344,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return [editorNode for editorNode in self.listEditorNodes(node) if editorNode.editor == editor]
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getFileNodes(self, path, node=None):
 		"""
@@ -368,7 +356,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return [fileNode for fileNode in self.listFileNodes(node) if fileNode.path == path]
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getDirectoryNodes(self, path):
 		"""
@@ -380,7 +367,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return [directoryNode for directoryNode in self.listDirectoryNodes() if directoryNode.path == path]
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getProjectNodes(self, path):
 		"""
@@ -392,7 +378,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return [projectNode for projectNode in self.listProjectNodes() if projectNode.path == path]
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def moveNode(self, parent, fromIndex, toIndex):
 		"""
@@ -431,7 +416,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def registerFile(self, file, parent, ensureUniqueness=False):
 		"""
@@ -461,7 +445,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return fileNode
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def unregisterFile(self, fileNode, raiseException=False):
 		"""
@@ -489,7 +472,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return fileNode
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def registerDirectory(self, directory, parent, ensureUniqueness=False):
 		"""
@@ -519,7 +501,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return directoryNode
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def unregisterDirectory(self, directoryNode, raiseException=False):
 		"""
@@ -547,7 +528,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return directoryNode
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def registerEditor(self, editor, parent, ensureUniqueness=False):
 		"""
@@ -576,7 +556,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return editorNode
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def unregisterEditor(self, editorNode, raiseException=False):
 		"""
@@ -604,7 +583,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return editorNode
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def registerProject(self, path, ensureUniqueness=False):
 		"""
@@ -633,7 +611,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return projectNode
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def unregisterProject(self, projectNode, raiseException=False):
 		"""
@@ -661,7 +638,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return projectNode
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def isAuthoringNode(self, node):
 		"""
@@ -676,7 +652,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 				return True
 		return False
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setAuthoringNodes(self, editor):
 		"""
@@ -691,7 +666,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		editorNode = self.registerEditor(editor, fileNode)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def deleteAuthoringNodes(self, editor):
 		"""
@@ -707,7 +681,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		self.unregisterFile(fileNode, raiseException=False)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def updateAuthoringNodes(self, editor):
 		"""
@@ -726,7 +699,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		self.nodeChanged(fileNode)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setProjectNodes(self, rootNode, maximumDepth=1):
 		"""
@@ -772,7 +744,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 				fileNode = self.registerFile(path, parentNode)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def deleteProjectNodes(self, node):
 		"""
@@ -784,7 +755,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		self.unregisterProjectNodes(node)
 		self.unregisterProject(node)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def unregisterProjectNodes(self, node):
 		"""
@@ -799,7 +769,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 			elif node.family == "FileNode":
 				self.unregisterFile(node)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def updateProjectNodes(self, node):
 		"""
@@ -818,7 +787,6 @@ class LanguagesModel(QAbstractListModel):
 	Component Interface class languages.
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent=None, languages=None):
 		"""
 		This method initializes the class.
@@ -878,7 +846,6 @@ class LanguagesModel(QAbstractListModel):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def rowCount(self, parent=QModelIndex()):
 		"""
@@ -890,7 +857,6 @@ class LanguagesModel(QAbstractListModel):
 
 		return len(self.__languages)
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def data(self, index, role=Qt.DisplayRole):
 		"""
@@ -908,7 +874,6 @@ class LanguagesModel(QAbstractListModel):
 			return QVariant(self.__languages[index.row()].name)
 		return QVariant()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def sortLanguages(self, order=Qt.AscendingOrder):
 		"""
@@ -921,7 +886,6 @@ class LanguagesModel(QAbstractListModel):
 		self.__languages = sorted(self.__languages, key=lambda x: (x.name), reverse=order)
 		self.endResetModel()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def registerLanguage(self, language):
 		"""
@@ -941,7 +905,6 @@ class LanguagesModel(QAbstractListModel):
 		self.sortLanguages()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def unregisterLanguage(self, name):
 		"""
@@ -965,7 +928,6 @@ class LanguagesModel(QAbstractListModel):
 			self.sortLanguages()
 			return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getLanguage(self, name):
 		"""
@@ -980,7 +942,6 @@ class LanguagesModel(QAbstractListModel):
 				LOGGER.debug("> Language '{0}': '{1}'.".format(name, language))
 				return language
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getFileLanguage(self, file):
 		"""
@@ -1018,7 +979,6 @@ class PatternsModel(umbra.ui.models.GraphModel):
 	:return: Removed pattern node. ( PatternNode )
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None, verticalHeaders=None, defaultNode=None):
 		"""
 		This method initializes the class.
@@ -1037,7 +997,6 @@ class PatternsModel(umbra.ui.models.GraphModel):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def insertPattern(self, pattern, index):
 		"""
@@ -1059,7 +1018,6 @@ class PatternsModel(umbra.ui.models.GraphModel):
 		self.patternInserted.emit(patternNode)
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def removePattern(self, pattern):
 		"""
@@ -1088,7 +1046,6 @@ class SearchResultsModel(umbra.ui.models.GraphModel):
 	:class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class to store the search results.
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None, verticalHeaders=None, defaultNode=None):
 		"""
 		This method initializes the class.
@@ -1107,7 +1064,6 @@ class SearchResultsModel(umbra.ui.models.GraphModel):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def initializeModel(self, rootNode):
 		"""
@@ -1124,7 +1080,6 @@ class SearchResultsModel(umbra.ui.models.GraphModel):
 		self.endResetModel()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getMetrics(self):
 		"""

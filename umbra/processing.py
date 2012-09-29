@@ -53,7 +53,6 @@ class Processing(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	This class defines the Application processing status bar widget. 
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent, *args, **kwargs):
 		"""
 		This method initializes the class.
@@ -110,7 +109,6 @@ class Processing(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def __initializeUi(self):
 		"""

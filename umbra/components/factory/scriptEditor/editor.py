@@ -105,7 +105,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 	This signal is emited by the :class:`Editor` class when the current editor doucment content has been modified. ( pyqtSignal )
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent=None, file=None, language=PYTHON_LANGUAGE, *args, **kwargs):
 		"""
 		This method initializes the class.
@@ -370,7 +369,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __initializeUi(self):
 		"""
 		This method initializes the Widget ui.
@@ -391,7 +389,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		font.setPointSize(fontSize)
 		self.setFont(font)
 
-	@core.executionTrace
 	def __document__contentsChanged(self):
 		"""
 		This method is triggered when the editor document content changes.
@@ -399,7 +396,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		self.setTitle()
 
-	@core.executionTrace
 	def __document__modificationChanged(self, changed):
 		"""
 		This method is triggered when the editor document is modified.
@@ -409,7 +405,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		self.setTitle()
 
-	@core.executionTrace
 	def __setDocumentSignals(self):
 		"""
 		This method connects the editor document signals.
@@ -421,7 +416,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.document().modificationChanged.connect(self.modificationChanged.emit)
 		self.document().modificationChanged.connect(self.__document__modificationChanged)
 
-	@core.executionTrace
 	def setTitle(self, title=None):
 		"""
 		This method sets the editor title.
@@ -443,7 +437,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.titleChanged.emit()
 		return True
 
-	@core.executionTrace
 	def setFile(self, file=None, isModified=False, isUntitled=False):
 		"""
 		This method sets the editor file.
@@ -461,7 +454,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.setTitle()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getFileShortName(self):
 		"""
@@ -475,7 +467,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		return os.path.basename(self.__file)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getUntitledFileName(self):
 		"""
@@ -489,7 +480,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		LOGGER.debug("> Next untitled file name: '{0}'.".format(name))
 		return name
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def loadDocument(self, document, file=None, language=None):
 		"""
@@ -510,7 +500,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.fileLoaded.emit()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def newFile(self):
 		"""
@@ -525,7 +514,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.__setDocumentSignals()
 		return file
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def loadFile(self, file):
 		"""
@@ -547,7 +535,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.fileLoaded.emit()
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
 	def reloadFile(self, isModified=True):
 		"""
@@ -570,7 +557,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 			self.fileReloaded.emit()
 			return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def saveFile(self):
 		"""
@@ -584,7 +570,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		else:
 			return self.saveFileAs()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def saveFileAs(self, file=None):
 		"""
@@ -601,7 +586,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		return self.writeFile(strings.encode(file))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def writeFile(self, file):
 		"""
@@ -620,7 +604,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 			self.fileSaved.emit()
 			return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def closeFile(self):
 		"""

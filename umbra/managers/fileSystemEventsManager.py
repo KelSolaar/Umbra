@@ -83,7 +83,6 @@ class FileSystemEventsManager(QThread):
 	:return: Current invalidated directory. ( String )	
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent=None):
 		"""
 		This method initializes the class.
@@ -238,7 +237,6 @@ class FileSystemEventsManager(QThread):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __getitem__(self, path):
 		"""
 		This method reimplements the :meth:`object.__getitem__` method.
@@ -249,7 +247,6 @@ class FileSystemEventsManager(QThread):
 
 		return self.__paths.__getitem__(path)
 
-	@core.executionTrace
 	def __iter__(self):
 		"""
 		This method reimplements the :meth:`object.__iter__` method.
@@ -259,7 +256,6 @@ class FileSystemEventsManager(QThread):
 
 		return self.__paths.iteritems()
 
-	@core.executionTrace
 	def __contains__(self, path):
 		"""
 		This method reimplements the :meth:`object.__contains__` method.
@@ -270,7 +266,6 @@ class FileSystemEventsManager(QThread):
 
 		return path in self.__paths.keys()
 
-	@core.executionTrace
 	def __len__(self):
 		"""
 		This method reimplements the :meth:`object.__len__` method.
@@ -280,7 +275,6 @@ class FileSystemEventsManager(QThread):
 
 		return len(self.__paths.keys())
 
-	@core.executionTrace
 	def run(self):
 		"""
 		This method reimplements the :meth:`QThread.run` method.
@@ -294,7 +288,6 @@ class FileSystemEventsManager(QThread):
 
 		self.exec_()
 
-	@core.executionTrace
 	def __watchFileSystem(self):
 		"""
 		This method watches the file system for paths that have been changed or invalidated on disk.
@@ -332,7 +325,6 @@ class FileSystemEventsManager(QThread):
 				else:
 					self.directoryChanged.emit(path)
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listPaths(self):
 		"""
@@ -343,7 +335,6 @@ class FileSystemEventsManager(QThread):
 
 		return sorted(self.__paths.keys())
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def isPathRegistered(self, path):
 		"""
@@ -355,7 +346,6 @@ class FileSystemEventsManager(QThread):
 
 		return path in self
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None,
 											False,
 											foundations.exceptions.PathExistsError,
@@ -380,7 +370,6 @@ class FileSystemEventsManager(QThread):
 		self.__paths[path] = (os.path.getmtime(path) if modifiedTime is None else modifiedTime, os.path.isfile(path))
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.PathExistsError)
 	def unregisterPath(self, path):
 		"""

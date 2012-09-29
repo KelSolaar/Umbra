@@ -61,7 +61,6 @@ class Rule(foundations.dataStructures.Structure):
 	This class represents a storage object for highlighters rule. 
 	"""
 
-	@core.executionTrace
 	def __init__(self, **kwargs):
 		"""
 		This method initializes the class.
@@ -78,7 +77,6 @@ class FormatsTree(object):
 	This class defines the formats tree object representing higlighters theme.
 	"""
 
-	@core.executionTrace
 	def __init__(self, theme=None):
 		"""
 		This method initializes the class.
@@ -133,7 +131,6 @@ class FormatsTree(object):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __initializeTree(self, theme):
 		"""
 		This method initializes the object formats tree.
@@ -151,7 +148,6 @@ class FormatsTree(object):
 					currentNode.addChild(formatNode)
 				currentNode = formatNode
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listFormats(self, node, path=(), formats=None):
 		"""
@@ -171,7 +167,6 @@ class FormatsTree(object):
 		path and formats.append(".".join(path))
 		return sorted(formats)
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	@core.memoize(None)
 	def getFormat(self, name):
@@ -210,7 +205,6 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	as a base for highlighters classes.
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent=None):
 		"""
 		This method initializes the class.
@@ -299,7 +293,6 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	# @core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, NotImplementedError)
 	def highlightBlock(self, block):
 		"""
@@ -312,7 +305,6 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		 																					self.highlightBlock.__name__,
 																							self.__class__.__name__))
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def highlightText(self, text, start, end):
 		"""
@@ -338,7 +330,6 @@ class DefaultHighlighter(AbstractHighlighter):
 	This class is a :class:`AbstractHighlighter` subclass providing syntax highlighting for documents.
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent=None, rules=None, theme=None):
 		"""
 		This method initializes the class.
@@ -398,7 +389,6 @@ class DefaultHighlighter(AbstractHighlighter):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __setFormats(self):
 		"""
 		This method sets the highlighting formats.
@@ -406,7 +396,6 @@ class DefaultHighlighter(AbstractHighlighter):
 
 		self.formats = FormatsTree(self.__theme)
 
-	# @core.executionTrace
 	def highlightBlock(self, block):
 		"""
 		This method reimplements the :meth:`AbstractHighlighter.highlightBlock` method.
@@ -426,7 +415,6 @@ class DefaultHighlighter(AbstractHighlighter):
 					break
 				state += 1
 
-	# @core.executionTrace
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def highlightMultilineBlock(self, block, startPattern, endPattern, state, format):
 		"""

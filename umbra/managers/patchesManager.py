@@ -56,7 +56,6 @@ class Patch(foundations.dataStructures.Structure):
 	This class represents a storage object for :class:`PatchesManager` class patch.
 	"""
 
-	@core.executionTrace
 	def __init__(self, **kwargs):
 		"""
 		This method initializes the class.
@@ -73,7 +72,6 @@ class PatchesManager(object):
 	This class defines the Application patches manager. 
 	"""
 
-	@core.executionTrace
 	def __init__(self, historyFile=None, paths=None, extension="py"):
 		"""
 		This method initializes the class.
@@ -242,7 +240,6 @@ class PatchesManager(object):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __getitem__(self, patch):
 		"""
 		This method reimplements the :meth:`object.__getitem__` method.
@@ -253,7 +250,6 @@ class PatchesManager(object):
 
 		return self.__patches.__getitem__(patch)
 
-	@core.executionTrace
 	def __iter__(self):
 		"""
 		This method reimplements the :meth:`object.__iter__` method.
@@ -263,7 +259,6 @@ class PatchesManager(object):
 
 		return self.__patches.iteritems()
 
-	@core.executionTrace
 	def __contains__(self, patch):
 		"""
 		This method reimplements the :meth:`object.__contains__` method.
@@ -274,7 +269,6 @@ class PatchesManager(object):
 
 		return patch in self.__patches.keys()
 
-	@core.executionTrace
 	def __len__(self):
 		"""
 		This method reimplements the :meth:`object.__len__` method.
@@ -284,7 +278,6 @@ class PatchesManager(object):
 
 		return len(self.__patches.keys())
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def listPatches(self):
 		"""
@@ -295,7 +288,6 @@ class PatchesManager(object):
 
 		return sorted(self.__patches.keys())
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def isPatchRegistered(self, patch):
 		"""
@@ -307,7 +299,6 @@ class PatchesManager(object):
 
 		return patch in self
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.PatchInterfaceError)
 	def registerPatch(self, name, path):
 		"""
@@ -336,7 +327,6 @@ class PatchesManager(object):
 			"{0} | '{1}' is not a valid patch and has been rejected!".format(self.__class__.__name__, patch))
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.PatchRegistrationError)
 	def registerPatches(self):
 		"""
@@ -362,7 +352,6 @@ class PatchesManager(object):
 			"{0} | '{1}' patches failed to register!".format(self.__class__.__name__,
 																", ".join(unregisteredPatches)))
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.PatchApplyError)
 	def applyPatch(self, patch):
 		"""
@@ -387,7 +376,6 @@ class PatchesManager(object):
 			LOGGER.debug("> '{0}' patch is already applied!".format(patch.name))
 		return True
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def applyPatches(self):
 		"""
@@ -401,7 +389,6 @@ class PatchesManager(object):
 			success = self.applyPatch(patch)
 		return success
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def getPatchFromUid(self, uid):
 		"""

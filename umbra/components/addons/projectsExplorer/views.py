@@ -52,7 +52,6 @@ class Projects_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	This class is used to display Projects.
 	"""
 
-	@core.executionTrace
 	def __init__(self, parent, model=None, readOnly=False):
 		"""
 		This method initializes the class.
@@ -111,7 +110,6 @@ class Projects_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@core.executionTrace
 	def __initializeUi(self):
 		"""
 		This method initializes the Widget ui.
@@ -132,7 +130,6 @@ class Projects_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		# Signals / Slots.
 		self.model().modelReset.connect(self.__setDefaultUiState)
 
-	@core.executionTrace
 	def __setDefaultUiState(self):
 		"""
 		This method sets the Widget default ui state.
@@ -145,7 +142,6 @@ class Projects_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 		self.expandAll()
 
-	@core.executionTrace
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def setModel(self, model):
 		"""

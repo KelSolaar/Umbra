@@ -51,7 +51,6 @@ class GraphModelAttribute(Attribute):
 	This class represents a storage object for the :class:`GraphModelNode` class attributes.
 	"""
 
-	@core.executionTrace
 	def __init__(self, name=None, value=None, roles=None, flags=None, **kwargs):
 		"""
 		This method initializes the class.
@@ -152,7 +151,6 @@ class GraphModelNode(AbstractCompositeNode):
 	__family = "GraphModel"
 	"""Node family. ( String )"""
 
-	@core.executionTrace
 	def __init__(self, name=None, parent=None, children=None, roles=None, flags=None, **kwargs):
 		"""
 		This method initializes the class.
@@ -256,7 +254,6 @@ class DefaultNode(AbstractCompositeNode):
 	__family = "Default"
 	"""Node family. ( String )"""
 
-	@core.executionTrace
 	def __init__(self, name=None, parent=None, children=None, **kwargs):
 		"""
 		This method initializes the class.
@@ -279,7 +276,6 @@ class FormatNode(AbstractCompositeNode):
 	__family = "Format"
 	"""Node family. ( String )"""
 
-	@core.executionTrace
 	def __init__(self, name=None, parent=None, children=None, format=None, **kwargs):
 		"""
 		This method initializes the class.
