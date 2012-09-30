@@ -63,7 +63,7 @@ class ActionsManager(QObject):
 
 		:param parent: Object parent. ( QObject )
 		:param namespaceSplitter: Namespace splitters character. ( String )
-		:param rootNamespace: Root namespace. ( String )
+		:param rootNamespace: Root foundations.namespace. ( String )
 		:param defaultNamespace: Default namespace ( For actions with relative path ). ( String )
 		"""
 

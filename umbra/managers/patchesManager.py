@@ -26,7 +26,7 @@ import sys
 import foundations.common
 import foundations.dataStructures
 import foundations.exceptions
-import foundations.strings as strings
+import foundations.strings
 import foundations.verbose
 import foundations.walkers
 import umbra.exceptions
@@ -307,7 +307,7 @@ class PatchesManager(object):
 		:return: Method success. ( Boolean )
 		"""
 
-		patch = strings.getSplitextBasename(path)
+		patch = foundations.strings.getSplitextBasename(path)
 		LOGGER.debug("> Current patch: '{0}'.".format(patch))
 
 		directory = os.path.dirname(path)
@@ -339,7 +339,7 @@ class PatchesManager(object):
 		unregisteredPatches = []
 		for path in self.paths:
 			for file in foundations.walkers.filesWalker(path, ("\.{0}$".format(self.__extension),), ("\._",)):
-				name = strings.getSplitextBasename(file)
+				name = foundations.strings.getSplitextBasename(file)
 				if not self.registerPatch(name, file):
 					unregisteredPatches.append(name)
 

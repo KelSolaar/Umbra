@@ -31,7 +31,7 @@ from PyQt4.QtGui import QComboBox
 #**********************************************************************************************************************
 import foundations.common
 import foundations.exceptions
-import foundations.strings as strings
+import foundations.strings
 import foundations.ui.common
 import foundations.verbose
 import umbra.ui.common
@@ -267,7 +267,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		(("_SearchAndReplace__searchPatternsModel", "recentSearchPatterns", self.Search_comboBox),
 		("_SearchAndReplace__replaceWithPatternsModel", "recentReplaceWithPatterns", self.Replace_With_comboBox)):
 			self.__dict__[model] = PatternsModel(defaultNode=PatternNode)
-			patterns = foundations.common.orderedUniqify([strings.encode(pattern) for pattern in \
+			patterns = foundations.common.orderedUniqify([foundations.strings.encode(pattern) for pattern in \
 														self.__container.settings.getKey(self.__container.settingsSection,
 																						settingsKey).toStringList()])
 			[PatternNode(parent=self.__dict__[model].rootNode, name=pattern) \
@@ -374,9 +374,9 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			return False
 
 		pattern = pattern.replace(QChar(QChar.ParagraphSeparator), QString("\n"))
-		pattern = foundations.common.getFirstItem(strings.encode(pattern).split("\n"))
+		pattern = foundations.common.getFirstItem(foundations.strings.encode(pattern).split("\n"))
 
-		model.insertPattern(strings.encode(pattern), index)
+		model.insertPattern(foundations.strings.encode(pattern), index)
 
 		return True
 

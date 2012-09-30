@@ -29,7 +29,7 @@ from PyQt4.QtGui import QMessageBox
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.exceptions
-import foundations.strings as strings
+import foundations.strings
 import foundations.verbose
 import umbra.ui.common
 import umbra.ui.widgets.messageBox as messageBox
@@ -1055,7 +1055,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		elif node.family == "FileNode":
 			directory = os.path.dirname(node.path)
 
-		file = strings.encode(file)
+		file = foundations.strings.encode(file)
 		if not file in os.listdir(directory):
 			file = os.path.join(directory, file)
 			LOGGER.info("{0} | Adding '{1}' file!".format(self.__class__.__name__, file))
@@ -1085,7 +1085,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		elif node.family == "FileNode":
 			parentDirectory = os.path.dirname(node.path)
 
-		directory = strings.encode(directory)
+		directory = foundations.strings.encode(directory)
 		if not directory in os.listdir(parentDirectory):
 			directory = os.path.join(parentDirectory, directory)
 			LOGGER.info("{0} | Adding '{1}' directory!".format(self.__class__.__name__, directory))
@@ -1108,7 +1108,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not state:
 			return False
 
-		baseName = strings.encode(baseName)
+		baseName = foundations.strings.encode(baseName)
 		if baseName == os.path.basename(source):
 			return False
 

@@ -25,7 +25,7 @@ from PyQt4.QtGui import QTextCursor
 #**********************************************************************************************************************
 import foundations.common
 import foundations.exceptions
-import foundations.strings as strings
+import foundations.strings
 import foundations.verbose
 
 #**********************************************************************************************************************
@@ -100,7 +100,7 @@ def indentationPostEventInputAccelerators(editor, event):
 		cursor = editor.textCursor()
 		block = cursor.block().previous()
 		if block.isValid():
-			indent = match = re.match(r"(\s*)", strings.encode(block.text())).group(1)
+			indent = match = re.match(r"(\s*)", foundations.strings.encode(block.text())).group(1)
 			cursor.insertText(indent)
 
 			indentationSymbols = getEditorCapability(editor, "indentationSymbols")
@@ -110,7 +110,7 @@ def indentationPostEventInputAccelerators(editor, event):
 			if not block.text():
 				return True
 
-			if not strings.encode(block.text())[-1] in indentationSymbols:
+			if not foundations.strings.encode(block.text())[-1] in indentationSymbols:
 				return True
 
 			symbolsPairs = getEditorCapability(editor, "symbolsPairs")
@@ -123,7 +123,7 @@ def indentationPostEventInputAccelerators(editor, event):
 			cursor.movePosition(QTextCursor.PreviousBlock, QTextCursor.MoveAnchor)
 			cursor.movePosition(QTextCursor.EndOfLine, QTextCursor.MoveAnchor)
 			cursor.movePosition(QTextCursor.PreviousCharacter, QTextCursor.KeepAnchor)
-			previousCharacter = strings.encode(cursor.selectedText())
+			previousCharacter = foundations.strings.encode(cursor.selectedText())
 			cursor.setPosition(position)
 			nextCharacter = editor.getNextCharacter()
 			if previousCharacter in symbolsPairs:
@@ -231,7 +231,7 @@ def symbolsExpandingPreEventInputAccelerators(editor, event):
 	if not symbolsPairs:
 		return processEvent
 
-	text = strings.encode(event.text())
+	text = foundations.strings.encode(event.text())
 	if text in symbolsPairs:
 		cursor = editor.textCursor()
 		if not cursor.hasSelection():
@@ -239,7 +239,7 @@ def symbolsExpandingPreEventInputAccelerators(editor, event):
 			# TODO: Provide an efficient code alternative.
 			# position = cursor.position()
 			# cursor.movePosition(QTextCursor.EndOfLine, QTextCursor.KeepAnchor)
-			# selectedText = strings.encode(cursor.selectedText())
+			# selectedText = foundations.strings.encode(cursor.selectedText())
 			# cursor.setPosition(position)
 			# if not selectedText.strip():
 			cursor.insertText(symbolsPairs[text])
@@ -259,6 +259,6 @@ def symbolsExpandingPreEventInputAccelerators(editor, event):
 		foundations.common.repeat(lambda: cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor), 2)
 		rightText = cursor.selectedText()
 
-		if symbolsPairs.get(strings.encode(leftText)) == strings.encode(rightText):
+		if symbolsPairs.get(foundations.strings.encode(leftText)) == foundations.strings.encode(rightText):
 			cursor.deleteChar()
 	return processEvent

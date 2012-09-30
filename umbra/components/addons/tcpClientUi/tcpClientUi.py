@@ -29,7 +29,7 @@ from PyQt4.QtGui import QGridLayout
 #**********************************************************************************************************************
 import foundations.common
 import foundations.exceptions
-import foundations.strings as strings
+import foundations.strings
 import foundations.verbose
 from manager.qwidgetComponent import QWidgetComponentFactory
 
@@ -648,7 +648,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor:
 			return False
 
-		selectedText = strings.encode(editor.getSelectedText().replace(QChar(QChar.ParagraphSeparator),
+		selectedText = foundations.strings.encode(editor.getSelectedText().replace(QChar(QChar.ParagraphSeparator),
 																			QString("\n")))
 		if not selectedText:
 			return False
@@ -668,7 +668,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return False
 
 		if self.__scriptEditor.saveFile():
-			return self.sendDataToServer(strings.encode(self.__fileCommand).format(editor.file))
+			return self.sendDataToServer(foundations.strings.encode(self.__fileCommand).format(editor.file))
 
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def sendDataToServer(self, data, timeOut=5):
@@ -681,11 +681,11 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not data.endswith(self.__connectionEnd):
-			data = "{0}{1}".format(data, strings.encode(self.__connectionEnd).decode("string_escape"))
+			data = "{0}{1}".format(data, foundations.strings.encode(self.__connectionEnd).decode("string_escape"))
 
 		connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		connection.settimeout(timeOut)
-		connection.connect((strings.encode(self.__address), int(self.__port)))
+		connection.connect((foundations.strings.encode(self.__address), int(self.__port)))
 		connection.send(data)
 		self.__engine.notificationsManager.notify(
 		"{0} | Socket connection command dispatched!".format(self.__class__.__name__))

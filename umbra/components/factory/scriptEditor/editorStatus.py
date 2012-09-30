@@ -25,7 +25,7 @@ from PyQt4.QtCore import Qt
 #**********************************************************************************************************************
 import foundations.exceptions
 import foundations.ui.common
-import foundations.strings as strings
+import foundations.strings
 import foundations.verbose
 
 #**********************************************************************************************************************
@@ -180,7 +180,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if not self.__container.hasEditorTab():
 			return
 
-		language = self.__container.languagesModel.getLanguage(strings.encode(self.Languages_comboBox.currentText()))
+		language = self.__container.languagesModel.getLanguage(foundations.strings.encode(self.Languages_comboBox.currentText()))
 		if not language:
 			return
 

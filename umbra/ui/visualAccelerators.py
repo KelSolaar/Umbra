@@ -25,7 +25,7 @@ from PyQt4.QtGui import QTextFormat
 #***	Internal imports.
 #**********************************************************************************************************************
 #import foundations.exceptions
-import foundations.strings as strings
+import foundations.strings
 import foundations.verbose
 
 #**********************************************************************************************************************
@@ -129,10 +129,10 @@ def highlightMatchingSymbolsPairs(editor):
 
 		cursor = editor.textCursor()
 		if cursor.hasSelection():
-			text = strings.encode(cursor.selectedText())
+			text = foundations.strings.encode(cursor.selectedText())
 		else:
 			cursor.movePosition(QTextCursor.PreviousCharacter, QTextCursor.KeepAnchor)
-			text = strings.encode(cursor.selectedText())
+			text = foundations.strings.encode(cursor.selectedText())
 
 		startSelection.cursor = cursor
 

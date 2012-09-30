@@ -35,10 +35,10 @@ from PyQt4.QtGui import QIcon
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.common
-import foundations.core as core
+import foundations.core
 import foundations.dataStructures
 import foundations.exceptions
-import foundations.strings as strings
+import foundations.strings
 import foundations.verbose
 import umbra.exceptions
 import umbra.ui.widgets.messageBox as messageBox
@@ -187,7 +187,7 @@ def uiSystemExitExceptionHandler(exception, origin, *args, **kwargs):
 	"""
 
 	uiExtendedExceptionHandler(exception, origin, *args, **kwargs)
-	return core.exit(1)
+	return foundations.core.exit(1)
 
 def notifyExceptionHandler(exception, origin, *args, **kwargs):
 	"""
@@ -272,10 +272,10 @@ def storeLastBrowsedPath(data):
 	"""
 
 	if type(data) in (tuple, list, QStringList):
-		data = [strings.encode(path) for path in data]
+		data = [foundations.strings.encode(path) for path in data]
 		lastBrowsedPath = foundations.common.getFirstItem(data)
 	elif type(data) in (str, unicode, QString):
-		data = lastBrowsedPath = strings.encode(data)
+		data = lastBrowsedPath = foundations.strings.encode(data)
 	else:
 		raise TypeError("{0} | '{1}' type is not supported!".format(
 		inspect.getmodulename(__file__), type(data)))
@@ -302,7 +302,7 @@ def getQVariantAsString(data):
 		data = data.toString()
 
 	data = QString(data)
-	return strings.encode(data)
+	return foundations.strings.encode(data)
 
 @foundations.exceptions.exceptionsHandler(None, False, Exception)
 def parentsWalker(object):

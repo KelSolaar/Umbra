@@ -39,7 +39,7 @@ from PyQt4.QtGui import QTextDocument
 #**********************************************************************************************************************
 import foundations.cache
 import foundations.exceptions
-import foundations.strings as strings
+import foundations.strings
 import foundations.ui.common
 import foundations.verbose
 import umbra.ui.common
@@ -1018,7 +1018,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		elif type == "excludeFilter":
 			location = self.__filtersOutFormat.format(self.__defaultFilterOut)
 
-		location and self.Where_lineEdit.setText(", ".join(filter(bool, (strings.encode(
+		location and self.Where_lineEdit.setText(", ".join(filter(bool, (foundations.strings.encode(
 		self.Where_lineEdit.text()), location))))
 
 	def __formatOccurence(self, occurence):
@@ -1033,7 +1033,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		spanFormat = "<span style=\"color: {0};\">{{0}}</span>".format(color.format(self.__defaultLineColor.red(),
 																					self.__defaultLineColor.green(),
 																					self.__defaultLineColor.blue()))
-		line = strings.encode(occurence.text)
+		line = foundations.strings.encode(occurence.text)
 		start = spanFormat.format(line[:occurence.column])
 		pattern = "<b>{0}</b>".format(line[occurence.column:occurence.column + occurence.length])
 		end = spanFormat.format(line[occurence.column + occurence.length:])
@@ -1059,7 +1059,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 						spanFormat.format(os.path.sep),
 						baseName,
 						spanFormat.format("' file: '"),
-						strings.encode(metrics),
+						foundations.strings.encode(metrics),
 						spanFormat.format("' occurence(s) replaced!")))
 
 	def __highlightOccurence(self, file, occurence):
@@ -1182,7 +1182,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			searchFileNode.update(searchResult)
 			width = \
 			max(self.__defaultLineNumberWidth,
-			max([len(strings.encode(occurence.line)) for occurence in searchResult.occurences]))
+			max([len(foundations.strings.encode(occurence.line)) for occurence in searchResult.occurences]))
 			for occurence in searchResult.occurences:
 				formatter = "{{0:>{0}}}".format(width)
 				name = "{0}:{1}".format(formatter.format(occurence.line + 1).replace(" ", "&nbsp;"),
@@ -1229,7 +1229,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		SearchAndReplace.insertPattern(replacementPattern, self.__replaceWithPatternsModel)
 
 		location = umbra.ui.common.parseLocation(
-		strings.encode(self.Where_lineEdit.text()) or \
+		foundations.strings.encode(self.Where_lineEdit.text()) or \
 		self.__targetsFormat.format(self.__defaultTarget))
 
 		settings = self.__getSettings()

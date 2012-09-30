@@ -37,7 +37,7 @@ from PyQt4.QtGui import QTextOption
 import foundations.common
 import foundations.dataStructures
 import foundations.exceptions
-import foundations.strings as strings
+import foundations.strings
 import foundations.verbose
 
 #**********************************************************************************************************************
@@ -449,7 +449,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		words = []
 		block = self.document().findBlockByLineNumber(0)
 		while block.isValid():
-			blockWords = strings.getWords(strings.encode(block.text()))
+			blockWords = foundations.strings.getWords(foundations.strings.encode(block.text()))
 			if blockWords:
 				words.extend(blockWords)
 			block = block.next()
@@ -485,7 +485,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		:return: Word under cursor. ( QString )		
 		"""
 
-		if not re.match(r"^\w+$", strings.encode(self.getPreviousCharacter())):
+		if not re.match(r"^\w+$", foundations.strings.encode(self.getPreviousCharacter())):
 			return QString()
 
 		cursor = self.textCursor()
@@ -501,7 +501,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		:return: Partial word under cursor. ( QString )		
 		"""
 
-		if not re.match(r"^\w+$", strings.encode(self.getPreviousCharacter())):
+		if not re.match(r"^\w+$", foundations.strings.encode(self.getPreviousCharacter())):
 			return QString()
 
 		cursor = self.textCursor()

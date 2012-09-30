@@ -35,7 +35,7 @@ from PyQt4.QtGui import QIcon
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.exceptions
-import foundations.strings as strings
+import foundations.strings
 import foundations.verbose
 import umbra.ui.nodes
 from foundations.nodes import AbstractCompositeNode
@@ -310,7 +310,7 @@ class GraphModel(QAbstractItemModel):
 
 		node = self.getNode(index)
 		if role == Qt.DisplayRole or role == Qt.EditRole:
-			value = strings.encode(value.toString())
+			value = foundations.strings.encode(value.toString())
 			roles = {Qt.DisplayRole : value, Qt.EditRole : value}
 		else:
 			roles = {role : value}

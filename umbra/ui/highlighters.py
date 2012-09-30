@@ -25,7 +25,7 @@ from PyQt4.QtGui import QTextCharFormat
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.common
-import foundations.core as core
+import foundations.core
 import foundations.dataStructures
 import foundations.exceptions
 import foundations.verbose
@@ -166,7 +166,7 @@ class FormatsTree(object):
 		return sorted(formats)
 
 	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
-	@core.memoize(None)
+	@foundations.core.memoize(None)
 	def getFormat(self, name):
 		"""
 		This method returns the closest format or closest parent format associated to given name.

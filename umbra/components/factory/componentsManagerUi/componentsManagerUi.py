@@ -31,10 +31,10 @@ from PyQt4.QtGui import QAction
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
+import foundations.core
 import foundations.exceptions
 import foundations.walkers
-import foundations.strings as strings
+import foundations.strings
 import foundations.verbose
 import manager.exceptions
 import umbra.engine
@@ -590,7 +590,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
 
-		self.__uiResourcesDirectory = os.path.join(os.path.dirname(core.getModule(self).__file__),
+		self.__uiResourcesDirectory = os.path.join(os.path.dirname(foundations.core.getModule(self).__file__),
 													self.__uiResourcesDirectory)
 		self.__engine = engine
 
@@ -1087,7 +1087,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 										attributesFlags=attributesFlags,
 										activated=umbra.ui.nodes.GraphModelAttribute(name="activated",
 										flags=attributesFlags,
-										roles={Qt.DisplayRole: strings.encode(component.interface.activated),
+										roles={Qt.DisplayRole: foundations.strings.encode(component.interface.activated),
 										Qt.DecorationRole:os.path.join(self.__uiResourcesDirectory,
 																component.interface.activated and \
 																self.__uiActivatedImage or self.__uiDeactivatedImage)}))

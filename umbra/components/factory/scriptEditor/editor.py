@@ -31,8 +31,8 @@ from PyQt4.QtGui import QTextOption
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.exceptions
-import foundations.io as io
-import foundations.strings as strings
+import foundations.io
+import foundations.strings
 import foundations.verbose
 import umbra.ui.common
 import umbra.ui.widgets.messageBox as messageBox
@@ -524,7 +524,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 																									file))
 
 		LOGGER.debug("> Loading '{0}' file.".format(file))
-		reader = io.File(file)
+		reader = foundations.io.File(file)
 		self.setPlainText(reader.readAll())
 		self.setFile(file)
 		self.__setDocumentSignals()
@@ -545,7 +545,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 			self.__class__.__name__, self.__file))
 
 		LOGGER.debug("> Reloading '{0}' file.".format(self.__file))
-		reader = io.File(self.__file)
+		reader = foundations.io.File(self.__file)
 		if reader.read():
 			self.setContent(reader.content)
 			self.setFile(self.__file, isModified=isModified)
@@ -580,7 +580,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		if not file:
 			return False
 
-		return self.writeFile(strings.encode(file))
+		return self.writeFile(foundations.strings.encode(file))
 
 	@foundations.exceptions.exceptionsHandler(None, False, Exception)
 	def writeFile(self, file):
@@ -592,7 +592,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 
 		LOGGER.debug("> Writing '{0}' file.".format(file))
-		writer = io.File(file)
+		writer = foundations.io.File(file)
 		writer.content = [self.toPlainText()]
 		if writer.write():
 			self.setFile(file)

@@ -25,7 +25,7 @@ from PyQt4.QtGui import QSplashScreen
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
+import foundations.core
 import foundations.exceptions
 import foundations.verbose
 
@@ -163,7 +163,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 		# Force QSplashscreen refresh.
 		QApplication.processEvents()
 
-		core.wait(self.__waitTime if waitTime is None else waitTime)
+		foundations.core.wait(self.__waitTime if waitTime is None else waitTime)
 
 if __name__ == "__main__":
 	import sys

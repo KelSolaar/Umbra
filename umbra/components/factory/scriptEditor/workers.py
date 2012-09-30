@@ -32,7 +32,7 @@ from PyQt4.QtGui import QTextDocument
 import foundations.common
 import foundations.dataStructures
 import foundations.exceptions
-import foundations.io as io
+import foundations.io
 import foundations.verbose
 import foundations.walkers
 import umbra.ui.common
@@ -395,7 +395,7 @@ class Search_worker(QThread):
 
 			cacheData = self.__container.filesCache.getContent(file)
 			if not cacheData:
-				reader = io.File(file)
+				reader = foundations.io.File(file)
 				content = reader.readAll()
 				if content is None:
 					LOGGER.warning("!> Error occured while reading '{0}' file proceeding to next one!".format(file))

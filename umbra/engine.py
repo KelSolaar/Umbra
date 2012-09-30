@@ -89,12 +89,12 @@ _extendResourcesPaths()
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
+import foundations.core
 import foundations.exceptions
 import foundations.environment
-import foundations.io as io
+import foundations.io
 import foundations.namespace
-import foundations.strings as strings
+import foundations.strings
 import foundations.ui.common
 import foundations.verbose
 import manager.exceptions
@@ -1301,7 +1301,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 			try:
 				exec self.__requestsStack.popleft() in self.__locals
 			except Exception as error:
-				umbra.ui.common.notifyExceptionHandler(error, core.getTraceName(self.__processRequestsStack))
+				umbra.ui.common.notifyExceptionHandler(error, foundations.core.getTraceName(self.__processRequestsStack))
 
 	def __componentsInstantiationCallback(self, profile):
 		"""
@@ -1389,7 +1389,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 					fullScreenStyleSheetPath = umbra.ui.common.getResourcePath(fullScreenStyleSheetFile,
 																				raiseException=False)
 					styleSheetPath = fullScreenStyleSheetPath or styleSheetPath
-				styleSheetFile = io.File(styleSheetPath)
+				styleSheetFile = foundations.io.File(styleSheetPath)
 				break
 
 		if not styleSheetFile:
@@ -1405,7 +1405,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 					continue
 
 				styleSheetFile.content[i] = line.replace(search.group("url"),
-				strings.toForwardSlashes(umbra.ui.common.getResourcePath(search.group("url"))))
+				foundations.strings.toForwardSlashes(umbra.ui.common.getResourcePath(search.group("url"))))
 			RuntimeGlobals.application.setStyleSheet(QString("".join(styleSheetFile.content)))
 			return True
 		else:
@@ -1623,9 +1623,9 @@ def setUserApplicationDataDirectory(path):
 	userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory
 
 	LOGGER.debug("> Current Application data directory '{0}'.".format(userApplicationDataDirectory))
-	if io.setDirectory(userApplicationDataDirectory):
+	if foundations.io.setDirectory(userApplicationDataDirectory):
 		for directory in Constants.preferencesDirectories:
-			if not io.setDirectory(os.path.join(userApplicationDataDirectory, directory)):
+			if not foundations.io.setDirectory(os.path.join(userApplicationDataDirectory, directory)):
 				raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(
 				inspect.getmodulename(__file__), os.path.join(userApplicationDataDirectory, directory),
 															Constants.applicationName))
@@ -1718,7 +1718,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	if RuntimeGlobals.parameters.about:
 		for line in SESSION_HEADER_TEXT:
 			sys.stdout.write("{0}\n".format(line))
-		core.exit(1)
+		foundations.core.exit(1)
 
 	# Redirecting standard output and error messages.
 	sys.stdout = foundations.verbose.StandardMessageHook(LOGGER)
@@ -1794,7 +1794,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 
 	LOGGER.debug("> Retrieving stored logging formatter.")
 	loggingFormatter = RuntimeGlobals.parameters.loggingFormater and RuntimeGlobals.parameters.loggingFormater or \
-	strings.encode(RuntimeGlobals.settings.getKey("Settings", "loggingFormatter").toString())
+	foundations.strings.encode(RuntimeGlobals.settings.getKey("Settings", "loggingFormatter").toString())
 	loggingFormatter = loggingFormatter in RuntimeGlobals.loggingFormatters and loggingFormatter or None
 	RuntimeGlobals.loggingActiveFormatter = loggingFormatter and loggingFormatter or Constants.loggingDefaultFormatter
 	LOGGER.debug("> Setting logging formatter: '{0}'.".format(RuntimeGlobals.loggingActiveFormatter))
