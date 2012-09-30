@@ -18,23 +18,21 @@
 #***	External imports.
 #**********************************************************************************************************************
 import inspect
-import logging
 import os
 from PyQt4.QtCore import QRegExp
 
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.dataStructures
 import foundations.parsers
+import foundations.verbose
 import umbra.ui.completers
 import umbra.ui.highlighters
 import umbra.ui.inputAccelerators
 import umbra.ui.themes
 import umbra.ui.visualAccelerators
 from umbra.exceptions import LanguageGrammarError
-from umbra.globals.constants import Constants
 from umbra.globals.uiConstants import UiConstants
 
 #**********************************************************************************************************************
@@ -47,8 +45,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-		"PYTHON_GRAMMAR_FILE",
+__all__ = ["LOGGER", "PYTHON_GRAMMAR_FILE",
 		"LOGGING_GRAMMAR_FILE",
 		"TEXT_GRAMMAR_FILE",
 		"LANGUAGES_ACCELERATORS",
@@ -62,7 +59,7 @@ __all__ = ["LOGGER",
 		"LOGGING_LANGUAGE",
 		"TEXT_LANGUAGE", ]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 PYTHON_GRAMMAR_FILE = umbra.ui.common.getResourcePath(UiConstants.pythonGrammarFile)
 LOGGING_GRAMMAR_FILE = umbra.ui.common.getResourcePath(UiConstants.loggingGrammarFile)

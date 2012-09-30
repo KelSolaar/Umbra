@@ -18,7 +18,6 @@
 #***	External imports.
 #**********************************************************************************************************************
 import functools
-import logging
 import os
 from PyQt4.QtCore import QString
 from PyQt4.QtCore import Qt
@@ -32,10 +31,9 @@ from PyQt4.QtGui import QToolButton
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.exceptions
+import foundations.verbose
 import umbra.ui.common
-from umbra.globals.constants import Constants
 from umbra.ui.widgets.active_QLabel import Active_QLabel
 
 #**********************************************************************************************************************
@@ -50,7 +48,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "Search_QLineEdit"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

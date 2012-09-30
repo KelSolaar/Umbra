@@ -17,18 +17,16 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 import os
 from PyQt4.QtCore import Qt
 
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.exceptions
 import foundations.ui.common
 import foundations.strings as strings
-from umbra.globals.constants import Constants
+import foundations.verbose
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -42,7 +40,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "UI_FILE", "EditorStatus"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Editor_Status.ui")
 

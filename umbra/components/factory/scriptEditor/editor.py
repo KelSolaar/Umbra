@@ -17,8 +17,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import inspect
-import logging
 import os
 import platform
 from PyQt4.QtCore import Qt
@@ -32,13 +30,12 @@ from PyQt4.QtGui import QTextOption
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.exceptions
 import foundations.io as io
 import foundations.strings as strings
+import foundations.verbose
 import umbra.ui.common
 import umbra.ui.widgets.messageBox as messageBox
-from umbra.globals.constants import Constants
 from umbra.ui.languages import PYTHON_LANGUAGE
 from umbra.ui.widgets.codeEditor_QPlainTextEdit import CodeEditor_QPlainTextEdit
 
@@ -52,10 +49,9 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-		"Editor"]
+__all__ = ["LOGGER", "Editor"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

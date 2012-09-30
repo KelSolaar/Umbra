@@ -19,7 +19,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 import os
 from PyQt4.QtCore import QSettings
 from PyQt4.QtCore import QVariant
@@ -27,10 +26,9 @@ from PyQt4.QtCore import QVariant
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.exceptions
+import foundations.verbose
 import umbra.ui.common
-from umbra.globals.constants import Constants
 from umbra.globals.uiConstants import UiConstants
 
 #**********************************************************************************************************************
@@ -45,7 +43,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "Preferences"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

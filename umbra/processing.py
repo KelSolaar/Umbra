@@ -15,18 +15,12 @@
 """
 
 #**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
-import logging
-
-#**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.exceptions
 import foundations.ui.common
+import foundations.verbose
 import umbra.ui.common
-from umbra.globals.constants import Constants
 from umbra.globals.uiConstants import UiConstants
 
 #**********************************************************************************************************************
@@ -41,7 +35,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "UI_FILE", "Processing"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 UI_FILE = umbra.ui.common.getResourcePath(UiConstants.processingUiFile)
 

@@ -18,7 +18,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 import os
 import re
 from PyQt4.QtCore import QAbstractListModel
@@ -30,8 +29,8 @@ from PyQt4.QtCore import pyqtSignal
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.exceptions
+import foundations.verbose
 import foundations.walkers
 import umbra.ui.models
 import umbra.ui.nodes
@@ -40,7 +39,6 @@ from umbra.components.factory.scriptEditor.nodes import DirectoryNode
 from umbra.components.factory.scriptEditor.nodes import EditorNode
 from umbra.components.factory.scriptEditor.nodes import FileNode
 from umbra.components.factory.scriptEditor.nodes import PatternNode
-from umbra.globals.constants import Constants
 from umbra.ui.languages import Language
 
 #**********************************************************************************************************************
@@ -53,13 +51,12 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-			"ProjectsModel",
+__all__ = ["LOGGER", "ProjectsModel",
 			"LanguagesModel",
 			"PatternsModel",
 			"SearchResultsModel"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

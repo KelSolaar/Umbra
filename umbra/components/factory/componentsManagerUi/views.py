@@ -18,17 +18,15 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QAbstractItemView
 
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.exceptions
+import foundations.verbose
 import umbra.ui.views
-from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -42,7 +40,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "Components_QTreeView"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

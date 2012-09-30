@@ -17,17 +17,15 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QTextCharFormat
 
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
-from umbra.globals.constants import Constants
+import foundations.verbose
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -39,13 +37,12 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-			"getFormat",
+__all__ = ["LOGGER", "getFormat",
 			"DEFAULT_FORMAT",
 			"DEFAULT_THEME",
 			"LOGGING_THEME"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

@@ -17,17 +17,15 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 from PyQt4.QtCore import Qt
 
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.exceptions
+import foundations.verbose
 from foundations.nodes import AbstractCompositeNode
 from foundations.nodes import Attribute
-from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -41,7 +39,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "GraphModelAttribute", "GraphModelNode", "DefaultNode" , "FormatNode"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

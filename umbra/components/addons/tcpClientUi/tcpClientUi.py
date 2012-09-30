@@ -17,7 +17,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 import os
 import socket
 from PyQt4.QtCore import QChar
@@ -29,11 +28,10 @@ from PyQt4.QtGui import QGridLayout
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.common
-import foundations.core as core
 import foundations.exceptions
 import foundations.strings as strings
+import foundations.verbose
 from manager.qwidgetComponent import QWidgetComponentFactory
-from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -47,7 +45,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "COMPONENT_UI_FILE", "TCPClientUi"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "TCP_Client_Ui.ui")
 

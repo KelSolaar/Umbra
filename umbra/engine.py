@@ -23,7 +23,6 @@ import collections
 import functools
 import gc
 import inspect
-import logging
 import os
 import optparse
 import platform
@@ -97,6 +96,7 @@ import foundations.io as io
 import foundations.namespace
 import foundations.strings as strings
 import foundations.ui.common
+import foundations.verbose
 import manager.exceptions
 import umbra.exceptions
 import umbra.managers.actionsManager
@@ -105,7 +105,6 @@ import umbra.managers.notificationsManager
 import umbra.managers.patchesManager
 import umbra.managers.layoutsManager
 import umbra.ui.common
-from foundations.streamObject import StreamObject
 from manager.componentsManager import Manager
 from umbra.preferences import Preferences
 from umbra.processing import Processing
@@ -122,8 +121,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-			"SESSION_HEADER_TEXT",
+__all__ = ["LOGGER", "SESSION_HEADER_TEXT",
 			"SESSION_FOOTER_TEXT",
 			"showProcessing",
 			"encapsulateProcessing",
@@ -133,7 +131,7 @@ __all__ = ["LOGGER",
 			"run",
 			"exit"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 def _initializeLogging():
 	"""
@@ -142,14 +140,12 @@ def _initializeLogging():
 
 	# Starting the console handler.
 	if not hasattr(sys, "frozen") or not (platform.system() == "Windows" or platform.system() == "Microsoft"):
-		RuntimeGlobals.loggingConsoleHandler = logging.StreamHandler(sys.__stdout__)
-		RuntimeGlobals.loggingConsoleHandler.setFormatter(core.LOGGING_DEFAULT_FORMATTER)
-		LOGGER.addHandler(RuntimeGlobals.loggingConsoleHandler)
+		RuntimeGlobals.loggingConsoleHandler = foundations.verbose.getLoggingConsoleHandler()
 
 	# Defining logging formatters.
-	RuntimeGlobals.loggingFormatters = {"Default" :core.LOGGING_DEFAULT_FORMATTER,
-										"Extended" : core.LOGGING_EXTENDED_FORMATTER,
-										"Standard" : core.LOGGING_STANDARD_FORMATTER}
+	RuntimeGlobals.loggingFormatters = {"Default" : foundations.verbose.LOGGING_DEFAULT_FORMATTER,
+										"Extended" : foundations.verbose.LOGGING_EXTENDED_FORMATTER,
+										"Standard" : foundations.verbose.LOGGING_STANDARD_FORMATTER}
 
 _initializeLogging()
 
@@ -1354,7 +1350,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"""
 
 		self.__verbosityLevel = verbosityLevel
-		core.setVerbosityLevel(verbosityLevel)
+		foundations.verbose.setVerbosityLevel(verbosityLevel)
 		self.__settings.setKey("Settings", "verbosityLevel", verbosityLevel)
 		self.verbosityLevelChanged.emit(verbosityLevel)
 		return True
@@ -1602,9 +1598,9 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 				workerThread.quit()
 			workerThread.wait()
 
-		core.removeLoggingHandler(LOGGER, self.__loggingFileHandler)
-		core.removeLoggingHandler(LOGGER, self.__loggingSessionHandler)
-		# core.removeLoggingHandler(LOGGER, self.__loggingConsoleHandler)
+		foundations.verbose.removeLoggingHandler(LOGGER, self.__loggingFileHandler)
+		foundations.verbose.removeLoggingHandler(LOGGER, self.__loggingSessionHandler)
+		# foundations.verbose.removeLoggingHandler(LOGGER, self.__loggingConsoleHandler)
 
 		# Stopping the Application timer.
 		self.__timer.stop()
@@ -1725,11 +1721,11 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 		core.exit(1)
 
 	# Redirecting standard output and error messages.
-	sys.stdout = core.StandardMessageHook(LOGGER)
-	sys.stderr = core.StandardMessageHook(LOGGER)
+	sys.stdout = foundations.verbose.StandardMessageHook(LOGGER)
+	sys.stderr = foundations.verbose.StandardMessageHook(LOGGER)
 
 	# Setting application verbose level.
-	LOGGER.setLevel(logging.DEBUG)
+	foundations.verbose.setVerbosityLevel(4)
 
 	# Setting user application data directory.
 	if RuntimeGlobals.parameters.userApplicationDataDirectory:
@@ -1759,9 +1755,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 		inspect.getmodulename(__file__), RuntimeGlobals.loggingFile, Constants.applicationName))
 
 	try:
-		RuntimeGlobals.loggingFileHandler = logging.FileHandler(RuntimeGlobals.loggingFile)
-		RuntimeGlobals.loggingFileHandler.setFormatter(RuntimeGlobals.loggingFormatters[Constants.loggingDefaultFormatter])
-		LOGGER.addHandler(RuntimeGlobals.loggingFileHandler)
+		RuntimeGlobals.loggingFileHandler = foundations.verbose.getLoggingFileHandler(RuntimeGlobals.loggingFile)
 	except:
 		raise umbra.exceptions.EngineConfigurationError(
 		"{0} | '{1}' Logging file is not available, '{2}' will now close!".format(inspect.getmodulename(__file__),
@@ -1796,7 +1790,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	RuntimeGlobals.parameters.verbosityLevel or \
 	foundations.common.getFirstItem(RuntimeGlobals.settings.getKey("Settings", "verbosityLevel").toInt())
 	LOGGER.debug("> Setting logger verbosity level to: '{0}'.".format(RuntimeGlobals.verbosityLevel))
-	core.setVerbosityLevel(RuntimeGlobals.verbosityLevel)
+	foundations.verbose.setVerbosityLevel(RuntimeGlobals.verbosityLevel)
 
 	LOGGER.debug("> Retrieving stored logging formatter.")
 	loggingFormatter = RuntimeGlobals.parameters.loggingFormater and RuntimeGlobals.parameters.loggingFormater or \
@@ -1808,11 +1802,8 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 		handler and handler.setFormatter(RuntimeGlobals.loggingFormatters[RuntimeGlobals.loggingActiveFormatter])
 
 	# Starting the session handler.
-	RuntimeGlobals.loggingSessionHandlerStream = StreamObject()
-	RuntimeGlobals.loggingSessionHandler = logging.StreamHandler(RuntimeGlobals.loggingSessionHandlerStream)
-	RuntimeGlobals.loggingSessionHandler.setFormatter(
-	RuntimeGlobals.loggingFormatters[RuntimeGlobals.loggingActiveFormatter])
-	LOGGER.addHandler(RuntimeGlobals.loggingSessionHandler)
+	RuntimeGlobals.loggingSessionHandler = foundations.verbose.getLoggingStreamHandler()
+	RuntimeGlobals.loggingSessionHandlerStream = RuntimeGlobals.loggingSessionHandler.stream
 
 	LOGGER.info(Constants.loggingSeparators)
 	for line in SESSION_HEADER_TEXT:
@@ -1853,6 +1844,6 @@ def exit(exitCode=0):
 	for line in SESSION_FOOTER_TEXT:
 		LOGGER.info(line)
 
-	core.removeLoggingHandler(LOGGER, RuntimeGlobals.loggingConsoleHandler)
+	foundations.verbose.removeLoggingHandler(LOGGER, RuntimeGlobals.loggingConsoleHandler)
 
 	RuntimeGlobals.application.exit(exitCode)

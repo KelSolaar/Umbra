@@ -20,7 +20,6 @@
 import fnmatch
 import functools
 import inspect
-import logging
 import os
 import platform
 import re
@@ -40,6 +39,7 @@ import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
 import foundations.strings as strings
+import foundations.verbose
 import umbra.exceptions
 import umbra.ui.widgets.messageBox as messageBox
 from foundations.parsers import SectionsFileParser
@@ -57,8 +57,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-			"Location",
+__all__ = ["LOGGER", "Location",
 			"getApplicationInstance",
 			"parseLocation",
 			"uiExtendedExceptionHandler",
@@ -74,7 +73,7 @@ __all__ = ["LOGGER",
 			"signalsBlocker",
 			"showWaitCursor"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

@@ -17,7 +17,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 import re
 from PyQt4.QtGui import QSyntaxHighlighter
 from PyQt4.QtGui import QTextCharFormat
@@ -29,8 +28,8 @@ import foundations.common
 import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
+import foundations.verbose
 from foundations.nodes import AbstractCompositeNode
-from umbra.globals.constants import Constants
 from umbra.ui.nodes import DefaultNode
 from umbra.ui.nodes import FormatNode
 from umbra.ui.themes import DEFAULT_THEME
@@ -45,13 +44,12 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-			"Rule",
+__all__ = ["LOGGER", "Rule",
 			"FormatsTree",
 			"AbstractHighlighter",
 			"DefaultHighlighter"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

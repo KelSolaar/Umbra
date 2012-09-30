@@ -18,7 +18,6 @@
 #***	External imports.
 #**********************************************************************************************************************
 import itertools
-import logging
 import os
 import shutil
 from PyQt4.QtCore import Qt
@@ -29,13 +28,12 @@ from PyQt4.QtGui import QMessageBox
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.exceptions
 import foundations.strings as strings
+import foundations.verbose
 import umbra.ui.common
 import umbra.ui.widgets.messageBox as messageBox
 from manager.qwidgetComponent import QWidgetComponentFactory
-from umbra.globals.constants import Constants
 from umbra.components.addons.projectsExplorer.models import ProjectsProxyModel
 from umbra.components.addons.projectsExplorer.views import Projects_QTreeView
 from umbra.ui.delegates import RichText_QStyledItemDelegate
@@ -53,7 +51,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "COMPONENT_UI_FILE", "ProjectsExplorer"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Projects_Explorer.ui")
 

@@ -17,7 +17,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QFont
 from PyQt4.QtGui import QMessageBox
@@ -27,8 +26,8 @@ from PyQt4.QtGui import QTextEdit
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.ui.common
+import foundations.verbose
 from umbra.globals.runtimeGlobals import RuntimeGlobals
 from umbra.globals.constants import Constants
 
@@ -44,7 +43,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "messageBox"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

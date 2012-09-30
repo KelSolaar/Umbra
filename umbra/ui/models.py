@@ -17,7 +17,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 import pickle
 import sys
 if sys.version_info[:2] <= (2, 6):
@@ -35,12 +34,11 @@ from PyQt4.QtGui import QIcon
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.exceptions
 import foundations.strings as strings
+import foundations.verbose
 import umbra.ui.nodes
 from foundations.nodes import AbstractCompositeNode
-from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -54,7 +52,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "GraphModel"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

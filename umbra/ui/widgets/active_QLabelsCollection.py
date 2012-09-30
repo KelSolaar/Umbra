@@ -18,17 +18,15 @@
 #***	External imports.
 #**********************************************************************************************************************
 import functools
-import logging
 from PyQt4.QtCore import QObject
 from PyQt4.QtCore import pyqtSignal
 
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.exceptions
+import foundations.verbose
 import umbra.ui.common
-from umbra.globals.constants import Constants
 from umbra.ui.widgets.active_QLabel import Active_QLabel
 
 #**********************************************************************************************************************
@@ -43,7 +41,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "Active_QLabelsCollection"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

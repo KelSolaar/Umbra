@@ -18,18 +18,16 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 import os
 from PyQt4.QtCore import Qt
 
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.exceptions
+import foundations.verbose
 import umbra.ui.nodes
 from umbra.components.factory.scriptEditor.editor import Editor
-from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -41,8 +39,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-			"ProjectNode",
+__all__ = ["LOGGER", "ProjectNode",
 			"EditorNode",
 			"FileNode",
 			"DirectoryNode",
@@ -51,7 +48,7 @@ __all__ = ["LOGGER",
 			"SearchOccurenceNode",
 			"ReplaceResultNode"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

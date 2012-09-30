@@ -17,7 +17,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QPalette
 from PyQt4.QtGui import QPushButton
@@ -26,9 +25,8 @@ from PyQt4.QtGui import QPushButton
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.common
-import foundations.core as core
 import foundations.exceptions
-from umbra.globals.constants import Constants
+import foundations.verbose
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -42,7 +40,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "Variable_QPushButton"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

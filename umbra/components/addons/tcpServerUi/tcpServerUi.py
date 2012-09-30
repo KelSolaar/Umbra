@@ -17,7 +17,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 import os
 import socket
 import SocketServer
@@ -28,12 +27,11 @@ from PyQt4.QtCore import Qt
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.common
-import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
+import foundations.verbose
 from foundations.tcpServer import TCPServer
 from manager.qwidgetComponent import QWidgetComponentFactory
-from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
 
 #**********************************************************************************************************************
@@ -48,7 +46,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "COMPONENT_UI_FILE", "RequestsStackDataHandler", "TCPServerUi"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "TCP_Server_Ui.ui")
 

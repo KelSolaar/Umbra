@@ -17,7 +17,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 import os
 from PyQt4.QtCore import QStringList
 from PyQt4.QtCore import Qt
@@ -29,6 +28,7 @@ import foundations.common
 import foundations.core as core
 import foundations.exceptions
 import foundations.strings as strings
+import foundations.verbose
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
@@ -45,7 +45,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "COMPONENT_UI_FILE", "PreferencesManager"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Preferences_Manager.ui")
 
@@ -322,7 +322,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Setting verbose level: '{0}'.".format(self.Verbose_Level_comboBox.currentText()))
 		self.__engine.verbosityLevel = index
-		core.setVerbosityLevel(index)
+		foundations.verbose.setVerbosityLevel(index)
 		self.__settings.setKey("Settings", "verbosityLevel", index)
 
 	def __Restore_Geometry_On_Layout_Change_checkBox_setUi(self):

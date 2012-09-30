@@ -20,7 +20,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 import re
 from PyQt4.QtCore import QSize
 from PyQt4.QtCore import pyqtSignal
@@ -38,12 +37,11 @@ from PyQt4.QtGui import QWidget
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.exceptions
 import foundations.strings as strings
+import foundations.verbose
 import umbra.ui.common
 import umbra.ui.languages
-from umbra.globals.constants import Constants
 from umbra.ui.widgets.basic_QPlainTextEdit import Basic_QPlainTextEdit
 from umbra.ui.widgets.basic_QPlainTextEdit import editBlock
 from umbra.ui.widgets.basic_QPlainTextEdit import anchorTextCursor
@@ -58,11 +56,10 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-		"LinesNumbers_QWidget",
+__all__ = ["LOGGER", "LinesNumbers_QWidget",
 		"CodeEditor_QPlainTextEdit"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

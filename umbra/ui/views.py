@@ -18,7 +18,6 @@
 #***	External imports.
 #**********************************************************************************************************************
 import inspect
-import logging
 import re
 from PyQt4.QtCore import QEvent
 from PyQt4.QtCore import QObject
@@ -30,11 +29,10 @@ from PyQt4.QtGui import QTreeView
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.exceptions
 import foundations.walkers
+import foundations.verbose
 import umbra.ui.common
-from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -46,8 +44,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-		"getNodes",
+__all__ = ["LOGGER", "getNodes",
 		"filterNodes",
 		"getViewNodesFromIndexes",
 		"getViewSelectedNodes",
@@ -56,7 +53,7 @@ __all__ = ["LOGGER",
 		"Abstract_QListView",
 		"Abstract_QTreeView"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

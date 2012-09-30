@@ -16,7 +16,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 from PyQt4.QtGui import QTextCursor
 from PyQt4.QtGui import QTextDocument
 from PyQt4.QtGui import QTextEdit
@@ -25,10 +24,9 @@ from PyQt4.QtGui import QTextFormat
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-#import foundations.core as core
 #import foundations.exceptions
 import foundations.strings as strings
-from umbra.globals.constants import Constants
+import foundations.verbose
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -45,7 +43,7 @@ __all__ = ["LOGGER",
 			"highlightOccurences",
 			"highlightMatchingPairs"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

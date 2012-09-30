@@ -18,7 +18,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 from PyQt4.QtCore import QMutex
 from PyQt4.QtCore import QRegExp
 from PyQt4.QtCore import QString
@@ -31,13 +30,12 @@ from PyQt4.QtGui import QTextDocument
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.common
-import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
 import foundations.io as io
+import foundations.verbose
 import foundations.walkers
 import umbra.ui.common
-from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -51,7 +49,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "Occurence", "SearchResult", "CacheData", "Search_worker"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

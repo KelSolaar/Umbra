@@ -17,7 +17,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 import os
 import sys
 if sys.version_info[:2] <= (2, 6):
@@ -36,12 +35,12 @@ import foundations.core as core
 import foundations.exceptions
 import foundations.walkers
 import foundations.strings as strings
+import foundations.verbose
 import manager.exceptions
 import umbra.engine
 import umbra.ui.common
 import umbra.ui.nodes
 from manager.qwidgetComponent import QWidgetComponentFactory
-from umbra.globals.constants import Constants
 from umbra.components.factory.componentsManagerUi.models import ComponentsModel
 from umbra.components.factory.componentsManagerUi.nodes import ComponentNode
 from umbra.components.factory.componentsManagerUi.nodes import PathNode
@@ -59,7 +58,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "COMPONENT_UI_FILE", "ComponentsManagerUi"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Components_Manager_Ui.ui")
 

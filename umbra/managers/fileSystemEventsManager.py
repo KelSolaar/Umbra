@@ -18,7 +18,6 @@
 #***	External imports.
 #**********************************************************************************************************************
 import os
-import logging
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QThread
 from PyQt4.QtCore import QTimer
@@ -27,8 +26,8 @@ from PyQt4.QtCore import pyqtSignal
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.exceptions
+import foundations.verbose
 import umbra.exceptions
 from umbra.globals.constants import Constants
 
@@ -44,7 +43,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "FileSystemEventsManager"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

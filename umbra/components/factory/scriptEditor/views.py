@@ -18,7 +18,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 from PyQt4.QtCore import QEvent
 from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtGui import QAbstractItemView
@@ -27,10 +26,9 @@ from PyQt4.QtGui import QTabWidget
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.exceptions
+import foundations.verbose
 import umbra.ui.views
-from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -44,7 +42,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "SearchResults_QTreeView", "ScriptEditor_QTabWidget"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

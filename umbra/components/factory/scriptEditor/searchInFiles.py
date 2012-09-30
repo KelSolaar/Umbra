@@ -18,7 +18,6 @@
 #***	External imports.
 #**********************************************************************************************************************
 import functools
-import logging
 import os
 import sys
 if sys.version_info[:2] <= (2, 6):
@@ -39,10 +38,10 @@ from PyQt4.QtGui import QTextDocument
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.cache
-import foundations.core as core
 import foundations.exceptions
 import foundations.strings as strings
 import foundations.ui.common
+import foundations.verbose
 import umbra.ui.common
 import umbra.ui.nodes
 from foundations.io import File
@@ -55,7 +54,6 @@ from umbra.components.factory.scriptEditor.searchAndReplace import ValidationFil
 from umbra.components.factory.scriptEditor.views import SearchResults_QTreeView
 from umbra.components.factory.scriptEditor.workers import CacheData
 from umbra.components.factory.scriptEditor.workers import Search_worker
-from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
 from umbra.ui.delegates import RichText_QStyledItemDelegate
 from umbra.ui.widgets.search_QLineEdit import Search_QLineEdit
@@ -72,7 +70,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "UI_FILE", "SearchInFiles"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Search_In_Files.ui")
 

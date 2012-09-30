@@ -18,7 +18,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 from PyQt4.QtCore import QString
 from PyQt4.QtCore import QTimer
 from PyQt4.QtCore import pyqtSignal
@@ -28,9 +27,8 @@ from PyQt4.QtGui import QLabel
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.exceptions
-from umbra.globals.constants import Constants
+import foundations.verbose
 from umbra.globals.runtimeGlobals import RuntimeGlobals
 
 #**********************************************************************************************************************
@@ -45,7 +43,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "Notification_QLabel"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

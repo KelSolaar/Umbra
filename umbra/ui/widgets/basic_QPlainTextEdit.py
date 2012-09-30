@@ -20,7 +20,6 @@
 #***	External imports.
 #**********************************************************************************************************************
 import functools
-import logging
 import re
 from PyQt4.QtCore import QChar
 from PyQt4.QtCore import QRegExp
@@ -36,11 +35,10 @@ from PyQt4.QtGui import QTextOption
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.common
-import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
 import foundations.strings as strings
-from umbra.globals.constants import Constants
+import foundations.verbose
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -54,7 +52,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "editBlock", "anchorTextCursor", "centerTextCursor", "Basic_QPlainTextEdit"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

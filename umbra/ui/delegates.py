@@ -17,10 +17,8 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QSize
-from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QLabel
 from PyQt4.QtGui import QStyle
 from PyQt4.QtGui import QStyledItemDelegate
@@ -29,11 +27,10 @@ from PyQt4.QtGui import QTextDocument
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
+import foundations.verbose
 import umbra.ui.common
-from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -47,7 +44,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "RichText_QStyledItemDelegate"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

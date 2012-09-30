@@ -18,7 +18,6 @@
 #***	External imports.
 #**********************************************************************************************************************
 import code
-import logging
 import os
 import platform
 import re
@@ -44,9 +43,9 @@ from PyQt4.QtGui import QTextOption
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.common
-import foundations.core as core
 import foundations.exceptions
 import foundations.strings as strings
+import foundations.verbose
 import foundations.walkers
 import umbra.engine
 import umbra.ui.common
@@ -80,7 +79,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "COMPONENT_UI_FILE", "ScriptEditor"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Script_Editor.ui")
 

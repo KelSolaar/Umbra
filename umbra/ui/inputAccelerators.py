@@ -16,7 +16,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 import re
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QTextCursor
@@ -24,11 +23,10 @@ from PyQt4.QtGui import QTextCursor
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.common
 import foundations.exceptions
 import foundations.strings as strings
-from umbra.globals.constants import Constants
+import foundations.verbose
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -40,8 +38,7 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER",
-			"getEditorCapability",
+__all__ = ["LOGGER", "getEditorCapability",
 			"indentationPreEventInputAccelerators",
 			"indentationPostEventInputAccelerators",
 			"performCompletion",
@@ -49,7 +46,7 @@ __all__ = ["LOGGER",
 			"completionPostEventInputAccelerators",
 			"symbolsExpandingPreEventInputAccelerators"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

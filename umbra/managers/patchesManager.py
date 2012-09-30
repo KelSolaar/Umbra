@@ -17,7 +17,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 import os
 import sys
 
@@ -25,14 +24,13 @@ import sys
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.common
-import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
 import foundations.strings as strings
+import foundations.verbose
 import foundations.walkers
 import umbra.exceptions
 from foundations.io import File
-from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -46,7 +44,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "Patch", "PatchesManager"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

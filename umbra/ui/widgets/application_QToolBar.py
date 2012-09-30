@@ -17,7 +17,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 import functools
 from PyQt4.QtCore import QSize
 from PyQt4.QtCore import QString
@@ -33,9 +32,8 @@ from PyQt4.QtGui import QToolBar
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.common
-import foundations.core as core
 import foundations.exceptions
+import foundations.verbose
 import umbra.managers.layoutsManager
 import umbra.ui.common
 from umbra.globals.constants import Constants
@@ -55,7 +53,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "Application_QToolBar"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

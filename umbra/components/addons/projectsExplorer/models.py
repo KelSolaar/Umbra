@@ -18,7 +18,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QVariant
 from PyQt4.QtGui import QSortFilterProxyModel
@@ -26,9 +25,8 @@ from PyQt4.QtGui import QSortFilterProxyModel
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
+import foundations.verbose
 from umbra.components.factory.scriptEditor.nodes import EditorNode
-from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -42,7 +40,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "ProjectsProxyModel"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

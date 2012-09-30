@@ -19,7 +19,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 import re
 import itertools
 from PyQt4.QtCore import QObject
@@ -29,13 +28,12 @@ from PyQt4.QtGui import QKeySequence
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
 import foundations.namespace
+import foundations.verbose
 import foundations.walkers
 import umbra.exceptions
-from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -49,7 +47,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "ActionsManager"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.

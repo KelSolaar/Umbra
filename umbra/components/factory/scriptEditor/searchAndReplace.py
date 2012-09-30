@@ -18,7 +18,6 @@
 #***	External imports.
 #**********************************************************************************************************************
 import functools
-import logging
 import os
 from PyQt4.QtCore import QChar
 from PyQt4.QtCore import QObject
@@ -30,15 +29,14 @@ from PyQt4.QtGui import QComboBox
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.common
 import foundations.exceptions
-import foundations.ui.common
 import foundations.strings as strings
+import foundations.ui.common
+import foundations.verbose
 import umbra.ui.common
 from umbra.components.factory.scriptEditor.models import PatternsModel
 from umbra.components.factory.scriptEditor.nodes import PatternNode
-from umbra.globals.constants import Constants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -52,7 +50,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "UI_FILE", "SearchAndReplace"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Search_And_Replace.ui")
 

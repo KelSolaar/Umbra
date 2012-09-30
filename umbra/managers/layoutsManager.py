@@ -17,18 +17,16 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import logging
 from PyQt4.QtCore import QObject
 from PyQt4.QtCore import pyqtSignal
 
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.core as core
 import foundations.dataStructures
 import foundations.exceptions
+import foundations.verbose
 import umbra.exceptions
-from umbra.globals.constants import Constants
 from umbra.globals.uiConstants import UiConstants
 
 #**********************************************************************************************************************
@@ -43,7 +41,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "Layout", "LayoutsManager"]
 
-LOGGER = logging.getLogger(Constants.logger)
+LOGGER = foundations.verbose.installLogger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
