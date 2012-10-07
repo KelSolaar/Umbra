@@ -97,7 +97,7 @@ class ActionsManager(QObject):
 		return self.__namespaceSplitter
 
 	@namespaceSplitter.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def namespaceSplitter(self, value):
 		"""
 		This method is the setter method for **self.__namespaceSplitter** attribute.
@@ -114,7 +114,7 @@ class ActionsManager(QObject):
 		self.__namespaceSplitter = value
 
 	@namespaceSplitter.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def namespaceSplitter(self):
 		"""
 		This method is the deleter method for **self.__namespaceSplitter** attribute.
@@ -134,7 +134,7 @@ class ActionsManager(QObject):
 		return self.__rootNamespace
 
 	@rootNamespace.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def rootNamespace(self, value):
 		"""
 		This method is the setter method for **self.__rootNamespace** attribute.
@@ -148,7 +148,7 @@ class ActionsManager(QObject):
 		self.__rootNamespace = value
 
 	@rootNamespace.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def rootNamespace(self):
 		"""
 		This method is the deleter method for **self.__rootNamespace** attribute.
@@ -168,7 +168,7 @@ class ActionsManager(QObject):
 		return self.__defaultNamespace
 
 	@defaultNamespace.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def defaultNamespace(self, value):
 		"""
 		This method is the setter method for **self.__defaultNamespace** attribute.
@@ -182,7 +182,7 @@ class ActionsManager(QObject):
 		self.__defaultNamespace = value
 
 	@defaultNamespace.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def defaultNamespace(self):
 		"""
 		This method is the deleter method for **self.__defaultNamespace** attribute.
@@ -202,7 +202,7 @@ class ActionsManager(QObject):
 		return self.__categories
 
 	@categories.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def categories(self, value):
 		"""
 		This method is the setter method for **self.__categories** attribute.
@@ -218,7 +218,7 @@ class ActionsManager(QObject):
 		self.__categories = value
 
 	@categories.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def categories(self):
 		"""
 		This method is the deleter method for **self.__categories** attribute.
@@ -315,7 +315,7 @@ class ActionsManager(QObject):
 				category[name] = {}
 			return category[name]
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def listActions(self):
 		"""
 		This method returns the registered actions.
@@ -328,7 +328,7 @@ class ActionsManager(QObject):
 			actions.append(self.__namespaceSplitter.join(itertools.chain(path, (actionName,))))
 		return sorted(actions)
 
-	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.CategoryExistsError)
+	@foundations.exceptions.handleExceptions(None, False, umbra.exceptions.CategoryExistsError)
 	def getCategory(self, name, vivify=False):
 		"""
 		This method returns requested category.
@@ -346,7 +346,7 @@ class ActionsManager(QObject):
 			raise umbra.exceptions.CategoryExistsError("{0} | '{1}' category doesn't exists!".format
 			(self.__class__.__name__, name))
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def addToCategory(self, category, name, action):
 		"""
 		This method adds given action to given category.
@@ -365,7 +365,7 @@ class ActionsManager(QObject):
 		LOGGER.debug("> Added '{0}' action to '{1}' category!".format(category, name))
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def removeFromCategory(self, category, name):
 		"""
 		This method removes given action from given category.
@@ -383,7 +383,7 @@ class ActionsManager(QObject):
 		LOGGER.debug("> Removed '{0}' action from '{1}' category!".format(category, name))
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.ActionExistsError)
+	@foundations.exceptions.handleExceptions(None, False, umbra.exceptions.ActionExistsError)
 	def getAction(self, action):
 		"""
 		This method returns requested action.
@@ -394,7 +394,7 @@ class ActionsManager(QObject):
 
 		return self[action]
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def isActionRegistered(self, name):
 		"""
 		This method returns if the given action name is registered.
@@ -405,7 +405,7 @@ class ActionsManager(QObject):
 
 		return name in self
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def registerAction(self, name, **kwargs):
 		"""
 		This method registers given action name, optional arguments like a parent, icon, slot etc ... can be given.
@@ -451,7 +451,7 @@ class ActionsManager(QObject):
 			action.triggered.connect(settings.slot)
 		return action
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def unregisterAction(self, name):
 		"""
 		This method unregisters given action name.
@@ -472,7 +472,7 @@ class ActionsManager(QObject):
 		self.removeFromCategory(category, name)
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def isShortcutInUse(self, shortcut):
 		"""
 		This method returns if given action shortcut is in use.
@@ -486,7 +486,7 @@ class ActionsManager(QObject):
 				return True
 		return False
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getShortcut(self, name):
 		"""
 		This method returns given action shortcut.
@@ -502,7 +502,7 @@ class ActionsManager(QObject):
 
 		return action.shortcut().toString()
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setShortcut(self, name, shortcut):
 		"""
 		This method sets given action shortcut.

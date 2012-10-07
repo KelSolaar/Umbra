@@ -108,7 +108,7 @@ class PatchesManager(object):
 		return self.__historyFile
 
 	@historyFile.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def historyFile(self, value):
 		"""
 		This method is the setter method for **self.__historyFile** attribute.
@@ -122,7 +122,7 @@ class PatchesManager(object):
 		self.__historyFile = value
 
 	@historyFile.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def historyFile(self):
 		"""
 		This method is the deleter method for **self.__historyFile** attribute.
@@ -142,7 +142,7 @@ class PatchesManager(object):
 		return self.__paths
 
 	@paths.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def paths(self, value):
 		"""
 		This method is the setter method for **self.__paths** attribute.
@@ -160,7 +160,7 @@ class PatchesManager(object):
 		self.__paths = value
 
 	@paths.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def paths(self):
 		"""
 		This method is the deleter method for **self.__paths** attribute.
@@ -180,7 +180,7 @@ class PatchesManager(object):
 		return self.__extension
 
 	@extension.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def extension(self, value):
 		"""
 		This method is the setter method for **self.__extension** attribute.
@@ -194,7 +194,7 @@ class PatchesManager(object):
 		self.__extension = value
 
 	@extension.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def extension(self):
 		"""
 		This method is the deleter method for **self.__extension** attribute.
@@ -214,7 +214,7 @@ class PatchesManager(object):
 		return self.__patches
 
 	@patches.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def patches(self, value):
 		"""
 		This method is the setter method for **self.__patches** attribute.
@@ -226,7 +226,7 @@ class PatchesManager(object):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "patches"))
 
 	@patches.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def patches(self):
 		"""
 		This method is the deleter method for **self.__patches** attribute.
@@ -276,7 +276,7 @@ class PatchesManager(object):
 
 		return len(self.__patches.keys())
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def listPatches(self):
 		"""
 		This method returns the registered patches.
@@ -286,7 +286,7 @@ class PatchesManager(object):
 
 		return sorted(self.__patches.keys())
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def isPatchRegistered(self, patch):
 		"""
 		This method returns if the given patch is registered.
@@ -297,7 +297,7 @@ class PatchesManager(object):
 
 		return patch in self
 
-	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.PatchInterfaceError)
+	@foundations.exceptions.handleExceptions(None, False, umbra.exceptions.PatchInterfaceError)
 	def registerPatch(self, name, path):
 		"""
 		This method registers given patch.
@@ -325,7 +325,7 @@ class PatchesManager(object):
 			"{0} | '{1}' is not a valid patch and has been rejected!".format(self.__class__.__name__, patch))
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.PatchRegistrationError)
+	@foundations.exceptions.handleExceptions(None, False, umbra.exceptions.PatchRegistrationError)
 	def registerPatches(self):
 		"""
 		This method registers the patches.
@@ -350,7 +350,7 @@ class PatchesManager(object):
 			"{0} | '{1}' patches failed to register!".format(self.__class__.__name__,
 																", ".join(unregisteredPatches)))
 
-	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.PatchApplyError)
+	@foundations.exceptions.handleExceptions(None, False, umbra.exceptions.PatchApplyError)
 	def applyPatch(self, patch):
 		"""
 		This method applies given patch.
@@ -374,7 +374,7 @@ class PatchesManager(object):
 			LOGGER.debug("> '{0}' patch is already applied!".format(patch.name))
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def applyPatches(self):
 		"""
 		This method applies the patches.
@@ -387,7 +387,7 @@ class PatchesManager(object):
 			success = self.applyPatch(patch)
 		return success
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getPatchFromUid(self, uid):
 		"""
 		This method returns the patch with given uid.

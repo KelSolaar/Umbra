@@ -86,7 +86,7 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		return self.__container
 
 	@container.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
 		This method is the setter method for **self.__container** attribute.
@@ -98,7 +98,7 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
 		This method is the deleter method for **self.__container** attribute.
@@ -118,7 +118,7 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		return self.__treeViewIndentation
 
 	@treeViewIndentation.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def treeViewIndentation(self, value):
 		"""
 		This method is the setter method for **self.__treeViewIndentation** attribute.
@@ -130,7 +130,7 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "treeViewIndentation"))
 
 	@treeViewIndentation.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def treeViewIndentation(self):
 		"""
 		This method is the deleter method for **self.__treeViewIndentation** attribute.
@@ -142,7 +142,7 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setModel(self, model):
 		"""
 		This method reimplements the **umbra.ui.views.Abstract_QTreeView.setModel** method.

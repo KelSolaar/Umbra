@@ -116,7 +116,7 @@ class FileSystemEventsManager(QThread):
 		return self.__container
 
 	@container.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
 		This method is the setter method for **self.__container** attribute.
@@ -128,7 +128,7 @@ class FileSystemEventsManager(QThread):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
 		This method is the deleter method for **self.__container** attribute.
@@ -148,7 +148,7 @@ class FileSystemEventsManager(QThread):
 		return self.__paths
 
 	@paths.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def paths(self, value):
 		"""
 		This method is the setter method for **self.__paths** attribute.
@@ -160,7 +160,7 @@ class FileSystemEventsManager(QThread):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "paths"))
 
 	@paths.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def paths(self):
 		"""
 		This method is the deleter method for **self.__paths** attribute.
@@ -180,7 +180,7 @@ class FileSystemEventsManager(QThread):
 		return self.__timer
 
 	@timer.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def timer(self, value):
 		"""
 		This method is the setter method for **self.__timer** attribute.
@@ -192,7 +192,7 @@ class FileSystemEventsManager(QThread):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "timer"))
 
 	@timer.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def timer(self):
 		"""
 		This method is the deleter method for **self.__timer** attribute.
@@ -212,7 +212,7 @@ class FileSystemEventsManager(QThread):
 		return self.__timerCycleMultiplier
 
 	@timerCycleMultiplier.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def timerCycleMultiplier(self, value):
 		"""
 		This method is the setter method for **self.__timerCycleMultiplier** attribute.
@@ -224,7 +224,7 @@ class FileSystemEventsManager(QThread):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "timerCycleMultiplier"))
 
 	@timerCycleMultiplier.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def timerCycleMultiplier(self):
 		"""
 		This method is the deleter method for **self.__timerCycleMultiplier** attribute.
@@ -324,7 +324,7 @@ class FileSystemEventsManager(QThread):
 				else:
 					self.directoryChanged.emit(path)
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def listPaths(self):
 		"""
 		This method returns the registered paths.
@@ -334,7 +334,7 @@ class FileSystemEventsManager(QThread):
 
 		return sorted(self.__paths.keys())
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def isPathRegistered(self, path):
 		"""
 		This method returns if the given path is registered.
@@ -345,7 +345,7 @@ class FileSystemEventsManager(QThread):
 
 		return path in self
 
-	@foundations.exceptions.exceptionsHandler(None,
+	@foundations.exceptions.handleExceptions(None,
 											False,
 											foundations.exceptions.PathExistsError,
 											umbra.exceptions.PathRegistrationError)
@@ -369,7 +369,7 @@ class FileSystemEventsManager(QThread):
 		self.__paths[path] = (os.path.getmtime(path) if modifiedTime is None else modifiedTime, os.path.isfile(path))
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.PathExistsError)
+	@foundations.exceptions.handleExceptions(None, False, umbra.exceptions.PathExistsError)
 	def unregisterPath(self, path):
 		"""
 		This method unregisters given path.

@@ -142,7 +142,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__container
 
 	@container.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
 		This method is the setter method for **self.__container** attribute.
@@ -154,7 +154,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
 		This method is the deleter method for **self.__container** attribute.
@@ -174,7 +174,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__scriptEditor
 
 	@scriptEditor.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def scriptEditor(self, value):
 		"""
 		This method is the setter method for **self.__scriptEditor** attribute.
@@ -186,7 +186,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "scriptEditor"))
 
 	@scriptEditor.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def scriptEditor(self):
 		"""
 		This method is the deleter method for **self.__scriptEditor** attribute.
@@ -206,7 +206,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__filesCache
 
 	@filesCache.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def filesCache(self, value):
 		"""
 		This method is the setter method for **self.__filesCache** attribute.
@@ -218,7 +218,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "filesCache"))
 
 	@filesCache.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def filesCache(self):
 		"""
 		This method is the deleter method for **self.__filesCache** attribute.
@@ -238,7 +238,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__searchPatternsModel
 
 	@searchPatternsModel.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def searchPatternsModel(self, value):
 		"""
 		This method is the setter method for **self.__searchPatternsModel** attribute.
@@ -250,7 +250,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "searchPatternsModel"))
 
 	@searchPatternsModel.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def searchPatternsModel(self):
 		"""
 		This method is the deleter method for **self.__searchPatternsModel** attribute.
@@ -270,7 +270,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__replaceWithPatternsModel
 
 	@replaceWithPatternsModel.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def replaceWithPatternsModel(self, value):
 		"""
 		This method is the setter method for **self.__replaceWithPatternsModel** attribute.
@@ -282,7 +282,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "replaceWithPatternsModel"))
 
 	@replaceWithPatternsModel.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def replaceWithPatternsModel(self):
 		"""
 		This method is the deleter method for **self.__replaceWithPatternsModel** attribute.
@@ -302,7 +302,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__model
 
 	@model.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def model(self, value):
 		"""
 		This method is the setter method for **self.__model** attribute.
@@ -314,7 +314,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "model"))
 
 	@model.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def model(self):
 		"""
 		This method is the deleter method for **self.__model** attribute.
@@ -334,7 +334,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__view
 
 	@view.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def view(self, value):
 		"""
 		This method is the setter method for **self.__view** attribute.
@@ -346,7 +346,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "view"))
 
 	@view.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def view(self):
 		"""
 		This method is the deleter method for **self.__view** attribute.
@@ -366,7 +366,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__delegate
 
 	@delegate.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def delegate(self, value):
 		"""
 		This method is the setter method for **self.__delegate** attribute.
@@ -378,7 +378,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "delegate"))
 
 	@delegate.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def delegate(self):
 		"""
 		This method is the deleter method for **self.__delegate** attribute.
@@ -398,7 +398,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__locations
 
 	@locations.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def locations(self, value):
 		"""
 		This method is the setter method for **self.__locations** attribute.
@@ -410,7 +410,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "locations"))
 
 	@locations.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def locations(self):
 		"""
 		This method is the deleter method for **self.__locations** attribute.
@@ -430,7 +430,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__locationsMenu
 
 	@locationsMenu.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def locationsMenu(self, value):
 		"""
 		This method is the setter method for **self.__locationsMenu** attribute.
@@ -442,7 +442,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "locationsMenu"))
 
 	@locationsMenu.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def locationsMenu(self):
 		"""
 		This method is the deleter method for **self.__locationsMenu** attribute.
@@ -462,7 +462,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__defaultFilterIn
 
 	@defaultFilterIn.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def defaultFilterIn(self, value):
 		"""
 		This method is the setter method for **self.__defaultFilterIn** attribute.
@@ -477,7 +477,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__defaultFilterIn = value
 
 	@defaultFilterIn.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def defaultFilterIn(self):
 		"""
 		This method is the deleter method for **self.__defaultFilterIn** attribute.
@@ -496,7 +496,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__filtersInFormat
 
 	@filtersInFormat.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def filtersInFormat(self, value):
 		"""
 		This method is the setter method for **self.__filtersInFormat** attribute.
@@ -511,7 +511,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__filtersInFormat = value
 
 	@filtersInFormat.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def filtersInFormat(self):
 		"""
 		This method is the deleter method for **self.__filtersInFormat** attribute.
@@ -531,7 +531,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__defaultFilterOut
 
 	@defaultFilterOut.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def defaultFilterOut(self, value):
 		"""
 		This method is the setter method for **self.__defaultFilterOut** attribute.
@@ -546,7 +546,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__defaultFilterOut = value
 
 	@defaultFilterOut.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def defaultFilterOut(self):
 		"""
 		This method is the deleter method for **self.__defaultFilterOut** attribute.
@@ -565,7 +565,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__filtersOutFormat
 
 	@filtersOutFormat.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def filtersOutFormat(self, value):
 		"""
 		This method is the setter method for **self.__filtersOutFormat** attribute.
@@ -580,7 +580,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__filtersOutFormat = value
 
 	@filtersOutFormat.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def filtersOutFormat(self):
 		"""
 		This method is the deleter method for **self.__filtersOutFormat** attribute.
@@ -600,7 +600,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__defaultTarget
 
 	@defaultTarget.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def defaultTarget(self, value):
 		"""
 		This method is the setter method for **self.__defaultTarget** attribute.
@@ -615,7 +615,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__defaultTarget = value
 
 	@defaultTarget.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def defaultTarget(self):
 		"""
 		This method is the deleter method for **self.__defaultTarget** attribute.
@@ -634,7 +634,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__targetsFormat
 
 	@targetsFormat.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def targetsFormat(self, value):
 		"""
 		This method is the setter method for **self.__targetsFormat** attribute.
@@ -649,7 +649,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__targetsFormat = value
 
 	@targetsFormat.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def targetsFormat(self):
 		"""
 		This method is the deleter method for **self.__targetsFormat** attribute.
@@ -669,7 +669,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__defaultLineNumberWidth
 
 	@defaultLineNumberWidth.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def defaultLineNumberWidth(self, value):
 		"""
 		This method is the setter method for **self.__defaultLineNumberWidth** attribute.
@@ -684,7 +684,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__defaultLineNumberWidth = value
 
 	@defaultLineNumberWidth.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def defaultLineNumberWidth(self):
 		"""
 		This method is the deleter method for **self.__defaultLineNumberWidth** attribute.
@@ -704,7 +704,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__defaultLineColor
 
 	@defaultLineColor.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def defaultLineColor(self, value):
 		"""
 		This method is the setter method for **self.__defaultLineColor** attribute.
@@ -717,7 +717,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__defaultLineColor = value
 
 	@defaultLineColor.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def defaultLineColor(self):
 		"""
 		This method is the deleter method for **self.__defaultLineColor** attribute.
@@ -737,7 +737,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__searchWorkerThread
 
 	@searchWorkerThread.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def searchWorkerThread(self, value):
 		"""
 		This method is the setter method for **self.__searchWorkerThread** attribute.
@@ -749,7 +749,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "searchWorkerThread"))
 
 	@searchWorkerThread.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def searchWorkerThread(self):
 		"""
 		This method is the deleter method for **self.__searchWorkerThread** attribute.
@@ -1102,7 +1102,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		document.setModified(False)
 		return document
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def __replaceWithinDocument(self, document, occurences, replacementPattern):
 		"""
 		This method replaces given pattern occurences in given document using given settings.
@@ -1166,7 +1166,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if file in self.__filesCache:
 			self.__filesCache.removeContent(file)
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setSearchResults(self, searchResults):
 		"""
 		This method sets the Model nodes using given search results.
@@ -1193,7 +1193,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__model.initializeModel(rootNode)
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setReplaceResults(self, replaceResults):
 		"""
 		This method sets the Model nodes using given replace results.
@@ -1210,7 +1210,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__model.initializeModel(rootNode)
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def search(self):
 		"""
 		This method searchs user defined locations for search pattern.
@@ -1243,7 +1243,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__searchWorkerThread.start()
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def replace(self, nodes):
 		"""
 		This method replaces user defined files search pattern occurences with replacement pattern using given nodes.
@@ -1288,7 +1288,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 																	sum(replaceResults.values()),
 																	len(replaceResults.keys())))
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def saveFiles(self, nodes):
 		"""
 		This method saves user defined files using give nodes.

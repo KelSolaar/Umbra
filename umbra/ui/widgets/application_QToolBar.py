@@ -105,7 +105,7 @@ class Application_QToolBar(QToolBar):
 		return self.__container
 
 	@container.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
 		This method is the setter method for **self.__container** attribute.
@@ -117,7 +117,7 @@ class Application_QToolBar(QToolBar):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
 		This method is the deleter method for **self.__container** attribute.
@@ -137,7 +137,7 @@ class Application_QToolBar(QToolBar):
 		return self.__settings
 
 	@settings.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def settings(self, value):
 		"""
 		This method is the setter method for **self.__settings** attribute.
@@ -149,7 +149,7 @@ class Application_QToolBar(QToolBar):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
 	@settings.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
 		This method is the deleter method for **self.__settings** attribute.
@@ -169,7 +169,7 @@ class Application_QToolBar(QToolBar):
 		return self.__layoutsActiveLabelsCollection
 
 	@layoutsActiveLabelsCollection.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def layoutsActiveLabelsCollection(self, value):
 		"""
 		This method is the setter method for **self.__layoutsActiveLabelsCollection** attribute.
@@ -181,7 +181,7 @@ class Application_QToolBar(QToolBar):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "layoutsActiveLabelsCollection"))
 
 	@layoutsActiveLabelsCollection.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def layoutsActiveLabelsCollection(self):
 		"""
 		This method is the deleter method for **self.__layoutsActiveLabelsCollection** attribute.
@@ -201,7 +201,7 @@ class Application_QToolBar(QToolBar):
 		return self.__customLayoutsMenu
 
 	@customLayoutsMenu.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def customLayoutsMenu(self, value):
 		"""
 		This method is the setter method for **self.__customLayoutsMenu** attribute.
@@ -214,7 +214,7 @@ class Application_QToolBar(QToolBar):
 		self.__customLayoutsMenu = value
 
 	@customLayoutsMenu.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def customLayoutsMenu(self):
 		"""
 		This method is the deleter method for **self.__customLayoutsMenu** attribute.
@@ -234,7 +234,7 @@ class Application_QToolBar(QToolBar):
 		return self.__miscellaneousMenu
 
 	@miscellaneousMenu.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def miscellaneousMenu(self, value):
 		"""
 		This method is the setter method for **self.__miscellaneousMenu** attribute.
@@ -247,7 +247,7 @@ class Application_QToolBar(QToolBar):
 		self.__miscellaneousMenu = value
 
 	@miscellaneousMenu.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def miscellaneousMenu(self):
 		"""
 		This method is the deleter method for **self.__miscellaneousMenu** attribute.
@@ -342,7 +342,7 @@ class Application_QToolBar(QToolBar):
 		QDesktopServices.openUrl(QUrl(QString(UiConstants.apiFile)))
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setLayoutDefaultGeometry(self):
 		"""
 		This method sets the toolBar layout default geometry.
@@ -354,7 +354,7 @@ class Application_QToolBar(QToolBar):
 		self.layout().setContentsMargins(0, 0, 0, 0)
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setToolBarChildrenWidgets(self):
 		"""
 		This method sets the toolBar children widgets.
@@ -383,7 +383,7 @@ class Application_QToolBar(QToolBar):
 
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getApplicationLogoLabel(self):
 		"""
 		This method provides the default **Application_Logo_label** widget.
@@ -396,7 +396,7 @@ class Application_QToolBar(QToolBar):
 		logoLabel.setPixmap(QPixmap(umbra.ui.common.getResourcePath(UiConstants.logoImage)))
 		return logoLabel
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getLayoutActiveLabel(self, resources, name, title, identity, shortcut):
 		"""
 		This method returns a layout **Active_QLabel** widget.
@@ -432,7 +432,7 @@ class Application_QToolBar(QToolBar):
 
 		return layoutActiveLabel
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getLayoutsActiveLabels(self):
 		"""
 		This method returns the layouts **Active_QLabel** widgets.
@@ -459,7 +459,7 @@ class Application_QToolBar(QToolBar):
 																					Qt.Key_0))
 		return self.__layoutsActiveLabelsCollection.activeLabels
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getCustomLayoutsActiveLabel(self):
 		"""
 		This method provides the default **Custom_Layouts_activeLabel** widget.
@@ -499,7 +499,7 @@ class Application_QToolBar(QToolBar):
 		layoutActiveLabel.setMenu(self.__customLayoutsMenu)
 		return layoutActiveLabel
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getMiscellaneousActiveLabel(self):
 		"""
 		This method provides the default **Miscellaneous_activeLabel** widget.
@@ -527,7 +527,7 @@ class Application_QToolBar(QToolBar):
 		miscellaneousActiveLabel.setMenu(self.__miscellaneousMenu)
 		return miscellaneousActiveLabel
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getSpacerLabel(self):
 		"""
 		This method provides the default **Spacer_label** widget.
@@ -540,7 +540,7 @@ class Application_QToolBar(QToolBar):
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		return spacer
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getClosureSpacerLabel(self):
 		"""
 		This method provides the default **Closure_Spacer_label** widget.

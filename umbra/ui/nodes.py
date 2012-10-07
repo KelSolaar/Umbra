@@ -84,7 +84,7 @@ class GraphModelAttribute(Attribute):
 		return self.__roles
 
 	@roles.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def roles(self, value):
 		"""
 		This method is the setter method for **self.__roles** attribute.
@@ -99,7 +99,7 @@ class GraphModelAttribute(Attribute):
 		self.__roles = value
 
 	@roles.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def roles(self):
 		"""
 		This method is the deleter method for **self.__roles** attribute.
@@ -119,7 +119,7 @@ class GraphModelAttribute(Attribute):
 		return self.__flags
 
 	@flags.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def flags(self, value):
 		"""
 		This method is the setter method for **self.__flags** attribute.
@@ -132,7 +132,7 @@ class GraphModelAttribute(Attribute):
 		self.__flags = value
 
 	@flags.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def flags(self):
 		"""
 		This method is the deleter method for **self.__flags** attribute.
@@ -185,7 +185,7 @@ class GraphModelNode(AbstractCompositeNode):
 		return self.__roles
 
 	@roles.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def roles(self, value):
 		"""
 		This method is the setter method for **self.__roles** attribute.
@@ -201,7 +201,7 @@ class GraphModelNode(AbstractCompositeNode):
 		self.__roles = value
 
 	@roles.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def roles(self):
 		"""
 		This method is the deleter method for **self.__roles** attribute.
@@ -221,7 +221,7 @@ class GraphModelNode(AbstractCompositeNode):
 		return self.__flags
 
 	@flags.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def flags(self, value):
 		"""
 		This method is the setter method for **self.__flags** attribute.
@@ -234,7 +234,7 @@ class GraphModelNode(AbstractCompositeNode):
 		self.__flags = value
 
 	@flags.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def flags(self):
 		"""
 		This method is the deleter method for **self.__flags** attribute.
@@ -307,7 +307,7 @@ class FormatNode(AbstractCompositeNode):
 		return self.__format
 
 	@format.setter
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def format(self, value):
 		"""
 		This method is the setter method for **self.__format** attribute.
@@ -318,7 +318,7 @@ class FormatNode(AbstractCompositeNode):
 		self.__format = value
 
 	@format.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def format(self):
 		"""
 		This method is the deleter method for **self.__format** attribute.

@@ -104,7 +104,7 @@ class Variable_QPushButton(QPushButton):
 		return self.__state
 
 	@state.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def state(self, value):
 		"""
 		This method is the setter method for **self.__state** attribute.
@@ -117,7 +117,7 @@ class Variable_QPushButton(QPushButton):
 		self.__state = value
 
 	@state.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def state(self):
 		"""
 		This method is the deleter method for **self.__state** attribute.
@@ -137,7 +137,7 @@ class Variable_QPushButton(QPushButton):
 		return self.__colors
 
 	@colors.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def colors(self, value):
 		"""
 		This method is the setter method for **self.__colors** attribute.
@@ -153,7 +153,7 @@ class Variable_QPushButton(QPushButton):
 		self.__colors = value
 
 	@colors.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def colors(self):
 		"""
 		This method is the deleter method for **self.__colors** attribute.
@@ -173,7 +173,7 @@ class Variable_QPushButton(QPushButton):
 		return self.__labels
 
 	@labels.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def labels(self, value):
 		"""
 		This method is the setter method for **self.__labels** attribute.
@@ -189,7 +189,7 @@ class Variable_QPushButton(QPushButton):
 		self.__labels = value
 
 	@labels.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def labels(self):
 		"""
 		This method is the deleter method for **self.__labels** attribute.

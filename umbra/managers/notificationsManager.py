@@ -108,7 +108,7 @@ class NotificationsManager(QObject):
 		return self.__container
 
 	@container.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
 		This method is the setter method for **self.__container** attribute.
@@ -120,7 +120,7 @@ class NotificationsManager(QObject):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
 		This method is the deleter method for **self.__container** attribute.
@@ -140,7 +140,7 @@ class NotificationsManager(QObject):
 		return self.__notifications
 
 	@notifications.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def notifications(self, value):
 		"""
 		This method is the setter method for **self.__notifications** attribute.
@@ -152,7 +152,7 @@ class NotificationsManager(QObject):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "notifications"))
 
 	@notifications.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def notifications(self):
 		"""
 		This method is the deleter method for **self.__notifications** attribute.
@@ -172,7 +172,7 @@ class NotificationsManager(QObject):
 		return self.__notifiers
 
 	@notifiers.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def notifiers(self, value):
 		"""
 		This method is the setter method for **self.__notifiers** attribute.
@@ -184,7 +184,7 @@ class NotificationsManager(QObject):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "notifiers"))
 
 	@notifiers.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def notifiers(self):
 		"""
 		This method is the deleter method for **self.__notifiers** attribute.
@@ -204,7 +204,7 @@ class NotificationsManager(QObject):
 		return self.__notifiersStackPadding
 
 	@notifiersStackPadding.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def notifiersStackPadding(self, value):
 		"""
 		This method is the setter method for **self.__notifiersStackPadding** attribute.
@@ -218,7 +218,7 @@ class NotificationsManager(QObject):
 		self.__notifiersStackPadding = value
 
 	@notifiersStackPadding.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def notifiersStackPadding(self):
 		"""
 		This method is the deleter method for **self.__notifiersStackPadding** attribute.
@@ -266,7 +266,7 @@ class NotificationsManager(QObject):
 			notifier.verticalOffset += offset
 			notifier.refreshPosition()
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def listNotifications(self):
 		"""
 		This method returns the registered notifications.
@@ -276,7 +276,7 @@ class NotificationsManager(QObject):
 
 		return [self.formatNotification(notification) for notification in self]
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def isNotificationRegistered(self, notification):
 		"""
 		This method returns if the given notification is registered.
@@ -287,7 +287,7 @@ class NotificationsManager(QObject):
 
 		return notification in self
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def registerNotification(self, notification):
 		"""
 		This method registers given notification.
@@ -302,7 +302,7 @@ class NotificationsManager(QObject):
 		self.notificationRegistered.emit(notification)
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def formatNotification(self, notification):
 		"""
 		This method formats given notification.
@@ -313,7 +313,7 @@ class NotificationsManager(QObject):
 
 		return "{0} | '{1}'".format(time.ctime(notification.time), notification.message)
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def notify(self, message, duration=3000, notificationClickedSlot=None, messageLevel="Information", **kwargs):
 		"""
 		This method displays an Application notification.
@@ -353,7 +353,7 @@ class NotificationsManager(QObject):
 			LOGGER.error("!> {0} | '{1}'.".format(self.__class__.__name__, self.formatNotification(notification)))
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def warnify(self, message, duration=3000, notificationClickedSlot=None, **kwargs):
 		"""
 		This method displays an Application notification warning.
@@ -374,7 +374,7 @@ class NotificationsManager(QObject):
 					borderColor=QColor(220, 128, 64),
 					**kwargs)
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def exceptify(self, message, duration=3000, notificationClickedSlot=None, **kwargs):
 		"""
 		This method displays an Application notification exception.

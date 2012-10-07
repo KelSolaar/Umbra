@@ -58,7 +58,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
+@foundations.exceptions.handleExceptions(None, False, Exception)
 def getNodes(view):
 	"""
 	This method returns the given View nodes.
@@ -69,7 +69,7 @@ def getNodes(view):
 
 	return [node for node in foundations.walkers.nodesWalker(view.model().rootNode)]
 
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
+@foundations.exceptions.handleExceptions(None, False, Exception)
 def filterNodes(view, pattern, attribute, flags=re.IGNORECASE):
 	"""
 	This method filters the given View nodes on given attribute using given pattern.
@@ -83,7 +83,7 @@ def filterNodes(view, pattern, attribute, flags=re.IGNORECASE):
 
 	return [node for node in getNodes(view) if re.search(pattern, getattr(node, attribute), flags)]
 
-@foundations.exceptions.exceptionsHandler(None, False, NotImplementedError)
+@foundations.exceptions.handleExceptions(None, False, NotImplementedError)
 # TODO: Implement a way to invalidate indexes in the cache, disabling the cache until yet.
 # @core.memoize(None)
 def getViewNodesFromIndexes(view, *indexes):
@@ -116,7 +116,7 @@ def getViewNodesFromIndexes(view, *indexes):
 		attribute and nodes[node].append(attribute)
 	return nodes
 
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
+@foundations.exceptions.handleExceptions(None, False, Exception)
 def getViewSelectedNodes(view):
 	"""
 	This method returns the given View selected nodes.
@@ -149,7 +149,7 @@ class ReadOnlyFilter(QObject):
 				return True
 		return False
 
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler,
+	@foundations.exceptions.handleExceptions(umbra.ui.common.notifyExceptionHandler,
 											False,
 											foundations.exceptions.UserError)
 	def __raiseUserError(self, view) :
@@ -162,7 +162,7 @@ class ReadOnlyFilter(QObject):
 		raise foundations.exceptions.UserError("{0} | Cannot perform action, '{1}' View has been set read only!".format(
 		self.__class__.__name__, view.objectName() or view))
 
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
+@foundations.exceptions.handleExceptions(None, False, Exception)
 def selectViewIndexes(view, indexes, flags=QItemSelectionModel.Select | QItemSelectionModel.Rows):
 	"""
 	This method selects given view indexes.
@@ -217,7 +217,7 @@ class Abstract_QListView(QListView):
 		return self.__readOnly
 
 	@readOnly.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def readOnly(self, value):
 		"""
 		This method is the setter method for **self.__readOnly** attribute.
@@ -230,7 +230,7 @@ class Abstract_QListView(QListView):
 		self.__readOnly = value
 
 	@readOnly.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def readOnly(self):
 		"""
 		This method is the deleter method for **self.__readOnly** attribute.
@@ -249,7 +249,7 @@ class Abstract_QListView(QListView):
 
 		self.viewport().installEventFilter(ReadOnlyFilter(self))
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getNodes(self):
 		"""
 		This method returns the View nodes.
@@ -259,7 +259,7 @@ class Abstract_QListView(QListView):
 
 		return getNodes(self)
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def filterNodes(self, pattern, attribute, flags=re.IGNORECASE):
 		"""
 		This method filters the View nodes on given attribute using given pattern.
@@ -272,7 +272,7 @@ class Abstract_QListView(QListView):
 
 		return filterNodes(self, pattern, attribute, flags)
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getSelectedNodes(self):
 		"""
 		This method returns the View selected nodes.
@@ -330,7 +330,7 @@ class Abstract_QTreeView(QTreeView):
 		return self.__readOnly
 
 	@readOnly.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def readOnly(self, value):
 		"""
 		This method is the setter method for **self.__readOnly** attribute.
@@ -343,7 +343,7 @@ class Abstract_QTreeView(QTreeView):
 		self.__readOnly = value
 
 	@readOnly.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def readOnly(self):
 		"""
 		This method is the deleter method for **self.__readOnly** attribute.
@@ -362,7 +362,7 @@ class Abstract_QTreeView(QTreeView):
 
 		self.viewport().installEventFilter(ReadOnlyFilter(self))
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getNodes(self):
 		"""
 		This method returns the View nodes.
@@ -372,7 +372,7 @@ class Abstract_QTreeView(QTreeView):
 
 		return getNodes(self)
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def filterNodes(self, pattern, attribute, flags=re.IGNORECASE):
 		"""
 		This method filters the View nodes on given attribute using given pattern.
@@ -385,7 +385,7 @@ class Abstract_QTreeView(QTreeView):
 
 		return filterNodes(self, pattern, attribute, flags)
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getSelectedNodes(self):
 		"""
 		This method returns the View selected nodes.

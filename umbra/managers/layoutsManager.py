@@ -117,7 +117,7 @@ class LayoutsManager(QObject):
 		return self.__container
 
 	@container.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
 		This method is the setter method for **self.__container** attribute.
@@ -129,7 +129,7 @@ class LayoutsManager(QObject):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
 		This method is the deleter method for **self.__container** attribute.
@@ -149,7 +149,7 @@ class LayoutsManager(QObject):
 		return self.__settings
 
 	@settings.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def settings(self, value):
 		"""
 		This method is the setter method for **self.__settings** attribute.
@@ -161,7 +161,7 @@ class LayoutsManager(QObject):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
 	@settings.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
 		This method is the deleter method for **self.__settings** attribute.
@@ -181,7 +181,7 @@ class LayoutsManager(QObject):
 		return self.__layouts
 
 	@layouts.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def layouts(self, value):
 		"""
 		This method is the setter method for **self.__layouts** attribute.
@@ -193,7 +193,7 @@ class LayoutsManager(QObject):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "layouts"))
 
 	@layouts.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def layouts(self):
 		"""
 		This method is the deleter method for **self.__layouts** attribute.
@@ -213,7 +213,7 @@ class LayoutsManager(QObject):
 		return self.__currentLayout
 
 	@currentLayout.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def currentLayout(self, value):
 		"""
 		This method is the setter method for **self.__currentLayout** attribute.
@@ -225,7 +225,7 @@ class LayoutsManager(QObject):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "currentLayout"))
 
 	@currentLayout.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def currentLayout(self):
 		"""
 		This method is the deleter method for **self.__currentLayout** attribute.
@@ -245,7 +245,7 @@ class LayoutsManager(QObject):
 		return self.__restoreGeometryOnLayoutChange
 
 	@restoreGeometryOnLayoutChange.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def restoreGeometryOnLayoutChange(self, value):
 		"""
 		This method is the setter method for **self.__restoreGeometryOnLayoutChange** attribute.
@@ -259,7 +259,7 @@ class LayoutsManager(QObject):
 		self.__restoreGeometryOnLayoutChange = value
 
 	@restoreGeometryOnLayoutChange.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def restoreGeometryOnLayoutChange(self):
 		"""
 		This method is the deleter method for **self.__restoreGeometryOnLayoutChange** attribute.
@@ -309,7 +309,7 @@ class LayoutsManager(QObject):
 
 		return len(self.__layouts.keys())
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def listLayouts(self):
 		"""
 		This method returns the registered layouts.
@@ -319,7 +319,7 @@ class LayoutsManager(QObject):
 
 		return sorted(self.__layouts.keys())
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def isLayoutRegistered(self, name):
 		"""
 		This method returns if the given layout name is registered.
@@ -330,7 +330,7 @@ class LayoutsManager(QObject):
 
 		return name in self
 
-	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.LayoutRegistrationError)
+	@foundations.exceptions.handleExceptions(None, False, umbra.exceptions.LayoutRegistrationError)
 	def registerLayout(self, name, layout):
 		"""
 		This method registers given layout.
@@ -347,7 +347,7 @@ class LayoutsManager(QObject):
 		self.__layouts[name] = layout
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.LayoutRegistrationError)
+	@foundations.exceptions.handleExceptions(None, False, umbra.exceptions.LayoutRegistrationError)
 	def unregisterLayout(self, name):
 		"""
 		This method unregisters given layout.
@@ -364,7 +364,7 @@ class LayoutsManager(QObject):
 		del(self.__layouts[name])
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.LayoutExistError)
+	@foundations.exceptions.handleExceptions(None, False, umbra.exceptions.LayoutExistError)
 	def restoreLayout(self, name, *args):
 		"""
 		This method restores given layout.
@@ -397,7 +397,7 @@ class LayoutsManager(QObject):
 		self.layoutRestored.emit(self.__currentLayout)
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.LayoutExistError)
+	@foundations.exceptions.handleExceptions(None, False, umbra.exceptions.LayoutExistError)
 	def storeLayout(self, name, *args):
 		"""
 		This method stores given layout.
@@ -421,7 +421,7 @@ class LayoutsManager(QObject):
 		self.layoutStored.emit(self.__currentLayout)
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def restoreStartupLayout(self):
 		"""
 		This method restores the startup layout.
@@ -436,7 +436,7 @@ class LayoutsManager(QObject):
 			self.__settings.getKey("Layouts", "{0}_geometry".format(UiConstants.startupLayout)).toByteArray())
 			return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def storeStartupLayout(self):
 		"""
 		This method stores the startup layout.

@@ -88,7 +88,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 		return self.__waitTime
 
 	@waitTime.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def waitTime(self, value):
 		"""
 		This method is the setter method for **self.__waitTime** attribute.
@@ -103,7 +103,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 		self.__waitTime = value
 
 	@waitTime.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def waitTime(self):
 		"""
 		This method is the deleter method for **self.__waitTime** attribute.
@@ -123,7 +123,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 		return self.__textColor
 
 	@textColor.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def textColor(self, value):
 		"""
 		This method is the setter method for **self.__textColor** attribute.
@@ -136,7 +136,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 		self.__textColor = value
 
 	@textColor.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def textColor(self):
 		"""
 		This method is the deleter method for **self.__textColor** attribute.

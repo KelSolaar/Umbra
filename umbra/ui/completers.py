@@ -92,7 +92,7 @@ class DefaultCompleter(QCompleter):
 		return self.__language
 
 	@language.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def language(self, value):
 		"""
 		This method is the setter method for **self.__language** attribute.
@@ -106,7 +106,7 @@ class DefaultCompleter(QCompleter):
 		self.__language = value
 
 	@language.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def language(self):
 		"""
 		This method is the deleter method for **self.__language** attribute.
@@ -130,7 +130,7 @@ class DefaultCompleter(QCompleter):
 
 		DefaultCompleter._DefaultCompleter__tokens[self.__language] = tokens
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def updateModel(self, words):
 		"""
 		This method updates the completer model.

@@ -148,7 +148,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		return self.__file
 
 	@file.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def file(self, value):
 		"""
 		This method is the setter method for **self.__file** attribute.
@@ -161,7 +161,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.__file = value
 
 	@file.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def file(self):
 		"""
 		This method is the deleter method for **self.__file** attribute.
@@ -181,7 +181,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		return self.__defaultFontsSettings
 
 	@defaultFontsSettings.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def defaultFontsSettings(self, value):
 		"""
 		This method is the setter method for **self.__defaultFontsSettings** attribute.
@@ -193,7 +193,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultFontsSettings"))
 
 	@defaultFontsSettings.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def defaultFontsSettings(self):
 		"""
 		This method is the deleter method for **self.__defaultFontsSettings** attribute.
@@ -213,7 +213,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		return self.__tabWidth
 
 	@tabWidth.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def tabWidth(self, value):
 		"""
 		This method is the setter method for **self.__tabWidth** attribute.
@@ -225,7 +225,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "tabWidth"))
 
 	@tabWidth.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def tabWidth(self):
 		"""
 		This method is the deleter method for **self.__tabWidth** attribute.
@@ -245,7 +245,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		return self.__title
 
 	@title.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def title(self, value):
 		"""
 		This method is the setter method for **self.__title** attribute.
@@ -257,7 +257,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "title"))
 
 	@title.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def title(self):
 		"""
 		This method is the deleter method for **self.__title** attribute.
@@ -277,7 +277,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		return self.__isUntitled
 
 	@isUntitled.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def isUntitled(self, value):
 		"""
 		This method is the setter method for **self.__isUntitled** attribute.
@@ -289,7 +289,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "isUntitled"))
 
 	@isUntitled.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def isUntitled(self):
 		"""
 		This method is the deleter method for **self.__isUntitled** attribute.
@@ -309,7 +309,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		return self.__defaultFileName
 
 	@defaultFileName.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def defaultFileName(self, value):
 		"""
 		This method is the setter method for **self.__defaultFileName** attribute.
@@ -321,7 +321,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultFileName"))
 
 	@defaultFileName.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def defaultFileName(self):
 		"""
 		This method is the deleter method for **self.__defaultFileName** attribute.
@@ -341,7 +341,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		return self.__defaultFileExtension
 
 	@defaultFileExtension.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def defaultFileExtension(self, value):
 		"""
 		This method is the setter method for **self.__defaultFileExtension** attribute.
@@ -353,7 +353,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultFileExtension"))
 
 	@defaultFileExtension.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def defaultFileExtension(self):
 		"""
 		This method is the deleter method for **self.__defaultFileExtension** attribute.
@@ -450,7 +450,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.setTitle()
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getFileShortName(self):
 		"""
 		This method returns the current editor file short name.
@@ -463,7 +463,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		return os.path.basename(self.__file)
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getUntitledFileName(self):
 		"""
 		This method returns an untitled editor file name.
@@ -476,7 +476,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		LOGGER.debug("> Next untitled file name: '{0}'.".format(name))
 		return name
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def loadDocument(self, document, file=None, language=None):
 		"""
 		This method loads given document into the editor.
@@ -496,7 +496,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.fileLoaded.emit()
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def newFile(self):
 		"""
 		This method creates a new editor file.
@@ -510,7 +510,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.__setDocumentSignals()
 		return file
 
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.FileExistsError)
 	def loadFile(self, file):
 		"""
 		This method reads and loads given file into the editor.
@@ -531,7 +531,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.fileLoaded.emit()
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.FileExistsError)
 	def reloadFile(self, isModified=True):
 		"""
 		This method reloads the current editor file.
@@ -553,7 +553,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 			self.fileReloaded.emit()
 			return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def saveFile(self):
 		"""
 		This method saves the editor file content.
@@ -566,7 +566,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		else:
 			return self.saveFileAs()
 
-	@foundations.exceptions.exceptionsHandler(umbra.ui.common.notifyExceptionHandler, False, Exception)
+	@foundations.exceptions.handleExceptions(umbra.ui.common.notifyExceptionHandler, False, Exception)
 	def saveFileAs(self, file=None):
 		"""
 		This method saves the editor file content either using given file or user chosen file.
@@ -582,7 +582,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		return self.writeFile(foundations.strings.encode(file))
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def writeFile(self, file):
 		"""
 		This method writes the editor file content into given file.
@@ -600,7 +600,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 			self.fileSaved.emit()
 			return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def closeFile(self):
 		"""
 		This method closes the editor file.

@@ -115,7 +115,7 @@ class Active_QLabelsCollection(QObject):
 		return self.__container
 
 	@container.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
 		This method is the setter method for **self.__container** attribute.
@@ -127,7 +127,7 @@ class Active_QLabelsCollection(QObject):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
 		This method is the deleter method for **self.__container** attribute.
@@ -147,7 +147,7 @@ class Active_QLabelsCollection(QObject):
 		return self.__activeLabels
 
 	@activeLabels.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def activeLabels(self, value):
 		"""
 		This method is the setter method for **self.__activeLabels** attribute.
@@ -159,7 +159,7 @@ class Active_QLabelsCollection(QObject):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "activeLabels"))
 
 	@activeLabels.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def activeLabels(self):
 		"""
 		This method is the deleter method for **self.__activeLabels** attribute.
@@ -198,7 +198,7 @@ class Active_QLabelsCollection(QObject):
 
 			umbra.ui.common.signalsBlocker(item, item.setChecked, False)
 
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def addActiveLabel(self, activeLabel):
 		"""
 		This method adds given **Active_QLabel** Widget.
@@ -229,7 +229,7 @@ class Active_QLabelsCollection(QObject):
 
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def removeActiveLabel(self, activeLabel):
 		"""
 		This method removes given **Active_QLabel** Widget.
@@ -245,7 +245,7 @@ class Active_QLabelsCollection(QObject):
 		self.__activeLabels.remove(activeLabel)
 		return True
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getToggledActiveLabel(self):
 		"""
 		This method returns the toggled **Active_QLabel** Widget.
@@ -257,7 +257,7 @@ class Active_QLabelsCollection(QObject):
 			if activeLabel.checked:
 				return activeLabel
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getActiveLabelIndex(self, activeLabel):
 		"""
 		This method returns given **Active_QLabel** Widget index.
@@ -268,7 +268,7 @@ class Active_QLabelsCollection(QObject):
 
 		return self.__activeLabels.index(activeLabel)
 
-	@foundations.exceptions.exceptionsHandler(None, False, Exception)
+	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getActiveLabelFromIndex(self, index):
 		"""
 		This method returns the **Active_QLabel** Widget from given index.

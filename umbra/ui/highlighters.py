@@ -25,8 +25,8 @@ from PyQt4.QtGui import QTextCharFormat
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.common
-import foundations.core
 import foundations.dataStructures
+import foundations.decorators
 import foundations.exceptions
 import foundations.verbose
 from foundations.nodes import AbstractCompositeNode
@@ -103,7 +103,7 @@ class FormatsTree(object):
 		return self.__rootNode
 
 	@rootNode.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def rootNode(self, value):
 		"""
 		This method is the setter method for **self.__rootNode** attribute.
@@ -117,7 +117,7 @@ class FormatsTree(object):
 		self.__rootNode = value
 
 	@rootNode.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def rootNode(self):
 		"""
 		This method is the deleter method for **self.__rootNode** attribute.
@@ -146,7 +146,7 @@ class FormatsTree(object):
 					currentNode.addChild(formatNode)
 				currentNode = formatNode
 
-	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def listFormats(self, node, path=(), formats=None):
 		"""
 		This method lists the object formats in sorted order.
@@ -165,8 +165,8 @@ class FormatsTree(object):
 		path and formats.append(".".join(path))
 		return sorted(formats)
 
-	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
-	@foundations.core.memoize(None)
+	# @foundations.exceptions.handleExceptions(None, False, Exception)
+	@foundations.decorators.memoize(None)
 	def getFormat(self, name):
 		"""
 		This method returns the closest format or closest parent format associated to given name.
@@ -232,7 +232,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		return self.__formats
 
 	@formats.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def formats(self, value):
 		"""
 		This method is the setter method for **self.__formats** attribute.
@@ -245,7 +245,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		self.__formats = value
 
 	@formats.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def formats(self):
 		"""
 		This method is the deleter method for **self.__formats** attribute.
@@ -265,7 +265,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		return self.__rules
 
 	@rules.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def rules(self, value):
 		"""
 		This method is the setter method for **self.__rules** attribute.
@@ -279,7 +279,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		self.__rules = value
 
 	@rules.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def rules(self):
 		"""
 		This method is the deleter method for **self.__rules** attribute.
@@ -291,7 +291,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@foundations.exceptions.exceptionsHandler(None, False, NotImplementedError)
+	@foundations.exceptions.handleExceptions(None, False, NotImplementedError)
 	def highlightBlock(self, block):
 		"""
 		This method reimplements the :meth:`QSyntaxHighlighter.highlightBlock` method.
@@ -303,7 +303,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		 																					self.highlightBlock.__name__,
 																							self.__class__.__name__))
 
-	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def highlightText(self, text, start, end):
 		"""
 		This method highlights given text.
@@ -362,7 +362,7 @@ class DefaultHighlighter(AbstractHighlighter):
 		return self.__theme
 
 	@theme.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def theme(self, value):
 		"""
 		This method is the setter method for **self.__theme** attribute.
@@ -375,7 +375,7 @@ class DefaultHighlighter(AbstractHighlighter):
 		self.__theme = value
 
 	@theme.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def theme(self):
 		"""
 		This method is the deleter method for **self.__theme** attribute.
@@ -413,7 +413,7 @@ class DefaultHighlighter(AbstractHighlighter):
 					break
 				state += 1
 
-	# @foundations.exceptions.exceptionsHandler(None, False, Exception)
+	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def highlightMultilineBlock(self, block, startPattern, endPattern, state, format):
 		"""
 		This method highlights given multiline text block.

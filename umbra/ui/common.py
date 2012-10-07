@@ -205,7 +205,7 @@ def notifyExceptionHandler(exception, origin, *args, **kwargs):
 	RuntimeGlobals.notificationsManager.exceptify(message="{0}".format(exception), notificationClickedSlot=callback)
 	return True
 
-@foundations.exceptions.exceptionsHandler(None, False, umbra.exceptions.ResourceExistsError)
+@foundations.exceptions.handleExceptions(None, False, umbra.exceptions.ResourceExistsError)
 def getResourcePath(name, raiseException=False):
 	"""
 	This definition returns the resource file path matching the given name.
@@ -228,7 +228,7 @@ def getResourcePath(name, raiseException=False):
 		raise umbra.exceptions.ResourceExistsError(
 		"{0} | No resource file path found for '{1}' name!".format(inspect.getmodulename(__file__), name))
 
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
+@foundations.exceptions.handleExceptions(None, False, Exception)
 def setWindowDefaultIcon(window):
 	"""
 	This method sets the default Application icon to the given window.
@@ -245,7 +245,7 @@ def setWindowDefaultIcon(window):
 		pass
 	return True
 
-@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.FileExistsError)
+@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.FileExistsError)
 def getSectionsFileParser(file):
 	"""
 	This method returns a sections file parser.
@@ -262,7 +262,7 @@ def getSectionsFileParser(file):
 	sectionsFileParser.read() and sectionsFileParser.parse()
 	return sectionsFileParser
 
-@foundations.exceptions.exceptionsHandler(None, False, TypeError)
+@foundations.exceptions.handleExceptions(None, False, TypeError)
 def storeLastBrowsedPath(data):
 	"""
 	This definition is a wrapper method used to store the last browsed path.
@@ -289,7 +289,7 @@ def storeLastBrowsedPath(data):
 		RuntimeGlobals.lastBrowsedPath = lastBrowsedPath
 	return data
 
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
+@foundations.exceptions.handleExceptions(None, False, Exception)
 def getQVariantAsString(data):
 	"""
 	This definition returns given `QVariant <http://doc.qt.nokia.com/qvariant.html>`_ data as a string.
@@ -304,7 +304,7 @@ def getQVariantAsString(data):
 	data = QString(data)
 	return foundations.strings.encode(data)
 
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
+@foundations.exceptions.handleExceptions(None, False, Exception)
 def parentsWalker(object):
 	"""
 	This definition is a generator used to retrieve the chain of parents of the given :class:`QObject` instance.
@@ -317,7 +317,7 @@ def parentsWalker(object):
 		object = object.parent()
 		yield object
 
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
+@foundations.exceptions.handleExceptions(None, False, Exception)
 def signalsBlocker(instance, attribute, *args, **kwargs):
 	"""
 	This definition blocks given instance signals before calling the given attribute with \

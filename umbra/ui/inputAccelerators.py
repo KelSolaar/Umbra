@@ -51,7 +51,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
+@foundations.exceptions.handleExceptions(None, False, Exception)
 def getEditorCapability(editor, capability):
 	"""
 	This definition returns given editor capability.
@@ -66,7 +66,7 @@ def getEditorCapability(editor, capability):
 
 	return editor.language.get(capability)
 
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
+@foundations.exceptions.handleExceptions(None, False, Exception)
 def indentationPreEventInputAccelerators(editor, event):
 	"""
 	This definition implements indentation pre event input accelerators.
@@ -86,7 +86,7 @@ def indentationPreEventInputAccelerators(editor, event):
 		processEvent = editor.unindent() and False
 	return processEvent
 
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
+@foundations.exceptions.handleExceptions(None, False, Exception)
 def indentationPostEventInputAccelerators(editor, event):
 	"""
 	This definition implements indentation post event input accelerators.
@@ -135,7 +135,7 @@ def indentationPostEventInputAccelerators(editor, event):
 					editor.setTextCursor(cursor)
 	return True
 
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
+@foundations.exceptions.handleExceptions(None, False, Exception)
 def performCompletion(editor):
 	"""
 	This definition performs the completion on given editor.
@@ -171,7 +171,7 @@ def performCompletion(editor):
 		editor.completer.complete(completerRectangle)
 	return True
 
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
+@foundations.exceptions.handleExceptions(None, False, Exception)
 def completionPreEventInputAccelerators(editor, event):
 	"""
 	This definition implements completion pre event input accelerators.
@@ -200,7 +200,7 @@ def completionPreEventInputAccelerators(editor, event):
 
 	return processEvent
 
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
+@foundations.exceptions.handleExceptions(None, False, Exception)
 def completionPostEventInputAccelerators(editor, event):
 	"""
 	This definition implements completion post event input accelerators.
@@ -215,7 +215,7 @@ def completionPostEventInputAccelerators(editor, event):
 			performCompletion(editor)
 	return True
 
-@foundations.exceptions.exceptionsHandler(None, False, Exception)
+@foundations.exceptions.handleExceptions(None, False, Exception)
 def symbolsExpandingPreEventInputAccelerators(editor, event):
 	"""
 	This definition implements symbols expanding pre event input accelerators.

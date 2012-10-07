@@ -125,7 +125,7 @@ class Search_QLineEdit(QLineEdit):
 		return self.__uiSearchImage
 
 	@uiSearchImage.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def uiSearchImage(self, value):
 		"""
 		This method is the setter method for **self.__uiSearchImage** attribute.
@@ -140,7 +140,7 @@ class Search_QLineEdit(QLineEdit):
 		self.__uiSearchImage = value
 
 	@uiSearchImage.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def uiSearchImage(self):
 		"""
 		This method is the deleter method for **self.__uiSearchImage** attribute.
@@ -160,7 +160,7 @@ class Search_QLineEdit(QLineEdit):
 		return self.__uiSearchClickedImage
 
 	@uiSearchClickedImage.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def uiSearchClickedImage(self, value):
 		"""
 		This method is the setter method for **self.__uiSearchClickedImage** attribute.
@@ -176,7 +176,7 @@ class Search_QLineEdit(QLineEdit):
 		self.__uiSearchClickedImage = value
 
 	@uiSearchClickedImage.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def uiSearchClickedImage(self):
 		"""
 		This method is the deleter method for **self.__uiSearchClickedImage** attribute.
@@ -196,7 +196,7 @@ class Search_QLineEdit(QLineEdit):
 		return self.__uiClearImage
 
 	@uiClearImage.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def uiClearImage(self, value):
 		"""
 		This method is the setter method for **self.__uiClearImage** attribute.
@@ -212,7 +212,7 @@ class Search_QLineEdit(QLineEdit):
 		self.__uiClearImage = value
 
 	@uiClearImage.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def uiClearImage(self):
 		"""
 		This method is the deleter method for **self.__uiClearImage** attribute.
@@ -232,7 +232,7 @@ class Search_QLineEdit(QLineEdit):
 		return self.__uiClearClickedImage
 
 	@uiClearClickedImage.setter
-	@foundations.exceptions.exceptionsHandler(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(None, False, AssertionError)
 	def uiClearClickedImage(self, value):
 		"""
 		This method is the setter method for **self.__uiClearClickedImage** attribute.
@@ -248,7 +248,7 @@ class Search_QLineEdit(QLineEdit):
 		self.__uiClearClickedImage = value
 
 	@uiClearClickedImage.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def uiClearClickedImage(self):
 		"""
 		This method is the deleter method for **self.__uiClearClickedImage** attribute.
@@ -268,7 +268,7 @@ class Search_QLineEdit(QLineEdit):
 		return self.__searchActiveLabel
 
 	@searchActiveLabel.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def searchActiveLabel(self, value):
 		"""
 		This method is the setter method for **self.__searchActiveLabel** attribute.
@@ -280,7 +280,7 @@ class Search_QLineEdit(QLineEdit):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "searchActiveLabel"))
 
 	@searchActiveLabel.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def searchActiveLabel(self):
 		"""
 		This method is the deleter method for **self.__searchActiveLabel** attribute.
@@ -300,7 +300,7 @@ class Search_QLineEdit(QLineEdit):
 		return self.__clearButton
 
 	@clearButton.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def clearButton(self, value):
 		"""
 		This method is the setter method for **self.__clearButton** attribute.
@@ -312,7 +312,7 @@ class Search_QLineEdit(QLineEdit):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "clearButton"))
 
 	@clearButton.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def clearButton(self):
 		"""
 		This method is the deleter method for **self.__clearButton** attribute.
@@ -332,7 +332,7 @@ class Search_QLineEdit(QLineEdit):
 		return self.__completer
 
 	@completer.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def completer(self, value):
 		"""
 		This method is the setter method for **self.__completer** attribute.
@@ -344,7 +344,7 @@ class Search_QLineEdit(QLineEdit):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "completer"))
 
 	@completer.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def completer(self):
 		"""
 		This method is the deleter method for **self.__completer** attribute.
@@ -364,7 +364,7 @@ class Search_QLineEdit(QLineEdit):
 		return self.__completerVisibleItemsCount
 
 	@completerVisibleItemsCount.setter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def completerVisibleItemsCount(self, value):
 		"""
 		This method is the setter method for **self.__completerVisibleItemsCount** attribute.
@@ -376,7 +376,7 @@ class Search_QLineEdit(QLineEdit):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "completerVisibleItemsCount"))
 
 	@completerVisibleItemsCount.deleter
-	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
 	def completerVisibleItemsCount(self):
 		"""
 		This method is the deleter method for **self.__completerVisibleItemsCount** attribute.
