@@ -47,7 +47,7 @@ def attributeWarfare(object):
 	:return: Object. ( Object )
 	"""
 
-	def function(attribute):
+	def attributeWarfareWrapper(attribute):
 		"""
 		This decorator is used to alterate an object attribute using guerilla / monkey patching.
 		
@@ -58,7 +58,7 @@ def attributeWarfare(object):
 		setattr(object, attribute.__name__, attribute)
 		return attribute
 
-	return function
+	return attributeWarfareWrapper
 
 def baseWarfare(name, bases, attributes):
 	"""

@@ -67,7 +67,7 @@ def editBlock(object):
 	"""
 
 	@functools.wraps(object)
-	def function(*args, **kwargs):
+	def editBlockWrapper(*args, **kwargs):
 		"""
 		This decorator is used to handle edit blocks undo states.
 
@@ -87,7 +87,7 @@ def editBlock(object):
 				cursor.endEditBlock()
 			return value
 
-	return function
+	return editBlockWrapper
 
 def anchorTextCursor(object):
 	"""
@@ -98,7 +98,7 @@ def anchorTextCursor(object):
 	"""
 
 	@functools.wraps(object)
-	def function(*args, **kwargs):
+	def anchorTextCursorWrapper(*args, **kwargs):
 		"""
 		This decorator is used to anchor the text cursor position.
 
@@ -119,7 +119,7 @@ def anchorTextCursor(object):
 
 		return value
 
-	return function
+	return anchorTextCursorWrapper
 
 def centerTextCursor(object):
 	"""
@@ -130,7 +130,7 @@ def centerTextCursor(object):
 	"""
 
 	@functools.wraps(object)
-	def function(*args, **kwargs):
+	def centerTextCursorWrapper(*args, **kwargs):
 		"""
 		This decorator is used to center the text cursor position.
 
@@ -151,7 +151,7 @@ def centerTextCursor(object):
 
 		return value
 
-	return function
+	return centerTextCursorWrapper
 
 class Basic_QPlainTextEdit(QPlainTextEdit):
 	"""

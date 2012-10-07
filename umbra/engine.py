@@ -194,7 +194,7 @@ def showProcessing(message=unicode()):
 	:return: Object. ( Object )
 	"""
 
-	def wrapper(object):
+	def showProcessingDecorator(object):
 		"""
 		This decorator is used for a processing operation.
 
@@ -203,7 +203,7 @@ def showProcessing(message=unicode()):
 		"""
 
 		@functools.wraps(object)
-		def function(*args, **kwargs):
+		def showProcessingWrapper(*args, **kwargs):
 			"""
 			This decorator is used for a processing operation.
 
@@ -216,8 +216,10 @@ def showProcessing(message=unicode()):
 				return object(*args, **kwargs)
 			finally:
 				RuntimeGlobals.engine.stopProcessing(warning=False)
-		return function
-	return wrapper
+
+		return showProcessingWrapper
+
+	return showProcessingDecorator
 
 def encapsulateProcessing(object):
 	"""
@@ -228,7 +230,7 @@ def encapsulateProcessing(object):
 	"""
 
 	@functools.wraps(object)
-	def function(*args, **kwargs):
+	def encapsulateProcessingWrapper(*args, **kwargs):
 		"""
 		This decorator is used to encapsulate a processing operation.
 
@@ -243,7 +245,8 @@ def encapsulateProcessing(object):
 		finally:
 			RuntimeGlobals.engine.stopProcessing(warning=False)
 			RuntimeGlobals.engine._Umbra__restoreProcessingState()
-	return function
+
+	return encapsulateProcessingWrapper
 
 class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	"""

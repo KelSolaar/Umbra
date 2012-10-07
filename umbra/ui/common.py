@@ -347,7 +347,7 @@ def showWaitCursor(object):
 	"""
 
 	@functools.wraps(object)
-	def function(*args, **kwargs):
+	def showWaitCursorWrapper(*args, **kwargs):
 		"""
 		This decorator is used to show a wait cursor while processing.
 
@@ -364,4 +364,4 @@ def showWaitCursor(object):
 			QApplication.restoreOverrideCursor()
 			return value
 
-	return function
+	return showWaitCursorWrapper
