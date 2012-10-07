@@ -95,6 +95,7 @@ import foundations.environment
 import foundations.io
 import foundations.namespace
 import foundations.strings
+import foundations.trace
 import foundations.ui.common
 import foundations.verbose
 import manager.exceptions
@@ -914,6 +915,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingConsoleHandler"))
 
 	@property
+	@foundations.trace.untracable
 	def loggingSessionHandlerStream(self):
 		"""
 		This method is the property for **self.__loggingSessionHandlerStream** attribute.
@@ -924,6 +926,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__loggingSessionHandlerStream
 
 	@loggingSessionHandlerStream.setter
+	@foundations.trace.untracable
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def loggingSessionHandlerStream(self, value):
 		"""
@@ -936,6 +939,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingSessionHandlerStream"))
 
 	@loggingSessionHandlerStream.deleter
+	@foundations.trace.untracable
 	@foundations.exceptions.exceptionsHandler(None, False, foundations.exceptions.ProgrammingError)
 	def loggingSessionHandlerStream(self):
 		"""
@@ -1301,7 +1305,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 			try:
 				exec self.__requestsStack.popleft() in self.__locals
 			except Exception as error:
-				umbra.ui.common.notifyExceptionHandler(error, foundations.core.getTraceName(self.__processRequestsStack))
+				umbra.ui.common.notifyExceptionHandler(error, foundations.trace.getTraceName(self.__processRequestsStack))
 
 	def __componentsInstantiationCallback(self, profile):
 		"""
@@ -1598,9 +1602,9 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 				workerThread.quit()
 			workerThread.wait()
 
-		foundations.verbose.removeLoggingHandler(LOGGER, self.__loggingFileHandler)
-		foundations.verbose.removeLoggingHandler(LOGGER, self.__loggingSessionHandler)
-		# foundations.verbose.removeLoggingHandler(LOGGER, self.__loggingConsoleHandler)
+		foundations.verbose.removeLoggingHandler(self.__loggingFileHandler)
+		foundations.verbose.removeLoggingHandler(self.__loggingSessionHandler)
+		# foundations.verbose.removeLoggingHandler(self.__loggingConsoleHandler)
 
 		# Stopping the Application timer.
 		self.__timer.stop()
@@ -1721,8 +1725,8 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 		foundations.core.exit(1)
 
 	# Redirecting standard output and error messages.
-	sys.stdout = foundations.verbose.StandardMessageHook(LOGGER)
-	sys.stderr = foundations.verbose.StandardMessageHook(LOGGER)
+	sys.stdout = foundations.verbose.StandardOutputStreamer(LOGGER)
+	sys.stderr = foundations.verbose.StandardOutputStreamer(LOGGER)
 
 	# Setting application verbose level.
 	foundations.verbose.setVerbosityLevel(4)
@@ -1755,7 +1759,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 		inspect.getmodulename(__file__), RuntimeGlobals.loggingFile, Constants.applicationName))
 
 	try:
-		RuntimeGlobals.loggingFileHandler = foundations.verbose.getLoggingFileHandler(RuntimeGlobals.loggingFile)
+		RuntimeGlobals.loggingFileHandler = foundations.verbose.getLoggingFileHandler(file=RuntimeGlobals.loggingFile)
 	except:
 		raise umbra.exceptions.EngineConfigurationError(
 		"{0} | '{1}' Logging file is not available, '{2}' will now close!".format(inspect.getmodulename(__file__),
@@ -1844,6 +1848,6 @@ def exit(exitCode=0):
 	for line in SESSION_FOOTER_TEXT:
 		LOGGER.info(line)
 
-	foundations.verbose.removeLoggingHandler(LOGGER, RuntimeGlobals.loggingConsoleHandler)
+	foundations.verbose.removeLoggingHandler(RuntimeGlobals.loggingConsoleHandler)
 
 	RuntimeGlobals.application.exit(exitCode)

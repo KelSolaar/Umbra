@@ -45,6 +45,7 @@ from PyQt4.QtGui import QTextOption
 import foundations.common
 import foundations.exceptions
 import foundations.strings
+import foundations.trace
 import foundations.verbose
 import foundations.walkers
 import umbra.engine
@@ -1728,6 +1729,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		slot=self.__loopThroughEditorsAction__triggered))
 		self.__menuBar.addMenu(self.__viewMenu)
 
+	@foundations.trace.untracable
 	def __Script_Editor_Output_plainTextEdit_setUi(self):
 		"""
 		This method sets the **Script_Editor_Output_plainTextEdit** Widget.
@@ -1754,6 +1756,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__Script_Editor_Output_plainTextEdit_contextMenuEvent
 		self.__Script_Editor_Output_plainTextEdit_setDefaultViewState()
 
+	@foundations.trace.untracable
 	def __Script_Editor_Output_plainTextEdit_setDefaultViewState(self):
 		"""
 		This method sets the **Script_Editor_Output_plainTextEdit** Widget default View state.
@@ -1762,6 +1765,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Script_Editor_Output_plainTextEdit.moveCursor(QTextCursor.End)
 		self.Script_Editor_Output_plainTextEdit.ensureCursorVisible()
 
+	@foundations.trace.untracable
 	def __Script_Editor_Output_plainTextEdit_refreshUi(self):
 		"""
 		This method updates the **Script_Editor_Output_plainTextEdit** Widget.

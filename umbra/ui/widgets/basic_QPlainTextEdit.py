@@ -38,6 +38,7 @@ import foundations.common
 import foundations.dataStructures
 import foundations.exceptions
 import foundations.strings
+import foundations.trace
 import foundations.verbose
 
 #**********************************************************************************************************************
@@ -299,6 +300,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
+	@foundations.trace.untracable
 	def wheelEvent(self, event):
 		"""
 		This method reimplements the :meth:`QPlainTextEdit.wheelEvent` method.
