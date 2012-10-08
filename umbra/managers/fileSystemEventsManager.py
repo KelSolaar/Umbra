@@ -324,7 +324,6 @@ class FileSystemEventsManager(QThread):
 				else:
 					self.directoryChanged.emit(path)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def listPaths(self):
 		"""
 		This method returns the registered paths.
@@ -334,7 +333,6 @@ class FileSystemEventsManager(QThread):
 
 		return sorted(self.__paths.keys())
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def isPathRegistered(self, path):
 		"""
 		This method returns if the given path is registered.

@@ -64,7 +64,6 @@ class ComponentsModel(umbra.ui.models.GraphModel):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def initializeModel(self, rootNode):
 		"""
 		This method initializes the Model using given root node.

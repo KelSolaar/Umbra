@@ -235,7 +235,6 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 
 		self.synchronizeToolTip()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def synchronizeToolTip(self):
 		"""
 		This method synchronizes the node tooltip.

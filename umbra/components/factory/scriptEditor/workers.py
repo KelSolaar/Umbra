@@ -409,7 +409,6 @@ class Search_worker(QThread):
 																	settings=self.__settings,
 																	occurences=occurences))
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def __searchDocument(self, document, pattern, settings):
 		"""
 		This method searches for given pattern occurences in given document using given settings.

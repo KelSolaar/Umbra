@@ -238,7 +238,6 @@ class GraphModel(QAbstractItemModel):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def rowCount(self, parent=QModelIndex()):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.rowCount` method.
@@ -253,7 +252,6 @@ class GraphModel(QAbstractItemModel):
 			parentNode = parent.internalPointer()
 		return parentNode.childrenCount()
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def columnCount(self, parent=QModelIndex()):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.columnCount` method.
@@ -264,7 +262,6 @@ class GraphModel(QAbstractItemModel):
 
 		return len(self.__horizontalHeaders)
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def data(self, index, role=Qt.DisplayRole):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.data` method.
@@ -294,7 +291,6 @@ class GraphModel(QAbstractItemModel):
 						return attribute.roles.get(role, QVariant())
 		return QVariant()
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def setData(self, index, value, role=Qt.EditRole):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.setData` method.
@@ -328,7 +324,6 @@ class GraphModel(QAbstractItemModel):
 		self.dataChanged.emit(index, index)
 		return True
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def headerData(self, section, orientation, role=Qt.DisplayRole):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.headerData` method.
@@ -348,7 +343,6 @@ class GraphModel(QAbstractItemModel):
 					return self.__verticalHeaders.keys()[section]
 		return QVariant()
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def flags(self, index):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.flags` method.
@@ -367,7 +361,6 @@ class GraphModel(QAbstractItemModel):
 			attribute = self.getAttribute(node, index.column())
 			return attribute and hasattr(attribute, "flags") and Qt.ItemFlags(attribute.flags) or Qt.NoItemFlags
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def parent(self, index):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.parent` method.
@@ -389,7 +382,6 @@ class GraphModel(QAbstractItemModel):
 
 		return self.createIndex(parentNode.row(), 0, parentNode)
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def index(self, row, column=0, parent=QModelIndex()):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.index` method.
@@ -407,7 +399,6 @@ class GraphModel(QAbstractItemModel):
 		else:
 			return QModelIndex()
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def sort(self, column, order=Qt.AscendingOrder):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.sort` method.
@@ -427,7 +418,6 @@ class GraphModel(QAbstractItemModel):
 										reverseOrder=order)
 		self.endResetModel()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def insertRows(self, row, count, parent=QModelIndex()):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.insertRows` method.
@@ -447,7 +437,6 @@ class GraphModel(QAbstractItemModel):
 		self.endInsertRows()
 		return success
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def removeRows(self, row, count, parent=QModelIndex()):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.removeRows` method.
@@ -466,7 +455,6 @@ class GraphModel(QAbstractItemModel):
 		self.endRemoveRows()
 		return success
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def movesRows(self, fromParent, fromFirstRow, fromLastRow, toParent, toRow):
 		"""
 		This method moves given rows from parent to parent row.
@@ -474,7 +462,6 @@ class GraphModel(QAbstractItemModel):
 
 		return True
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def mimeTypes(self):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.mimeTypes` method.
@@ -486,7 +473,6 @@ class GraphModel(QAbstractItemModel):
 		types.append("application/x-umbragraphmodeldatalist")
 		return types
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def mimeData(self, indexes):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.mimeData` method.
@@ -500,7 +486,6 @@ class GraphModel(QAbstractItemModel):
 		mimeData.setData("application/x-umbragraphmodeldatalist", byteStream)
 		return mimeData
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def clear(self):
 		"""
 		This method clears the Model.
@@ -512,7 +497,6 @@ class GraphModel(QAbstractItemModel):
 		self.rootNode.children = []
 		self.endResetModel()
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def getNode(self, index):
 		"""
 		This method returns the node at given index.
@@ -525,7 +509,6 @@ class GraphModel(QAbstractItemModel):
 			return self.__rootNode
 		return index.internalPointer() or self.__rootNode
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def getAttribute(self, node, column):
 		"""
 		This method returns the given node attribute associated to the given column.
@@ -538,7 +521,6 @@ class GraphModel(QAbstractItemModel):
 		if column > 0 and column < len(self.__horizontalHeaders):
 			return node.get(self.__horizontalHeaders[self.__horizontalHeaders.keys()[column]], None)
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def getNodeIndex(self, node):
 		"""
 		This method returns given node index.
@@ -551,7 +533,6 @@ class GraphModel(QAbstractItemModel):
 		else:
 			return self.createIndex(node.row(), 0, node)
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def getAttributeIndex(self, node, column):
 		"""
 		This method returns given node attribute index at given column.
@@ -564,7 +545,6 @@ class GraphModel(QAbstractItemModel):
 		if column > 0 and column < len(self.__horizontalHeaders):
 			return self.createIndex(node.row(), column, node)
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def nodeChanged(self, node):
 		"""
 		This method calls :meth:`QAbstractItemModel.dataChanged` with given node index.
@@ -577,7 +557,6 @@ class GraphModel(QAbstractItemModel):
 		self.dataChanged.emit(index, index)
 		return True
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def attributeChanged(self, node, column):
 		"""
 		This method calls :meth:`QAbstractItemModel.dataChanged` with given node attribute index.
@@ -591,7 +570,6 @@ class GraphModel(QAbstractItemModel):
 		self.dataChanged.emit(index, index)
 		return True
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def findChildren(self, pattern=".*", flags=0):
 		"""
 		This method finds the children matching the given patten.
@@ -603,7 +581,6 @@ class GraphModel(QAbstractItemModel):
 
 		return self.__rootNode.findChildren(pattern, flags)
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def findFamily(self, pattern=r".*", flags=0, node=None):
 		"""
 		This method returns the nodes from given family.

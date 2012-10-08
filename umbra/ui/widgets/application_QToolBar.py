@@ -342,7 +342,6 @@ class Application_QToolBar(QToolBar):
 		QDesktopServices.openUrl(QUrl(QString(UiConstants.apiFile)))
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setLayoutDefaultGeometry(self):
 		"""
 		This method sets the toolBar layout default geometry.
@@ -354,7 +353,6 @@ class Application_QToolBar(QToolBar):
 		self.layout().setContentsMargins(0, 0, 0, 0)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setToolBarChildrenWidgets(self):
 		"""
 		This method sets the toolBar children widgets.
@@ -383,7 +381,6 @@ class Application_QToolBar(QToolBar):
 
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getApplicationLogoLabel(self):
 		"""
 		This method provides the default **Application_Logo_label** widget.
@@ -396,7 +393,6 @@ class Application_QToolBar(QToolBar):
 		logoLabel.setPixmap(QPixmap(umbra.ui.common.getResourcePath(UiConstants.logoImage)))
 		return logoLabel
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getLayoutActiveLabel(self, resources, name, title, identity, shortcut):
 		"""
 		This method returns a layout **Active_QLabel** widget.
@@ -432,7 +428,6 @@ class Application_QToolBar(QToolBar):
 
 		return layoutActiveLabel
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getLayoutsActiveLabels(self):
 		"""
 		This method returns the layouts **Active_QLabel** widgets.
@@ -459,7 +454,6 @@ class Application_QToolBar(QToolBar):
 																					Qt.Key_0))
 		return self.__layoutsActiveLabelsCollection.activeLabels
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getCustomLayoutsActiveLabel(self):
 		"""
 		This method provides the default **Custom_Layouts_activeLabel** widget.
@@ -499,7 +493,6 @@ class Application_QToolBar(QToolBar):
 		layoutActiveLabel.setMenu(self.__customLayoutsMenu)
 		return layoutActiveLabel
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getMiscellaneousActiveLabel(self):
 		"""
 		This method provides the default **Miscellaneous_activeLabel** widget.
@@ -527,7 +520,6 @@ class Application_QToolBar(QToolBar):
 		miscellaneousActiveLabel.setMenu(self.__miscellaneousMenu)
 		return miscellaneousActiveLabel
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getSpacerLabel(self):
 		"""
 		This method provides the default **Spacer_label** widget.
@@ -540,7 +532,6 @@ class Application_QToolBar(QToolBar):
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		return spacer
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getClosureSpacerLabel(self):
 		"""
 		This method provides the default **Closure_Spacer_label** widget.

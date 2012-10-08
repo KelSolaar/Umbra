@@ -344,7 +344,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		return (selectedText, self.getCursorLine(), self.getCursorColumn() - len(selectedText))
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getDefaultTextOption(self):
 		"""
 		This method returns default text option.
@@ -354,7 +353,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		return self.document().defaultTextOption()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setDefaultTextOption(self, textOption):
 		"""
 		This method sets default text option using given flag.
@@ -366,7 +364,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		self.document().setDefaultTextOption(textOption)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def storeTextCursorAnchor(self):
 		"""
 		This method stores the document cursor anchor.
@@ -379,7 +376,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 								self.verticalScrollBar().sliderPosition())
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def restoreTextCursorAnchor(self):
 		"""
 		This method restores the document cursor anchor.
@@ -396,7 +392,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		self.verticalScrollBar().setSliderPosition(verticalScrollBarSliderPosition)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getCursorLine(self):
 		"""
 		This method returns the document cursor line.
@@ -406,7 +401,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		return self.textCursor().blockNumber()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getCursorColumn(self):
 		"""
 		This method returns the document cursor column.
@@ -416,7 +410,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		return self.textCursor().columnNumber()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getPreviousCharacter(self):
 		"""
 		This method returns the character before the cursor.
@@ -428,7 +421,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		cursor.movePosition(QTextCursor.PreviousCharacter, QTextCursor.KeepAnchor)
 		return cursor.selectedText()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getNextCharacter(self):
 		"""
 		This method returns the character after the cursor.
@@ -440,7 +432,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		cursor.movePosition(QTextCursor.NextCharacter, QTextCursor.KeepAnchor)
 		return cursor.selectedText()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getWords(self):
 		"""
 		This method returns the document words.
@@ -457,7 +448,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 			block = block.next()
 		return words
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getSelectedText(self):
 		"""
 		This method returns the document text under cursor.
@@ -467,7 +457,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		return self.textCursor().selectedText()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getWordUnderCursorLegacy(self):
 		"""
 		This method returns the document word under cursor ( Using Qt legacy "QTextCursor.WordUnderCursor" ).
@@ -479,7 +468,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		cursor.select(QTextCursor.WordUnderCursor)
 		return cursor.selectedText()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getWordUnderCursor(self):
 		"""
 		This method returns the document word under cursor.
@@ -495,7 +483,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		cursor.movePosition(QTextCursor.EndOfWord, QTextCursor.KeepAnchor)
 		return cursor.selectedText()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getPartialWordUnderCursor(self):
 		"""
 		This method returns the document partial word under cursor ( From word start to cursor position ).
@@ -511,7 +498,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		cursor.movePosition(QTextCursor.PreviousWord, QTextCursor.KeepAnchor)
 		return cursor.selectedText()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def isModified(self):
 		"""
 		This method returns if the document is modified.
@@ -521,7 +507,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		return self.document().isModified()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setModified(self, state):
 		"""
 		This method sets the document modified state.
@@ -533,7 +518,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		self.document().setModified(state)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def isEmpty(self):
 		"""
 		This method returns if the document is empty.
@@ -543,7 +527,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		return self.document().isEmpty()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	@editBlock
 	def setContent(self, content):
 		"""
@@ -562,7 +545,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 			self.insertPlainText(line)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def delete(self):
 		"""
 		This method deletes the document text under cursor.
@@ -573,7 +555,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		self.textCursor().removeSelectedText()
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	@editBlock
 	def deleteLines(self):
 		"""
@@ -588,7 +569,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		cursor.deleteChar()
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	@editBlock
 	def duplicateLines(self):
 		"""
@@ -616,7 +596,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	@editBlock
 	def moveLines(self, direction=QTextCursor.Up):
 		"""
@@ -653,7 +632,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def moveLinesUp(self):
 		"""
 		This method moves up the document lines under cursor.
@@ -663,7 +641,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		return self.moveLines(QTextCursor.Up)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def moveLinesDown(self):
 		"""
 		This method moves down the document lines under cursor.
@@ -673,7 +650,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		return self.moveLines(QTextCursor.Down)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	@centerTextCursor
 	def search(self, pattern, **kwargs):
 		"""
@@ -734,7 +710,6 @@ backwardSearch=True, wrapAround=True)
 				else:
 					self.restoreTextCursorAnchor()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	@centerTextCursor
 	def searchNext(self):
 		"""
@@ -753,7 +728,6 @@ backwardSearch=True, wrapAround=True)
 										"backwardSearch" : False,
 										"wrapAround" : True})
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	@centerTextCursor
 	def searchPrevious(self):
 		"""
@@ -772,7 +746,6 @@ backwardSearch=True, wrapAround=True)
 										"backwardSearch" : True,
 										"wrapAround" : True})
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	@centerTextCursor
 	@editBlock
 	def replace(self, pattern, replacementPattern, **kwargs):
@@ -823,7 +796,6 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	@centerTextCursor
 	@anchorTextCursor
 	@editBlock
@@ -866,7 +838,6 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	@centerTextCursor
 	def gotoLine(self, line):
 		"""
@@ -881,7 +852,6 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		self.setTextCursor(cursor)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def gotoColumn(self, column):
 		"""
 		This method moves the text cursor to given column.
@@ -895,7 +865,6 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		self.setTextCursor(cursor)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def gotoPosition(self, position):
 		"""
 		This method moves the text cursor to given position.
@@ -909,7 +878,6 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		self.setTextCursor(cursor)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def toggleWordWrap(self):
 		"""
 		This method toggles document word wrap.
@@ -920,7 +888,6 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		self.setWordWrapMode(not self.wordWrapMode() and QTextOption.WordWrap or QTextOption.NoWrap)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def toggleWhiteSpaces(self):
 		"""
 		This method toggles document white spaces display.
@@ -938,7 +905,6 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		self.setDefaultTextOption(textOption)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setFontIncrement(self, value):
 		"""
 		This method increments the document font size.
@@ -956,7 +922,6 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		self.setFont(font)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def zoomIn(self):
 		"""
 		This method increases the document font size.
@@ -966,7 +931,6 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 		return self.setFontIncrement(1)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def zoomOut(self):
 		"""
 		This method increases the document font size.

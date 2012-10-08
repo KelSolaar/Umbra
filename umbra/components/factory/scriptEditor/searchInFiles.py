@@ -1102,7 +1102,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		document.setModified(False)
 		return document
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def __replaceWithinDocument(self, document, occurences, replacementPattern):
 		"""
 		This method replaces given pattern occurences in given document using given settings.
@@ -1166,7 +1165,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if file in self.__filesCache:
 			self.__filesCache.removeContent(file)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setSearchResults(self, searchResults):
 		"""
 		This method sets the Model nodes using given search results.
@@ -1193,7 +1191,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__model.initializeModel(rootNode)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setReplaceResults(self, replaceResults):
 		"""
 		This method sets the Model nodes using given replace results.
@@ -1210,7 +1207,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__model.initializeModel(rootNode)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def search(self):
 		"""
 		This method searchs user defined locations for search pattern.
@@ -1243,7 +1239,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__searchWorkerThread.start()
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def replace(self, nodes):
 		"""
 		This method replaces user defined files search pattern occurences with replacement pattern using given nodes.
@@ -1288,7 +1283,6 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 																	sum(replaceResults.values()),
 																	len(replaceResults.keys())))
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def saveFiles(self, nodes):
 		"""
 		This method saves user defined files using give nodes.

@@ -1345,7 +1345,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def activate(self, engine):
 		"""
 		This method activates the Component.
@@ -1386,7 +1385,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, self.__name))
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def initializeUi(self):
 		"""
 		This method initializes the Component ui.
@@ -1468,7 +1466,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' Component ui cannot be uninitialized!".format(self.__class__.__name__, self.name))
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def addWidget(self):
 		"""
 		This method adds the Component Widget to the engine.
@@ -1482,7 +1479,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def removeWidget(self):
 		"""
 		This method removes the Component Widget from the engine.
@@ -1497,7 +1493,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def onStartup(self):
 		"""
 		This method is triggered on Framework startup.
@@ -1528,7 +1523,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def onClose(self):
 		"""
 		This method is triggered on Framework close.
@@ -2744,7 +2738,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Next untitled file name: '{0}'.".format(name))
 		return name
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def registerNodePath(self, node):
 		"""
 		This method registers given node path in the **fileSystemEventsManager**.
@@ -2762,7 +2755,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__engine.fileSystemEventsManager.registerPath(path)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def unregisterNodePath(self, node):
 		"""
 		This method unregisters given node path from the **fileSystemEventsManager**..
@@ -2847,7 +2839,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__searchInFiles.show()
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getWidget(self, index):
 		"""
 		This method returns the **Script_Editor_tabWidget** Widget associated with given index.
@@ -2859,7 +2850,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if index is not None:
 			return self.Script_Editor_tabWidget.widget(index)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getFocusWidget(self):
 		"""
 		This method returns the Widget with focus.
@@ -2872,7 +2862,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			isinstance(currentWidget, Editor):
 			return currentWidget
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getEditorTab(self, editor):
 		"""
 		This method returns the **Script_Editor_tabWidget** Widget tab associated with the given editor.
@@ -2888,7 +2877,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			LOGGER.debug("> Editor '{0}': Tab index '{1}'.".format(editor, i))
 			return i
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def addEditorTab(self, editor):
 		"""
 		This method adds a new tab to the **Script_Editor_tabWidget** Widget and sets the given editor as child widget.
@@ -2912,7 +2900,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		editor.cursorPositionChanged.connect(self.Editor_Status_editorStatus._EditorStatus__editor__cursorPositionChanged)
 		return index
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def removeEditorTab(self, editor):
 		"""
 		This method removes the **Script_Editor_tabWidget** Widget tab with given editor.
@@ -2925,7 +2912,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.Script_Editor_tabWidget.removeTab(self.getEditorTab(editor))
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def findEditorTab(self, file):
 		"""
 		This method finds the **Script_Editor_tabWidget** Widget tab associated to the given file.
@@ -2941,7 +2927,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			LOGGER.debug("> File '{0}': Tab index '{1}'.".format(file, i))
 			return i
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def hasEditorTab(self):
 		"""
 		This method returns if the **Script_Editor_tabWidget** Widget has at least one tab.
@@ -2951,7 +2936,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.Script_Editor_tabWidget.count() and True or False
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getCurrentEditor(self):
 		"""
 		This method returns the current **Script_Editor_tabWidget** Widget tab Model editor.
@@ -2964,7 +2948,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.Script_Editor_tabWidget.currentWidget()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setCurrentEditor(self, file):
 		"""
 		This method focus the **Script_Editor_tabWidget** Widget tab Model editor with given file.
@@ -2978,7 +2961,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.Script_Editor_tabWidget.setCurrentIndex(index)
 			return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def loadPath(self, path):
 		"""
 		This method loads given path.
@@ -3034,7 +3016,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.fileLoaded.emit(file)
 			return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def addProject(self, path):
 		"""
 		This method adds a project.
@@ -3060,7 +3041,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__model.setProjectNodes(projectNode)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def removeProject(self, path):
 		"""
 		This method removes a project.
@@ -3079,7 +3059,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__model.deleteProjectNodes(projectNode)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def newFile(self):
 		"""
 		This method creates a new file into a new **Script_Editor_tabWidget** Widget tab.
@@ -3157,7 +3136,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.info("{0} | Reloading '{1}' file!".format(self.__class__.__name__, file))
 		return editor.reloadFile(isModified)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def saveFile(self, file=None):
 		"""
 		This method saves either given file or current **Script_Editor_tabWidget** Widget tab Model editor file.
@@ -3210,7 +3188,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				self.setLanguage(editor, language)
 			return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	@umbra.engine.encapsulateProcessing
 	def saveAllFiles(self):
 		"""
@@ -3227,7 +3204,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__engine.stopProcessing()
 		return success
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	@umbra.engine.encapsulateProcessing
 	def revertFile(self, file=None):
 		"""
@@ -3246,7 +3222,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if self.reloadFile(file, isModified=False):
 			return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def closeFile(self, file=None, leaveFirstEditor=True):
 		"""
 		This method closes either given file or current **Script_Editor_tabWidget** Widget tab Model editor file.
@@ -3271,7 +3246,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.fileClosed.emit(file)
 			return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	# @umbra.engine.encapsulateProcessing
 	def closeAllFiles(self, leaveFirstEditor=True):
 		"""
@@ -3288,7 +3262,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		# self.__engine.stopProcessing()
 		return success
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def closeFirstFile(self):
 		"""
 		This method attemtps to close the first **Script_Editor_tabWidget** Widget tab Model editor file.
@@ -3301,7 +3274,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.closeFile(leaveFirstEditor=False)
 			return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def listEditors(self):
 		"""
 		This method returns the Model editors.
@@ -3311,7 +3283,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.__model.listEditors()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def listFiles(self):
 		"""
 		This method returns the Model files.
@@ -3321,7 +3292,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.__model.listFiles()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def listDirectories(self):
 		"""
 		This method returns the Model directories.
@@ -3331,7 +3301,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.__model.listDirectories()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def listProjects(self, ignoreDefaultProject=True):
 		"""
 		This method returns the Model projects.
@@ -3341,7 +3310,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.__model.listProjects()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getEditor(self, file):
 		"""
 		This method returns the Model editor associated with given file.
@@ -3354,7 +3322,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			if editor.file == file:
 				return editor
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setLanguage(self, editor, language):
 		"""
 		This method sets given language to given Model editor.
@@ -3389,7 +3356,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Chosen line number: '{0}'.".format(line))
 		return editor.gotoLine(line)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def evaluateSelection(self):
 		"""
 		This method evaluates current **Script_Editor_tabWidget** Widget tab Model editor
@@ -3408,7 +3374,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.uiRefresh.emit()
 			return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def evaluateScript(self):
 		"""
 		This method evaluates current **Script_Editor_tabWidget** Widget tab Model editor content
@@ -3426,7 +3391,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.uiRefresh.emit()
 			return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def evaluateCode(self, code):
 		"""
 		This method evaluates given code into the interactive console.
@@ -3453,7 +3417,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__console.runcode(code)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def storeSession(self):
 		"""
 		This method stores the current session.
@@ -3488,7 +3451,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__settings.setKey(self.__settingsSection, "session", session)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def restoreSession(self):
 		"""
 		This method restores the stored session.
@@ -3510,7 +3472,6 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		return success
 
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def loopThroughEditors(self, backward=False):
 		"""
 		This method loops through the editor tabs.

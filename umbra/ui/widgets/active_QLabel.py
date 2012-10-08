@@ -372,7 +372,6 @@ class Active_QLabel(QLabel):
 		self.released.emit()
 		self.clicked.emit()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setChecked(self, state):
 		"""
 		This method sets the Widget checked state.
@@ -393,7 +392,6 @@ class Active_QLabel(QLabel):
 		self.toggled.emit(state)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setMenu(self, menu):
 		"""
 		This method sets the Widget menu.

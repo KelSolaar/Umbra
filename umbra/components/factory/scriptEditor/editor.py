@@ -450,7 +450,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.setTitle()
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getFileShortName(self):
 		"""
 		This method returns the current editor file short name.
@@ -463,7 +462,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		return os.path.basename(self.__file)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getUntitledFileName(self):
 		"""
 		This method returns an untitled editor file name.
@@ -476,7 +474,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		LOGGER.debug("> Next untitled file name: '{0}'.".format(name))
 		return name
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def loadDocument(self, document, file=None, language=None):
 		"""
 		This method loads given document into the editor.
@@ -496,7 +493,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		self.fileLoaded.emit()
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def newFile(self):
 		"""
 		This method creates a new editor file.
@@ -553,7 +549,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 			self.fileReloaded.emit()
 			return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def saveFile(self):
 		"""
 		This method saves the editor file content.
@@ -582,7 +577,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		return self.writeFile(foundations.strings.encode(file))
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def writeFile(self, file):
 		"""
 		This method writes the editor file content into given file.
@@ -600,7 +594,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 			self.fileSaved.emit()
 			return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def closeFile(self):
 		"""
 		This method closes the editor file.

@@ -142,7 +142,6 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setModel(self, model):
 		"""
 		This method reimplements the **umbra.ui.views.Abstract_QTreeView.setModel** method.

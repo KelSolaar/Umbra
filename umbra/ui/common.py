@@ -228,7 +228,6 @@ def getResourcePath(name, raiseException=False):
 		raise umbra.exceptions.ResourceExistsError(
 		"{0} | No resource file path found for '{1}' name!".format(inspect.getmodulename(__file__), name))
 
-@foundations.exceptions.handleExceptions(None, False, Exception)
 def setWindowDefaultIcon(window):
 	"""
 	This method sets the default Application icon to the given window.
@@ -289,7 +288,6 @@ def storeLastBrowsedPath(data):
 		RuntimeGlobals.lastBrowsedPath = lastBrowsedPath
 	return data
 
-@foundations.exceptions.handleExceptions(None, False, Exception)
 def getQVariantAsString(data):
 	"""
 	This definition returns given `QVariant <http://doc.qt.nokia.com/qvariant.html>`_ data as a string.
@@ -304,7 +302,6 @@ def getQVariantAsString(data):
 	data = QString(data)
 	return foundations.strings.encode(data)
 
-@foundations.exceptions.handleExceptions(None, False, Exception)
 def parentsWalker(object):
 	"""
 	This definition is a generator used to retrieve the chain of parents of the given :class:`QObject` instance.
@@ -317,7 +314,6 @@ def parentsWalker(object):
 		object = object.parent()
 		yield object
 
-@foundations.exceptions.handleExceptions(None, False, Exception)
 def signalsBlocker(instance, attribute, *args, **kwargs):
 	"""
 	This definition blocks given instance signals before calling the given attribute with \

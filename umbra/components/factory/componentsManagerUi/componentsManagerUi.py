@@ -579,7 +579,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def activate(self, engine):
 		"""
 		This method activates the Component.
@@ -607,7 +606,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, self.__name))
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def initializeUi(self):
 		"""
 		This method initializes the Component ui.
@@ -649,7 +647,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' Component ui cannot be uninitialized!".format(self.__class__.__name__, self.name))
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def addWidget(self):
 		"""
 		This method adds the Component Widget to the engine.
@@ -672,7 +669,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' Component Widget cannot be removed!".format(self.__class__.__name__, self.name))
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def onStartup(self):
 		"""
 		This method is triggered on Framework startup.
@@ -1025,7 +1021,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			"{0} | '{1}' Component cannot be deactivated and won't be reloaded!".format(self.__class__.__name__,
 																						component.name))
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getComponents(self):
 		"""
 		This method returns the Components.
@@ -1035,7 +1030,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.__engine.componentsManager.components
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def listComponents(self):
 		"""
 		This method lists the Components names.
@@ -1045,7 +1039,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.__engine.componentsManager.listComponents()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setComponents(self):
 		"""
 		This method sets the Components Model nodes.
@@ -1098,7 +1091,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__model.initializeModel(rootNode)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getSelectedNodes(self):
 		"""
 		This method returns the View selected nodes.
@@ -1108,7 +1100,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return self.__view.getSelectedNodes()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getSelectedComponentsNodes(self):
 		"""
 		This method returns the View selected Components nodes.
@@ -1118,7 +1109,6 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return [node for node in self.getSelectedNodes() if node.family == "Component"]
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getSelectedComponents(self):
 		"""
 		This method gets the View selected Components.

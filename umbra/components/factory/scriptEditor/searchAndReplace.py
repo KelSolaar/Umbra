@@ -380,7 +380,6 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def search(self):
 		"""
 		This method searchs current editor Widget for search pattern.
@@ -404,7 +403,6 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		return editor.search(searchPattern, **settings)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def replace(self):
 		"""
 		This method replaces current editor Widget current search pattern occurence with replacement pattern.
@@ -429,7 +427,6 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		return editor.replace(searchPattern, replacementPattern, **settings)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def replaceAll(self):
 		"""
 		This method replaces current editor Widget search pattern occurences with replacement pattern.

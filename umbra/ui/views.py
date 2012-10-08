@@ -58,7 +58,6 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-@foundations.exceptions.handleExceptions(None, False, Exception)
 def getNodes(view):
 	"""
 	This method returns the given View nodes.
@@ -69,7 +68,6 @@ def getNodes(view):
 
 	return [node for node in foundations.walkers.nodesWalker(view.model().rootNode)]
 
-@foundations.exceptions.handleExceptions(None, False, Exception)
 def filterNodes(view, pattern, attribute, flags=re.IGNORECASE):
 	"""
 	This method filters the given View nodes on given attribute using given pattern.
@@ -116,7 +114,6 @@ def getViewNodesFromIndexes(view, *indexes):
 		attribute and nodes[node].append(attribute)
 	return nodes
 
-@foundations.exceptions.handleExceptions(None, False, Exception)
 def getViewSelectedNodes(view):
 	"""
 	This method returns the given View selected nodes.
@@ -162,7 +159,6 @@ class ReadOnlyFilter(QObject):
 		raise foundations.exceptions.UserError("{0} | Cannot perform action, '{1}' View has been set read only!".format(
 		self.__class__.__name__, view.objectName() or view))
 
-@foundations.exceptions.handleExceptions(None, False, Exception)
 def selectViewIndexes(view, indexes, flags=QItemSelectionModel.Select | QItemSelectionModel.Rows):
 	"""
 	This method selects given view indexes.
@@ -249,7 +245,6 @@ class Abstract_QListView(QListView):
 
 		self.viewport().installEventFilter(ReadOnlyFilter(self))
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getNodes(self):
 		"""
 		This method returns the View nodes.
@@ -259,7 +254,6 @@ class Abstract_QListView(QListView):
 
 		return getNodes(self)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def filterNodes(self, pattern, attribute, flags=re.IGNORECASE):
 		"""
 		This method filters the View nodes on given attribute using given pattern.
@@ -272,7 +266,6 @@ class Abstract_QListView(QListView):
 
 		return filterNodes(self, pattern, attribute, flags)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getSelectedNodes(self):
 		"""
 		This method returns the View selected nodes.
@@ -362,7 +355,6 @@ class Abstract_QTreeView(QTreeView):
 
 		self.viewport().installEventFilter(ReadOnlyFilter(self))
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getNodes(self):
 		"""
 		This method returns the View nodes.
@@ -372,7 +364,6 @@ class Abstract_QTreeView(QTreeView):
 
 		return getNodes(self)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def filterNodes(self, pattern, attribute, flags=re.IGNORECASE):
 		"""
 		This method filters the View nodes on given attribute using given pattern.
@@ -385,7 +376,6 @@ class Abstract_QTreeView(QTreeView):
 
 		return filterNodes(self, pattern, attribute, flags)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getSelectedNodes(self):
 		"""
 		This method returns the View selected nodes.

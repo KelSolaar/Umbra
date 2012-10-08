@@ -749,7 +749,6 @@ class Notification_QLabel(QLabel):
 														(self.__color, self.__backgroundColor, self.__borderColor))
 		self.setStyleSheet(self.__style.format(*colors))
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def showMessage(self, message, duration=2500):
 		"""
 		This method shows given message.
@@ -770,7 +769,6 @@ class Notification_QLabel(QLabel):
 			self.__fadeOut()
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def hideMessage(self):
 		"""
 		This method hides the current message.
@@ -781,7 +779,6 @@ class Notification_QLabel(QLabel):
 		self.__fadeOut()
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def refreshPosition(self):
 		"""
 		This method refreshes the Widget position.

@@ -1420,7 +1420,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 			"{0} | '{1}' stylesheet file is not available, visual style will not be applied!".format(
 			self.__class__.__name__, styleSheetFile.file))
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def isFullScreen(self):
 		"""
 		This method returns if Application is in fullscreen state.
@@ -1430,7 +1429,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 		return self.windowState().__int__() == 4 and True or False
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def toggleFullScreen(self, *args):
 		"""
 		This method toggles Application fullscreen state.
@@ -1453,7 +1451,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 			self.showFullScreen()
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def processEvents(self, flags=QEventLoop.AllEvents):
 		"""
 		This method process Application events.
@@ -1465,7 +1462,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		QApplication.processEvents(flags)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setProcessingMessage(self, message, warning=True):
 		"""
 		This method sets the processing operation message.
@@ -1487,7 +1483,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.processEvents()
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def startProcessing(self, message, steps=0, warning=True):
 		"""
 		This method registers the start of a processing operation.
@@ -1513,7 +1508,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.setProcessingMessage(message)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def stepProcessing(self, warning=True):
 		"""
 		This method steps the processing operation progress indicator.
@@ -1535,7 +1529,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.processEvents()
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def stopProcessing(self, warning=True):
 		"""
 		This method registers the end of a processing operation.
@@ -1558,7 +1551,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.Application_Progress_Status_processing.Processing_progressBar.setValue(0)
 		self.Application_Progress_Status_processing.hide()
 		return True
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def garbageCollect(self):
 		"""
 		This method triggers the garbage collecting.
@@ -1641,7 +1633,6 @@ def setUserApplicationDataDirectory(path):
 		raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(
 		inspect.getmodulename(__file__), userApplicationDataDirectory, Constants.applicationName))
 
-@foundations.exceptions.handleExceptions(None, False, Exception)
 def getCommandLineParametersParser():
 	"""
 	This definition returns the command line parameters parser.

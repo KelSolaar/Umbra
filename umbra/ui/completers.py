@@ -130,7 +130,6 @@ class DefaultCompleter(QCompleter):
 
 		DefaultCompleter._DefaultCompleter__tokens[self.__language] = tokens
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def updateModel(self, words):
 		"""
 		This method updates the completer model.

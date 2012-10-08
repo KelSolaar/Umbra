@@ -315,7 +315,6 @@ class ActionsManager(QObject):
 				category[name] = {}
 			return category[name]
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def listActions(self):
 		"""
 		This method returns the registered actions.
@@ -346,7 +345,6 @@ class ActionsManager(QObject):
 			raise umbra.exceptions.CategoryExistsError("{0} | '{1}' category doesn't exists!".format
 			(self.__class__.__name__, name))
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def addToCategory(self, category, name, action):
 		"""
 		This method adds given action to given category.
@@ -365,7 +363,6 @@ class ActionsManager(QObject):
 		LOGGER.debug("> Added '{0}' action to '{1}' category!".format(category, name))
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def removeFromCategory(self, category, name):
 		"""
 		This method removes given action from given category.
@@ -394,7 +391,6 @@ class ActionsManager(QObject):
 
 		return self[action]
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def isActionRegistered(self, name):
 		"""
 		This method returns if the given action name is registered.
@@ -405,7 +401,6 @@ class ActionsManager(QObject):
 
 		return name in self
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def registerAction(self, name, **kwargs):
 		"""
 		This method registers given action name, optional arguments like a parent, icon, slot etc ... can be given.
@@ -451,7 +446,6 @@ class ActionsManager(QObject):
 			action.triggered.connect(settings.slot)
 		return action
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def unregisterAction(self, name):
 		"""
 		This method unregisters given action name.
@@ -472,7 +466,6 @@ class ActionsManager(QObject):
 		self.removeFromCategory(category, name)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def isShortcutInUse(self, shortcut):
 		"""
 		This method returns if given action shortcut is in use.
@@ -486,7 +479,6 @@ class ActionsManager(QObject):
 				return True
 		return False
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getShortcut(self, name):
 		"""
 		This method returns given action shortcut.
@@ -502,7 +494,6 @@ class ActionsManager(QObject):
 
 		return action.shortcut().toString()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setShortcut(self, name, shortcut):
 		"""
 		This method sets given action shortcut.

@@ -309,7 +309,6 @@ class LayoutsManager(QObject):
 
 		return len(self.__layouts.keys())
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def listLayouts(self):
 		"""
 		This method returns the registered layouts.
@@ -319,7 +318,6 @@ class LayoutsManager(QObject):
 
 		return sorted(self.__layouts.keys())
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def isLayoutRegistered(self, name):
 		"""
 		This method returns if the given layout name is registered.
@@ -421,7 +419,6 @@ class LayoutsManager(QObject):
 		self.layoutStored.emit(self.__currentLayout)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def restoreStartupLayout(self):
 		"""
 		This method restores the startup layout.
@@ -436,7 +433,6 @@ class LayoutsManager(QObject):
 			self.__settings.getKey("Layouts", "{0}_geometry".format(UiConstants.startupLayout)).toByteArray())
 			return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def storeStartupLayout(self):
 		"""
 		This method stores the startup layout.

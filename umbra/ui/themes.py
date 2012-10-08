@@ -47,7 +47,6 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-@foundations.exceptions.handleExceptions(None, False, Exception)
 def getFormat(**kwargs):
 	"""
 	This definition returns a `QTextCharFormat <http://doc.qt.nokia.com/qtextcharformat.html>`_ format.

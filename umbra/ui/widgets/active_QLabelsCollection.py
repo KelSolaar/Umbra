@@ -229,7 +229,6 @@ class Active_QLabelsCollection(QObject):
 
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def removeActiveLabel(self, activeLabel):
 		"""
 		This method removes given **Active_QLabel** Widget.
@@ -245,7 +244,6 @@ class Active_QLabelsCollection(QObject):
 		self.__activeLabels.remove(activeLabel)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getToggledActiveLabel(self):
 		"""
 		This method returns the toggled **Active_QLabel** Widget.
@@ -257,7 +255,6 @@ class Active_QLabelsCollection(QObject):
 			if activeLabel.checked:
 				return activeLabel
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getActiveLabelIndex(self, activeLabel):
 		"""
 		This method returns given **Active_QLabel** Widget index.
@@ -268,7 +265,6 @@ class Active_QLabelsCollection(QObject):
 
 		return self.__activeLabels.index(activeLabel)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getActiveLabelFromIndex(self, index):
 		"""
 		This method returns the **Active_QLabel** Widget from given index.

@@ -276,7 +276,6 @@ class PatchesManager(object):
 
 		return len(self.__patches.keys())
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def listPatches(self):
 		"""
 		This method returns the registered patches.
@@ -286,7 +285,6 @@ class PatchesManager(object):
 
 		return sorted(self.__patches.keys())
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def isPatchRegistered(self, patch):
 		"""
 		This method returns if the given patch is registered.
@@ -374,7 +372,6 @@ class PatchesManager(object):
 			LOGGER.debug("> '{0}' patch is already applied!".format(patch.name))
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def applyPatches(self):
 		"""
 		This method applies the patches.
@@ -387,7 +384,6 @@ class PatchesManager(object):
 			success = self.applyPatch(patch)
 		return success
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getPatchFromUid(self, uid):
 		"""
 		This method returns the patch with given uid.

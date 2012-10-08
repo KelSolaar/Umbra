@@ -75,7 +75,6 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 	#******************************************************************************************************************
 	#***	Class methods
 	#******************************************************************************************************************
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def filterAcceptsRow(self, row, parent):
 		"""
 		This method reimplements the :meth:`QSortFilterProxyModel.filterAcceptsRow` method.
@@ -91,7 +90,6 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 
 		return True
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def data(self, index, role=Qt.DisplayRole):
 		"""
 		This method reimplements the :meth:`QSortFilterProxyModel.data` method.
@@ -120,7 +118,6 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 		else:
 			return QSortFilterProxyModel.data(self, index, role)
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def getNode(self, index):
 		"""
 		This method returns the node at given index.
@@ -135,7 +132,6 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 
 		return index.internalPointer() or self.sourceModel().rootNode
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def getAttribute(self, *args):
 		"""
 		This method reimplements requisite method.

@@ -48,7 +48,6 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-# # @foundations.exceptions.handleExceptions(None, False, Exception)
 def highlightCurrentLine(editor):
 	"""
 	This definition highlights given editor current line.
@@ -72,7 +71,6 @@ def highlightCurrentLine(editor):
 	editor.setExtraSelections(extraSelections)
 	return True
 
-# # @foundations.exceptions.handleExceptions(None, False, Exception)
 def highlightOccurences(editor):
 	"""
 	This definition highlights given editor current line.
@@ -107,7 +105,6 @@ def highlightOccurences(editor):
 	editor.setExtraSelections(extraSelections)
 	return True
 
-# # @foundations.exceptions.handleExceptions(None, False, Exception)
 def highlightMatchingSymbolsPairs(editor):
 	"""
 	This definition highlights given editor matching pairs.

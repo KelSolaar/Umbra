@@ -266,7 +266,6 @@ class NotificationsManager(QObject):
 			notifier.verticalOffset += offset
 			notifier.refreshPosition()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def listNotifications(self):
 		"""
 		This method returns the registered notifications.
@@ -276,7 +275,6 @@ class NotificationsManager(QObject):
 
 		return [self.formatNotification(notification) for notification in self]
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def isNotificationRegistered(self, notification):
 		"""
 		This method returns if the given notification is registered.
@@ -287,7 +285,6 @@ class NotificationsManager(QObject):
 
 		return notification in self
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def registerNotification(self, notification):
 		"""
 		This method registers given notification.
@@ -302,7 +299,6 @@ class NotificationsManager(QObject):
 		self.notificationRegistered.emit(notification)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def formatNotification(self, notification):
 		"""
 		This method formats given notification.
@@ -313,7 +309,6 @@ class NotificationsManager(QObject):
 
 		return "{0} | '{1}'".format(time.ctime(notification.time), notification.message)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def notify(self, message, duration=3000, notificationClickedSlot=None, messageLevel="Information", **kwargs):
 		"""
 		This method displays an Application notification.
@@ -353,7 +348,6 @@ class NotificationsManager(QObject):
 			LOGGER.error("!> {0} | '{1}'.".format(self.__class__.__name__, self.formatNotification(notification)))
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def warnify(self, message, duration=3000, notificationClickedSlot=None, **kwargs):
 		"""
 		This method displays an Application notification warning.
@@ -374,7 +368,6 @@ class NotificationsManager(QObject):
 					borderColor=QColor(220, 128, 64),
 					**kwargs)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def exceptify(self, message, duration=3000, notificationClickedSlot=None, **kwargs):
 		"""
 		This method displays an Application notification exception.

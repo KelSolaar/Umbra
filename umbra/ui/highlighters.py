@@ -146,7 +146,6 @@ class FormatsTree(object):
 					currentNode.addChild(formatNode)
 				currentNode = formatNode
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def listFormats(self, node, path=(), formats=None):
 		"""
 		This method lists the object formats in sorted order.
@@ -165,8 +164,7 @@ class FormatsTree(object):
 		path and formats.append(".".join(path))
 		return sorted(formats)
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
-	@foundations.decorators.memoize(None)
+	# 	@foundations.decorators.memoize(None)
 	def getFormat(self, name):
 		"""
 		This method returns the closest format or closest parent format associated to given name.
@@ -303,7 +301,6 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		 																					self.highlightBlock.__name__,
 																							self.__class__.__name__))
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def highlightText(self, text, start, end):
 		"""
 		This method highlights given text.
@@ -413,7 +410,6 @@ class DefaultHighlighter(AbstractHighlighter):
 					break
 				state += 1
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def highlightMultilineBlock(self, block, startPattern, endPattern, state, format):
 		"""
 		This method highlights given multiline text block.

@@ -213,7 +213,6 @@ class Preferences(object):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setKey(self, section, key, value):
 		"""
 		This method stores given key in settings file.
@@ -229,7 +228,6 @@ class Preferences(object):
 		self.__settings.setValue(key , QVariant(value))
 		self.__settings.endGroup()
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getKey(self, section, key):
 		"""
 		This method gets key value from settings file.
@@ -265,7 +263,6 @@ class Preferences(object):
 		self.__defaultLayoutsSettings = QSettings(umbra.ui.common.getResourcePath(UiConstants.layoutsFile),
 												QSettings.IniFormat)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setDefaultPreferences(self):
 		"""
 		This method defines the default settings file content.
@@ -281,7 +278,6 @@ class Preferences(object):
 		self.setDefaultLayouts()
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setDefaultLayouts(self, ignoredLayouts=None):
 		"""
 		This method sets the default layouts in the preferences file.

@@ -107,7 +107,6 @@ class LinesNumbers_QWidget(QWidget):
 		return self.__editor
 
 	@editor.setter
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def editor(self, value):
 		"""
 		This method is the setter method for **self.__editor** attribute.
@@ -364,7 +363,6 @@ class LinesNumbers_QWidget(QWidget):
 		painter.end()
 		QWidget.paintEvent(self, event)
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def getWidth(self):
 		"""
 		This method returns the Widget target width.
@@ -374,7 +372,6 @@ class LinesNumbers_QWidget(QWidget):
 
 		return self.__margin + self.__editor.fontMetrics().width(foundations.strings.encode(max(1, self.__editor.blockCount())))
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def setEditorViewportMargins(self, newBlocksCount):
 		"""
 		This method sets the editor viewport margins.
@@ -386,7 +383,6 @@ class LinesNumbers_QWidget(QWidget):
 		self.__editor.setViewportMargins(self.getWidth(), 0, 0, 0)
 		return True
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def updateRectangle(self, rectangle, scrollY):
 		"""
 		This method updates the given widget rectangle.
@@ -405,7 +401,6 @@ class LinesNumbers_QWidget(QWidget):
 			self.setEditorViewportMargins(0)
 		return True
 
-	# @foundations.exceptions.handleExceptions(None, False, Exception)
 	def updateGeometry(self):
 		"""
 		This method updates the widget geometry.
@@ -932,7 +927,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		self.__tabWidth = self.fontMetrics().width(" " * self.indentWidth)
 		self.setTabStopWidth(self.__tabWidth)
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def setLanguage(self, language):
 		"""
 		This method sets the language.
@@ -968,7 +962,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def removeHighlighter(self):
 		"""
 		This method removes current highlighter.
@@ -1007,7 +1000,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def removeCompleter(self):
 		"""
 		This method removes current completer.
@@ -1024,7 +1016,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 			self.__completer = None
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	def getMatchingSymbolsPairs(self, cursor, openingSymbol, closingSymbol, backward=False):
 		"""
 		This method returns the cursor for matching given symbols pairs.
@@ -1059,7 +1050,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 		return endCursor.position() != -1 and endCursor or previousEndCursor
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	@editBlock
 	def indent(self):
 		"""
@@ -1082,7 +1072,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 				block = block.next()
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	@editBlock
 	def unindent(self):
 		"""
@@ -1111,7 +1100,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 				block = block.next()
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	@editBlock
 	def toggleComments(self):
 		"""
@@ -1147,7 +1135,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 				block = block.next()
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	@anchorTextCursor
 	@editBlock
 	def removeTrailingWhiteSpaces(self):
@@ -1172,7 +1159,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 			cursor.insertText("\n")
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	@anchorTextCursor
 	@editBlock
 	def convertIndentationToTabs(self):
@@ -1197,7 +1183,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 			block = block.next()
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, Exception)
 	@anchorTextCursor
 	@editBlock
 	def convertIndentationToSpaces(self):
