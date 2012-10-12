@@ -168,7 +168,7 @@ def _initializeApplicationUiFile():
 	if not foundations.common.pathExists(RuntimeGlobals.uiFile):
 		umbra.ui.common.uiSystemExitExceptionHandler(
 		foundations.exceptions.FileExistsError("'{0}' ui file is not available, {1} will now close!".format(
-		UiConstants.uiFile, Constants.applicationName)), Constants.applicationName)
+		UiConstants.uiFile, Constants.applicationName)), _initializeApplicationUiFile.__name__)
 
 _initializeApplicationUiFile()
 
@@ -1276,8 +1276,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 				message = "'{0}' Component failed to activate!\nException raised: {1}" if requisite else \
 				"'{0}' Component failed to activate, unexpected behavior may occur!\nException raised: {1}"
 
-				exceptionHandler(manager.exceptions.ComponentActivationError(message.format(component, error)),
-																							self.__class__.__name__)
+				exceptionHandler(manager.exceptions.ComponentActivationError(message.format(component, error)), self)
 
 	def __setLocals(self):
 		"""

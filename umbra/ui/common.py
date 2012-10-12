@@ -145,63 +145,64 @@ def parseLocation(data):
 				continue
 	return location
 
-def uiExtendedExceptionHandler(exception, origin, *args, **kwargs):
+def uiExtendedExceptionHandler(exception, object, *args, **kwargs):
 	"""
 	This definition provides a ui extended exception handler.
 
 	:param exception: Exception. ( Exception )
-	:param origin: Function / Method raising the exception. ( String )
+	:param object: Object raising the exception. ( Object )
 	:param \*args: Arguments. ( \* )
 	:param \*\*kwargs: Keywords arguments. ( \*\* )
 	:return: Definition success. ( Boolean )
 	"""
 
-	foundations.exceptions.defaultExceptionsHandler(exception, origin, *args, **kwargs)
-	messageBox.messageBox("Detailed Error", "Exception", "Exception in '{0}': {1}".format(origin, exception))
+	foundations.exceptions.defaultExceptionsHandler(exception, object, *args, **kwargs)
+	messageBox.messageBox(
+	"Detailed Error", "Exception", "Exception in '{0}': {1}".format(foundations.trace.getTraceName(object), exception))
 	return True
 
-def uiBasicExceptionHandler(exception, origin, *args, **kwargs):
+def uiBasicExceptionHandler(exception, object, *args, **kwargs):
 	"""
 	This definition provides a ui basic exception handler.
 
 	:param exception: Exception. ( Exception )
-	:param origin: Function / Method raising the exception. ( String )
+	:param object: Object raising the exception. ( Object )
 	:param \*args: Arguments. ( \* )
 	:param \*\*kwargs: Keywords arguments. ( \*\* )
 	:return: Definition success. ( Boolean )
 	"""
 
-	foundations.exceptions.defaultExceptionsHandler(exception, origin, *args, **kwargs)
+	foundations.exceptions.defaultExceptionsHandler(exception, object, *args, **kwargs)
 	messageBox.messageBox("Detailed Error", "Exception", "{0}".format(exception))
 	return True
 
-def uiSystemExitExceptionHandler(exception, origin, *args, **kwargs):
+def uiSystemExitExceptionHandler(exception, object, *args, **kwargs):
 	"""
 	This definition provides a ui system exit exception handler.
 
 	:param exception: Exception. ( Exception )
-	:param origin: Function / Method raising the exception. ( String )
+	:param object: Object raising the exception. ( Object )
 	:param \*args: Arguments. ( \* )
 	:param \*\*kwargs: Keywords arguments. ( \*\* )
 	:return: Definition success. ( Boolean )
 	"""
 
-	uiExtendedExceptionHandler(exception, origin, *args, **kwargs)
+	uiExtendedExceptionHandler(exception, object, *args, **kwargs)
 	return foundations.core.exit(1)
 
-def notifyExceptionHandler(exception, origin, *args, **kwargs):
+def notifyExceptionHandler(exception, object, *args, **kwargs):
 	"""
 	This definition provides a notifier exception handler.
 
 	:param exception: Exception. ( Exception )
-	:param origin: Function / Method raising the exception. ( String )
+	:param object: Object raising the exception. ( Object )
 	:param \*args: Arguments. ( \* )
 	:param \*\*kwargs: Keywords arguments. ( \*\* )
 	:return: Definition success. ( Boolean )
 	"""
 
 	callback = lambda: RuntimeGlobals.engine.layoutsManager.restoreLayout(UiConstants.developmentLayout)
-	foundations.exceptions.defaultExceptionsHandler(exception, origin, *args, **kwargs)
+	foundations.exceptions.defaultExceptionsHandler(exception, object, *args, **kwargs)
 	RuntimeGlobals.notificationsManager.exceptify(message="{0}".format(exception), notificationClickedSlot=callback)
 	return True
 
