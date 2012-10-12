@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
+	This module defines the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class nodes.
 
 **Others:**
@@ -39,10 +39,11 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "ProjectNode",
+__all__ = ["LOGGER",
 			"EditorNode",
 			"FileNode",
 			"DirectoryNode",
+			"ProjectNode",
 			"PatternNode",
 			"SearchFileNode",
 			"SearchOccurenceNode",
@@ -55,7 +56,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class EditorNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
+	This class factory defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class **Editor** node.
 	"""
 
@@ -142,7 +143,7 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 
 class FileNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
+	This class factory defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class **File** node.
 	"""
 
@@ -229,7 +230,7 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 
 class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
+	This class factory defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class **Directory** node.
 	"""
 
@@ -318,7 +319,7 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 
 class ProjectNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
+	This class factory defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class **Project** node.
 	"""
 

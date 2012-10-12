@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
+	This module defines the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class Models.
 
 **Others:**
@@ -63,7 +63,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class ProjectsModel(umbra.ui.models.GraphModel):
 	"""
-	This class defines the Model used by :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
+	This class defines the Model used by :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class. 
 	"""
 
@@ -758,7 +758,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 class LanguagesModel(QAbstractListModel):
 	"""
 	This class is a `QAbstractListModel <http://doc.qt.nokia.com/qabstractListmodel.html>`_ subclass used
-	to store the :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
+	to store the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class languages.
 	"""
 

@@ -689,7 +689,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __scriptEditor_Script_Editor_tabWidget__currentChanged(self, index):
 		"""
-		This method is triggered by the :class:`umbra.languages.factory.scriptEditor.scriptEditor.ScriptEditor`
+		This method is triggered by the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 		Component Interface class when the current tab is changed.
 
 		:param index: Tab index. ( Integer )
