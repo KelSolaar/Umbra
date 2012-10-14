@@ -81,7 +81,7 @@ def filterNodes(view, pattern, attribute, flags=re.IGNORECASE):
 
 	return [node for node in getNodes(view) if re.search(pattern, getattr(node, attribute), flags)]
 
-@foundations.exceptions.handleExceptions(None, False, NotImplementedError)
+@foundations.exceptions.handleExceptions(NotImplementedError)
 # TODO: Implement a way to invalidate indexes in the cache, disabling the cache until yet.
 # @core.memoize(None)
 def getViewNodesFromIndexes(view, *indexes):
@@ -147,7 +147,6 @@ class ReadOnlyFilter(QObject):
 		return False
 
 	@foundations.exceptions.handleExceptions(umbra.ui.common.notifyExceptionHandler,
-											False,
 											foundations.exceptions.UserError)
 	def __raiseUserError(self, view) :
 		"""
@@ -213,7 +212,7 @@ class Abstract_QListView(QListView):
 		return self.__readOnly
 
 	@readOnly.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def readOnly(self, value):
 		"""
 		This method is the setter method for **self.__readOnly** attribute.
@@ -226,7 +225,7 @@ class Abstract_QListView(QListView):
 		self.__readOnly = value
 
 	@readOnly.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def readOnly(self):
 		"""
 		This method is the deleter method for **self.__readOnly** attribute.
@@ -323,7 +322,7 @@ class Abstract_QTreeView(QTreeView):
 		return self.__readOnly
 
 	@readOnly.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def readOnly(self, value):
 		"""
 		This method is the setter method for **self.__readOnly** attribute.
@@ -336,7 +335,7 @@ class Abstract_QTreeView(QTreeView):
 		self.__readOnly = value
 
 	@readOnly.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def readOnly(self):
 		"""
 		This method is the deleter method for **self.__readOnly** attribute.

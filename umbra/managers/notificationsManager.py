@@ -108,7 +108,7 @@ class NotificationsManager(QObject):
 		return self.__container
 
 	@container.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
 		This method is the setter method for **self.__container** attribute.
@@ -120,7 +120,7 @@ class NotificationsManager(QObject):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
 		This method is the deleter method for **self.__container** attribute.
@@ -140,7 +140,7 @@ class NotificationsManager(QObject):
 		return self.__notifications
 
 	@notifications.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notifications(self, value):
 		"""
 		This method is the setter method for **self.__notifications** attribute.
@@ -152,7 +152,7 @@ class NotificationsManager(QObject):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "notifications"))
 
 	@notifications.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notifications(self):
 		"""
 		This method is the deleter method for **self.__notifications** attribute.
@@ -172,7 +172,7 @@ class NotificationsManager(QObject):
 		return self.__notifiers
 
 	@notifiers.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notifiers(self, value):
 		"""
 		This method is the setter method for **self.__notifiers** attribute.
@@ -184,7 +184,7 @@ class NotificationsManager(QObject):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "notifiers"))
 
 	@notifiers.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notifiers(self):
 		"""
 		This method is the deleter method for **self.__notifiers** attribute.
@@ -204,7 +204,7 @@ class NotificationsManager(QObject):
 		return self.__notifiersStackPadding
 
 	@notifiersStackPadding.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def notifiersStackPadding(self, value):
 		"""
 		This method is the setter method for **self.__notifiersStackPadding** attribute.
@@ -218,7 +218,7 @@ class NotificationsManager(QObject):
 		self.__notifiersStackPadding = value
 
 	@notifiersStackPadding.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notifiersStackPadding(self):
 		"""
 		This method is the deleter method for **self.__notifiersStackPadding** attribute.

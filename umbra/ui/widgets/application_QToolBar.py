@@ -105,7 +105,7 @@ class Application_QToolBar(QToolBar):
 		return self.__container
 
 	@container.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
 		This method is the setter method for **self.__container** attribute.
@@ -117,7 +117,7 @@ class Application_QToolBar(QToolBar):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
 		This method is the deleter method for **self.__container** attribute.
@@ -137,7 +137,7 @@ class Application_QToolBar(QToolBar):
 		return self.__settings
 
 	@settings.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self, value):
 		"""
 		This method is the setter method for **self.__settings** attribute.
@@ -149,7 +149,7 @@ class Application_QToolBar(QToolBar):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
 	@settings.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
 		This method is the deleter method for **self.__settings** attribute.
@@ -169,7 +169,7 @@ class Application_QToolBar(QToolBar):
 		return self.__layoutsActiveLabelsCollection
 
 	@layoutsActiveLabelsCollection.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def layoutsActiveLabelsCollection(self, value):
 		"""
 		This method is the setter method for **self.__layoutsActiveLabelsCollection** attribute.
@@ -181,7 +181,7 @@ class Application_QToolBar(QToolBar):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "layoutsActiveLabelsCollection"))
 
 	@layoutsActiveLabelsCollection.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def layoutsActiveLabelsCollection(self):
 		"""
 		This method is the deleter method for **self.__layoutsActiveLabelsCollection** attribute.
@@ -201,7 +201,7 @@ class Application_QToolBar(QToolBar):
 		return self.__customLayoutsMenu
 
 	@customLayoutsMenu.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def customLayoutsMenu(self, value):
 		"""
 		This method is the setter method for **self.__customLayoutsMenu** attribute.
@@ -214,7 +214,7 @@ class Application_QToolBar(QToolBar):
 		self.__customLayoutsMenu = value
 
 	@customLayoutsMenu.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def customLayoutsMenu(self):
 		"""
 		This method is the deleter method for **self.__customLayoutsMenu** attribute.
@@ -234,7 +234,7 @@ class Application_QToolBar(QToolBar):
 		return self.__miscellaneousMenu
 
 	@miscellaneousMenu.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def miscellaneousMenu(self, value):
 		"""
 		This method is the setter method for **self.__miscellaneousMenu** attribute.
@@ -247,7 +247,7 @@ class Application_QToolBar(QToolBar):
 		self.__miscellaneousMenu = value
 
 	@miscellaneousMenu.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def miscellaneousMenu(self):
 		"""
 		This method is the deleter method for **self.__miscellaneousMenu** attribute.

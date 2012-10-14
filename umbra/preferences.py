@@ -90,7 +90,7 @@ class Preferences(object):
 		return self.__file
 
 	@file.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def file(self, value):
 		"""
 		This method is the setter method for **self.__file** attribute.
@@ -105,7 +105,7 @@ class Preferences(object):
 		self.__file = value
 
 	@file.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def file(self):
 		"""
 		This method is the deleter method for **self.__file** attribute.
@@ -125,7 +125,7 @@ class Preferences(object):
 		return self.__settings
 
 	@settings.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self, value):
 		"""
 		This method is the setter method for **self.__settings** attribute.
@@ -137,7 +137,7 @@ class Preferences(object):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
 	@settings.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
 		This method is the deleter method for **self.__settings** attribute.
@@ -157,7 +157,7 @@ class Preferences(object):
 		return self.__defaultSettings
 
 	@defaultSettings.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultSettings(self, value):
 		"""
 		This method is the setter method for **self.__defaultSettings** attribute.
@@ -169,7 +169,7 @@ class Preferences(object):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultSettings"))
 
 	@defaultSettings.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultSettings(self):
 		"""
 		This method is the deleter method for **self.__defaultSettings** attribute.
@@ -189,7 +189,7 @@ class Preferences(object):
 		return self.__defaultLayoutsSettings
 
 	@defaultLayoutsSettings.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultLayoutsSettings(self, value):
 		"""
 		This method is the setter method for **self.__defaultLayoutsSettings** attribute.
@@ -201,7 +201,7 @@ class Preferences(object):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultLayoutsSettings"))
 
 	@defaultLayoutsSettings.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultLayoutsSettings(self):
 		"""
 		This method is the deleter method for **self.__defaultLayoutsSettings** attribute.

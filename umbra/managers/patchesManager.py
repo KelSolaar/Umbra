@@ -108,7 +108,7 @@ class PatchesManager(object):
 		return self.__historyFile
 
 	@historyFile.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def historyFile(self, value):
 		"""
 		This method is the setter method for **self.__historyFile** attribute.
@@ -122,7 +122,7 @@ class PatchesManager(object):
 		self.__historyFile = value
 
 	@historyFile.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def historyFile(self):
 		"""
 		This method is the deleter method for **self.__historyFile** attribute.
@@ -142,7 +142,7 @@ class PatchesManager(object):
 		return self.__paths
 
 	@paths.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def paths(self, value):
 		"""
 		This method is the setter method for **self.__paths** attribute.
@@ -160,7 +160,7 @@ class PatchesManager(object):
 		self.__paths = value
 
 	@paths.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def paths(self):
 		"""
 		This method is the deleter method for **self.__paths** attribute.
@@ -180,7 +180,7 @@ class PatchesManager(object):
 		return self.__extension
 
 	@extension.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def extension(self, value):
 		"""
 		This method is the setter method for **self.__extension** attribute.
@@ -194,7 +194,7 @@ class PatchesManager(object):
 		self.__extension = value
 
 	@extension.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def extension(self):
 		"""
 		This method is the deleter method for **self.__extension** attribute.
@@ -214,7 +214,7 @@ class PatchesManager(object):
 		return self.__patches
 
 	@patches.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def patches(self, value):
 		"""
 		This method is the setter method for **self.__patches** attribute.
@@ -226,7 +226,7 @@ class PatchesManager(object):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "patches"))
 
 	@patches.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def patches(self):
 		"""
 		This method is the deleter method for **self.__patches** attribute.
@@ -295,7 +295,7 @@ class PatchesManager(object):
 
 		return patch in self
 
-	@foundations.exceptions.handleExceptions(None, False, umbra.exceptions.PatchInterfaceError)
+	@foundations.exceptions.handleExceptions(umbra.exceptions.PatchInterfaceError)
 	def registerPatch(self, name, path):
 		"""
 		This method registers given patch.
@@ -323,7 +323,7 @@ class PatchesManager(object):
 			"{0} | '{1}' is not a valid patch and has been rejected!".format(self.__class__.__name__, patch))
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, umbra.exceptions.PatchRegistrationError)
+	@foundations.exceptions.handleExceptions(umbra.exceptions.PatchRegistrationError)
 	def registerPatches(self):
 		"""
 		This method registers the patches.
@@ -348,7 +348,7 @@ class PatchesManager(object):
 			"{0} | '{1}' patches failed to register!".format(self.__class__.__name__,
 																", ".join(unregisteredPatches)))
 
-	@foundations.exceptions.handleExceptions(None, False, umbra.exceptions.PatchApplyError)
+	@foundations.exceptions.handleExceptions(umbra.exceptions.PatchApplyError)
 	def applyPatch(self, patch):
 		"""
 		This method applies given patch.

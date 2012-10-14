@@ -119,7 +119,7 @@ def getObjectFromLanguageAccelerators(accelerator):
 
 	return LANGUAGES_ACCELERATORS.get(accelerator)
 
-@foundations.exceptions.handleExceptions(None, False, LanguageGrammarError)
+@foundations.exceptions.handleExceptions(LanguageGrammarError)
 def getLanguageDescription(grammarfile):
 	"""
 	This definition gets the language description from given language grammar file.

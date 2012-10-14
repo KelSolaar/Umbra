@@ -154,7 +154,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 		return self.__component
 
 	@component.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def component(self, value):
 		"""
 		This method is the setter method for **self.__component** attribute.
@@ -166,7 +166,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "component"))
 
 	@component.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def component(self):
 		"""
 		This method is the deleter method for **self.__component** attribute.
@@ -186,7 +186,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 		return self.__toolTipText
 
 	@toolTipText.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def toolTipText(self, value):
 		"""
 		This method is the setter method for **self.__toolTipText** attribute.
@@ -200,7 +200,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 		self.__toolTipText = value
 
 	@toolTipText.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def toolTipText(self):
 		"""
 		This method is the deleter method for **self.__toolTipText** attribute.

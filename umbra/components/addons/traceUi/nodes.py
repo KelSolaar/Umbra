@@ -98,7 +98,7 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 		return self.__module
 
 	@module.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def module(self, value):
 		"""
 		This method is the setter method for **self.__module** attribute.
@@ -110,7 +110,7 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "module"))
 
 	@module.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def module(self):
 		"""
 		This method is the deleter method for **self.__module** attribute.

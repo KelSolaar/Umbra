@@ -169,7 +169,7 @@ class Notification_QLabel(QLabel):
 		return self.__color
 
 	@color.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def color(self, value):
 		"""
 		This method is the setter method for **self.__color** attribute.
@@ -183,7 +183,7 @@ class Notification_QLabel(QLabel):
 		self.__setStyleSheet()
 
 	@color.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def color(self):
 		"""
 		This method is the deleter method for **self.__color** attribute.
@@ -203,7 +203,7 @@ class Notification_QLabel(QLabel):
 		return self.__backgroundColor
 
 	@backgroundColor.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def backgroundColor(self, value):
 		"""
 		This method is the setter method for **self.__backgroundColor** attribute.
@@ -217,7 +217,7 @@ class Notification_QLabel(QLabel):
 		self.__setStyleSheet()
 
 	@backgroundColor.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def backgroundColor(self):
 		"""
 		This method is the deleter method for **self.__backgroundColor** attribute.
@@ -237,7 +237,7 @@ class Notification_QLabel(QLabel):
 		return self.__borderColor
 
 	@borderColor.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def borderColor(self, value):
 		"""
 		This method is the setter method for **self.__borderColor** attribute.
@@ -251,7 +251,7 @@ class Notification_QLabel(QLabel):
 		self.__setStyleSheet()
 
 	@borderColor.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def borderColor(self):
 		"""
 		This method is the deleter method for **self.__borderColor** attribute.
@@ -271,7 +271,7 @@ class Notification_QLabel(QLabel):
 		return self.__anchor
 
 	@anchor.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def anchor(self, value):
 		"""
 		This method is the setter method for **self.__anchor** attribute.
@@ -285,7 +285,7 @@ class Notification_QLabel(QLabel):
 		self.__anchor = value
 
 	@anchor.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def anchor(self):
 		"""
 		This method is the deleter method for **self.__anchor** attribute.
@@ -305,7 +305,7 @@ class Notification_QLabel(QLabel):
 		return self.__horizontalPadding
 
 	@horizontalPadding.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def horizontalPadding(self, value):
 		"""
 		This method is the setter method for **self.__horizontalPadding** attribute.
@@ -319,7 +319,7 @@ class Notification_QLabel(QLabel):
 		self.__horizontalPadding = value
 
 	@horizontalPadding.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def horizontalPadding(self):
 		"""
 		This method is the deleter method for **self.__horizontalPadding** attribute.
@@ -339,7 +339,7 @@ class Notification_QLabel(QLabel):
 		return self.__verticalPadding
 
 	@verticalPadding.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def verticalPadding(self, value):
 		"""
 		This method is the setter method for **self.__verticalPadding** attribute.
@@ -353,7 +353,7 @@ class Notification_QLabel(QLabel):
 		self.__verticalPadding = value
 
 	@verticalPadding.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def verticalPadding(self):
 		"""
 		This method is the deleter method for **self.__verticalPadding** attribute.
@@ -373,7 +373,7 @@ class Notification_QLabel(QLabel):
 		return self.__horizontalOffset
 
 	@horizontalOffset.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def horizontalOffset(self, value):
 		"""
 		This method is the setter method for **self.__horizontalOffset** attribute.
@@ -386,7 +386,7 @@ class Notification_QLabel(QLabel):
 		self.__horizontalOffset = value
 
 	@horizontalOffset.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def horizontalOffset(self):
 		"""
 		This method is the deleter method for **self.__horizontalOffset** attribute.
@@ -406,7 +406,7 @@ class Notification_QLabel(QLabel):
 		return self.__verticalOffset
 
 	@verticalOffset.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def verticalOffset(self, value):
 		"""
 		This method is the setter method for **self.__verticalOffset** attribute.
@@ -419,7 +419,7 @@ class Notification_QLabel(QLabel):
 		self.__verticalOffset = value
 
 	@verticalOffset.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def verticalOffset(self):
 		"""
 		This method is the deleter method for **self.__verticalOffset** attribute.
@@ -439,7 +439,7 @@ class Notification_QLabel(QLabel):
 		return self.__fadeSpeed
 
 	@fadeSpeed.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def fadeSpeed(self, value):
 		"""
 		This method is the setter method for **self.__fadeSpeed** attribute.
@@ -453,7 +453,7 @@ class Notification_QLabel(QLabel):
 		self.__fadeSpeed = value
 
 	@fadeSpeed.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def fadeSpeed(self):
 		"""
 		This method is the deleter method for **self.__fadeSpeed** attribute.
@@ -473,7 +473,7 @@ class Notification_QLabel(QLabel):
 		return self.__targetOpacity
 
 	@targetOpacity.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def targetOpacity(self, value):
 		"""
 		This method is the setter method for **self.__targetOpacity** attribute.
@@ -488,7 +488,7 @@ class Notification_QLabel(QLabel):
 		self.__targetOpacity = value
 
 	@targetOpacity.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def targetOpacity(self):
 		"""
 		This method is the deleter method for **self.__targetOpacity** attribute.
@@ -508,7 +508,7 @@ class Notification_QLabel(QLabel):
 		return self.__duration
 
 	@duration.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def duration(self, value):
 		"""
 		This method is the setter method for **self.__duration** attribute.
@@ -522,7 +522,7 @@ class Notification_QLabel(QLabel):
 		self.__duration = value
 
 	@duration.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def duration(self):
 		"""
 		This method is the deleter method for **self.__duration** attribute.
@@ -542,7 +542,7 @@ class Notification_QLabel(QLabel):
 		return self.__opacity
 
 	@opacity.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def opacity(self, value):
 		"""
 		This method is the setter method for **self.__opacity** attribute.
@@ -562,7 +562,7 @@ class Notification_QLabel(QLabel):
 		self.__setStyleSheet()
 
 	@opacity.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def opacity(self):
 		"""
 		This method is the deleter method for **self.__opacity** attribute.
@@ -582,7 +582,7 @@ class Notification_QLabel(QLabel):
 		return self.__style
 
 	@style.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def style(self, value):
 		"""
 		This method is the setter method for **self.__style** attribute.
@@ -594,7 +594,7 @@ class Notification_QLabel(QLabel):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "style"))
 
 	@style.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def style(self):
 		"""
 		This method is the deleter method for **self.__style** attribute.

@@ -110,7 +110,7 @@ class GraphModel(QAbstractItemModel):
 		return self.__rootNode
 
 	@rootNode.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def rootNode(self, value):
 		"""
 		This method is the setter method for **self.__rootNode** attribute.
@@ -124,7 +124,7 @@ class GraphModel(QAbstractItemModel):
 		self.__rootNode = value
 
 	@rootNode.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def rootNode(self):
 		"""
 		This method is the deleter method for **self.__rootNode** attribute.
@@ -144,7 +144,7 @@ class GraphModel(QAbstractItemModel):
 		return self.__horizontalHeaders
 
 	@horizontalHeaders.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def horizontalHeaders(self, value):
 		"""
 		This method is the setter method for **self.__horizontalHeaders** attribute.
@@ -158,7 +158,7 @@ class GraphModel(QAbstractItemModel):
 		self.__horizontalHeaders = value
 
 	@horizontalHeaders.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def horizontalHeaders(self):
 		"""
 		This method is the deleter method for **self.__horizontalHeaders** attribute.
@@ -178,7 +178,7 @@ class GraphModel(QAbstractItemModel):
 		return self.__verticalHeaders
 
 	@verticalHeaders.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def verticalHeaders(self, value):
 		"""
 		This method is the setter method for **self.__verticalHeaders** attribute.
@@ -192,7 +192,7 @@ class GraphModel(QAbstractItemModel):
 		self.__verticalHeaders = value
 
 	@verticalHeaders.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def verticalHeaders(self):
 		"""
 		This method is the deleter method for **self.__verticalHeaders** attribute.
@@ -212,7 +212,7 @@ class GraphModel(QAbstractItemModel):
 		return self.__defaultNode
 
 	@defaultNode.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def defaultNode(self, value):
 		"""
 		This method is the setter method for **self.__defaultNode** attribute.
@@ -226,7 +226,7 @@ class GraphModel(QAbstractItemModel):
 		self.__defaultNode = value
 
 	@defaultNode.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultNode(self):
 		"""
 		This method is the deleter method for **self.__defaultNode** attribute.

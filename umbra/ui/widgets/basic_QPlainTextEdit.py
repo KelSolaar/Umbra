@@ -202,7 +202,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		return self.__searchPattern
 
 	@searchPattern.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def searchPattern(self, value):
 		"""
 		This method is the setter method for **self.__searchPattern** attribute.
@@ -216,7 +216,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		self.__searchPattern = value
 
 	@searchPattern.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchPattern(self):
 		"""
 		This method is the deleter method for **self.__searchPattern** attribute.
@@ -236,7 +236,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		return self.__minimumFontPointSize
 
 	@minimumFontPointSize.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def minimumFontPointSize(self, value):
 		"""
 		This method is the setter method for **self.__minimumFontPointSize** attribute.
@@ -251,7 +251,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		self.__minimumFontPointSize = value
 
 	@minimumFontPointSize.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def minimumFontPointSize(self):
 		"""
 		This method is the deleter method for **self.__minimumFontPointSize** attribute.
@@ -271,7 +271,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		return self.__maximumFontPointSize
 
 	@maximumFontPointSize.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def maximumFontPointSize(self, value):
 		"""
 		This method is the setter method for **self.__maximumFontPointSize** attribute.
@@ -288,7 +288,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		self.__maximumFontPointSize = value
 
 	@maximumFontPointSize.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def maximumFontPointSize(self):
 		"""
 		This method is the deleter method for **self.__maximumFontPointSize** attribute.

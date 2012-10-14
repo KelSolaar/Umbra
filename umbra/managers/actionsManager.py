@@ -97,7 +97,7 @@ class ActionsManager(QObject):
 		return self.__namespaceSplitter
 
 	@namespaceSplitter.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def namespaceSplitter(self, value):
 		"""
 		This method is the setter method for **self.__namespaceSplitter** attribute.
@@ -114,7 +114,7 @@ class ActionsManager(QObject):
 		self.__namespaceSplitter = value
 
 	@namespaceSplitter.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def namespaceSplitter(self):
 		"""
 		This method is the deleter method for **self.__namespaceSplitter** attribute.
@@ -134,7 +134,7 @@ class ActionsManager(QObject):
 		return self.__rootNamespace
 
 	@rootNamespace.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def rootNamespace(self, value):
 		"""
 		This method is the setter method for **self.__rootNamespace** attribute.
@@ -148,7 +148,7 @@ class ActionsManager(QObject):
 		self.__rootNamespace = value
 
 	@rootNamespace.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def rootNamespace(self):
 		"""
 		This method is the deleter method for **self.__rootNamespace** attribute.
@@ -168,7 +168,7 @@ class ActionsManager(QObject):
 		return self.__defaultNamespace
 
 	@defaultNamespace.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def defaultNamespace(self, value):
 		"""
 		This method is the setter method for **self.__defaultNamespace** attribute.
@@ -182,7 +182,7 @@ class ActionsManager(QObject):
 		self.__defaultNamespace = value
 
 	@defaultNamespace.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultNamespace(self):
 		"""
 		This method is the deleter method for **self.__defaultNamespace** attribute.
@@ -202,7 +202,7 @@ class ActionsManager(QObject):
 		return self.__categories
 
 	@categories.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def categories(self, value):
 		"""
 		This method is the setter method for **self.__categories** attribute.
@@ -218,7 +218,7 @@ class ActionsManager(QObject):
 		self.__categories = value
 
 	@categories.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def categories(self):
 		"""
 		This method is the deleter method for **self.__categories** attribute.
@@ -327,7 +327,7 @@ class ActionsManager(QObject):
 			actions.append(self.__namespaceSplitter.join(itertools.chain(path, (actionName,))))
 		return sorted(actions)
 
-	@foundations.exceptions.handleExceptions(None, False, umbra.exceptions.CategoryExistsError)
+	@foundations.exceptions.handleExceptions(umbra.exceptions.CategoryExistsError)
 	def getCategory(self, name, vivify=False):
 		"""
 		This method returns requested category.
@@ -380,7 +380,7 @@ class ActionsManager(QObject):
 		LOGGER.debug("> Removed '{0}' action from '{1}' category!".format(category, name))
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, umbra.exceptions.ActionExistsError)
+	@foundations.exceptions.handleExceptions(umbra.exceptions.ActionExistsError)
 	def getAction(self, action):
 		"""
 		This method returns requested action.

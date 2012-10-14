@@ -107,7 +107,7 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 		return self.__editor
 
 	@editor.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def editor(self, value):
 		"""
 		This method is the setter method for **self.__editor** attribute.
@@ -120,7 +120,7 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 		self.__editor = value
 
 	@editor.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def editor(self):
 		"""
 		This method is the deleter method for **self.__editor** attribute.
@@ -194,7 +194,7 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 		return self.__path
 
 	@path.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def path(self, value):
 		"""
 		This method is the setter method for **self.__path** attribute.
@@ -207,7 +207,7 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 		self.__path = value
 
 	@path.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def path(self):
 		"""
 		This method is the deleter method for **self.__path** attribute.
@@ -282,7 +282,7 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 		return self.__path
 
 	@path.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def path(self, value):
 		"""
 		This method is the setter method for **self.__path** attribute.
@@ -296,7 +296,7 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 		self.__path = value
 
 	@path.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def path(self):
 		"""
 		This method is the deleter method for **self.__path** attribute.
@@ -371,7 +371,7 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 		return self.__path
 
 	@path.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def path(self, value):
 		"""
 		This method is the setter method for **self.__path** attribute.
@@ -385,7 +385,7 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 		self.__path = value
 
 	@path.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def path(self):
 		"""
 		This method is the deleter method for **self.__path** attribute.

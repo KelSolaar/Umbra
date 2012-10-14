@@ -115,7 +115,7 @@ class Active_QLabelsCollection(QObject):
 		return self.__container
 
 	@container.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
 		This method is the setter method for **self.__container** attribute.
@@ -127,7 +127,7 @@ class Active_QLabelsCollection(QObject):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
 		This method is the deleter method for **self.__container** attribute.
@@ -147,7 +147,7 @@ class Active_QLabelsCollection(QObject):
 		return self.__activeLabels
 
 	@activeLabels.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def activeLabels(self, value):
 		"""
 		This method is the setter method for **self.__activeLabels** attribute.
@@ -159,7 +159,7 @@ class Active_QLabelsCollection(QObject):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "activeLabels"))
 
 	@activeLabels.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def activeLabels(self):
 		"""
 		This method is the deleter method for **self.__activeLabels** attribute.
@@ -198,7 +198,7 @@ class Active_QLabelsCollection(QObject):
 
 			umbra.ui.common.signalsBlocker(item, item.setChecked, False)
 
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def addActiveLabel(self, activeLabel):
 		"""
 		This method adds given **Active_QLabel** Widget.

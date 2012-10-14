@@ -206,7 +206,7 @@ def notifyExceptionHandler(exception, object, *args, **kwargs):
 	RuntimeGlobals.notificationsManager.exceptify(message="{0}".format(exception), notificationClickedSlot=callback)
 	return True
 
-@foundations.exceptions.handleExceptions(None, False, umbra.exceptions.ResourceExistsError)
+@foundations.exceptions.handleExceptions(umbra.exceptions.ResourceExistsError)
 def getResourcePath(name, raiseException=False):
 	"""
 	This definition returns the resource file path matching the given name.
@@ -245,7 +245,7 @@ def setWindowDefaultIcon(window):
 		pass
 	return True
 
-@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.FileExistsError)
+@foundations.exceptions.handleExceptions(foundations.exceptions.FileExistsError)
 def getSectionsFileParser(file):
 	"""
 	This method returns a sections file parser.
@@ -262,7 +262,7 @@ def getSectionsFileParser(file):
 	sectionsFileParser.read() and sectionsFileParser.parse()
 	return sectionsFileParser
 
-@foundations.exceptions.handleExceptions(None, False, TypeError)
+@foundations.exceptions.handleExceptions(TypeError)
 def storeLastBrowsedPath(data):
 	"""
 	This definition is a wrapper method used to store the last browsed path.

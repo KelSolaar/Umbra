@@ -275,7 +275,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	:return: Event. ( QEvent )	
 	"""
 
-	@foundations.exceptions.handleExceptions(umbra.ui.common.uiSystemExitExceptionHandler, False, Exception)
+	@foundations.exceptions.handleExceptions(umbra.ui.common.uiSystemExitExceptionHandler, Exception)
 	def __init__(self,
 				parent=None,
 				componentsPaths=None,
@@ -444,7 +444,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__timer
 
 	@timer.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def timer(self, value):
 		"""
 		This method is the setter method for **self.__timer** attribute.
@@ -456,7 +456,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "timer"))
 
 	@timer.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def timer(self):
 		"""
 		This method is the deleter method for **self.__timer** attribute.
@@ -476,7 +476,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__requestsStack
 
 	@requestsStack.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def requestsStack(self, value):
 		"""
 		This method is the setter method for **self.__requestsStack** attribute.
@@ -488,7 +488,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "requestsStack"))
 
 	@requestsStack.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def requestsStack(self):
 		"""
 		This method is the deleter method for **self.__requestsStack** attribute.
@@ -508,7 +508,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__componentsPaths
 
 	@componentsPaths.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def componentsPaths(self, value):
 		"""
 		This method is the setter method for **self.__componentsPaths** attribute.
@@ -520,7 +520,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "componentsPaths"))
 
 	@componentsPaths.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def componentsPaths(self):
 		"""
 		This method is the deleter method for **self.__componentsPaths** attribute.
@@ -540,7 +540,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__requisiteComponents
 
 	@requisiteComponents.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def requisiteComponents(self, value):
 		"""
 		This method is the setter method for **self.__requisiteComponents** attribute.
@@ -552,7 +552,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "requisiteComponents"))
 
 	@requisiteComponents.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def requisiteComponents(self):
 		"""
 		This method is the deleter method for **self.__requisiteComponents** attribute.
@@ -572,7 +572,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__visibleComponents
 
 	@visibleComponents.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def visibleComponents(self, value):
 		"""
 		This method is the setter method for **self.__visibleComponents** attribute.
@@ -589,7 +589,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.__visibleComponents = value
 
 	@visibleComponents.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def visibleComponents(self):
 		"""
 		This method is the deleter method for **self.__visibleComponents** attribute.
@@ -609,7 +609,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__patchesManager
 
 	@patchesManager.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def patchesManager(self, value):
 		"""
 		This method is the setter method for **self.__patchesManager** attribute.
@@ -621,7 +621,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "patchesManager"))
 
 	@patchesManager.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def patchesManager(self):
 		"""
 		This method is the deleter method for **self.__patchesManager** attribute.
@@ -641,7 +641,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__componentsManager
 
 	@componentsManager.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def componentsManager(self, value):
 		"""
 		This method is the setter method for **self.__componentsManager** attribute.
@@ -653,7 +653,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "componentsManager"))
 
 	@componentsManager.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def componentsManager(self):
 		"""
 		This method is the deleter method for **self.__componentsManager** attribute.
@@ -673,7 +673,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__notificationsManager
 
 	@notificationsManager.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notificationsManager(self, value):
 		"""
 		This method is the setter method for **self.__notificationsManager** attribute.
@@ -685,7 +685,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "notificationsManager"))
 
 	@notificationsManager.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notificationsManager(self):
 		"""
 		This method is the deleter method for **self.__notificationsManager** attribute.
@@ -705,7 +705,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__actionsManager
 
 	@actionsManager.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def actionsManager(self, value):
 		"""
 		This method is the setter method for **self.__actionsManager** attribute.
@@ -717,7 +717,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "actionsManager"))
 
 	@actionsManager.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def actionsManager(self):
 		"""
 		This method is the deleter method for **self.__actionsManager** attribute.
@@ -736,7 +736,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__fileSystemEventsManager
 
 	@fileSystemEventsManager.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def fileSystemEventsManager(self, value):
 		"""
 		This method is the setter method for **self.__fileSystemEventsManager** attribute.
@@ -748,7 +748,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "fileSystemEventsManager"))
 
 	@fileSystemEventsManager.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def fileSystemEventsManager(self):
 		"""
 		This method is the deleter method for **self.__fileSystemEventsManager** attribute.
@@ -768,7 +768,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__layoutsManager
 
 	@layoutsManager.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def layoutsManager(self, value):
 		"""
 		This method is the setter method for **self.__layoutsManager** attribute.
@@ -780,7 +780,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "layoutsManager"))
 
 	@layoutsManager.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def layoutsManager(self):
 		"""
 		This method is the deleter method for **self.__layoutsManager** attribute.
@@ -800,7 +800,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__userApplicationDataDirectory
 
 	@userApplicationDataDirectory.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def userApplicationDataDirectory(self, value):
 		"""
 		This method is the setter method for **self.__userApplicationDataDirectory** attribute.
@@ -812,7 +812,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "userApplicationDataDirectory"))
 
 	@userApplicationDataDirectory.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def userApplicationDataDirectory(self):
 		"""
 		This method is the deleter method for **self.__userApplicationDataDirectory** attribute.
@@ -832,7 +832,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__loggingSessionHandler
 
 	@loggingSessionHandler.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingSessionHandler(self, value):
 		"""
 		This method is the setter method for **self.__loggingSessionHandler** attribute.
@@ -844,7 +844,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingSessionHandler"))
 
 	@loggingSessionHandler.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingSessionHandler(self):
 		"""
 		This method is the deleter method for **self.__loggingSessionHandler** attribute.
@@ -864,7 +864,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__loggingFileHandler
 
 	@loggingFileHandler.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingFileHandler(self, value):
 		"""
 		This method is the setter method for **self.__loggingFileHandler** attribute.
@@ -876,7 +876,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingFileHandler"))
 
 	@loggingFileHandler.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingFileHandler(self):
 		"""
 		This method is the deleter method for **self.__loggingFileHandler** attribute.
@@ -896,7 +896,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__loggingConsoleHandler
 
 	@loggingConsoleHandler.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingConsoleHandler(self, value):
 		"""
 		This method is the setter method for **self.__loggingConsoleHandler** attribute.
@@ -908,7 +908,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingConsoleHandler"))
 
 	@loggingConsoleHandler.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingConsoleHandler(self):
 		"""
 		This method is the deleter method for **self.__loggingConsoleHandler** attribute.
@@ -930,7 +930,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 	@loggingSessionHandlerStream.setter
 	@foundations.trace.untracable
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingSessionHandlerStream(self, value):
 		"""
 		This method is the setter method for **self.__loggingSessionHandlerStream** attribute.
@@ -943,7 +943,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 	@loggingSessionHandlerStream.deleter
 	@foundations.trace.untracable
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingSessionHandlerStream(self):
 		"""
 		This method is the deleter method for **self.__loggingSessionHandlerStream** attribute.
@@ -963,7 +963,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__settings
 
 	@settings.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self, value):
 		"""
 		This method is the setter method for **self.__settings** attribute.
@@ -975,7 +975,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
 	@settings.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
 		This method is the deleter method for **self.__settings** attribute.
@@ -995,7 +995,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__verbosityLevel
 
 	@verbosityLevel.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def verbosityLevel(self, value):
 		"""
 		This method is the setter method for **self.__verbosityLevel** attribute.
@@ -1010,7 +1010,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.__verbosityLevel = value
 
 	@verbosityLevel.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def verbosityLevel(self):
 		"""
 		This method is the deleter method for **self.__verbosityLevel** attribute.
@@ -1030,7 +1030,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__parameters
 
 	@parameters.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def parameters(self, value):
 		"""
 		This method is the setter method for **self.__parameters** attribute.
@@ -1042,7 +1042,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "parameters"))
 
 	@parameters.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def parameters(self):
 		"""
 		This method is the deleter method for **self.__parameters** attribute.
@@ -1062,7 +1062,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__arguments
 
 	@arguments.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def arguments(self, value):
 		"""
 		This method is the setter method for **self.__arguments** attribute.
@@ -1074,7 +1074,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "arguments"))
 
 	@arguments.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def arguments(self):
 		"""
 		This method is the deleter method for **self.__arguments** attribute.
@@ -1094,7 +1094,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__workerThreads
 
 	@workerThreads.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def workerThreads(self, value):
 		"""
 		This method is the setter method for **self.__workerThreads** attribute.
@@ -1106,7 +1106,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "workerThreads"))
 
 	@workerThreads.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def workerThreads(self):
 		"""
 		This method is the deleter method for **self.__workerThreads** attribute.
@@ -1126,7 +1126,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__isProcessing
 
 	@isProcessing.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def isProcessing(self, value):
 		"""
 		This method is the setter method for **self.__isProcessing** attribute.
@@ -1138,7 +1138,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "isProcessing"))
 
 	@isProcessing.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def isProcessing(self):
 		"""
 		This method is the deleter method for **self.__isProcessing** attribute.
@@ -1158,7 +1158,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		return self.__locals
 
 	@locals.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def locals(self, value):
 		"""
 		This method is the setter method for **self.__locals** attribute.
@@ -1170,7 +1170,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "locals"))
 
 	@locals.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def locals(self):
 		"""
 		This method is the deleter method for **self.__locals** attribute.
@@ -1344,7 +1344,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.__isProcessing = state
 		state and self.Application_Progress_Status_processing.show()
 
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def setVerbosityLevel(self, verbosityLevel):
 		"""
 		This method sets the Application verbosity level.
@@ -1361,7 +1361,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.verbosityLevelChanged.emit(verbosityLevel)
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.FileExistsError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.FileExistsError)
 	def setVisualStyle(self, fullScreenStyle=False):
 		"""
 		This method sets the Application visual style.
@@ -1609,7 +1609,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 		exit(exitCode)
 
-@foundations.exceptions.handleExceptions(umbra.ui.common.uiSystemExitExceptionHandler, False, OSError)
+@foundations.exceptions.handleExceptions(umbra.ui.common.uiSystemExitExceptionHandler, OSError)
 def setUserApplicationDataDirectory(path):
 	"""
 	This definition sets the Application data directory.
@@ -1695,7 +1695,6 @@ def getCommandLineParametersParser():
 	return parser
 
 @foundations.exceptions.handleExceptions(umbra.ui.common.uiSystemExitExceptionHandler,
-										False,
 										umbra.exceptions.EngineConfigurationError)
 def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visibleComponents=None):
 	"""

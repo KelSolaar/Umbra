@@ -85,7 +85,7 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		return self.__treeViewIndentation
 
 	@treeViewIndentation.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def treeViewIndentation(self, value):
 		"""
 		This method is the setter method for **self.__treeViewIndentation** attribute.
@@ -97,7 +97,7 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "treeViewIndentation"))
 
 	@treeViewIndentation.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def treeViewIndentation(self):
 		"""
 		This method is the deleter method for **self.__treeViewIndentation** attribute.
@@ -187,7 +187,7 @@ class ScriptEditor_QTabWidget(QTabWidget):
 		return self.__container
 
 	@container.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
 		This method is the setter method for **self.__container** attribute.
@@ -199,7 +199,7 @@ class ScriptEditor_QTabWidget(QTabWidget):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
 		This method is the deleter method for **self.__container** attribute.

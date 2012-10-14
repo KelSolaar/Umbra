@@ -156,7 +156,7 @@ class Search_worker(QThread):
 		return self.__container
 
 	@container.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
 		This method is the setter method for **self.__container** attribute.
@@ -168,7 +168,7 @@ class Search_worker(QThread):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
 		This method is the deleter method for **self.__container** attribute.
@@ -188,7 +188,7 @@ class Search_worker(QThread):
 		return self.__pattern
 
 	@pattern.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def pattern(self, value):
 		"""
 		This method is the setter method for **self.__pattern** attribute.
@@ -202,7 +202,7 @@ class Search_worker(QThread):
 		self.__pattern = value
 
 	@pattern.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def pattern(self):
 		"""
 		This method is the deleter method for **self.__pattern** attribute.
@@ -222,7 +222,7 @@ class Search_worker(QThread):
 		return self.__location
 
 	@location.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def location(self, value):
 		"""
 		This method is the setter method for **self.__location** attribute.
@@ -236,7 +236,7 @@ class Search_worker(QThread):
 		self.__location = value
 
 	@location.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def location(self):
 		"""
 		This method is the deleter method for **self.__location** attribute.
@@ -256,7 +256,7 @@ class Search_worker(QThread):
 		return self.__settings
 
 	@settings.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def settings(self, value):
 		"""
 		This method is the setter method for **self.__settings** attribute.
@@ -272,7 +272,7 @@ class Search_worker(QThread):
 		self.__settings.update(value)
 
 	@settings.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
 		This method is the deleter method for **self.__settings** attribute.
@@ -292,7 +292,7 @@ class Search_worker(QThread):
 		return self.__searchResults
 
 	@searchResults.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchResults(self, value):
 		"""
 		This method is the setter method for **self.__searchResults** attribute.
@@ -304,7 +304,7 @@ class Search_worker(QThread):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "searchResults"))
 
 	@searchResults.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchResults(self):
 		"""
 		This method is the deleter method for **self.__searchResults** attribute.

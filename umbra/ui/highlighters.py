@@ -103,7 +103,7 @@ class FormatsTree(object):
 		return self.__rootNode
 
 	@rootNode.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def rootNode(self, value):
 		"""
 		This method is the setter method for **self.__rootNode** attribute.
@@ -117,7 +117,7 @@ class FormatsTree(object):
 		self.__rootNode = value
 
 	@rootNode.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def rootNode(self):
 		"""
 		This method is the deleter method for **self.__rootNode** attribute.
@@ -230,7 +230,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		return self.__formats
 
 	@formats.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def formats(self, value):
 		"""
 		This method is the setter method for **self.__formats** attribute.
@@ -243,7 +243,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		self.__formats = value
 
 	@formats.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def formats(self):
 		"""
 		This method is the deleter method for **self.__formats** attribute.
@@ -263,7 +263,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		return self.__rules
 
 	@rules.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def rules(self, value):
 		"""
 		This method is the setter method for **self.__rules** attribute.
@@ -277,7 +277,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		self.__rules = value
 
 	@rules.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def rules(self):
 		"""
 		This method is the deleter method for **self.__rules** attribute.
@@ -289,7 +289,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	@foundations.exceptions.handleExceptions(None, False, NotImplementedError)
+	@foundations.exceptions.handleExceptions(NotImplementedError)
 	def highlightBlock(self, block):
 		"""
 		This method reimplements the :meth:`QSyntaxHighlighter.highlightBlock` method.
@@ -359,7 +359,7 @@ class DefaultHighlighter(AbstractHighlighter):
 		return self.__theme
 
 	@theme.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def theme(self, value):
 		"""
 		This method is the setter method for **self.__theme** attribute.
@@ -372,7 +372,7 @@ class DefaultHighlighter(AbstractHighlighter):
 		self.__theme = value
 
 	@theme.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def theme(self):
 		"""
 		This method is the deleter method for **self.__theme** attribute.

@@ -167,7 +167,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		return self.__defaultProject
 
 	@defaultProject.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def defaultProject(self, value):
 		"""
 		This method is the setter method for **self.__defaultProject** attribute.
@@ -181,7 +181,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		self.__defaultProject = value
 
 	@defaultProject.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultProject(self):
 		"""
 		This method is the deleter method for **self.__defaultProject** attribute.
@@ -201,7 +201,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		return self.__defaultProjectNode
 
 	@defaultProjectNode.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultProjectNode(self, value):
 		"""
 		This method is the setter method for **self.__defaultProjectNode** attribute.
@@ -213,7 +213,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultProjectNode"))
 
 	@defaultProjectNode.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultProjectNode(self):
 		"""
 		This method is the deleter method for **self.__defaultProjectNode** attribute.
@@ -399,7 +399,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def registerFile(self, file, parent, ensureUniqueness=False):
 		"""
 		This method registers given file in the Model.
@@ -428,7 +428,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return fileNode
 
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def unregisterFile(self, fileNode, raiseException=False):
 		"""
 		This method unregisters given :class:`umbra.components.factory.scriptEditor.nodes.FileNode` class node from the Model.
@@ -455,7 +455,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return fileNode
 
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def registerDirectory(self, directory, parent, ensureUniqueness=False):
 		"""
 		This method registers given directory in the Model.
@@ -484,7 +484,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return directoryNode
 
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def unregisterDirectory(self, directoryNode, raiseException=False):
 		"""
 		This method unregisters given :class:`umbra.components.factory.scriptEditor.nodes.DirectoryNode` class node from the Model.
@@ -511,7 +511,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return directoryNode
 
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def registerEditor(self, editor, parent, ensureUniqueness=False):
 		"""
 		This method registers given :class:`umbra.components.factory.scriptEditor.editor.Editor` class editor in the Model.
@@ -539,7 +539,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return editorNode
 
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def unregisterEditor(self, editorNode, raiseException=False):
 		"""
 		This method unregisters given :class:`umbra.components.factory.scriptEditor.nodes.EditorNode` class node from the Model.
@@ -566,7 +566,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return editorNode
 
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def registerProject(self, path, ensureUniqueness=False):
 		"""
 		This method registers given path in the Model as a project.
@@ -594,7 +594,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		return projectNode
 
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def unregisterProject(self, projectNode, raiseException=False):
 		"""
 		This method unregisters given :class:`umbra.components.factory.scriptProject.nodes.ProjectNode` class node from the Model.
@@ -792,7 +792,7 @@ class LanguagesModel(QAbstractListModel):
 		return self.__languages
 
 	@languages.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def languages(self, value):
 		"""
 		This method is the setter method for **self.__languages** attribute.
@@ -809,7 +809,7 @@ class LanguagesModel(QAbstractListModel):
 		self.endResetModel()
 
 	@languages.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def languages(self):
 		"""
 		This method is the deleter method for **self.__languages** attribute.
@@ -858,7 +858,7 @@ class LanguagesModel(QAbstractListModel):
 		self.__languages = sorted(self.__languages, key=lambda x: (x.name), reverse=order)
 		self.endResetModel()
 
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def registerLanguage(self, language):
 		"""
 		This method registers given language in the :obj:`LanguagesModel.languages` class property.
@@ -877,7 +877,7 @@ class LanguagesModel(QAbstractListModel):
 		self.sortLanguages()
 		return True
 
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def unregisterLanguage(self, name):
 		"""
 		This method unregisters language with given name from the :obj:`LanguagesModel.languages` class property.

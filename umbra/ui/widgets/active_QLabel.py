@@ -131,7 +131,7 @@ class Active_QLabel(QLabel):
 		return self.__defaultPixmap
 
 	@defaultPixmap.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def defaultPixmap(self, value):
 		"""
 		This method is the setter method for **self.__defaultPixmap** attribute.
@@ -144,7 +144,7 @@ class Active_QLabel(QLabel):
 		self.__defaultPixmap = value
 
 	@defaultPixmap.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultPixmap(self):
 		"""
 		This method is the deleter method for **self.__defaultPixmap** attribute.
@@ -164,7 +164,7 @@ class Active_QLabel(QLabel):
 		return self.__hoverPixmap
 
 	@hoverPixmap.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def hoverPixmap(self, value):
 		"""
 		This method is the setter method for **self.__hoverPixmap** attribute.
@@ -177,7 +177,7 @@ class Active_QLabel(QLabel):
 		self.__hoverPixmap = value
 
 	@hoverPixmap.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def hoverPixmap(self):
 		"""
 		This method is the deleter method for **self.__hoverPixmap** attribute.
@@ -197,7 +197,7 @@ class Active_QLabel(QLabel):
 		return self.__activePixmap
 
 	@activePixmap.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def activePixmap(self, value):
 		"""
 		This method is the setter method for **self.__activePixmap** attribute.
@@ -210,7 +210,7 @@ class Active_QLabel(QLabel):
 		self.__activePixmap = value
 
 	@activePixmap.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def activePixmap(self):
 		"""
 		This method is the deleter method for **self.__activePixmap** attribute.
@@ -230,7 +230,7 @@ class Active_QLabel(QLabel):
 		return self.__checkable
 
 	@checkable.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def checkable(self, value):
 		"""
 		This method is the setter method for **self.__checkable** attribute.
@@ -243,7 +243,7 @@ class Active_QLabel(QLabel):
 		self.__checkable = value
 
 	@checkable.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def checkable(self):
 		"""
 		This method is the deleter method for **self.__checkable** attribute.
@@ -263,7 +263,7 @@ class Active_QLabel(QLabel):
 		return self.__checked
 
 	@checked.setter
-	@foundations.exceptions.handleExceptions(None, False, AssertionError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def checked(self, value):
 		"""
 		This method is the setter method for **self.__checked** attribute.
@@ -276,7 +276,7 @@ class Active_QLabel(QLabel):
 		self.setChecked(value)
 
 	@checked.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def checked(self):
 		"""
 		This method is the deleter method for **self.__checked** attribute.
@@ -296,7 +296,7 @@ class Active_QLabel(QLabel):
 		return self.__menu
 
 	@menu.setter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def menu(self, value):
 		"""
 		This method is the setter method for **self.__menu** attribute.
@@ -308,7 +308,7 @@ class Active_QLabel(QLabel):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "menu"))
 
 	@menu.deleter
-	@foundations.exceptions.handleExceptions(None, False, foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def menu(self):
 		"""
 		This method is the deleter method for **self.__menu** attribute.
