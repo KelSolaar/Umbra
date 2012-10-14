@@ -72,10 +72,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
 
 	# Custom signals definitions.
-	modelRefresh = pyqtSignal()
+	refreshNodes = pyqtSignal()
 	"""
 	This signal is emited by the :class:`ComponentsManagerUi` class when :obj:`ComponentsManagerUi.model` class property
-	model needs to be refreshed. ( pyqtSignal )
+	model nodes nodes needs to be refreshed. ( pyqtSignal )
 	"""
 
 	activatedComponent = pyqtSignal(str)
@@ -632,7 +632,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		# Signals / Slots.
 		self.__view.selectionModel().selectionChanged.connect(self.__view_selectionModel__selectionChanged)
-		self.modelRefresh.connect(self.__componentsManagerUi__modelRefresh)
+		self.refreshNodes.connect(self.__model__refreshNodes)
 
 		self.initializedUi = True
 		return True
@@ -677,10 +677,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Calling '{0}' Component Framework 'onStartup' method.".format(self.__class__.__name__))
 
-		self.modelRefresh.emit()
+		self.refreshNodes.emit()
 		return True
 
-	def __componentsManagerUi__modelRefresh(self):
+	def __model__refreshNodes(self):
 		"""
 		This method is triggered when the Model data need refresh.
 		"""
@@ -922,7 +922,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			component.interface.addWidget()
 		LOGGER.info("{0} | '{1}' Component has been activated!".format(self.__class__.__name__, component.name))
 		self.activatedComponent.emit(name)
-		self.modelRefresh.emit()
+		self.refreshNodes.emit()
 		return True
 
 	@foundations.exceptions.handleExceptions(manager.exceptions.ComponentExistsError,
@@ -954,7 +954,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			component.interface.deactivate()
 			LOGGER.info("{0} | '{1}' Component has been deactivated!".format(self.__class__.__name__, component.name))
 			self.deactivatedComponent.emit(name)
-			self.modelRefresh.emit()
+			self.refreshNodes.emit()
 			return True
 		else:
 			raise manager.exceptions.ComponentDeactivationError(
