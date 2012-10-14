@@ -2,14 +2,6 @@
 <ui version="4.0">
  <class>Trace_Ui_DockWidget</class>
  <widget class="QDockWidget" name="Trace_Ui_DockWidget">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>280</width>
-    <height>242</height>
-   </rect>
-  </property>
   <property name="windowTitle">
    <string>Trace Ui</string>
   </property>
@@ -17,6 +9,35 @@
    <layout class="QGridLayout" name="Trace_Ui_dockWidgetContents_gridLayout">
     <item row="0" column="0">
      <widget class="QTreeView" name="Modules_treeView"/>
+    </item>
+    <item row="1" column="0">
+     <layout class="QHBoxLayout" name="Trace_Modules_Filter_horizontalLayout">
+      <property name="spacing">
+       <number>2</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="Case_Sensitive_Matching_pushButton">
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="statusTip">
+         <string>Case Sensitive Matching Push Button: Searchs will be performed case sensitively.</string>
+        </property>
+        <property name="text">
+         <string>Aa</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>

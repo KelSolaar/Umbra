@@ -96,6 +96,10 @@ class Search_QLineEdit(QLineEdit):
 												QPixmap(self.__uiSearchImage),
 												QPixmap(self.__uiSearchClickedImage))
 		self.__searchActiveLabel.setObjectName("Search_Field_activeLabel")
+		self.__searchActiveLabel.showEvent = lambda event: reduce(lambda *args: None,
+		(self.__setStyleSheet(), Active_QLabel.showEvent(self.__searchActiveLabel, event)))
+		self.__searchActiveLabel.hideEvent = lambda event: reduce(lambda *args: None,
+		(self.__setStyleSheet(), Active_QLabel.hideEvent(self.__searchActiveLabel, event)))
 
 		self.__clearButton = QToolButton(self)
 		self.__clearButton.setObjectName("Clear_Field_button")
@@ -422,16 +426,25 @@ class Search_QLineEdit(QLineEdit):
 		else:
 			self.__clearButton.setText("Clear")
 
-		frameWidth = self.style().pixelMetric(QStyle.PM_DefaultFrameWidth)
-		self.setStyleSheet(QString("QLineEdit {{ padding-left: {0}px; padding-right: {1}px; }}".format(
-		self.__searchActiveLabel.sizeHint().width() + frameWidth, self.__clearButton.sizeHint().width() + frameWidth)))
+		self.__setStyleSheet()
 
+		frameWidth = self.style().pixelMetric(QStyle.PM_DefaultFrameWidth)
 		self.setMinimumSize(max(self.minimumSizeHint().width(), self.__clearButton.sizeHint().height() + frameWidth * 2),
 		 					max(self.minimumSizeHint().height(), self.__clearButton.sizeHint().height() + frameWidth * 2))
 
 		self.__completer.setCaseSensitivity(Qt.CaseInsensitive)
 		self.__completer.setCompletionMode(QCompleter.UnfilteredPopupCompletion)
 		self.__completer.setMaxVisibleItems(self.__completerVisibleItemsCount)
+
+	def __setStyleSheet(self):
+		"""
+		This method sets the Widget stylesheet.
+		"""
+
+		frameWidth = self.style().pixelMetric(QStyle.PM_DefaultFrameWidth)
+		self.setStyleSheet(QString("QLineEdit {{ padding-left: {0}px; padding-right: {1}px; }}".format(
+		self.__searchActiveLabel.sizeHint().width() if self.__searchActiveLabel.isVisible() else 0 + frameWidth,
+		self.__clearButton.sizeHint().width() + frameWidth)))
 
 	def __setClearButtonVisibility(self, text):
 		"""
@@ -458,11 +471,15 @@ if __name__ == "__main__":
 	gridLayout = QGridLayout()
 	widget.setLayout(gridLayout)
 
-	search_QLineEdit = Search_QLineEdit()
-	gridLayout.addWidget(search_QLineEdit)
+	search_QLineEditA = Search_QLineEdit()
+	gridLayout.addWidget(search_QLineEditA)
 
-	search_QLineEdit.completer.setModel(QStringListModel([(letter * 8).title() for letter in map(chr, range(97, 123))]))
-	search_QLineEdit.setPlaceholderText("Search...")
+	search_QLineEditA.completer.setModel(QStringListModel([(letter * 8).title() for letter in map(chr, range(97, 123))]))
+	search_QLineEditA.setPlaceholderText("Search...")
+
+	search_QLineEditB = Search_QLineEdit()
+	search_QLineEditB.searchActiveLabel.hide()
+	gridLayout.addWidget(search_QLineEditB)
 
 	widget.show()
 	widget.raise_()

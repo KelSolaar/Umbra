@@ -18,6 +18,7 @@
 #***	External imports.
 #**********************************************************************************************************************
 import os
+import re
 import sys
 if sys.version_info[:2] <= (2, 6):
 	from ordereddict import OrderedDict
@@ -31,12 +32,14 @@ from PyQt4.QtCore import pyqtSignal
 #**********************************************************************************************************************
 import foundations.exceptions
 import foundations.verbose
+import foundations.strings
 import foundations.trace
 import umbra.ui.nodes
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.components.addons.traceUi.models import ModulesModel
 from umbra.components.addons.traceUi.nodes import ModuleNode
 from umbra.components.addons.traceUi.views import Modules_QTreeView
+from umbra.ui.widgets.search_QLineEdit import Search_QLineEdit
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -369,6 +372,11 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
 
+		self.Trace_Modules_Filter_lineEdit = Search_QLineEdit(self)
+		self.Trace_Modules_Filter_lineEdit.searchActiveLabel.hide()
+		self.Trace_Modules_Filter_lineEdit.setPlaceholderText("Objects Trace Filter ...")
+		self.Trace_Modules_Filter_horizontalLayout.addWidget(self.Trace_Modules_Filter_lineEdit)
+
 		self.__model = ModulesModel(self, horizontalHeaders=self.__headers)
 
 		self.Modules_treeView.setParent(None)
@@ -460,12 +468,12 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.__engine.actionsManager.unregisterAction(action)
 
 	def __view_traceModulesAction__triggered(self):
-		for module in self.getSelectedModules():
-			foundations.trace.traceModule(module, foundations.verbose.tracer)
+		pattern = foundations.strings.encode(self.Trace_Modules_Filter_lineEdit.text()) or r".*"
+		flags = re.IGNORECASE if self.Case_Sensitive_Matching_pushButton.isChecked() else 0
+		self.traceModules(self.getSelectedModules(), pattern, flags)
 
 	def __view_untraceModulesAction__triggered(self):
-		for module in self.getSelectedModules():
-			foundations.trace.untraceModule(module)
+		self.untraceModules(self.getSelectedModules())
 
 	def __traceUi__modelRefresh(self):
 		"""
@@ -491,6 +499,25 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		return [node.module for node in self.getSelectedNodes()]
+
+	@foundations.exceptions.handleExceptions(umbra.ui.common.notifyExceptionHandler,
+											False,
+											foundations.exceptions.UserError)
+	def traceModules(self, modules, pattern=r".*", flags=re.IGNORECASE):
+		try:
+			pattern = re.compile(pattern, flags)
+		except Exception:
+			raise foundations.exceptions.UserError(
+			"{0} | Invalid objects trace filter pattern: Regex compilation failed!".format(self.__class__.__name__))
+
+		for module in modules:
+			foundations.trace.traceModule(module, foundations.verbose.tracer, pattern)
+		return True
+
+	def untraceModules(self, modules):
+		for module in modules:
+			foundations.trace.untraceModule(module)
+		return True
 
 	def getModules(self):
 		return foundations.trace.REGISTERED_MODULES
