@@ -66,10 +66,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
 
 	# Custom signals definitions.
-	modelRefresh = pyqtSignal()
+	refreshNodes = pyqtSignal()
 	"""
 	This signal is emited by the :class:`TraceUi` class when :obj:`TraceUi.model` class property model
-	needs to be refreshed. ( pyqtSignal )
+	nodes needs to be refreshed. ( pyqtSignal )
 	"""
 
 	def __init__(self, parent=None, name=None, *args, **kwargs):
@@ -390,7 +390,7 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.setModules()
 
 		# Signals / Slots.
-		self.modelRefresh.connect(self.__traceUi__modelRefresh)
+		self.refreshNodes.connect(self.__model__refreshNodes)
 
 		self.initializedUi = True
 		return True
@@ -405,7 +405,7 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Uninitializing '{0}' Component ui.".format(self.__class__.__name__))
 
 		# Signals / Slots.
-		self.modelRefresh.disconnect(self.__traceUi__modelRefresh)
+		self.refreshNodes.disconnect(self.__model__refreshNodes)
 
 		self.__view_removeActions()
 
@@ -442,6 +442,24 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return True
 
+	def __model__refreshNodes(self):
+		"""
+		This method is triggered when the Model nodes need refresh.
+		"""
+
+		self.setModules()
+
+	def __model__refreshAttributes(self):
+		"""
+		This method refreshes the Model nodes attributes.
+		"""
+
+		for node in foundations.walkers.nodesWalker(self.__model.rootNode):
+			if foundations.trace.isTraced(node.module) == node.traced.value:
+				continue
+
+			node.synchronizeAttributes()
+
 	def __view_addActions(self):
 		"""
 		This method sets the View actions.
@@ -466,20 +484,27 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			self.__view.removeAction(self.__engine.actionsManager.getAction(action))
 			self.__engine.actionsManager.unregisterAction(action)
 
-	def __view_traceModulesAction__triggered(self):
+	def __view_traceModulesAction__triggered(self, checked):
+		"""
+		This method is triggered by **'Actions|Umbra|Components|addons.traceUi|Trace Module(s)'** action.
+
+		:param checked: Action checked state. ( Boolean )
+		:return: Method success. ( Boolean )
+		"""
+
 		pattern = foundations.strings.encode(self.Trace_Modules_Filter_lineEdit.text()) or r".*"
 		flags = re.IGNORECASE if self.Case_Sensitive_Matching_pushButton.isChecked() else 0
-		self.traceModules(self.getSelectedModules(), pattern, flags)
+		return self.traceModules(self.getSelectedModules(), pattern, flags)
 
-	def __view_untraceModulesAction__triggered(self):
-		self.untraceModules(self.getSelectedModules())
-
-	def __traceUi__modelRefresh(self):
+	def __view_untraceModulesAction__triggered(self, checked):
 		"""
-		This method is triggered when the Model data need refresh.
+		This method is triggered by **'Actions|Umbra|Components|addons.traceUi|Untrace Module(s)'** action.
+
+		:param checked: Action checked state. ( Boolean )
+		:return: Method success. ( Boolean )
 		"""
 
-		self.setModules()
+		return self.untraceModules(self.getSelectedModules())
 
 	def getSelectedNodes(self):
 		"""
@@ -502,6 +527,15 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(umbra.ui.common.notifyExceptionHandler,
 											foundations.exceptions.UserError)
 	def traceModules(self, modules, pattern=r".*", flags=re.IGNORECASE):
+		"""
+		This method traces given modules using given filter pattern.
+
+		:param modules: Modules to trace. ( List )
+		:param pattern: Matching pattern. ( String )
+		:param flags: Matching regex flags. ( Integer )
+		:return: Method success. ( Boolean )
+		"""
+
 		try:
 			pattern = re.compile(pattern, flags)
 		except Exception:
@@ -510,19 +544,34 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		for module in modules:
 			foundations.trace.traceModule(module, foundations.verbose.tracer, pattern)
+		self.__model__refreshAttributes()
 		return True
 
 	def untraceModules(self, modules):
+		"""
+		This method untraces given modules.
+
+		:param modules: Modules to untrace. ( List )
+		:return: Method success. ( Boolean )
+		"""
+
 		for module in modules:
 			foundations.trace.untraceModule(module)
+		self.__model__refreshAttributes()
 		return True
 
 	def getModules(self):
+		"""
+		This method sets the registered Modules.
+	
+		:return: Registered modules. ( List )
+		"""
+
 		return foundations.trace.REGISTERED_MODULES
 
 	def setModules(self, modules=None):
 		"""
-		This method sets the Modules Model nodes.
+		This method sets the modules Model nodes.
 	
 		:param modules: Modules to set. ( List )
 		:return: Method success. ( Boolean )
