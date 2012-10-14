@@ -93,12 +93,14 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	contentsChanged = pyqtSignal()
 	"""
-	This signal is emited by the :class:`Editor` class when the current editor document content has changed. ( pyqtSignal )
+	This signal is emited by the :class:`Editor` class
+	when the current editor document content has changed. ( pyqtSignal )
 	"""
 
 	modificationChanged = pyqtSignal(bool)
 	"""
-	This signal is emited by the :class:`Editor` class when the current editor doucment content has been modified. ( pyqtSignal )
+	This signal is emited by the :class:`Editor` class
+	when the current editor document content has been modified. ( pyqtSignal )
 	"""
 
 	def __init__(self, parent=None, file=None, language=PYTHON_LANGUAGE, *args, **kwargs):

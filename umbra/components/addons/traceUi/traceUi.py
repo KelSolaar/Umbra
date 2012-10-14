@@ -410,7 +410,6 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__view_removeActions()
 
 		self.__model = None
-		self.__delegate = None
 		self.__view = None
 
 		self.initializedUi = False

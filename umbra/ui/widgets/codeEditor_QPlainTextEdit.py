@@ -370,7 +370,8 @@ class LinesNumbers_QWidget(QWidget):
 		:return: Widget target width. ( Integer )
 		"""
 
-		return self.__margin + self.__editor.fontMetrics().width(foundations.strings.encode(max(1, self.__editor.blockCount())))
+		return self.__margin + \
+		self.__editor.fontMetrics().width(foundations.strings.encode(max(1, self.__editor.blockCount())))
 
 	def setEditorViewportMargins(self, newBlocksCount):
 		"""

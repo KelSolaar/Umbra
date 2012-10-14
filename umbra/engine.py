@@ -1247,9 +1247,11 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		"""
 
 		components = self.__componentsManager.listComponents()
-		candidateComponents = getattr(set(components), "intersection" if requisite else "difference")(self.__requisiteComponents)
+		candidateComponents = \
+		getattr(set(components), "intersection" if requisite else "difference")(self.__requisiteComponents)
 		deactivatedComponents = self.__settings.getKey("Settings", "deactivatedComponents").toString().split(",")
-		candidateComponents = sorted(filter(lambda x: x not in deactivatedComponents, candidateComponents), key=(components).index)
+		candidateComponents = \
+		sorted(filter(lambda x: x not in deactivatedComponents, candidateComponents), key=(components).index)
 
 		for component in candidateComponents:
 			try:

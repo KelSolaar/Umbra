@@ -132,7 +132,8 @@ class Delayed_QSplashScreen(QSplashScreen):
 		"""
 
 		if value is not None:
-			assert type(value) in (Qt.GlobalColor, QColor), "'{0}' attribute: '{1}' type is not 'int' or 'QColor'!".format("textColor", value)
+			assert type(value) in (Qt.GlobalColor, QColor), \
+			"'{0}' attribute: '{1}' type is not 'int' or 'QColor'!".format("textColor", value)
 		self.__textColor = value
 
 	@textColor.deleter
@@ -166,7 +167,6 @@ class Delayed_QSplashScreen(QSplashScreen):
 		foundations.core.wait(self.__waitTime if waitTime is None else waitTime)
 
 if __name__ == "__main__":
-	import sys
 	from PyQt4.QtGui import QPixmap
 
 	import umbra.ui.common

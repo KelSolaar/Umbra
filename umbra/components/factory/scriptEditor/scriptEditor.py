@@ -1433,9 +1433,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__engine.contentDropped.connect(self.__engine__contentDropped)
 		self.__engine.layoutsManager.layoutRestored.connect(self.__engine_layoutsManager__layoutRestored)
 		self.__engine.fileSystemEventsManager.fileChanged.connect(self.__engine_fileSystemEventsManager__fileChanged)
-		self.__engine.fileSystemEventsManager.fileInvalidated.connect(self.__engine_fileSystemEventsManager__fileInvalidated)
-		self.__engine.fileSystemEventsManager.directoryChanged.connect(self.__engine_fileSystemEventsManager__directoryChanged)
-		self.__engine.fileSystemEventsManager.directoryInvalidated.connect(self.__engine_fileSystemEventsManager__directoryInvalidated)
+		self.__engine.fileSystemEventsManager.fileInvalidated.connect(
+		self.__engine_fileSystemEventsManager__fileInvalidated)
+		self.__engine.fileSystemEventsManager.directoryChanged.connect(
+		self.__engine_fileSystemEventsManager__directoryChanged)
+		self.__engine.fileSystemEventsManager.directoryInvalidated.connect(
+		self.__engine_fileSystemEventsManager__directoryInvalidated)
 		self.Script_Editor_tabWidget.tabCloseRequested.connect(self.__Script_Editor_tabWidget__tabCloseRequested)
 		self.Script_Editor_tabWidget.currentChanged.connect(self.__Script_Editor_tabWidget__currentChanged)
 		self.Script_Editor_tabWidget.contentDropped.connect(self.__Script_Editor_tabWidget__contentDropped)
@@ -2628,7 +2631,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 			LOGGER.debug("> Adding '{0}' file to recent files actions.".format(recentFiles[i]))
 
-			self.__recentFilesActions[i].setText("{0} {1}".format(i + 1, os.path.basename(foundations.strings.encode(recentFiles[i]))))
+			self.__recentFilesActions[i].setText("{0} {1}".format(i + 1, os.path.basename(
+			foundations.strings.encode(recentFiles[i]))))
 			self.__recentFilesActions[i].data = foundations.strings.encode(recentFiles[i])
 			self.__recentFilesActions[i].setVisible(True)
 
