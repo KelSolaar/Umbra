@@ -1682,7 +1682,7 @@ def getCommandLineParametersParser():
 					default=False,
 					dest="hideSplashScreen",
 					help="'Hide splashscreen'.")
-	parser.add_option("-t",
+	parser.add_option("-w",
 					"--deactivateWorkerThreads",
 					action="store_true",
 					default=False,
@@ -1693,7 +1693,14 @@ def getCommandLineParametersParser():
 					action="store",
 					type="string",
 					dest="startupScript",
-					help="'Execute provided startup script'.")
+					help="'Execute given startup script'.")
+	parser.add_option("-t",
+					"--traceModules",
+					action="store",
+					default="{}",
+					type="string",
+					dest="traceModules",
+					help="'Trace given modules'.")
 	return parser
 
 @foundations.exceptions.handleExceptions(umbra.ui.common.uiSystemExitExceptionHandler,
@@ -1712,6 +1719,8 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 
 	# Command line parameters handling.
 	RuntimeGlobals.parameters, RuntimeGlobals.arguments = parameters
+
+	foundations.trace.evaluateTraceRequest(RuntimeGlobals.parameters.traceModules, foundations.verbose.tracer)
 
 	if RuntimeGlobals.parameters.about:
 		for line in SESSION_HEADER_TEXT:
