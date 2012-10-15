@@ -1793,11 +1793,12 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	foundations.common.pathExists(RuntimeGlobals.settingsFile) or RuntimeGlobals.settings.setDefaultPreferences()
 
 	LOGGER.debug("> Retrieving stored verbose level.")
-	RuntimeGlobals.verbosityLevel = RuntimeGlobals.parameters.verbosityLevel and \
-	RuntimeGlobals.parameters.verbosityLevel or \
+	RuntimeGlobals.verbosityLevel = RuntimeGlobals.parameters.verbosityLevel \
+	if RuntimeGlobals.parameters.verbosityLevel is not None else \
 	foundations.common.getFirstItem(RuntimeGlobals.settings.getKey("Settings", "verbosityLevel").toInt())
 	LOGGER.debug("> Setting logger verbosity level to: '{0}'.".format(RuntimeGlobals.verbosityLevel))
 	foundations.verbose.setVerbosityLevel(RuntimeGlobals.verbosityLevel)
+	RuntimeGlobals.settings.setKey("Settings", "verbosityLevel", RuntimeGlobals.verbosityLevel)
 
 	LOGGER.debug("> Retrieving stored logging formatter.")
 	loggingFormatter = RuntimeGlobals.parameters.loggingFormater and RuntimeGlobals.parameters.loggingFormater or \
