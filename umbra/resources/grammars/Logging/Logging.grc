@@ -12,5 +12,5 @@ logging.message.critical = ^CRITICAL\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\
 logging.message.error = ^ERROR\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*ERROR\s*:.*$
 logging.message.warning = ^WARNING\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*WARNING\s*:.*$
 logging.message.debug = ^DEBUG\s*:.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:.*$
-logging.message.debug.trace.in = ^DEBUG\s*:\s*--->.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:\s*--->.*$
-logging.message.debug.trace.out = ^DEBUG\s*:\s*<---.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*DEBUG\s*:\s*<---.*$
+logging.message.debug.trace.in = ^\w+\s*:\s*--->.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*\w+\s*:\s*--->.*$
+logging.message.debug.trace.out = ^\w+\s*:\s*<---.*$|^[\d-]+\s+[\d:,]+\s*-\s*[\da-fA-F]+\s*-\s*\w+\s*:\s*<---.*$
