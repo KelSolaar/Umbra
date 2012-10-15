@@ -129,6 +129,7 @@ __all__ = ["LOGGER", "SESSION_HEADER_TEXT",
 			"Umbra",
 			"setUserApplicationDataDirectory",
 			"getCommandLineParametersParser",
+			"getLoggingFile",
 			"run",
 			"exit"]
 
@@ -1705,6 +1706,43 @@ def getCommandLineParametersParser():
 
 @foundations.exceptions.handleExceptions(umbra.ui.common.uiSystemExitExceptionHandler,
 										umbra.exceptions.EngineConfigurationError)
+def getLoggingFile(maximumLoggingFiles=10, retries=2 ^ 16):
+	"""
+	This definition returns the logging file path.
+
+	:param maximumLoggingFiles: Maximum allowed logging files in the logging directory. ( Integer )
+	:param retries: Number of retries to generate a unique logging file name. ( Integer )
+	:return: Logging file path. ( String )
+	"""
+
+	loggingDirectory = os.path.join(RuntimeGlobals.userApplicationDataDirectory, Constants.loggingDirectory)
+	for file in sorted(foundations.walkers.filesWalker(loggingDirectory),
+	key=lambda y: os.path.getmtime(os.path.abspath(y)), reverse=True)[maximumLoggingFiles:]:
+		try:
+			os.remove(file)
+		except OSError:
+			LOGGER.warning(
+			"!> {0} | Cannot remove '{1}' file!".format(inspect.getmodulename(__file__), file, Constants.applicationName))
+
+	path = None
+	for i in range(retries):
+		path = os.path.join(RuntimeGlobals.userApplicationDataDirectory,
+												Constants.loggingDirectory,
+												Constants.loggingFile.format(foundations.strings.getRandomSequence()))
+		if not os.path.exists(path):
+			break
+
+	if path is None:
+		raise umbra.exceptions.EngineConfigurationError(
+		"{0} | Logging file is not available, '{1}' will now close!".format(
+		inspect.getmodulename(__file__), Constants.applicationName))
+
+	LOGGER.debug("> Current Logging file: '{0}'".format(path))
+
+	return path
+
+@foundations.exceptions.handleExceptions(umbra.ui.common.uiSystemExitExceptionHandler,
+										umbra.exceptions.EngineConfigurationError)
 def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visibleComponents=None):
 	"""
 	This definition starts the Application.
@@ -1750,24 +1788,8 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	LOGGER.debug("> Session user Application data directory: '{0}'".format(RuntimeGlobals.userApplicationDataDirectory))
 
 	# Getting the logging file path.
-	RuntimeGlobals.loggingFile = os.path.join(RuntimeGlobals.userApplicationDataDirectory,
-											Constants.loggingDirectory,
-											Constants.loggingFile)
-
-	try:
-		foundations.common.pathExists(RuntimeGlobals.loggingFile) and os.remove(RuntimeGlobals.loggingFile)
-	except:
-		raise umbra.exceptions.EngineConfigurationError(
-		"{0} | '{1}' Logging file is currently locked by another process, '{2}' will now close!".format(
-		inspect.getmodulename(__file__), RuntimeGlobals.loggingFile, Constants.applicationName))
-
-	try:
-		RuntimeGlobals.loggingFileHandler = foundations.verbose.getLoggingFileHandler(file=RuntimeGlobals.loggingFile)
-	except:
-		raise umbra.exceptions.EngineConfigurationError(
-		"{0} | '{1}' Logging file is not available, '{2}' will now close!".format(inspect.getmodulename(__file__),
-																				RuntimeGlobals.loggingFile,
-																				Constants.applicationName))
+	RuntimeGlobals.loggingFile = getLoggingFile()
+	RuntimeGlobals.loggingFileHandler = foundations.verbose.getLoggingFileHandler(file=RuntimeGlobals.loggingFile)
 
 	# Getting the patches file path.
 	RuntimeGlobals.patchesFile = os.path.join(RuntimeGlobals.userApplicationDataDirectory,

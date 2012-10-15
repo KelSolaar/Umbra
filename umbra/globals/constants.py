@@ -107,8 +107,8 @@ class Constants():
 	"""Application settings file: '**Umbra_Patches.rc**' ( String )"""
 	settingsFile = "Umbra_Settings.rc"
 	"""Application settings file: '**Umbra_Settings.rc**' ( String )"""
-	loggingFile = "Umbra_Logging.log"
-	"""Application logging file: '**Umbra_Logging.log**' ( String )"""
+	loggingFile = "Umbra_Logging_{0}.log"
+	"""Application logging file: '**Umbra_Logging_{0}.log**' ( String )"""
 
 	librariesDirectory = "libraries"
 	"""Application libraries directory: '**libraries**' ( String )"""
