@@ -18,6 +18,7 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
+import itertools
 from PyQt4.QtCore import QMutex
 from PyQt4.QtCore import QRegExp
 from PyQt4.QtCore import QString
@@ -337,23 +338,26 @@ class Search_worker(QThread):
 		This method performs the search.
 		"""
 
+		self.__searchResults = []
+
 		editorsFiles = self.__container.defaultTarget in self.__location.targets and \
 		[editor.file for editor in self.__container.scriptEditor.listEditors()] or []
+		self.__searchEditorsFiles(editorsFiles)
 
-		files = self.__location.files
+		self.__searchFiles(self.__location.files)
+
+		print self.__location.filtersOut
 		for directory in self.__location.directories:
 			if self.__interrupt:
 				return
 
 			filesWalker = foundations.walkers.filesWalker(directory,
 														self.__location.filtersIn,
-														self.__location.filtersOut)
-			files.extend(filter(foundations.common.isBinaryFile, filesWalker))
-		files = filter(lambda x: x not in editorsFiles, foundations.common.orderedUniqify(files))
+														list(itertools.chain(self.__location.filtersOut,
+																			self.__location.files,
+																			editorsFiles)))
+			self.__searchFiles(filesWalker)
 
-		self.__searchResults = []
-		self.__searchEditorsFiles(editorsFiles)
-		self.__searchFiles(files)
 		not self.__interrupt and self.searchFinished.emit(self.__searchResults)
 
 	def __searchEditorsFiles(self, files):
@@ -367,6 +371,10 @@ class Search_worker(QThread):
 			if self.__interrupt:
 				return
 
+			if foundations.common.isBinaryFile(file):
+				continue
+
+			LOGGER.info("{0} | Searching '{1}' file!".format(self.__class__.__name__, file))
 			editor = self.__container.scriptEditor.getEditor(file)
 			if not editor:
 				continue
@@ -393,6 +401,10 @@ class Search_worker(QThread):
 			if not foundations.common.pathExists(file):
 				continue
 
+			if foundations.common.isBinaryFile(file):
+				continue
+
+			LOGGER.info("{0} | Searching '{1}' file!".format(self.__class__.__name__, file))
 			cacheData = self.__container.filesCache.getContent(file)
 			if not cacheData:
 				reader = foundations.io.File(file)

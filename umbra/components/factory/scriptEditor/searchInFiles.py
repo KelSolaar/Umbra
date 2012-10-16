@@ -124,6 +124,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__defaultLineNumberWidth = 6
 		self.__defaultLineColor = QColor(144, 144, 144)
 
+		self.__ignoreHiddenFiles = True
+
 		self.__searchWorkerThread = None
 
 		SearchInFiles.__initializeUi(self)
@@ -727,6 +729,38 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultLineColor"))
 
 	@property
+	def ignoreHiddenFiles(self):
+		"""
+		This method is the property for **self.__ignoreHiddenFiles** attribute.
+
+		:return: self.__ignoreHiddenFiles. ( Boolean )
+		"""
+
+		return self.__ignoreHiddenFiles
+
+	@ignoreHiddenFiles.setter
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	def ignoreHiddenFiles(self, value):
+		"""
+		This method is the setter method for **self.__ignoreHiddenFiles** attribute.
+
+		:param value: Attribute value. ( Boolean )
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "ignoreHiddenFiles"))
+
+	@ignoreHiddenFiles.deleter
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	def ignoreHiddenFiles(self):
+		"""
+		This method is the deleter method for **self.__ignoreHiddenFiles** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "ignoreHiddenFiles"))
+
+	@property
 	def searchWorkerThread(self):
 		"""
 		This method is the property for **self.__searchWorkerThread** attribute.
@@ -1227,6 +1261,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		location = umbra.ui.common.parseLocation(
 		foundations.strings.encode(self.Where_lineEdit.text()) or \
 		self.__targetsFormat.format(self.__defaultTarget))
+		self.__ignoreHiddenFiles and location.filtersOut.append("\\\.|/\.")
 
 		settings = self.__getSettings()
 
