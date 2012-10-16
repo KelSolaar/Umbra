@@ -433,7 +433,7 @@ class GraphModel(QAbstractItemModel):
 		success = True
 		for i in range(count):
 			childNode = umbra.ui.nodes.GraphModelNode()
-			success *= True if isinstance(parentNode.insertChild(childNode, row), self.__defaultNode) else False
+			success *= True if parentNode.insertChild(childNode, row) else False
 		self.endInsertRows()
 		return success
 
@@ -451,7 +451,7 @@ class GraphModel(QAbstractItemModel):
 		self.beginRemoveRows(parent, row, row + count - 1)
 		success = True
 		for i in range(count):
-			success *= True if isinstance(parentNode.removeChild(row), self.__defaultNode) else False
+			success *= True if parentNode.removeChild(row) else False
 		self.endRemoveRows()
 		return success
 
