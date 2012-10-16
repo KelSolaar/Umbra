@@ -167,7 +167,7 @@ class GraphModelNode(AbstractCompositeNode):
 
 		# --- Setting class attributes. ---
 		self.__roles = None
-		self.roles = roles or {Qt.DisplayRole : name, Qt.EditRole : name}
+		self.roles = roles or {Qt.DisplayRole : self.name, Qt.EditRole : self.name}
 		self.__flags = None
 		self.flags = flags or int(Qt.ItemIsSelectable | Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsDragEnabled)
 

@@ -94,7 +94,7 @@ class GraphModel(QAbstractItemModel):
 		self.__verticalHeaders = None
 		self.verticalHeaders = verticalHeaders or OrderedDict()
 		self.__defaultNode = None
-		self.defaultNode = defaultNode or umbra.ui.nodes.DefaultNode
+		self.defaultNode = defaultNode or umbra.ui.nodes.GraphModelNode
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -432,8 +432,8 @@ class GraphModel(QAbstractItemModel):
 		self.beginInsertRows(parent, row, row + count - 1)
 		success = True
 		for i in range(count):
-			childNode = self.__defaultNode()
-			success *= parentNode.insertChild(childNode, row)
+			childNode = umbra.ui.nodes.GraphModelNode()
+			success *= True if isinstance(parentNode.insertChild(childNode, row), self.__defaultNode) else False
 		self.endInsertRows()
 		return success
 
@@ -451,7 +451,7 @@ class GraphModel(QAbstractItemModel):
 		self.beginRemoveRows(parent, row, row + count - 1)
 		success = True
 		for i in range(count):
-			success *= parentNode.removeChild(row)
+			success *= True if isinstance(parentNode.removeChild(row), self.__defaultNode) else False
 		self.endRemoveRows()
 		return success
 

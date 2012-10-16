@@ -128,21 +128,21 @@ class Notification_QLabel(QLabel):
 		self.borderColor = borderColor or self.__borderColor
 
 		self.__anchor = None
-		self.anchor = anchor or 4
+		self.anchor = anchor if anchor is not None else 4
 		self.__horizontalPadding = None
-		self.horizontalPadding = horizontalPadding or 0
+		self.horizontalPadding = horizontalPadding if horizontalPadding is not None else 0
 		self.__verticalPadding = None
-		self.verticalPadding = verticalPadding or 48
+		self.verticalPadding = verticalPadding if verticalPadding is not None else 48
 		self.__horizontalOffset = None
-		self.horizontalOffset = horizontalOffset or 0
+		self.horizontalOffset = horizontalOffset if horizontalOffset is not None else 0
 		self.__verticalOffset = None
-		self.verticalOffset = verticalOffset or 0
+		self.verticalOffset = verticalOffset if verticalOffset is not None else 0
 		self.__fadeSpeed = fadeSpeed
-		self.fadeSpeed = fadeSpeed or 0.15
+		self.fadeSpeed = fadeSpeed if fadeSpeed is not None else 0.15
 		self.__targetOpacity = None
-		self.targetOpacity = targetOpacity or 0.75
+		self.targetOpacity = targetOpacity if targetOpacity is not None else 0.75
 		self.__duration = None
-		self.duration = duration or 2500
+		self.duration = duration if duration is not None else 2500
 
 		self.__vector = 0
 
@@ -449,7 +449,7 @@ class Notification_QLabel(QLabel):
 
 		if value is not None:
 			assert type(value) is float, "'{0}' attribute: '{1}' type is not 'float'!".format("fadeSpeed", value)
-			assert value > 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("fadeSpeed", value)
+			assert value >= 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("fadeSpeed", value)
 		self.__fadeSpeed = value
 
 	@fadeSpeed.deleter
@@ -518,7 +518,7 @@ class Notification_QLabel(QLabel):
 
 		if value is not None:
 			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("duration", value)
-			assert value > 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("duration", value)
+			assert value >= 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("duration", value)
 		self.__duration = value
 
 	@duration.deleter
@@ -809,11 +809,14 @@ if __name__ == "__main__":
 	plainTextEdit = QPlainTextEdit()
 	plainTextEdit.setReadOnly(True)
 	gridLayout.addWidget(plainTextEdit)
-	notification_QLabel = Notification_QLabel(widget, verticalPadding=64)
+	notification_QLabel = Notification_QLabel(plainTextEdit, verticalPadding=64)
 
 	def _pushButton__clicked(*args):
 		notification_QLabel.color = QColor(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 		notification_QLabel.showMessage("This is a notification message!", 1500)
+
+	plainTextEdit.resizeEvent = lambda event: reduce(lambda *args: None,
+	(notification_QLabel.refreshPosition(), QPlainTextEdit(plainTextEdit).resizeEvent(event)))
 
 	pushButton = QPushButton("Notify!")
 	pushButton.clicked.connect(_pushButton__clicked)
