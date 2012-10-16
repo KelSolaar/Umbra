@@ -112,7 +112,7 @@ class Mixin_AbstractView(object):
 		self.__readOnly = readOnly
 
 		self.__message = None
-		self.message = message or "Model has no Nodes to view!"
+		self.message = message or "No Nodes to view!"
 
 		self.__notifier = Notification_QLabel(self,
 											color=QColor(192, 192, 192),

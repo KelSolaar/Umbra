@@ -829,7 +829,9 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__delegate = RichText_QStyledItemDelegate(self)
 
 		self.Search_Results_treeView.setParent(None)
-		self.Search_Results_treeView = SearchResults_QTreeView(self, self.__model)
+		self.Search_Results_treeView = SearchResults_QTreeView(self,
+															self.__model,
+															message="No Search Result to view!")
 		self.Search_Results_treeView.setItemDelegate(self.__delegate)
 		self.Search_Results_treeView.setObjectName("Search_Results_treeView")
 		self.Search_Results_frame_gridLayout.addWidget(self.Search_Results_treeView, 0, 0)
