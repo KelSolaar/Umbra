@@ -345,10 +345,10 @@ class Search_worker(QThread):
 			if self.__interrupt:
 				return
 
-			walkerFiles = foundations.walkers.filesWalker(directory,
+			filesWalker = foundations.walkers.filesWalker(directory,
 														self.__location.filtersIn,
 														self.__location.filtersOut)
-			files.extend(filter(foundations.common.isBinaryFile, walkerFiles))
+			files.extend(filter(foundations.common.isBinaryFile, filesWalker))
 		files = filter(lambda x: x not in editorsFiles, foundations.common.orderedUniqify(files))
 
 		self.__searchResults = []

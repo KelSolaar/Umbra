@@ -129,9 +129,9 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 		:param attributesFlags: Attributes flags. ( Integer )
 		"""
 
-		self.synchronizeAttributes()
+		self.synchronizeNodeAttributes()
 
-	def synchronizeAttributes(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
+	def synchronizeNodeAttributes(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
 		This method synchronizes the node attributes.
 		
