@@ -237,12 +237,7 @@ def setWindowDefaultIcon(window):
 	:return: Definition success. ( Boolean )
 	"""
 
-	if platform.system() == "Windows" or platform.system() == "Microsoft":
-		window.setWindowIcon(QIcon(getResourcePath(UiConstants.applicationWindowsIcon)))
-	elif platform.system() == "Darwin":
-		window.setWindowIcon(QIcon(getResourcePath(UiConstants.applicationDarwinIcon)))
-	elif platform.system() == "Linux":
-		pass
+	window.setWindowIcon(QIcon(getResourcePath(UiConstants.applicationWindowsIcon)))
 	return True
 
 @foundations.exceptions.handleExceptions(foundations.exceptions.FileExistsError)

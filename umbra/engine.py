@@ -157,6 +157,7 @@ def _initializeApplication():
 	"""
 
 	RuntimeGlobals.application = umbra.ui.common.getApplicationInstance()
+	umbra.ui.common.setWindowDefaultIcon(RuntimeGlobals.application)
 
 _initializeApplication()
 
