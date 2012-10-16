@@ -346,7 +346,6 @@ class Search_worker(QThread):
 
 		self.__searchFiles(self.__location.files)
 
-		print self.__location.filtersOut
 		for directory in self.__location.directories:
 			if self.__interrupt:
 				return
