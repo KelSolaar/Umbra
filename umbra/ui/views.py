@@ -26,6 +26,7 @@ from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QItemSelection
 from PyQt4.QtGui import QItemSelectionModel
 from PyQt4.QtGui import QListView
+from PyQt4.QtGui import QTableView
 from PyQt4.QtGui import QTreeView
 
 #**********************************************************************************************************************
@@ -51,6 +52,7 @@ __all__ = ["LOGGER",
 		"Mixin_AbstractView",
 		"ReadOnlyFilter",
 		"Abstract_QListView",
+		"Abstract_QTableView",
 		"Abstract_QTreeView"]
 
 LOGGER = foundations.verbose.installLogger()
@@ -356,6 +358,25 @@ class Abstract_QListView(QListView, Mixin_AbstractView):
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
 		QListView.__init__(self, parent)
+		Mixin_AbstractView.__init__(self, readOnly, message)
+
+class Abstract_QTableView(QTableView, Mixin_AbstractView):
+	"""
+	This class is a `QTableView <http://doc.qt.nokia.com/qtableview.html>`_ subclass used as base
+	by others Application views classes.
+	"""
+
+	def __init__(self, parent=None, readOnly=False, message=None):
+		"""
+		This method initializes the class.
+
+		:param parent: Object parent. ( QObject )
+		:param readOnly: View is read only. ( Boolean )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		QTableView.__init__(self, parent)
 		Mixin_AbstractView.__init__(self, readOnly, message)
 
 class Abstract_QTreeView(QTreeView, Mixin_AbstractView):
