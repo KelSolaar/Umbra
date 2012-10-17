@@ -238,6 +238,11 @@ class Mixin_AbstractView(object):
 
 		self.viewport().installEventFilter(ReadOnlyFilter(self))
 
+		if isinstance(self, QListView):
+			QListView.setUniformItemSizes(self, True)
+		elif isinstance(self, QTreeView):
+			QTreeView.setUniformRowHeights(self, True)
+
 	def getNodes(self):
 		"""
 		This method returns the View nodes.
