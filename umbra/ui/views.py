@@ -201,10 +201,8 @@ class Mixin_AbstractView(object):
 		:param event: QEvent. ( QEvent )
 		"""
 
-		if isinstance(self, QListView):
-			QListView.resizeEvent(self, event)
-		elif isinstance(self, QTreeView):
-			QTreeView.resizeEvent(self, event)
+		super(type(self), self).resizeEvent(event)
+
 		self.__notifier.refreshPosition()
 
 	def paintEvent(self, event):
@@ -214,10 +212,7 @@ class Mixin_AbstractView(object):
 		:param event: QEvent. ( QEvent )
 		"""
 
-		if isinstance(self, QListView):
-			QListView.paintEvent(self, event)
-		elif isinstance(self, QTreeView):
-			QTreeView.paintEvent(self, event)
+		super(type(self), self).paintEvent(event)
 
 		model = self.model()
 		if not model:
@@ -238,10 +233,10 @@ class Mixin_AbstractView(object):
 
 		self.viewport().installEventFilter(ReadOnlyFilter(self))
 
-		if isinstance(self, QListView):
-			QListView.setUniformItemSizes(self, True)
-		elif isinstance(self, QTreeView):
-			QTreeView.setUniformRowHeights(self, True)
+		if issubclass(type(self), QListView):
+			super(type(self), self).setUniformItemSizes(True)
+		elif issubclass(type(self), QTreeView):
+			super(type(self), self).setUniformRowHeights(True)
 
 	def getNodes(self):
 		"""
