@@ -36,6 +36,7 @@ import foundations.exceptions
 import foundations.walkers
 import foundations.verbose
 import umbra.ui.common
+from umbra.ui.models import GraphModel
 from umbra.ui.widgets.notification_QLabel import Notification_QLabel
 
 #**********************************************************************************************************************
@@ -217,16 +218,13 @@ class Mixin_AbstractView(object):
 		super(type(self), self).paintEvent(event)
 
 		model = self.model()
-		if not model:
+		if not issubclass(type(model), GraphModel):
 			return
 
-		if not hasattr(model, "rootNode"):
-			return
-
-		if not model.rootNode.children:
-			self.__notifier.showMessage(self.__message, 0)
-		else:
+		if model.hasNodes():
 			self.__notifier.hideMessage()
+		else:
+			self.__notifier.showMessage(self.__message, 0)
 
 	def __initializeUi(self):
 		"""

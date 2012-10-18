@@ -497,6 +497,15 @@ class GraphModel(QAbstractItemModel):
 		self.rootNode.children = []
 		self.endResetModel()
 
+	def hasNodes(self):
+		"""
+		This method returns if Model has nodes.
+		
+		:return: Has children. ( Boolean )
+		"""
+
+		return True if self.__rootNode.children else False
+
 	def getNode(self, index):
 		"""
 		This method returns the node at given index.
