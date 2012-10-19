@@ -123,9 +123,9 @@ class Notification_QLabel(QLabel):
 		self.__color = QColor(220, 220, 220)
 		self.__backgroundColor = QColor(32, 32, 32)
 		self.__borderColor = QColor(220, 220, 220)
-		self.color = color or self.__color
-		self.backgroundColor = backgroundColor or self.__backgroundColor
-		self.borderColor = borderColor or self.__borderColor
+		self.color = color if color is not None else self.__color
+		self.backgroundColor = backgroundColor if backgroundColor is not None else self.__backgroundColor
+		self.borderColor = borderColor if borderColor is not None else self.__borderColor
 
 		self.__anchor = None
 		self.anchor = anchor if anchor is not None else 4

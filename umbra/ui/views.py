@@ -19,6 +19,9 @@
 #**********************************************************************************************************************
 import inspect
 import re
+from PyQt4.QtCore import QAbstractItemModel
+from PyQt4.QtCore import QAbstractListModel
+from PyQt4.QtCore import QAbstractTableModel
 from PyQt4.QtCore import QEvent
 from PyQt4.QtCore import QObject
 from PyQt4.QtCore import QString
@@ -28,6 +31,9 @@ from PyQt4.QtGui import QItemSelectionModel
 from PyQt4.QtGui import QListView
 from PyQt4.QtGui import QTableView
 from PyQt4.QtGui import QTreeView
+from PyQt4.QtGui import QListWidget
+from PyQt4.QtGui import QTableWidget
+from PyQt4.QtGui import QTreeWidget
 
 #**********************************************************************************************************************
 #***	Internal imports.
@@ -50,11 +56,16 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-		"Mixin_AbstractView",
 		"ReadOnlyFilter",
+		"Mixin_AbstractBase"
+		"Mixin_AbstractView",
+		"Mixin_AbstractWidget",
 		"Abstract_QListView",
 		"Abstract_QTableView",
-		"Abstract_QTreeView"]
+		"Abstract_QTreeView",
+		"Abstract_QListWidget",
+		"Abstract_QTableWidget",
+		"Abstract_QTreeWidget"]
 
 LOGGER = foundations.verbose.installLogger()
 
@@ -95,71 +106,33 @@ class ReadOnlyFilter(QObject):
 		raise foundations.exceptions.UserError("{0} | Cannot perform action, '{1}' View has been set read only!".format(
 		self.__class__.__name__, view.objectName() or view))
 
-class Mixin_AbstractView(object):
+class Mixin_AbstractBase(object):
 	"""
-	This class is a mixin used to bring common capabilities in Application views classes.
+	This class is the base mixin used to bring common capabilities in Application views classes.
 	"""
 
-	def __init__(self, readOnly=None, message=None):
+	def __init__(self, message=None):
 		"""
 		This method initializes the class.
 
 		:param parent: Object parent. ( QObject )
-		:param readOnly: View is read only. ( Boolean )
 		:param message: View default message when Model is empty. ( String )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
 		# --- Setting class attributes. ---
-		self.__readOnly = readOnly
-
 		self.__message = None
-		self.message = message or "No Nodes to view!"
+		self.message = message or "No Item to view!"
 
 		self.__notifier = Notification_QLabel(self,
 											color=QColor(192, 192, 192),
 											borderColor=QColor(32, 32, 32),
 											anchor=8)
 
-		Mixin_AbstractView.__initializeUi(self)
-
 	#******************************************************************************************************************
 	#***	Attributes properties.
 	#******************************************************************************************************************
-	@property
-	def readOnly(self):
-		"""
-		This method is the property for **self.__readOnly** attribute.
-
-		:return: self.__readOnly. ( Boolean )
-		"""
-
-		return self.__readOnly
-
-	@readOnly.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def readOnly(self, value):
-		"""
-		This method is the setter method for **self.__readOnly** attribute.
-
-		:param value: Attribute value. ( Boolean )
-		"""
-
-		if value is not None:
-			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format("readOnly", value)
-		self.__readOnly = value
-
-	@readOnly.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def readOnly(self):
-		"""
-		This method is the deleter method for **self.__readOnly** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "readOnly"))
-
 	@property
 	def message(self):
 		"""
@@ -217,15 +190,84 @@ class Mixin_AbstractView(object):
 
 		super(type(self), self).paintEvent(event)
 
+		showMessage = True
 		model = self.model()
-		if not issubclass(type(model), GraphModel):
-			return
+		if issubclass(type(model), GraphModel):
+			if model.hasNodes():
+				showMessage = False
+		elif issubclass(type(model), QAbstractItemModel) or \
+		issubclass(type(model), QAbstractListModel) or \
+		issubclass(type(model), QAbstractTableModel):
+			if model.rowCount():
+				showMessage = False
 
-		if model.hasNodes():
-			self.__notifier.hideMessage()
-		else:
+		if showMessage:
 			self.__notifier.showMessage(self.__message, 0)
+		else:
+			self.__notifier.hideMessage()
 
+class Mixin_AbstractView(Mixin_AbstractBase):
+	"""
+	This class is a mixin used to bring common capabilities in Application views classes.
+	"""
+
+	def __init__(self, readOnly=None, message=None):
+		"""
+		This method initializes the class.
+
+		:param parent: Object parent. ( QObject )
+		:param readOnly: View is read only. ( Boolean )
+		:param message: View default message when Model is empty. ( String )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		Mixin_AbstractBase.__init__(self, message or "No Node to view!")
+
+		# --- Setting class attributes. ---
+		self.__readOnly = readOnly
+
+		Mixin_AbstractView.__initializeUi(self)
+
+	#******************************************************************************************************************
+	#***	Attributes properties.
+	#******************************************************************************************************************
+	@property
+	def readOnly(self):
+		"""
+		This method is the property for **self.__readOnly** attribute.
+
+		:return: self.__readOnly. ( Boolean )
+		"""
+
+		return self.__readOnly
+
+	@readOnly.setter
+	@foundations.exceptions.handleExceptions(AssertionError)
+	def readOnly(self, value):
+		"""
+		This method is the setter method for **self.__readOnly** attribute.
+
+		:param value: Attribute value. ( Boolean )
+		"""
+
+		if value is not None:
+			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format("readOnly", value)
+		self.__readOnly = value
+
+	@readOnly.deleter
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	def readOnly(self):
+		"""
+		This method is the deleter method for **self.__readOnly** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "readOnly"))
+
+	#******************************************************************************************************************
+	#***	Class methods.
+	#******************************************************************************************************************
 	def __initializeUi(self):
 		"""
 		This method initializes the View ui.
@@ -339,6 +381,13 @@ class Mixin_AbstractView(object):
 
 		return self.selectViewIndexes(indexes, flags)
 
+class Mixin_AbstractWidget(Mixin_AbstractBase):
+	"""
+	This class is a mixin used to bring common capabilities in Application Widgets views classes.
+	"""
+
+	pass
+
 class Abstract_QListView(QListView, Mixin_AbstractView):
 	"""
 	This class is a `QListView <http://doc.qt.nokia.com/qlistview.html>`_ subclass used as base
@@ -351,6 +400,7 @@ class Abstract_QListView(QListView, Mixin_AbstractView):
 
 		:param parent: Object parent. ( QObject )
 		:param readOnly: View is read only. ( Boolean )
+		:param message: View default message when Model is empty. ( String )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -370,6 +420,7 @@ class Abstract_QTableView(QTableView, Mixin_AbstractView):
 
 		:param parent: Object parent. ( QObject )
 		:param readOnly: View is read only. ( Boolean )
+		:param message: View default message when Model is empty. ( String )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -389,9 +440,67 @@ class Abstract_QTreeView(QTreeView, Mixin_AbstractView):
 
 		:param parent: Object parent. ( QObject )
 		:param readOnly: View is read only. ( Boolean )
+		:param message: View default message when Model is empty. ( String )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
 		QTreeView.__init__(self, parent)
 		Mixin_AbstractView.__init__(self, readOnly, message)
+
+class Abstract_QListWidget(QListWidget, Mixin_AbstractWidget):
+	"""
+	This class is a `QListWidget <http://doc.qt.nokia.com/qlistwidget.html>`_ subclass used as base
+	by others Application Widgets views classes.
+	"""
+
+	def __init__(self, parent=None, message=None):
+		"""
+		This method initializes the class.
+
+		:param parent: Object parent. ( QObject )
+		:param message: View default message when Model is empty. ( String )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		QListWidget.__init__(self, parent)
+		Mixin_AbstractWidget.__init__(self, message)
+
+class Abstract_QTableWidget(QTableWidget, Mixin_AbstractWidget):
+	"""
+	This class is a `QTableWidget <http://doc.qt.nokia.com/qtablewidget.html>`_ subclass used as base
+	by others Application Widgets views classes.
+	"""
+
+	def __init__(self, parent=None, readOnly=False, message=None):
+		"""
+		This method initializes the class.
+
+		:param parent: Object parent. ( QObject )
+		:param message: View default message when Model is empty. ( String )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		QTableWidget.__init__(self, parent)
+		Mixin_AbstractWidget.__init__(self, message)
+
+class Abstract_QTreeWidget(QTreeWidget, Mixin_AbstractWidget):
+	"""
+	This class is a `QTreeWidget <http://doc.qt.nokia.com/qtreewidget.html>`_ subclass used as base
+	by others Application Widgets views classes.
+	"""
+
+	def __init__(self, parent=None, message=None):
+		"""
+		This method initializes the class.
+
+		:param parent: Object parent. ( QObject )
+		:param message: View default message when Model is empty. ( String )
+		"""
+
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
+		QTreeWidget.__init__(self, parent)
+		Mixin_AbstractWidget.__init__(self, message)
