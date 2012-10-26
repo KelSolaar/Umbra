@@ -233,11 +233,11 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 					Qt.EditRole : value}
 			self[attribute] = umbra.ui.nodes.GraphModelAttribute(attribute, value, roles, attributesFlags)
 
-		self.synchronizeToolTip()
+		self.updateToolTip()
 
-	def synchronizeToolTip(self):
+	def updateToolTip(self):
 		"""
-		This method synchronizes the node tooltip.
+		This method updates the node tooltip.
 
 		:return: Method success. ( Boolean )
 		"""

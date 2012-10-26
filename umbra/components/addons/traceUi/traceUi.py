@@ -458,7 +458,7 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			if foundations.trace.isTraced(node.module) == node.traced.value:
 				continue
 
-			node.synchronizeNodeAttributes()
+			node.updateNodeAttributes()
 
 	def __view_addActions(self):
 		"""

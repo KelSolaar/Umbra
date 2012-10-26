@@ -19,6 +19,7 @@
 #**********************************************************************************************************************
 import pickle
 import sys
+import weakref
 if sys.version_info[:2] <= (2, 6):
 	from ordereddict import OrderedDict
 else:
@@ -66,20 +67,34 @@ class GraphModel(QAbstractItemModel):
 		`QTreeView <http://doc.qt.nokia.com/QTreeView.html>`_,
 		`QTableView <http://doc.qt.nokia.com/qtableview.html>`_,
 		`QComboBox <http://doc.qt.nokia.com/qcombobox.html>`_ ).
-
-	:note: Execution tracing and exceptions handling decorators have been disabled on this class
-		to provide maximum execution speed.
 	"""
+
+	__modelsInstances = weakref.WeakValueDictionary()
+	"""Models instances: Each model, once instanced is referenced in this attribute. ( Dictionary )"""
+
+	def __new__(cls, *args, **kwargs):
+		"""
+		This method is the constructor of the class.
+		
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:return: Class instance. ( AbstractNode )
+		"""
+
+		instance = super(GraphModel, cls).__new__(cls)
+
+		GraphModel._GraphModel__modelsInstances[id(instance)] = instance
+		return instance
 
 	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None, verticalHeaders=None, defaultNode=None):
 		"""
 		This method initializes the class.
 
 		:param parent: Object parent. ( QObject )
-		:param rootNode: Root node. ( AbstractCompositeNode )
+		:param rootNode: Root node. ( AbstractCompositeNode / GraphModelNode )
 		:param horizontalHeaders: Headers. ( OrderedDict )
 		:param verticalHeaders: Headers. ( OrderedDict )
-		:param defaultNode: Default node. ( AbstractCompositeNode )
+		:param defaultNode: Default node. ( AbstractCompositeNode / GraphModelNode )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -104,7 +119,7 @@ class GraphModel(QAbstractItemModel):
 		"""
 		This method is the property for **self.__rootNode** attribute.
 
-		:return: self.__rootNode. ( AbstractCompositeNode )
+		:return: self.__rootNode. ( AbstractCompositeNode / GraphModelNode )
 		"""
 
 		return self.__rootNode
@@ -115,7 +130,7 @@ class GraphModel(QAbstractItemModel):
 		"""
 		This method is the setter method for **self.__rootNode** attribute.
 
-		:param value: Attribute value. ( AbstractCompositeNode )
+		:param value: Attribute value. ( AbstractCompositeNode / GraphModelNode )
 		"""
 
 		if value is not None:
@@ -206,7 +221,7 @@ class GraphModel(QAbstractItemModel):
 		"""
 		This method is the property for **self.__defaultNode** attribute.
 
-		:return: self.__defaultNode. ( AbstractCompositeNode )
+		:return: self.__defaultNode. ( AbstractCompositeNode / GraphModelNode )
 		"""
 
 		return self.__defaultNode
@@ -217,7 +232,7 @@ class GraphModel(QAbstractItemModel):
 		"""
 		This method is the setter method for **self.__defaultNode** attribute.
 
-		:param value: Attribute value. ( AbstractCompositeNode )
+		:param value: Attribute value. ( AbstractCompositeNode / GraphModelNode )
 		"""
 
 		if value is not None:
@@ -242,7 +257,7 @@ class GraphModel(QAbstractItemModel):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.rowCount` method.
 		
-		:param parent: Parent node. ( AbstractCompositeNode )
+		:param parent: Parent node. ( AbstractCompositeNode / GraphModelNode )
 		:return: Row count. ( Integer )
 		"""
 
@@ -256,7 +271,7 @@ class GraphModel(QAbstractItemModel):
 		"""
 		This method reimplements the :meth:`QAbstractItemModel.columnCount` method.
 		
-		:param parent: Parent node. ( AbstractCompositeNode )
+		:param parent: Parent node. ( AbstractCompositeNode / GraphModelNode )
 		:return: Column count. ( Integer )
 		"""
 
@@ -511,7 +526,7 @@ class GraphModel(QAbstractItemModel):
 		This method returns the node at given index.
 		
 		:param index: Index. ( QModelIndex )
-		:return: Node. ( AbstractCompositeNode )
+		:return: Node. ( AbstractCompositeNode / GraphModelNode )
 		"""
 
 		if not index.isValid():
@@ -522,7 +537,7 @@ class GraphModel(QAbstractItemModel):
 		"""
 		This method returns the given node attribute associated to the given column.
 		
-		:param node: Node. ( AbstractCompositeNode )
+		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
 		:param column: Column. ( Integer )
 		:return: Attribute. ( Attribute )
 		"""
@@ -534,7 +549,7 @@ class GraphModel(QAbstractItemModel):
 		"""
 		This method returns given node index.
 		
-		:param node: Node. ( AbstractCompositeNode )
+		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
 		:return: Index. ( QModelIndex )
 		"""
 		if node == self.__rootNode:
@@ -546,7 +561,7 @@ class GraphModel(QAbstractItemModel):
 		"""
 		This method returns given node attribute index at given column.
 		
-		:param node: Node. ( AbstractCompositeNode )
+		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
 		:param column: Attribute column. ( Integer )
 		:return: Index. ( QModelIndex )
 		"""
@@ -558,7 +573,7 @@ class GraphModel(QAbstractItemModel):
 		"""
 		This method calls :meth:`QAbstractItemModel.dataChanged` with given node index.
 		
-		:param node: Node. ( AbstractCompositeNode )
+		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
 		:return: Method success. ( Boolean )
 		"""
 
@@ -570,7 +585,7 @@ class GraphModel(QAbstractItemModel):
 		"""
 		This method calls :meth:`QAbstractItemModel.dataChanged` with given node attribute index.
 		
-		:param node: Node. ( AbstractCompositeNode )
+		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
 		:param column: Attribute column. ( Integer )
 		:return: Method success. ( Boolean )
 		"""
@@ -596,8 +611,41 @@ class GraphModel(QAbstractItemModel):
 		
 		:param pattern: Matching pattern. ( String )
 		:param flags: Matching regex flags. ( Integer )
-		:param node: Node to start walking from. (  AbstractNode / AbstractCompositeNode / Object )
+		:param node: Node to start walking from. (  AbstractNode / AbstractCompositeNode / GraphModelNode )
 		:return: Family nodes. ( List )
 		"""
 
 		return self.__rootNode.findFamily(pattern, flags, node or self.__rootNode)
+
+	def findNode(self, attribute):
+		"""
+		This method returns the node with given attribute.
+		
+		:param attribute: Attribute. ( GraphModelAttribute )
+		:return: Node. ( GraphModelNode )
+		"""
+
+		for model in GraphModel._GraphModel__modelsInstances.itervalues():
+			for node in foundations.walkers.nodesWalker(model.rootNode):
+				if attribute in node.getAttributes():
+					return node
+
+	@staticmethod
+	def findModel(object):
+		"""
+		This method returns the model(s) associated with given object.
+		
+		:param object: Node / Attribute. ( GraphModelNode / GraphModelAttribute )
+		:return: Model(s). ( List )
+		"""
+
+		models = []
+		for model in GraphModel._GraphModel__modelsInstances.itervalues():
+			for node in foundations.walkers.nodesWalker(model.rootNode):
+				if node is object:
+					models.append(model)
+
+				for attribute in node.getAttributes():
+					if attribute is object:
+						models.append(model)
+		return models

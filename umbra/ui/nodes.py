@@ -26,6 +26,7 @@ import foundations.exceptions
 import foundations.verbose
 from foundations.nodes import AbstractCompositeNode
 from foundations.nodes import Attribute
+import umbra.ui.models
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -141,6 +142,19 @@ class GraphModelAttribute(Attribute):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "flags"))
 
+	#******************************************************************************************************************
+	#***	Class methods.
+	#******************************************************************************************************************
+	def attributeChanged(self):
+		"""
+		This method triggers the host model(s) :meth:`umbra.ui.models.GraphModel.attributeChanged` method.
+		
+		:return: Method success. ( Boolean )
+		"""
+
+		for model in umbra.ui.models.GraphModel.findModel(self):
+			model.attributeChanged(model.findNode(self), model.horizontalHeaders.values().index(self.name))
+
 class GraphModelNode(AbstractCompositeNode):
 	"""
 	This class defines :class:`GraphModel` class base node object.
@@ -242,6 +256,19 @@ class GraphModelNode(AbstractCompositeNode):
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "flags"))
+
+	#******************************************************************************************************************
+	#***	Class methods.
+	#******************************************************************************************************************
+	def nodeChanged(self):
+		"""
+		This method triggers the host model(s) :meth:`umbra.ui.models.GraphModel.nodeChanged` method.
+		
+		:return: Method success. ( Boolean )
+		"""
+
+		for model in umbra.ui.models.GraphModel.findModel(self):
+			model.nodeChanged(self)
 
 class DefaultNode(AbstractCompositeNode):
 	"""

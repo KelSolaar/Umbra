@@ -129,19 +129,18 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 		:param attributesFlags: Attributes flags. ( Integer )
 		"""
 
-		self.synchronizeNodeAttributes()
+		self["traced"] = umbra.ui.nodes.GraphModelAttribute(name="traced",
+															value=foundations.trace.isTraced(self.__module),
+															flags=attributesFlags)
+		self.updateNodeAttributes()
 
-	def synchronizeNodeAttributes(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
+	def updateNodeAttributes(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method synchronizes the node attributes.
+		This method updates the node attributes.
 		
 		:param attributesFlags: Attributes flags. ( Integer )
 		:return: Method success. ( Boolean )
 		"""
 
-		isTraced = foundations.trace.isTraced(self.__module)
-		self["traced"] = umbra.ui.nodes.GraphModelAttribute(name="traced",
-															value=isTraced,
-															roles=dict.fromkeys((Qt.DisplayRole, Qt.EditRole),
-																foundations.strings.encode(isTraced).title()),
-															flags=attributesFlags)
+		self.traced.value = foundations.trace.isTraced(self.__module)
+		self.traced.roles[Qt.DisplayRole] = foundations.strings.encode(self.traced.value).title()
