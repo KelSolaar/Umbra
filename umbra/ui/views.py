@@ -303,7 +303,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 
 	@foundations.exceptions.handleExceptions(NotImplementedError)
 	# TODO: Implement a way to invalidate indexes in the cache, disabling the cache until yet.
-	# @core.memoize(None)
+	# @foundations.decorators.memoize(None)
 	def getViewNodesFromIndexes(self, *indexes):
 		"""
 		This method returns the View nodes from given indexes.
