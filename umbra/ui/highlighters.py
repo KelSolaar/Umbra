@@ -164,7 +164,7 @@ class FormatsTree(object):
 		path and formats.append(".".join(path))
 		return sorted(formats)
 
-	# 	@foundations.decorators.memoize(None)
+	# @foundations.decorators.memoize(None)
 	def getFormat(self, name):
 		"""
 		This method returns the closest format or closest parent format associated to given name.
