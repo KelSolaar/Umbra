@@ -238,6 +238,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 								parent=self.rootNode,
 								nodeFlags=int(Qt.ItemIsEnabled),
 								attributesFlags=int(Qt.ItemIsEnabled))
+		self.enableModelTriggers(True)
 		self.endResetModel()
 
 	def listEditorNodes(self, node=None):
@@ -971,6 +972,22 @@ class PatternsModel(umbra.ui.models.GraphModel):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
+	def initializeModel(self, rootNode):
+		"""
+		This method initializes the Model using given root node.
+		
+		:param rootNode: Graph root node. ( DefaultNode )
+		:return: Method success ( Boolean )
+		"""
+
+		LOGGER.debug("> Initializing model with '{0}' root node.".format(rootNode))
+
+		self.beginResetModel()
+		self.rootNode = rootNode
+		self.enableModelTriggers(True)
+		self.endResetModel()
+		return True
+
 	def insertPattern(self, pattern, index):
 		"""
 		This method inserts given pattern into the Model.
@@ -1048,6 +1065,7 @@ class SearchResultsModel(umbra.ui.models.GraphModel):
 
 		self.beginResetModel()
 		self.rootNode = rootNode
+		self.enableModelTriggers(True)
 		self.endResetModel()
 		return True
 

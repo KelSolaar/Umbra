@@ -89,7 +89,14 @@ class PathNode(umbra.ui.nodes.GraphModelNode):
 		:param attributesFlags: Attributes flags. ( Integer )
 		"""
 
-		pass
+		self["activated"] = umbra.ui.nodes.GraphModelAttribute(name="activated",
+																flags=attributesFlags)
+		self["category"] = umbra.ui.nodes.GraphModelAttribute(name="category",
+																flags=attributesFlags)
+		self["require"] = umbra.ui.nodes.GraphModelAttribute(name="require",
+																flags=attributesFlags)
+		self["version"] = umbra.ui.nodes.GraphModelAttribute(name="version",
+																flags=attributesFlags)
 
 class ComponentNode(umbra.ui.nodes.GraphModelNode):
 	"""

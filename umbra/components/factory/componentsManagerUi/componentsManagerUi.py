@@ -1054,11 +1054,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			pathNode = PathNode(name=path.title(),
 								parent=rootNode,
 								nodeFlags=nodeFlags,
-								attributesFlags=attributesFlags,
-								activated=umbra.ui.nodes.GraphModelAttribute(name="activated", flags=attributesFlags),
-								category=umbra.ui.nodes.GraphModelAttribute(name="category", flags=attributesFlags),
-								require=umbra.ui.nodes.GraphModelAttribute(name="require", flags=attributesFlags),
-								version=umbra.ui.nodes.GraphModelAttribute(name="version", flags=attributesFlags))
+								attributesFlags=attributesFlags)
 
 			for component in components.itervalues():
 				if not component.interface:

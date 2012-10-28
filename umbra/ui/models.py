@@ -35,6 +35,7 @@ from PyQt4.QtGui import QIcon
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
+import foundations.decorators
 import foundations.exceptions
 import foundations.strings
 import foundations.verbose
@@ -86,7 +87,12 @@ class GraphModel(QAbstractItemModel):
 		GraphModel._GraphModel__modelsInstances[id(instance)] = instance
 		return instance
 
-	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None, verticalHeaders=None, defaultNode=None):
+	def __init__(self,
+				parent=None,
+				rootNode=None,
+				horizontalHeaders=None,
+				verticalHeaders=None,
+				defaultNode=None):
 		"""
 		This method initializes the class.
 
@@ -395,7 +401,8 @@ class GraphModel(QAbstractItemModel):
 		if parentNode == self.__rootNode:
 			return QModelIndex()
 
-		return self.createIndex(parentNode.row(), 0, parentNode)
+		row = parentNode.row()
+		return self.createIndex(row, 0, parentNode) if row is not None else QModelIndex()
 
 	def index(self, row, column=0, parent=QModelIndex()):
 		"""
@@ -552,10 +559,12 @@ class GraphModel(QAbstractItemModel):
 		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
 		:return: Index. ( QModelIndex )
 		"""
+
 		if node == self.__rootNode:
 			return QModelIndex()
 		else:
-			return self.createIndex(node.row(), 0, node)
+			row = node.row()
+			return self.createIndex(row, 0, node) if row is not None else QModelIndex()
 
 	def getAttributeIndex(self, node, column):
 		"""
@@ -567,32 +576,8 @@ class GraphModel(QAbstractItemModel):
 		"""
 
 		if column > 0 and column < len(self.__horizontalHeaders):
-			return self.createIndex(node.row(), column, node)
-
-	def nodeChanged(self, node):
-		"""
-		This method calls :meth:`QAbstractItemModel.dataChanged` with given node index.
-		
-		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
-		:return: Method success. ( Boolean )
-		"""
-
-		index = self.getNodeIndex(node)
-		self.dataChanged.emit(index, index)
-		return True
-
-	def attributeChanged(self, node, column):
-		"""
-		This method calls :meth:`QAbstractItemModel.dataChanged` with given node attribute index.
-		
-		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
-		:param column: Attribute column. ( Integer )
-		:return: Method success. ( Boolean )
-		"""
-
-		index = self.getAttributeIndex(node, column)
-		self.dataChanged.emit(index, index)
-		return True
+			row = node.row()
+			return self.createIndex(row, column, node) if row is not None else QModelIndex()
 
 	def findChildren(self, pattern=".*", flags=0):
 		"""
@@ -617,6 +602,7 @@ class GraphModel(QAbstractItemModel):
 
 		return self.__rootNode.findFamily(pattern, flags, node or self.__rootNode)
 
+#	@foundations.decorators.memoize(cache=None)
 	def findNode(self, attribute):
 		"""
 		This method returns the node with given attribute.
@@ -631,6 +617,7 @@ class GraphModel(QAbstractItemModel):
 					return node
 
 	@staticmethod
+#	@foundations.decorators.memoize(cache=None)
 	def findModel(object):
 		"""
 		This method returns the model(s) associated with given object.
@@ -649,3 +636,48 @@ class GraphModel(QAbstractItemModel):
 					if attribute is object:
 						models.append(model)
 		return models
+
+	def enableModelTriggers(self, state):
+		"""
+		This method enables model nodes and attributes triggers.
+		
+		:param state: Inform model state. ( Boolean ) 
+		:return: Method success. ( Boolean )
+		"""
+
+		for node in foundations.walkers.nodesWalker(self.rootNode):
+			node.triggerModel = state
+
+			for attribute in node.getAttributes():
+				attribute.triggerModel = state
+
+	def nodeChanged(self, node):
+		"""
+		This method calls :meth:`QAbstractItemModel.dataChanged` with given node index.
+		
+		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
+		:return: Method success. ( Boolean )
+		"""
+
+		index = self.getNodeIndex(node)
+		if index is not None:
+			self.dataChanged.emit(index, index)
+			return True
+		else:
+			return False
+
+	def attributeChanged(self, node, column):
+		"""
+		This method calls :meth:`QAbstractItemModel.dataChanged` with given node attribute index.
+		
+		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
+		:param column: Attribute column. ( Integer )
+		:return: Method success. ( Boolean )
+		"""
+
+		index = self.getAttributeIndex(node, column)
+		if index is not None:
+			self.dataChanged.emit(index, index)
+			return True
+		else:
+			return False
