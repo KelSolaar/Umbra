@@ -78,7 +78,7 @@ def getFormat(**kwargs):
 #**********************************************************************************************************************
 DEFAULT_FORMAT = getFormat(color=QColor(192, 192, 192))
 
-DEFAULT_THEME = {"default" : getFormat(format=DEFAULT_FORMAT, backgroundColor=QColor(40, 40, 40)),
+DEFAULT_THEME = {"default" : getFormat(format=DEFAULT_FORMAT, backgroundColor=QColor(32, 32, 32)),
 			"comment" : getFormat(format=DEFAULT_FORMAT, color=QColor(96, 96, 96)),
 			"comment.line" : None,
 			"comment.line.double-slash" : None,
@@ -151,7 +151,7 @@ DEFAULT_THEME = {"default" : getFormat(format=DEFAULT_FORMAT, backgroundColor=QC
 			"accelerator.occurence": getFormat(format=DEFAULT_FORMAT, backgroundColor=QColor(64, 64, 64)),
 			"accelerator.pair": getFormat(format=DEFAULT_FORMAT, backgroundColor=QColor(64, 64, 64))}
 
-LOGGING_THEME = {"default" : getFormat(format=DEFAULT_FORMAT, backgroundColor=QColor(40, 40, 40)),
+LOGGING_THEME = {"default" : getFormat(format=DEFAULT_FORMAT, backgroundColor=QColor(32, 32, 32)),
 			"logging.message" : getFormat(format=DEFAULT_FORMAT),
 			"logging.message.critical" : getFormat(format=DEFAULT_FORMAT, color=QColor(48, 48, 48),
 										backgroundColor=QColor(255, 64, 64)),

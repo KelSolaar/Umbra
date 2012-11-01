@@ -86,10 +86,10 @@ class LinesNumbers_QWidget(QWidget):
 		self.__editor = parent
 
 		self.__margin = 16
-		self.__separatorWidth = 2
+		self.__separatorWidth = 4
 		self.__backgroundColor = QColor(48, 48, 48)
 		self.__color = QColor(192, 192, 192)
-		self.__separatorColor = QColor(88, 88, 88)
+		self.__separatorColor = QColor(64, 64, 64)
 
 		self.setEditorViewportMargins(0)
 
