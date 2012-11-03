@@ -21,13 +21,13 @@ import fnmatch
 import functools
 import inspect
 import os
-import platform
 import re
 import sys
 from PyQt4.QtCore import QString
 from PyQt4.QtCore import QStringList
 from PyQt4.QtCore import QVariant
 from PyQt4.QtCore import Qt
+from PyQt4.QtGui import QAbstractButton
 from PyQt4.QtGui import QApplication
 from PyQt4.QtGui import QIcon
 
@@ -71,7 +71,8 @@ __all__ = ["LOGGER", "Location",
 			"getQVariantAsString",
 			"parentsWalker",
 			"signalsBlocker",
-			"showWaitCursor"]
+			"showWaitCursor",
+			"setToolBoxHeight"]
 
 LOGGER = foundations.verbose.installLogger()
 
@@ -288,8 +289,8 @@ def getQVariantAsString(data):
 	"""
 	This definition returns given `QVariant <http://doc.qt.nokia.com/qvariant.html>`_ data as a string.
 
-	:param data: Given dat. ( Object )
-	:return: QVariant data as string. ( String )		
+	:param data: Given data. ( Object )
+	:return: QVariant data as string. ( String )
 	"""
 
 	if isinstance(data, QVariant):
@@ -357,3 +358,18 @@ def showWaitCursor(object):
 			return value
 
 	return showWaitCursorWrapper
+
+def setToolBoxHeight(toolBox, height=32):
+	"""
+	This definition sets given height to given QToolBox widget.
+
+	:param toolbox: ToolBox. ( QToolBox )
+	:param height: Height. ( Integer )
+	:return: Definition success. ( Boolean )
+	"""
+
+	for button in toolBox.children():
+		if isinstance(button, QAbstractButton):
+			button.setMinimumHeight(32)
+	return True
+

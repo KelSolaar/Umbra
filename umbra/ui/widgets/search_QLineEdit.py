@@ -416,7 +416,6 @@ class Search_QLineEdit(QLineEdit):
 		if self.__uiClearImage and self.__uiClearClickedImage:
 			pixmap = QPixmap(self.__uiClearImage)
 			clickedPixmap = QPixmap(self.__uiClearClickedImage)
-			self.__clearButton.setStyleSheet("QToolButton { border: none; padding: 0px; }")
 			self.__clearButton.setIcon(QIcon(pixmap))
 			self.__clearButton.setMaximumSize(pixmap.size())
 

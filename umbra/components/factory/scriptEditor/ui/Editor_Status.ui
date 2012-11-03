@@ -20,16 +20,17 @@
     </widget>
    </item>
    <item row="0" column="5" rowspan="3">
-    <widget class="QComboBox" name="Languages_comboBox"/>
+    <widget class="QComboBox" name="Languages_comboBox">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>22</height>
+      </size>
+     </property>
+    </widget>
    </item>
    <item row="0" column="3" rowspan="3">
     <widget class="Line" name="Center_Vertical_line">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
@@ -37,6 +38,12 @@
    </item>
    <item row="0" column="4" rowspan="3">
     <widget class="QLabel" name="Languages_label">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="text">
       <string>Language:</string>
      </property>

@@ -137,7 +137,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__treeViewInnerMargins = QMargins(0, 0, 0, 12)
 		self.__componentsInformationsDefaultText = \
-		"<center><h4>* * *</h4>Select Some Components to display related informations!<h4>* * *</h4></center>"
+		"<center><h4>* * *</h4>Select some Components to display related informations!<h4>* * *</h4></center>"
 		self.__componentsInformationsText = """
 											<h4><center>{0}</center></h4>
 											<p>

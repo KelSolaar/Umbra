@@ -28,6 +28,7 @@ import foundations.common
 import foundations.exceptions
 import foundations.strings
 import foundations.verbose
+import umbra.ui.common
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
@@ -216,6 +217,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
+
+		umbra.ui.common.setToolBoxHeight(self.Preferences_Manager_toolBox)
 
 		self.__Logging_Formatters_comboBox_setUi()
 		self.__Verbose_Level_comboBox_setUi()
