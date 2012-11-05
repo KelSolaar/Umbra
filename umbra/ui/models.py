@@ -35,7 +35,6 @@ from PyQt4.QtGui import QIcon
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.decorators
 import foundations.exceptions
 import foundations.strings
 import foundations.verbose

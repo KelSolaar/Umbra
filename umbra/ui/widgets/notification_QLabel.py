@@ -112,9 +112,8 @@ class Notification_QLabel(QLabel):
 						QLabel, QLabel link {{
 							color: {0};
 							background-color: {1};
-							border: 2px solid;
+							border: 4px solid;
 							border-color: {2};
-							border-radius: 4px;
 							font-size: 14px;
 							padding: 16px;
 						}}

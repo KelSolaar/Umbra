@@ -94,14 +94,14 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__style = Style(default=\
 								"""
 								QLabel, QLabel link {
-									background-color: rgb(40, 40, 40);
+									background-color: rgb(32, 32, 32);
 									color: rgb(192, 192, 192);
 								}
 								""",
 								hover=\
 								"""
 								QLabel, QLabel link {
-									background-color: rgb(80, 80, 80);
+									background-color: rgb(64, 64, 64);
 									color: rgb(192, 192, 192);
 								}
 								""",

@@ -127,6 +127,7 @@ class Mixin_AbstractBase(object):
 
 		self.__notifier = Notification_QLabel(self,
 											color=QColor(192, 192, 192),
+											backgroundColor=QColor(24, 24, 24),
 											borderColor=QColor(32, 32, 32),
 											anchor=8)
 
