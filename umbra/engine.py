@@ -41,15 +41,15 @@ from PyQt4.QtGui import QPixmap
 #**********************************************************************************************************************
 #***	Path manipulations.
 #**********************************************************************************************************************
-def _setApplicationPackageDirectory():
+def _setPackageDirectory():
 	"""
 	This definition sets the Application package directory in the path.
 	"""
 
-	applicationPackageDirectory = os.path.normpath(os.path.join(sys.path[0], "../"))
-	applicationPackageDirectory not in sys.path and sys.path.append(applicationPackageDirectory)
+	packageDirectory = os.path.normpath(os.path.join(os.path.dirname(__file__), "../"))
+	packageDirectory not in sys.path and sys.path.append(packageDirectory)
 
-_setApplicationPackageDirectory()
+_setPackageDirectory()
 
 #**********************************************************************************************************************
 #***	Dependencies globals manipulation.
