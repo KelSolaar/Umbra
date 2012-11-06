@@ -277,7 +277,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	:return: Event. ( QEvent )	
 	"""
 
-	@foundations.exceptions.handleExceptions(umbra.ui.common.uiSystemExitExceptionHandler, Exception)
+#	@foundations.exceptions.handleExceptions(umbra.ui.common.uiSystemExitExceptionHandler, Exception)
 	def __init__(self,
 				parent=None,
 				componentsPaths=None,
@@ -1348,7 +1348,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		self.__isProcessing = state
 		state and self.Application_Progress_Status_processing.show()
 
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def setVerbosityLevel(self, verbosityLevel):
 		"""
 		This method sets the Application verbosity level.
