@@ -29,25 +29,26 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "AbstractEngineError",
-			"EngineConfigurationError",
-			"EngineInitializationError",
-			"ResourceExistsError",
-			"AbstractActionsManagerError",
-			"CategoryExistsError",
-			"ActionExistsError",
-			"AbstractPatchesManagerError",
-			"PatchRegistrationError",
-			"PatchInterfaceError",
-			"PatchApplyError",
-			"AbstractLayoutsManagerError",
-			"LayoutRegistrationError",
-			"LayoutExistError",
-			"AbstractFileSystemEventsManagerError",
-			"PathRegistrationError",
-			"PathExistsError",
-			"AbstractLanguageError",
-			"LanguageGrammarError"]
+__all__ = ["LOGGER",
+		"AbstractEngineError",
+		"EngineConfigurationError",
+		"EngineInitializationError",
+		"ResourceExistsError",
+		"AbstractActionsManagerError",
+		"CategoryExistsError",
+		"ActionExistsError",
+		"AbstractPatchesManagerError",
+		"PatchRegistrationError",
+		"PatchInterfaceError",
+		"PatchApplyError",
+		"AbstractLayoutsManagerError",
+		"LayoutRegistrationError",
+		"LayoutExistError",
+		"AbstractFileSystemEventsManagerError",
+		"PathRegistrationError",
+		"PathExistsError",
+		"AbstractLanguageError",
+		"LanguageGrammarError"]
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
