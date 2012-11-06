@@ -45,7 +45,8 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "PYTHON_GRAMMAR_FILE",
+__all__ = ["LOGGER",
+		"PYTHON_GRAMMAR_FILE",
 		"LOGGING_GRAMMAR_FILE",
 		"TEXT_GRAMMAR_FILE",
 		"LANGUAGES_ACCELERATORS",
