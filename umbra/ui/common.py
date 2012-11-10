@@ -23,6 +23,7 @@ import inspect
 import os
 import re
 import sys
+import urllib2
 from PyQt4.QtCore import QString
 from PyQt4.QtCore import QStringList
 from PyQt4.QtCore import QVariant
@@ -57,24 +58,29 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "Location",
-			"getApplicationInstance",
-			"parseLocation",
-			"uiExtendedExceptionHandler",
-			"uiBasicExceptionHandler",
-			"uiSystemExitExceptionHandler",
-			"notifyExceptionHandler",
-			"getResourcePath",
-			"setWindowDefaultIcon",
-			"getSectionsFileParser",
-			"storeLastBrowsedPath",
-			"getQVariantAsString",
-			"parentsWalker",
-			"signalsBlocker",
-			"showWaitCursor",
-			"setToolBoxHeight"]
+__all__ = ["LOGGER",
+		"CONNECTION_IP",
+		"Location",
+		"getApplicationInstance",
+		"parseLocation",
+		"uiExtendedExceptionHandler",
+		"uiBasicExceptionHandler",
+		"uiSystemExitExceptionHandler",
+		"notifyExceptionHandler",
+		"getResourcePath",
+		"setWindowDefaultIcon",
+		"getSectionsFileParser",
+		"storeLastBrowsedPath",
+		"getQVariantAsString",
+		"parentsWalker",
+		"signalsBlocker",
+		"showWaitCursor",
+		"setToolBoxHeight",
+		"isInternetAvailable"]
 
 LOGGER = foundations.verbose.installLogger()
+
+CONNECTION_IP = "74.125.113.99"
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -373,3 +379,17 @@ def setToolBoxHeight(toolBox, height=32):
 			button.setMinimumHeight(32)
 	return True
 
+def isInternetAvailable(ip=CONNECTION_IP, timeout=1):
+	"""
+	This definition returns if an internet connection is available.
+
+	:param ip: Alternative address ip to check against. ( String )
+	:param timeout: Timeout in seconds. ( Integer )
+	:return: Is internet available. ( Boolean )
+	"""
+
+	try:
+		urllib2.urlopen("http://{0}".format(ip), timeout=timeout)
+		return True
+	except urllib2.URLError as error:
+		return False

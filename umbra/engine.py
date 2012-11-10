@@ -277,7 +277,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	:return: Event. ( QEvent )	
 	"""
 
-#	@foundations.exceptions.handleExceptions(umbra.ui.common.uiSystemExitExceptionHandler, Exception)
+	@foundations.exceptions.handleExceptions(umbra.ui.common.uiSystemExitExceptionHandler, Exception)
 	def __init__(self,
 				parent=None,
 				componentsPaths=None,

@@ -39,6 +39,8 @@ class UiConstants():
 
 	processingUiFile = "Processing.ui"
 	"""Processing ui file: '**Processing.ui**' ( String )"""
+	reporterUiFile = "Reporter.ui"
+	"""Reporter ui file: '**Reporter.ui**' ( String )"""
 
 	windowsStylesheetFile = "styles/Windows_styleSheet.qss"
 	"""Application Windows Os stylesheet file: '**styles/Windows_styleSheet.qss**' ( String )"""
@@ -121,3 +123,6 @@ class UiConstants():
 	"""Logging language grammar file: '**grammars/Logging/Logging.grc**' ( String )"""
 	textGrammarFile = "grammars/Text/Text.grc"
 	"""Text language grammar file: '**grammars/Text/Text.grc**' ( String )"""
+
+	crittercismId = "5075c158d5f9b9796b000002"
+	"""Crittercism Id: '**5075c158d5f9b9796b000002**' ( String )"""

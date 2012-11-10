@@ -55,6 +55,7 @@ class UiConstantsTestCase(unittest.TestCase):
 
 		requiredAttributes = ("uiFile",
 								"processingUiFile",
+								"reporterUiFile",
 								"windowsStylesheetFile",
 								"darwinStylesheetFile",
 								"linuxStylesheetFile",
@@ -88,24 +89,32 @@ class UiConstantsTestCase(unittest.TestCase):
 								"developmentLayout",
 								"pythonGrammarFile",
 								"loggingGrammarFile",
-								"textGrammarFile")
+								"textGrammarFile",
+								"crittercismId")
 
 		for attribute in requiredAttributes:
 			self.assertIn(attribute, UiConstants.__dict__)
 
 	def testUiFileAttribute(self):
 		"""
+		This method tests :attr:`umbra.globals.uiConstants.UiConstants.uiFile` attribute.
+		"""
+
+		self.assertRegexpMatches(UiConstants.uiFile, "\w+")
+
+	def testProcessingUiFileAttribute(self):
+		"""
 		This method tests :attr:`umbra.globals.uiConstants.UiConstants.processingUiFile` attribute.
 		"""
 
 		self.assertRegexpMatches(UiConstants.processingUiFile, "\w+")
 
-	def testProcessingUiFileAttribute(self):
+	def testReporterUiFileAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.uiConstants.UiConstants.uiFile` attribute.
+		This method tests :attr:`umbra.globals.uiConstants.UiConstants.reporterUiFile` attribute.
 		"""
 
-		self.assertRegexpMatches(UiConstants.uiFile, "\w+")
+		self.assertRegexpMatches(UiConstants.reporterUiFile, "\w+")
 
 	def testWindowsStylesheetFileAttribute(self):
 		"""
@@ -351,6 +360,13 @@ class UiConstantsTestCase(unittest.TestCase):
 		"""
 
 		self.assertRegexpMatches(UiConstants.textGrammarFile, "\w+")
+
+	def testCrittercismIdAttribute(self):
+		"""
+		This method tests :attr:`umbra.globals.uiConstants.UiConstants.crittercismId` attribute.
+		"""
+
+		self.assertRegexpMatches(UiConstants.crittercismId, "\w+")
 
 if __name__ == "__main__":
 	unittest.main()
