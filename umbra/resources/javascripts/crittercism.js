@@ -564,7 +564,6 @@ var Crittercism = (function() {
 			    		unsymbolized_stacktrace: stack
 			    		}
 		});
-		alert("Exception Raised!")
 	},
 		   
     leaveBreadcrumb: function(crumb) {
