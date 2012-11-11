@@ -358,7 +358,7 @@ class PatchesManager(object):
 		"""
 
 		historyFile = File(self.__historyFile)
-		patchesHistory = historyFile.read() and [line.strip() for line in historyFile.content] or list()
+		patchesHistory = historyFile.cache() and [line.strip() for line in historyFile.content] or []
 
 		if patch.uid not in patchesHistory:
 			LOGGER.debug("> Applying '{0}' patch!".format(patch.name))

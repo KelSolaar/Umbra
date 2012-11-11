@@ -407,7 +407,7 @@ class Search_worker(QThread):
 			cacheData = self.__container.filesCache.getContent(file)
 			if not cacheData:
 				reader = foundations.io.File(file)
-				content = reader.readAll()
+				content = reader.cache()
 				if content is None:
 					LOGGER.warning("!> Error occured while reading '{0}' file proceeding to next one!".format(file))
 					continue

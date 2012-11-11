@@ -523,7 +523,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		LOGGER.debug("> Loading '{0}' file.".format(file))
 		reader = foundations.io.File(file)
-		self.setPlainText(reader.readAll())
+		self.setPlainText(reader.read())
 		self.setFile(file)
 		self.__setDocumentSignals()
 		self.fileLoaded.emit()
@@ -544,7 +544,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		LOGGER.debug("> Reloading '{0}' file.".format(self.__file))
 		reader = foundations.io.File(self.__file)
-		if reader.read():
+		if reader.cache():
 			self.setContent(reader.content)
 			self.setFile(self.__file, isModified=isModified)
 

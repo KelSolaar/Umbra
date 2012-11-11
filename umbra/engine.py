@@ -1405,9 +1405,9 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 			raise foundations.exceptions.FileExistsError(
 			"{0} | No stylesheet file found, visual style will not be applied!".format(self.__class__.__name__))
 
-		if foundations.common.pathExists(styleSheetFile.file):
-			LOGGER.debug("> Reading style sheet file: '{0}'.".format(styleSheetFile.file))
-			styleSheetFile.read()
+		if foundations.common.pathExists(styleSheetFile.path):
+			LOGGER.debug("> Reading style sheet file: '{0}'.".format(styleSheetFile.path))
+			styleSheetFile.cache()
 			for i, line in enumerate(styleSheetFile.content):
 				search = re.search(r"url\((?P<url>.*)\)", line)
 				if not search:
@@ -1420,7 +1420,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 		else:
 			raise foundations.exceptions.FileExistsError(
 			"{0} | '{1}' stylesheet file is not available, visual style will not be applied!".format(
-			self.__class__.__name__, styleSheetFile.file))
+			self.__class__.__name__, styleSheetFile.path))
 
 	def isFullScreen(self):
 		"""
