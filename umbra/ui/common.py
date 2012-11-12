@@ -61,9 +61,9 @@ __all__ = ["LOGGER",
 		"Location",
 		"getApplicationInstance",
 		"parseLocation",
-		"uiExtendedExceptionHandler",
 		"uiBasicExceptionHandler",
-		"uiSystemExitExceptionHandler",
+		"uiExtendedExceptionHandler",
+		"uiExtendedSystemExitExceptionHandler",
 		"notifyExceptionHandler",
 		"getResourcePath",
 		"setWindowDefaultIcon",
@@ -147,22 +147,6 @@ def parseLocation(data):
 				continue
 	return location
 
-def uiExtendedExceptionHandler(exception, object, *args, **kwargs):
-	"""
-	This definition provides a ui extended exception handler.
-
-	:param exception: Exception. ( Exception )
-	:param object: Object raising the exception. ( Object )
-	:param \*args: Arguments. ( \* )
-	:param \*\*kwargs: Keywords arguments. ( \*\* )
-	:return: Definition success. ( Boolean )
-	"""
-
-	foundations.exceptions.defaultExceptionsHandler(exception, object, *args, **kwargs)
-	messageBox.messageBox(
-	"Detailed Error", "Exception", "Exception in '{0}': {1}".format(foundations.trace.getTraceName(object), exception))
-	return True
-
 def uiBasicExceptionHandler(exception, object, *args, **kwargs):
 	"""
 	This definition provides a ui basic exception handler.
@@ -174,13 +158,29 @@ def uiBasicExceptionHandler(exception, object, *args, **kwargs):
 	:return: Definition success. ( Boolean )
 	"""
 
-	foundations.exceptions.defaultExceptionsHandler(exception, object, *args, **kwargs)
+	foundations.exceptions.defaultExceptionHandler(exception, object, *args, **kwargs)
 	messageBox.messageBox("Detailed Error", "Exception", "{0}".format(exception))
 	return True
 
-def uiSystemExitExceptionHandler(exception, object, *args, **kwargs):
+def uiExtendedExceptionHandler(exception, object, *args, **kwargs):
 	"""
-	This definition provides a ui system exit exception handler.
+	This definition provides a ui extended exception handler.
+
+	:param exception: Exception. ( Exception )
+	:param object: Object raising the exception. ( Object )
+	:param \*args: Arguments. ( \* )
+	:param \*\*kwargs: Keywords arguments. ( \*\* )
+	:return: Definition success. ( Boolean )
+	"""
+
+	foundations.exceptions.defaultExceptionHandler(exception, object, *args, **kwargs)
+	messageBox.messageBox(
+	"Detailed Error", "Exception", "Exception in '{0}': {1}".format(foundations.trace.getTraceName(object), exception))
+	return True
+
+def uiExtendedSystemExitExceptionHandler(exception, object, *args, **kwargs):
+	"""
+	This definition provides an extended ui system exit exception handler.
 
 	:param exception: Exception. ( Exception )
 	:param object: Object raising the exception. ( Object )
@@ -204,7 +204,7 @@ def notifyExceptionHandler(exception, object, *args, **kwargs):
 	"""
 
 	callback = lambda: RuntimeGlobals.engine.layoutsManager.restoreLayout(UiConstants.developmentLayout)
-	foundations.exceptions.defaultExceptionsHandler(exception, object, *args, **kwargs)
+	foundations.exceptions.defaultExceptionHandler(exception, object, *args, **kwargs)
 	RuntimeGlobals.notificationsManager.exceptify(message="{0}".format(exception), notificationClickedSlot=callback)
 	return True
 

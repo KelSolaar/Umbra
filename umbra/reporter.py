@@ -17,6 +17,7 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
+import functools
 import inspect
 import os
 import re
@@ -27,11 +28,13 @@ else:
 	from collections import OrderedDict
 import time
 import traceback
+from PyQt4.QtGui import QApplication
 from xml.etree import ElementTree
 
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
+import foundations.core
 import foundations.exceptions
 import foundations.io
 import foundations.verbose
@@ -40,6 +43,7 @@ import foundations.ui.common
 import umbra.ui.common
 from umbra.globals.constants import Constants
 from umbra.globals.uiConstants import UiConstants
+from umbra.globals.runtimeGlobals import RuntimeGlobals
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -52,10 +56,11 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-		"JQUERY_URL",
-		"CRITTERCISM_URL",
-		"CRITTERCISM_SUBSTITUTIONS",
-		"CRITTERCISM_INITIALISATION"]
+		"UI_FILE",
+		"Reporter",
+		"critical",
+		"installReporter",
+		"uninstallReporter"]
 
 LOGGER = foundations.verbose.installLogger()
 
@@ -85,12 +90,12 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			cls._Reporter__instance = super(Reporter, cls).__new__(cls, *args, **kwargs)
 		return cls._Reporter__instance
 
-	def __init__(self, parent=None, connect=True, *args, **kwargs):
+	def __init__(self, parent=None, report=True, *args, **kwargs):
 		"""
 		This method initializes the class.
 
 		:param parent: Object parent. ( QObject )
-		:param connect: Reporter sends exceptions reports. ( Boolean )
+		:param report: Report to Crittercism. ( Boolean )
 		:param \*args: Arguments. ( \* )
 		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		"""
@@ -100,8 +105,8 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		super(Reporter, self).__init__(parent, *args, **kwargs)
 
 		# --- Setting class attributes. ---
-		self.__connect = None
-		self.connect = connect
+		self.__report = None
+		self.report = report
 
 		self.__jqueryJavascriptPath = umbra.ui.common.getResourcePath(os.path.join("javascripts", "jquery.js"))
 		self.__crittercismJavascriptPath = umbra.ui.common.getResourcePath(os.path.join("javascripts", "crittercism.js"))
@@ -111,11 +116,17 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__reporterJavascript = foundations.io.File(self.__reporterJavascriptPath).read().format(
 		UiConstants.crittercismId, Constants.releaseVersion)
 
-		self.__style = """body {
+		self.__style = """* {
+							margin: 0;
+							padding: 0;
+						}
+
+						body {
 							background-color: rgb(32, 32, 32);
 							color: rgb(192, 192, 192);
 							font-size: 12pt;
 							margin: 16px;
+							overflow-y: scroll;
 						}
 
 						A:link {
@@ -146,10 +157,16 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 						    text-align: right;
 						}
 
+						div {
+							overflow:hidden;
+							margin: auto;
+							text-overflow: ellipsis;
+						}
+
 						div.header {
 							background-color: rgb(210, 64, 32);
 							color: rgb(32, 32, 32);
-							padding: 8px;
+							padding: 24px;
 						}
 
 						div.content {
@@ -171,6 +188,7 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 							font-family: "Courier New";
 							font-size: 14px;
 							padding: 32px;
+							
 						}
 
 						span.highlight {
@@ -215,43 +233,48 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 						}"""
 		self.__html = None
 
+		self.__onlineText = "An <b>unhandled</b> exception occured!<br/> \
+The following report has been sent to <b>HDRLabs</b> development team!"
+		self.__offlineText = "An <b>unhandled</b> exception occured!<br/> \
+Mailing the following report to <b>{0}</b> would help improving <b>{1}</b>!".format(__email__, Constants.applicationName)
+
 		self.__initializeUi()
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
 	#******************************************************************************************************************
 	@property
-	def connect(self):
+	def report(self):
 		"""
-		This method is the property for **self.__connect** attribute.
+		This method is the property for **self.__report** attribute.
 
-		:return: self.__connect. ( Boolean )
+		:return: self.__report. ( Boolean )
 		"""
 
-		return self.__connect
+		return self.__report
 
-	@connect.setter
+	@report.setter
 	@foundations.exceptions.handleExceptions(AssertionError)
-	def connect(self, value):
+	def report(self, value):
 		"""
-		This method is the setter method for **self.__connect** attribute.
+		This method is the setter method for **self.__report** attribute.
 
 		:param value: Attribute value. ( Boolean )
 		"""
 
 		if value is not None:
-			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format("connect", value)
-		self.__connect = value
+			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format("report", value)
+		self.__report = value
 
-	@connect.deleter
+	@report.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def connect(self):
+	def report(self):
 		"""
-		This method is the deleter method for **self.__connect** attribute.
+		This method is the deleter method for **self.__report** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "connect"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "report"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -280,8 +303,39 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		This method initializes the Widget ui.
 		"""
 
+		LOGGER.debug("> Initializing '{0}' Widget ui.".format(self.__class__.__name__))
+
 		self.__view = self.Reporter_webView
+
+		self.setWindowTitle("{0} - Reporter".format(Constants.applicationName))
+
+		self.__initializeContextUi()
+
 		self.__setHtml()
+
+		# Signals / Slots.
+		self.Copy_Report_pushButton.clicked.connect(self.__Copy_Report_pushButton__clicked)
+
+	def __initializeContextUi(self):
+		"""
+		This method sets the context Widget ui.
+		"""
+
+		if foundations.common.isInternetAvailable():
+			text = self.__onlineText
+		else:
+			text = self.__offlineText
+		self.Header_label.setText(text)
+
+	def __Copy_Report_pushButton__clicked(self, checked):
+		"""
+		This method is triggered when **Copy_Report_pushButton** Widget is clicked.
+
+		:param checked: Checked state. ( Boolean )
+		"""
+
+		clipboard = QApplication.clipboard()
+		clipboard.setText(self.__view.page().mainFrame().toPlainText())
 
 	def __getHtml(self, body=None):
 		"""
@@ -300,7 +354,7 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			script.text = javascript
 		style = ElementTree.SubElement(head, "style", attrib={"type" : "text/css"})
 		style.text = self.__style
-		ElementTree.SubElement(root, "body")
+		node = ElementTree.SubElement(root, "body")
 		html = ElementTree.tostring(root, method="html")
 		return re.sub(r"\<body\>.*\</body\>", body, html) if body is not None else html
 
@@ -330,10 +384,16 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:param exception: Exception informations. ( Tuple )
 		"""
 
+		cls, instance, trcback = exception
+
+		LOGGER.info("{0} | Handling '{1}' exception!".format(self.__class__.__name__, str(cls)))
+
+		self.__initializeContextUi()
+
 		self.__setHtml(self.formatHtmlException(exception))
 
 		self.show()
-		self.__connect and self.sendExceptionToCrittercism(exception)
+		self.__report and self.reportExceptionToCrittercism(exception)
 		self.exec_()
 
 	@staticmethod
@@ -359,12 +419,13 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		html = []
 		html.append(
-		"<div class=\"header\"><span class=\"floatRight textAlignRight\"><h3>{0}</br>{1}</h3></span><h2>{2}</h2></div>".format(
+		"<div class=\"header\"><span class=\"floatRight textAlignRight\"><h4>{0}<br/>{1}</h4></span><h2>{2}</h2></div>".format(
 		python, date, escape(str(cls))))
 		html.append("<div class=\"content\">")
 		html.append("<p>An unhandled exception occured in <b>{0} {1}</b>! \
 				Sequence of calls leading up to the exception, in their occurring order:</p>".format(
 				Constants.applicationName, Constants.releaseVersion))
+		html.append("<br/>")
 		html.append("<div class=\"stack\">")
 		for frame, fileName, lineNumber, name, context, index in stack:
 			location = "<b>{0}{1}</b>".format(escape(name) if name != "<module>" else str(),
@@ -380,7 +441,7 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 				else:
 					html.append("{0}&nbsp;{1}".format(lineNumber - index + i, format(line)))
 			html.append("</div>")
-			html.append("</br>")
+			html.append("<br/>")
 		html.append("</div>")
 		html.append("</div>")
 		html.append("<div class=\"exception\">")
@@ -395,7 +456,7 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			html.append(
 			"<div class=\"frame\">Frame \"{0}\" in <a href=file://{1}>\"{1}\"</a> file, line <b>{2}</b>:</div>".format(
 			escape(name), fileName, lineNumber))
-			html.append("</br>")
+			html.append("<br/>")
 			html.append("<div class=\"locals\">")
 			arguments, namelessArgs, keywordArgs, locals = locals
 			hasArguments, hasLocals = any((arguments, namelessArgs, keywordArgs)), any(locals)
@@ -412,12 +473,12 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 				html.append("<li><b>{0}</b> = {1}</li>".format(key, escape(value)))
 			hasLocals and html.append("</ul>")
 			html.append("</div>")
-			html.append("</br>")
+			html.append("<br/>")
 		html.append("</div>")
 
 		html.append("<div class=\"traceback\">")
 		for line in foundations.exceptions.formatException(cls, instance, trcback):
-			html.append("{0}</br>".format(format(line)))
+			html.append("{0}<br/>".format(format(line)))
 		html.append("</div>")
 
 		return "<body>{0}</body>".format(str().join(html))
@@ -483,9 +544,9 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 		return text
 
-	def sendExceptionToCrittercism(self, exception):
+	def reportExceptionToCrittercism(self, exception):
 		"""
-		This method sends given exception to Crittercism.
+		This method reports given exception to Crittercism.
 
 		:param exception: Exception informations. ( Tuple )
 		:return: Method success. ( Boolean )
@@ -507,18 +568,69 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			LOGGER.warning("!> {0} | Failed sending exception report to Crittercism!".format(self.__class__.__name__))
 			return False
 
-def installExceptionsReporter(connect=True):
-	sys.excepthook = Reporter()
+def critical(object):
+	"""
+	This decorator is used to mark an object that would system exit in case of critical exception.
+
+	:param object: Object to decorate. ( Object )
+	:return: Object. ( Object )
+	"""
+
+	@functools.wraps(object)
+	def criticalWrapper(*args, **kwargs):
+		"""
+		This decorator is used to mark an object that would system exit in case of critical exception.
+
+		:param \*args: Arguments. ( \* )
+		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		"""
+
+		_exceptions__frame__ = True
+
+		try:
+			return object(*args, **kwargs)
+		except Exception as error:
+			RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
+
+			exception = sys.exc_info()
+
+			reporter = Reporter()
+			reporter._Reporter__initializeContextUi = lambda: \
+			reporter.Header_label.setText("{0}<br/><b>{1}</b> cannot continue and will now close!".format(
+			reporter.Header_label.text(), Constants.applicationName))
+			reporter.handleException(exception)
+
+			foundations.exceptions.defaultExceptionHandler(error, None)
+
+			foundations.core.exit(1)
+
+	return criticalWrapper
+
+def installReporter(report=True):
+	"""
+	This definition installs the exceptions reporter.
+	
+	:param report: Report to Crittercism. ( Boolean )
+	:return: Definition success. ( Boolean )
+	"""
+
+	sys.excepthook = Reporter(report=report)
 	return True
 
-def uninstallExceptionsReporter():
-	sys.excepthook = __excepthook__
+def uninstallReporter():
+	"""
+	This definition uninstalls the exceptions reporter.
+	
+	:return: Definition success. ( Boolean )
+	"""
+
+	sys.excepthook = sys.__excepthook__
 	return True
 
 if __name__ == "__main__":
 	application = umbra.ui.common.getApplicationInstance()
 
-	installExceptionsReporter()
+	installReporter()
 
 	def testReporter(bar=1, nemo="captain", *args, **kwargs):
 		1 / 0

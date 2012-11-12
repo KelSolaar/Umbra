@@ -105,6 +105,7 @@ import umbra.managers.fileSystemEventsManager
 import umbra.managers.notificationsManager
 import umbra.managers.patchesManager
 import umbra.managers.layoutsManager
+import umbra.reporter
 import umbra.ui.common
 from manager.componentsManager import Manager
 from umbra.preferences import Preferences
@@ -159,8 +160,11 @@ def _initializeApplication():
 	RuntimeGlobals.application = umbra.ui.common.getApplicationInstance()
 	umbra.ui.common.setWindowDefaultIcon(RuntimeGlobals.application)
 
+	umbra.reporter.installReporter()
+
 _initializeApplication()
 
+@umbra.reporter.critical
 def _initializeApplicationUiFile():
 	"""
 	This definition initializes the Application ui file.
@@ -168,9 +172,8 @@ def _initializeApplicationUiFile():
 
 	RuntimeGlobals.uiFile = umbra.ui.common.getResourcePath(UiConstants.uiFile)
 	if not foundations.common.pathExists(RuntimeGlobals.uiFile):
-		umbra.ui.common.uiSystemExitExceptionHandler(
-		foundations.exceptions.FileExistsError("'{0}' ui file is not available, {1} will now close!".format(
-		UiConstants.uiFile, Constants.applicationName)), _initializeApplicationUiFile.__name__)
+		raise foundations.exceptions.FileExistsError("'{0}' ui file is not available, {1} will now close!".format(
+		UiConstants.uiFile, Constants.applicationName))
 
 _initializeApplicationUiFile()
 
@@ -277,7 +280,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	:return: Event. ( QEvent )	
 	"""
 
-	@foundations.exceptions.handleExceptions(umbra.ui.common.uiSystemExitExceptionHandler, Exception)
+	@umbra.reporter.critical
 	def __init__(self,
 				parent=None,
 				componentsPaths=None,
@@ -727,6 +730,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "actionsManager"))
+
 	@property
 	def fileSystemEventsManager(self):
 		"""
@@ -1272,15 +1276,15 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 					interface.addWidget()
 					interface.initializeUi()
 			except Exception as error:
-				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
-
-				exceptionHandler = umbra.ui.common.uiSystemExitExceptionHandler if requisite else \
-				umbra.ui.common.uiExtendedExceptionHandler
-
 				message = "'{0}' Component failed to activate!\nException raised: {1}" if requisite else \
 				"'{0}' Component failed to activate, unexpected behavior may occur!\nException raised: {1}"
+				exception = manager.exceptions.ComponentActivationError(message.format(component, error))
 
-				exceptionHandler(manager.exceptions.ComponentActivationError(message.format(component, error)), self)
+				if requisite:
+					raise exception
+				else:
+					RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
+					umbra.ui.common.uiExtendedExceptionHandler(exception, self)
 
 	def __setLocals(self):
 		"""
@@ -1612,7 +1616,6 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 
 		exit(exitCode)
 
-@foundations.exceptions.handleExceptions(umbra.ui.common.uiSystemExitExceptionHandler, OSError)
 def setUserApplicationDataDirectory(path):
 	"""
 	This definition sets the Application data directory.
@@ -1704,8 +1707,7 @@ def getCommandLineParametersParser():
 					help="'Trace given modules'.")
 	return parser
 
-@foundations.exceptions.handleExceptions(umbra.ui.common.uiSystemExitExceptionHandler,
-										umbra.exceptions.EngineConfigurationError)
+@umbra.reporter.critical
 def getLoggingFile(maximumLoggingFiles=10, retries=2 ^ 16):
 	"""
 	This definition returns the logging file path.
@@ -1741,8 +1743,7 @@ def getLoggingFile(maximumLoggingFiles=10, retries=2 ^ 16):
 
 	return path
 
-@foundations.exceptions.handleExceptions(umbra.ui.common.uiSystemExitExceptionHandler,
-										umbra.exceptions.EngineConfigurationError)
+@umbra.reporter.critical
 def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visibleComponents=None):
 	"""
 	This definition starts the Application.

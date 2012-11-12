@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>720</width>
+    <height>360</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,16 +39,36 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="Copy_Report_pushButton">
+        <property name="statusTip">
+         <string>Copy Report Push Button: Copy the current report to clipboard.</string>
+        </property>
+        <property name="text">
+         <string>Copy Report</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
    <item row="0" column="0">
-    <widget class="QLabel" name="Reporter_label">
+    <widget class="QLabel" name="Header_label">
      <property name="text">
-      <string>An unhandled exception occured! The following report has been sent to HDRLabs development team!</string>
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Lucida Grande'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;An &lt;span style=&quot; font-weight:600;&quot;&gt;unhandled&lt;/span&gt; exception occured!&lt;br /&gt;The following report has been sent to &lt;span style=&quot; font-weight:600;&quot;&gt;HDRLabs&lt;/span&gt; development team!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
      </property>
     </widget>
    </item>
