@@ -121,6 +121,31 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 							padding: 0;
 						}
 
+						::-webkit-scrollbar {
+							height: 12px;
+							width: 12px;
+						}
+
+						::-webkit-scrollbar-track-piece  {
+							background-color: rgb(48, 48, 48);
+						}
+
+						::-webkit-scrollbar-thumb:horizontal, ::-webkit-scrollbar-thumb:vertical {
+							background-color: rgb(96, 96, 96);
+						}
+
+						::-webkit-scrollbar-thumb:horizontal:hover, ::-webkit-scrollbar-thumb:vertical:hover {
+							background-color: rgb(128, 128, 128);
+						}
+
+						::-webkit-scrollbar-thumb:horizontal {
+							width: 50px;
+						}
+
+						::-webkit-scrollbar-thumb:vertical {
+							height: 50px;
+						}
+
 						body {
 							background-color: rgb(32, 32, 32);
 							color: rgb(192, 192, 192);
