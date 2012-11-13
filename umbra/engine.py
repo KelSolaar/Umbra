@@ -160,11 +160,11 @@ def _initializeApplication():
 	RuntimeGlobals.application = umbra.ui.common.getApplicationInstance()
 	umbra.ui.common.setWindowDefaultIcon(RuntimeGlobals.application)
 
-	umbra.reporter.installReporter()
+	umbra.reporter.installExceptionReporter()
 
 _initializeApplication()
 
-@umbra.reporter.critical
+@umbra.reporter.unrecoverable
 def _initializeApplicationUiFile():
 	"""
 	This definition initializes the Application ui file.
@@ -280,7 +280,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	:return: Event. ( QEvent )	
 	"""
 
-	@umbra.reporter.critical
+	@umbra.reporter.unrecoverable
 	def __init__(self,
 				parent=None,
 				componentsPaths=None,
@@ -428,7 +428,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
 				umbra.ui.common.uiExtendedExceptionHandler(
 				Exception("'{0}' Component 'onStartup' method raised an exception, unexpected behavior may occur!\n\
-Exception raised: {1}".format(component, error)), self.__class__.__name__)
+Exception raised: {1}".format(component, error)))
 
 		self.__layoutsManager.restoreStartupLayout()
 
@@ -1284,7 +1284,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 					raise exception
 				else:
 					RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
-					umbra.ui.common.uiExtendedExceptionHandler(exception, self)
+					umbra.ui.common.uiExtendedExceptionHandler(exception)
 
 	def __setLocals(self):
 		"""
@@ -1315,7 +1315,7 @@ Exception raised: {1}".format(component, error)), self.__class__.__name__)
 			try:
 				exec self.__requestsStack.popleft() in self.__locals
 			except Exception as error:
-				umbra.ui.common.notifyExceptionHandler(error, foundations.trace.getTraceName(self.__processRequestsStack))
+				umbra.ui.common.notifyExceptionHandler(error)
 
 	def __componentsInstantiationCallback(self, profile):
 		"""
@@ -1707,7 +1707,7 @@ def getCommandLineParametersParser():
 					help="'Trace given modules'.")
 	return parser
 
-@umbra.reporter.critical
+@umbra.reporter.unrecoverable
 def getLoggingFile(maximumLoggingFiles=10, retries=2 ^ 16):
 	"""
 	This definition returns the logging file path.
@@ -1743,7 +1743,7 @@ def getLoggingFile(maximumLoggingFiles=10, retries=2 ^ 16):
 
 	return path
 
-@umbra.reporter.critical
+@umbra.reporter.unrecoverable
 def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visibleComponents=None):
 	"""
 	This definition starts the Application.

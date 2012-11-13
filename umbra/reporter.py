@@ -58,9 +58,9 @@ __status__ = "Production"
 __all__ = ["LOGGER",
 		"UI_FILE",
 		"Reporter",
-		"critical",
-		"installReporter",
-		"uninstallReporter"]
+		"unrecoverable",
+		"installExceptionReporter",
+		"uninstallExceptionReporter"]
 
 LOGGER = foundations.verbose.installLogger()
 
@@ -186,12 +186,20 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 							overflow:hidden;
 							margin: auto;
 							text-overflow: ellipsis;
+							word-wrap: break-word;
 						}
 
 						div.header {
 							background-color: rgb(210, 64, 32);
 							color: rgb(32, 32, 32);
 							padding: 24px;
+						}
+
+						div.traceback {
+							background-color: rgb(210, 64, 32);
+							color: rgb(32, 32, 32);
+							font-size: 16px;
+							padding: 16px;
 						}
 
 						div.content {
@@ -248,20 +256,15 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 							color: rgb(160, 160, 160);
 							line-height: 150%;
 							padding: 32px;
-						}
-
-						div.traceback {
-							background-color: rgb(210, 64, 32);
-							color: rgb(32, 32, 32);
-							font-size: 16px;
-							padding: 16px;
 						}"""
 		self.__html = None
 
-		self.__onlineText = "An <b>unhandled</b> exception occured!<br/> \
-The following report has been sent to <b>HDRLabs</b> development team!"
-		self.__offlineText = "An <b>unhandled</b> exception occured!<br/> \
-Mailing the following report to <b>{0}</b> would help improving <b>{1}</b>!".format(__email__, Constants.applicationName)
+		self.__onlineText = "An <b>unhandled</b> exception occured, \
+this report has been sent to <b>HDRLabs</b> development team!"
+		self.__offlineText = "An <b>unhandled</b> exception occured, \
+mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__email__, Constants.applicationName)
+		self.__footerText = \
+		"The severity of this exception is not critical and <b>{0}</b> will resume!".format(Constants.applicationName)
 
 		self.__initializeUi()
 
@@ -321,6 +324,7 @@ Mailing the following report to <b>{0}</b> would help improving <b>{1}</b>!".for
 		"""
 
 		super(Reporter, self).show()
+
 		self.raise_()
 
 	def __initializeUi(self):
@@ -333,7 +337,7 @@ Mailing the following report to <b>{0}</b> would help improving <b>{1}</b>!".for
 		self.__view = self.Reporter_webView
 
 		self.setWindowTitle("{0} - Reporter".format(Constants.applicationName))
-
+		self.Footer_label.setText(self.__footerText)
 		self.__initializeContextUi()
 
 		self.__setHtml()
@@ -446,6 +450,12 @@ Mailing the following report to <b>{0}</b> would help improving <b>{1}</b>!".for
 		html.append(
 		"<div class=\"header\"><span class=\"floatRight textAlignRight\"><h4>{0}<br/>{1}</h4></span><h2>{2}</h2></div>".format(
 		python, date, escape(str(cls))))
+
+		html.append("<div class=\"traceback\">")
+		for line in foundations.exceptions.formatException(cls, instance, trcback):
+			html.append("{0}<br/>".format(format(line)))
+		html.append("</div>")
+
 		html.append("<div class=\"content\">")
 		html.append("<p>An unhandled exception occured in <b>{0} {1}</b>! \
 				Sequence of calls leading up to the exception, in their occurring order:</p>".format(
@@ -501,11 +511,6 @@ Mailing the following report to <b>{0}</b> would help improving <b>{1}</b>!".for
 			html.append("<br/>")
 		html.append("</div>")
 
-		html.append("<div class=\"traceback\">")
-		for line in foundations.exceptions.formatException(cls, instance, trcback):
-			html.append("{0}<br/>".format(format(line)))
-		html.append("</div>")
-
 		return "<body>{0}</body>".format(str().join(html))
 
 	@staticmethod
@@ -526,6 +531,11 @@ Mailing the following report to <b>{0}</b> would help improving <b>{1}</b>!".for
 		text = []
 		text.append(str(cls))
 		text.append(str())
+
+		for line in foundations.exceptions.formatException(cls, instance, trcback):
+			text.append(format("{0}".format(format(line))))
+		text.append(str())
+
 		text.append("An unhandled exception occured in {0} {1}!".format(Constants.applicationName,
 																		Constants.releaseVersion))
 		text.append("Sequence of calls leading up to the exception, in their occurring order:")
@@ -564,9 +574,6 @@ Mailing the following report to <b>{0}</b> would help improving <b>{1}</b>!".for
 				text.append(format("\t\t{0} = {1}".format(key, value)))
 			text.append(str())
 
-		for line in foundations.exceptions.formatException(cls, instance, trcback):
-			text.append(format("{0}".format(format(line))))
-
 		return text
 
 	def reportExceptionToCrittercism(self, exception):
@@ -593,7 +600,7 @@ Mailing the following report to <b>{0}</b> would help improving <b>{1}</b>!".for
 			LOGGER.warning("!> {0} | Failed sending exception report to Crittercism!".format(self.__class__.__name__))
 			return False
 
-def critical(object):
+def unrecoverable(object):
 	"""
 	This decorator is used to mark an object that would system exit in case of critical exception.
 
@@ -602,7 +609,7 @@ def critical(object):
 	"""
 
 	@functools.wraps(object)
-	def criticalWrapper(*args, **kwargs):
+	def unrecoverableWrapper(*args, **kwargs):
 		"""
 		This decorator is used to mark an object that would system exit in case of critical exception.
 
@@ -617,21 +624,17 @@ def critical(object):
 		except Exception as error:
 			RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
 
-			exception = sys.exc_info()
-
 			reporter = Reporter()
-			reporter._Reporter__initializeContextUi = lambda: \
-			reporter.Header_label.setText("{0}<br/><b>{1}</b> cannot continue and will now close!".format(
-			reporter.Header_label.text(), Constants.applicationName))
-			reporter.handleException(exception)
+			reporter.Footer_label.setText("The severity of this exception is critical, <b>{0}</b> cannot continue and will now close!".format(Constants.applicationName))
+			reporter.handleException(sys.exc_info())
 
-			foundations.exceptions.defaultExceptionHandler(error, None)
+			foundations.exceptions.baseExceptionHandler(error)
 
 			foundations.core.exit(1)
 
-	return criticalWrapper
+	return unrecoverableWrapper
 
-def installReporter(report=True):
+def installExceptionReporter(report=True):
 	"""
 	This definition installs the exceptions reporter.
 	
@@ -642,20 +645,19 @@ def installReporter(report=True):
 	sys.excepthook = Reporter(report=report)
 	return True
 
-def uninstallReporter():
+def uninstallExceptionReporter():
 	"""
 	This definition uninstalls the exceptions reporter.
 	
 	:return: Definition success. ( Boolean )
 	"""
 
-	sys.excepthook = sys.__excepthook__
-	return True
+	return foundations.exceptions.installExceptionHandler()
 
 if __name__ == "__main__":
 	application = umbra.ui.common.getApplicationInstance()
 
-	installReporter()
+	installExceptionReporter()
 
 	def testReporter(bar=1, nemo="captain", *args, **kwargs):
 		1 / 0
