@@ -41,6 +41,7 @@ from PyQt4.QtGui import QTreeWidget
 import foundations.exceptions
 import foundations.walkers
 import foundations.verbose
+import umbra.exceptions
 import umbra.ui.common
 from umbra.ui.models import GraphModel
 from umbra.ui.widgets.notification_QLabel import Notification_QLabel
@@ -94,7 +95,7 @@ class ReadOnlyFilter(QObject):
 				return True
 		return False
 
-	@foundations.exceptions.handleExceptions(umbra.ui.common.notifyExceptionHandler,
+	@foundations.exceptions.handleExceptions(umbra.exceptions.notifyExceptionHandler,
 											foundations.exceptions.UserError)
 	def __raiseUserError(self, view) :
 		"""

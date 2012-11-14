@@ -49,6 +49,7 @@ import foundations.trace
 import foundations.verbose
 import foundations.walkers
 import umbra.engine
+import umbra.exceptions
 import umbra.ui.common
 import umbra.ui.highlighters
 from manager.qwidgetComponent import QWidgetComponentFactory
@@ -3151,7 +3152,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__lockEditor(editor)
 		return editor.saveFile()
 
-	@foundations.exceptions.handleExceptions(umbra.ui.common.notifyExceptionHandler,
+	@foundations.exceptions.handleExceptions(umbra.exceptions.notifyExceptionHandler,
 											foundations.exceptions.UserError)
 	def saveFileAs(self):
 		"""

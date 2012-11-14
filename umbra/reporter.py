@@ -58,7 +58,8 @@ __status__ = "Production"
 __all__ = ["LOGGER",
 		"UI_FILE",
 		"Reporter",
-		"unrecoverable",
+		"baseExceptionHandler",
+		"criticalExceptionHandler",
 		"installExceptionReporter",
 		"uninstallExceptionReporter"]
 
@@ -316,7 +317,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		:return: Class instance. ( Library )
 		"""
 
-		self.handleException(args)
+		self.handleException(*args)
 
 	def show(self):
 		"""
@@ -335,6 +336,9 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		LOGGER.debug("> Initializing '{0}' Widget ui.".format(self.__class__.__name__))
 
 		self.__view = self.Reporter_webView
+
+		from PyQt4.QtWebKit import QWebSettings
+		self.__view.settings().setAttribute(QWebSettings.DeveloperExtrasEnabled, True)
 
 		self.setWindowTitle("{0} - Reporter".format(Constants.applicationName))
 		self.Footer_label.setText(self.__footerText)
@@ -406,23 +410,23 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 
 		self.__view.page().mainFrame().evaluateJavaScript(javascript)
 
-	def handleException(self, exception):
+	def handleException(self, *args):
 		"""
 		This method handles given exception.
 
-		:param exception: Exception informations. ( Tuple )
+		:param \*args: Arguments. ( \* )
 		"""
 
-		cls, instance, trcback = exception
+		cls, instance, trcback = foundations.exceptions.extractException(*args)
 
 		LOGGER.info("{0} | Handling '{1}' exception!".format(self.__class__.__name__, str(cls)))
 
 		self.__initializeContextUi()
 
-		self.__setHtml(self.formatHtmlException(exception))
+		self.__setHtml(self.formatHtmlException((cls, instance, trcback)))
 
 		self.show()
-		self.__report and self.reportExceptionToCrittercism(exception)
+		self.__report and self.reportExceptionToCrittercism((cls, instance, trcback))
 		self.exec_()
 
 	@staticmethod
@@ -587,20 +591,58 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		if foundations.common.isInternetAvailable():
 			cls, instance, trcback = exception
 
-			title = "\s".join(map(lambda x: x.strip(), traceback.format_exception_only(cls, instance)))
+			title = re.escape(str().join(map(lambda x: x.strip(), traceback.format_exception_only(cls, instance))))
 			file = trcback.tb_frame.f_code.co_filename
 			lineNumber = trcback.tb_lineno
 			stack = repr(self.formatTextException(exception))
 
-			self.__evaluateJavascript("Crittercism.logExternalException(\"{0}\", \"{1}\", {2}, {3});".format(
-			title, file, lineNumber, stack))
+			javascript = "Crittercism.logExternalException(\"{0}\", \"{1}\", {2}, {3});".format(
+			title, file, lineNumber, stack)
+			self.__evaluateJavascript(javascript)
 			LOGGER.info("{0} | Exception report sent to Crittercism!".format(self.__class__.__name__))
 			return True
 		else:
 			LOGGER.warning("!> {0} | Failed sending exception report to Crittercism!".format(self.__class__.__name__))
 			return False
 
-def unrecoverable(object):
+def baseExceptionHandler(*args):
+	"""
+	This definition provides a base exception handler.
+
+	:param \*args: Arguments. ( \* )
+	:return: Definition success. ( Boolean )
+	"""
+
+	RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
+
+	Reporter().handleException(*args)
+	foundations.exceptions.baseExceptionHandler(*args)
+
+	return True
+
+def systemExitExceptionHandler(*args):
+	"""
+	This definition provides a system exit exception handler.
+
+	:param \*args: Arguments. ( \* )
+	:return: Definition success. ( Boolean )
+	"""
+
+	reporter = Reporter()
+	reporter.Footer_label.setText(
+	"The severity of this exception is critical, <b>{0}</b> cannot continue and will now close!".format(
+	Constants.applicationName))
+
+	#TODO: Check incorrect text reason.
+	print "+" * 90
+
+	baseExceptionHandler(*args)
+
+	foundations.core.exit(1)
+
+	return True
+
+def criticalExceptionHandler(object):
 	"""
 	This decorator is used to mark an object that would system exit in case of critical exception.
 
@@ -609,7 +651,7 @@ def unrecoverable(object):
 	"""
 
 	@functools.wraps(object)
-	def unrecoverableWrapper(*args, **kwargs):
+	def criticalExceptionHandlerWrapper(*args, **kwargs):
 		"""
 		This decorator is used to mark an object that would system exit in case of critical exception.
 
@@ -622,28 +664,21 @@ def unrecoverable(object):
 		try:
 			return object(*args, **kwargs)
 		except Exception as error:
-			RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
+			systemExitExceptionHandler(error)
 
-			reporter = Reporter()
-			reporter.Footer_label.setText("The severity of this exception is critical, <b>{0}</b> cannot continue and will now close!".format(Constants.applicationName))
-			reporter.handleException(sys.exc_info())
-
-			foundations.exceptions.baseExceptionHandler(error)
-
-			foundations.core.exit(1)
-
-	return unrecoverableWrapper
+	return criticalExceptionHandlerWrapper
 
 def installExceptionReporter(report=True):
 	"""
 	This definition installs the exceptions reporter.
 	
 	:param report: Report to Crittercism. ( Boolean )
-	:return: Definition success. ( Boolean )
+	:return: Reporter instance. ( Reporter )
 	"""
 
-	sys.excepthook = Reporter(report=report)
-	return True
+	reporter = Reporter(report=report)
+	sys.excepthook = reporter
+	return reporter
 
 def uninstallExceptionReporter():
 	"""

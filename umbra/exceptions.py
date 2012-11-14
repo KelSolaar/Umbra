@@ -18,6 +18,8 @@
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.exceptions
+from umbra.globals.runtimeGlobals import RuntimeGlobals
+from umbra.globals.uiConstants import UiConstants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -30,6 +32,7 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
+		"notifyExceptionHandler",
 		"AbstractEngineError",
 		"EngineConfigurationError",
 		"EngineInitializationError",
@@ -53,6 +56,20 @@ __all__ = ["LOGGER",
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
+def notifyExceptionHandler(*args):
+	"""
+	This definition provides a notifier exception handler.
+
+	:param \*args: Arguments. ( \* )
+	:return: Definition success. ( Boolean )
+	"""
+
+	callback = lambda: RuntimeGlobals.engine.layoutsManager.restoreLayout(UiConstants.developmentLayout)
+	foundations.exceptions.baseExceptionHandler(*args)
+	cls, instance = foundations.exceptions.extractException(*args)[:2]
+	RuntimeGlobals.notificationsManager.exceptify(message="{0}".format(instance), notificationClickedSlot=callback)
+	return True
+
 class AbstractEngineError(foundations.exceptions.AbstractError):
 	"""
 	This class is the abstract base class for engine related exceptions.
@@ -60,14 +77,14 @@ class AbstractEngineError(foundations.exceptions.AbstractError):
 
 	pass
 
-class EngineConfigurationError(foundations.exceptions.AbstractError):
+class EngineConfigurationError(AbstractEngineError):
 	"""
 	This class is used for engine configuration exceptions.
 	"""
 
 	pass
 
-class EngineInitializationError(foundations.exceptions.AbstractError):
+class EngineInitializationError(AbstractEngineError):
 	"""
 	This class is used for engine initialization exceptions.
 	"""

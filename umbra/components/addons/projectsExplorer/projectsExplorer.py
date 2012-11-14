@@ -31,7 +31,7 @@ from PyQt4.QtGui import QMessageBox
 import foundations.exceptions
 import foundations.strings
 import foundations.verbose
-import umbra.ui.common
+import umbra.exceptions
 import umbra.ui.widgets.messageBox as messageBox
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.components.addons.projectsExplorer.models import ProjectsProxyModel
@@ -849,7 +849,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.info("{0} | '{1}'.".format(self.__class__.__name__, node.path))
 		return True
 
-	@foundations.exceptions.handleExceptions(umbra.ui.common.notifyExceptionHandler,
+	@foundations.exceptions.handleExceptions(umbra.exceptions.notifyExceptionHandler,
 											foundations.exceptions.FileExistsError,
 											foundations.exceptions.DirectoryExistsError,
 											Exception)

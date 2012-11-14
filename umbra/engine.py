@@ -160,11 +160,11 @@ def _initializeApplication():
 	RuntimeGlobals.application = umbra.ui.common.getApplicationInstance()
 	umbra.ui.common.setWindowDefaultIcon(RuntimeGlobals.application)
 
-	umbra.reporter.installExceptionReporter()
+	RuntimeGlobals.reporter = umbra.reporter.installExceptionReporter()
 
 _initializeApplication()
 
-@umbra.reporter.unrecoverable
+@umbra.reporter.criticalExceptionHandler
 def _initializeApplicationUiFile():
 	"""
 	This definition initializes the Application ui file.
@@ -280,7 +280,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	:return: Event. ( QEvent )	
 	"""
 
-	@umbra.reporter.unrecoverable
+	@umbra.reporter.criticalExceptionHandler
 	def __init__(self,
 				parent=None,
 				componentsPaths=None,
@@ -425,10 +425,9 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 				if interface.activated:
 					hasattr(interface, "onStartup") and interface.onStartup()
 			except Exception as error:
-				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
-				umbra.ui.common.uiExtendedExceptionHandler(
-				Exception("'{0}' Component 'onStartup' method raised an exception, unexpected behavior may occur!\n\
-Exception raised: {1}".format(component, error)))
+				umbra.reporter.baseExceptionHandler(umbra.exceptions.EngineInitializationError(
+"'{0}' Component 'onStartup' method raised an exception, unexpected behavior may occur!\n Exception raised: {1}".format(
+component, error)))
 
 		self.__layoutsManager.restoreStartupLayout()
 
@@ -1283,8 +1282,7 @@ Exception raised: {1}".format(component, error)))
 				if requisite:
 					raise exception
 				else:
-					RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
-					umbra.ui.common.uiExtendedExceptionHandler(exception)
+					umbra.exceptions.uiExtendedExceptionHandler(exception)
 
 	def __setLocals(self):
 		"""
@@ -1315,7 +1313,7 @@ Exception raised: {1}".format(component, error)))
 			try:
 				exec self.__requestsStack.popleft() in self.__locals
 			except Exception as error:
-				umbra.ui.common.notifyExceptionHandler(error)
+				umbra.exceptions.notifyExceptionHandler(error)
 
 	def __componentsInstantiationCallback(self, profile):
 		"""
@@ -1616,6 +1614,7 @@ Exception raised: {1}".format(component, error)))
 
 		exit(exitCode)
 
+@umbra.reporter.criticalExceptionHandler
 def setUserApplicationDataDirectory(path):
 	"""
 	This definition sets the Application data directory.
@@ -1624,6 +1623,7 @@ def setUserApplicationDataDirectory(path):
 	:return: Definition success. ( Boolean )
 	"""
 
+	raise
 	userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory
 
 	LOGGER.debug("> Current Application data directory '{0}'.".format(userApplicationDataDirectory))
@@ -1707,7 +1707,7 @@ def getCommandLineParametersParser():
 					help="'Trace given modules'.")
 	return parser
 
-@umbra.reporter.unrecoverable
+@umbra.reporter.criticalExceptionHandler
 def getLoggingFile(maximumLoggingFiles=10, retries=2 ^ 16):
 	"""
 	This definition returns the logging file path.
@@ -1743,7 +1743,7 @@ def getLoggingFile(maximumLoggingFiles=10, retries=2 ^ 16):
 
 	return path
 
-@umbra.reporter.unrecoverable
+@umbra.reporter.criticalExceptionHandler
 def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visibleComponents=None):
 	"""
 	This definition starts the Application.

@@ -72,6 +72,7 @@ class RuntimeGlobalsTestCase(unittest.TestCase):
 								"fileSystemEventsManager",
 								"notificationsManager",
 								"layoutsManager",
+								"reporter",
 								"application",
 								"userApplicationDataDirectory",
 								"resourcesDirectories",

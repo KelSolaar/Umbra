@@ -37,7 +37,7 @@ import foundations.strings
 import foundations.verbose
 import manager.exceptions
 import umbra.engine
-import umbra.ui.common
+import umbra.exceptions
 import umbra.ui.nodes
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.components.factory.componentsManagerUi.models import ComponentsModel
@@ -783,7 +783,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Storing '{0}' deactivated Components.".format(", ".join(deactivatedComponents)))
 		self.__settings.setKey("Settings", "deactivatedComponents", ",".join(deactivatedComponents))
 
-	@foundations.exceptions.handleExceptions(umbra.ui.common.notifyExceptionHandler,
+	@foundations.exceptions.handleExceptions(umbra.exceptions.notifyExceptionHandler,
 											manager.exceptions.ComponentActivationError)
 	@umbra.engine.encapsulateProcessing
 	def activateComponentsUi(self):
@@ -819,7 +819,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			"{0} | Exception(s) raised while activating '{1}' Component(s)!".format(self.__class__.__name__,
 			", ". join((activationFailedComponent.name for activationFailedComponent in activationFailedComponents))))
 
-	@foundations.exceptions.handleExceptions(umbra.ui.common.notifyExceptionHandler,
+	@foundations.exceptions.handleExceptions(umbra.exceptions.notifyExceptionHandler,
 											manager.exceptions.ComponentDeactivationError)
 	@umbra.engine.encapsulateProcessing
 	def deactivateComponentsUi(self):
@@ -860,7 +860,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			", ". join((deactivationFailedComponent.name
 			for deactivationFailedComponent in deactivationFailedComponents))))
 
-	@foundations.exceptions.handleExceptions(umbra.ui.common.notifyExceptionHandler,
+	@foundations.exceptions.handleExceptions(umbra.exceptions.notifyExceptionHandler,
 											manager.exceptions.ComponentReloadError)
 	@umbra.engine.encapsulateProcessing
 	def reloadComponentsUi(self):

@@ -35,13 +35,11 @@ from PyQt4.QtGui import QIcon
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.common
-import foundations.core
 import foundations.dataStructures
 import foundations.exceptions
 import foundations.strings
 import foundations.verbose
 import umbra.exceptions
-import umbra.ui.widgets.messageBox as messageBox
 from foundations.parsers import SectionsFileParser
 from umbra.globals.constants import Constants
 from umbra.globals.runtimeGlobals import RuntimeGlobals
@@ -61,10 +59,6 @@ __all__ = ["LOGGER",
 		"Location",
 		"getApplicationInstance",
 		"parseLocation",
-		"uiBasicExceptionHandler",
-		"uiExtendedExceptionHandler",
-		"uiExtendedSystemExitExceptionHandler",
-		"notifyExceptionHandler",
 		"getResourcePath",
 		"setWindowDefaultIcon",
 		"getSectionsFileParser",
@@ -146,63 +140,6 @@ def parseLocation(data):
 				location.targets.append(match.group("target"))
 				continue
 	return location
-
-def uiBasicExceptionHandler(exception, *args, **kwargs):
-	"""
-	This definition provides a ui basic exception handler.
-
-	:param exception: Exception. ( Exception )
-	:param \*args: Arguments. ( \* )
-	:param \*\*kwargs: Keywords arguments. ( \*\* )
-	:return: Definition success. ( Boolean )
-	"""
-
-	foundations.exceptions.baseExceptionHandler(*args, **kwargs)
-	messageBox.messageBox("Detailed Error", "Exception", "{0}".format(exception))
-	return True
-
-def uiExtendedExceptionHandler(exception, *args, **kwargs):
-	"""
-	This definition provides a ui extended exception handler.
-
-	:param exception: Exception. ( Exception )
-	:param \*args: Arguments. ( \* )
-	:param \*\*kwargs: Keywords arguments. ( \*\* )
-	:return: Definition success. ( Boolean )
-	"""
-
-	foundations.exceptions.baseExceptionHandler(*args, **kwargs)
-	messageBox.messageBox(
-	"Detailed Error", "Exception", "Exception in '{0}': {1}".format(foundations.trace.getTraceName(object), exception))
-	return True
-
-def uiExtendedSystemExitExceptionHandler(exception, *args, **kwargs):
-	"""
-	This definition provides an extended ui system exit exception handler.
-
-	:param exception: Exception. ( Exception )
-	:param \*args: Arguments. ( \* )
-	:param \*\*kwargs: Keywords arguments. ( \*\* )
-	:return: Definition success. ( Boolean )
-	"""
-
-	uiExtendedExceptionHandler(exception, *args, **kwargs)
-	return foundations.core.exit(1)
-
-def notifyExceptionHandler(exception, *args, **kwargs):
-	"""
-	This definition provides a notifier exception handler.
-
-	:param exception: Exception. ( Exception )
-	:param \*args: Arguments. ( \* )
-	:param \*\*kwargs: Keywords arguments. ( \*\* )
-	:return: Definition success. ( Boolean )
-	"""
-
-	callback = lambda: RuntimeGlobals.engine.layoutsManager.restoreLayout(UiConstants.developmentLayout)
-	foundations.exceptions.baseExceptionHandler(*args, **kwargs)
-	RuntimeGlobals.notificationsManager.exceptify(message="{0}".format(exception), notificationClickedSlot=callback)
-	return True
 
 @foundations.exceptions.handleExceptions(umbra.exceptions.ResourceExistsError)
 def getResourcePath(name, raiseException=False):

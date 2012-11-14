@@ -34,6 +34,7 @@ import foundations.exceptions
 import foundations.verbose
 import foundations.strings
 import foundations.trace
+import umbra.exceptions
 import umbra.ui.nodes
 from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.components.addons.traceUi.models import ModulesModel
@@ -524,7 +525,7 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		return [node.module for node in self.getSelectedNodes()]
 
-	@foundations.exceptions.handleExceptions(umbra.ui.common.notifyExceptionHandler,
+	@foundations.exceptions.handleExceptions(umbra.exceptions.notifyExceptionHandler,
 											foundations.exceptions.UserError)
 	def traceModules(self, modules, pattern=r".*", flags=re.IGNORECASE):
 		"""

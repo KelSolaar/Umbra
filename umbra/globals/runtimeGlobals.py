@@ -81,6 +81,9 @@ class RuntimeGlobals():
 	layoutsManager = None
 	"""Application layouts manager instance."""
 
+	reporter = None
+	"""Application reporter instance."""
+
 	application = None
 	"""Application instance."""
 	userApplicationDataDirectory = None
