@@ -101,11 +101,16 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		"""
 
+		if hasattr(self, "_Reporter__instantiated"):
+			return
+
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
 		super(Reporter, self).__init__(parent, *args, **kwargs)
 
 		# --- Setting class attributes. ---
+		self.__instantiated = True
+
 		self.__report = None
 		self.report = report
 
@@ -616,6 +621,7 @@ def baseExceptionHandler(*args):
 	RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
 
 	Reporter().handleException(*args)
+
 	foundations.exceptions.baseExceptionHandler(*args)
 
 	return True
@@ -632,9 +638,6 @@ def systemExitExceptionHandler(*args):
 	reporter.Footer_label.setText(
 	"The severity of this exception is critical, <b>{0}</b> cannot continue and will now close!".format(
 	Constants.applicationName))
-
-	#TODO: Check incorrect text reason.
-	print "+" * 90
 
 	baseExceptionHandler(*args)
 

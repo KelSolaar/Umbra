@@ -1623,7 +1623,6 @@ def setUserApplicationDataDirectory(path):
 	:return: Definition success. ( Boolean )
 	"""
 
-	raise
 	userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory
 
 	LOGGER.debug("> Current Application data directory '{0}'.".format(userApplicationDataDirectory))
