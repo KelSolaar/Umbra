@@ -1275,14 +1275,15 @@ component, error)))
 					interface.addWidget()
 					interface.initializeUi()
 			except Exception as error:
-				message = "'{0}' Component failed to activate!\nException raised: {1}" if requisite else \
-				"'{0}' Component failed to activate, unexpected behavior may occur!\nException raised: {1}"
-				exception = manager.exceptions.ComponentActivationError(message.format(component, error))
-
 				if requisite:
-					raise exception
+					message = "'{0}' Component failed to activate!\nException raised: {1}"
+					handler = umbra.reporter.systemExitExceptionHandler
 				else:
-					umbra.exceptions.uiExtendedExceptionHandler(exception)
+					message = "'{0}' Component failed to activate, unexpected behavior may occur!\nException raised: {1}"
+					handler = umbra.reporter.baseExceptionHandler
+
+				exception = manager.exceptions.ComponentActivationError(message.format(component, error))
+				handler(exception)
 
 	def __setLocals(self):
 		"""
