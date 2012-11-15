@@ -342,9 +342,6 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 
 		self.__view = self.Reporter_webView
 
-		from PyQt4.QtWebKit import QWebSettings
-		self.__view.settings().setAttribute(QWebSettings.DeveloperExtrasEnabled, True)
-
 		self.setWindowTitle("{0} - Reporter".format(Constants.applicationName))
 		self.Footer_label.setText(self.__footerText)
 		self.__initializeContextUi()
