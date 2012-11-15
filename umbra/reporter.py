@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines ... 
+	This module defines the :class:`Reporter` class and various others exceptions handling related objects.
 
 **Others:**
 
@@ -59,9 +59,12 @@ __all__ = ["LOGGER",
 		"UI_FILE",
 		"Reporter",
 		"baseExceptionHandler",
+		"systemExitExceptionHandler"
 		"criticalExceptionHandler",
 		"installExceptionReporter",
-		"uninstallExceptionReporter"]
+		"uninstallExceptionReporter",
+		"enableExceptionReporter",
+		"disableExceptionReporter"]
 
 LOGGER = foundations.verbose.installLogger()
 
@@ -72,7 +75,7 @@ UI_FILE = umbra.ui.common.getResourcePath(UiConstants.reporterUiFile)
 #**********************************************************************************************************************
 class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
-	This class provides an exceptions reporting Widget.
+	This class provides an exception reporting Widget.
 	"""
 
 	__instance = None
@@ -91,17 +94,18 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			cls._Reporter__instance = super(Reporter, cls).__new__(cls, *args, **kwargs)
 		return cls._Reporter__instance
 
-	def __init__(self, parent=None, report=True, *args, **kwargs):
+	def __init__(self, parent=None, report=True, enabled=True, *args, **kwargs):
 		"""
 		This method initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param report: Report to Crittercism. ( Boolean )
+		:param enabled: Is reporter enabled. ( Boolean )
 		:param \*args: Arguments. ( \* )
 		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		"""
 
-		if hasattr(self, "_Reporter__instantiated"):
+		if hasattr(self, "_Reporter__initialized"):
 			return
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -109,10 +113,12 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		super(Reporter, self).__init__(parent, *args, **kwargs)
 
 		# --- Setting class attributes. ---
-		self.__instantiated = True
+		self.__initialized = True
 
 		self.__report = None
 		self.report = report
+		self.__enabled = None
+		self.enabled = enabled
 
 		self.__jqueryJavascriptPath = umbra.ui.common.getResourcePath(os.path.join("javascripts", "jquery.js"))
 		self.__crittercismJavascriptPath = umbra.ui.common.getResourcePath(os.path.join("javascripts", "crittercism.js"))
@@ -310,6 +316,39 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "report"))
 
+	@property
+	def enabled(self):
+		"""
+		This method is the property for **self.__enabled** attribute.
+
+		:return: self.__enabled. ( Boolean )
+		"""
+
+		return self.__enabled
+
+	@enabled.setter
+	@foundations.exceptions.handleExceptions(AssertionError)
+	def enabled(self, value):
+		"""
+		This method is the setter method for **self.__enabled** attribute.
+
+		:param value: Attribute value. ( Boolean )
+		"""
+
+		if value is not None:
+			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format("enabled", value)
+		self.__enabled = value
+
+	@enabled.deleter
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	def enabled(self):
+		"""
+		This method is the deleter method for **self.__enabled** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "enabled"))
+
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
@@ -350,6 +389,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 
 		# Signals / Slots.
 		self.Copy_Report_pushButton.clicked.connect(self.__Copy_Report_pushButton__clicked)
+		self.Disable_Reporter_pushButton.clicked.connect(self.__Disable_Reporter_pushButton__clicked)
 
 	def __initializeContextUi(self):
 		"""
@@ -371,6 +411,16 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 
 		clipboard = QApplication.clipboard()
 		clipboard.setText(self.__view.page().mainFrame().toPlainText())
+
+	def __Disable_Reporter_pushButton__clicked(self, checked):
+		"""
+		This method is triggered when **Disable_Reporter_pushButton** Widget is clicked.
+
+		:param checked: Checked state. ( Boolean )
+		"""
+
+		uninstallExceptionReporter()
+		self.__enabled = False
 
 	def __getHtml(self, body=None):
 		"""
@@ -419,24 +469,27 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		:param \*args: Arguments. ( \* )
 		"""
 
+		if not self.__enabled:
+			return
+
 		cls, instance, trcback = foundations.exceptions.extractException(*args)
 
 		LOGGER.info("{0} | Handling '{1}' exception!".format(self.__class__.__name__, str(cls)))
 
 		self.__initializeContextUi()
 
-		self.__setHtml(self.formatHtmlException((cls, instance, trcback)))
+		self.__setHtml(self.formatHtmlException(cls, instance, trcback))
 
 		self.show()
 		self.__report and self.reportExceptionToCrittercism((cls, instance, trcback))
 		self.exec_()
 
 	@staticmethod
-	def formatHtmlException(exception):
+	def formatHtmlException(*args):
 		"""
 		This method formats given exception as an html text.
 
-		:param exception: Exception informations. ( Tuple )
+		:param \*args: Arguments. ( \* )
 		:return: Exception html text. ( String )
 		"""
 
@@ -446,7 +499,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		OrderedDict([("\n\n", "\n \n"), ("\n\n", "\n \n"), (" ", "&nbsp;"), ("\n", "<br>\n")]))
 
 		verbose = 10
-		cls, instance, trcback = exception
+		cls, instance, trcback = args
 		stack = foundations.exceptions.extractStack(foundations.exceptions.getInnerMostFrame(trcback), verbose)
 
 		python = "Python {0}: {1}".format(sys.version.split()[0], sys.executable)
@@ -520,18 +573,18 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		return "<body>{0}</body>".format(str().join(html))
 
 	@staticmethod
-	def formatTextException(exception):
+	def formatTextException(*args):
 		"""
 		This method formats given exception as a text.
 
-		:param exception: Exception informations. ( Tuple )
+		:param \*args: Arguments. ( \* )
 		:return: Exception text. ( String )
 		"""
 
 		format = lambda x: re.sub(r"^(\s+)", lambda y: "{0} ".format("." * len(y.group(0))), x.rstrip().expandtabs(4))
 
 		verbose = 10
-		cls, instance, trcback = exception
+		cls, instance, trcback = args
 		stack = foundations.exceptions.extractStack(foundations.exceptions.getInnerMostFrame(trcback), verbose)
 
 		text = []
@@ -596,7 +649,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 			title = re.escape(str().join(map(lambda x: x.strip(), traceback.format_exception_only(cls, instance))))
 			file = trcback.tb_frame.f_code.co_filename
 			lineNumber = trcback.tb_lineno
-			stack = repr(self.formatTextException(exception))
+			stack = repr(self.formatTextException(cls, instance, trcback))
 
 			javascript = "Crittercism.logExternalException(\"{0}\", \"{1}\", {2}, {3});".format(
 			title, file, lineNumber, stack)
@@ -688,6 +741,26 @@ def uninstallExceptionReporter():
 	"""
 
 	return foundations.exceptions.installExceptionHandler()
+
+def enableExceptionReporter():
+	"""
+	This definition enables the exceptions reporter.
+	
+	:return: Definition success. ( Boolean )
+	"""
+
+	reporter = Reporter().enabled = True
+	return True
+
+def disableExceptionReporter():
+	"""
+	This definition disables the exceptions reporter.
+	
+	:return: Definition success. ( Boolean )
+	"""
+
+	reporter = Reporter().enabled = False
+	return True
 
 if __name__ == "__main__":
 	application = umbra.ui.common.getApplicationInstance()
