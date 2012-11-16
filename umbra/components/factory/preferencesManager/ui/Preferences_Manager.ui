@@ -80,7 +80,7 @@
                  <height>0</height>
                 </size>
                </property>
-               <property name="statusTip">
+               <property name="toolTip">
                 <string>Verbose Level Combo Box: Defines Application verbose level: Each option encompasses the ones over it in the list.</string>
                </property>
               </widget>
@@ -117,7 +117,7 @@
                  <height>0</height>
                 </size>
                </property>
-               <property name="statusTip">
+               <property name="toolTip">
                 <string>Logging Formatter Combo Box: Defines the logging formatter.</string>
                </property>
               </widget>
@@ -157,7 +157,7 @@
              </item>
              <item>
               <widget class="QCheckBox" name="Restore_Geometry_On_Layout_Change_checkBox">
-               <property name="statusTip">
+               <property name="toolTip">
                 <string>Restore Geometry On Layout Change Check Box: Application window size and placement are also restored when changing Application layout.</string>
                </property>
                <property name="layoutDirection">

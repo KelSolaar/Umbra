@@ -20,7 +20,7 @@
      <layout class="QGridLayout" name="Options_groupBox_gridLayout">
       <item row="0" column="0">
        <widget class="QCheckBox" name="Case_Sensitive_checkBox">
-        <property name="statusTip">
+        <property name="toolTip">
          <string>Case Sensitive Check Box: Performs search case sensitively.</string>
         </property>
         <property name="text">
@@ -30,7 +30,7 @@
       </item>
       <item row="0" column="1">
        <widget class="QCheckBox" name="Backward_Search_checkBox">
-        <property name="statusTip">
+        <property name="toolTip">
          <string>Backward Search Check Box: Performs search in backward direction.</string>
         </property>
         <property name="text">
@@ -40,7 +40,7 @@
       </item>
       <item row="1" column="0">
        <widget class="QCheckBox" name="Whole_Word_checkBox">
-        <property name="statusTip">
+        <property name="toolTip">
          <string>Whole Word Check Box: Performs search on whole word only.</string>
         </property>
         <property name="text">
@@ -50,7 +50,7 @@
       </item>
       <item row="3" column="0">
        <widget class="QCheckBox" name="Regular_Expressions_checkBox">
-        <property name="statusTip">
+        <property name="toolTip">
          <string>Regular Expressions Check Box: Performs search using regular expressions.</string>
         </property>
         <property name="text">
@@ -60,7 +60,7 @@
       </item>
       <item row="1" column="1">
        <widget class="QCheckBox" name="Wrap_Around_checkBox">
-        <property name="statusTip">
+        <property name="toolTip">
          <string>Wrap Search Check Box: Wrap the search around the document.</string>
         </property>
         <property name="text">
@@ -81,7 +81,7 @@
          <height>0</height>
         </size>
        </property>
-       <property name="statusTip">
+       <property name="toolTip">
         <string>Search Push Button: Searchs occurences of given search pattern.</string>
        </property>
        <property name="text">
@@ -97,7 +97,7 @@
          <height>0</height>
         </size>
        </property>
-       <property name="statusTip">
+       <property name="toolTip">
         <string>Replace Push Button: Replaces the first search occurence with given replacement pattern.</string>
        </property>
        <property name="text">
@@ -113,7 +113,7 @@
          <height>0</height>
         </size>
        </property>
-       <property name="statusTip">
+       <property name="toolTip">
         <string>Replace All Push Button: Replace all search results occurences with given replacement pattern.</string>
        </property>
        <property name="text">
@@ -142,7 +142,7 @@
          <height>0</height>
         </size>
        </property>
-       <property name="statusTip">
+       <property name="toolTip">
         <string>Close Push Button: Close the &quot;Search And Replace&quot; dialog.</string>
        </property>
        <property name="text">
@@ -193,7 +193,7 @@
       </item>
       <item row="3" column="1" colspan="3">
        <widget class="QComboBox" name="Replace_With_comboBox">
-        <property name="statusTip">
+        <property name="toolTip">
          <string>Replace With Combo Box: Defines the replacement pattern.</string>
         </property>
         <property name="editable">
@@ -206,7 +206,7 @@
       </item>
       <item row="1" column="1" colspan="3">
        <widget class="QComboBox" name="Search_comboBox">
-        <property name="statusTip">
+        <property name="toolTip">
          <string>Search Combo Box: Defines the pattern to search for.</string>
         </property>
         <property name="editable">

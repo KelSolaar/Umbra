@@ -23,7 +23,7 @@
           <height>16777215</height>
          </size>
         </property>
-        <property name="statusTip">
+        <property name="toolTip">
          <string>Case Sensitive Matching Push Button: Searchs will be performed case sensitively.</string>
         </property>
         <property name="text">

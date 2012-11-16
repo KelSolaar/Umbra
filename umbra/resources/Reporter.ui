@@ -41,7 +41,7 @@
       </item>
       <item row="0" column="0">
        <widget class="QPushButton" name="Copy_Report_pushButton">
-        <property name="statusTip">
+        <property name="toolTip">
          <string>Copy Report Push Button: Copies the current report to clipboard.</string>
         </property>
         <property name="text">
@@ -51,7 +51,7 @@
       </item>
       <item row="0" column="1">
        <widget class="QPushButton" name="Disable_Reporter_pushButton">
-        <property name="statusTip">
+        <property name="toolTip">
          <string>Disable Reporter Push Button: Disables the Reporter for the current session.</string>
         </property>
         <property name="text">

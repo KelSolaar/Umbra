@@ -14,7 +14,7 @@
        <height>0</height>
       </size>
      </property>
-     <property name="statusTip">
+     <property name="toolTip">
       <string>Close Push Button: Close the &quot;Search In Files&quot; dialog.</string>
      </property>
      <property name="text">
@@ -69,7 +69,7 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="statusTip">
+        <property name="toolTip">
          <string>Replace With Combo Box: Defines the replacement pattern.</string>
         </property>
         <property name="editable">
@@ -88,7 +88,7 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="statusTip">
+        <property name="toolTip">
          <string>Search Combo Box: Defines the pattern to search for.</string>
         </property>
         <property name="editable">
@@ -114,7 +114,7 @@
          </property>
          <item row="0" column="0">
           <widget class="QLineEdit" name="Where_lineEdit">
-           <property name="statusTip">
+           <property name="toolTip">
             <string>Where Line Edit: Defines where the search will occur.</string>
            </property>
           </widget>
@@ -133,7 +133,7 @@
      <layout class="QGridLayout" name="Options_groupBox_gridLayout">
       <item row="0" column="0">
        <widget class="QCheckBox" name="Case_Sensitive_checkBox">
-        <property name="statusTip">
+        <property name="toolTip">
          <string>Case Sensitive Check Box: Performs search case sensitively.</string>
         </property>
         <property name="text">
@@ -143,7 +143,7 @@
       </item>
       <item row="0" column="2">
        <widget class="QCheckBox" name="Whole_Word_checkBox">
-        <property name="statusTip">
+        <property name="toolTip">
          <string>Whole Word Check Box: Performs search on whole word only.</string>
         </property>
         <property name="text">
@@ -153,7 +153,7 @@
       </item>
       <item row="0" column="3">
        <widget class="QCheckBox" name="Regular_Expressions_checkBox">
-        <property name="statusTip">
+        <property name="toolTip">
          <string>Regular Expressions Check Box: Performs search using regular expressions.</string>
         </property>
         <property name="text">
@@ -184,7 +184,7 @@
        <height>0</height>
       </size>
      </property>
-     <property name="statusTip">
+     <property name="toolTip">
       <string>Search Push Button: Searchs occurences of given search pattern.</string>
      </property>
      <property name="text">
