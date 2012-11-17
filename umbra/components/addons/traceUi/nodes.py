@@ -136,7 +136,7 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 
 	def updateNodeAttributes(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method updates the node attributes.
+		This method updates the Node attributes.
 		
 		:param attributesFlags: Attributes flags. ( Integer )
 		:return: Method success. ( Boolean )

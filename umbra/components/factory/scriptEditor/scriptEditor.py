@@ -2745,7 +2745,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def registerNodePath(self, node):
 		"""
-		This method registers given node path in the **fileSystemEventsManager**.
+		This method registers given Node path in the **fileSystemEventsManager**.
 
 		:param node: Node. ( FileNode / DirectoryNode / ProjectNode )
 		:return: Method success. ( Boolean )
@@ -2762,7 +2762,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def unregisterNodePath(self, node):
 		"""
-		This method unregisters given node path from the **fileSystemEventsManager**..
+		This method unregisters given Node path from the **fileSystemEventsManager**..
 
 		:param node: Node. ( FileNode / DirectoryNode / ProjectNode )
 		:return: Method success. ( Boolean )

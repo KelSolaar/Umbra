@@ -1027,7 +1027,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def addNewFile(self, node):
 		"""
-		This method adds a new file next to given node associated path.
+		This method adds a new file next to given Node associated path.
 
 		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
 		:return: Method success. ( Boolean )
@@ -1056,7 +1056,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def addNewDirectory(self, node):
 		"""
-		This method adds a new directory next to given node associated path.
+		This method adds a new directory next to given Node associated path.
 
 		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
 		:return: Method success. ( Boolean )
@@ -1085,7 +1085,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def rename(self, node):
 		"""
-		This method renames given node associated path.
+		This method renames given Node associated path.
 
 		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
 		:return: Method success. ( Boolean )
@@ -1126,7 +1126,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def delete(self, node):
 		"""
-		This method deletes given node associated path.
+		This method deletes given Node associated path.
 
 		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
 		:return: Method success. ( Boolean )

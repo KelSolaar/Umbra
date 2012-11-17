@@ -1203,7 +1203,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def setSearchResults(self, searchResults):
 		"""
-		This method sets the Model nodes using given search results.
+		This method sets the Model Nodes using given search results.
 		
 		:param searchResults: Search results. ( List )
 		:return: Method success. ( Boolean )
@@ -1229,7 +1229,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def setReplaceResults(self, replaceResults):
 		"""
-		This method sets the Model nodes using given replace results.
+		This method sets the Model Nodes using given replace results.
 		
 		:param replaceResults: Replace results. ( List )
 		:return: Method success. ( Boolean )

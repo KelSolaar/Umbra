@@ -62,7 +62,7 @@ class GraphModel(QAbstractItemModel):
 	"""
 	| This class is a `QAbstractItemModel <http://doc.qt.nokia.com/qabstractitemmodel.html>`_ subclass
 		providing a graph model.
-	| The model provided by this object is very generic and abstract making it compatible with major Qt Views
+	| The Model provided by this object is very generic and abstract making it compatible with major Qt Views
 		( `QListView <http://doc.qt.nokia.com/qlistview.html>`_,
 		`QTreeView <http://doc.qt.nokia.com/QTreeView.html>`_,
 		`QTableView <http://doc.qt.nokia.com/qtableview.html>`_,
@@ -529,7 +529,7 @@ class GraphModel(QAbstractItemModel):
 
 	def getNode(self, index):
 		"""
-		This method returns the node at given index.
+		This method returns the Node at given index.
 		
 		:param index: Index. ( QModelIndex )
 		:return: Node. ( AbstractCompositeNode / GraphModelNode )
@@ -541,7 +541,7 @@ class GraphModel(QAbstractItemModel):
 
 	def getAttribute(self, node, column):
 		"""
-		This method returns the given node attribute associated to the given column.
+		This method returns the given Node attribute associated to the given column.
 		
 		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
 		:param column: Column. ( Integer )
@@ -553,7 +553,7 @@ class GraphModel(QAbstractItemModel):
 
 	def getNodeIndex(self, node):
 		"""
-		This method returns given node index.
+		This method returns given Node index.
 		
 		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
 		:return: Index. ( QModelIndex )
@@ -567,7 +567,7 @@ class GraphModel(QAbstractItemModel):
 
 	def getAttributeIndex(self, node, column):
 		"""
-		This method returns given node attribute index at given column.
+		This method returns given Node attribute index at given column.
 		
 		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
 		:param column: Attribute column. ( Integer )
@@ -591,11 +591,11 @@ class GraphModel(QAbstractItemModel):
 
 	def findFamily(self, pattern=r".*", flags=0, node=None):
 		"""
-		This method returns the nodes from given family.
+		This method returns the Nodes from given family.
 		
 		:param pattern: Matching pattern. ( String )
 		:param flags: Matching regex flags. ( Integer )
-		:param node: Node to start walking from. (  AbstractNode / AbstractCompositeNode / GraphModelNode )
+		:param node: Node to start walking from. ( AbstractNode / AbstractCompositeNode / GraphModelNode )
 		:return: Family nodes. ( List )
 		"""
 
@@ -604,7 +604,7 @@ class GraphModel(QAbstractItemModel):
 #	@foundations.decorators.memoize(cache=None)
 	def findNode(self, attribute):
 		"""
-		This method returns the node with given attribute.
+		This method returns the Node with given attribute.
 		
 		:param attribute: Attribute. ( GraphModelAttribute )
 		:return: Node. ( GraphModelNode )
@@ -638,7 +638,7 @@ class GraphModel(QAbstractItemModel):
 
 	def enableModelTriggers(self, state):
 		"""
-		This method enables model nodes and attributes triggers.
+		This method enables Model Nodes and attributes triggers.
 		
 		:param state: Inform model state. ( Boolean ) 
 		:return: Method success. ( Boolean )
@@ -652,7 +652,7 @@ class GraphModel(QAbstractItemModel):
 
 	def nodeChanged(self, node):
 		"""
-		This method calls :meth:`QAbstractItemModel.dataChanged` with given node index.
+		This method calls :meth:`QAbstractItemModel.dataChanged` with given Node index.
 		
 		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
 		:return: Method success. ( Boolean )
@@ -667,7 +667,7 @@ class GraphModel(QAbstractItemModel):
 
 	def attributeChanged(self, node, column):
 		"""
-		This method calls :meth:`QAbstractItemModel.dataChanged` with given node attribute index.
+		This method calls :meth:`QAbstractItemModel.dataChanged` with given Node attribute index.
 		
 		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
 		:param column: Attribute column. ( Integer )

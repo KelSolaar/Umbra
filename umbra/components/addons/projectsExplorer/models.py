@@ -120,7 +120,7 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 
 	def getNode(self, index):
 		"""
-		This method returns the node at given index.
+		This method returns the Node at given index.
 		
 		:param index: Index. ( QModelIndex )
 		:return: Node. ( AbstractCompositeNode )

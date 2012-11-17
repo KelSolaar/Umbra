@@ -75,7 +75,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	refreshNodes = pyqtSignal()
 	"""
 	This signal is emited by the :class:`ComponentsManagerUi` class when :obj:`ComponentsManagerUi.model` class property
-	model nodes nodes needs to be refreshed. ( pyqtSignal )
+	model Nodes nodes needs to be refreshed. ( pyqtSignal )
 	"""
 
 	activatedComponent = pyqtSignal(str)

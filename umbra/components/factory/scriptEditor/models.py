@@ -245,7 +245,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		"""
 		This method returns the Model :class:`umbra.components.factory.scriptEditor.nodes.EditorNode` class nodes.
 		
-		:param node: Node to start walking from. (  AbstractNode / AbstractCompositeNode / Object )
+		:param node: Node to start walking from. ( AbstractNode / AbstractCompositeNode / Object )
 		:return: EditorNode nodes. ( List )
 		"""
 
@@ -255,7 +255,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		"""
 		This method returns the Model :class:`umbra.components.factory.scriptEditor.nodes.FileNode` class nodes.
 		
-		:param node: Node to start walking from. (  AbstractNode / AbstractCompositeNode / Object )
+		:param node: Node to start walking from. ( AbstractNode / AbstractCompositeNode / Object )
 		:return: FileNode nodes. ( List )
 		"""
 
@@ -286,7 +286,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		"""
 		This method returns the Model editors.
 		
-		:param node: Node to start walking from. (  AbstractNode / AbstractCompositeNode / Object )
+		:param node: Node to start walking from. ( AbstractNode / AbstractCompositeNode / Object )
 		:return: Editors. ( List )
 		"""
 
@@ -296,7 +296,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		"""
 		This method returns the Model files.
 		
-		:param node: Node to start walking from. (  AbstractNode / AbstractCompositeNode / Object )
+		:param node: Node to start walking from. ( AbstractNode / AbstractCompositeNode / Object )
 		:return: FileNode nodes. ( List )
 		"""
 
@@ -323,9 +323,9 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def getEditorNodes(self, editor, node=None):
 		"""
-		This method returns the :class:`umbra.components.factory.scriptEditor.nodes.EditorNode` class nodes with given editor.
+		This method returns the :class:`umbra.components.factory.scriptEditor.nodes.EditorNode` class Nodes with given editor.
 		
-		:param node: Node to start walking from. (  AbstractNode / AbstractCompositeNode / Object )
+		:param node: Node to start walking from. ( AbstractNode / AbstractCompositeNode / Object )
 		:param editor: Editor. ( Editor )
 		:return: EditorNode nodes. ( List )
 		"""
@@ -334,9 +334,9 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def getFileNodes(self, path, node=None):
 		"""
-		This method returns the :class:`umbra.components.factory.scriptEditor.nodes.FileNode` class nodes with given path.
+		This method returns the :class:`umbra.components.factory.scriptEditor.nodes.FileNode` class Nodes with given path.
 		
-		:param node: Node to start walking from. (  AbstractNode / AbstractCompositeNode / Object )
+		:param node: Node to start walking from. ( AbstractNode / AbstractCompositeNode / Object )
 		:param path: File path. ( String )
 		:return: FileNode nodes. ( List )
 		"""
@@ -345,7 +345,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def getDirectoryNodes(self, path):
 		"""
-		This method returns the :class:`umbra.components.factory.scriptEditor.nodes.DirectoryNode` class nodes with given path.
+		This method returns the :class:`umbra.components.factory.scriptEditor.nodes.DirectoryNode` class Nodes with given path.
 		
 		:param path: Directory path. ( String )
 		:return: DirectoryNode nodes. ( List )
@@ -355,7 +355,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def getProjectNodes(self, path):
 		"""
-		This method returns the :class:`umbra.components.factory.scriptEditor.nodes.ProjectNode` class nodes with given path.
+		This method returns the :class:`umbra.components.factory.scriptEditor.nodes.ProjectNode` class Nodes with given path.
 		
 		:param path: Project path. ( String )
 		:return: ProjectNode nodes. ( List )
@@ -436,7 +436,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def unregisterFile(self, fileNode, raiseException=False):
 		"""
-		This method unregisters given :class:`umbra.components.factory.scriptEditor.nodes.FileNode` class node from the Model.
+		This method unregisters given :class:`umbra.components.factory.scriptEditor.nodes.FileNode` class Node from the Model.
 		
 		:param fileNode: FileNode to unregister. ( FileNode )
 		:param raiseException: Raise the exception. ( Boolean )
@@ -492,7 +492,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def unregisterDirectory(self, directoryNode, raiseException=False):
 		"""
-		This method unregisters given :class:`umbra.components.factory.scriptEditor.nodes.DirectoryNode` class node from the Model.
+		This method unregisters given :class:`umbra.components.factory.scriptEditor.nodes.DirectoryNode` class Node from the Model.
 		
 		:param directoryNode: DirectoryNode to unregister. ( DirectoryNode )
 		:param raiseException: Raise the exception. ( Boolean )
@@ -547,7 +547,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def unregisterEditor(self, editorNode, raiseException=False):
 		"""
-		This method unregisters given :class:`umbra.components.factory.scriptEditor.nodes.EditorNode` class node from the Model.
+		This method unregisters given :class:`umbra.components.factory.scriptEditor.nodes.EditorNode` class Node from the Model.
 		
 		:param editorNode: EditorNode to unregister. ( EditorNode )
 		:param raiseException: Raise the exception. ( Boolean )
@@ -602,7 +602,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def unregisterProject(self, projectNode, raiseException=False):
 		"""
-		This method unregisters given :class:`umbra.components.factory.scriptProject.nodes.ProjectNode` class node from the Model.
+		This method unregisters given :class:`umbra.components.factory.scriptProject.nodes.ProjectNode` class Node from the Model.
 		
 		:param projectNode: ProjectNode to unregister. ( ProjectNode )
 		:param raiseException: Raise the exception. ( Boolean )
@@ -628,7 +628,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def isAuthoringNode(self, node):
 		"""
-		This method returns if given node is an authoring node.
+		This method returns if given Node is an authoring node.
 
 		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
 		:return: Is authoring node. ( Boolean )
@@ -641,7 +641,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def setAuthoringNodes(self, editor):
 		"""
-		This method sets the Model authoring nodes using given editor.
+		This method sets the Model authoring Nodes using given editor.
 
 		:param editor: Editor to set. ( Editor )
 		:return: Method success. ( Boolean )
@@ -654,7 +654,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def deleteAuthoringNodes(self, editor):
 		"""
-		This method deletes the Model authoring nodes associated with given editor.
+		This method deletes the Model authoring Nodes associated with given editor.
 
 		:param editor: Editor. ( Editor )
 		:return: Method success. ( Boolean )
@@ -685,7 +685,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def setProjectNodes(self, rootNode, maximumDepth=1):
 		"""
-		This method sets the project Model children nodes using given root node.
+		This method sets the project Model children Nodes using given root node.
 
 		:param rootNode: Root node. ( ProjectNode / DirectoryNode )
 		:param maximumDepth: Maximum nodes nesting depth. ( Integer )
@@ -729,7 +729,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def deleteProjectNodes(self, node):
 		"""
-		This method deletes the Model project nodes associated with given node.
+		This method deletes the Model project Nodes associated with given node.
 
 		:param node: Node. ( ProjectNode )
 		"""
@@ -739,7 +739,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def unregisterProjectNodes(self, node):
 		"""
-		This method unregisters given node children.
+		This method unregisters given Node children.
 		
 		:param node: Node. ( ProjectNode / DirectoryNode )
 		"""
@@ -752,7 +752,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def updateProjectNodes(self, node):
 		"""
-		This method updates given root node children.
+		This method updates given root Node children.
 		
 		:param node: Node. ( ProjectNode / DirectoryNode )
 		"""

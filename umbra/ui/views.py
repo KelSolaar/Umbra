@@ -99,7 +99,7 @@ class ReadOnlyFilter(QObject):
 											foundations.exceptions.UserError)
 	def __raiseUserError(self, view) :
 		"""
-		This method raises an error if the given view has been set read only and the user attempted to edit its content.
+		This method raises an error if the given View has been set read only and the user attempted to edit its content.
 
 		:param view: View. ( QWidget )
 		"""
@@ -109,7 +109,7 @@ class ReadOnlyFilter(QObject):
 
 class Mixin_AbstractBase(object):
 	"""
-	This class is the base mixin used to bring common capabilities in Application views classes.
+	This class is the base mixin used to bring common capabilities in Application Views classes.
 	"""
 
 	def __init__(self, message=None):
@@ -210,7 +210,7 @@ class Mixin_AbstractBase(object):
 
 class Mixin_AbstractView(Mixin_AbstractBase):
 	"""
-	This class is a mixin used to bring common capabilities in Application views classes.
+	This class is a mixin used to bring common capabilities in Application Views classes.
 	"""
 
 	def __init__(self, readOnly=None, message=None):
@@ -293,7 +293,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 
 	def filterNodes(self, pattern, attribute, flags=re.IGNORECASE):
 		"""
-		This method filters the View nodes on given attribute using given pattern.
+		This method filters the View Nodes on given attribute using given pattern.
 	
 		:param pattern: Filtering pattern. ( String )
 		:param attribute: Filtering attribute. ( String )
@@ -308,7 +308,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 	# @foundations.decorators.memoize(None)
 	def getViewNodesFromIndexes(self, *indexes):
 		"""
-		This method returns the View nodes from given indexes.
+		This method returns the View Nodes from given indexes.
 	
 		:param view: View. ( QWidget )
 		:param \*indexes: Indexes. ( List )
@@ -385,7 +385,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 
 class Mixin_AbstractWidget(Mixin_AbstractBase):
 	"""
-	This class is a mixin used to bring common capabilities in Application Widgets views classes.
+	This class is a mixin used to bring common capabilities in Application Widgets Views classes.
 	"""
 
 	pass
@@ -393,7 +393,7 @@ class Mixin_AbstractWidget(Mixin_AbstractBase):
 class Abstract_QListView(QListView, Mixin_AbstractView):
 	"""
 	This class is a `QListView <http://doc.qt.nokia.com/qlistview.html>`_ subclass used as base
-	by others Application views classes.
+	by others Application Views classes.
 	"""
 
 	def __init__(self, parent=None, readOnly=False, message=None):
@@ -413,7 +413,7 @@ class Abstract_QListView(QListView, Mixin_AbstractView):
 class Abstract_QTableView(QTableView, Mixin_AbstractView):
 	"""
 	This class is a `QTableView <http://doc.qt.nokia.com/qtableview.html>`_ subclass used as base
-	by others Application views classes.
+	by others Application Views classes.
 	"""
 
 	def __init__(self, parent=None, readOnly=False, message=None):
@@ -433,7 +433,7 @@ class Abstract_QTableView(QTableView, Mixin_AbstractView):
 class Abstract_QTreeView(QTreeView, Mixin_AbstractView):
 	"""
 	This class is a `QTreeView <http://doc.qt.nokia.com/qtreeview.html>`_ subclass used as base
-	by others Application views classes.
+	by others Application Views classes.
 	"""
 
 	def __init__(self, parent=None, readOnly=False, message=None):
@@ -453,7 +453,7 @@ class Abstract_QTreeView(QTreeView, Mixin_AbstractView):
 class Abstract_QListWidget(QListWidget, Mixin_AbstractWidget):
 	"""
 	This class is a `QListWidget <http://doc.qt.nokia.com/qlistwidget.html>`_ subclass used as base
-	by others Application Widgets views classes.
+	by others Application Widgets Views classes.
 	"""
 
 	def __init__(self, parent=None, message=None):
@@ -472,7 +472,7 @@ class Abstract_QListWidget(QListWidget, Mixin_AbstractWidget):
 class Abstract_QTableWidget(QTableWidget, Mixin_AbstractWidget):
 	"""
 	This class is a `QTableWidget <http://doc.qt.nokia.com/qtablewidget.html>`_ subclass used as base
-	by others Application Widgets views classes.
+	by others Application Widgets Views classes.
 	"""
 
 	def __init__(self, parent=None, readOnly=False, message=None):
@@ -491,7 +491,7 @@ class Abstract_QTableWidget(QTableWidget, Mixin_AbstractWidget):
 class Abstract_QTreeWidget(QTreeWidget, Mixin_AbstractWidget):
 	"""
 	This class is a `QTreeWidget <http://doc.qt.nokia.com/qtreewidget.html>`_ subclass used as base
-	by others Application Widgets views classes.
+	by others Application Widgets Views classes.
 	"""
 
 	def __init__(self, parent=None, message=None):
