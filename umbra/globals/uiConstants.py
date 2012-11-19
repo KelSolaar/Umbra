@@ -124,5 +124,5 @@ class UiConstants():
 	textGrammarFile = "grammars/Text/Text.grc"
 	"""Text language grammar file: '**grammars/Text/Text.grc**' ( String )"""
 
-	crittercismId = "5075c158d5f9b9796b000002"
-	"""Crittercism Id: '**5075c158d5f9b9796b000002**' ( String )"""
+	crittercismId = "50aa8aa263d952524b000005"
+	"""Crittercism Id: '**50aa8aa263d952524b000005**' ( String )"""
