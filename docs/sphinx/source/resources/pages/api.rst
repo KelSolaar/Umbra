@@ -11,6 +11,10 @@ Modules Summary:
    umbra.components.addons.projectsExplorer.views <api/umbra.components.addons.projectsExplorer.views>
    umbra.components.addons.tcpClientUi.tcpClientUi <api/umbra.components.addons.tcpClientUi.tcpClientUi>
    umbra.components.addons.tcpServerUi.tcpServerUi <api/umbra.components.addons.tcpServerUi.tcpServerUi>
+   umbra.components.addons.traceUi.models <api/umbra.components.addons.traceUi.models>
+   umbra.components.addons.traceUi.nodes <api/umbra.components.addons.traceUi.nodes>
+   umbra.components.addons.traceUi.traceUi <api/umbra.components.addons.traceUi.traceUi>
+   umbra.components.addons.traceUi.views <api/umbra.components.addons.traceUi.views>
    umbra.components.factory.componentsManagerUi.componentsManagerUi <api/umbra.components.factory.componentsManagerUi.componentsManagerUi>
    umbra.components.factory.componentsManagerUi.models <api/umbra.components.factory.componentsManagerUi.models>
    umbra.components.factory.componentsManagerUi.nodes <api/umbra.components.factory.componentsManagerUi.nodes>
@@ -39,6 +43,7 @@ Modules Summary:
    umbra.managers.patchesManager <api/umbra.managers.patchesManager>
    umbra.preferences <api/umbra.preferences>
    umbra.processing <api/umbra.processing>
+   umbra.reporter <api/umbra.reporter>
    umbra.ui.common <api/umbra.ui.common>
    umbra.ui.completers <api/umbra.ui.completers>
    umbra.ui.delegates <api/umbra.ui.delegates>

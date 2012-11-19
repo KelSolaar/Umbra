@@ -15,14 +15,6 @@ Functions
 
 .. autofunction:: parseLocation
 
-.. autofunction:: uiExtendedExceptionHandler
-
-.. autofunction:: uiBasicExceptionHandler
-
-.. autofunction:: uiSystemExitExceptionHandler
-
-.. autofunction:: notifyExceptionHandler
-
 .. autofunction:: getResourcePath
 
 .. autofunction:: setWindowDefaultIcon
@@ -38,6 +30,8 @@ Functions
 .. autofunction:: signalsBlocker
 
 .. autofunction:: showWaitCursor
+
+.. autofunction:: setToolBoxHeight
 
 Classes
 -------

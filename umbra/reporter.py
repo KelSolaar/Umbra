@@ -767,7 +767,7 @@ if __name__ == "__main__":
 
 	installExceptionReporter()
 
-	def testReporter(bar=1, nemo="captain", *args, **kwargs):
+	def _testReporter(bar=1, nemo="captain", *args, **kwargs):
 		1 / 0
 
-	testReporter(luke="skywalker")
+	_testReporter(luke="skywalker")

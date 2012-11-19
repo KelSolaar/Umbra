@@ -6,7 +6,9 @@ Changes
 
 | **Umbra** 1.0.4 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=4&state=closed
 
+-  Implemented **TraceUi** Component.
 -  Reloading a Component will reload its dependents Components in "componentsManagerUi" Component.
+-  Fix various widgets classes, implement small ui test cases.
 
 1.0.3 - Stable
 --------------

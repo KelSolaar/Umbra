@@ -3,6 +3,11 @@ _`umbra.exceptions`
 
 .. automodule:: umbra.exceptions
 
+Functions
+---------
+
+.. autofunction:: notifyExceptionHandler
+
 Classes
 -------
 
