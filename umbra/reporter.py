@@ -29,7 +29,6 @@ else:
 import time
 import traceback
 from PyQt4.QtGui import QApplication
-from xml.etree import ElementTree
 
 #**********************************************************************************************************************
 #***	Internal imports.
@@ -260,7 +259,7 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 						}
 
 						div.type {
-							font-size: 16px;;
+							font-size: 16px;
 						}
 
 						div.locals {
@@ -430,18 +429,26 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		:return: Html. ( String )
 		"""
 
-		root = ElementTree.Element("html")
-		head = ElementTree.SubElement(root, "head")
+		output = []
+		output.append("<html>")
+		output.append("<head>")
 		for javascript in (self.__jqueryJavascript,
 						self.__crittercismJavascript,
 						self.__reporterJavascript):
-			script = ElementTree.SubElement(head, "script", attrib={"type" : "text/javascript"})
-			script.text = javascript
-		style = ElementTree.SubElement(head, "style", attrib={"type" : "text/css"})
-		style.text = self.__style
-		node = ElementTree.SubElement(root, "body")
-		html = ElementTree.tostring(root, method="html")
-		return re.sub(r"\<body\>.*\</body\>", body, html) if body is not None else html
+			output.append("<script type=\"text/javascript\">")
+			output.append(javascript)
+			output.append("</script>")
+		output.append("<style type=\"text/css\">")
+		output.append(self.__style)
+		output.append("</style>")
+		output.append("</head>")
+		if body is not None:
+			output.append(body)
+		else:
+			output.append("<body>")
+			output.append("</body>")
+		output.append("</html>")
+		return "\n".join(output)
 
 	def __setHtml(self, body=None):
 		"""
