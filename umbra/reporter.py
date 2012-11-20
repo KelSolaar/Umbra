@@ -488,7 +488,8 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		self.__setHtml(self.formatHtmlException(cls, instance, trcback))
 
 		self.show()
-		self.__report and self.reportExceptionToCrittercism((cls, instance, trcback))
+		self.__report and self.reportExceptionToCrittercism(cls, instance, trcback)
+		foundations.exceptions.baseExceptionHandler(cls, instance, trcback)
 		self.exec_()
 
 	@staticmethod
@@ -642,16 +643,16 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 
 		return text
 
-	def reportExceptionToCrittercism(self, exception):
+	def reportExceptionToCrittercism(self, *args):
 		"""
 		This method reports given exception to Crittercism.
 
-		:param exception: Exception informations. ( Tuple )
+		:param \*args: Arguments. ( \* )
 		:return: Method success. ( Boolean )
 		"""
 
 		if foundations.common.isInternetAvailable():
-			cls, instance, trcback = exception
+			cls, instance, trcback = args
 
 			title = re.escape(str().join(map(lambda x: x.strip(), traceback.format_exception_only(cls, instance))))
 			file = trcback.tb_frame.f_code.co_filename
@@ -678,8 +679,6 @@ def baseExceptionHandler(*args):
 	RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
 
 	Reporter().handleException(*args)
-
-	foundations.exceptions.baseExceptionHandler(*args)
 
 	return True
 
