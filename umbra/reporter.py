@@ -367,6 +367,8 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		This method reimplements the :meth:`QWidget.show` method.
 		"""
 
+		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
+
 		super(Reporter, self).show()
 
 		self.raise_()
@@ -675,8 +677,6 @@ def baseExceptionHandler(*args):
 	:param \*args: Arguments. ( \* )
 	:return: Definition success. ( Boolean )
 	"""
-
-	RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.hide()
 
 	Reporter().handleException(*args)
 
