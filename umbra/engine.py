@@ -22,7 +22,6 @@
 import collections
 import functools
 import gc
-import inspect
 import os
 import optparse
 import platform
@@ -1631,12 +1630,12 @@ def setUserApplicationDataDirectory(path):
 		for directory in Constants.preferencesDirectories:
 			if not foundations.io.setDirectory(os.path.join(userApplicationDataDirectory, directory)):
 				raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(
-				inspect.getmodulename(__file__), os.path.join(userApplicationDataDirectory, directory),
-															Constants.applicationName))
+				__name__, os.path.join(userApplicationDataDirectory, directory), Constants.applicationName))
 		return True
 	else:
-		raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(
-		inspect.getmodulename(__file__), userApplicationDataDirectory, Constants.applicationName))
+		raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(__name__,
+																							userApplicationDataDirectory,
+																							Constants.applicationName))
 
 def getCommandLineParametersParser():
 	"""
@@ -1724,7 +1723,7 @@ def getLoggingFile(maximumLoggingFiles=10, retries=2 ^ 16):
 			os.remove(file)
 		except OSError:
 			LOGGER.warning(
-			"!> {0} | Cannot remove '{1}' file!".format(inspect.getmodulename(__file__), file, Constants.applicationName))
+			"!> {0} | Cannot remove '{1}' file!".format(__name__, file, Constants.applicationName))
 
 	path = None
 	for i in range(retries):
@@ -1736,8 +1735,7 @@ def getLoggingFile(maximumLoggingFiles=10, retries=2 ^ 16):
 
 	if path is None:
 		raise umbra.exceptions.EngineConfigurationError(
-		"{0} | Logging file is not available, '{1}' will now close!".format(
-		inspect.getmodulename(__file__), Constants.applicationName))
+		"{0} | Logging file is not available, '{1}' will now close!".format(__name__, Constants.applicationName))
 
 	LOGGER.debug("> Current Logging file: '{0}'".format(path))
 
@@ -1782,7 +1780,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	if not setUserApplicationDataDirectory(RuntimeGlobals.userApplicationDataDirectory):
 		raise umbra.exceptions.EngineConfigurationError(
 		"{0} | '{1}' user Application data directory is not available, '{2}' will now close!".format(
-		inspect.getmodulename(__file__), RuntimeGlobals.userApplicationDataDirectory, Constants.applicationName))
+		__name__, RuntimeGlobals.userApplicationDataDirectory, Constants.applicationName))
 
 	LOGGER.debug("> Application Python interpreter: '{0}'".format(sys.executable))
 	LOGGER.debug("> Application startup location: '{0}'".format(os.getcwd()))

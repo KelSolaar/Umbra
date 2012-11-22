@@ -19,7 +19,6 @@
 #**********************************************************************************************************************
 import fnmatch
 import functools
-import inspect
 import os
 import re
 import sys
@@ -162,7 +161,7 @@ def getResourcePath(name, raiseException=False):
 
 	if raiseException:
 		raise umbra.exceptions.ResourceExistsError(
-		"{0} | No resource file path found for '{1}' name!".format(inspect.getmodulename(__file__), name))
+		"{0} | No resource file path found for '{1}' name!".format(__name__, name))
 
 def setWindowDefaultIcon(window):
 	"""
@@ -185,8 +184,7 @@ def getSectionsFileParser(file):
 	"""
 
 	if not foundations.common.pathExists(file):
-		raise foundations.exceptions.FileExistsError("{0} | '{1}' sections file doesn't exists!".format(
-		inspect.getmodulename(__file__), file))
+		raise foundations.exceptions.FileExistsError("{0} | '{1}' sections file doesn't exists!".format(__name__, file))
 
 	sectionsFileParser = SectionsFileParser(file)
 	sectionsFileParser.read() and sectionsFileParser.parse()
@@ -207,8 +205,7 @@ def storeLastBrowsedPath(data):
 	elif type(data) in (str, unicode, QString):
 		data = lastBrowsedPath = foundations.strings.encode(data)
 	else:
-		raise TypeError("{0} | '{1}' type is not supported!".format(
-		inspect.getmodulename(__file__), type(data)))
+		raise TypeError("{0} | '{1}' type is not supported!".format(__name__, type(data)))
 
 	if foundations.common.pathExists(lastBrowsedPath):
 		lastBrowsedPath = os.path.normpath(lastBrowsedPath)

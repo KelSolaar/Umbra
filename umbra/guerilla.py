@@ -15,11 +15,6 @@
 """
 
 #**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
-import inspect
-
-#**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.common
@@ -70,7 +65,7 @@ def baseWarfare(name, bases, attributes):
 	:return: Base. ( Object )
 	"""
 
-	assert len(bases) == 1, "{0} | '{1}' object has multiple bases!".format(inspect.getmodulename(__file__), name)
+	assert len(bases) == 1, "{0} | '{1}' object has multiple bases!".format(__name__, name)
 
 	base = foundations.common.getFirstItem(bases)
 	for name, value in attributes.iteritems():

@@ -17,7 +17,6 @@
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import inspect
 import os
 from PyQt4.QtCore import QRegExp
 
@@ -136,13 +135,15 @@ def getLanguageDescription(grammarfile):
 
 	name = sectionsParser.getValue("Name", "Language")
 	if not name:
-		raise LanguageGrammarError("{0} | '{1}' attribute not found in '{2}' file!".format(
-			inspect.getmodulename(__file__), "Language|Name", grammarfile))
+		raise LanguageGrammarError("{0} | '{1}' attribute not found in '{2}' file!".format(__name__,
+																						"Language|Name",
+																						grammarfile))
 
 	extensions = sectionsParser.getValue("Extensions", "Language")
 	if not extensions:
-		raise LanguageGrammarError("{0} | '{1}' attribute not found in '{2}' file!".format(
-			inspect.getmodulename(__file__), "Language|Extensions", grammarfile))
+		raise LanguageGrammarError("{0} | '{1}' attribute not found in '{2}' file!".format(__name__,
+																						"Language|Extensions",
+																						grammarfile))
 
 	highlighter = getObjectFromLanguageAccelerators(sectionsParser.getValue("Highlighter", "Accelerators"))
 	completer = getObjectFromLanguageAccelerators(sectionsParser.getValue("Completer", "Accelerators"))
@@ -196,8 +197,9 @@ def getLanguageDescription(grammarfile):
 					line = line.strip()
 					line and tokens.append(line)
 		else:
-			LOGGER.warning("!> {0} | '{1}' language dictionary file doesn't exists and will be skipped!".format(
-				inspect.getmodulename(__file__), dictionaryFile))
+			LOGGER.warning(
+			"!> {0} | '{1}' language dictionary file doesn't exists and will be skipped!".format(__name__,
+																								dictionaryFile))
 
 	theme = getObjectFromLanguageAccelerators(sectionsParser.getValue("Theme", "Accelerators")) or \
 			umbra.ui.highlighters.DEFAULT_THEME
