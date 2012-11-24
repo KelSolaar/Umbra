@@ -11,9 +11,15 @@ Changes
 
 | **Umbra** 1.0.4 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=4&state=closed
 
+-  Implemented an unhandled exceptions reporter connected to https://www.crittercism.com/
 -  Implemented **TraceUi** Component.
--  Reloading a Component will reload its dependents Components in "componentsManagerUi" Component.
--  Fix various widgets classes, implement small ui test cases.
+-  Reloading a Component will reload its dependencies in **componentsManagerUi** Component.
+-  Implemented command line support for modules execution tracing through **-t, --traceModules** parameter.
+-  Implemented support for per instance logging file.
+-  Views display user friendly default message.
+-  Fixed various widgets classes, implemented small ui test cases.
+-  Fixed inconsistent Ui startup verbose level.
+-  Components are properly displayed in **ComponentsManagerUi** Component.
 
 1.0.3 - Stable
 --------------
