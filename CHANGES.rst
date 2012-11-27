@@ -12,14 +12,14 @@ Changes
 | **Umbra** 1.0.4 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=4&state=closed
 
 -  Implemented an unhandled exceptions reporter connected to https://www.crittercism.com/
--  Implemented **TraceUi** Component.
--  Reloading a Component will reload its dependencies in **componentsManagerUi** Component.
+-  Implemented **Trace Ui** Component.
+-  Reloading a Component will reload its dependencies in **Components Manager Ui** Component.
 -  Implemented command line support for modules execution tracing through **-t, --traceModules** parameter.
 -  Implemented support for per instance logging file.
 -  Views display user friendly default message.
 -  Fixed various widgets classes, implemented small ui test cases.
 -  Fixed inconsistent Ui startup verbose level.
--  Components are properly displayed in **ComponentsManagerUi** Component.
+-  Components are properly displayed in **Components Manager Ui** Component.
 
 1.0.3 - Stable
 --------------
@@ -35,17 +35,17 @@ Changes
 
 -  Updated package directory structure to be compliant with **Python Package Index**.
 -  Added documentation / Api files.
--  Implemented **TCPServerUi** Component.
+-  Implemented **TCP Server Ui** Component.
 -  Implemented **Script Editor** Component file revert.
--  Implemented **scriptEditor** Component session store / restore.
--  Implemented **scriptEditor** Component project management through **Projects Explorer** Component.
+-  Implemented **script Editor** Component session store / restore.
+-  Implemented **script Editor** Component project management through **Projects Explorer** Component.
 -  Implemented a generic **fileSystemWatcher** class. 
 -  Loading a file in the **Script Editor** Component open the file browser at the current editor location.
 -  **Search In Files** / **Search And Replace** dialogs search QComboBox have their text selected on dialog open.
 -  Multiples files can be loaded at same time in **Script Editor** Component.
 -  Ensure **messageBox** dialogs are centered on screen by default.
--  Fix issue where closing a tab in **scriptEditor** Component may trigger closing of the next tab.
--  Fix various other **scriptEditor** issues: https://github.com/KelSolaar/Umbra/issues?labels=Defect&milestone=2&page=1&state=closed
+-  Fix issue where closing a tab in **Script Editor** Component may trigger closing of the next tab.
+-  Fix various other **Script Editor** issues: https://github.com/KelSolaar/Umbra/issues?labels=Defect&milestone=2&page=1&state=closed
 
 1.0.1 - Stable
 --------------
