@@ -1,4 +1,4 @@
-**Umbra** - 1.0.4 - Stable
+**Umbra** - 1.0.5 - Stable
 ==========================
 
 .. .changes
@@ -6,10 +6,20 @@
 Changes
 =======
 
+1.0.5 - Stable
+--------------
+
+| **Umbra** 1.0.5 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=5&state=closed
+| **Foundations** 2.0.5 - Stable - Milestone: https://github.com/KelSolaar/Foundations/issues?milestone=3&state=closed
+
+-  Fixed the encoding related issues preventing **sIBL_GUI** to work properly.
+
 1.0.4 - Stable
 --------------
 
 | **Umbra** 1.0.4 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=4&state=closed
+| **Manager** 2.0.3 - Stable - https://github.com/KelSolaar/Manager/issues?milestone=2&state=closed
+| **Foundations** 2.0.4 - Stable - Milestone: https://github.com/KelSolaar/Foundations/issues?milestone=2&state=closed
 
 -  Implemented an unhandled exceptions reporter connected to https://www.crittercism.com/
 -  Implemented **Trace Ui** Component.
@@ -25,6 +35,8 @@ Changes
 --------------
 
 | **Umbra** 1.0.3 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=3&state=closed
+| **Manager** 2.0.2 - Stable - https://github.com/KelSolaar/Manager/issues?milestone=1&state=closed
+| **Foundations** 2.0.3 - Stable - https://github.com/KelSolaar/Foundations/issues?milestone=1&state=closed
 
 -  Added support for **Python 2.6**.
 
@@ -47,8 +59,10 @@ Changes
 -  Fix issue where closing a tab in **Script Editor** Component may trigger closing of the next tab.
 -  Fix various other **Script Editor** issues: https://github.com/KelSolaar/Umbra/issues?labels=Defect&milestone=2&page=1&state=closed
 
-1.0.1 - Stable
---------------
+1.0.1 - Beta
+------------
+
+| **Umbra** 1.0.1 - Beta - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=1&state=closed
 
 -  Implemented notifications manager code.
 -  Implemented **Search In Files** in **Script Editor** Component.
@@ -61,8 +75,8 @@ Changes
 -  Refactored the layouts management code.
 -  Added support for command line files arguments.
 
-1.0.0 - Stable
---------------
+1.0.0 - Alpha
+-------------
 
 -  Initial release of **Umbra**.
 
