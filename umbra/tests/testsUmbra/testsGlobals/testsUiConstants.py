@@ -367,6 +367,7 @@ class UiConstantsTestCase(unittest.TestCase):
 		"""
 
 		self.assertRegexpMatches(UiConstants.crittercismId, "\w+")
+		self.assertEqual(UiConstants.crittercismId, "50aa8aa263d952524b000005")
 
 if __name__ == "__main__":
 	unittest.main()
