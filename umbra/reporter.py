@@ -462,6 +462,16 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		self.__html = self.__getHtml(body)
 		self.__view.setHtml(self.__html)
 
+	def __appendHtml(self, body):
+		"""
+		This method apeend the given body content html in the View.
+
+		:param body: Body tag content. ( String )
+		"""
+
+		body = foundations.strings.replace(body, OrderedDict([('"', '\\"'), ("\n", str())]))
+		self.__evaluateJavascript("$(\"body\").append(\"{0}\");".format(body))
+
 	def __evaluateJavascript(self, javascript):
 		"""
 		This method evaluates given javascript content in the View.
@@ -487,7 +497,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 
 		self.__initializeContextUi()
 
-		self.__setHtml(self.formatHtmlException(cls, instance, trcback))
+		self.__appendHtml(self.formatHtmlException(cls, instance, trcback))
 
 		self.show()
 		self.__report and self.reportExceptionToCrittercism(cls, instance, trcback)
@@ -506,7 +516,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		escape = lambda x: foundations.strings.replace(x,
 		OrderedDict([("&", "&amp;"), ("<", "&lt;"), (">", "&gt;")]))
 		format = lambda x: foundations.strings.replace(x.expandtabs(8),
-		OrderedDict([("\n\n", "\n \n"), ("\n\n", "\n \n"), (" ", "&nbsp;"), ("\n", "<br>\n")]))
+		OrderedDict([("\n\n", "\n \n"), ("\n\n", "\n \n"), (" ", "&nbsp;"), ("\n", "<br/>\n")]))
 
 		verbose = 10
 		cls, instance, trcback = args
@@ -522,7 +532,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 
 		html.append("<div class=\"traceback\">")
 		for line in foundations.exceptions.formatException(cls, instance, trcback):
-			html.append("{0}<br/>".format(format(line)))
+			html.append("{0}<br/>".format(format(escape(line))))
 		html.append("</div>")
 
 		html.append("<div class=\"content\">")
@@ -580,7 +590,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 			html.append("<br/>")
 		html.append("</div>")
 
-		return "<body>{0}</body>".format(str().join(html))
+		return str().join(html)
 
 	@staticmethod
 	def formatTextException(*args):
@@ -769,6 +779,9 @@ def disableExceptionReporter():
 	return True
 
 if __name__ == "__main__":
+	foundations.verbose.getLoggingConsoleHandler()
+	foundations.verbose.setVerbosityLevel(3)
+
 	application = umbra.ui.common.getApplicationInstance()
 
 	installExceptionReporter()
