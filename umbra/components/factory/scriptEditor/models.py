@@ -954,11 +954,7 @@ class PatternsModel(umbra.ui.models.GraphModel):
 	:return: Removed pattern node. ( PatternNode )
 	"""
 
-	def __init__(self,
-				parent=None,
-				rootNode=None,
-				horizontalHeaders=None,
-				verticalHeaders=None):
+	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None, verticalHeaders=None):
 		"""
 		This method initializes the class.
 
@@ -966,7 +962,6 @@ class PatternsModel(umbra.ui.models.GraphModel):
 		:param rootNode: Root node. ( AbstractCompositeNode )
 		:param horizontalHeaders: Headers. ( OrderedDict )
 		:param verticalHeaders: Headers. ( OrderedDict )
-		:param defaultNode: Default node. ( GraphModelNode )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
