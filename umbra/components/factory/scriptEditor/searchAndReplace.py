@@ -266,7 +266,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		for model, settingsKey, comboBox in \
 		(("_SearchAndReplace__searchPatternsModel", "recentSearchPatterns", self.Search_comboBox),
 		("_SearchAndReplace__replaceWithPatternsModel", "recentReplaceWithPatterns", self.Replace_With_comboBox)):
-			self.__dict__[model] = PatternsModel(defaultNode=PatternNode)
+			self.__dict__[model] = PatternsModel()
 			patterns = foundations.common.orderedUniqify([foundations.strings.encode(pattern) for pattern in \
 														self.__container.settings.getKey(self.__container.settingsSection,
 																						settingsKey).toStringList()])
