@@ -90,6 +90,7 @@ class UiConstantsTestCase(unittest.TestCase):
 								"pythonGrammarFile",
 								"loggingGrammarFile",
 								"textGrammarFile",
+								"invalidLinkHtmlFile",
 								"crittercismId")
 
 		for attribute in requiredAttributes:
@@ -360,6 +361,13 @@ class UiConstantsTestCase(unittest.TestCase):
 		"""
 
 		self.assertRegexpMatches(UiConstants.textGrammarFile, "\w+")
+
+	def testInvalidLinkHtmlFileAttribute(self):
+		"""
+		This method tests :attr:`umbra.globals.uiConstants.UiConstants.invalidLinkHtmlFile` attribute.
+		"""
+
+		self.assertRegexpMatches(UiConstants.invalidLinkHtmlFile, "\w+")
 
 	def testCrittercismIdAttribute(self):
 		"""
