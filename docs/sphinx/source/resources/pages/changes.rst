@@ -1,6 +1,12 @@
 Changes
 =======
 
+1.0.6 - Stable
+--------------
+
+-  Ensured **Reporter** is not initialising the "Crittercism" Client API 2 times.
+-  Fixed **Search And Replace** dialog patterns related exception.
+
 1.0.5 - Stable
 --------------
 
@@ -16,7 +22,7 @@ Changes
 | **Manager** 2.0.3 - Stable - https://github.com/KelSolaar/Manager/issues?milestone=2&state=closed
 | **Foundations** 2.0.4 - Stable - Milestone: https://github.com/KelSolaar/Foundations/issues?milestone=2&state=closed
 
--  Implemented an unhandled exceptions reporter connected to https://www.crittercism.com/
+-  Implemented an unhandled exceptions **Reporter** connected to https://www.crittercism.com/
 -  Implemented **TraceUi** Component.
 -  Reloading a Component will reload its dependencies in **componentsManagerUi** Component.
 -  Implemented command line support for modules execution tracing through **-t, --traceModules** parameter.
