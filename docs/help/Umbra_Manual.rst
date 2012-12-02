@@ -97,6 +97,8 @@ _`Api`
 _`Changes`
 ==========
 
+**Umbra** Changes file is available here: `Umbra - Changes <http://thomasmansencal.com/Sharing/Umbra/Changes/Changes.html>`_
+
 .. raw:: html
 
     <br/>

@@ -767,7 +767,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		else:
 			content.append(self.__componentsInformationsDefaultText)
 
-		separator = len(content) == 1 and "" or "<p><center>* * *<center/></p>"
+		separator = str() if len(content) == 1 else "<p><center>* * *<center/></p>"
 		self.Components_Informations_textBrowser.setText(separator.join(content))
 
 	def __storeDeactivatedComponents(self):

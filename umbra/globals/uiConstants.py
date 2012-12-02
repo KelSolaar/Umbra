@@ -124,5 +124,8 @@ class UiConstants():
 	textGrammarFile = "grammars/Text/Text.grc"
 	"""Text language grammar file: '**grammars/Text/Text.grc**' ( String )"""
 
+	invalidLinkHtmlFile = "htmls/Invalid_Link.html"
+	"""Invalid link html file: '**htmls/Invalid_Link.html**' ( String )"""
+
 	crittercismId = "50aa8aa263d952524b000005"
 	"""Crittercism Id: '**50aa8aa263d952524b000005**' ( String )"""
