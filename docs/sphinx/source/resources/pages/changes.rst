@@ -4,6 +4,9 @@ Changes
 1.0.6 - Stable
 --------------
 
+| **Umbra** 1.0.6 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=7&state=closed
+| **Foundations** 2.0.6 - Stable - Milestone: https://github.com/KelSolaar/Foundations/issues?milestone=4&page=1&state=closed
+
 -  Ensured **Reporter** is not initialising the "Crittercism" Client API 2 times.
 -  Fixed **Search And Replace** dialog patterns related exception.
 
@@ -44,7 +47,7 @@ Changes
 1.0.2 - Stable
 --------------
 
-| **Umbra** 1.0.2 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=2&state=closed
+**Umbra** 1.0.2 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=2&state=closed
 
 -  Updated package directory structure to be compliant with **Python Package Index**.
 -  Added documentation / Api files.
@@ -63,7 +66,7 @@ Changes
 1.0.1 - Beta
 ------------
 
-| **Umbra** 1.0.1 - Beta - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=1&state=closed
+**Umbra** 1.0.1 - Beta - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=1&state=closed
 
 -  Implemented notifications manager code.
 -  Implemented **Search In Files** in **Script Editor** Component.
