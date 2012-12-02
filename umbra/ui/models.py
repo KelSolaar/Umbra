@@ -453,7 +453,7 @@ class GraphModel(QAbstractItemModel):
 		self.beginInsertRows(parent, row, row + count - 1)
 		success = True
 		for i in range(count):
-			childNode = umbra.ui.nodes.GraphModelNode()
+			childNode = self.__defaultNode()
 			success *= True if parentNode.insertChild(childNode, row) else False
 		self.endInsertRows()
 		return success

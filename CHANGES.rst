@@ -1,10 +1,19 @@
-**Umbra** - 1.0.5 - Stable
+**Umbra** - 1.0.6 - Stable
 ==========================
 
 .. .changes
 
 Changes
 =======
+
+1.0.6 - Stable
+--------------
+
+| **Umbra** 1.0.6 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=7&state=closed
+| **Foundations** 2.0.6 - Stable - Milestone: https://github.com/KelSolaar/Foundations/issues?milestone=4&page=1&state=closed
+
+-  Ensured **Reporter** is not initialising the "Crittercism" Client API 2 times.
+-  Fixed **Search And Replace** dialog patterns related exception.
 
 1.0.5 - Stable
 --------------
@@ -21,7 +30,7 @@ Changes
 | **Manager** 2.0.3 - Stable - https://github.com/KelSolaar/Manager/issues?milestone=2&state=closed
 | **Foundations** 2.0.4 - Stable - Milestone: https://github.com/KelSolaar/Foundations/issues?milestone=2&state=closed
 
--  Implemented an unhandled exceptions reporter connected to https://www.crittercism.com/
+-  Implemented an unhandled exceptions **Reporter** connected to https://www.crittercism.com/
 -  Implemented **Trace Ui** Component.
 -  Reloading a Component will reload its dependencies in **Components Manager Ui** Component.
 -  Implemented command line support for modules execution tracing through **-t, --traceModules** parameter.
@@ -43,7 +52,7 @@ Changes
 1.0.2 - Stable
 --------------
 
-| **Umbra** 1.0.2 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=2&state=closed
+**Umbra** 1.0.2 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=2&state=closed
 
 -  Updated package directory structure to be compliant with **Python Package Index**.
 -  Added documentation / Api files.
@@ -62,7 +71,7 @@ Changes
 1.0.1 - Beta
 ------------
 
-| **Umbra** 1.0.1 - Beta - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=1&state=closed
+**Umbra** 1.0.1 - Beta - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=1&state=closed
 
 -  Implemented notifications manager code.
 -  Implemented **Search In Files** in **Script Editor** Component.

@@ -52,7 +52,7 @@ class ModulesModel(umbra.ui.models.GraphModel):
 		:param rootNode: Root node. ( AbstractCompositeNode )
 		:param horizontalHeaders: Headers. ( OrderedDict )
 		:param verticalHeaders: Headers. ( OrderedDict )
-		:param defaultNode: Default node. ( AbstractCompositeNode )
+		:param defaultNode: Default node. ( GraphModelNode )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
