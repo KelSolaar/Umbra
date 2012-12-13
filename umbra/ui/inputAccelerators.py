@@ -24,7 +24,6 @@ from PyQt4.QtGui import QTextCursor
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.common
-import foundations.exceptions
 import foundations.strings
 import foundations.verbose
 
