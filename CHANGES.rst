@@ -1,10 +1,16 @@
-**Umbra** - 1.0.6 - Stable
+**Umbra** - 1.0.7 - Stable
 ==========================
 
 .. .changes
 
 Changes
 =======
+
+1.0.7 - Stable
+--------------
+| **Umbra** 1.0.7 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=8&state=closed
+
+- Improve symbols expanding behavior in *Script Editor* Component.
 
 1.0.6 - Stable
 --------------
