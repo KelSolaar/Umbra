@@ -37,13 +37,15 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "getEditorCapability",
-			"indentationPreEventInputAccelerators",
-			"indentationPostEventInputAccelerators",
-			"performCompletion",
-			"completionPreEventInputAccelerators",
-			"completionPostEventInputAccelerators",
-			"symbolsExpandingPreEventInputAccelerators"]
+__all__ = ["LOGGER",
+		"getEditorCapability",
+		"isSymbolsPairComplete",
+		"performCompletion",
+		"indentationPreEventInputAccelerators",
+		"indentationPostEventInputAccelerators",
+		"completionPreEventInputAccelerators",
+		"completionPostEventInputAccelerators",
+		"symbolsExpandingPreEventInputAccelerators"]
 
 LOGGER = foundations.verbose.installLogger()
 
@@ -63,6 +65,63 @@ def getEditorCapability(editor, capability):
 		return
 
 	return editor.language.get(capability)
+
+def isSymbolsPairComplete(editor, symbol):
+	"""
+	This definition returns if the symbols pair is complete on current editor line.
+
+	:param editor: Document editor. ( QWidget )
+	:param symbol: Symbol to check. ( String )
+	:return: Is symbols pair complete. ( Boolean )
+	"""
+
+	symbolsPairs = getEditorCapability(editor, "symbolsPairs")
+	if not symbolsPairs:
+		return
+
+	cursor = editor.textCursor()
+	cursor.movePosition(QTextCursor.StartOfLine, QTextCursor.MoveAnchor)
+	cursor.movePosition(QTextCursor.EndOfLine, QTextCursor.KeepAnchor)
+	selectedText = foundations.strings.encode(cursor.selectedText())
+	if symbol == symbolsPairs[symbol]:
+		return selectedText.count(symbol) % 2 == 0
+	else:
+		return selectedText.count(symbol) == selectedText.count(symbolsPairs[symbol])
+
+def performCompletion(editor):
+	"""
+	This definition performs the completion on given editor.
+
+	:param editor: Document editor. ( QWidget )
+	:return: Method success. ( Boolean )
+	"""
+
+	completionPrefix = editor.getPartialWordUnderCursor()
+	if not completionPrefix:
+		return
+
+	words = editor.getWords()
+	completionPrefix in words and words.remove(completionPrefix)
+	editor.completer.updateModel(words)
+	editor.completer.setCompletionPrefix(completionPrefix)
+	if editor.completer.completionCount() == 1:
+		completion = editor.completer.completionModel().data(
+					editor.completer.completionModel().index(0, 0)).toString()
+		cursor = editor.textCursor()
+		cursor.insertText(completion[len(completionPrefix):])
+		editor.setTextCursor(cursor)
+	else:
+		popup = editor.completer.popup()
+		popup.setCurrentIndex(editor.completer.completionModel().index(0, 0))
+
+		completerRectangle = editor.cursorRect()
+		hasattr(editor, "marginArea_LinesNumbers_widget") and completerRectangle.moveTo(
+		completerRectangle.topLeft().x() + editor.marginArea_LinesNumbers_widget.getWidth(),
+		completerRectangle.topLeft().y())
+		completerRectangle.setWidth(editor.completer.popup().sizeHintForColumn(0) + \
+		editor.completer.popup().verticalScrollBar().sizeHint().width())
+		editor.completer.complete(completerRectangle)
+	return True
 
 def indentationPreEventInputAccelerators(editor, event):
 	"""
@@ -131,41 +190,6 @@ def indentationPostEventInputAccelerators(editor, event):
 					editor.setTextCursor(cursor)
 	return True
 
-def performCompletion(editor):
-	"""
-	This definition performs the completion on given editor.
-
-	:param editor: Document editor. ( QWidget )
-	:return: Method success. ( Boolean )
-	"""
-
-	completionPrefix = editor.getPartialWordUnderCursor()
-	if not completionPrefix:
-		return
-
-	words = editor.getWords()
-	completionPrefix in words and words.remove(completionPrefix)
-	editor.completer.updateModel(words)
-	editor.completer.setCompletionPrefix(completionPrefix)
-	if editor.completer.completionCount() == 1:
-		completion = editor.completer.completionModel().data(
-					editor.completer.completionModel().index(0, 0)).toString()
-		cursor = editor.textCursor()
-		cursor.insertText(completion[len(completionPrefix):])
-		editor.setTextCursor(cursor)
-	else:
-		popup = editor.completer.popup()
-		popup.setCurrentIndex(editor.completer.completionModel().index(0, 0))
-
-		completerRectangle = editor.cursorRect()
-		hasattr(editor, "marginArea_LinesNumbers_widget") and completerRectangle.moveTo(
-		completerRectangle.topLeft().x() + editor.marginArea_LinesNumbers_widget.getWidth(),
-		completerRectangle.topLeft().y())
-		completerRectangle.setWidth(editor.completer.popup().sizeHintForColumn(0) + \
-		editor.completer.popup().verticalScrollBar().sizeHint().width())
-		editor.completer.complete(completerRectangle)
-	return True
-
 def completionPreEventInputAccelerators(editor, event):
 	"""
 	This definition implements completion pre event input accelerators.
@@ -226,21 +250,24 @@ def symbolsExpandingPreEventInputAccelerators(editor, event):
 	text = foundations.strings.encode(event.text())
 	if text in symbolsPairs:
 		cursor = editor.textCursor()
-		if not cursor.hasSelection():
+		if not isSymbolsPairComplete(editor, text):
 			cursor.insertText(event.text())
-			# TODO: Provide an efficient code alternative.
-			# position = cursor.position()
-			# cursor.movePosition(QTextCursor.EndOfLine, QTextCursor.KeepAnchor)
-			# selectedText = foundations.strings.encode(cursor.selectedText())
-			# cursor.setPosition(position)
-			# if not selectedText.strip():
-			cursor.insertText(symbolsPairs[text])
-			cursor.movePosition(QTextCursor.Left, QTextCursor.MoveAnchor)
 		else:
-			selectionText = cursor.selectedText()
-			cursor.insertText(event.text())
-			cursor.insertText(selectionText)
-			cursor.insertText(symbolsPairs[text])
+			if not cursor.hasSelection():
+				cursor.insertText(event.text())
+				# TODO: Provide an efficient code alternative.
+				# position = cursor.position()
+				# cursor.movePosition(QTextCursor.EndOfLine, QTextCursor.KeepAnchor)
+				# selectedText = foundations.strings.encode(cursor.selectedText())
+				# cursor.setPosition(position)
+				# if not selectedText.strip():
+				cursor.insertText(symbolsPairs[text])
+				cursor.movePosition(QTextCursor.Left, QTextCursor.MoveAnchor)
+			else:
+				selectionText = cursor.selectedText()
+				cursor.insertText(event.text())
+				cursor.insertText(selectionText)
+				cursor.insertText(symbolsPairs[text])
 		editor.setTextCursor(cursor)
 		processEvent = False
 
