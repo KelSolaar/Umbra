@@ -81,7 +81,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__preferencesManager = None
 		self.__scriptEditor = None
 
-		self.__address = socket.gethostbyname(socket.gethostname())
+		self.__address = foundations.common.getHostAddress()
 		self.__port = 16384
 		self.__fileCommand = "execfile(\"{0}\")"
 		self.__connectionEnd = "<!RE>"
