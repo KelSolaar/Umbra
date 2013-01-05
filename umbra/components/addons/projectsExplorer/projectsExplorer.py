@@ -673,7 +673,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not node.family == "FileNode":
 			return
 
-		self.__scriptEditor.loadFile(node.path)
+		foundations.common.pathExists(node.path) and self.__scriptEditor.loadFile(node.path)
 
 	def __view_selectionModel__selectionChanged(self, selectedItems, deselectedItems):
 		"""
@@ -787,21 +787,21 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	# def __view_copyAction__triggered(self, checked):
 	# 	"""
 	# 	This method is triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Copy ..."'** action.
-	# 
+	#
 	# 	:param checked: Checked state. ( Boolean )
 	# 	:return: Method success. ( Boolean )
 	# 	"""
-	# 
+	#
 	# 	print "Actions|Umbra|Components|addons.projectsExplorer|Copy ..."
 
 	# def __view_moveAction__triggered(self, checked):
 	# 	"""
 	# 	This method is triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Move ..."'** action.
-	# 
+	#
 	# 	:param checked: Checked state. ( Boolean )
 	# 		:return: Method success. ( Boolean )
 	# 	"""
-	# 
+	#
 	# 	print "Actions|Umbra|Components|addons.projectsExplorer|Move ..."
 
 	def __view_deleteAction__triggered(self, checked):

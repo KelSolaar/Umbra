@@ -3150,7 +3150,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
 		self.__lockEditor(editor)
-		return editor.saveFile()
+		if not editor.isUntitled and foundations.common.pathExists(file):
+			return editor.saveFile()
+		else:
+			return self.saveFileAs()
 
 	@foundations.exceptions.handleExceptions(umbra.exceptions.notifyExceptionHandler,
 											foundations.exceptions.UserError)
