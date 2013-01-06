@@ -20,6 +20,7 @@
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QFont
 from PyQt4.QtGui import QMessageBox
+from PyQt4.QtGui import QPushButton
 from PyQt4.QtGui import QTextCursor
 from PyQt4.QtGui import QTextEdit
 
@@ -28,6 +29,7 @@ from PyQt4.QtGui import QTextEdit
 #**********************************************************************************************************************
 import foundations.ui.common
 import foundations.verbose
+import umbra.ui.common
 from umbra.globals.runtimeGlobals import RuntimeGlobals
 from umbra.globals.constants import Constants
 
@@ -71,6 +73,7 @@ def messageBox(type, title, message, icon=None, buttons=QMessageBox.Ok, customBu
 
 	for button, role in customButtons or ():
 		messageBox.addButton(button, role)
+	umbra.ui.common.setChildrenPadding(messageBox, (QPushButton,), width=12)
 
 	message = message.split("\n")
 	if type == "Critical":
@@ -133,8 +136,6 @@ def messageBox(type, title, message, icon=None, buttons=QMessageBox.Ok, customBu
 if __name__ == "__main__":
 	import sys
 	from PyQt4.QtCore import QString
-
-	import umbra.ui.common
 
 	application = umbra.ui.common.getApplicationInstance()
 

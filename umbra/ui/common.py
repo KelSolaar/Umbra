@@ -66,7 +66,8 @@ __all__ = ["LOGGER",
 		"parentsWalker",
 		"signalsBlocker",
 		"showWaitCursor",
-		"setToolBoxHeight"]
+		"setToolBoxHeight",
+		"setChildrenPadding"]
 
 LOGGER = foundations.verbose.installLogger()
 
@@ -299,7 +300,24 @@ def setToolBoxHeight(toolBox, height=32):
 	:return: Definition success. ( Boolean )
 	"""
 
-	for button in toolBox.children():
-		if isinstance(button, QAbstractButton):
-			button.setMinimumHeight(32)
+	for button in toolBox.findChildren(QAbstractButton):
+		button.setMinimumHeight(height)
+	return True
+
+def setChildrenPadding(widget, types, height=None, width=None):
+	"""
+	This definition sets given Widget children padding.
+
+	:param widget: Widget to sets the children padding. ( QWidget )
+	:param types: Children types. ( Tuple / List )
+	:param height: Height padding. ( Integer )
+	:param width: Width padding. ( Integer )
+	:return: Definition success. ( Boolean )
+	"""
+
+	for type in types:
+		for child in widget.findChildren(type):
+			height = child.fontMetrics().height() + (height if height is not None else 0) * 2
+			width = child.fontMetrics().width(child.text()) + (width if width is not None else 0) * 2
+			child.setStyleSheet("{0}{{height: {1}px; width: {2}px;}}".format(type.__name__, height, width))
 	return True
