@@ -317,7 +317,8 @@ def setChildrenPadding(widget, types, height=None, width=None):
 
 	for type in types:
 		for child in widget.findChildren(type):
-			height = child.fontMetrics().height() + (height if height is not None else 0) * 2
-			width = child.fontMetrics().width(child.text()) + (width if width is not None else 0) * 2
-			child.setStyleSheet("{0}{{height: {1}px; width: {2}px;}}".format(type.__name__, height, width))
+			child.setStyleSheet("{0}{{height: {1}px; width: {2}px;}}".format(
+									type.__name__,
+									child.fontMetrics().height() + (height if height is not None else 0) * 2,
+									child.fontMetrics().width(child.text()) + (width if width is not None else 0) * 2))
 	return True
