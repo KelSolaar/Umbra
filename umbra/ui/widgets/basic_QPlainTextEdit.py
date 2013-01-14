@@ -774,7 +774,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 
 		selectedText = self.getSelectedText()
-		regex = "^{0}$".format(pattern if settings.regularExpressions else re.escape(pattern))
+		regex = "^{0}$".format(pattern if settings.regularExpressions else re.escape(foundations.strings.encode(pattern)))
 		flags = int() if settings.caseSensitive else re.IGNORECASE
 		if not selectedText or not re.search(regex, selectedText, flags=flags):
 			self.search(pattern, **kwargs)
