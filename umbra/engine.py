@@ -80,8 +80,9 @@ def _extendResourcesPaths():
 
 	for path in (os.path.join(umbra.__path__[0], Constants.resourcesDirectory),
 				os.path.join(os.getcwd(), umbra.__name__, Constants.resourcesDirectory)):
-		(foundations.common.pathExists(path) and not path in RuntimeGlobals.resourcesDirectories) and \
-		RuntimeGlobals.resourcesDirectories.append(path)
+		path = os.path.normpath(path)
+		if foundations.common.pathExists(path):
+			path not in RuntimeGlobals.resourcesDirectories and RuntimeGlobals.resourcesDirectories.append(path)
 
 _extendResourcesPaths()
 

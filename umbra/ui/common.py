@@ -152,7 +152,8 @@ def getResourcePath(name, raiseException=False):
 	"""
 
 	if not RuntimeGlobals.resourcesDirectories:
-		RuntimeGlobals.resourcesDirectories.append(os.path.join(umbra.__path__[0], Constants.resourcesDirectory))
+		RuntimeGlobals.resourcesDirectories.append(
+		os.path.normpath(os.path.join(umbra.__path__[0], Constants.resourcesDirectory)))
 
 	for path in RuntimeGlobals.resourcesDirectories:
 		path = os.path.join(path, name)
