@@ -3431,15 +3431,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			ignoreFile = True
 			if editor.isUntitled and not editor.isEmpty():
 				file = os.path.join(self.__defaultSessionDirectory, file)
-				editor.setFile(file)
-				ignoreFile = False
+				editor.writeFile(file)
 			elif os.path.dirname(file) == self.__defaultSessionDirectory:
-				ignoreFile = False
-
-			if not ignoreFile:
-				self.saveFile(file) and session.append(file)
-				continue
-
+				editor.saveFile()
 			session.append(file)
 
 		for directory in self.listProjects():
