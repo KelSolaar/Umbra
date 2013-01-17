@@ -185,6 +185,9 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			return
 
 		editor = self.__container.getCurrentEditor()
+		if editor.language == language:
+			return
+
 		editor.blockSignals(True)
 		self.__container.setLanguage(editor, language)
 		editor.blockSignals(False)
