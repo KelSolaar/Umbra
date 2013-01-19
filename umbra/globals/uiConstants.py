@@ -109,10 +109,10 @@ class UiConstants():
 	startupLayout = "startupCentric"
 	"""Application startup layout: '**startupCentric**' ( String )"""
 
-	helpFile = "https://github.com/KelSolaar/Umbra"
-	"""Application online help file: '**"https://github.com/KelSolaar/Umbra"**' ( String )"""
-	apiFile = "https://github.com/KelSolaar/Umbra"
-	"""Application online Api file: '**"https://github.com/KelSolaar/Umbra"**' ( String )"""
+	helpFile = "http://thomasmansencal.com/Sharing/Umbra/Support/Documentation/Help/Umbra_Manual.html"
+	"""Application online help file: '**"http://thomasmansencal.com/Sharing/Umbra/Support/Documentation/Help/Umbra_Manual.html"**' ( String )"""
+	apiFile = "http://thomasmansencal.com/Sharing/Umbra/Support/Documentation/Api/index.html"
+	"""Application online Api file: '**"http://thomasmansencal.com/Sharing/Umbra/Support/Documentation/Api/index.html"**' ( String )"""
 
 	developmentLayout = "developmentCentric"
 	"""Application development layout: '**"developmentCentric"**' ( String )"""
