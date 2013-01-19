@@ -64,7 +64,7 @@ def notifyExceptionHandler(*args):
 	:return: Definition success. ( Boolean )
 	"""
 
-	callback = lambda: RuntimeGlobals.engine.layoutsManager.restoreLayout(UiConstants.developmentLayout)
+	callback = RuntimeGlobals.componentsManager["factory.scriptEditor"].restoreDevelopmentLayout
 	foundations.exceptions.baseExceptionHandler(*args)
 	cls, instance = foundations.exceptions.extractException(*args)[:2]
 	RuntimeGlobals.notificationsManager.exceptify(message="{0}".format(instance), notificationClickedSlot=callback)

@@ -2595,9 +2595,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and \
 			re.search(r"^\/[A-Z]:", foundations.strings.encode(url.path())) and foundations.strings.encode(url.path())[1:] or \
 			foundations.strings.encode(url.path())
-			if self.loadPath(path):
-				self.__engine.layoutsManager.currentLayout != self.__developmentLayout and \
-				self.__engine.layoutsManager.restoreLayout(self.__developmentLayout)
+			self.loadPath(path) and self.restoreDevelopmentLayout()
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
 
@@ -3482,4 +3480,15 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		elif idx > self.Script_Editor_tabWidget.count() - 1:
 			idx = 0
 		self.Script_Editor_tabWidget.setCurrentIndex(idx)
+		return True
+
+	def restoreDevelopmentLayout(self):
+		"""
+		This definition restores the development layout.
+	
+		:return: Definition success. ( Boolean )
+		"""
+
+		if self.__engine.layoutsManager.currentLayout != self.__developmentLayout and not self.isVisible():
+			self.__engine.layoutsManager.restoreLayout(self.__developmentLayout)
 		return True
