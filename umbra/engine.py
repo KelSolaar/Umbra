@@ -141,8 +141,8 @@ def _initializeLogging():
 	This definition initializes the Application logging.
 	"""
 
-	# Starting the console handler.
-	if not hasattr(sys, "frozen") or not (platform.system() == "Windows" or platform.system() == "Microsoft"):
+	# Starting the console handler if a terminal is available.
+	if sys.stdout.isatty() or platform.system() in ("Darwin", "Linux"):
 		RuntimeGlobals.loggingConsoleHandler = foundations.verbose.getLoggingConsoleHandler()
 
 	# Defining logging formatters.
