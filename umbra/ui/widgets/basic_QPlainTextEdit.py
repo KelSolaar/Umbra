@@ -45,7 +45,7 @@ import foundations.verbose
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2012 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -774,7 +774,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 
 		selectedText = self.getSelectedText()
-		regex = "^{0}$".format(pattern if settings.regularExpressions else re.escape(pattern))
+		regex = "^{0}$".format(pattern if settings.regularExpressions else re.escape(foundations.strings.encode(pattern)))
 		flags = int() if settings.caseSensitive else re.IGNORECASE
 		if not selectedText or not re.search(regex, selectedText, flags=flags):
 			self.search(pattern, **kwargs)

@@ -73,7 +73,7 @@ from umbra.ui.widgets.basic_QPlainTextEdit import Basic_QPlainTextEdit
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2012 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -2595,9 +2595,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and \
 			re.search(r"^\/[A-Z]:", foundations.strings.encode(url.path())) and foundations.strings.encode(url.path())[1:] or \
 			foundations.strings.encode(url.path())
-			if self.loadPath(path):
-				self.__engine.layoutsManager.currentLayout != self.__developmentLayout and \
-				self.__engine.layoutsManager.restoreLayout(self.__developmentLayout)
+			self.loadPath(path) and self.restoreDevelopmentLayout()
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
 
@@ -3150,7 +3148,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.info("{0} | Saving '{1}' file!".format(self.__class__.__name__, editor.file))
 		self.__lockEditor(editor)
-		return editor.saveFile()
+		if not editor.isUntitled and foundations.common.pathExists(editor.file):
+			return editor.saveFile()
+		else:
+			return self.saveFileAs()
 
 	@foundations.exceptions.handleExceptions(umbra.exceptions.notifyExceptionHandler,
 											foundations.exceptions.UserError)
@@ -3428,15 +3429,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			ignoreFile = True
 			if editor.isUntitled and not editor.isEmpty():
 				file = os.path.join(self.__defaultSessionDirectory, file)
-				editor.setFile(file)
-				ignoreFile = False
+				editor.writeFile(file)
 			elif os.path.dirname(file) == self.__defaultSessionDirectory:
-				ignoreFile = False
-
-			if not ignoreFile:
-				self.saveFile(file) and session.append(file)
-				continue
-
+				editor.saveFile()
 			session.append(file)
 
 		for directory in self.listProjects():
@@ -3485,4 +3480,15 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		elif idx > self.Script_Editor_tabWidget.count() - 1:
 			idx = 0
 		self.Script_Editor_tabWidget.setCurrentIndex(idx)
+		return True
+
+	def restoreDevelopmentLayout(self):
+		"""
+		This definition restores the development layout.
+	
+		:return: Definition success. ( Boolean )
+		"""
+
+		if self.__engine.layoutsManager.currentLayout != self.__developmentLayout and not self.isVisible():
+			self.__engine.layoutsManager.restoreLayout(self.__developmentLayout)
 		return True
