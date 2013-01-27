@@ -80,8 +80,9 @@ def _extendResourcesPaths():
 
 	for path in (os.path.join(umbra.__path__[0], Constants.resourcesDirectory),
 				os.path.join(os.getcwd(), umbra.__name__, Constants.resourcesDirectory)):
-		(foundations.common.pathExists(path) and not path in RuntimeGlobals.resourcesDirectories) and \
-		RuntimeGlobals.resourcesDirectories.append(path)
+		path = os.path.normpath(path)
+		if foundations.common.pathExists(path):
+			path not in RuntimeGlobals.resourcesDirectories and RuntimeGlobals.resourcesDirectories.append(path)
 
 _extendResourcesPaths()
 
@@ -116,7 +117,7 @@ from umbra.ui.widgets.delayed_QSplashScreen import Delayed_QSplashScreen
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2012 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -140,8 +141,8 @@ def _initializeLogging():
 	This definition initializes the Application logging.
 	"""
 
-	# Starting the console handler.
-	if not hasattr(sys, "frozen") or not (platform.system() == "Windows" or platform.system() == "Microsoft"):
+	# Starting the console handler if a terminal is available.
+	if sys.stdout.isatty() or platform.system() in ("Darwin", "Linux"):
 		RuntimeGlobals.loggingConsoleHandler = foundations.verbose.getLoggingConsoleHandler()
 
 	# Defining logging formatters.
@@ -176,7 +177,7 @@ def _initializeApplicationUiFile():
 
 _initializeApplicationUiFile()
 
-SESSION_HEADER_TEXT = ("{0} | Copyright ( C ) 2008 - 2012 Thomas Mansencal - thomas.mansencal@gmail.com".format(
+SESSION_HEADER_TEXT = ("{0} | Copyright ( C ) 2008 - 2013 Thomas Mansencal - thomas.mansencal@gmail.com".format(
 					Constants.applicationName),
 				"{0} | This software is released under terms of GNU GPL V3 license.".format(Constants.applicationName),
 				"{0} | http://www.gnu.org/licenses/ ".format(Constants.applicationName),
@@ -341,7 +342,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__timer.start(Constants.defaultTimerCycle)
 
 		# --- Initializing Application. ---
-		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage(
+		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.showMessage(
 		"{0} - {1} | Initializing interface.".format(self.__class__.__name__, Constants.releaseVersion),
 		waitTime=0.25)
 
@@ -383,7 +384,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.Application_Progress_Status_processing.hide()
 
 		# --- Initializing the Components Manager. ---
-		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage(
+		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.showMessage(
 		"{0} - {1} | Initializing Components manager.".format(self.__class__.__name__, Constants.releaseVersion),
 		waitTime=0.25)
 
@@ -410,7 +411,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		# Hiding splashscreen.
 		LOGGER.debug("> Hiding splashscreen.")
 		if RuntimeGlobals.splashscreen:
-			RuntimeGlobals.splashscreen.setMessage("{0} - {1} | Initialization done.".format(
+			RuntimeGlobals.splashscreen.showMessage("{0} - {1} | Initialization done.".format(
 			self.__class__.__name__, Constants.releaseVersion))
 			RuntimeGlobals.splashscreen.hide()
 
@@ -1265,7 +1266,7 @@ component, error)))
 				setattr(self, "_{0}__{1}".format(self.__class__.__name__, foundations.namespace.getLeaf(component, ".")),
 																											interface)
 
-				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage(
+				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.showMessage(
 				"{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component))
 				interface.activate(self)
 				if profile.category in ("Default", "QObject"):
@@ -1322,7 +1323,7 @@ component, error)))
 		:param profile: Component Profile. ( Profile )
 		"""
 
-		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.setMessage(
+		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.showMessage(
 		"{0} - {1} | Instantiating {2} Component.".format(self.__class__.__name__, Constants.releaseVersion, profile.name))
 
 	def __storeProcessingState(self):
@@ -1849,7 +1850,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 
 		RuntimeGlobals.splashscreenImage = QPixmap(umbra.ui.common.getResourcePath(UiConstants.splashScreenImage))
 		RuntimeGlobals.splashscreen = Delayed_QSplashScreen(RuntimeGlobals.splashscreenImage, textColor=Qt.white)
-		RuntimeGlobals.splashscreen.setMessage(
+		RuntimeGlobals.splashscreen.showMessage(
 		"{0} - {1} | Initializing {0}.".format(Constants.applicationName, Constants.releaseVersion))
 		RuntimeGlobals.splashscreen.show()
 

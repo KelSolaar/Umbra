@@ -33,7 +33,7 @@ import foundations.verbose
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2012 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -149,9 +149,9 @@ class Delayed_QSplashScreen(QSplashScreen):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	def setMessage(self, message, textAlignement=Qt.AlignLeft, textColor=None, waitTime=None):
+	def showMessage(self, message, textAlignement=Qt.AlignLeft, textColor=None, waitTime=None):
 		"""
-		This method initializes the class.
+		This method reimplements the :meth:`QSplashScreen.showMessage` method.
 
 		:param message: Message to display on the splashscreen. ( String )
 		:param textAlignement: Text message alignment. ( Object )
@@ -159,7 +159,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 		:param waitTime: Wait time. ( Integer )
 		"""
 
-		self.showMessage(message, textAlignement, self.__textColor if textColor is None else textColor)
+		QSplashScreen.showMessage(self, message, textAlignement, self.__textColor if textColor is None else textColor)
 
 		# Force QSplashscreen refresh.
 		QApplication.processEvents()
@@ -176,7 +176,7 @@ if __name__ == "__main__":
 
 	splashScreen = Delayed_QSplashScreen(QPixmap(umbra.ui.common.getResourcePath(UiConstants.splashScreenImage)))
 	splashScreen.show()
-	splashScreen.setMessage("This is a test message!", waitTime=1.5)
-	splashScreen.setMessage("This is another test message!", waitTime=1.5)
-	splashScreen.setMessage("This is a white test message!", textColor=Qt.white, waitTime=1.5)
-	splashScreen.setMessage("This is a left aligned message!", textAlignement=Qt.AlignRight, waitTime=1.5)
+	splashScreen.showMessage("This is a test message!", waitTime=1.5)
+	splashScreen.showMessage("This is another test message!", waitTime=1.5)
+	splashScreen.showMessage("This is a white test message!", textColor=Qt.white, waitTime=1.5)
+	splashScreen.showMessage("This is a left aligned message!", textAlignement=Qt.AlignRight, waitTime=1.5)

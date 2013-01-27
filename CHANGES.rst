@@ -1,10 +1,26 @@
-**Umbra** - 1.0.6 - Stable
+**Umbra** - 1.0.7 - Stable
 ==========================
 
 .. .changes
 
 Changes
 =======
+
+1.0.7 - Stable
+--------------
+
+| **Umbra** 1.0.7 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=8&state=closed
+| **Foundations** 2.0.7 - Stable - Milestone: https://github.com/KelSolaar/Foundations/issues?milestone=5&state=closed
+
+-  Improved symbols expanding behavior in **Script Editor** Component.
+-  Improved various dialog button sizes.
+-  Handled **gaierror** exception in **Tcp Client** Component.
+-  Fixed **Script Editor** Component **Save File As** action unexpected behavior.
+-  Fixed **Script Editor** Component **searchAndReplace** replace method.
+-  Fixed slowdown when switching editor in **Script Editor** Component.
+-  Fixed symbols matching in **Script Editor** Component.
+-  Fixed **socket** module related exceptions in **foundations.common.isInternetAvailable** definition.
+-  Handled non existing files and directories in **foundations.pkzip.Pkzip.extract** method.
 
 1.0.6 - Stable
 --------------
@@ -94,7 +110,7 @@ Changes
 About
 -----
 
-| **Umbra** by Thomas Mansencal – 2010 - 2012
-| Copyright© 2010 - 2012 – Thomas Mansencal – `thomas.mansencal@gmail.com <mailto:thomas.mansencal@gmail.com>`_
+| **Umbra** by Thomas Mansencal – 2010 - 2013
+| Copyright© 2010 - 2013 – Thomas Mansencal – `thomas.mansencal@gmail.com <mailto:thomas.mansencal@gmail.com>`_
 | This software is released under terms of GNU GPL V3 license: http://www.gnu.org/licenses/
 | `http://www.thomasmansencal.com/ <http://www.thomasmansencal.com/>`_

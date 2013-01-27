@@ -37,7 +37,7 @@ from manager.qwidgetComponent import QWidgetComponentFactory
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2012 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -81,7 +81,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__preferencesManager = None
 		self.__scriptEditor = None
 
-		self.__address = socket.gethostbyname(socket.gethostname())
+		self.__address = foundations.common.getHostAddress()
 		self.__port = 16384
 		self.__fileCommand = "execfile(\"{0}\")"
 		self.__connectionEnd = "<!RE>"

@@ -45,7 +45,7 @@ from umbra.ui.languages import Language
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2012 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -373,7 +373,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		"""
 
 		# TODO: This method should be refactored once this ticket is fixed:
-		# https://bugreports.qt-project.org/browse/PYSIDE-78 
+		# https://bugreports.qt-project.org/browse/PYSIDE-78
 		if not fromIndex >= 0 or \
 		not fromIndex < parent.childrenCount() or \
 		not toIndex >= 0 or \

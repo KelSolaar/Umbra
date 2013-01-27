@@ -48,7 +48,7 @@ from umbra.globals.uiConstants import UiConstants
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2012 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -66,7 +66,8 @@ __all__ = ["LOGGER",
 		"parentsWalker",
 		"signalsBlocker",
 		"showWaitCursor",
-		"setToolBoxHeight"]
+		"setToolBoxHeight",
+		"setChildrenPadding"]
 
 LOGGER = foundations.verbose.installLogger()
 
@@ -151,7 +152,8 @@ def getResourcePath(name, raiseException=False):
 	"""
 
 	if not RuntimeGlobals.resourcesDirectories:
-		RuntimeGlobals.resourcesDirectories.append(os.path.join(umbra.__path__[0], Constants.resourcesDirectory))
+		RuntimeGlobals.resourcesDirectories.append(
+		os.path.normpath(os.path.join(umbra.__path__[0], Constants.resourcesDirectory)))
 
 	for path in RuntimeGlobals.resourcesDirectories:
 		path = os.path.join(path, name)
@@ -299,7 +301,25 @@ def setToolBoxHeight(toolBox, height=32):
 	:return: Definition success. ( Boolean )
 	"""
 
-	for button in toolBox.children():
-		if isinstance(button, QAbstractButton):
-			button.setMinimumHeight(32)
+	for button in toolBox.findChildren(QAbstractButton):
+		button.setMinimumHeight(height)
+	return True
+
+def setChildrenPadding(widget, types, height=None, width=None):
+	"""
+	This definition sets given Widget children padding.
+
+	:param widget: Widget to sets the children padding. ( QWidget )
+	:param types: Children types. ( Tuple / List )
+	:param height: Height padding. ( Integer )
+	:param width: Width padding. ( Integer )
+	:return: Definition success. ( Boolean )
+	"""
+
+	for type in types:
+		for child in widget.findChildren(type):
+			child.setStyleSheet("{0}{{height: {1}px; width: {2}px;}}".format(
+									type.__name__,
+									child.fontMetrics().height() + (height if height is not None else 0) * 2,
+									child.fontMetrics().width(child.text()) + (width if width is not None else 0) * 2))
 	return True
