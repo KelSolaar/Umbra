@@ -63,7 +63,7 @@ class ConstantsTestCase(unittest.TestCase):
 								"verbosityLabels",
 								"loggingDefaultFormatter",
 								"loggingSeparators",
-								"encodingFormat",
+								"encodingCodec",
 								"encodingError",
 								"applicationDirectory",
 								"providerDirectory",
@@ -160,16 +160,16 @@ class ConstantsTestCase(unittest.TestCase):
 
 		self.assertIsInstance(Constants.loggingSeparators, str)
 
-	def testEncodingFormatAttribute(self):
+	def testencodingCodecAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.encodingFormat` attribute.
+		This method tests :attr:`umbra.globals.constants.Constants.encodingCodec` attribute.
 		"""
 
 		validEncodings = ("ascii",
 						"utf-8",
 						"cp1252")
 
-		self.assertIn(Constants.encodingFormat, validEncodings)
+		self.assertIn(Constants.encodingCodec, validEncodings)
 
 	def testEncodingErrorAttribute(self):
 		"""
