@@ -15,6 +15,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import os
@@ -767,7 +772,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		else:
 			content.append(self.__componentsInformationsDefaultText)
 
-		separator = str() if len(content) == 1 else "<p><center>* * *<center/></p>"
+		separator = "" if len(content) == 1 else "<p><center>* * *<center/></p>"
 		self.Components_Informations_textBrowser.setText(separator.join(content))
 
 	def __storeDeactivatedComponents(self):

@@ -18,6 +18,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import re
@@ -530,7 +535,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 			"indentMarker", value)
 			assert re.search(r"\s", value), "'{0}' attribute: '{1}' is not a whitespace character!".format(
 			"indentMarker", value)
@@ -599,7 +604,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 			"commentMarker", value)
 		self.__commentMarker = value
 

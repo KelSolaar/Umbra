@@ -16,6 +16,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import os
@@ -203,7 +208,7 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("path", value)
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format("path", value)
 		self.__path = value
 
 	@path.deleter
@@ -291,7 +296,7 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("path", value)
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format("path", value)
 			assert os.path.exists(value), "'{0}' attribute: '{1}' path doesn't exists!".format("source", value)
 		self.__path = value
 
@@ -380,7 +385,7 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("path", value)
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format("path", value)
 			assert os.path.exists(value), "'{0}' attribute: '{1}' path doesn't exists!".format("source", value)
 		self.__path = value
 

@@ -15,6 +15,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import pickle
@@ -298,7 +303,7 @@ class GraphModel(QAbstractItemModel):
 		if index.column() == 0:
 			if hasattr(node, "roles"):
 				if role == Qt.DecorationRole:
-					return QIcon(node.roles.get(role, unicode()))
+					return QIcon(node.roles.get(role, ""))
 				else:
 					return node.roles.get(role, QVariant())
 		else:
@@ -306,7 +311,7 @@ class GraphModel(QAbstractItemModel):
 			if attribute:
 				if hasattr(attribute, "roles"):
 					if role == Qt.DecorationRole:
-						return QIcon(attribute.roles.get(role, unicode()))
+						return QIcon(attribute.roles.get(role, ""))
 					else:
 						return attribute.roles.get(role, QVariant())
 		return QVariant()

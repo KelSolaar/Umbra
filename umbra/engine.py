@@ -17,6 +17,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import collections
@@ -191,7 +196,7 @@ SESSION_FOOTER_TEXT = ("{0} | Closing interface! ".format(Constants.applicationN
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-def showProcessing(message=unicode()):
+def showProcessing(message=""):
 	"""
 	This decorator is used for a processing operation.
 	
@@ -588,7 +593,7 @@ component, error)))
 			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
 			"visibleComponents", value)
 			for element in value:
-				assert type(element) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+				assert type(element) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 				"visibleComponents", element)
 		self.__visibleComponents = value
 

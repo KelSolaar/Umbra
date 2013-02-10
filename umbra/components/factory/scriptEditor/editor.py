@@ -15,6 +15,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import os
@@ -159,7 +164,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("file", value)
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format("file", value)
 		self.__file = value
 
 	@file.deleter
@@ -460,7 +465,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 
 		if not self.__file:
-			return str()
+			return ""
 
 		return os.path.basename(self.__file)
 
