@@ -359,10 +359,10 @@ class LinesNumbers_QWidget(QWidget):
 				continue
 
 			block == currentBlock and __setBold(True) or __setBold(False)
-			painter.drawText(self.width() - metrics.width(foundations.strings.encode(blockNumber)) - self.__margin / 3,
+			painter.drawText(self.width() - metrics.width(foundations.strings.toUnicode(blockNumber)) - self.__margin / 3,
 							round(position.y() + metrics.ascent() + metrics.descent() - \
 							(self.__editor.blockBoundingRect(block).height() * 8.0 / 100)),
-							foundations.strings.encode(blockNumber))
+							foundations.strings.toUnicode(blockNumber))
 			block = block.next()
 
 		painter.end()
@@ -376,7 +376,7 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 
 		return self.__margin + \
-		self.__editor.fontMetrics().width(foundations.strings.encode(max(1, self.__editor.blockCount())))
+		self.__editor.fontMetrics().width(foundations.strings.toUnicode(max(1, self.__editor.blockCount())))
 
 	def setEditorViewportMargins(self, newBlocksCount):
 		"""
@@ -1089,7 +1089,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		cursor = self.textCursor()
 		if not cursor.hasSelection():
 			cursor.movePosition(QTextCursor.StartOfBlock)
-			line = foundations.strings.encode(self.document().findBlockByNumber(cursor.blockNumber()).text())
+			line = foundations.strings.toUnicode(self.document().findBlockByNumber(cursor.blockNumber()).text())
 			indentMarker = re.match(r"({0})".format(self.__indentMarker), line)
 			if indentMarker:
 				foundations.common.repeat(cursor.deleteChar, len(indentMarker.group(1)))
@@ -1120,7 +1120,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		cursor = self.textCursor()
 		if not cursor.hasSelection():
 			cursor.movePosition(QTextCursor.StartOfBlock)
-			line = foundations.strings.encode(self.document().findBlockByNumber(cursor.blockNumber()).text())
+			line = foundations.strings.toUnicode(self.document().findBlockByNumber(cursor.blockNumber()).text())
 			if line.startswith(self.__commentMarker):
 				foundations.common.repeat(cursor.deleteChar, len(self.__commentMarker))
 			else:
@@ -1131,7 +1131,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 				blockCursor = self.textCursor()
 				blockCursor.setPosition(block.position())
 
-				if foundations.strings.encode(block.text()).startswith(self.__commentMarker):
+				if foundations.strings.toUnicode(block.text()).startswith(self.__commentMarker):
 					foundations.common.repeat(blockCursor.deleteChar, len(self.__commentMarker))
 				else:
 					blockCursor.insertText(self.__commentMarker)
@@ -1158,7 +1158,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 			if re.search(r"\s+$", block.text()):
 				cursor.movePosition(QTextCursor.EndOfBlock)
 				cursor.movePosition(QTextCursor.StartOfBlock, QTextCursor.KeepAnchor)
-				cursor.insertText(foundations.strings.encode(block.text()).rstrip())
+				cursor.insertText(foundations.strings.toUnicode(block.text()).rstrip())
 			block = block.next()
 		cursor.movePosition(QTextCursor.End, QTextCursor.MoveAnchor)
 		if not cursor.block().text().isEmpty():
@@ -1236,7 +1236,7 @@ if __name__ == "__main__":
 	gridLayout.addWidget(lineEdit)
 
 	def _pushButton__clicked(*args):
-		statement = str(lineEdit.text())
+		statement = unicode(lineEdit.text())
 		exec(statement)
 
 	pushButton = QPushButton("Execute Statement")

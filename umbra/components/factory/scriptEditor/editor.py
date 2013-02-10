@@ -581,7 +581,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		if not file:
 			return False
 
-		return self.writeFile(foundations.strings.encode(file))
+		return self.writeFile(foundations.strings.toUnicode(file))
 
 	def writeFile(self, file):
 		"""

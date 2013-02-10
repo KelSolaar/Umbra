@@ -1050,7 +1050,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		elif node.family == "FileNode":
 			directory = os.path.dirname(node.path)
 
-		file = foundations.strings.encode(file)
+		file = foundations.strings.toUnicode(file)
 		if not file in os.listdir(directory):
 			file = os.path.join(directory, file)
 			LOGGER.info("{0} | Adding '{1}' file!".format(self.__class__.__name__, file))
@@ -1079,7 +1079,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		elif node.family == "FileNode":
 			parentDirectory = os.path.dirname(node.path)
 
-		directory = foundations.strings.encode(directory)
+		directory = foundations.strings.toUnicode(directory)
 		if not directory in os.listdir(parentDirectory):
 			directory = os.path.join(parentDirectory, directory)
 			LOGGER.info("{0} | Adding '{1}' directory!".format(self.__class__.__name__, directory))
@@ -1101,7 +1101,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not state:
 			return False
 
-		baseName = foundations.strings.encode(baseName)
+		baseName = foundations.strings.toUnicode(baseName)
 		if baseName == os.path.basename(source):
 			return False
 

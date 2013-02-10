@@ -647,7 +647,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor:
 			return False
 
-		selectedText = foundations.strings.encode(editor.getSelectedText().replace(QChar(QChar.ParagraphSeparator),
+		selectedText = foundations.strings.toUnicode(editor.getSelectedText().replace(QChar(QChar.ParagraphSeparator),
 																			QString("\n")))
 		if not selectedText:
 			return False
@@ -667,7 +667,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return False
 
 		if self.__scriptEditor.saveFile():
-			return self.sendDataToServer(foundations.strings.encode(self.__fileCommand).format(editor.file))
+			return self.sendDataToServer(foundations.strings.toUnicode(self.__fileCommand).format(editor.file))
 
 	def sendDataToServer(self, data, timeOut=5):
 		"""
@@ -679,11 +679,11 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if not data.endswith(self.__connectionEnd):
-			data = "{0}{1}".format(data, foundations.strings.encode(self.__connectionEnd).decode("string_escape"))
+			data = "{0}{1}".format(data, foundations.strings.toUnicode(self.__connectionEnd).decode("string_escape"))
 
 		connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		connection.settimeout(timeOut)
-		connection.connect((foundations.strings.encode(self.__address), int(self.__port)))
+		connection.connect((foundations.strings.toUnicode(self.__address), int(self.__port)))
 		connection.send(data)
 		self.__engine.notificationsManager.notify(
 		"{0} | Socket connection command dispatched!".format(self.__class__.__name__))

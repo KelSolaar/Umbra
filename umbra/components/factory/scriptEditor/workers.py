@@ -203,8 +203,8 @@ class Search_worker(QThread):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode, QString), \
-			"'{0}' attribute: '{1}' type is not 'str', 'unicode' or 'QString'!".format("pattern", value)
+			assert type(value) in (unicode, QString), \
+			"'{0}' attribute: '{1}' type is not 'unicode' or 'QString'!".format("pattern", value)
 		self.__pattern = value
 
 	@pattern.deleter

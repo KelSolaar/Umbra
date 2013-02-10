@@ -159,8 +159,8 @@ class Mixin_AbstractBase(object):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode, QString), \
-			"'{0}' attribute: '{1}' type is not 'str', 'unicode' or 'QString'!".format("message", value)
+			assert type(value) in (unicode, QString), \
+			"'{0}' attribute: '{1}' type is not 'unicode' or 'QString'!".format("message", value)
 		self.__message = value
 
 	@message.deleter

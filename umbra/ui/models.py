@@ -331,7 +331,7 @@ class GraphModel(QAbstractItemModel):
 
 		node = self.getNode(index)
 		if role == Qt.DisplayRole or role == Qt.EditRole:
-			value = foundations.strings.encode(value.toString())
+			value = foundations.strings.toUnicode(value.toString())
 			roles = {Qt.DisplayRole : value, Qt.EditRole : value}
 		else:
 			roles = {role : value}

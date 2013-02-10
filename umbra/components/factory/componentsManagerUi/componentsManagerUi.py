@@ -83,21 +83,21 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	model Nodes nodes needs to be refreshed. ( pyqtSignal )
 	"""
 
-	activatedComponent = pyqtSignal(str)
+	activatedComponent = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`ComponentsManagerUi` class when a Component is activated. ( pyqtSignal )
 
 	:return: Activated Component name. ( String )	
 	"""
 
-	deactivatedComponent = pyqtSignal(str)
+	deactivatedComponent = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`ComponentsManagerUi` class when a Component is deactivated. ( pyqtSignal )
 
 	:return: Deactivated Component name. ( String )	
 	"""
 
-	reloadedComponent = pyqtSignal(str)
+	reloadedComponent = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`ComponentsManagerUi` class when a Component is reloaded. ( pyqtSignal )
 
@@ -1072,7 +1072,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 										attributesFlags=attributesFlags,
 										activated=umbra.ui.nodes.GraphModelAttribute(name="activated",
 										flags=attributesFlags,
-										roles={Qt.DisplayRole: foundations.strings.encode(component.interface.activated),
+										roles={Qt.DisplayRole: foundations.strings.toUnicode(component.interface.activated),
 										Qt.DecorationRole:os.path.join(self.__uiResourcesDirectory,
 																component.interface.activated and \
 																self.__uiActivatedImage or self.__uiDeactivatedImage)}))

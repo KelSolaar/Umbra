@@ -72,14 +72,14 @@ class LayoutsManager(QObject):
 	This class defines the Application layouts manager. 
 	"""
 
-	layoutRestored = pyqtSignal(str)
+	layoutRestored = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`LayoutsManager` class when the current layout has been restored. ( pyqtSignal )
 
 	:return: Current layout. ( String )	
 	"""
 
-	layoutStored = pyqtSignal(str)
+	layoutStored = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`LayoutsManager` class when the current layout has been stored. ( pyqtSignal )
 

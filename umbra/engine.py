@@ -1829,7 +1829,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 
 	LOGGER.debug("> Retrieving stored logging formatter.")
 	loggingFormatter = RuntimeGlobals.parameters.loggingFormater and RuntimeGlobals.parameters.loggingFormater or \
-	foundations.strings.encode(RuntimeGlobals.settings.getKey("Settings", "loggingFormatter").toString())
+	foundations.strings.toUnicode(RuntimeGlobals.settings.getKey("Settings", "loggingFormatter").toString())
 	loggingFormatter = loggingFormatter in RuntimeGlobals.loggingFormatters and loggingFormatter or None
 	RuntimeGlobals.loggingActiveFormatter = loggingFormatter and loggingFormatter or Constants.loggingDefaultFormatter
 	LOGGER.debug("> Setting logging formatter: '{0}'.".format(RuntimeGlobals.loggingActiveFormatter))

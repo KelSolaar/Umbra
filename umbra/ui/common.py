@@ -207,10 +207,10 @@ def storeLastBrowsedPath(data):
 	"""
 
 	if type(data) in (tuple, list, QStringList):
-		data = [foundations.strings.encode(path) for path in data]
+		data = [foundations.strings.toUnicode(path) for path in data]
 		lastBrowsedPath = foundations.common.getFirstItem(data)
-	elif type(data) in (str, unicode, QString):
-		data = lastBrowsedPath = foundations.strings.encode(data)
+	elif type(data) in (unicode, QString):
+		data = lastBrowsedPath = foundations.strings.toUnicode(data)
 	else:
 		raise TypeError("{0} | '{1}' type is not supported!".format(__name__, type(data)))
 
@@ -235,7 +235,7 @@ def getQVariantAsString(data):
 		data = data.toString()
 
 	data = QString(data)
-	return foundations.strings.encode(data)
+	return foundations.strings.toUnicode(data)
 
 def parentsWalker(object):
 	"""
