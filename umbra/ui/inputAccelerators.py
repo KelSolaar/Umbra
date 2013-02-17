@@ -87,7 +87,7 @@ def isSymbolsPairComplete(editor, symbol):
 	cursor = editor.textCursor()
 	cursor.movePosition(QTextCursor.StartOfLine, QTextCursor.MoveAnchor)
 	cursor.movePosition(QTextCursor.EndOfLine, QTextCursor.KeepAnchor)
-	selectedText = foundations.strings.toUnicode(cursor.selectedText())
+	selectedText = foundations.strings.toString(cursor.selectedText())
 	if symbol == symbolsPairs[symbol]:
 		return selectedText.count(symbol) % 2 == 0
 	else:
@@ -160,7 +160,7 @@ def indentationPostEventInputAccelerators(editor, event):
 		cursor = editor.textCursor()
 		block = cursor.block().previous()
 		if block.isValid():
-			indent = match = re.match(r"(\s*)", foundations.strings.toUnicode(block.text())).group(1)
+			indent = match = re.match(r"(\s*)", foundations.strings.toString(block.text())).group(1)
 			cursor.insertText(indent)
 
 			indentationSymbols = getEditorCapability(editor, "indentationSymbols")
@@ -170,7 +170,7 @@ def indentationPostEventInputAccelerators(editor, event):
 			if not block.text():
 				return True
 
-			if not foundations.strings.toUnicode(block.text())[-1] in indentationSymbols:
+			if not foundations.strings.toString(block.text())[-1] in indentationSymbols:
 				return True
 
 			symbolsPairs = getEditorCapability(editor, "symbolsPairs")
@@ -183,7 +183,7 @@ def indentationPostEventInputAccelerators(editor, event):
 			cursor.movePosition(QTextCursor.PreviousBlock, QTextCursor.MoveAnchor)
 			cursor.movePosition(QTextCursor.EndOfLine, QTextCursor.MoveAnchor)
 			cursor.movePosition(QTextCursor.PreviousCharacter, QTextCursor.KeepAnchor)
-			previousCharacter = foundations.strings.toUnicode(cursor.selectedText())
+			previousCharacter = foundations.strings.toString(cursor.selectedText())
 			cursor.setPosition(position)
 			nextCharacter = editor.getNextCharacter()
 			if previousCharacter in symbolsPairs:
@@ -252,7 +252,7 @@ def symbolsExpandingPreEventInputAccelerators(editor, event):
 	if not symbolsPairs:
 		return processEvent
 
-	text = foundations.strings.toUnicode(event.text())
+	text = foundations.strings.toString(event.text())
 	if text in symbolsPairs:
 		cursor = editor.textCursor()
 		if not isSymbolsPairComplete(editor, text):
@@ -263,7 +263,7 @@ def symbolsExpandingPreEventInputAccelerators(editor, event):
 				# TODO: Provide an efficient code alternative.
 				# position = cursor.position()
 				# cursor.movePosition(QTextCursor.EndOfLine, QTextCursor.KeepAnchor)
-				# selectedText = foundations.strings.toUnicode(cursor.selectedText())
+				# selectedText = foundations.strings.toString(cursor.selectedText())
 				# cursor.setPosition(position)
 				# if not selectedText.strip():
 				cursor.insertText(symbolsPairs[text])
@@ -283,6 +283,6 @@ def symbolsExpandingPreEventInputAccelerators(editor, event):
 		foundations.common.repeat(lambda: cursor.movePosition(QTextCursor.Right, QTextCursor.KeepAnchor), 2)
 		rightText = cursor.selectedText()
 
-		if symbolsPairs.get(foundations.strings.toUnicode(leftText)) == foundations.strings.toUnicode(rightText):
+		if symbolsPairs.get(foundations.strings.toString(leftText)) == foundations.strings.toString(rightText):
 			cursor.deleteChar()
 	return processEvent

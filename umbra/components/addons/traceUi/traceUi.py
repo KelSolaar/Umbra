@@ -498,7 +498,7 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		pattern = foundations.strings.toUnicode(self.Trace_Modules_Filter_lineEdit.text()) or r".*"
+		pattern = foundations.strings.toString(self.Trace_Modules_Filter_lineEdit.text()) or r".*"
 		flags = re.IGNORECASE if self.Case_Sensitive_Matching_pushButton.isChecked() else 0
 		return self.traceModules(self.getSelectedModules(), pattern, flags)
 

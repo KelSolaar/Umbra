@@ -131,10 +131,10 @@ def highlightMatchingSymbolsPairs(editor):
 
 		cursor = editor.textCursor()
 		if cursor.hasSelection():
-			text = foundations.strings.toUnicode(cursor.selectedText())
+			text = foundations.strings.toString(cursor.selectedText())
 		else:
 			cursor.movePosition(QTextCursor.PreviousCharacter, QTextCursor.KeepAnchor)
-			text = foundations.strings.toUnicode(cursor.selectedText())
+			text = foundations.strings.toString(cursor.selectedText())
 
 		startSelection.cursor = cursor
 

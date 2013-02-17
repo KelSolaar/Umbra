@@ -226,7 +226,8 @@ class Preferences(object):
 		:param value: Current key value to save. ( Object )
 		"""
 
-		LOGGER.debug("> Saving '{0}' in '{1}' section with value: '{2}' in settings file.".format(key, section, value))
+		LOGGER.debug("> Saving '{0}' in '{1}' section with value: '{2}' in settings file.".format(
+		key, section, foundations.strings.toString(value)))
 
 		self.__settings.beginGroup(section)
 		self.__settings.setValue(key , QVariant(value))

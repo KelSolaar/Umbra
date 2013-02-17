@@ -148,4 +148,4 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 		"""
 
 		self.traced.value = foundations.trace.isTraced(self.__module)
-		self.traced.roles[Qt.DisplayRole] = foundations.strings.toUnicode(self.traced.value).title()
+		self.traced.roles[Qt.DisplayRole] = foundations.strings.toString(self.traced.value).title()

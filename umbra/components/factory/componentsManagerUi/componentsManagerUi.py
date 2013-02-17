@@ -1072,7 +1072,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 										attributesFlags=attributesFlags,
 										activated=umbra.ui.nodes.GraphModelAttribute(name="activated",
 										flags=attributesFlags,
-										roles={Qt.DisplayRole: foundations.strings.toUnicode(component.interface.activated),
+										roles={Qt.DisplayRole: foundations.strings.toString(component.interface.activated),
 										Qt.DecorationRole:os.path.join(self.__uiResourcesDirectory,
 																component.interface.activated and \
 																self.__uiActivatedImage or self.__uiDeactivatedImage)}))

@@ -498,7 +498,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 
 		cls, instance, trcback = foundations.exceptions.extractException(*args)
 
-		LOGGER.info("{0} | Handling '{1}' exception!".format(self.__class__.__name__, foundations.strings.toUnicode(cls)))
+		LOGGER.info("{0} | Handling '{1}' exception!".format(self.__class__.__name__, foundations.strings.toString(cls)))
 
 		self.__initializeContextUi()
 
@@ -533,7 +533,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		html = []
 		html.append(
 		"<div class=\"header\"><span class=\"floatRight textAlignRight\"><h4>{0}<br/>{1}</h4></span><h2>{2}</h2></div>".format(
-		python, date, escape(foundations.strings.toUnicode(cls))))
+		python, date, escape(foundations.strings.toString(cls))))
 
 		html.append("<div class=\"traceback\">")
 		for line in foundations.exceptions.formatException(cls, instance, trcback):
@@ -613,7 +613,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		stack = foundations.exceptions.extractStack(foundations.exceptions.getInnerMostFrame(trcback), verbose)
 
 		text = []
-		text.append(foundations.strings.toUnicode(cls))
+		text.append(foundations.strings.toString(cls))
 		text.append("")
 
 		for line in foundations.exceptions.formatException(cls, instance, trcback):

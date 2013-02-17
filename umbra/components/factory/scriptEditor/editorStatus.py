@@ -184,7 +184,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		if not self.__container.hasEditorTab():
 			return
 
-		language = self.__container.languagesModel.getLanguage(foundations.strings.toUnicode(
+		language = self.__container.languagesModel.getLanguage(foundations.strings.toString(
 		self.Languages_comboBox.currentText()))
 		if not language:
 			return
