@@ -475,7 +475,7 @@ var Crittercism = (function() {
 			appVersion 	= options['appVersion']		|| 'unspecified';
 			
 			// Debugging hook for overriding where we get the iframe.
-			iframeSrc		= options['_iframeSrc']  	|| 'http://api.crittercism.com/html5-static/html/iframe.html';
+			iframeSrc		= options['_iframeSrc']  	|| 'https://api.crittercism.com/html5-static/html/iframe.html';
 			
 			injectIframe();
 			if(appLoadSent == false && isNewSession()) {
