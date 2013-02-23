@@ -674,7 +674,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 			title = re.escape("".join(map(lambda x: x.strip(), traceback.format_exception_only(cls, instance))))
 			file = trcback.tb_frame.f_code.co_filename
 			lineNumber = trcback.tb_lineno
-			stack = repr(self.formatTextException(cls, instance, trcback))
+			stack = repr(map(str, self.formatTextException(cls, instance, trcback)))
 
 			javascript = "Crittercism.logExternalException(\"{0}\", \"{1}\", {2}, {3});".format(
 			title, file, lineNumber, stack)
