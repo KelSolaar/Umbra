@@ -133,4 +133,4 @@ class UiConstants():
 	"""Invalid link html file: '**htmls/Invalid_Link.html**' ( String )"""
 
 	crittercismId = "5075c158d5f9b9796b000002"
-	"""Crittercism Id: '**50aa8aa263d952524b000005**' ( String )"""
+	"""Crittercism Id: '**51290b63421c983d17000490**' ( String )"""
