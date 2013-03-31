@@ -1349,7 +1349,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 				if cacheData.document:
 					fileHandle = File(file)
-					fileHandle.content = [cacheData.document.toPlainText()]
+					fileHandle.content = [cacheData.document.toPlainText().toUtf8()]
 					if fileHandle.write():
 						metrics["Cached"] += 1
 						self.__uncache(file)

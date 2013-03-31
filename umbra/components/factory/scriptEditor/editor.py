@@ -593,7 +593,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		LOGGER.debug("> Writing '{0}' file.".format(file))
 		writer = foundations.io.File(file)
-		writer.content = [self.toPlainText()]
+		writer.content = [self.toPlainText().toUtf8()]
 		if writer.write():
 			self.setFile(file)
 

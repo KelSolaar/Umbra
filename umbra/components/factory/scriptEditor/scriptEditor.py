@@ -3391,7 +3391,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return False
 
 		LOGGER.debug("> Evaluating 'Script Editor' content.")
-		if self.evaluateCode(foundations.strings.toString(editor.toPlainText())):
+		if self.evaluateCode(foundations.strings.toString(editor.toPlainText().toUtf8())):
 			self.uiRefresh.emit()
 			return True
 
@@ -3417,7 +3417,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				break
 		code = "\n".join(code)
 
-		sys.stdout.write(code)
+		# sys.stdout.write(code)
 		self.__console.runcode(code)
 		return True
 
