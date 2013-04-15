@@ -3417,7 +3417,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				break
 		code = "\n".join(code)
 
-		# sys.stdout.write(code)
+		sys.stdout.write(code)
 		self.__console.runcode(code)
 		return True
 
