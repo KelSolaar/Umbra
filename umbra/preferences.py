@@ -250,6 +250,22 @@ class Preferences(object):
 
 		return value
 
+	def keyExists(self, section, key):
+		"""
+		This method checks if given key exists.
+
+		:param section: Current section to check key in. ( String )
+		:param key: Current key to check. ( String )
+		:return: Key existence. ( Boolean )
+		"""
+
+		LOGGER.debug("> Checking '{0}' key existence in '{1}' section.".format(key, section))
+
+		self.__settings.beginGroup(section)
+		exists = self.__settings.contains(key)
+		self.__settings.endGroup()
+		return exists
+
 	def __getDefaultSettings(self):
 		"""
 		This method gets the default settings.
