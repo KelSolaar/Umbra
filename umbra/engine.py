@@ -17,6 +17,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import collections
@@ -191,7 +196,7 @@ SESSION_FOOTER_TEXT = ("{0} | Closing interface! ".format(Constants.applicationN
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-def showProcessing(message=unicode()):
+def showProcessing(message=""):
 	"""
 	This decorator is used for a processing operation.
 	
@@ -588,7 +593,7 @@ component, error)))
 			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
 			"visibleComponents", value)
 			for element in value:
-				assert type(element) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+				assert type(element) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 				"visibleComponents", element)
 		self.__visibleComponents = value
 
@@ -1824,7 +1829,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 
 	LOGGER.debug("> Retrieving stored logging formatter.")
 	loggingFormatter = RuntimeGlobals.parameters.loggingFormater and RuntimeGlobals.parameters.loggingFormater or \
-	foundations.strings.encode(RuntimeGlobals.settings.getKey("Settings", "loggingFormatter").toString())
+	foundations.strings.toString(RuntimeGlobals.settings.getKey("Settings", "loggingFormatter").toString())
 	loggingFormatter = loggingFormatter in RuntimeGlobals.loggingFormatters and loggingFormatter or None
 	RuntimeGlobals.loggingActiveFormatter = loggingFormatter and loggingFormatter or Constants.loggingDefaultFormatter
 	LOGGER.debug("> Setting logging formatter: '{0}'.".format(RuntimeGlobals.loggingActiveFormatter))

@@ -15,14 +15,15 @@
 """
 
 #**********************************************************************************************************************
-#***	External imports.
+#***	Future imports.
 #**********************************************************************************************************************
-import os
-import sys
+from __future__ import unicode_literals
 
 #**********************************************************************************************************************
 #***	Encoding manipulations.
 #**********************************************************************************************************************
+import sys
+
 def _setEncoding():
 	"""
 	This definition sets the Application encoding.
@@ -32,6 +33,11 @@ def _setEncoding():
 	sys.setdefaultencoding("utf-8")
 
 _setEncoding()
+
+#**********************************************************************************************************************
+#***	External imports.
+#**********************************************************************************************************************
+import os
 
 #**********************************************************************************************************************
 #***	Path manipulations.
@@ -79,7 +85,8 @@ def main():
 				os.path.join(umbra.__path__[0], Constants.factoryAddonsComponentsDirectory)):
 		os.path.exists(path) and componentsPaths.append(path)
 	return umbra.engine.run(umbra.engine.Umbra,
-							umbra.engine.getCommandLineParametersParser().parse_args(sys.argv),
+							umbra.engine.getCommandLineParametersParser().parse_args(
+							[unicode(argument, Constants.encodingCodec) for argument in sys.argv]),
 							componentsPaths,
 							("factory.scriptEditor", "factory.preferencesManager", "factory.componentsManagerUi"))
 

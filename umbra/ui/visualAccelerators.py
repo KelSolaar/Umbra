@@ -14,6 +14,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 from PyQt4.QtGui import QTextCursor
@@ -126,10 +131,10 @@ def highlightMatchingSymbolsPairs(editor):
 
 		cursor = editor.textCursor()
 		if cursor.hasSelection():
-			text = foundations.strings.encode(cursor.selectedText())
+			text = foundations.strings.toString(cursor.selectedText())
 		else:
 			cursor.movePosition(QTextCursor.PreviousCharacter, QTextCursor.KeepAnchor)
-			text = foundations.strings.encode(cursor.selectedText())
+			text = foundations.strings.toString(cursor.selectedText())
 
 		startSelection.cursor = cursor
 

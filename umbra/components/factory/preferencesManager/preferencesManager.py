@@ -15,6 +15,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import os
@@ -294,7 +299,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param index: ComboBox activated item index. ( Integer )
 		"""
 
-		formatter = foundations.strings.encode(self.Logging_Formatters_comboBox.currentText())
+		formatter = foundations.strings.toString(self.Logging_Formatters_comboBox.currentText())
 		LOGGER.debug("> Setting logging formatter: '{0}'.".format(formatter))
 		RuntimeGlobals.loggingActiveFormatter = formatter
 		self.setLoggingFormatter()

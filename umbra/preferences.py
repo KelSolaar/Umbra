@@ -17,6 +17,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import os
@@ -99,7 +104,7 @@ class Preferences(object):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 			"file", value)
 		self.__file = value
 
@@ -221,7 +226,8 @@ class Preferences(object):
 		:param value: Current key value to save. ( Object )
 		"""
 
-		LOGGER.debug("> Saving '{0}' in '{1}' section with value: '{2}' in settings file.".format(key, section, value))
+		LOGGER.debug("> Saving '{0}' in '{1}' section with value: '{2}' in settings file.".format(
+		key, section, foundations.strings.toString(value)))
 
 		self.__settings.beginGroup(section)
 		self.__settings.setValue(key , QVariant(value))

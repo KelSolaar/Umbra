@@ -16,6 +16,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 from PyQt4.QtCore import Qt
@@ -143,4 +148,4 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 		"""
 
 		self.traced.value = foundations.trace.isTraced(self.__module)
-		self.traced.roles[Qt.DisplayRole] = foundations.strings.encode(self.traced.value).title()
+		self.traced.roles[Qt.DisplayRole] = foundations.strings.toString(self.traced.value).title()

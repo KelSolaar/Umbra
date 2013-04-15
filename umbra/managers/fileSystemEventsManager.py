@@ -15,6 +15,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import os
@@ -54,28 +59,28 @@ class FileSystemEventsManager(QThread):
 	"""
 
 	# Custom signals definitions.
-	fileChanged = pyqtSignal(str)
+	fileChanged = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`FileSystemEventsManager` class when a file is changed. ( pyqtSignal )
 
 	:return: Current changed file. ( String )	
 	"""
 
-	fileInvalidated = pyqtSignal(str)
+	fileInvalidated = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`FileSystemEventsManager` class when a file is invalidated. ( pyqtSignal )
 
 	:return: Current invalidated file. ( String )	
 	"""
 
-	directoryChanged = pyqtSignal(str)
+	directoryChanged = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`FileSystemEventsManager` class when a directory is changed. ( pyqtSignal )
 
 	:return: Current changed directory. ( String )	
 	"""
 
-	directoryInvalidated = pyqtSignal(str)
+	directoryInvalidated = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`FileSystemEventsManager` class when a directory is invalidated. ( pyqtSignal )
 

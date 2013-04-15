@@ -15,6 +15,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import os
@@ -161,11 +166,11 @@ def getLanguageDescription(grammarfile):
 	indentMarker = sectionsParser.sectionExists("Syntax") and sectionsParser.getValue("IndentMarker", "Syntax") or \
 					DEFAULT_INDENT_MARKER
 	commentMarker = sectionsParser.sectionExists("Syntax") and \
-					sectionsParser.getValue("CommentMarker", "Syntax") or unicode()
+					sectionsParser.getValue("CommentMarker", "Syntax") or ""
 	commentBlockMarkerStart = sectionsParser.sectionExists("Syntax") and \
-							sectionsParser.getValue("CommentBlockMarkerStart", "Syntax") or unicode()
+							sectionsParser.getValue("CommentBlockMarkerStart", "Syntax") or ""
 	commentBlockMarkerEnd = sectionsParser.sectionExists("Syntax") and \
-							sectionsParser.getValue("CommentBlockMarkerEnd", "Syntax") or unicode()
+							sectionsParser.getValue("CommentBlockMarkerEnd", "Syntax") or ""
 	symbolsPairs = sectionsParser.sectionExists("Syntax") and \
 							sectionsParser.getValue("SymbolsPairs", "Syntax") or {}
 

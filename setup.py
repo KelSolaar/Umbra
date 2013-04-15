@@ -21,7 +21,7 @@ def getLongDescription():
 				continue
 
 			description.append(line)
-	return str().join(description)
+	return "".join(description)
 
 setup(name=umbra.globals.constants.Constants.applicationName,
 	version=umbra.globals.constants.Constants.releaseVersion,

@@ -16,6 +16,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import itertools
@@ -198,8 +203,8 @@ class Search_worker(QThread):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode, QString), \
-			"'{0}' attribute: '{1}' type is not 'str', 'unicode' or 'QString'!".format("pattern", value)
+			assert type(value) in (unicode, QString), \
+			"'{0}' attribute: '{1}' type is not 'unicode' or 'QString'!".format("pattern", value)
 		self.__pattern = value
 
 	@pattern.deleter
@@ -411,7 +416,7 @@ class Search_worker(QThread):
 				if content is None:
 					LOGGER.warning("!> Error occured while reading '{0}' file proceeding to next one!".format(file))
 					continue
-				self.__container.filesCache.addContent(**{str(file) : CacheData(content=content, document=None)})
+				self.__container.filesCache.addContent(**{file : CacheData(content=content, document=None)})
 			else:
 				content = cacheData.content
 			occurences = self.__searchDocument(QTextDocument(QString(content)), self.__pattern, self.__settings)

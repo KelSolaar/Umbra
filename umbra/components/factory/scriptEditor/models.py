@@ -16,6 +16,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import os
@@ -176,8 +181,8 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), \
-			 "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("defaultProject", value)
+			assert type(value) is unicode, \
+			 "'{0}' attribute: '{1}' type is not 'unicode'!".format("defaultProject", value)
 		self.__defaultProject = value
 
 	@defaultProject.deleter

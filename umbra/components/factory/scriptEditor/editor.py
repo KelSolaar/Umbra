@@ -15,6 +15,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import os
@@ -159,7 +164,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("file", value)
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format("file", value)
 		self.__file = value
 
 	@file.deleter
@@ -460,7 +465,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		"""
 
 		if not self.__file:
-			return str()
+			return ""
 
 		return os.path.basename(self.__file)
 
@@ -576,7 +581,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		if not file:
 			return False
 
-		return self.writeFile(foundations.strings.encode(file))
+		return self.writeFile(foundations.strings.toString(file))
 
 	def writeFile(self, file):
 		"""
@@ -588,7 +593,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		LOGGER.debug("> Writing '{0}' file.".format(file))
 		writer = foundations.io.File(file)
-		writer.content = [self.toPlainText()]
+		writer.content = [self.toPlainText().toUtf8()]
 		if writer.write():
 			self.setFile(file)
 
