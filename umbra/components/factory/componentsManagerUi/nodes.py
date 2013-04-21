@@ -55,7 +55,7 @@ class PathNode(umbra.ui.nodes.GraphModelNode):
 		Component Interface class Model path node.
 	"""
 
-	__family = "Category"
+	__family = "Path"
 	"""Node family. ( String )"""
 
 	def __init__(self,

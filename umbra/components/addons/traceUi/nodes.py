@@ -56,7 +56,7 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 	Component Interface class **Module** node.
 	"""
 
-	__family = "ModuleNode"
+	__family = "Module"
 
 	def __init__(self,
 				module=None,

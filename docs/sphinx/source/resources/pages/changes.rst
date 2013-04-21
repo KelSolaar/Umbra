@@ -1,6 +1,15 @@
 Changes
 =======
 
+1.0.8 - Stable
+--------------
+
+| **Umbra** 1.0.8 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=9&state=closed
+| **Manager** 2.0.4 - Stable - Milestone: https://github.com/KelSolaar/Manager/issues?milestone=3&state=open
+| **Foundations** 2.0.8 - Stable - Milestone: https://github.com/KelSolaar/Foundations/issues?milestone=6&state=closed
+
+-  Implemented unicode support.
+
 1.0.7 - Stable
 --------------
 

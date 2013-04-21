@@ -662,7 +662,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		node = self.__model.getNode(index)
-		if node.family != "DirectoryNode":
+		if node.family != "Directory":
 			return
 
 		self.__scriptEditor.model.setProjectNodes(node)
@@ -675,7 +675,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		node = self.__model.getNode(index)
-		if not node.family == "FileNode":
+		if not node.family == "File":
 			return
 
 		foundations.common.pathExists(node.path) and self.__scriptEditor.loadFile(node.path)
@@ -689,7 +689,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		for node in self.__view.getSelectedNodes():
-			if node.family == "FileNode":
+			if node.family == "File":
 				self.__scriptEditor.setCurrentEditor(node.path)
 
 	def __scriptEditor_Script_Editor_tabWidget__currentChanged(self, index):
@@ -997,10 +997,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		for node in itertools.chain(self.__scriptEditor.model.getProjectNodes(directory),
 											self.__scriptEditor.model.getDirectoryNodes(directory)):
 			self.__scriptEditor.model.unregisterProjectNodes(node)
-			if node.family == "DirectoryNode":
+			if node.family == "Directory":
 				self.__scriptEditor.model.unregisterProjectNodes(node)
 				self.__scriptEditor.model.unregisterDirectory(node)
-			elif node.family == "ProjectNode":
+			elif node.family == "Project":
 				self.__scriptEditor.removeProject(directory)
 			self.__deletePath(directory)
 
@@ -1021,12 +1021,12 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		if node.family == "ProjectNode":
+		if node.family == "Project":
 			self.__scriptEditor.removeProject(node.path)
 			return True
 
 		for node in foundations.walkers.nodesWalker(node, ascendants=True):
-			if node.family == "ProjectNode" and not node is self.__scriptEditor.model.defaultProjectNode:
+			if node.family == "Project" and not node is self.__scriptEditor.model.defaultProjectNode:
 				self.__scriptEditor.removeProject(node.path)
 				return True
 
@@ -1045,12 +1045,12 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not state:
 			return False
 
-		if node.family in ("ProjectNode", "DirectoryNode"):
+		if node.family in ("Project", "Directory"):
 			directory = node.path
-		elif node.family == "FileNode":
+		elif node.family == "File":
 			directory = os.path.dirname(node.path)
 
-# 		file = foundations.strings.toString(file)
+		# file = foundations.strings.toString(file)
 		if not file in os.listdir(directory):
 			file = os.path.join(directory, file)
 			LOGGER.info("{0} | Adding '{1}' file!".format(self.__class__.__name__, file))
@@ -1074,9 +1074,9 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not state:
 			return False
 
-		if node.family in ("ProjectNode", "DirectoryNode"):
+		if node.family in ("Project", "Directory"):
 			parentDirectory = node.path
-		elif node.family == "FileNode":
+		elif node.family == "File":
 			parentDirectory = os.path.dirname(node.path)
 
 		directory = foundations.strings.toString(directory)
@@ -1115,13 +1115,13 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 				return True
 
 		if not baseName in os.listdir(parentDirectory):
-			if node.family == "FileNode":
+			if node.family == "File":
 				LOGGER.info("{0} | Renaming '{1}' file to '{2}'!".format(self.__class__.__name__, source, target))
 				self.__renameFile(source, target)
-			elif node.family == "DirectoryNode":
+			elif node.family == "Directory":
 				LOGGER.info("{0} | Renaming '{1}' directory to '{2}'!".format(self.__class__.__name__, source, target))
 				self.__renameDirectory(source, target)
-			elif node.family == "ProjectNode":
+			elif node.family == "Project":
 				LOGGER.info("{0} | Renaming '{1}' project to '{2}'!".format(self.__class__.__name__, source, target))
 				self.__renameProject(source, target)
 		else:

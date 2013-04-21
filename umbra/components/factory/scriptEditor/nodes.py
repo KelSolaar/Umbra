@@ -65,7 +65,7 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 	Component Interface class **Editor** node.
 	"""
 
-	__family = "EditorNode"
+	__family = "Editor"
 
 	def __init__(self,
 				editor=None,
@@ -152,7 +152,7 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 	Component Interface class **File** node.
 	"""
 
-	__family = "FileNode"
+	__family = "File"
 
 	def __init__(self,
 				path=None,
@@ -239,7 +239,7 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 	Component Interface class **Directory** node.
 	"""
 
-	__family = "DirectoryNode"
+	__family = "Directory"
 
 	def __init__(self,
 				path=None,
@@ -328,7 +328,7 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 	Component Interface class **Project** node.
 	"""
 
-	__family = "ProjectNode"
+	__family = "Project"
 
 	def __init__(self,
 				path=None,

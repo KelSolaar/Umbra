@@ -51,10 +51,10 @@ class Constants():
 	"""Package major version: '**4**' ( String )"""
 	minorVersion = "0"
 	"""Package minor version: '**0**' ( String )"""
-	changeVersion = "7"
-	"""Package change version: '**7**' ( String )"""
+	changeVersion = "8"
+	"""Package change version: '**8**' ( String )"""
 	releaseVersion = ".".join((majorVersion, minorVersion, changeVersion))
-	"""Package release version: '**1.0.7**' ( String )"""
+	"""Package release version: '**1.0.8**' ( String )"""
 
 	logger = "Umbra_Logger"
 	"""Package logger name: '**Umbra_Logger**' ( String )"""

@@ -24,7 +24,6 @@ from __future__ import unicode_literals
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import os
 from PyQt4.QtCore import QSettings
 from PyQt4.QtCore import QVariant
 
@@ -250,6 +249,22 @@ class Preferences(object):
 		self.__settings.endGroup()
 
 		return value
+
+	def keyExists(self, section, key):
+		"""
+		This method checks if given key exists.
+
+		:param section: Current section to check key in. ( String )
+		:param key: Current key to check. ( String )
+		:return: Key existence. ( Boolean )
+		"""
+
+		LOGGER.debug("> Checking '{0}' key existence in '{1}' section.".format(key, section))
+
+		self.__settings.beginGroup(section)
+		exists = self.__settings.contains(key)
+		self.__settings.endGroup()
+		return exists
 
 	def __getDefaultSettings(self):
 		"""
