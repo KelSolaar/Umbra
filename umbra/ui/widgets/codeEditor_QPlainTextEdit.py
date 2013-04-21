@@ -1219,6 +1219,8 @@ if __name__ == "__main__":
 	from PyQt4.QtGui import QLineEdit
 	from PyQt4.QtGui import QPushButton
 
+	from umbra.globals.constants import Constants
+
 	application = umbra.ui.common.getApplicationInstance()
 
 	widget = QWidget()
@@ -1236,7 +1238,7 @@ if __name__ == "__main__":
 	gridLayout.addWidget(lineEdit)
 
 	def _pushButton__clicked(*args):
-		statement = unicode(lineEdit.text())
+		statement = unicode(lineEdit.text(), Constants.defaultCodec, Constants.codecError)
 		exec(statement)
 
 	pushButton = QPushButton("Execute Statement")

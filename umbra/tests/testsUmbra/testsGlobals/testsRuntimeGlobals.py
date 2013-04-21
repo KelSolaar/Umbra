@@ -60,34 +60,34 @@ class RuntimeGlobalsTestCase(unittest.TestCase):
 		"""
 
 		requiredAttributes = ("parameters",
-								"arguments",
-								"loggingConsoleHandler",
-								"loggingFileHandler",
-								"loggingSessionHandler",
-								"loggingSessionHandlerStream",
-								"loggingFormatters",
-								"loggingActiveFormatter",
-								"verbosityLevel",
-								"loggingFile",
-								"requestsStack",
-								"engine",
-								"patchesManager",
-								"componentsManager",
-								"actionsManager",
-								"fileSystemEventsManager",
-								"notificationsManager",
-								"layoutsManager",
-								"reporter",
-								"application",
-								"userApplicationDataDirectory",
-								"resourcesDirectories",
-								"uiFile",
-								"patchesFile",
-								"settingsFile",
-								"settings",
-								"lastBrowsedPath",
-								"splashscreenImage",
-								"splashscreen")
+							"arguments",
+							"loggingConsoleHandler",
+							"loggingFileHandler",
+							"loggingSessionHandler",
+							"loggingSessionHandlerStream",
+							"loggingFormatters",
+							"loggingActiveFormatter",
+							"verbosityLevel",
+							"loggingFile",
+							"requestsStack",
+							"engine",
+							"patchesManager",
+							"componentsManager",
+							"actionsManager",
+							"fileSystemEventsManager",
+							"notificationsManager",
+							"layoutsManager",
+							"reporter",
+							"application",
+							"userApplicationDataDirectory",
+							"resourcesDirectories",
+							"uiFile",
+							"patchesFile",
+							"settingsFile",
+							"settings",
+							"lastBrowsedPath",
+							"splashscreenImage",
+							"splashscreen")
 
 		for attribute in requiredAttributes:
 			self.assertIn(attribute, RuntimeGlobals.__dict__)
@@ -99,7 +99,7 @@ class RuntimeGlobalsTestCase(unittest.TestCase):
 
 		self.assertIsInstance(RuntimeGlobals.resourcesDirectories, list)
 
-	def testlastBrowsedPath(self):
+	def testLastBrowsedPath(self):
 		"""
 		This method tests :attr:`umbra.globals.runtimeGlobals.RuntimeGlobals.lastBrowsedPath` attribute.
 		"""

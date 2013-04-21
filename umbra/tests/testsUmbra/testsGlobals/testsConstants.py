@@ -59,34 +59,34 @@ class ConstantsTestCase(unittest.TestCase):
 		"""
 
 		requiredAttributes = ("applicationName",
-								"majorVersion",
-								"minorVersion",
-								"changeVersion",
-								"releaseVersion",
-								"logger",
-								"verbosityLevel",
-								"verbosityLabels",
-								"loggingDefaultFormatter",
-								"loggingSeparators",
-								"encodingCodec",
-								"encodingError",
-								"applicationDirectory",
-								"providerDirectory",
-								"patchesDirectory",
-								"settingsDirectory",
-								"userComponentsDirectory",
-								"loggingDirectory",
-								"ioDirectory",
-								"preferencesDirectories",
-								"factoryComponentsDirectory",
-								"factoryAddonsComponentsDirectory",
-								"resourcesDirectory",
-								"patchesFile",
-								"settingsFile",
-								"loggingFile",
-								"librariesDirectory",
-								"defaultTimerCycle",
-								"nullObject")
+							"majorVersion",
+							"minorVersion",
+							"changeVersion",
+							"releaseVersion",
+							"logger",
+							"verbosityLevel",
+							"verbosityLabels",
+							"loggingDefaultFormatter",
+							"loggingSeparators",
+							"defaultCodec",
+							"codecError",
+							"applicationDirectory",
+							"providerDirectory",
+							"patchesDirectory",
+							"settingsDirectory",
+							"userComponentsDirectory",
+							"loggingDirectory",
+							"ioDirectory",
+							"preferencesDirectories",
+							"factoryComponentsDirectory",
+							"factoryAddonsComponentsDirectory",
+							"resourcesDirectory",
+							"patchesFile",
+							"settingsFile",
+							"loggingFile",
+							"librariesDirectory",
+							"defaultTimerCycle",
+							"nullObject")
 
 		for attribute in requiredAttributes:
 			self.assertIn(attribute, Constants.__dict__)
@@ -165,28 +165,27 @@ class ConstantsTestCase(unittest.TestCase):
 
 		self.assertIsInstance(Constants.loggingSeparators, unicode)
 
-	def testencodingCodecAttribute(self):
+	def testDefaultCodecAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.encodingCodec` attribute.
+		This method tests :attr:`umbra.globals.constants.Constants.defaultCodec` attribute.
 		"""
 
-		validEncodings = ("ascii",
-						"utf-8",
+		validEncodings = ("utf-8",
 						"cp1252")
 
-		self.assertIn(Constants.encodingCodec, validEncodings)
+		self.assertIn(Constants.defaultCodec, validEncodings)
 
 	def testEncodingErrorAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.encodingError` attribute.
+		This method tests :attr:`umbra.globals.constants.Constants.codecError` attribute.
 		"""
 
-		validEncodings = ("strict",
+		validEncodingsErrors = ("strict",
 						"ignore",
 						"replace",
 						"xmlcharrefreplace")
 
-		self.assertIn(Constants.encodingError, validEncodings)
+		self.assertIn(Constants.codecError, validEncodingsErrors)
 
 	def testApplicationDirectoryAttribute(self):
 		"""

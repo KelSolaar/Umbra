@@ -45,6 +45,7 @@ from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.components.addons.traceUi.models import ModulesModel
 from umbra.components.addons.traceUi.nodes import ModuleNode
 from umbra.components.addons.traceUi.views import Modules_QTreeView
+from umbra.globals.constants import Constants
 from umbra.ui.widgets.search_QLineEdit import Search_QLineEdit
 
 #**********************************************************************************************************************
@@ -588,7 +589,7 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		rootNode = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
 		for module in modules:
 			moduleNode = ModuleNode(module=module,
-									name=unicode(module.__name__),
+									name=unicode(module.__name__, Constants.defaultCodec, Constants.codecError),
 									parent=rootNode,
 									nodeFlags=nodeFlags,
 									attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled))
