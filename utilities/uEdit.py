@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**uEdit.py
+**uEdit.py**
 
 **Platform:**
 	Windows, Linux, Mac Os X.
