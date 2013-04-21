@@ -15,6 +15,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import os
@@ -78,21 +83,21 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	model Nodes nodes needs to be refreshed. ( pyqtSignal )
 	"""
 
-	activatedComponent = pyqtSignal(str)
+	activatedComponent = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`ComponentsManagerUi` class when a Component is activated. ( pyqtSignal )
 
 	:return: Activated Component name. ( String )	
 	"""
 
-	deactivatedComponent = pyqtSignal(str)
+	deactivatedComponent = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`ComponentsManagerUi` class when a Component is deactivated. ( pyqtSignal )
 
 	:return: Deactivated Component name. ( String )	
 	"""
 
-	reloadedComponent = pyqtSignal(str)
+	reloadedComponent = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`ComponentsManagerUi` class when a Component is reloaded. ( pyqtSignal )
 
@@ -767,7 +772,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		else:
 			content.append(self.__componentsInformationsDefaultText)
 
-		separator = str() if len(content) == 1 else "<p><center>* * *<center/></p>"
+		separator = "" if len(content) == 1 else "<p><center>* * *<center/></p>"
 		self.Components_Informations_textBrowser.setText(separator.join(content))
 
 	def __storeDeactivatedComponents(self):
@@ -1067,7 +1072,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 										attributesFlags=attributesFlags,
 										activated=umbra.ui.nodes.GraphModelAttribute(name="activated",
 										flags=attributesFlags,
-										roles={Qt.DisplayRole: foundations.strings.encode(component.interface.activated),
+										roles={Qt.DisplayRole: foundations.strings.toString(component.interface.activated),
 										Qt.DecorationRole:os.path.join(self.__uiResourcesDirectory,
 																component.interface.activated and \
 																self.__uiActivatedImage or self.__uiDeactivatedImage)}))

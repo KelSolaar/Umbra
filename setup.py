@@ -1,9 +1,66 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+**setup.py**
+
+**Platform:**
+	Windows, Linux, Mac Os X.
+
+**Description:**
+	`https://pypi.python.org/pypi/Umbra <https://pypi.python.org/pypi/Umbra>`_ package setup file.
+
+**Others:**
+
+"""
+
+#**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
+#***	Encoding manipulations.
+#**********************************************************************************************************************
+import sys
+
+def _setEncoding():
+	"""
+	This definition sets the Application encoding.
+	"""
+
+	reload(sys)
+	sys.setdefaultencoding("utf-8")
+
+_setEncoding()
+
+#**********************************************************************************************************************
+#***	External imports.
+#**********************************************************************************************************************
 import re
 from setuptools import setup
 from setuptools import find_packages
 
+#**********************************************************************************************************************
+#***	Internal imports.
+#**********************************************************************************************************************
 import umbra.globals.constants
 
+#**********************************************************************************************************************
+#***	Module attributes.
+#**********************************************************************************************************************
+__author__ = "Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
+__maintainer__ = "Thomas Mansencal"
+__email__ = "thomas.mansencal@gmail.com"
+__status__ = "Production"
+
+__all__ = ["getLongDescription"]
+
+#**********************************************************************************************************************
+#***	Module classes and definitions.
+#**********************************************************************************************************************
 def getLongDescription():
 	"""
 	This definition returns the Package long description.
@@ -21,7 +78,7 @@ def getLongDescription():
 				continue
 
 			description.append(line)
-	return str().join(description)
+	return "".join(description)
 
 setup(name=umbra.globals.constants.Constants.applicationName,
 	version=umbra.globals.constants.Constants.releaseVersion,
@@ -34,7 +91,7 @@ setup(name=umbra.globals.constants.Constants.applicationName,
 	license="GPLv3",
 	description="Umbra is the main package of sIBL_GUI and sIBL_Reporter.",
 	long_description=getLongDescription(),
-	install_requires=["Manager>=2.0.3"],
+	install_requires=["Manager>=2.0.4"],
 	classifiers=["Development Status :: 5 - Production/Stable",
 				"Environment :: Console",
 				"Environment :: MacOS X",

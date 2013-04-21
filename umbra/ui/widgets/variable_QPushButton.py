@@ -15,6 +15,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 from PyQt4.QtGui import QColor
@@ -184,8 +189,8 @@ class Variable_QPushButton(QPushButton):
 			assert type(value) is tuple, "'{0}' attribute: '{1}' type is not 'tuple'!".format("labels", value)
 			assert len(value) == 2, "'{0}' attribute: '{1}' length should be '2'!".format("labels", value)
 			for index in range(len(value)):
-				assert type(value[index]) in (str, unicode), \
-				"'{0}' attribute element '{1}': '{2}' type is not 'str' or 'unicode'!".format("labels", index, value)
+				assert type(value[index]) is unicode, \
+				"'{0}' attribute element '{1}': '{2}' type is not 'unicode'!".format("labels", index, value)
 		self.__labels = value
 
 	@labels.deleter

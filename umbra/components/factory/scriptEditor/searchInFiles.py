@@ -15,6 +15,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import functools
@@ -473,7 +478,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 			"defaultFilterIn", value)
 			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("defaultFilterIn", value)
 		self.__defaultFilterIn = value
@@ -507,7 +512,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 			"filtersInFormat", value)
 			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("filtersInFormat", value)
 		self.__filtersInFormat = value
@@ -542,7 +547,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 			"defaultFilterOut", value)
 			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("defaultFilterOut", value)
 		self.__defaultFilterOut = value
@@ -576,7 +581,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 			"filtersOutFormat", value)
 			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("filtersOutFormat", value)
 		self.__filtersOutFormat = value
@@ -611,7 +616,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 			"defaultTarget", value)
 			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("defaultTarget", value)
 		self.__defaultTarget = value
@@ -645,7 +650,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 			"targetsFormat", value)
 			assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("targetsFormat", value)
 		self.__targetsFormat = value
@@ -1054,7 +1059,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		elif type == "excludeFilter":
 			location = self.__filtersOutFormat.format(self.__defaultFilterOut)
 
-		location and self.Where_lineEdit.setText(", ".join(filter(bool, (foundations.strings.encode(
+		location and self.Where_lineEdit.setText(", ".join(filter(bool, (foundations.strings.toString(
 		self.Where_lineEdit.text()), location))))
 
 	def __formatOccurence(self, occurence):
@@ -1069,7 +1074,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		spanFormat = "<span style=\"color: {0};\">{{0}}</span>".format(color.format(self.__defaultLineColor.red(),
 																					self.__defaultLineColor.green(),
 																					self.__defaultLineColor.blue()))
-		line = foundations.strings.encode(occurence.text)
+		line = foundations.strings.toString(occurence.text)
 		start = spanFormat.format(line[:occurence.column])
 		pattern = "<b>{0}</b>".format(line[occurence.column:occurence.column + occurence.length])
 		end = spanFormat.format(line[occurence.column + occurence.length:])
@@ -1095,7 +1100,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 						spanFormat.format(os.path.sep),
 						baseName,
 						spanFormat.format("' file: '"),
-						foundations.strings.encode(metrics),
+						foundations.strings.toString(metrics),
 						spanFormat.format("' occurence(s) replaced!")))
 
 	def __highlightOccurence(self, file, occurence):
@@ -1189,7 +1194,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		:param document: File document. ( QTextDocument )
 		"""
 
-		self.__filesCache.addContent(**{str(file) : CacheData(content=content, document=document)})
+		self.__filesCache.addContent(**{file : CacheData(content=content, document=document)})
 
 	def __uncache(self, file):
 		"""
@@ -1216,7 +1221,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			searchFileNode.update(searchResult)
 			width = \
 			max(self.__defaultLineNumberWidth,
-			max([len(foundations.strings.encode(occurence.line)) for occurence in searchResult.occurences]))
+			max([len(foundations.strings.toString(occurence.line)) for occurence in searchResult.occurences]))
 			for occurence in searchResult.occurences:
 				formatter = "{{0:>{0}}}".format(width)
 				name = "{0}:{1}".format(formatter.format(occurence.line + 1).replace(" ", "&nbsp;"),
@@ -1261,7 +1266,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		SearchAndReplace.insertPattern(replacementPattern, self.__replaceWithPatternsModel)
 
 		location = umbra.ui.common.parseLocation(
-		foundations.strings.encode(self.Where_lineEdit.text()) or \
+		foundations.strings.toString(self.Where_lineEdit.text()) or \
 		self.__targetsFormat.format(self.__defaultTarget))
 		self.__ignoreHiddenFiles and location.filtersOut.append("\\\.|/\.")
 
@@ -1344,7 +1349,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 				if cacheData.document:
 					fileHandle = File(file)
-					fileHandle.content = [cacheData.document.toPlainText()]
+					fileHandle.content = [cacheData.document.toPlainText().toUtf8()]
 					if fileHandle.write():
 						metrics["Cached"] += 1
 						self.__uncache(file)

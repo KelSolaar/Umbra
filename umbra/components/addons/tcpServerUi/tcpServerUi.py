@@ -15,10 +15,14 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import os
-import socket
 import SocketServer
 from PyQt4.QtGui import QGridLayout
 from PyQt4.QtCore import Qt
@@ -133,7 +137,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__preferencesManager = None
 
 		self.__tcpServer = None
-		self.__address = socket.gethostbyname(socket.gethostname())
+		self.__address = foundations.common.getHostAddress()
 		self.__port = 16384
 
 	#******************************************************************************************************************
@@ -319,7 +323,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 			"address", value)
 		self.__address = value
 

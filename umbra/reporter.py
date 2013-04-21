@@ -15,6 +15,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import functools
@@ -469,7 +474,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		:param body: Body tag content. ( String )
 		"""
 
-		body = foundations.strings.replace(body, OrderedDict([('"', '\\"'), ("\n", str())]))
+		body = foundations.strings.replace(body, OrderedDict([('"', '\\"'), ("\n", "")]))
 		self.__evaluateJavascript("$(\"body\").append(\"{0}\");".format(body))
 
 	def __evaluateJavascript(self, javascript):
@@ -493,7 +498,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 
 		cls, instance, trcback = foundations.exceptions.extractException(*args)
 
-		LOGGER.info("{0} | Handling '{1}' exception!".format(self.__class__.__name__, str(cls)))
+		LOGGER.info("{0} | Handling '{1}' exception!".format(self.__class__.__name__, foundations.strings.toString(cls)))
 
 		self.__initializeContextUi()
 
@@ -528,7 +533,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		html = []
 		html.append(
 		"<div class=\"header\"><span class=\"floatRight textAlignRight\"><h4>{0}<br/>{1}</h4></span><h2>{2}</h2></div>".format(
-		python, date, escape(str(cls))))
+		python, date, escape(foundations.strings.toString(cls))))
 
 		html.append("<div class=\"traceback\">")
 		for line in foundations.exceptions.formatException(cls, instance, trcback):
@@ -542,7 +547,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		html.append("<br/>")
 		html.append("<div class=\"stack\">")
 		for frame, fileName, lineNumber, name, context, index in stack:
-			location = "<b>{0}{1}</b>".format(escape(name) if name != "<module>" else str(),
+			location = "<b>{0}{1}</b>".format(escape(name) if name != "<module>" else "",
 											inspect.formatargvalues(*inspect.getargvalues(frame)))
 			html.append(
 			"<div class=\"location\">File <a href=file://{0}>\"{0}\"</a>, line <b>{1}</b>, in {2}</div><br>".format(
@@ -590,7 +595,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 			html.append("<br/>")
 		html.append("</div>")
 
-		return str().join(html)
+		return "".join(html)
 
 	@staticmethod
 	def formatTextException(*args):
@@ -608,20 +613,20 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		stack = foundations.exceptions.extractStack(foundations.exceptions.getInnerMostFrame(trcback), verbose)
 
 		text = []
-		text.append(str(cls))
-		text.append(str())
+		text.append(foundations.strings.toString(cls))
+		text.append("")
 
 		for line in foundations.exceptions.formatException(cls, instance, trcback):
 			text.append(format("{0}".format(format(line))))
-		text.append(str())
+		text.append("")
 
 		text.append("An unhandled exception occured in {0} {1}!".format(Constants.applicationName,
 																		Constants.releaseVersion))
 		text.append("Sequence of calls leading up to the exception, in their occurring order:")
-		text.append(str())
+		text.append("")
 
 		for frame, fileName, lineNumber, name, context, index in stack:
-			location = "{0}{1}".format(name if name != "<module>" else str(),
+			location = "{0}{1}".format(name if name != "<module>" else "",
 											inspect.formatargvalues(*inspect.getargvalues(frame)))
 			text.append("File \"{0}\", line {1}, in {2}".format(fileName, lineNumber, location))
 			for i, line in enumerate(context):
@@ -629,13 +634,13 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 					text.append(format("\t{0} {1} <===".format(lineNumber - index + i, format(format(line)))))
 				else:
 					text.append(format("\t{0} {1}".format(lineNumber - index + i, format(format(line)))))
-			text.append(str())
+			text.append("")
 		for line in traceback.format_exception_only(cls, instance):
 			text.append("{0}".format(format(line)))
-		text.append(str())
+		text.append("")
 
 		text.append("Frames locals by stack ordering, innermost last:")
-		text.append(str())
+		text.append("")
 		for frame, locals in foundations.exceptions.extractLocals(trcback):
 			name, fileName, lineNumber = frame
 			text.append("Frame \"{0}\" in \"{1}\" file, line {2}:".format(name, fileName, lineNumber))
@@ -651,7 +656,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 			hasLocals and text.append(format("\tLocals:"))
 			for key, value in sorted(locals.iteritems()):
 				text.append(format("\t\t{0} = {1}".format(key, value)))
-			text.append(str())
+			text.append("")
 
 		return text
 
@@ -666,10 +671,10 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		if foundations.common.isInternetAvailable():
 			cls, instance, trcback = args
 
-			title = re.escape(str().join(map(lambda x: x.strip(), traceback.format_exception_only(cls, instance))))
+			title = re.escape("".join(map(lambda x: x.strip(), traceback.format_exception_only(cls, instance))))
 			file = trcback.tb_frame.f_code.co_filename
 			lineNumber = trcback.tb_lineno
-			stack = repr(self.formatTextException(cls, instance, trcback))
+			stack = repr(map(str, self.formatTextException(cls, instance, trcback)))
 
 			javascript = "Crittercism.logExternalException(\"{0}\", \"{1}\", {2}, {3});".format(
 			title, file, lineNumber, stack)

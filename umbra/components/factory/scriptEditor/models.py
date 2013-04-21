@@ -16,6 +16,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import os
@@ -176,8 +181,8 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), \
-			 "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format("defaultProject", value)
+			assert type(value) is unicode, \
+			 "'{0}' attribute: '{1}' type is not 'unicode'!".format("defaultProject", value)
 		self.__defaultProject = value
 
 	@defaultProject.deleter
@@ -249,7 +254,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		:return: EditorNode nodes. ( List )
 		"""
 
-		return self.findFamily("EditorNode", node=node or self.__defaultProjectNode)
+		return self.findFamily("Editor", node=node or self.__defaultProjectNode)
 
 	def listFileNodes(self, node=None):
 		"""
@@ -259,7 +264,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		:return: FileNode nodes. ( List )
 		"""
 
-		return self.findFamily("FileNode", node=node or self.__defaultProjectNode)
+		return self.findFamily("File", node=node or self.__defaultProjectNode)
 
 	def listDirectoryNodes(self):
 		"""
@@ -268,7 +273,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		:return: DirectoryNode nodes. ( List )
 		"""
 
-		return self.findFamily("DirectoryNode")
+		return self.findFamily("Directory")
 
 	def listProjectNodes(self, ignoreDefaultProjectNode=True):
 		"""
@@ -278,7 +283,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		:return: ProjectNode nodes. ( List )
 		"""
 
-		projectNodes = self.findFamily("ProjectNode")
+		projectNodes = self.findFamily("Project")
 		return filter(lambda x: x != self.__defaultProjectNode, projectNodes) \
 		if ignoreDefaultProjectNode else projectNodes
 
@@ -698,7 +703,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 			else:
 				parentNode = foundations.common.getFirstItem(
 							[node for node in foundations.walkers.nodesWalker(rootNode) \
-							if node.family == "DirectoryNode" and node.path == parentDirectory])
+							if node.family == "Directory" and node.path == parentDirectory])
 
 			if not parentNode:
 				continue
@@ -745,9 +750,9 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		"""
 
 		for node in reversed(list(foundations.walkers.nodesWalker(node))):
-			if node.family == "DirectoryNode":
+			if node.family == "Directory":
 				self.unregisterDirectory(node)
-			elif node.family == "FileNode":
+			elif node.family == "File":
 				self.unregisterFile(node)
 
 	def updateProjectNodes(self, node):

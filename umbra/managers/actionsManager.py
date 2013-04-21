@@ -17,6 +17,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import re
@@ -106,7 +111,7 @@ class ActionsManager(QObject):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 			"namespaceSplitter", value)
 			assert len(value) == 1, "'{0}' attribute: '{1}' has multiples characters!".format("namespaceSplitter", value)
 			assert not re.search(r"\w", value), "'{0}' attribute: '{1}' is an alphanumeric character!".format(
@@ -143,7 +148,7 @@ class ActionsManager(QObject):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 			"rootNamespace", value)
 		self.__rootNamespace = value
 
@@ -177,7 +182,7 @@ class ActionsManager(QObject):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 			"defaultNamespace", value)
 		self.__defaultNamespace = value
 
@@ -490,7 +495,7 @@ class ActionsManager(QObject):
 		name = self.__normalizeName(name)
 		action = self.getAction(name)
 		if not action:
-			return str()
+			return ""
 
 		return action.shortcut().toString()
 

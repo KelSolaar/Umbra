@@ -17,6 +17,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import functools
@@ -211,8 +216,8 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode, QString), \
-			"'{0}' attribute: '{1}' type is not 'str', 'unicode' or 'QString'!".format("searchPattern", value)
+			assert type(value) in (unicode, QString), \
+			"'{0}' attribute: '{1}' type is not 'unicode' or 'QString'!".format("searchPattern", value)
 		self.__searchPattern = value
 
 	@searchPattern.deleter
@@ -442,7 +447,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		words = []
 		block = self.document().findBlockByLineNumber(0)
 		while block.isValid():
-			blockWords = foundations.strings.getWords(foundations.strings.encode(block.text()))
+			blockWords = foundations.strings.getWords(foundations.strings.toString(block.text()))
 			if blockWords:
 				words.extend(blockWords)
 			block = block.next()
@@ -475,7 +480,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		:return: Word under cursor. ( QString )		
 		"""
 
-		if not re.match(r"^\w+$", foundations.strings.encode(self.getPreviousCharacter())):
+		if not re.match(r"^\w+$", foundations.strings.toString(self.getPreviousCharacter())):
 			return QString()
 
 		cursor = self.textCursor()
@@ -490,7 +495,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		:return: Partial word under cursor. ( QString )		
 		"""
 
-		if not re.match(r"^\w+$", foundations.strings.encode(self.getPreviousCharacter())):
+		if not re.match(r"^\w+$", foundations.strings.toString(self.getPreviousCharacter())):
 			return QString()
 
 		cursor = self.textCursor()
@@ -774,7 +779,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 
 		selectedText = self.getSelectedText()
-		regex = "^{0}$".format(pattern if settings.regularExpressions else re.escape(foundations.strings.encode(pattern)))
+		regex = "^{0}$".format(pattern if settings.regularExpressions else re.escape(foundations.strings.toString(pattern)))
 		flags = int() if settings.caseSensitive else re.IGNORECASE
 		if not selectedText or not re.search(regex, selectedText, flags=flags):
 			self.search(pattern, **kwargs)
@@ -970,7 +975,7 @@ if __name__ == "__main__":
 	gridLayout.addWidget(lineEdit)
 
 	def _pushButton__clicked(*args):
-		statement = str(lineEdit.text())
+		statement = unicode(lineEdit.text())
 		exec(statement)
 
 	pushButton = QPushButton("Execute Statement")

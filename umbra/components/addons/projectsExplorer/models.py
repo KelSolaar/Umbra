@@ -16,6 +16,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 from PyQt4.QtCore import Qt
@@ -101,13 +106,13 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 
 		if role == Qt.DisplayRole:
 			node = self.getNode(index)
-			if node.family == "EditorNode":
+			if node.family == "Editor":
 				data = self.__editorNodeFormat.format(node.name)
-			elif node.family == "FileNode":
+			elif node.family == "File":
 				data = self.__fileNodeFormat.format(node.name)
-			elif node.family == "DirectoryNode":
+			elif node.family == "Directory":
 				data = self.__directoryNodeFormat.format(node.name)
-			elif node.family == "ProjectNode":
+			elif node.family == "Project":
 				if node is self.sourceModel().defaultProjectNode:
 					data = self.__defaultProjectNodeFormat.format(node.name)
 				else:

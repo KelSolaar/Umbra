@@ -15,6 +15,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import os
@@ -117,7 +122,7 @@ class PatchesManager(object):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 			"historyFile", value)
 		self.__historyFile = value
 
@@ -154,7 +159,7 @@ class PatchesManager(object):
 			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
 			"paths", value)
 			for element in value:
-				assert type(element) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+				assert type(element) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 				"paths", element)
 				assert os.path.exists(element), "'{0}' attribute: '{1}' directory doesn't exists!".format("paths", element)
 		self.__paths = value
@@ -189,7 +194,7 @@ class PatchesManager(object):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 			"extension", value)
 		self.__extension = value
 

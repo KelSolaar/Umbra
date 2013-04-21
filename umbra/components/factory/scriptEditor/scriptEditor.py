@@ -15,6 +15,11 @@
 """
 
 #**********************************************************************************************************************
+#***	Future imports.
+#**********************************************************************************************************************
+from __future__ import unicode_literals
+
+#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import code
@@ -104,14 +109,14 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	This signal is emited by the :class:`ScriptEditor` class when the recent files list has changed. ( pyqtSignal )
 	"""
 
-	fileLoaded = pyqtSignal(str)
+	fileLoaded = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`ScriptEditor` class when a file is loaded. ( pyqtSignal )
 
 	:return: Loaded file. ( String )	
 	"""
 
-	fileClosed = pyqtSignal(str)
+	fileClosed = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`ScriptEditor` class when a file is closed. ( pyqtSignal )
 
@@ -817,7 +822,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		if value is not None:
-			assert type(value) in (str, unicode), "'{0}' attribute: '{1}' type is not 'str' or 'unicode'!".format(
+			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
 			"scriptEditorFile", value)
 		self.__scriptEditorFile = value
 
@@ -1876,7 +1881,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param file: File changed. ( String )
 		"""
 
-		file = foundations.strings.encode(file)
+		file = foundations.strings.toString(file)
 		self.searchInFiles._SearchInFiles__uncache(file)
 		self.reloadFile(file)
 
@@ -1887,7 +1892,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:param file: File changed. ( String )
 		"""
 
-		file = foundations.strings.encode(file)
+		file = foundations.strings.toString(file)
 		self.searchInFiles._SearchInFiles__uncache(file)
 		editor = self.getEditor(file)
 		editor and	editor.setModified(True)
@@ -2504,7 +2509,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		return self.loadPath(foundations.strings.encode(self.Script_Editor_Output_plainTextEdit.getSelectedText()))
+		return self.loadPath(foundations.strings.toString(self.Script_Editor_Output_plainTextEdit.getSelectedText()))
 
 	def __editor__patternsReplaced(self, patterns):
 		"""
@@ -2591,10 +2596,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		self.__engine.startProcessing("Loading Files ...", len(urls))
 		for url in event.mimeData().urls():
-			LOGGER.debug("> Handling dropped '{0}' file.".format(url.path()))
+			path = foundations.strings.toString(url.path())
+			LOGGER.debug("> Handling dropped '{0}' file.".format(path))
 			path = (platform.system() == "Windows" or platform.system() == "Microsoft") and \
-			re.search(r"^\/[A-Z]:", foundations.strings.encode(url.path())) and foundations.strings.encode(url.path())[1:] or \
-			foundations.strings.encode(url.path())
+			re.search(r"^\/[A-Z]:", path) and path[1:] or path
 			self.loadPath(path) and self.restoreDevelopmentLayout()
 			self.__engine.stepProcessing()
 		self.__engine.stopProcessing()
@@ -2615,7 +2620,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method sets the recent files actions.
 		"""
 
-		recentFiles = [foundations.strings.encode(file)
+		recentFiles = [foundations.strings.toString(file)
 					for file in self.__settings.getKey(self.__settingsSection, "recentFiles").toStringList()
 					if foundations.common.pathExists(file)]
 		if not recentFiles:
@@ -2631,8 +2636,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			LOGGER.debug("> Adding '{0}' file to recent files actions.".format(recentFiles[i]))
 
 			self.__recentFilesActions[i].setText("{0} {1}".format(i + 1, os.path.basename(
-			foundations.strings.encode(recentFiles[i]))))
-			self.__recentFilesActions[i].data = foundations.strings.encode(recentFiles[i])
+			foundations.strings.toString(recentFiles[i]))))
+			self.__recentFilesActions[i].data = foundations.strings.toString(recentFiles[i])
 			self.__recentFilesActions[i].setVisible(True)
 
 	def __storeRecentFile(self, file):
@@ -2644,7 +2649,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Storing '{0}' file in recent files.".format(file))
 
-		recentFiles = [foundations.strings.encode(recentFile)
+		recentFiles = [foundations.strings.toString(recentFile)
 					for recentFile in self.__settings.getKey(self.__settingsSection, "recentFiles").toStringList()
 					if foundations.common.pathExists(recentFile)]
 		if not recentFiles:
@@ -2681,7 +2686,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not editor:
 			return
 
-		title, toolTip = foundations.strings.encode(editor.title), foundations.strings.encode(editor.file)
+		title, toolTip = foundations.strings.toString(editor.title), foundations.strings.toString(editor.file)
 		LOGGER.debug("> Setting '{0}' window title and '{1}' toolTip to tab with '{2}' index.".format(title, toolTip, index))
 		# TODO: https://bugreports.qt-project.org/browse/QTBUG-27084
 		color = QColor(224, 224, 224) if editor.isModified() else QColor(160, 160, 160)
@@ -2750,7 +2755,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		path = node.file if hasattr(node, "file") else node.path
-		path = foundations.strings.encode(path)
+		path = foundations.strings.toString(path)
 		if not foundations.common.pathExists(path):
 			return False
 
@@ -2767,7 +2772,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		path = node.file if hasattr(node, "file") else node.path
-		path = foundations.strings.encode(path)
+		path = foundations.strings.toString(path)
 		self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
 		self.__engine.fileSystemEventsManager.unregisterPath(path)
 		return True
@@ -3368,7 +3373,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return False
 
 		LOGGER.debug("> Evaluating 'Script Editor' selected content.")
-		if self.evaluateCode(foundations.strings.encode(editor.getSelectedText().replace(QChar(QChar.ParagraphSeparator),
+		if self.evaluateCode(foundations.strings.toString(editor.getSelectedText().replace(QChar(QChar.ParagraphSeparator),
 																			QString("\n")))):
 			self.uiRefresh.emit()
 			return True
@@ -3386,7 +3391,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 			return False
 
 		LOGGER.debug("> Evaluating 'Script Editor' content.")
-		if self.evaluateCode(foundations.strings.encode(editor.toPlainText())):
+		if self.evaluateCode(foundations.strings.toString(editor.toPlainText().toUtf8())):
 			self.uiRefresh.emit()
 			return True
 
@@ -3451,7 +3456,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success. ( Boolean )
 		"""
 
-		session = [foundations.strings.encode(path)
+		session = [foundations.strings.toString(path)
 					for path in self.__settings.getKey(self.__settingsSection, "session").toStringList()
 					if foundations.common.pathExists(path)]
 
