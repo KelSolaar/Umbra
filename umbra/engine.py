@@ -112,6 +112,7 @@ import umbra.managers.patchesManager
 import umbra.managers.layoutsManager
 import umbra.reporter
 import umbra.ui.common
+import umbra.ui.widgets.messageBox
 from manager.componentsManager import Manager
 from umbra.preferences import Preferences
 from umbra.processing import Processing
@@ -1781,7 +1782,20 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	if RuntimeGlobals.parameters.userApplicationDataDirectory:
 		RuntimeGlobals.userApplicationDataDirectory = RuntimeGlobals.parameters.userApplicationDataDirectory
 	else:
-		RuntimeGlobals.userApplicationDataDirectory = foundations.environment.getUserApplicationDataDirectory()
+		systemApplicationDataDirectory = foundations.environment.getSystemApplicationDataDirectory()
+		userApplicationDataDirectory = foundations.environment.getUserApplicationDataDirectory()
+		if not foundations.common.pathExists(systemApplicationDataDirectory):
+			umbra.ui.widgets.messageBox.messageBox("Error",
+			"Error",
+			"{0} failed to use the default user Application data directory to store its preferences \
+and has defaulted to the following directory:\n\n\t'{1}'.\n\nReasons for this are various:\n\
+\t- Undefined 'APPDATA' ( Windows ) or 'HOME' ( Mac Os X, Linux) environment variables.\n\
+\t- User name with non 'UTF-8' encoding compliant characters.\n\
+\t- Non 'UTF-8' encoding compliant characters in the preferences directory path.\n\n\
+You will have to define your own preferences directory by launching {0} with the \
+'-u \"path\\to\\the\\custom\\preferences\\directory\"' command line parameter.".format(Constants.applicationName,
+																				userApplicationDataDirectory))
+		RuntimeGlobals.userApplicationDataDirectory = userApplicationDataDirectory
 
 	if not setUserApplicationDataDirectory(RuntimeGlobals.userApplicationDataDirectory):
 		raise umbra.exceptions.EngineConfigurationError(
