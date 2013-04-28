@@ -589,7 +589,7 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		rootNode = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
 		for module in modules:
 			moduleNode = ModuleNode(module=module,
-									name=unicode(module.__name__, Constants.defaultCodec, Constants.codecError),
+									name=foundations.strings.toString(module.__name__),
 									parent=rootNode,
 									nodeFlags=nodeFlags,
 									attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled))
