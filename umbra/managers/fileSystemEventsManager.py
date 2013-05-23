@@ -315,7 +315,7 @@ class FileSystemEventsManager(QThread):
 				continue
 
 			try:
-				modifiedTime = os.path.getmtime(path)
+				modifiedTime = self.getPathModifiedTime(path)
 			except OSError:
 				LOGGER.debug("> {0} | '{1}' path has been invalidated while iterating!".format(
 				self.__class__.__name__, path))
@@ -367,7 +367,7 @@ class FileSystemEventsManager(QThread):
 			raise umbra.exceptions.PathRegistrationError("{0} | '{1}' path is already registered!".format(
 			self.__class__.__name__, path))
 
-		self.__paths[path] = (os.path.getmtime(path) if modifiedTime is None else modifiedTime, os.path.isfile(path))
+		self.__paths[path] = (self.getPathModifiedTime(path) if modifiedTime is None else modifiedTime, os.path.isfile(path))
 		return True
 
 	@foundations.exceptions.handleExceptions(umbra.exceptions.PathExistsError)
@@ -385,3 +385,14 @@ class FileSystemEventsManager(QThread):
 
 		del(self.__paths[path])
 		return True
+
+	@staticmethod		
+	def getPathModifiedTime(path):
+		"""
+		This method returns given path modification time.
+
+		:param path: Path. ( String )
+		:return: Modification time. ( Integer )
+		"""
+
+		return float(foundations.common.getFirstItem(str(os.path.getmtime(path)).split(".")))
