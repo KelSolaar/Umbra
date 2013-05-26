@@ -286,7 +286,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method is the property for **self.__model** attribute.
 
-		:return: self.__model. ( CollectionsModel )
+		:return: self.__model. ( ProjectsProxyModel )
 		"""
 
 		return self.__model
@@ -297,7 +297,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method is the setter method for **self.__model** attribute.
 
-		:param value: Attribute value. ( CollectionsModel )
+		:param value: Attribute value. ( ProjectsProxyModel )
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
