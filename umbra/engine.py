@@ -304,12 +304,15 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		"""
 
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
-
 		# --- Running pre initialisation method. ---
 		hasattr(self, "onPreInitialisation") and self.onPreInitialisation()
 
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+
 		super(Umbra, self).__init__(parent, *args, **kwargs)
+
+		# --- Running initialisation method. ---
+		hasattr(self, "onInitialisation") and self.onInitialisation()
 
 		# Engine binding to global variable.
 		RuntimeGlobals.engine = self
@@ -613,7 +616,7 @@ component, error)))
 		"""
 		This method is the property for **self.__patchesManager** attribute.
 
-		:return: self.__patchesManager. ( ActionsManager )
+		:return: self.__patchesManager. ( PatchesManager )
 		"""
 
 		return self.__patchesManager
@@ -624,7 +627,7 @@ component, error)))
 		"""
 		This method is the setter method for **self.__patchesManager** attribute.
 
-		:param value: Attribute value. ( ActionsManager )
+		:param value: Attribute value. ( PatchesManager )
 		"""
 
 		raise foundations.exceptions.ProgrammingError(

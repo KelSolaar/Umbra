@@ -89,6 +89,8 @@ class LayoutsManager(QObject):
 	def __init__(self, parent=None):
 		"""
 		This method initializes the class.
+
+		:param parent: Object parent. ( QObject )
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))

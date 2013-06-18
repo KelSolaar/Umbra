@@ -166,7 +166,6 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 		This method initializes the class.
 
 		:param path: File path.  ( String )
-		:param editor: File editor.  ( Editor )
 		:param name: Node name.  ( String )
 		:param parent: Node parent. ( GraphModelNode )
 		:param roles: Roles. ( Dictionary )
