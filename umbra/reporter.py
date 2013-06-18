@@ -475,7 +475,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		"""
 
 		body = foundations.strings.replace(body, OrderedDict([('"', '\\"'), ("\n", "")]))
-		self.__evaluateJavascript("$(\"body\").append(\"{0}\");".format(body))
+		self.__evaluateJavascript("$(\"<body>{0}<body>\").replaceAll(\"body\");".format(body))
 
 	def __evaluateJavascript(self, javascript):
 		"""
