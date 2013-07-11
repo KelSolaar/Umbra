@@ -88,7 +88,7 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	def __new__(cls, *args, **kwargs):
 		"""
 		This method is the constructor of the class.
-		
+
 		:param \*args: Arguments. ( \* )
 		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		:return: Class instance. ( Library )
@@ -189,7 +189,7 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 							text-decoration: underline;
 							color: rgb(160, 96, 64);
 						}
-						
+
 						.floatRight {
 						    float: right;
 						}
@@ -237,7 +237,7 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 							font-family: "Courier New";
 							font-size: 14px;
 							padding: 32px;
-							
+
 						}
 
 						span.highlight {
@@ -253,7 +253,7 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 							font-size: 16px;
 							padding: 16px;
 						}
-				
+
 						div.debug {
 							padding: 16px;
 						}
@@ -359,7 +359,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 	def __call__(self, *args):
 		"""
 		This method is the caller of the class.
-		
+
 		:param \*args: Arguments. ( \* )
 		:param \*\*kwargs: Keywords arguments. ( \*\* )
 		:return: Class instance. ( Library )
@@ -453,29 +453,31 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 			output.append(body)
 		else:
 			output.append("<body>")
+			output.append("<div id=\"report\">")
+			output.append("</div>")
 			output.append("</body>")
 		output.append("</html>")
 		return "\n".join(output)
 
-	def __setHtml(self, body=None):
+	def __setHtml(self, html=None):
 		"""
 		This method sets the html content in the View using given body.
 
-		:param body: Body tag content. ( String )
+		:param html: Html content. ( String )
 		"""
 
-		self.__html = self.__getHtml(body)
+		self.__html = self.__getHtml(html)
 		self.__view.setHtml(self.__html)
 
-	def __appendHtml(self, body):
+	def __updateHtml(self, html):
 		"""
-		This method apeend the given body content html in the View.
+		This method updates the View with given html content.
 
-		:param body: Body tag content. ( String )
+		:param html: Html content. ( String )
 		"""
 
-		body = foundations.strings.replace(body, OrderedDict([('"', '\\"'), ("\n", "")]))
-		self.__evaluateJavascript("$(\"<body>{0}<body>\").replaceAll(\"body\");".format(body))
+		html = foundations.strings.replace(html, OrderedDict([('"', '\\"'), ("\n", "")]))
+		self.__evaluateJavascript("$(\"#report\").html(\"{0}\");".format(html))
 
 	def __evaluateJavascript(self, javascript):
 		"""
@@ -502,7 +504,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 
 		self.__initializeContextUi()
 
-		self.__appendHtml(self.formatHtmlException(cls, instance, trcback))
+		self.__updateHtml(self.formatHtmlException(cls, instance, trcback))
 
 		self.show()
 		self.__report and self.reportExceptionToCrittercism(cls, instance, trcback)
@@ -745,7 +747,7 @@ def criticalExceptionHandler(object):
 def installExceptionReporter(report=True):
 	"""
 	This definition installs the exceptions reporter.
-	
+
 	:param report: Report to Crittercism. ( Boolean )
 	:return: Reporter instance. ( Reporter )
 	"""
@@ -757,7 +759,7 @@ def installExceptionReporter(report=True):
 def uninstallExceptionReporter():
 	"""
 	This definition uninstalls the exceptions reporter.
-	
+
 	:return: Definition success. ( Boolean )
 	"""
 
@@ -766,7 +768,7 @@ def uninstallExceptionReporter():
 def enableExceptionReporter():
 	"""
 	This definition enables the exceptions reporter.
-	
+
 	:return: Definition success. ( Boolean )
 	"""
 
@@ -776,7 +778,7 @@ def enableExceptionReporter():
 def disableExceptionReporter():
 	"""
 	This definition disables the exceptions reporter.
-	
+
 	:return: Definition success. ( Boolean )
 	"""
 
