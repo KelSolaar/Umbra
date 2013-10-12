@@ -45,7 +45,6 @@ from manager.qwidgetComponent import QWidgetComponentFactory
 from umbra.components.addons.traceUi.models import ModulesModel
 from umbra.components.addons.traceUi.nodes import ModuleNode
 from umbra.components.addons.traceUi.views import Modules_QTreeView
-from umbra.globals.constants import Constants
 from umbra.ui.widgets.search_QLineEdit import Search_QLineEdit
 
 #**********************************************************************************************************************
