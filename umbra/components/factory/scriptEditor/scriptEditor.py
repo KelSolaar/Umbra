@@ -1415,6 +1415,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__menuBar = QMenuBar()
 		self.__menuBar.setNativeMenuBar(False)
 		self.menuBar_frame_gridLayout.addWidget(self.__menuBar)
+		# Qt 4.8.4: Needs to show the menuBar, otherwise it doesn't appear.
+		self.__menuBar.show()
 		self.__initializeMenuBar()
 
 		self.Script_Editor_Output_plainTextEdit.setParent(None)
