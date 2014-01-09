@@ -79,7 +79,7 @@ class Constants():
 
 	applicationDirectory = os.sep.join(("Umbra", ".".join((majorVersion, minorVersion))))
 	"""Package Application directory: '**Umbra**' ( String )"""
-	if platform.system() == "Windows" or platform.system() == "Microsoft" or platform.system() == "Darwin":
+	if platform.system() in ("Windows", "Microsoft") or platform.system() == "Darwin":
 		providerDirectory = "HDRLabs"
 		"""Package provider directory: '**HDRLabs** on Windows / Darwin, **.HDRLabs** on Linux' ( String )"""
 	elif platform.system() == "Linux":
