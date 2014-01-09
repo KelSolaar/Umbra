@@ -25,6 +25,7 @@ from __future__ import unicode_literals
 import functools
 import inspect
 import os
+import platform
 import re
 import sys
 if sys.version_info[:2] <= (2, 6):
@@ -475,6 +476,11 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 
 		:param html: Html content. ( String )
 		"""
+
+		if platform.system() in ("Windows", "Microsoft"):
+			html = re.sub(r"((?:[a-zA-Z]\:|\\\\[\w\.]+\\[\w.$]+)\\(?:[\w]+\\)*\w([\w.])+)",
+			              lambda x: foundations.strings.toForwardSlashes(x.group(1)),
+			              html)
 
 		html = foundations.strings.replace(html, OrderedDict([('"', '\\"'), ("\n", "")]))
 		self.__evaluateJavascript("$(\"#report\").html(\"{0}\");".format(html))
