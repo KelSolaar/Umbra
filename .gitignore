@@ -14,3 +14,4 @@ docs/sphinx/build
 docs/sphinx/source/resources/packages/
 releases/
 umbra/resources/images/builders/
+.idea/
