@@ -30,7 +30,7 @@ import sys
 #**********************************************************************************************************************
 def _setPackageDirectory():
 	"""
-	This definition sets the Application package directory in the path.
+	Sets the Application package directory in the path.
 	"""
 
 	packageDirectory = os.path.normpath(os.path.join(os.path.dirname(__file__), "../"))
@@ -61,7 +61,7 @@ __all__ = []
 #**********************************************************************************************************************
 def main():
 	"""
-	This definition starts the Application.
+	Starts the Application.
 
 	:return: Definition success. ( Boolean )
 	"""

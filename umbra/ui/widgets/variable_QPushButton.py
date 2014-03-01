@@ -63,7 +63,7 @@ class Variable_QPushButton(QPushButton):
 				QColor(160, 160, 160)),
 				labels=("Yes", "No")):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Widget parent. ( QObject )
 		:param state: Current button state. ( Boolean )
@@ -101,7 +101,7 @@ class Variable_QPushButton(QPushButton):
 	@property
 	def state(self):
 		"""
-		This method is the property for **self.__state** attribute.
+		Property for **self.__state** attribute.
 
 		:return: self.__state. ( Boolean )
 		"""
@@ -112,7 +112,7 @@ class Variable_QPushButton(QPushButton):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def state(self, value):
 		"""
-		This method is the setter method for **self.__state** attribute.
+		Setter for **self.__state** attribute.
 
 		:param value: Attribute value. ( Boolean )
 		"""
@@ -125,7 +125,7 @@ class Variable_QPushButton(QPushButton):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def state(self):
 		"""
-		This method is the deleter method for **self.__state** attribute.
+		Deleter for **self.__state** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -134,7 +134,7 @@ class Variable_QPushButton(QPushButton):
 	@property
 	def colors(self):
 		"""
-		This method is the property for **self.__colors** attribute.
+		Property for **self.__colors** attribute.
 
 		:return: self.__colors. ( Tuple )
 		"""
@@ -145,7 +145,7 @@ class Variable_QPushButton(QPushButton):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def colors(self, value):
 		"""
-		This method is the setter method for **self.__colors** attribute.
+		Setter for **self.__colors** attribute.
 
 		:param value: Attribute value. ( Tuple )
 		"""
@@ -161,7 +161,7 @@ class Variable_QPushButton(QPushButton):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def colors(self):
 		"""
-		This method is the deleter method for **self.__colors** attribute.
+		Deleter for **self.__colors** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -170,7 +170,7 @@ class Variable_QPushButton(QPushButton):
 	@property
 	def labels(self):
 		"""
-		This method is the property for **self.__labels** attribute.
+		Property for **self.__labels** attribute.
 
 		:return: self.__labels. ( Tuple )
 		"""
@@ -181,7 +181,7 @@ class Variable_QPushButton(QPushButton):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def labels(self, value):
 		"""
-		This method is the setter method for **self.__labels** attribute.
+		Setter for **self.__labels** attribute.
 
 		:param value: Attribute value. ( Tuple )
 		"""
@@ -197,7 +197,7 @@ class Variable_QPushButton(QPushButton):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def labels(self):
 		"""
-		This method is the deleter method for **self.__labels** attribute.
+		Deleter for **self.__labels** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -208,7 +208,7 @@ class Variable_QPushButton(QPushButton):
 	#******************************************************************************************************************
 	def __variable_QPushButton__clicked(self, checked):
 		"""
-		This method is triggered when a **Variable_QPushButton** Widget is clicked.
+		Defines the slot triggered by a **Variable_QPushButton** Widget when clicked.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -220,7 +220,7 @@ class Variable_QPushButton(QPushButton):
 
 	def __setTrueState(self):
 		"""
-		This method sets the variable button true state.
+		Sets the variable button true state.
 		"""
 
 		LOGGER.debug("> Setting variable QPushButton() to 'True' state.")
@@ -235,7 +235,7 @@ class Variable_QPushButton(QPushButton):
 
 	def __setFalseState(self):
 		"""
-		This method sets the variable QPushButton true state.
+		Sets the variable QPushButton true state.
 		"""
 
 		LOGGER.debug("> Setting variable QPushButton() to 'False' state.")

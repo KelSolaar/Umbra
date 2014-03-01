@@ -62,7 +62,7 @@ class DefaultCompleter(QCompleter):
 
 	def __init__(self, parent=None, language=None, tokens=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param language: Language name. ( String )
@@ -89,7 +89,7 @@ class DefaultCompleter(QCompleter):
 	@property
 	def language(self):
 		"""
-		This method is the property for **self.__language** attribute.
+		Property for **self.__language** attribute.
 
 		:return: self.__language. ( String )
 		"""
@@ -100,7 +100,7 @@ class DefaultCompleter(QCompleter):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def language(self, value):
 		"""
-		This method is the setter method for **self.__language** attribute.
+		Setter for **self.__language** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -114,7 +114,7 @@ class DefaultCompleter(QCompleter):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def language(self):
 		"""
-		This method is the deleter method for **self.__language** attribute.
+		Deleter for **self.__language** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -125,7 +125,7 @@ class DefaultCompleter(QCompleter):
 	#******************************************************************************************************************
 	def __setCache(self, tokens):
 		"""
-		This method sets the tokens cache.
+		Sets the tokens cache.
 		
 		:param tokens: Completer tokens list. ( Tuple / List )
 		"""
@@ -137,7 +137,7 @@ class DefaultCompleter(QCompleter):
 
 	def updateModel(self, words):
 		"""
-		This method updates the completer model.
+		Updates the completer model.
 
 		:param words: Words to update the completer with. ( Tuple / List )
 		:return: Method success. ( Boolean )

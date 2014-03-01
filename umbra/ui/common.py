@@ -86,7 +86,7 @@ class Location(foundations.dataStructures.Structure):
 
 	def __init__(self, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param \*\*kwargs: directories, files, filtersIn, filtersOut, targets. ( Key / Value pairs )
 		"""
@@ -97,7 +97,7 @@ class Location(foundations.dataStructures.Structure):
 
 def getApplicationInstance():
 	"""
-	This definition returns the current `QApplication <http://doc.qt.nokia.com/qapplication.html>`_ instance or
+	Returns the current `QApplication <http://doc.qt.nokia.com/qapplication.html>`_ instance or
 	create one if it doesn't exists.
 
 	:return: Application instance. ( QApplication )
@@ -110,7 +110,7 @@ def getApplicationInstance():
 
 def parseLocation(data):
 	"""
-	This definition parses given location data.
+	Parses given location data.
 
 	:param data: Exception. ( Exception )
 	:return: Location object. ( Location )
@@ -149,7 +149,7 @@ def parseLocation(data):
 @foundations.exceptions.handleExceptions(umbra.exceptions.ResourceExistsError)
 def getResourcePath(name, raiseException=False):
 	"""
-	This definition returns the resource file path matching the given name.
+	Returns the resource file path matching the given name.
 
 	:param name: Resource name. ( String )
 	:param raiseException: Raise the exception. ( Boolean )
@@ -172,7 +172,7 @@ def getResourcePath(name, raiseException=False):
 
 def setWindowDefaultIcon(window):
 	"""
-	This method sets the default Application icon to the given window.
+	Sets the default Application icon to the given window.
 
 	:param window: Window. ( QWidget )
 	:return: Definition success. ( Boolean )
@@ -184,7 +184,7 @@ def setWindowDefaultIcon(window):
 @foundations.exceptions.handleExceptions(foundations.exceptions.FileExistsError)
 def getSectionsFileParser(file):
 	"""
-	This method returns a sections file parser.
+	Returns a sections file parser.
 
 	:param file: File. ( String )
 	:return: Parser. ( SectionsFileParser )
@@ -200,7 +200,7 @@ def getSectionsFileParser(file):
 @foundations.exceptions.handleExceptions(TypeError)
 def storeLastBrowsedPath(data):
 	"""
-	This definition is a wrapper method used to store the last browsed path.
+	Defines a wrapper method used to store the last browsed path.
 
 	:param data: Path data. ( QString / QList  )
 	:return: Last browsed path. ( String )
@@ -225,7 +225,7 @@ def storeLastBrowsedPath(data):
 
 def getQVariantAsString(data):
 	"""
-	This definition returns given `QVariant <http://doc.qt.nokia.com/qvariant.html>`_ data as a string.
+	Returns given `QVariant <http://doc.qt.nokia.com/qvariant.html>`_ data as a string.
 
 	:param data: Given data. ( Object )
 	:return: QVariant data as string. ( String )
@@ -239,7 +239,7 @@ def getQVariantAsString(data):
 
 def parentsWalker(object):
 	"""
-	This definition is a generator used to retrieve the chain of parents of the given :class:`QObject` instance.
+	Defines a generator used to retrieve the chain of parents of the given :class:`QObject` instance.
 
 	:param object: Given path. ( QObject )
 	:yield: Object parent. ( QObject )
@@ -251,7 +251,7 @@ def parentsWalker(object):
 
 def signalsBlocker(instance, attribute, *args, **kwargs):
 	"""
-	This definition blocks given instance signals before calling the given attribute with \
+	Blocks given instance signals before calling the given attribute with \
 	given arguments and then unblocks the signals.
 
 	:param instance: Instance object. ( QObject )
@@ -299,7 +299,7 @@ def showWaitCursor(object):
 
 def setToolBoxHeight(toolBox, height=32):
 	"""
-	This definition sets given height to given QToolBox widget.
+	Sets given height to given QToolBox widget.
 
 	:param toolbox: ToolBox. ( QToolBox )
 	:param height: Height. ( Integer )
@@ -312,7 +312,7 @@ def setToolBoxHeight(toolBox, height=32):
 
 def setChildrenPadding(widget, types, height=None, width=None):
 	"""
-	This definition sets given Widget children padding.
+	Sets given Widget children padding.
 
 	:param widget: Widget to sets the children padding. ( QWidget )
 	:param types: Children types. ( Tuple / List )

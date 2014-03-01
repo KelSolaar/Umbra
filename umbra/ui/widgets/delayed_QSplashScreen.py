@@ -59,7 +59,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 
 	def __init__(self, pixmap, waitTime=0, textColor=Qt.black, *args, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param pixmap: Current pixmap path. ( String )
 		:param waitTime: wait time. ( Integer )
@@ -85,7 +85,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 	@property
 	def waitTime(self):
 		"""
-		This method is the property for **self.__waitTime** attribute.
+		Property for **self.__waitTime** attribute.
 
 		:return: self.__waitTime ( Integer / Float )
 		"""
@@ -96,7 +96,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def waitTime(self, value):
 		"""
-		This method is the setter method for **self.__waitTime** attribute.
+		Setter for **self.__waitTime** attribute.
 
 		:param value: Attribute value. ( Integer / Float )
 		"""
@@ -111,7 +111,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def waitTime(self):
 		"""
-		This method is the deleter method for **self.__waitTime** attribute.
+		Deleter for **self.__waitTime** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -120,7 +120,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 	@property
 	def textColor(self):
 		"""
-		This method is the property for **self.__textColor** attribute.
+		Property for **self.__textColor** attribute.
 
 		:return: self.__textColor ( Integer / QColor )
 		"""
@@ -131,7 +131,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def textColor(self, value):
 		"""
-		This method is the setter method for **self.__textColor** attribute.
+		Setter for **self.__textColor** attribute.
 
 		:param value: Attribute value. ( Integer / QColor )
 		"""
@@ -145,7 +145,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def textColor(self):
 		"""
-		This method is the deleter method for **self.__textColor** attribute.
+		Deleter for **self.__textColor** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -156,7 +156,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 	#******************************************************************************************************************
 	def showMessage(self, message, textAlignement=Qt.AlignLeft, textColor=None, waitTime=None):
 		"""
-		This method reimplements the :meth:`QSplashScreen.showMessage` method.
+		Reimplements the :meth:`QSplashScreen.showMessage` method.
 
 		:param message: Message to display on the splashscreen. ( String )
 		:param textAlignement: Text message alignment. ( Object )

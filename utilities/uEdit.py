@@ -47,7 +47,7 @@ COMMAND_TEMPLATE = ["[application.componentsManager[\"factory.scriptEditor\"].lo
 #**********************************************************************************************************************
 def uEdit(*args):
 	"""
-	This definition edits given paths into Umbra.
+	Edits given paths into Umbra.
 
 	:param \*args: Arguments. ( \* )
 	:return: Definition success. ( Boolean )

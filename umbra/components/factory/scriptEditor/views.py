@@ -59,7 +59,7 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 	def __init__(self, parent, model=None, readOnly=False, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param readOnly: View is read only. ( Boolean )
@@ -83,7 +83,7 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	@property
 	def treeViewIndentation(self):
 		"""
-		This method is the property for **self.__treeViewIndentation** attribute.
+		Property for **self.__treeViewIndentation** attribute.
 
 		:return: self.__treeViewIndentation. ( Integer )
 		"""
@@ -94,7 +94,7 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def treeViewIndentation(self, value):
 		"""
-		This method is the setter method for **self.__treeViewIndentation** attribute.
+		Setter for **self.__treeViewIndentation** attribute.
 
 		:param value: Attribute value. ( Integer )
 		"""
@@ -106,7 +106,7 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def treeViewIndentation(self):
 		"""
-		This method is the deleter method for **self.__treeViewIndentation** attribute.
+		Deleter for **self.__treeViewIndentation** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -117,7 +117,7 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	#******************************************************************************************************************
 	def __initializeUi(self):
 		"""
-		This method initializes the Widget ui.
+		Initializes the Widget ui.
 		"""
 
 		self.setAutoScroll(True)
@@ -133,7 +133,7 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 	def __setDefaultUiState(self, *args):
 		"""
-		This method sets the Widget default ui state.
+		Sets the Widget default ui state.
 		
 		:param \*args: Arguments. ( \* )
 		"""
@@ -165,7 +165,7 @@ class ScriptEditor_QTabWidget(QTabWidget):
 
 	def __init__(self, parent):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Parent object. ( QObject )
 		"""
@@ -185,7 +185,7 @@ class ScriptEditor_QTabWidget(QTabWidget):
 	@property
 	def container(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		Property for **self.__container** attribute.
 
 		:return: self.__container. ( QObject )
 		"""
@@ -196,7 +196,7 @@ class ScriptEditor_QTabWidget(QTabWidget):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		Setter for **self.__container** attribute.
 
 		:param value: Attribute value. ( QObject )
 		"""
@@ -208,7 +208,7 @@ class ScriptEditor_QTabWidget(QTabWidget):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		Deleter for **self.__container** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -219,7 +219,7 @@ class ScriptEditor_QTabWidget(QTabWidget):
 	#******************************************************************************************************************
 	def dragEnterEvent(self, event):
 		"""
-		This method reimplements the :meth:`QTabWidget.dragEnterEvent` method.
+		Reimplements the :meth:`QTabWidget.dragEnterEvent` method.
 
 		:param event: QEvent. ( QEvent )
 		"""
@@ -229,7 +229,7 @@ class ScriptEditor_QTabWidget(QTabWidget):
 
 	def dragMoveEvent(self, event):
 		"""
-		This method reimplements the :meth:`QTabWidget.dragMoveEvent` method.
+		Reimplements the :meth:`QTabWidget.dragMoveEvent` method.
 
 		:param event: QEvent. ( QEvent )
 		"""
@@ -239,7 +239,7 @@ class ScriptEditor_QTabWidget(QTabWidget):
 
 	def dropEvent(self, event):
 		"""
-		This method reimplements the :meth:`QTabWidget.dropEvent` method.
+		Reimplements the :meth:`QTabWidget.dropEvent` method.
 
 		:param event: QEvent. ( QEvent )
 		"""

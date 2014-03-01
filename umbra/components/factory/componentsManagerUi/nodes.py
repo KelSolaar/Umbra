@@ -67,7 +67,7 @@ class PathNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param name: Node name.  ( String )
 		:param parent: Node parent. ( GraphModelNode )
@@ -89,7 +89,7 @@ class PathNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
 		:param attributesFlags: Attributes flags. ( Integer )
 		"""
@@ -123,7 +123,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param component: Component.  ( Component / QWidgetComponent / QObjectComponent )
 		:param name: Node name.  ( String )
@@ -158,7 +158,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 	@property
 	def component(self):
 		"""
-		This method is the property for **self.__component** attribute.
+		Property for **self.__component** attribute.
 
 		:return: self.__component. ( Component / QWidgetComponent / QObjectComponent )
 		"""
@@ -169,7 +169,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def component(self, value):
 		"""
-		This method is the setter method for **self.__component** attribute.
+		Setter for **self.__component** attribute.
 
 		:param value: Attribute value. ( Component / QWidgetComponent / QObjectComponent )
 		"""
@@ -181,7 +181,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def component(self):
 		"""
-		This method is the deleter method for **self.__component** attribute.
+		Deleter for **self.__component** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -190,7 +190,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 	@property
 	def toolTipText(self):
 		"""
-		This method is the property for **self.__toolTipText** attribute.
+		Property for **self.__toolTipText** attribute.
 
 		:return: self.__toolTipText. ( String )
 		"""
@@ -201,7 +201,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def toolTipText(self, value):
 		"""
-		This method is the setter method for **self.__toolTipText** attribute.
+		Setter for **self.__toolTipText** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -215,7 +215,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def toolTipText(self):
 		"""
-		This method is the deleter method for **self.__toolTipText** attribute.
+		Deleter for **self.__toolTipText** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(

@@ -103,7 +103,7 @@ class Language(foundations.dataStructures.Structure):
 
 	def __init__(self, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param \*\*kwargs: name, file, parser,	extensions, highlighter, completer,	preInputAccelerators,
 			postInputAccelerators, visualAccelerators, indentMarker, commentMarker, commentBlockMarkerStart, commentBlockMarkerEnd,
@@ -116,7 +116,7 @@ class Language(foundations.dataStructures.Structure):
 
 def getObjectFromLanguageAccelerators(accelerator):
 	"""
-	This definition returns the object associated to given accelerator.
+	Returns the object associated to given accelerator.
 
 	:param accelerator: Accelerator. ( String )
 	:return: Object. ( Object )
@@ -127,7 +127,7 @@ def getObjectFromLanguageAccelerators(accelerator):
 @foundations.exceptions.handleExceptions(LanguageGrammarError)
 def getLanguageDescription(grammarfile):
 	"""
-	This definition gets the language description from given language grammar file.
+	Gets the language description from given language grammar file.
 
 	:param grammarfile: Language grammar. ( String )
 	:return: Language description. ( Language )
@@ -240,7 +240,7 @@ def getLanguageDescription(grammarfile):
 
 def getPythonLanguage():
 	"""
-	This definition returns the Python language description.
+	Returns the Python language description.
 
 	:return: Python language description. ( Language )
 	"""
@@ -249,7 +249,7 @@ def getPythonLanguage():
 
 def getLoggingLanguage():
 	"""
-	This definition returns the Logging language description.
+	Returns the Logging language description.
 
 	:return: Logging language description. ( Language )
 	"""
@@ -258,7 +258,7 @@ def getLoggingLanguage():
 
 def getTextLanguage():
 	"""
-	This definition returns the Text language description.
+	Returns the Text language description.
 
 	:return: Text language description. ( Language )
 	"""

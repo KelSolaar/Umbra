@@ -62,7 +62,7 @@ def attributeWarfare(object):
 
 def baseWarfare(name, bases, attributes):
 	"""
-	This definition adds any number of attributes to an existing class.
+	Adds any number of attributes to an existing class.
 	
 	:param name: Name. ( String )
 	:param bases: Bases. ( List )

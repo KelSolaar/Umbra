@@ -55,7 +55,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 def highlightCurrentLine(editor):
 	"""
-	This definition highlights given editor current line.
+	Highlights given editor current line.
 	
 	:param editor: Document editor. ( QWidget )
 	:return: Method success. ( Boolean )
@@ -78,7 +78,7 @@ def highlightCurrentLine(editor):
 
 def highlightOccurences(editor):
 	"""
-	This definition highlights given editor current line.
+	Highlights given editor current line.
 	
 	:param editor: Document editor. ( QWidget )
 	:return: Method success. ( Boolean )
@@ -112,7 +112,7 @@ def highlightOccurences(editor):
 
 def highlightMatchingSymbolsPairs(editor):
 	"""
-	This definition highlights given editor matching pairs.
+	Highlights given editor matching pairs.
 	
 	:param editor: Document editor. ( QWidget )
 	:return: Method success. ( Boolean )

@@ -61,7 +61,7 @@ class Style(foundations.dataStructures.Structure):
 
 	def __init__(self, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param \*\*kwargs: . ( Key / Value pairs )
 		"""
@@ -85,7 +85,7 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 				highlightBackgroundColor=None,
 				hoverBackgroundColor=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Widget parent. ( QObject )
 		:param style: Style. ( Style )
@@ -133,7 +133,7 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 	@property
 	def style(self):
 		"""
-		This method is the property for **self.__style** attribute.
+		Property for **self.__style** attribute.
 
 		:return: self.__style. ( Style )
 		"""
@@ -144,7 +144,7 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def style(self, value):
 		"""
-		This method is the setter method for **self.__style** attribute.
+		Setter for **self.__style** attribute.
 
 		:param value: Attribute value. ( Style )
 		"""
@@ -161,7 +161,7 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def style(self):
 		"""
-		This method is the deleter method for **self.__style** attribute.
+		Deleter for **self.__style** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -172,7 +172,7 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 	#******************************************************************************************************************
 	def paint(self, painter, option, index):
 		"""
-		This method reimplements the :meth:`QStyledItemDelegate.paint` method.
+		Reimplements the :meth:`QStyledItemDelegate.paint` method.
 		"""
 
 		if option.state & QStyle.State_MouseOver:
@@ -193,7 +193,7 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 
 	def sizeHint(self, option, index):
 		"""
-		This method reimplements the :meth:`QStyledItemDelegate.sizeHint` method.
+		Reimplements the :meth:`QStyledItemDelegate.sizeHint` method.
 		"""
 
 		document = QTextDocument()

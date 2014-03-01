@@ -54,7 +54,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 def getFormat(**kwargs):
 	"""
-	This definition returns a `QTextCharFormat <http://doc.qt.nokia.com/qtextcharformat.html>`_ format.
+	Returns a `QTextCharFormat <http://doc.qt.nokia.com/qtextcharformat.html>`_ format.
 	
 	:param \*\*kwargs: Format settings. ( Key / Value pairs )
 	:return: Format. ( QTextCharFormat )

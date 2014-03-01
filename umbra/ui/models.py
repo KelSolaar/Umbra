@@ -79,7 +79,7 @@ class GraphModel(QAbstractItemModel):
 
 	def __new__(cls, *args, **kwargs):
 		"""
-		This method is the constructor of the class.
+		Constructor of the class.
 		
 		:param \*args: Arguments. ( \* )
 		:param \*\*kwargs: Keywords arguments. ( \*\* )
@@ -98,7 +98,7 @@ class GraphModel(QAbstractItemModel):
 				verticalHeaders=None,
 				defaultNode=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param rootNode: Root node. ( AbstractCompositeNode / GraphModelNode )
@@ -127,7 +127,7 @@ class GraphModel(QAbstractItemModel):
 	@property
 	def rootNode(self):
 		"""
-		This method is the property for **self.__rootNode** attribute.
+		Property for **self.__rootNode** attribute.
 
 		:return: self.__rootNode. ( AbstractCompositeNode / GraphModelNode )
 		"""
@@ -138,7 +138,7 @@ class GraphModel(QAbstractItemModel):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def rootNode(self, value):
 		"""
-		This method is the setter method for **self.__rootNode** attribute.
+		Setter for **self.__rootNode** attribute.
 
 		:param value: Attribute value. ( AbstractCompositeNode / GraphModelNode )
 		"""
@@ -152,7 +152,7 @@ class GraphModel(QAbstractItemModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def rootNode(self):
 		"""
-		This method is the deleter method for **self.__rootNode** attribute.
+		Deleter for **self.__rootNode** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -161,7 +161,7 @@ class GraphModel(QAbstractItemModel):
 	@property
 	def horizontalHeaders(self):
 		"""
-		This method is the property for **self.__horizontalHeaders** attribute.
+		Property for **self.__horizontalHeaders** attribute.
 
 		:return: self.__horizontalHeaders. ( OrderedDict )
 		"""
@@ -172,7 +172,7 @@ class GraphModel(QAbstractItemModel):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def horizontalHeaders(self, value):
 		"""
-		This method is the setter method for **self.__horizontalHeaders** attribute.
+		Setter for **self.__horizontalHeaders** attribute.
 
 		:param value: Attribute value. ( OrderedDict )
 		"""
@@ -186,7 +186,7 @@ class GraphModel(QAbstractItemModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def horizontalHeaders(self):
 		"""
-		This method is the deleter method for **self.__horizontalHeaders** attribute.
+		Deleter for **self.__horizontalHeaders** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -195,7 +195,7 @@ class GraphModel(QAbstractItemModel):
 	@property
 	def verticalHeaders(self):
 		"""
-		This method is the property for **self.__verticalHeaders** attribute.
+		Property for **self.__verticalHeaders** attribute.
 
 		:return: self.__verticalHeaders. ( OrderedDict )
 		"""
@@ -206,7 +206,7 @@ class GraphModel(QAbstractItemModel):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def verticalHeaders(self, value):
 		"""
-		This method is the setter method for **self.__verticalHeaders** attribute.
+		Setter for **self.__verticalHeaders** attribute.
 
 		:param value: Attribute value. ( OrderedDict )
 		"""
@@ -220,7 +220,7 @@ class GraphModel(QAbstractItemModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def verticalHeaders(self):
 		"""
-		This method is the deleter method for **self.__verticalHeaders** attribute.
+		Deleter for **self.__verticalHeaders** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -229,7 +229,7 @@ class GraphModel(QAbstractItemModel):
 	@property
 	def defaultNode(self):
 		"""
-		This method is the property for **self.__defaultNode** attribute.
+		Property for **self.__defaultNode** attribute.
 
 		:return: self.__defaultNode. ( AbstractCompositeNode / GraphModelNode )
 		"""
@@ -240,7 +240,7 @@ class GraphModel(QAbstractItemModel):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def defaultNode(self, value):
 		"""
-		This method is the setter method for **self.__defaultNode** attribute.
+		Setter for **self.__defaultNode** attribute.
 
 		:param value: Attribute value. ( AbstractCompositeNode / GraphModelNode )
 		"""
@@ -254,7 +254,7 @@ class GraphModel(QAbstractItemModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultNode(self):
 		"""
-		This method is the deleter method for **self.__defaultNode** attribute.
+		Deleter for **self.__defaultNode** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -265,7 +265,7 @@ class GraphModel(QAbstractItemModel):
 	#******************************************************************************************************************
 	def rowCount(self, parent=QModelIndex()):
 		"""
-		This method reimplements the :meth:`QAbstractItemModel.rowCount` method.
+		Reimplements the :meth:`QAbstractItemModel.rowCount` method.
 		
 		:param parent: Parent node. ( AbstractCompositeNode / GraphModelNode )
 		:return: Row count. ( Integer )
@@ -279,7 +279,7 @@ class GraphModel(QAbstractItemModel):
 
 	def columnCount(self, parent=QModelIndex()):
 		"""
-		This method reimplements the :meth:`QAbstractItemModel.columnCount` method.
+		Reimplements the :meth:`QAbstractItemModel.columnCount` method.
 		
 		:param parent: Parent node. ( AbstractCompositeNode / GraphModelNode )
 		:return: Column count. ( Integer )
@@ -289,7 +289,7 @@ class GraphModel(QAbstractItemModel):
 
 	def data(self, index, role=Qt.DisplayRole):
 		"""
-		This method reimplements the :meth:`QAbstractItemModel.data` method.
+		Reimplements the :meth:`QAbstractItemModel.data` method.
 		
 		:param index: Index. ( QModelIndex )
 		:param role: Role. ( Integer )
@@ -318,7 +318,7 @@ class GraphModel(QAbstractItemModel):
 
 	def setData(self, index, value, role=Qt.EditRole):
 		"""
-		This method reimplements the :meth:`QAbstractItemModel.setData` method.
+		Reimplements the :meth:`QAbstractItemModel.setData` method.
 		
 		:param index: Index. ( QModelIndex )
 		:param value: Value. ( QVariant )
@@ -351,7 +351,7 @@ class GraphModel(QAbstractItemModel):
 
 	def headerData(self, section, orientation, role=Qt.DisplayRole):
 		"""
-		This method reimplements the :meth:`QAbstractItemModel.headerData` method.
+		Reimplements the :meth:`QAbstractItemModel.headerData` method.
 		
 		:param section: Section. ( Integer )
 		:param orientation: Orientation. ( Qt.Orientation )
@@ -370,7 +370,7 @@ class GraphModel(QAbstractItemModel):
 
 	def flags(self, index):
 		"""
-		This method reimplements the :meth:`QAbstractItemModel.flags` method.
+		Reimplements the :meth:`QAbstractItemModel.flags` method.
 		
 		:param index: Index. ( QModelIndex )
 		:return: Flags. ( Qt.ItemFlags )
@@ -388,7 +388,7 @@ class GraphModel(QAbstractItemModel):
 
 	def parent(self, index):
 		"""
-		This method reimplements the :meth:`QAbstractItemModel.parent` method.
+		Reimplements the :meth:`QAbstractItemModel.parent` method.
 		
 		:param index: Index. ( QModelIndex )
 		:return: Parent. ( QModelIndex )
@@ -410,7 +410,7 @@ class GraphModel(QAbstractItemModel):
 
 	def index(self, row, column=0, parent=QModelIndex()):
 		"""
-		This method reimplements the :meth:`QAbstractItemModel.index` method.
+		Reimplements the :meth:`QAbstractItemModel.index` method.
 		
 		:param row: Row. ( Integer )
 		:param column: Column. ( Integer )
@@ -427,7 +427,7 @@ class GraphModel(QAbstractItemModel):
 
 	def sort(self, column, order=Qt.AscendingOrder):
 		"""
-		This method reimplements the :meth:`QAbstractItemModel.sort` method.
+		Reimplements the :meth:`QAbstractItemModel.sort` method.
 		
 		:param column: Column. ( Integer )
 		:param order: Order. ( Qt.SortOrder )
@@ -446,7 +446,7 @@ class GraphModel(QAbstractItemModel):
 
 	def insertRows(self, row, count, parent=QModelIndex()):
 		"""
-		This method reimplements the :meth:`QAbstractItemModel.insertRows` method.
+		Reimplements the :meth:`QAbstractItemModel.insertRows` method.
 		
 		:param row: Row. ( Integer )
 		:param count: Count. ( Integer )
@@ -465,7 +465,7 @@ class GraphModel(QAbstractItemModel):
 
 	def removeRows(self, row, count, parent=QModelIndex()):
 		"""
-		This method reimplements the :meth:`QAbstractItemModel.removeRows` method.
+		Reimplements the :meth:`QAbstractItemModel.removeRows` method.
 		
 		:param row: Row. ( Integer )
 		:param count: Count. ( Integer )
@@ -483,14 +483,14 @@ class GraphModel(QAbstractItemModel):
 
 	def movesRows(self, fromParent, fromFirstRow, fromLastRow, toParent, toRow):
 		"""
-		This method moves given rows from parent to parent row.
+		Moves given rows from parent to parent row.
 		"""
 
 		return True
 
 	def mimeTypes(self):
 		"""
-		This method reimplements the :meth:`QAbstractItemModel.mimeTypes` method.
+		Reimplements the :meth:`QAbstractItemModel.mimeTypes` method.
 		
 		:return: Mime types. ( QStringList )
 		"""
@@ -501,7 +501,7 @@ class GraphModel(QAbstractItemModel):
 
 	def mimeData(self, indexes):
 		"""
-		This method reimplements the :meth:`QAbstractItemModel.mimeData` method.
+		Reimplements the :meth:`QAbstractItemModel.mimeData` method.
 		
 		:param indexes: Indexes. ( QModelIndexList )
 		:return: MimeData. ( QMimeData )
@@ -514,7 +514,7 @@ class GraphModel(QAbstractItemModel):
 
 	def clear(self):
 		"""
-		This method clears the Model.
+		Clears the Model.
 		
 		:return: Method success. ( Boolean )
 		"""
@@ -525,7 +525,7 @@ class GraphModel(QAbstractItemModel):
 
 	def hasNodes(self):
 		"""
-		This method returns if Model has nodes.
+		Returns if Model has nodes.
 		
 		:return: Has children. ( Boolean )
 		"""
@@ -534,7 +534,7 @@ class GraphModel(QAbstractItemModel):
 
 	def getNode(self, index):
 		"""
-		This method returns the Node at given index.
+		Returns the Node at given index.
 		
 		:param index: Index. ( QModelIndex )
 		:return: Node. ( AbstractCompositeNode / GraphModelNode )
@@ -546,7 +546,7 @@ class GraphModel(QAbstractItemModel):
 
 	def getAttribute(self, node, column):
 		"""
-		This method returns the given Node attribute associated to the given column.
+		Returns the given Node attribute associated to the given column.
 		
 		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
 		:param column: Column. ( Integer )
@@ -558,7 +558,7 @@ class GraphModel(QAbstractItemModel):
 
 	def getNodeIndex(self, node):
 		"""
-		This method returns given Node index.
+		Returns given Node index.
 		
 		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
 		:return: Index. ( QModelIndex )
@@ -572,7 +572,7 @@ class GraphModel(QAbstractItemModel):
 
 	def getAttributeIndex(self, node, column):
 		"""
-		This method returns given Node attribute index at given column.
+		Returns given Node attribute index at given column.
 		
 		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
 		:param column: Attribute column. ( Integer )
@@ -585,7 +585,7 @@ class GraphModel(QAbstractItemModel):
 
 	def findChildren(self, pattern=".*", flags=0):
 		"""
-		This method finds the children matching the given patten.
+		Finds the children matching the given patten.
 		
 		:param pattern: Matching pattern. ( String )
 		:param flags: Matching regex flags. ( Integer )
@@ -596,7 +596,7 @@ class GraphModel(QAbstractItemModel):
 
 	def findFamily(self, pattern=r".*", flags=0, node=None):
 		"""
-		This method returns the Nodes from given family.
+		Returns the Nodes from given family.
 		
 		:param pattern: Matching pattern. ( String )
 		:param flags: Matching regex flags. ( Integer )
@@ -609,7 +609,7 @@ class GraphModel(QAbstractItemModel):
 #	@foundations.decorators.memoize(cache=None)
 	def findNode(self, attribute):
 		"""
-		This method returns the Node with given attribute.
+		Returns the Node with given attribute.
 		
 		:param attribute: Attribute. ( GraphModelAttribute )
 		:return: Node. ( GraphModelNode )
@@ -624,7 +624,7 @@ class GraphModel(QAbstractItemModel):
 #	@foundations.decorators.memoize(cache=None)
 	def findModel(object):
 		"""
-		This method returns the model(s) associated with given object.
+		Returns the model(s) associated with given object.
 		
 		:param object: Node / Attribute. ( GraphModelNode / GraphModelAttribute )
 		:return: Model(s). ( List )
@@ -643,7 +643,7 @@ class GraphModel(QAbstractItemModel):
 
 	def enableModelTriggers(self, state):
 		"""
-		This method enables Model Nodes and attributes triggers.
+		Enables Model Nodes and attributes triggers.
 		
 		:param state: Inform model state. ( Boolean ) 
 		:return: Method success. ( Boolean )
@@ -657,7 +657,7 @@ class GraphModel(QAbstractItemModel):
 
 	def nodeChanged(self, node):
 		"""
-		This method calls :meth:`QAbstractItemModel.dataChanged` with given Node index.
+		Calls :meth:`QAbstractItemModel.dataChanged` with given Node index.
 		
 		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
 		:return: Method success. ( Boolean )
@@ -672,7 +672,7 @@ class GraphModel(QAbstractItemModel):
 
 	def attributeChanged(self, node, column):
 		"""
-		This method calls :meth:`QAbstractItemModel.dataChanged` with given Node attribute index.
+		Calls :meth:`QAbstractItemModel.dataChanged` with given Node attribute index.
 		
 		:param node: Node. ( AbstractCompositeNode / GraphModelNode )
 		:param column: Attribute column. ( Integer )

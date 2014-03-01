@@ -89,7 +89,7 @@ class FileSystemEventsManager(QThread):
 
 	def __init__(self, parent=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -113,7 +113,7 @@ class FileSystemEventsManager(QThread):
 	@property
 	def container(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		Property for **self.__container** attribute.
 
 		:return: self.__container. ( QObject )
 		"""
@@ -124,7 +124,7 @@ class FileSystemEventsManager(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		Setter for **self.__container** attribute.
 
 		:param value: Attribute value. ( QObject )
 		"""
@@ -136,7 +136,7 @@ class FileSystemEventsManager(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		Deleter for **self.__container** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -145,7 +145,7 @@ class FileSystemEventsManager(QThread):
 	@property
 	def paths(self):
 		"""
-		This method is the property for **self.__paths** attribute.
+		Property for **self.__paths** attribute.
 
 		:return: self.__paths. ( Dictionary )
 		"""
@@ -156,7 +156,7 @@ class FileSystemEventsManager(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def paths(self, value):
 		"""
-		This method is the setter method for **self.__paths** attribute.
+		Setter for **self.__paths** attribute.
 
 		:param value: Attribute value. ( Dictionary )
 		"""
@@ -168,7 +168,7 @@ class FileSystemEventsManager(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def paths(self):
 		"""
-		This method is the deleter method for **self.__paths** attribute.
+		Deleter for **self.__paths** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -177,7 +177,7 @@ class FileSystemEventsManager(QThread):
 	@property
 	def timer(self):
 		"""
-		This method is the property for **self.__timer** attribute.
+		Property for **self.__timer** attribute.
 
 		:return: self.__timer. ( QTimer )
 		"""
@@ -188,7 +188,7 @@ class FileSystemEventsManager(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def timer(self, value):
 		"""
-		This method is the setter method for **self.__timer** attribute.
+		Setter for **self.__timer** attribute.
 
 		:param value: Attribute value. ( QTimer )
 		"""
@@ -200,7 +200,7 @@ class FileSystemEventsManager(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def timer(self):
 		"""
-		This method is the deleter method for **self.__timer** attribute.
+		Deleter for **self.__timer** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -209,7 +209,7 @@ class FileSystemEventsManager(QThread):
 	@property
 	def timerCycleMultiplier(self):
 		"""
-		This method is the property for **self.__timerCycleMultiplier** attribute.
+		Property for **self.__timerCycleMultiplier** attribute.
 
 		:return: self.__timerCycleMultiplier. ( Float )
 		"""
@@ -220,7 +220,7 @@ class FileSystemEventsManager(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def timerCycleMultiplier(self, value):
 		"""
-		This method is the setter method for **self.__timerCycleMultiplier** attribute.
+		Setter for **self.__timerCycleMultiplier** attribute.
 
 		:param value: Attribute value. ( Float )
 		"""
@@ -232,7 +232,7 @@ class FileSystemEventsManager(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def timerCycleMultiplier(self):
 		"""
-		This method is the deleter method for **self.__timerCycleMultiplier** attribute.
+		Deleter for **self.__timerCycleMultiplier** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -243,7 +243,7 @@ class FileSystemEventsManager(QThread):
 	#******************************************************************************************************************
 	def __getitem__(self, path):
 		"""
-		This method reimplements the :meth:`object.__getitem__` method.
+		Reimplements the :meth:`object.__getitem__` method.
 
 		:param path: Path name. ( String )
 		:return: Path. ( Path )
@@ -253,7 +253,7 @@ class FileSystemEventsManager(QThread):
 
 	def __iter__(self):
 		"""
-		This method reimplements the :meth:`object.__iter__` method.
+		Reimplements the :meth:`object.__iter__` method.
 
 		:return: Paths iterator. ( Object )
 		"""
@@ -262,7 +262,7 @@ class FileSystemEventsManager(QThread):
 
 	def __contains__(self, path):
 		"""
-		This method reimplements the :meth:`object.__contains__` method.
+		Reimplements the :meth:`object.__contains__` method.
 
 		:param path: Path name. ( String )
 		:return: Path existence. ( Boolean )
@@ -272,7 +272,7 @@ class FileSystemEventsManager(QThread):
 
 	def __len__(self):
 		"""
-		This method reimplements the :meth:`object.__len__` method.
+		Reimplements the :meth:`object.__len__` method.
 
 		:return: Paths count. ( Integer )
 		"""
@@ -281,7 +281,7 @@ class FileSystemEventsManager(QThread):
 
 	def run(self):
 		"""
-		This method reimplements the :meth:`QThread.run` method.
+		Reimplements the :meth:`QThread.run` method.
 		"""
 
 		self.__timer = QTimer()
@@ -294,7 +294,7 @@ class FileSystemEventsManager(QThread):
 
 	def __watchFileSystem(self):
 		"""
-		This method watches the file system for paths that have been changed or invalidated on disk.
+		Watches the file system for paths that have been changed or invalidated on disk.
 		"""
 
 		for path, data in self.__paths.items():
@@ -331,7 +331,7 @@ class FileSystemEventsManager(QThread):
 
 	def listPaths(self):
 		"""
-		This method returns the registered paths.
+		Returns the registered paths.
 
 		:return: Registered paths. ( List )
 		"""
@@ -340,7 +340,7 @@ class FileSystemEventsManager(QThread):
 
 	def isPathRegistered(self, path):
 		"""
-		This method returns if the given path is registered.
+		Returns if the given path is registered.
 
 		:param path: Path name. ( String )
 		:return: Is path registered. ( Boolean )
@@ -352,7 +352,7 @@ class FileSystemEventsManager(QThread):
 											umbra.exceptions.PathRegistrationError)
 	def registerPath(self, path, modifiedTime=None):
 		"""
-		This method registers given path.
+		Registers given path.
 
 		:param path: Path name. ( String )
 		:param modifiedTime: Custom modified time. ( Integer / Float )
@@ -373,7 +373,7 @@ class FileSystemEventsManager(QThread):
 	@foundations.exceptions.handleExceptions(umbra.exceptions.PathExistsError)
 	def unregisterPath(self, path):
 		"""
-		This method unregisters given path.
+		Unregisters given path.
 
 		:param path: Path name. ( String )
 		:return: Method success. ( Boolean )
@@ -389,7 +389,7 @@ class FileSystemEventsManager(QThread):
 	@staticmethod		
 	def getPathModifiedTime(path):
 		"""
-		This method returns given path modification time.
+		Returns given path modification time.
 
 		:param path: Path. ( String )
 		:return: Modification time. ( Integer )

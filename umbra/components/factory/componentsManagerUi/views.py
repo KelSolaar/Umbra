@@ -57,7 +57,7 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 	def __init__(self, parent, model=None, readOnly=False, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param model: Model. ( QObject )
@@ -84,7 +84,7 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	@property
 	def container(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		Property for **self.__container** attribute.
 
 		:return: self.__container. ( QObject )
 		"""
@@ -95,7 +95,7 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		Setter for **self.__container** attribute.
 
 		:param value: Attribute value. ( QObject )
 		"""
@@ -107,7 +107,7 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		Deleter for **self.__container** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -116,7 +116,7 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	@property
 	def treeViewIndentation(self):
 		"""
-		This method is the property for **self.__treeViewIndentation** attribute.
+		Property for **self.__treeViewIndentation** attribute.
 
 		:return: self.__treeViewIndentation. ( Integer )
 		"""
@@ -127,7 +127,7 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def treeViewIndentation(self, value):
 		"""
-		This method is the setter method for **self.__treeViewIndentation** attribute.
+		Setter for **self.__treeViewIndentation** attribute.
 
 		:param value: Attribute value. ( Integer )
 		"""
@@ -139,7 +139,7 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def treeViewIndentation(self):
 		"""
-		This method is the deleter method for **self.__treeViewIndentation** attribute.
+		Deleter for **self.__treeViewIndentation** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -150,7 +150,7 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	#******************************************************************************************************************
 	def setModel(self, model):
 		"""
-		This method reimplements the **umbra.ui.views.Abstract_QTreeView.setModel** method.
+		Reimplements the **umbra.ui.views.Abstract_QTreeView.setModel** method.
 		
 		:param model: Model to set. ( QObject )
 		"""
@@ -168,21 +168,21 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 	def __model__modelAboutToBeReset(self):
 		"""
-		This method is triggered when the Model is about to be reset.
+		Defines the slot triggered by the Model when about to be reset.
 		"""
 
 		pass
 
 	def __model__modelReset(self):
 		"""
-		This method is triggered when the Model is changed.
+		Defines the slot triggered by the Model when reset.
 		"""
 
 		pass
 
 	def __initializeUi(self):
 		"""
-		This method initializes the Widget ui.
+		Initializes the Widget ui.
 		"""
 
 		self.setAutoScroll(False)
@@ -201,7 +201,7 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 	def __setDefaultUiState(self):
 		"""
-		This method sets the Widget default ui state.
+		Sets the Widget default ui state.
 		"""
 
 		LOGGER.debug("> Setting default View state!")

@@ -67,7 +67,7 @@ class Occurence(foundations.dataStructures.Structure):
 
 	def __init__(self, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param \*\*kwargs: line, column, length, text. ( Key / Value pairs )
 		"""
@@ -83,7 +83,7 @@ class SearchResult(foundations.dataStructures.Structure):
 
 	def __init__(self, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param \*\*kwargs: file, pattern, settings, occurences. ( Key / Value pairs )
 		"""
@@ -99,7 +99,7 @@ class CacheData(foundations.dataStructures.Structure):
 
 	def __init__(self, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param \*\*kwargs: content, document. ( Key / Value pairs )
 		"""
@@ -124,7 +124,7 @@ class Search_worker(QThread):
 
 	def __init__(self, parent, pattern=None, location=None, settings=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		"""
@@ -154,7 +154,7 @@ class Search_worker(QThread):
 	@property
 	def container(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		Property for **self.__container** attribute.
 
 		:return: self.__container. ( QObject )
 		"""
@@ -165,7 +165,7 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		Setter for **self.__container** attribute.
 
 		:param value: Attribute value. ( QObject )
 		"""
@@ -177,7 +177,7 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		Deleter for **self.__container** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -186,7 +186,7 @@ class Search_worker(QThread):
 	@property
 	def pattern(self):
 		"""
-		This method is the property for **self.__pattern** attribute.
+		Property for **self.__pattern** attribute.
 
 		:return: self.__pattern. ( String )
 		"""
@@ -197,7 +197,7 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def pattern(self, value):
 		"""
-		This method is the setter method for **self.__pattern** attribute.
+		Setter for **self.__pattern** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -211,7 +211,7 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def pattern(self):
 		"""
-		This method is the deleter method for **self.__pattern** attribute.
+		Deleter for **self.__pattern** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -220,7 +220,7 @@ class Search_worker(QThread):
 	@property
 	def location(self):
 		"""
-		This method is the property for **self.__location** attribute.
+		Property for **self.__location** attribute.
 
 		:return: self.__location. ( Location )
 		"""
@@ -231,7 +231,7 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def location(self, value):
 		"""
-		This method is the setter method for **self.__location** attribute.
+		Setter for **self.__location** attribute.
 
 		:param value: Attribute value. ( Location )
 		"""
@@ -245,7 +245,7 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def location(self):
 		"""
-		This method is the deleter method for **self.__location** attribute.
+		Deleter for **self.__location** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -254,7 +254,7 @@ class Search_worker(QThread):
 	@property
 	def settings(self):
 		"""
-		This method is the property for **self.__settings** attribute.
+		Property for **self.__settings** attribute.
 
 		:return: self.__settings. ( Location )
 		"""
@@ -265,7 +265,7 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def settings(self, value):
 		"""
-		This method is the setter method for **self.__settings** attribute.
+		Setter for **self.__settings** attribute.
 
 		:param value: Attribute value. ( Location )
 		"""
@@ -281,7 +281,7 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
-		This method is the deleter method for **self.__settings** attribute.
+		Deleter for **self.__settings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -290,7 +290,7 @@ class Search_worker(QThread):
 	@property
 	def searchResults(self):
 		"""
-		This method is the property for **self.__searchResults** attribute.
+		Property for **self.__searchResults** attribute.
 
 		:return: self.__searchResults. ( List )
 		"""
@@ -301,7 +301,7 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchResults(self, value):
 		"""
-		This method is the setter method for **self.__searchResults** attribute.
+		Setter for **self.__searchResults** attribute.
 
 		:param value: Attribute value. ( List )
 		"""
@@ -313,7 +313,7 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchResults(self):
 		"""
-		This method is the deleter method for **self.__searchResults** attribute.
+		Deleter for **self.__searchResults** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -324,14 +324,14 @@ class Search_worker(QThread):
 	#******************************************************************************************************************
 	def run(self):
 		"""
-		This method reimplements the :meth:`QThread.run` method.
+		Reimplements the :meth:`QThread.run` method.
 		"""
 
 		self.__search()
 
 	def quit(self):
 		"""
-		This method reimplements the :meth:`QThread.quit` method.
+		Reimplements the :meth:`QThread.quit` method.
 		"""
 
 		self.__interrupt = True
@@ -340,7 +340,7 @@ class Search_worker(QThread):
 
 	def __search(self):
 		"""
-		This method performs the search.
+		Performs the search.
 		"""
 
 		self.__searchResults = []
@@ -366,7 +366,7 @@ class Search_worker(QThread):
 
 	def __searchEditorsFiles(self, files):
 		"""
-		This method searches in :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` class editors files.
+		Searches in :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` class editors files.
 
 		:param files: Editor files. ( List )
 		"""
@@ -393,7 +393,7 @@ class Search_worker(QThread):
 
 	def __searchFiles(self, files):
 		"""
-		This method searches in given files.
+		Searches in given files.
 
 		:param files: Files. ( List )
 		"""
@@ -427,7 +427,7 @@ class Search_worker(QThread):
 
 	def __searchDocument(self, document, pattern, settings):
 		"""
-		This method searches for given pattern occurences in given document using given settings.
+		Searches for given pattern occurences in given document using given settings.
 	
 		:param document: Document. ( QTextDocument )
 		:param pattern: Pattern. ( String )

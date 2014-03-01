@@ -60,7 +60,7 @@ class Preferences(object):
 
 	def __init__(self, file=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param file: Current preferences file path. ( String )
 		"""
@@ -86,7 +86,7 @@ class Preferences(object):
 	@property
 	def file(self):
 		"""
-		This method is the property for **self.__file** attribute.
+		Property for **self.__file** attribute.
 
 		:return: self.__file. ( String )
 		"""
@@ -97,7 +97,7 @@ class Preferences(object):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def file(self, value):
 		"""
-		This method is the setter method for **self.__file** attribute.
+		Setter for **self.__file** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -111,7 +111,7 @@ class Preferences(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def file(self):
 		"""
-		This method is the deleter method for **self.__file** attribute.
+		Deleter for **self.__file** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -120,7 +120,7 @@ class Preferences(object):
 	@property
 	def settings(self):
 		"""
-		This method is the property for **self.__settings** attribute.
+		Property for **self.__settings** attribute.
 
 		:return: self.__settings. ( QSettings )
 		"""
@@ -131,7 +131,7 @@ class Preferences(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self, value):
 		"""
-		This method is the setter method for **self.__settings** attribute.
+		Setter for **self.__settings** attribute.
 
 		:param value: Attribute value. ( QSettings )
 		"""
@@ -143,7 +143,7 @@ class Preferences(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
-		This method is the deleter method for **self.__settings** attribute.
+		Deleter for **self.__settings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -152,7 +152,7 @@ class Preferences(object):
 	@property
 	def defaultSettings(self):
 		"""
-		This method is the property for **self.__defaultSettings** attribute.
+		Property for **self.__defaultSettings** attribute.
 
 		:return: self.__defaultSettings. ( QSettings )
 		"""
@@ -163,7 +163,7 @@ class Preferences(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultSettings(self, value):
 		"""
-		This method is the setter method for **self.__defaultSettings** attribute.
+		Setter for **self.__defaultSettings** attribute.
 
 		:param value: Attribute value. ( QSettings )
 		"""
@@ -175,7 +175,7 @@ class Preferences(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultSettings(self):
 		"""
-		This method is the deleter method for **self.__defaultSettings** attribute.
+		Deleter for **self.__defaultSettings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -184,7 +184,7 @@ class Preferences(object):
 	@property
 	def defaultLayoutsSettings(self):
 		"""
-		This method is the property for **self.__defaultLayoutsSettings** attribute.
+		Property for **self.__defaultLayoutsSettings** attribute.
 
 		:return: self.__defaultLayoutsSettings. ( QSettings )
 		"""
@@ -195,7 +195,7 @@ class Preferences(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultLayoutsSettings(self, value):
 		"""
-		This method is the setter method for **self.__defaultLayoutsSettings** attribute.
+		Setter for **self.__defaultLayoutsSettings** attribute.
 
 		:param value: Attribute value. ( QSettings )
 		"""
@@ -207,7 +207,7 @@ class Preferences(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultLayoutsSettings(self):
 		"""
-		This method is the deleter method for **self.__defaultLayoutsSettings** attribute.
+		Deleter for **self.__defaultLayoutsSettings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -218,7 +218,7 @@ class Preferences(object):
 	#******************************************************************************************************************
 	def setKey(self, section, key, value):
 		"""
-		This method stores given key in settings file.
+		Stores given key in settings file.
 
 		:param section: Current section to save the key into. ( String )
 		:param key: Current key to save. ( String )
@@ -234,7 +234,7 @@ class Preferences(object):
 
 	def getKey(self, section, key):
 		"""
-		This method gets key value from settings file.
+		Gets key value from settings file.
 
 		:param section: Current section to retrieve key from. ( String )
 		:param key: Current key to retrieve. ( String )
@@ -252,7 +252,7 @@ class Preferences(object):
 
 	def keyExists(self, section, key):
 		"""
-		This method checks if given key exists.
+		Checks if given key exists.
 
 		:param section: Current section to check key in. ( String )
 		:param key: Current key to check. ( String )
@@ -268,7 +268,7 @@ class Preferences(object):
 
 	def __getDefaultSettings(self):
 		"""
-		This method gets the default settings.
+		Gets the default settings.
 		"""
 
 		LOGGER.debug("> Accessing '{0}' default settings file!".format(UiConstants.settingsFile))
@@ -276,7 +276,7 @@ class Preferences(object):
 
 	def __getDefaultLayoutsSettings(self):
 		"""
-		This method gets the default layouts settings.
+		Gets the default layouts settings.
 		"""
 
 		LOGGER.debug("> Accessing '{0}' default layouts settings file!".format(UiConstants.layoutsFile))
@@ -285,7 +285,7 @@ class Preferences(object):
 
 	def setDefaultPreferences(self):
 		"""
-		This method defines the default settings file content.
+		Defines the default settings file content.
 		
 		:return: Method success. ( Boolean )
 		"""
@@ -300,7 +300,7 @@ class Preferences(object):
 
 	def setDefaultLayouts(self, ignoredLayouts=None):
 		"""
-		This method sets the default layouts in the preferences file.
+		Sets the default layouts in the preferences file.
 
 		:param ignoredLayouts: Ignored layouts. ( Tuple / List )
 		:return: Method success. ( Boolean )

@@ -60,7 +60,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __init__(self, parent, *args, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param \*args: Arguments. ( \* )
@@ -84,7 +84,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def container(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		Property for **self.__container** attribute.
 
 		:return: self.__container. ( QObject )
 		"""
@@ -95,7 +95,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		Setter for **self.__container** attribute.
 
 		:param value: Attribute value. ( QObject )
 		"""
@@ -107,7 +107,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		Deleter for **self.__container** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -116,7 +116,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def Lines_Columns_label_defaultText(self):
 		"""
-		This method is the property for **self.__Lines_Columns_label_defaultText** attribute.
+		Property for **self.__Lines_Columns_label_defaultText** attribute.
 
 		:return: self.__Lines_Columns_label_defaultText. ( String )
 		"""
@@ -127,7 +127,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def Lines_Columns_label_defaultText(self, value):
 		"""
-		This method is the setter method for **self.__Lines_Columns_label_defaultText** attribute.
+		Setter for **self.__Lines_Columns_label_defaultText** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -139,7 +139,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def Lines_Columns_label_defaultText(self):
 		"""
-		This method is the deleter method for **self.__Lines_Columns_label_defaultText** attribute.
+		Deleter for **self.__Lines_Columns_label_defaultText** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -150,7 +150,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	#******************************************************************************************************************
 	def __initializeUi(self):
 		"""
-		This method initializes the Widget ui.
+		Initializes the Widget ui.
 		"""
 
 		self.Lines_Columns_label.setAlignment(Qt.AlignRight)
@@ -163,7 +163,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __Languages_comboBox_setDefaultViewState(self):
 		"""
-		This method sets the **Languages_comboBox** Widget default View state.
+		Sets the **Languages_comboBox** Widget default View state.
 		"""
 
 		if not self.__container.hasEditorTab():
@@ -176,7 +176,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __Languages_comboBox__currentIndexChanged(self, index):
 		"""
-		This method is triggered when the **Languages_comboBox** Widget current index is changed.
+		Defines the slot triggered by the **Languages_comboBox** Widget when current index is changed.
 
 		:param index: ComboBox current item index. ( Integer )
 		"""
@@ -199,9 +199,8 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __editor__cursorPositionChanged(self):
 		"""
-		This method is triggered when a
-		:class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` Component Interface class editor
-		cursor position is changed.
+		Defines the slot triggered by :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
+		Component Interface class editor when cursor position is changed.
 		"""
 
 		if not self.__container.hasEditorTab():

@@ -59,7 +59,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 def getEditorCapability(editor, capability):
 	"""
-	This definition returns given editor capability.
+	Returns given editor capability.
 	
 	:param editor: Document editor. ( QWidget )
 	:param capability: Capability to retrieve. ( String )
@@ -73,7 +73,7 @@ def getEditorCapability(editor, capability):
 
 def isSymbolsPairComplete(editor, symbol):
 	"""
-	This definition returns if the symbols pair is complete on current editor line.
+	Returns if the symbols pair is complete on current editor line.
 
 	:param editor: Document editor. ( QWidget )
 	:param symbol: Symbol to check. ( String )
@@ -95,7 +95,7 @@ def isSymbolsPairComplete(editor, symbol):
 
 def performCompletion(editor):
 	"""
-	This definition performs the completion on given editor.
+	Performs the completion on given editor.
 
 	:param editor: Document editor. ( QWidget )
 	:return: Method success. ( Boolean )
@@ -130,7 +130,7 @@ def performCompletion(editor):
 
 def indentationPreEventInputAccelerators(editor, event):
 	"""
-	This definition implements indentation pre event input accelerators.
+	Implements indentation pre event input accelerators.
 	
 	:param editor: Document editor. ( QWidget )
 	:param event: Event being handled. ( QEvent )
@@ -149,7 +149,7 @@ def indentationPreEventInputAccelerators(editor, event):
 
 def indentationPostEventInputAccelerators(editor, event):
 	"""
-	This definition implements indentation post event input accelerators.
+	Implements indentation post event input accelerators.
 	
 	:param editor: Document editor. ( QWidget )
 	:param event: Event being handled. ( QEvent )
@@ -197,7 +197,7 @@ def indentationPostEventInputAccelerators(editor, event):
 
 def completionPreEventInputAccelerators(editor, event):
 	"""
-	This definition implements completion pre event input accelerators.
+	Implements completion pre event input accelerators.
 
 	:param editor: Document editor. ( QWidget )
 	:param event: Event being handled. ( QEvent )
@@ -225,7 +225,7 @@ def completionPreEventInputAccelerators(editor, event):
 
 def completionPostEventInputAccelerators(editor, event):
 	"""
-	This definition implements completion post event input accelerators.
+	Implements completion post event input accelerators.
 
 	:param editor: Document editor. ( QWidget )
 	:param event: Event being handled. ( QEvent )	
@@ -239,7 +239,7 @@ def completionPostEventInputAccelerators(editor, event):
 
 def symbolsExpandingPreEventInputAccelerators(editor, event):
 	"""
-	This definition implements symbols expanding pre event input accelerators.
+	Implements symbols expanding pre event input accelerators.
 
 	:param editor: Document editor. ( QWidget )
 	:param event: Event being handled. ( QEvent )

@@ -60,7 +60,7 @@ class Notification(foundations.dataStructures.Structure):
 
 	def __init__(self, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param \*\*kwargs: message, time. ( Key / Value pairs )
 		"""
@@ -84,7 +84,7 @@ class NotificationsManager(QObject):
 
 	def __init__(self, parent=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -105,7 +105,7 @@ class NotificationsManager(QObject):
 	@property
 	def container(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		Property for **self.__container** attribute.
 
 		:return: self.__container. ( QObject )
 		"""
@@ -116,7 +116,7 @@ class NotificationsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		Setter for **self.__container** attribute.
 
 		:param value: Attribute value. ( QObject )
 		"""
@@ -128,7 +128,7 @@ class NotificationsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		Deleter for **self.__container** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -137,7 +137,7 @@ class NotificationsManager(QObject):
 	@property
 	def notifications(self):
 		"""
-		This method is the property for **self.__notifications** attribute.
+		Property for **self.__notifications** attribute.
 
 		:return: self.__notifications. ( List )
 		"""
@@ -148,7 +148,7 @@ class NotificationsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notifications(self, value):
 		"""
-		This method is the setter method for **self.__notifications** attribute.
+		Setter for **self.__notifications** attribute.
 
 		:param value: Attribute value. ( List )
 		"""
@@ -160,7 +160,7 @@ class NotificationsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notifications(self):
 		"""
-		This method is the deleter method for **self.__notifications** attribute.
+		Deleter for **self.__notifications** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -169,7 +169,7 @@ class NotificationsManager(QObject):
 	@property
 	def notifiers(self):
 		"""
-		This method is the property for **self.__notifiers** attribute.
+		Property for **self.__notifiers** attribute.
 
 		:return: self.__notifiers. ( List )
 		"""
@@ -180,7 +180,7 @@ class NotificationsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notifiers(self, value):
 		"""
-		This method is the setter method for **self.__notifiers** attribute.
+		Setter for **self.__notifiers** attribute.
 
 		:param value: Attribute value. ( List )
 		"""
@@ -192,7 +192,7 @@ class NotificationsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notifiers(self):
 		"""
-		This method is the deleter method for **self.__notifiers** attribute.
+		Deleter for **self.__notifiers** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -201,7 +201,7 @@ class NotificationsManager(QObject):
 	@property
 	def notifiersStackPadding(self):
 		"""
-		This method is the property for **self.__notifiersStackPadding** attribute.
+		Property for **self.__notifiersStackPadding** attribute.
 
 		:return: self.__notifiersStackPadding. ( Integer )
 		"""
@@ -212,7 +212,7 @@ class NotificationsManager(QObject):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def notifiersStackPadding(self, value):
 		"""
-		This method is the setter method for **self.__notifiersStackPadding** attribute.
+		Setter for **self.__notifiersStackPadding** attribute.
 
 		:param value: Attribute value. ( Integer )
 		"""
@@ -226,7 +226,7 @@ class NotificationsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notifiersStackPadding(self):
 		"""
-		This method is the deleter method for **self.__notifiersStackPadding** attribute.
+		Deleter for **self.__notifiersStackPadding** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -237,7 +237,7 @@ class NotificationsManager(QObject):
 	#******************************************************************************************************************
 	def __iter__(self):
 		"""
-		This method reimplements the :meth:`object.__iter__` method.
+		Reimplements the :meth:`object.__iter__` method.
 
 		:return: Notifications iterator. ( Object )
 		"""
@@ -246,7 +246,7 @@ class NotificationsManager(QObject):
 
 	def __len__(self):
 		"""
-		This method reimplements the :meth:`object.__len__` method.
+		Reimplements the :meth:`object.__len__` method.
 
 		:return: Notifications count. ( Integer )
 		"""
@@ -255,14 +255,14 @@ class NotificationsManager(QObject):
 
 	def __notifier__fadedOut(self):
 		"""
-		This method is triggered when a **Notification_QLabel** Widget has faded out.
+		Defines the slot triggered by **Notification_QLabel** Widget when faded out.
 		"""
 
 		self.__notifiers.pop(self.__notifiers.index(self.sender()))
 
 	def __offsetNotifiers(self, offset):
 		"""
-		This method offsets existing notifiers.
+		Offsets existing notifiers.
 
 		:param offset: Offset. ( Integer )
 		"""
@@ -273,7 +273,7 @@ class NotificationsManager(QObject):
 
 	def listNotifications(self):
 		"""
-		This method returns the registered notifications.
+		Returns the registered notifications.
 
 		:return: Notifications list. ( List )
 		"""
@@ -282,7 +282,7 @@ class NotificationsManager(QObject):
 
 	def isNotificationRegistered(self, notification):
 		"""
-		This method returns if the given notification is registered.
+		Returns if the given notification is registered.
 
 		:param notification: Notification. ( String )
 		:return: Is notification registered. ( Boolean )
@@ -292,7 +292,7 @@ class NotificationsManager(QObject):
 
 	def registerNotification(self, notification):
 		"""
-		This method registers given notification.
+		Registers given notification.
 
 		:param notification: Notification to register. ( Notification )
 		:return: Method success. ( Boolean )
@@ -306,7 +306,7 @@ class NotificationsManager(QObject):
 
 	def formatNotification(self, notification):
 		"""
-		This method formats given notification.
+		Formats given notification.
 
 		:param notification: Notification to format. ( Notification )
 		:return: Method success. ( Boolean )
@@ -316,7 +316,7 @@ class NotificationsManager(QObject):
 
 	def notify(self, message, duration=3000, notificationClickedSlot=None, messageLevel="Information", **kwargs):
 		"""
-		This method displays an Application notification.
+		Displays an Application notification.
 
 		:param message: Notification message. ( String )
 		:param duration: Notification display duration. ( Integer )
@@ -355,7 +355,7 @@ class NotificationsManager(QObject):
 
 	def warnify(self, message, duration=3000, notificationClickedSlot=None, **kwargs):
 		"""
-		This method displays an Application notification warning.
+		Displays an Application notification warning.
 
 		:param message: Notification message. ( String )
 		:param duration: Notification display duration. ( Integer )
@@ -375,7 +375,7 @@ class NotificationsManager(QObject):
 
 	def exceptify(self, message, duration=3000, notificationClickedSlot=None, **kwargs):
 		"""
-		This method displays an Application notification exception.
+		Displays an Application notification exception.
 
 		:param message: Notification message. ( String )
 		:param duration: Notification display duration. ( Integer )

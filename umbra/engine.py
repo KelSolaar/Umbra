@@ -47,7 +47,7 @@ from PyQt4.QtGui import QPixmap
 #**********************************************************************************************************************
 def _setPackageDirectory():
 	"""
-	This definition sets the Application package directory in the path.
+	Sets the Application package directory in the path.
 	"""
 
 	packageDirectory = os.path.normpath(os.path.join(os.path.dirname(__file__), "../"))
@@ -67,7 +67,7 @@ from umbra.globals.uiConstants import UiConstants
 
 def _overrideDependenciesGlobals():
 	"""
-	This definition overrides dependencies globals.
+	Overrides dependencies globals.
 	"""
 
 	foundations.globals.constants.Constants.logger = manager.globals.constants.Constants.logger = Constants.logger
@@ -80,7 +80,7 @@ import foundations.common
 
 def _extendResourcesPaths():
 	"""
-	This definition extend resources paths.
+	Extend resources paths.
 	"""
 
 	for path in (os.path.join(umbra.__path__[0], Constants.resourcesDirectory),
@@ -144,7 +144,7 @@ LOGGER = foundations.verbose.installLogger()
 
 def _initializeLogging():
 	"""
-	This definition initializes the Application logging.
+	Initializes the Application logging.
 	"""
 
 	# Starting the console handler if a terminal is available.
@@ -160,7 +160,7 @@ _initializeLogging()
 
 def _initializeApplication():
 	"""
-	This definition initializes the Application.
+	Initializes the Application.
 	"""
 
 	RuntimeGlobals.application = umbra.ui.common.getApplicationInstance()
@@ -173,7 +173,7 @@ _initializeApplication()
 @umbra.reporter.criticalExceptionHandler
 def _initializeApplicationUiFile():
 	"""
-	This definition initializes the Application ui file.
+	Initializes the Application ui file.
 	"""
 
 	RuntimeGlobals.uiFile = umbra.ui.common.getResourcePath(UiConstants.uiFile)
@@ -295,7 +295,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 				*args,
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param componentsPaths: Components componentsPaths. ( Tuple / List )
 		:param requisiteComponents: Requisite components names. ( Tuple / List )
@@ -449,7 +449,7 @@ component, error)))
 	@property
 	def timer(self):
 		"""
-		This method is the property for **self.__timer** attribute.
+		Property for **self.__timer** attribute.
 
 		:return: self.__timer. ( QTimer )
 		"""
@@ -460,7 +460,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def timer(self, value):
 		"""
-		This method is the setter method for **self.__timer** attribute.
+		Setter for **self.__timer** attribute.
 
 		:param value: Attribute value. ( QTimer )
 		"""
@@ -472,7 +472,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def timer(self):
 		"""
-		This method is the deleter method for **self.__timer** attribute.
+		Deleter for **self.__timer** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -481,7 +481,7 @@ component, error)))
 	@property
 	def requestsStack(self):
 		"""
-		This method is the property for **self.__requestsStack** attribute.
+		Property for **self.__requestsStack** attribute.
 
 		:return: self.__requestsStack. ( collections.deque )
 		"""
@@ -492,7 +492,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def requestsStack(self, value):
 		"""
-		This method is the setter method for **self.__requestsStack** attribute.
+		Setter for **self.__requestsStack** attribute.
 
 		:param value: Attribute value. ( collections.deque )
 		"""
@@ -504,7 +504,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def requestsStack(self):
 		"""
-		This method is the deleter method for **self.__requestsStack** attribute.
+		Deleter for **self.__requestsStack** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -513,7 +513,7 @@ component, error)))
 	@property
 	def componentsPaths(self):
 		"""
-		This method is the property for **self.__componentsPaths** attribute.
+		Property for **self.__componentsPaths** attribute.
 
 		:return: self.__componentsPaths. ( Tuple / List )
 		"""
@@ -524,7 +524,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def componentsPaths(self, value):
 		"""
-		This method is the setter method for **self.__componentsPaths** attribute.
+		Setter for **self.__componentsPaths** attribute.
 
 		:param value: Attribute value. ( Tuple / List )
 		"""
@@ -536,7 +536,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def componentsPaths(self):
 		"""
-		This method is the deleter method for **self.__componentsPaths** attribute.
+		Deleter for **self.__componentsPaths** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -545,7 +545,7 @@ component, error)))
 	@property
 	def requisiteComponents(self):
 		"""
-		This method is the property for **self.__requisiteComponents** attribute.
+		Property for **self.__requisiteComponents** attribute.
 
 		:return: self.__requisiteComponents. ( Tuple / List )
 		"""
@@ -556,7 +556,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def requisiteComponents(self, value):
 		"""
-		This method is the setter method for **self.__requisiteComponents** attribute.
+		Setter for **self.__requisiteComponents** attribute.
 
 		:param value: Attribute value. ( Tuple / List )
 		"""
@@ -568,7 +568,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def requisiteComponents(self):
 		"""
-		This method is the deleter method for **self.__requisiteComponents** attribute.
+		Deleter for **self.__requisiteComponents** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -577,7 +577,7 @@ component, error)))
 	@property
 	def visibleComponents(self):
 		"""
-		This method is the property for **self.__visibleComponents** attribute.
+		Property for **self.__visibleComponents** attribute.
 
 		:return: self.__visibleComponents. ( Tuple / List )
 		"""
@@ -588,7 +588,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def visibleComponents(self, value):
 		"""
-		This method is the setter method for **self.__visibleComponents** attribute.
+		Setter for **self.__visibleComponents** attribute.
 
 		:param value: Attribute value. ( Tuple / List )
 		"""
@@ -605,7 +605,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def visibleComponents(self):
 		"""
-		This method is the deleter method for **self.__visibleComponents** attribute.
+		Deleter for **self.__visibleComponents** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -614,7 +614,7 @@ component, error)))
 	@property
 	def patchesManager(self):
 		"""
-		This method is the property for **self.__patchesManager** attribute.
+		Property for **self.__patchesManager** attribute.
 
 		:return: self.__patchesManager. ( PatchesManager )
 		"""
@@ -625,7 +625,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def patchesManager(self, value):
 		"""
-		This method is the setter method for **self.__patchesManager** attribute.
+		Setter for **self.__patchesManager** attribute.
 
 		:param value: Attribute value. ( PatchesManager )
 		"""
@@ -637,7 +637,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def patchesManager(self):
 		"""
-		This method is the deleter method for **self.__patchesManager** attribute.
+		Deleter for **self.__patchesManager** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -646,7 +646,7 @@ component, error)))
 	@property
 	def componentsManager(self):
 		"""
-		This method is the property for **self.__componentsManager** attribute.
+		Property for **self.__componentsManager** attribute.
 
 		:return: self.__componentsManager. ( ComponentsManager )
 		"""
@@ -657,7 +657,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def componentsManager(self, value):
 		"""
-		This method is the setter method for **self.__componentsManager** attribute.
+		Setter for **self.__componentsManager** attribute.
 
 		:param value: Attribute value. ( ComponentsManager )
 		"""
@@ -669,7 +669,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def componentsManager(self):
 		"""
-		This method is the deleter method for **self.__componentsManager** attribute.
+		Deleter for **self.__componentsManager** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -678,7 +678,7 @@ component, error)))
 	@property
 	def notificationsManager(self):
 		"""
-		This method is the property for **self.__notificationsManager** attribute.
+		Property for **self.__notificationsManager** attribute.
 
 		:return: self.__notificationsManager. ( NotificationsManager )
 		"""
@@ -689,7 +689,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notificationsManager(self, value):
 		"""
-		This method is the setter method for **self.__notificationsManager** attribute.
+		Setter for **self.__notificationsManager** attribute.
 
 		:param value: Attribute value. ( NotificationsManager )
 		"""
@@ -701,7 +701,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notificationsManager(self):
 		"""
-		This method is the deleter method for **self.__notificationsManager** attribute.
+		Deleter for **self.__notificationsManager** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -710,7 +710,7 @@ component, error)))
 	@property
 	def actionsManager(self):
 		"""
-		This method is the property for **self.__actionsManager** attribute.
+		Property for **self.__actionsManager** attribute.
 
 		:return: self.__actionsManager. ( ActionsManager )
 		"""
@@ -721,7 +721,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def actionsManager(self, value):
 		"""
-		This method is the setter method for **self.__actionsManager** attribute.
+		Setter for **self.__actionsManager** attribute.
 
 		:param value: Attribute value. ( ActionsManager )
 		"""
@@ -733,7 +733,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def actionsManager(self):
 		"""
-		This method is the deleter method for **self.__actionsManager** attribute.
+		Deleter for **self.__actionsManager** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -742,7 +742,7 @@ component, error)))
 	@property
 	def fileSystemEventsManager(self):
 		"""
-		This method is the property for **self.__fileSystemEventsManager** attribute.
+		Property for **self.__fileSystemEventsManager** attribute.
 
 		:return: self.__fileSystemEventsManager. ( FileSystemEventsManager )
 		"""
@@ -753,7 +753,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def fileSystemEventsManager(self, value):
 		"""
-		This method is the setter method for **self.__fileSystemEventsManager** attribute.
+		Setter for **self.__fileSystemEventsManager** attribute.
 
 		:param value: Attribute value. ( FileSystemEventsManager )
 		"""
@@ -765,7 +765,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def fileSystemEventsManager(self):
 		"""
-		This method is the deleter method for **self.__fileSystemEventsManager** attribute.
+		Deleter for **self.__fileSystemEventsManager** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -774,7 +774,7 @@ component, error)))
 	@property
 	def layoutsManager(self):
 		"""
-		This method is the property for **self.__layoutsManager** attribute.
+		Property for **self.__layoutsManager** attribute.
 
 		:return: self.__layoutsManager. ( LayoutsManager )
 		"""
@@ -785,7 +785,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def layoutsManager(self, value):
 		"""
-		This method is the setter method for **self.__layoutsManager** attribute.
+		Setter for **self.__layoutsManager** attribute.
 
 		:param value: Attribute value. ( LayoutsManager )
 		"""
@@ -797,7 +797,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def layoutsManager(self):
 		"""
-		This method is the deleter method for **self.__layoutsManager** attribute.
+		Deleter for **self.__layoutsManager** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -806,7 +806,7 @@ component, error)))
 	@property
 	def userApplicationDataDirectory(self):
 		"""
-		This method is the property for **self.__userApplicationDataDirectory** attribute.
+		Property for **self.__userApplicationDataDirectory** attribute.
 
 		:return: self.__userApplicationDataDirectory. ( String )
 		"""
@@ -817,7 +817,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def userApplicationDataDirectory(self, value):
 		"""
-		This method is the setter method for **self.__userApplicationDataDirectory** attribute.
+		Setter for **self.__userApplicationDataDirectory** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -829,7 +829,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def userApplicationDataDirectory(self):
 		"""
-		This method is the deleter method for **self.__userApplicationDataDirectory** attribute.
+		Deleter for **self.__userApplicationDataDirectory** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -838,7 +838,7 @@ component, error)))
 	@property
 	def loggingSessionHandler(self):
 		"""
-		This method is the property for **self.__loggingSessionHandler** attribute.
+		Property for **self.__loggingSessionHandler** attribute.
 
 		:return: self.__loggingSessionHandler. ( Handler )
 		"""
@@ -849,7 +849,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingSessionHandler(self, value):
 		"""
-		This method is the setter method for **self.__loggingSessionHandler** attribute.
+		Setter for **self.__loggingSessionHandler** attribute.
 
 		:param value: Attribute value. ( Handler )
 		"""
@@ -861,7 +861,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingSessionHandler(self):
 		"""
-		This method is the deleter method for **self.__loggingSessionHandler** attribute.
+		Deleter for **self.__loggingSessionHandler** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -870,7 +870,7 @@ component, error)))
 	@property
 	def loggingFileHandler(self):
 		"""
-		This method is the property for **self.__loggingFileHandler** attribute.
+		Property for **self.__loggingFileHandler** attribute.
 
 		:return: self.__loggingFileHandler. ( Handler )
 		"""
@@ -881,7 +881,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingFileHandler(self, value):
 		"""
-		This method is the setter method for **self.__loggingFileHandler** attribute.
+		Setter for **self.__loggingFileHandler** attribute.
 
 		:param value: Attribute value. ( Handler )
 		"""
@@ -893,7 +893,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingFileHandler(self):
 		"""
-		This method is the deleter method for **self.__loggingFileHandler** attribute.
+		Deleter for **self.__loggingFileHandler** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -902,7 +902,7 @@ component, error)))
 	@property
 	def loggingConsoleHandler(self):
 		"""
-		This method is the property for **self.__loggingConsoleHandler** attribute.
+		Property for **self.__loggingConsoleHandler** attribute.
 
 		:return: self.__loggingConsoleHandler. ( Handler )
 		"""
@@ -913,7 +913,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingConsoleHandler(self, value):
 		"""
-		This method is the setter method for **self.__loggingConsoleHandler** attribute.
+		Setter for **self.__loggingConsoleHandler** attribute.
 
 		:param value: Attribute value. ( Handler )
 		"""
@@ -925,7 +925,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingConsoleHandler(self):
 		"""
-		This method is the deleter method for **self.__loggingConsoleHandler** attribute.
+		Deleter for **self.__loggingConsoleHandler** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -935,7 +935,7 @@ component, error)))
 	@foundations.trace.untracable
 	def loggingSessionHandlerStream(self):
 		"""
-		This method is the property for **self.__loggingSessionHandlerStream** attribute.
+		Property for **self.__loggingSessionHandlerStream** attribute.
 
 		:return: self.__loggingSessionHandlerStream. ( StreamObject )
 		"""
@@ -947,7 +947,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingSessionHandlerStream(self, value):
 		"""
-		This method is the setter method for **self.__loggingSessionHandlerStream** attribute.
+		Setter for **self.__loggingSessionHandlerStream** attribute.
 
 		:param value: Attribute value. ( StreamObject )
 		"""
@@ -960,7 +960,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingSessionHandlerStream(self):
 		"""
-		This method is the deleter method for **self.__loggingSessionHandlerStream** attribute.
+		Deleter for **self.__loggingSessionHandlerStream** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -969,7 +969,7 @@ component, error)))
 	@property
 	def settings(self):
 		"""
-		This method is the property for **self.__settings** attribute.
+		Property for **self.__settings** attribute.
 
 		:return: self.__settings. ( QSettings )
 		"""
@@ -980,7 +980,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self, value):
 		"""
-		This method is the setter method for **self.__settings** attribute.
+		Setter for **self.__settings** attribute.
 
 		:param value: Attribute value. ( QSettings )
 		"""
@@ -992,7 +992,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
-		This method is the deleter method for **self.__settings** attribute.
+		Deleter for **self.__settings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1001,7 +1001,7 @@ component, error)))
 	@property
 	def verbosityLevel(self):
 		"""
-		This method is the property for **self.__verbosityLevel** attribute.
+		Property for **self.__verbosityLevel** attribute.
 
 		:return: self.__verbosityLevel. ( Integer )
 		"""
@@ -1012,7 +1012,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def verbosityLevel(self, value):
 		"""
-		This method is the setter method for **self.__verbosityLevel** attribute.
+		Setter for **self.__verbosityLevel** attribute.
 
 		:param value: Attribute value. ( Integer )
 		"""
@@ -1027,7 +1027,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def verbosityLevel(self):
 		"""
-		This method is the deleter method for **self.__verbosityLevel** attribute.
+		Deleter for **self.__verbosityLevel** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1036,7 +1036,7 @@ component, error)))
 	@property
 	def parameters(self):
 		"""
-		This method is the property for **self.__parameters** attribute.
+		Property for **self.__parameters** attribute.
 
 		:return: self.__parameters. ( Object )
 		"""
@@ -1047,7 +1047,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def parameters(self, value):
 		"""
-		This method is the setter method for **self.__parameters** attribute.
+		Setter for **self.__parameters** attribute.
 
 		:param value: Attribute value. ( Object )
 		"""
@@ -1059,7 +1059,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def parameters(self):
 		"""
-		This method is the deleter method for **self.__parameters** attribute.
+		Deleter for **self.__parameters** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1068,7 +1068,7 @@ component, error)))
 	@property
 	def arguments(self):
 		"""
-		This method is the property for **self.__arguments** attribute.
+		Property for **self.__arguments** attribute.
 
 		:return: self.__arguments. ( List )
 		"""
@@ -1079,7 +1079,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def arguments(self, value):
 		"""
-		This method is the setter method for **self.__arguments** attribute.
+		Setter for **self.__arguments** attribute.
 
 		:param value: Attribute value. ( List )
 		"""
@@ -1091,7 +1091,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def arguments(self):
 		"""
-		This method is the deleter method for **self.__arguments** attribute.
+		Deleter for **self.__arguments** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1100,7 +1100,7 @@ component, error)))
 	@property
 	def workerThreads(self):
 		"""
-		This method is the property for **self.__workerThreads** attribute.
+		Property for **self.__workerThreads** attribute.
 
 		:return: self.__workerThreads. ( List )
 		"""
@@ -1111,7 +1111,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def workerThreads(self, value):
 		"""
-		This method is the setter method for **self.__workerThreads** attribute.
+		Setter for **self.__workerThreads** attribute.
 
 		:param value: Attribute value. ( List )
 		"""
@@ -1123,7 +1123,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def workerThreads(self):
 		"""
-		This method is the deleter method for **self.__workerThreads** attribute.
+		Deleter for **self.__workerThreads** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1132,7 +1132,7 @@ component, error)))
 	@property
 	def isProcessing(self):
 		"""
-		This method is the property for **self.__isProcessing** attribute.
+		Property for **self.__isProcessing** attribute.
 
 		:return: self.__isProcessing. ( Boolean )
 		"""
@@ -1143,7 +1143,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def isProcessing(self, value):
 		"""
-		This method is the setter method for **self.__isProcessing** attribute.
+		Setter for **self.__isProcessing** attribute.
 
 		:param value: Attribute value. ( Boolean )
 		"""
@@ -1155,7 +1155,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def isProcessing(self):
 		"""
-		This method is the deleter method for **self.__isProcessing** attribute.
+		Deleter for **self.__isProcessing** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1164,7 +1164,7 @@ component, error)))
 	@property
 	def locals(self):
 		"""
-		This method is the property for **self.__locals** attribute.
+		Property for **self.__locals** attribute.
 
 		:return: self.__locals. ( Dictionary )
 		"""
@@ -1175,7 +1175,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def locals(self, value):
 		"""
-		This method is the setter method for **self.__locals** attribute.
+		Setter for **self.__locals** attribute.
 
 		:param value: Attribute value. ( Dictionary )
 		"""
@@ -1187,7 +1187,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def locals(self):
 		"""
-		This method is the deleter method for **self.__locals** attribute.
+		Deleter for **self.__locals** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1198,7 +1198,7 @@ component, error)))
 	#******************************************************************************************************************
 	def dragEnterEvent(self, event):
 		"""
-		This method reimplements the :meth:`QWidget.dragEnterEvent` method.
+		Reimplements the :meth:`QWidget.dragEnterEvent` method.
 
 		:param event: QEvent. ( QEvent )
 		"""
@@ -1208,7 +1208,7 @@ component, error)))
 
 	def dragMoveEvent(self, event):
 		"""
-		This method reimplements the :meth:`QWidget.dragMoveEvent` method.
+		Reimplements the :meth:`QWidget.dragMoveEvent` method.
 
 		:param event: QEvent. ( QEvent )
 		"""
@@ -1218,7 +1218,7 @@ component, error)))
 
 	def dropEvent(self, event):
 		"""
-		This method reimplements the :meth:`QWidget.dropEvent` method.
+		Reimplements the :meth:`QWidget.dropEvent` method.
 
 		:param event: QEvent. ( QEvent )
 		"""
@@ -1228,14 +1228,14 @@ component, error)))
 
 	def show(self):
 		"""
-		This method reimplements the :meth:`QWidget.show` method.
+		Reimplements the :meth:`QWidget.show` method.
 		"""
 
 		super(Umbra, self).show(setGeometry=False)
 
 	def closeEvent(self, event):
 		"""
-		This method reimplements the :meth:`QWidget.closeEvent` method.
+		Reimplements the :meth:`QWidget.closeEvent` method.
 
 		:param event: QEvent. ( QEvent )
 		"""
@@ -1244,7 +1244,7 @@ component, error)))
 
 	def resizeEvent(self, event):
 		"""
-		This method reimplements the :meth:`QWidget.resizeEvent` method.
+		Reimplements the :meth:`QWidget.resizeEvent` method.
 
 		:param event: QEvent. ( QEvent )
 		"""
@@ -1255,7 +1255,7 @@ component, error)))
 
 	def __setComponents(self, requisite=True):
 		"""
-		This method sets the Components.
+		Sets the Components.
 
 		:param requisite: Set only requisite Components. ( Boolean )
 		"""
@@ -1296,7 +1296,7 @@ component, error)))
 
 	def __setLocals(self):
 		"""
-		This method sets the locals for the requestsStack.
+		Sets the locals for the requestsStack.
 		"""
 
 		for globals in (Constants, RuntimeGlobals, UiConstants):
@@ -1316,7 +1316,7 @@ component, error)))
 
 	def __processRequestsStack(self):
 		"""
-		This method process the requests stack.
+		Process the requests stack.
 		"""
 
 		while self.__requestsStack:
@@ -1327,7 +1327,7 @@ component, error)))
 
 	def __componentsInstantiationCallback(self, profile):
 		"""
-		This method is a callback for Components instantiation.
+		Defines a callback for Components instantiation.
 
 		:param profile: Component Profile. ( Profile )
 		"""
@@ -1337,7 +1337,7 @@ component, error)))
 
 	def __storeProcessingState(self):
 		"""
-		This method stores the processing state.
+		Stores the processing state.
 		"""
 
 		steps = self.Application_Progress_Status_processing.Processing_progressBar.maximum()
@@ -1349,7 +1349,7 @@ component, error)))
 
 	def __restoreProcessingState(self):
 		"""
-		This method restores the processing state.
+		Restores the processing state.
 		"""
 
 		steps, value, message, state = self.__processingState
@@ -1362,7 +1362,7 @@ component, error)))
 
 	def setVerbosityLevel(self, verbosityLevel):
 		"""
-		This method sets the Application verbosity level.
+		Sets the Application verbosity level.
 		
 		:param verbosityLevel: Verbosity level. ( Integer )
 		:return: Method success. ( Boolean )
@@ -1379,7 +1379,7 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.FileExistsError)
 	def setVisualStyle(self, fullScreenStyle=False):
 		"""
-		This method sets the Application visual style.
+		Sets the Application visual style.
 		
 		:param fullScreenStyle: Use fullscreen stylesheet file. ( Boolean )
 		:return: Method success. ( Boolean )
@@ -1436,7 +1436,7 @@ component, error)))
 
 	def isFullScreen(self):
 		"""
-		This method returns if Application is in fullscreen state.
+		Returns if Application is in fullscreen state.
 
 		:return: FullScreen state. ( Boolean )
 		"""
@@ -1445,7 +1445,7 @@ component, error)))
 
 	def toggleFullScreen(self, *args):
 		"""
-		This method toggles Application fullscreen state.
+		Toggles Application fullscreen state.
 
 		:param \*args: Arguments. ( \* )
 		:return: Method success. ( Boolean )
@@ -1467,7 +1467,7 @@ component, error)))
 
 	def processEvents(self, flags=QEventLoop.AllEvents):
 		"""
-		This method process Application events.
+		Process Application events.
 
 		:param flags: Events flags. ( Integer )
 		:return: Method success. ( Boolean )
@@ -1478,7 +1478,7 @@ component, error)))
 
 	def setProcessingMessage(self, message, warning=True):
 		"""
-		This method sets the processing operation message.
+		Sets the processing operation message.
 
 		:param message: Operation description. ( String )
 		:param warning: Emit warning message. ( Integer )
@@ -1499,7 +1499,7 @@ component, error)))
 
 	def startProcessing(self, message, steps=0, warning=True):
 		"""
-		This method registers the start of a processing operation.
+		Registers the start of a processing operation.
 
 		:param message: Operation description. ( String )
 		:param steps: Operation steps. ( Integer )
@@ -1524,7 +1524,7 @@ component, error)))
 
 	def stepProcessing(self, warning=True):
 		"""
-		This method steps the processing operation progress indicator.
+		Steps the processing operation progress indicator.
 
 		:param warning: Emit warning message. ( Integer )
 		:return: Method success. ( Boolean )
@@ -1545,7 +1545,7 @@ component, error)))
 
 	def stopProcessing(self, warning=True):
 		"""
-		This method registers the end of a processing operation.
+		Registers the end of a processing operation.
 
 		:param warning: Emit warning message. ( Integer )
 		:return: Method success. ( Boolean )
@@ -1567,7 +1567,7 @@ component, error)))
 		return True
 	def garbageCollect(self):
 		"""
-		This method triggers the garbage collecting.
+		Triggers the garbage collecting.
 
 		:return: Number of unreachable objects found. ( Integer )
 		"""
@@ -1578,7 +1578,7 @@ component, error)))
 
 	def quit(self, exitCode=0, event=None):
 		"""
-		This method quits the Application.
+		Quits the Application.
 
 		:param exitCode: Exit code. ( Integer )
 		:param event: QEvent. ( QEvent )
@@ -1627,7 +1627,7 @@ component, error)))
 @umbra.reporter.criticalExceptionHandler
 def setUserApplicationDataDirectory(path):
 	"""
-	This definition sets the Application data directory.
+	Sets the Application data directory.
 
 	:param path: Starting point for the directories tree creation. ( String )
 	:return: Definition success. ( Boolean )
@@ -1649,7 +1649,7 @@ def setUserApplicationDataDirectory(path):
 
 def getCommandLineParametersParser():
 	"""
-	This definition returns the command line parameters parser.
+	Returns the command line parameters parser.
 
 	:return: Parser. ( Parser )
 	"""
@@ -1719,7 +1719,7 @@ def getCommandLineParametersParser():
 @umbra.reporter.criticalExceptionHandler
 def getLoggingFile(maximumLoggingFiles=10, retries=2 ^ 16):
 	"""
-	This definition returns the logging file path.
+	Returns the logging file path.
 
 	:param maximumLoggingFiles: Maximum allowed logging files in the logging directory. ( Integer )
 	:param retries: Number of retries to generate a unique logging file name. ( Integer )
@@ -1754,7 +1754,7 @@ def getLoggingFile(maximumLoggingFiles=10, retries=2 ^ 16):
 @umbra.reporter.criticalExceptionHandler
 def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visibleComponents=None):
 	"""
-	This definition starts the Application.
+	Starts the Application.
 
 	:param engine: Engine. ( QObject )
 	:param parameters: Command line parameters. ( Tuple )
@@ -1888,7 +1888,7 @@ You will have to define your own preferences directory by launching {0} with the
 
 def exit(exitCode=0):
 	"""
-	This definition exits the Application.
+	Exits the Application.
 	
 	:param exitCode: Exit code. ( Integer )
 	"""

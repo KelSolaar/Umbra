@@ -67,7 +67,7 @@ class RequestsStackDataHandler(SocketServer.BaseRequestHandler):
 
 	def handle(self):
 		"""
-		This method reimplements the :meth:`SocketServer.BaseRequestHandler.handle` method.
+		Reimplements the :meth:`SocketServer.BaseRequestHandler.handle` method.
 	
 		:return: Method success. ( Boolean )
 		"""
@@ -102,7 +102,7 @@ class RequestsStackDataHandler(SocketServer.BaseRequestHandler):
 
 	def __serverShutdown(self):
 		"""
-		This method shutdowns the TCP Server.
+		Shutdowns the TCP Server.
 		"""
 
 		return self.container.stop(terminate=True)
@@ -115,7 +115,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __init__(self, parent=None, name=None, *args, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param name: Component name. ( String )
@@ -146,7 +146,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def engine(self):
 		"""
-		This method is the property for **self.__engine** attribute.
+		Property for **self.__engine** attribute.
 
 		:return: self.__engine. ( QObject )
 		"""
@@ -157,7 +157,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def engine(self, value):
 		"""
-		This method is the setter method for **self.__engine** attribute.
+		Setter for **self.__engine** attribute.
 
 		:param value: Attribute value. ( QObject )
 		"""
@@ -169,7 +169,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def engine(self):
 		"""
-		This method is the deleter method for **self.__engine** attribute.
+		Deleter for **self.__engine** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -178,7 +178,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def settings(self):
 		"""
-		This method is the property for **self.__settings** attribute.
+		Property for **self.__settings** attribute.
 
 		:return: self.__settings. ( QSettings )
 		"""
@@ -189,7 +189,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self, value):
 		"""
-		This method is the setter method for **self.__settings** attribute.
+		Setter for **self.__settings** attribute.
 
 		:param value: Attribute value. ( QSettings )
 		"""
@@ -201,7 +201,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
-		This method is the deleter method for **self.__settings** attribute.
+		Deleter for **self.__settings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -210,7 +210,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def settingsSection(self):
 		"""
-		This method is the property for **self.__settingsSection** attribute.
+		Property for **self.__settingsSection** attribute.
 
 		:return: self.__settingsSection. ( String )
 		"""
@@ -221,7 +221,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settingsSection(self, value):
 		"""
-		This method is the setter method for **self.__settingsSection** attribute.
+		Setter for **self.__settingsSection** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -233,7 +233,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settingsSection(self):
 		"""
-		This method is the deleter method for **self.__settingsSection** attribute.
+		Deleter for **self.__settingsSection** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -242,7 +242,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def preferencesManager(self):
 		"""
-		This method is the property for **self.__preferencesManager** attribute.
+		Property for **self.__preferencesManager** attribute.
 
 		:return: self.__preferencesManager. ( QWidget )
 		"""
@@ -253,7 +253,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def preferencesManager(self, value):
 		"""
-		This method is the setter method for **self.__preferencesManager** attribute.
+		Setter for **self.__preferencesManager** attribute.
 
 		:param value: Attribute value. ( QWidget )
 		"""
@@ -265,7 +265,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def preferencesManager(self):
 		"""
-		This method is the deleter method for **self.__preferencesManager** attribute.
+		Deleter for **self.__preferencesManager** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -274,7 +274,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def tcpServer(self):
 		"""
-		This method is the property for **self.__tcpServer** attribute.
+		Property for **self.__tcpServer** attribute.
 
 		:return: self.__tcpServer. ( QWidget )
 		"""
@@ -285,7 +285,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def tcpServer(self, value):
 		"""
-		This method is the setter method for **self.__tcpServer** attribute.
+		Setter for **self.__tcpServer** attribute.
 
 		:param value: Attribute value. ( QWidget )
 		"""
@@ -297,7 +297,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def tcpServer(self):
 		"""
-		This method is the deleter method for **self.__tcpServer** attribute.
+		Deleter for **self.__tcpServer** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -306,7 +306,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def address(self):
 		"""
-		This method is the property for **self.__address** attribute.
+		Property for **self.__address** attribute.
 
 		:return: self.__address. ( String )
 		"""
@@ -317,7 +317,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def address(self, value):
 		"""
-		This method is the setter method for **self.__address** attribute.
+		Setter for **self.__address** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -331,7 +331,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def address(self):
 		"""
-		This method is the deleter method for **self.__address** attribute.
+		Deleter for **self.__address** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -340,7 +340,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def port(self):
 		"""
-		This method is the property for **self.__port** attribute.
+		Property for **self.__port** attribute.
 
 		:return: self.__port. ( Integer )
 		"""
@@ -351,7 +351,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def port(self, value):
 		"""
-		This method is the setter method for **self.__port** attribute.
+		Setter for **self.__port** attribute.
 
 		:param value: Attribute value. ( Integer )
 		"""
@@ -367,7 +367,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def port(self):
 		"""
-		This method is the deleter method for **self.__port** attribute.
+		Deleter for **self.__port** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -379,7 +379,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	#******************************************************************************************************************
 	def activate(self, engine):
 		"""
-		This method activates the Component.
+		Activates the Component.
 
 		:param engine: Engine to attach the Component to. ( QObject )
 		:return: Method success. ( Boolean )
@@ -400,7 +400,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def deactivate(self):
 		"""
-		This method deactivates the Component.
+		Deactivates the Component.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -421,7 +421,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def initializeUi(self):
 		"""
-		This method initializes the Component ui.
+		Initializes the Component ui.
 		
 		:return: Method success. ( Boolean )		
 		"""
@@ -443,7 +443,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def uninitializeUi(self):
 		"""
-		This method uninitializes the Component ui.
+		Uninitializes the Component ui.
 		
 		:return: Method success. ( Boolean )		
 		"""
@@ -462,7 +462,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def addWidget(self):
 		"""
-		This method adds the Component Widget to the engine.
+		Adds the Component Widget to the engine.
 
 		:return: Method success. ( Boolean )		
 		"""
@@ -475,7 +475,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def removeWidget(self):
 		"""
-		This method removes the Component Widget from the engine.
+		Removes the Component Widget from the engine.
 
 		:return: Method success. ( Boolean )		
 		"""
@@ -489,7 +489,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def onStartup(self):
 		"""
-		This method is triggered on Framework startup.
+		Defines the slot triggered on Framework startup.
 		"""
 
 		LOGGER.debug("> Calling '{0}' Component Framework 'onStartup' method.".format(self.__class__.__name__))
@@ -502,7 +502,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def onClose(self):
 		"""
-		This method is triggered on Framework close.
+		Defines the slot triggered on Framework close.
 		"""
 
 		self.__tcpServer.online and self.__tcpServer.stop()
@@ -510,7 +510,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Port_spinBox_setUi(self):
 		"""
-		This method sets the **Port_spinBox** Widget.
+		Sets the **Port_spinBox** Widget.
 		"""
 
 		# Adding settings key if it doesn't exists.
@@ -525,7 +525,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Port_spinBox__valueChanged (self, value):
 		"""
-		This method is triggered when the **Port_spinBox** Widget value is changed.
+		Defines the slot triggered by the **Port_spinBox** Widget when value changed.
 
 		:param value: Port value. ( Integer )
 		"""
@@ -536,7 +536,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Autostart_TCP_Server_checkBox_setUi(self):
 		"""
-		This method sets the **Autostart_TCP_Server_checkBox** Widget.
+		Sets the **Autostart_TCP_Server_checkBox** Widget.
 		"""
 
 		# Adding settings key if it doesn't exists.
@@ -551,7 +551,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Autostart_TCP_Server_checkBox__stateChanged(self, state):
 		"""
-		This method is triggered when **Autostart_TCP_Server_checkBox** state changes.
+		Defines the slot triggered by **Autostart_TCP_Server_checkBox** Widged when state changed.
 
 		:param state: Checkbox state. ( Integer )
 		"""
@@ -562,7 +562,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Start_TCP_Server_pushButton__clicked(self, checked):
 		"""
-		This method is triggered when **Start_TCP_Server_pushButton** Widget is clicked.
+		Defines the slot triggered by **Start_TCP_Server_pushButton** Widget when clicked.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -571,7 +571,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Stop_TCP_Server_pushButton__clicked(self, checked):
 		"""
-		This method is triggered when **Stop_TCP_Server_pushButton** Widget is clicked.
+		Defines the slot triggered by **Stop_TCP_Server_pushButton** Widget when clicked.
 
 		:param checked: Checked state. ( Boolean )
 		"""
@@ -580,7 +580,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def startTcpServer(self, port):
 		"""
-		This method starts the TCP server using given port.
+		Starts the TCP server using given port.
 
 		:param port: Port. ( Integer )
 		:return: Method success. ( Boolean )
@@ -602,7 +602,7 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def stopTcpServer(self):
 		"""
-		This method stops the TCP server.
+		Stops the TCP server.
 
 		:return: Method success. ( Boolean )
 		"""

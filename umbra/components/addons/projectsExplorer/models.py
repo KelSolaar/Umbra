@@ -52,13 +52,13 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class ProjectsProxyModel(QSortFilterProxyModel):
 	"""
-	Defines the proxy Model used the by 
+	Defines the proxy Model used by the 
 	:class:`umbra.components.factory.projectsExplorer.projectsExplorer.ProjectsExplorer` Component Interface class. 
 	"""
 
 	def __init__(self, parent, *args, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param \*args: Arguments. ( \* )
@@ -82,7 +82,7 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 	#******************************************************************************************************************
 	def filterAcceptsRow(self, row, parent):
 		"""
-		This method reimplements the :meth:`QSortFilterProxyModel.filterAcceptsRow` method.
+		Reimplements the :meth:`QSortFilterProxyModel.filterAcceptsRow` method.
 		
 		:param row: Source row. ( Integer )
 		:param parent: Source parent. ( QModelIndex )
@@ -97,7 +97,7 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 
 	def data(self, index, role=Qt.DisplayRole):
 		"""
-		This method reimplements the :meth:`QSortFilterProxyModel.data` method.
+		Reimplements the :meth:`QSortFilterProxyModel.data` method.
 		
 		:param index: Index. ( QModelIndex )
 		:param role: Role. ( Integer )
@@ -125,7 +125,7 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 
 	def getNode(self, index):
 		"""
-		This method returns the Node at given index.
+		Returns the Node at given index.
 		
 		:param index: Index. ( QModelIndex )
 		:return: Node. ( AbstractCompositeNode )
@@ -139,7 +139,7 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 
 	def getAttribute(self, *args):
 		"""
-		This method reimplements requisite method.
+		Reimplements requisite method.
 		"""
 
 		pass

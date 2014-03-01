@@ -57,7 +57,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 def messageBox(type, title, message, icon=None, buttons=QMessageBox.Ok, customButtons=None):
 	"""
-	This definition provides a fast GUI message box.
+	Provides a fast GUI message box.
 
 	:param title: Current message title. ( String )
 	:param message: Message. ( String )

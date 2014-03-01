@@ -66,7 +66,7 @@ class Rule(foundations.dataStructures.Structure):
 
 	def __init__(self, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param \*\*kwargs: pattern, format. ( Key / Value pairs )
 		"""
@@ -82,7 +82,7 @@ class FormatsTree(object):
 
 	def __init__(self, theme=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param theme: Theme. ( Dictionary )
 		"""
@@ -100,7 +100,7 @@ class FormatsTree(object):
 	@property
 	def rootNode(self):
 		"""
-		This method is the property for **self.__rootNode** attribute.
+		Property for **self.__rootNode** attribute.
 
 		:return: self.__rootNode. ( AbstractCompositeNode )
 		"""
@@ -111,7 +111,7 @@ class FormatsTree(object):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def rootNode(self, value):
 		"""
-		This method is the setter method for **self.__rootNode** attribute.
+		Setter for **self.__rootNode** attribute.
 
 		:param value: Attribute value. ( AbstractCompositeNode )
 		"""
@@ -125,7 +125,7 @@ class FormatsTree(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def rootNode(self):
 		"""
-		This method is the deleter method for **self.__rootNode** attribute.
+		Deleter for **self.__rootNode** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -136,7 +136,7 @@ class FormatsTree(object):
 	#******************************************************************************************************************
 	def __initializeTree(self, theme):
 		"""
-		This method initializes the object formats tree.
+		Initializes the object formats tree.
 		
 		:param theme: Theme. ( Dictionary )
 		"""
@@ -153,7 +153,7 @@ class FormatsTree(object):
 
 	def listFormats(self, node, path=(), formats=None):
 		"""
-		This method lists the object formats in sorted order.
+		Lists the object formats in sorted order.
 		
 		:param node: Root node to start listing the formats from. ( AbstractCompositeNode )
 		:param path: Walked paths. ( Tuple )
@@ -172,7 +172,7 @@ class FormatsTree(object):
 	@foundations.decorators.memoize(None)
 	def getFormat(self, name):
 		"""
-		This method returns the closest format or closest parent format associated to given name.
+		Returns the closest format or closest parent format associated to given name.
 		
 		:param name: Format name. ( String)
 		:return: Format. ( QTextCharFormat )
@@ -208,7 +208,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 
 	def __init__(self, parent=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Widget parent. ( QObject )
 		"""
@@ -227,7 +227,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	@property
 	def formats(self):
 		"""
-		This method is the property for **self.__formats** attribute.
+		Property for **self.__formats** attribute.
 
 		:return: self.__formats. ( FormatsTree )
 		"""
@@ -238,7 +238,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def formats(self, value):
 		"""
-		This method is the setter method for **self.__formats** attribute.
+		Setter for **self.__formats** attribute.
 
 		:param value: Attribute value. ( FormatsTree )
 		"""
@@ -251,7 +251,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def formats(self):
 		"""
-		This method is the deleter method for **self.__formats** attribute.
+		Deleter for **self.__formats** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -260,7 +260,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	@property
 	def rules(self):
 		"""
-		This method is the property for **self.__rules** attribute.
+		Property for **self.__rules** attribute.
 
 		:return: self.__rules. ( Tuple / List )
 		"""
@@ -271,7 +271,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def rules(self, value):
 		"""
-		This method is the setter method for **self.__rules** attribute.
+		Setter for **self.__rules** attribute.
 
 		:param value: Attribute value. ( Tuple / List )
 		"""
@@ -285,7 +285,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def rules(self):
 		"""
-		This method is the deleter method for **self.__rules** attribute.
+		Deleter for **self.__rules** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -297,7 +297,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	@foundations.exceptions.handleExceptions(NotImplementedError)
 	def highlightBlock(self, block):
 		"""
-		This method reimplements the :meth:`QSyntaxHighlighter.highlightBlock` method.
+		Reimplements the :meth:`QSyntaxHighlighter.highlightBlock` method.
 
 		:param block: Text block. ( QString )
 		"""
@@ -308,7 +308,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 
 	def highlightText(self, text, start, end):
 		"""
-		This method highlights given text.
+		Highlights given text.
 
 		:param text: Text. ( QString )
 		:param start: Text start index. ( Integer )
@@ -332,7 +332,7 @@ class DefaultHighlighter(AbstractHighlighter):
 
 	def __init__(self, parent=None, rules=None, theme=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Widget parent. ( QObject )
 		:param rules: Rules. ( Tuple / List )
@@ -356,7 +356,7 @@ class DefaultHighlighter(AbstractHighlighter):
 	@property
 	def theme(self):
 		"""
-		This method is the property for **self.__theme** attribute.
+		Property for **self.__theme** attribute.
 
 		:return: self.__theme. ( Dictionary )
 		"""
@@ -367,7 +367,7 @@ class DefaultHighlighter(AbstractHighlighter):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def theme(self, value):
 		"""
-		This method is the setter method for **self.__theme** attribute.
+		Setter for **self.__theme** attribute.
 
 		:param value: Attribute value. ( Dictionary )
 		"""
@@ -380,7 +380,7 @@ class DefaultHighlighter(AbstractHighlighter):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def theme(self):
 		"""
-		This method is the deleter method for **self.__theme** attribute.
+		Deleter for **self.__theme** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -391,14 +391,14 @@ class DefaultHighlighter(AbstractHighlighter):
 	#******************************************************************************************************************
 	def __setFormats(self):
 		"""
-		This method sets the highlighting formats.
+		Sets the highlighting formats.
 		"""
 
 		self.formats = FormatsTree(self.__theme)
 
 	def highlightBlock(self, block):
 		"""
-		This method reimplements the :meth:`AbstractHighlighter.highlightBlock` method.
+		Reimplements the :meth:`AbstractHighlighter.highlightBlock` method.
 
 		:param block: Text block. ( QString )
 		"""
@@ -417,7 +417,7 @@ class DefaultHighlighter(AbstractHighlighter):
 
 	def highlightMultilineBlock(self, block, startPattern, endPattern, state, format):
 		"""
-		This method highlights given multiline text block.
+		Highlights given multiline text block.
 
 		:param block: Text block. ( QString )
 		:param pattern: Start regex pattern. ( QRegExp )

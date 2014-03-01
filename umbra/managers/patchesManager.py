@@ -61,7 +61,7 @@ class Patch(foundations.dataStructures.Structure):
 
 	def __init__(self, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param \*\*kwargs: name, path, module, apply, uid. ( Key / Value pairs )
 		"""
@@ -77,7 +77,7 @@ class PatchesManager(object):
 
 	def __init__(self, historyFile=None, paths=None, extension="py"):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param historyFile: Patches history file. ( String )
 		:param paths: Patches paths. ( Tuple / List )
@@ -105,7 +105,7 @@ class PatchesManager(object):
 	@property
 	def historyFile(self):
 		"""
-		This method is the property for **self.__historyFile** attribute.
+		Property for **self.__historyFile** attribute.
 
 		:return: self.__historyFile. ( String )
 		"""
@@ -116,7 +116,7 @@ class PatchesManager(object):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def historyFile(self, value):
 		"""
-		This method is the setter method for **self.__historyFile** attribute.
+		Setter for **self.__historyFile** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -130,7 +130,7 @@ class PatchesManager(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def historyFile(self):
 		"""
-		This method is the deleter method for **self.__historyFile** attribute.
+		Deleter for **self.__historyFile** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -139,7 +139,7 @@ class PatchesManager(object):
 	@property
 	def paths(self):
 		"""
-		This method is the property for **self.__paths** attribute.
+		Property for **self.__paths** attribute.
 
 		:return: self.__paths. ( Tuple / List )
 		"""
@@ -150,7 +150,7 @@ class PatchesManager(object):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def paths(self, value):
 		"""
-		This method is the setter method for **self.__paths** attribute.
+		Setter for **self.__paths** attribute.
 
 		:param value: Attribute value. ( Tuple / List )
 		"""
@@ -168,7 +168,7 @@ class PatchesManager(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def paths(self):
 		"""
-		This method is the deleter method for **self.__paths** attribute.
+		Deleter for **self.__paths** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -177,7 +177,7 @@ class PatchesManager(object):
 	@property
 	def extension(self):
 		"""
-		This method is the property for **self.__extension** attribute.
+		Property for **self.__extension** attribute.
 
 		:return: self.__extension. ( String )
 		"""
@@ -188,7 +188,7 @@ class PatchesManager(object):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def extension(self, value):
 		"""
-		This method is the setter method for **self.__extension** attribute.
+		Setter for **self.__extension** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -202,7 +202,7 @@ class PatchesManager(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def extension(self):
 		"""
-		This method is the deleter method for **self.__extension** attribute.
+		Deleter for **self.__extension** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -211,7 +211,7 @@ class PatchesManager(object):
 	@property
 	def patches(self):
 		"""
-		This method is the property for **self.__patches** attribute.
+		Property for **self.__patches** attribute.
 
 		:return: self.__patches. ( Dictionary )
 		"""
@@ -222,7 +222,7 @@ class PatchesManager(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def patches(self, value):
 		"""
-		This method is the setter method for **self.__patches** attribute.
+		Setter for **self.__patches** attribute.
 
 		:param value: Attribute value. ( Dictionary )
 		"""
@@ -234,7 +234,7 @@ class PatchesManager(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def patches(self):
 		"""
-		This method is the deleter method for **self.__patches** attribute.
+		Deleter for **self.__patches** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -245,7 +245,7 @@ class PatchesManager(object):
 	#******************************************************************************************************************
 	def __getitem__(self, patch):
 		"""
-		This method reimplements the :meth:`object.__getitem__` method.
+		Reimplements the :meth:`object.__getitem__` method.
 
 		:param patch: Patch name. ( String )
 		:return: Patch. ( Patch )
@@ -255,7 +255,7 @@ class PatchesManager(object):
 
 	def __iter__(self):
 		"""
-		This method reimplements the :meth:`object.__iter__` method.
+		Reimplements the :meth:`object.__iter__` method.
 
 		:return: Patchs iterator. ( Object )
 		"""
@@ -264,7 +264,7 @@ class PatchesManager(object):
 
 	def __contains__(self, patch):
 		"""
-		This method reimplements the :meth:`object.__contains__` method.
+		Reimplements the :meth:`object.__contains__` method.
 
 		:param patch: Patch name. ( String )
 		:return: Patch existence. ( Boolean )
@@ -274,7 +274,7 @@ class PatchesManager(object):
 
 	def __len__(self):
 		"""
-		This method reimplements the :meth:`object.__len__` method.
+		Reimplements the :meth:`object.__len__` method.
 
 		:return: Patchs count. ( Integer )
 		"""
@@ -283,7 +283,7 @@ class PatchesManager(object):
 
 	def listPatches(self):
 		"""
-		This method returns the registered patches.
+		Returns the registered patches.
 
 		:return: Patches list. ( List )
 		"""
@@ -292,7 +292,7 @@ class PatchesManager(object):
 
 	def isPatchRegistered(self, patch):
 		"""
-		This method returns if the given patch is registered.
+		Returns if the given patch is registered.
 
 		:param patch: Patch. ( String )
 		:return: Is patch registered. ( Boolean )
@@ -303,7 +303,7 @@ class PatchesManager(object):
 	@foundations.exceptions.handleExceptions(umbra.exceptions.PatchInterfaceError)
 	def registerPatch(self, name, path):
 		"""
-		This method registers given patch.
+		Registers given patch.
 
 		:param name: Patch name. ( String )
 		:param path: Patch path. ( String )
@@ -331,7 +331,7 @@ class PatchesManager(object):
 	@foundations.exceptions.handleExceptions(umbra.exceptions.PatchRegistrationError)
 	def registerPatches(self):
 		"""
-		This method registers the patches.
+		Registers the patches.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -356,7 +356,7 @@ class PatchesManager(object):
 	@foundations.exceptions.handleExceptions(umbra.exceptions.PatchApplyError)
 	def applyPatch(self, patch):
 		"""
-		This method applies given patch.
+		Applies given patch.
 
 		:param patch: Patch. ( Patch )
 		:return: Method success. ( Boolean )
@@ -379,7 +379,7 @@ class PatchesManager(object):
 
 	def applyPatches(self):
 		"""
-		This method applies the patches.
+		Applies the patches.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -391,7 +391,7 @@ class PatchesManager(object):
 
 	def getPatchFromUid(self, uid):
 		"""
-		This method returns the patch with given uid.
+		Returns the patch with given uid.
 
 		:param uid: Patch uid. ( String )
 		:return: Patch. ( Patch )

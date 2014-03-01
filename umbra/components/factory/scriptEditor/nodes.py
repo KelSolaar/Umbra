@@ -77,7 +77,7 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param name: Node name.  ( String )
 		:param parent: Node parent. ( GraphModelNode )
@@ -104,7 +104,7 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 	@property
 	def editor(self):
 		"""
-		This method is the property for **self.__editor** attribute.
+		Property for **self.__editor** attribute.
 
 		:return: self.__editor. ( Editor )
 		"""
@@ -115,7 +115,7 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def editor(self, value):
 		"""
-		This method is the setter method for **self.__editor** attribute.
+		Setter for **self.__editor** attribute.
 
 		:param value: Attribute value. ( Editor )
 		"""
@@ -128,7 +128,7 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def editor(self):
 		"""
-		This method is the deleter method for **self.__editor** attribute.
+		Deleter for **self.__editor** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -139,7 +139,7 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
 		:param attributesFlags: Attributes flags. ( Integer )
 		"""
@@ -163,7 +163,7 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param path: File path.  ( String )
 		:param name: Node name.  ( String )
@@ -190,7 +190,7 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 	@property
 	def path(self):
 		"""
-		This method is the property for **self.__path** attribute.
+		Property for **self.__path** attribute.
 
 		:return: self.__path. ( String )
 		"""
@@ -201,7 +201,7 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def path(self, value):
 		"""
-		This method is the setter method for **self.__path** attribute.
+		Setter for **self.__path** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -214,7 +214,7 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def path(self):
 		"""
-		This method is the deleter method for **self.__path** attribute.
+		Deleter for **self.__path** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -225,7 +225,7 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
 		:param attributesFlags: Attributes flags. ( Integer )
 		"""
@@ -250,7 +250,7 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param path: Directory path.  ( String )
 		:param name: Node name.  ( String )
@@ -278,7 +278,7 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 	@property
 	def path(self):
 		"""
-		This method is the property for **self.__path** attribute.
+		Property for **self.__path** attribute.
 
 		:return: self.__path. ( String )
 		"""
@@ -289,7 +289,7 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def path(self, value):
 		"""
-		This method is the setter method for **self.__path** attribute.
+		Setter for **self.__path** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -303,7 +303,7 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def path(self):
 		"""
-		This method is the deleter method for **self.__path** attribute.
+		Deleter for **self.__path** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -314,7 +314,7 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
 		:param attributesFlags: Attributes flags. ( Integer )
 		"""
@@ -339,7 +339,7 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param path: Project path.  ( String )
 		:param name: Node name.  ( String )
@@ -367,7 +367,7 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 	@property
 	def path(self):
 		"""
-		This method is the property for **self.__path** attribute.
+		Property for **self.__path** attribute.
 
 		:return: self.__path. ( String )
 		"""
@@ -378,7 +378,7 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def path(self, value):
 		"""
-		This method is the setter method for **self.__path** attribute.
+		Setter for **self.__path** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -392,7 +392,7 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def path(self):
 		"""
-		This method is the deleter method for **self.__path** attribute.
+		Deleter for **self.__path** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -403,7 +403,7 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
 		:param attributesFlags: Attributes flags. ( Integer )
 		"""
@@ -428,7 +428,7 @@ class PatternNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param name: Node name.  ( String )
 		:param parent: Node parent. ( GraphModelNode )
@@ -450,7 +450,7 @@ class PatternNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
 		:param attributesFlags: Attributes flags. ( Integer )
 		"""
@@ -475,7 +475,7 @@ class SearchFileNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param name: Node name.  ( String )
 		:param parent: Node parent. ( GraphModelNode )
@@ -497,7 +497,7 @@ class SearchFileNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
 		:param attributesFlags: Attributes flags. ( Integer )
 		"""
@@ -522,7 +522,7 @@ class SearchOccurenceNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param name: Node name.  ( String )
 		:param parent: Node parent. ( GraphModelNode )
@@ -544,7 +544,7 @@ class SearchOccurenceNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
 		:param attributesFlags: Attributes flags. ( Integer )
 		"""
@@ -569,7 +569,7 @@ class ReplaceResultNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param name: Node name.  ( String )
 		:param parent: Node parent. ( GraphModelNode )
@@ -591,7 +591,7 @@ class ReplaceResultNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
 		:param attributesFlags: Attributes flags. ( Integer )
 		"""

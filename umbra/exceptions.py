@@ -63,7 +63,7 @@ __all__ = ["LOGGER",
 #**********************************************************************************************************************
 def notifyExceptionHandler(*args):
 	"""
-	This definition provides a notifier exception handler.
+	Provides a notifier exception handler.
 
 	:param \*args: Arguments. ( \* )
 	:return: Definition success. ( Boolean )

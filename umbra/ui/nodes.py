@@ -62,7 +62,7 @@ class Mixin_GraphModelObject(object):
 
 	def __init__(self):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		"""
 
@@ -80,7 +80,7 @@ class Mixin_GraphModelObject(object):
 	@property
 	def roles(self):
 		"""
-		This method is the property for **self.__roles** attribute.
+		Property for **self.__roles** attribute.
 	
 		:return: self.__roles. ( Dictionary )
 		"""
@@ -91,7 +91,7 @@ class Mixin_GraphModelObject(object):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def roles(self, value):
 		"""
-		This method is the setter method for **self.__roles** attribute.
+		Setter for **self.__roles** attribute.
 	
 		:param value: Attribute value. ( Dictionary )
 		"""
@@ -106,7 +106,7 @@ class Mixin_GraphModelObject(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def roles(self):
 		"""
-		This method is the deleter method for **self.__roles** attribute.
+		Deleter for **self.__roles** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -115,7 +115,7 @@ class Mixin_GraphModelObject(object):
 	@property
 	def flags(self):
 		"""
-		This method is the property for **self.__flags** attribute.
+		Property for **self.__flags** attribute.
 	
 		:return: self.__flags. ( Integer )
 		"""
@@ -126,7 +126,7 @@ class Mixin_GraphModelObject(object):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def flags(self, value):
 		"""
-		This method is the setter method for **self.__flags** attribute.
+		Setter for **self.__flags** attribute.
 	
 		:param value: Attribute value. ( Integer )
 		"""
@@ -139,7 +139,7 @@ class Mixin_GraphModelObject(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def flags(self):
 		"""
-		This method is the deleter method for **self.__flags** attribute.
+		Deleter for **self.__flags** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -148,7 +148,7 @@ class Mixin_GraphModelObject(object):
 	@property
 	def triggerModel(self):
 		"""
-		This method is the property for **self.__triggerModel** attribute.
+		Property for **self.__triggerModel** attribute.
 	
 		:return: self.__triggerModel. ( Boolean )
 		"""
@@ -159,7 +159,7 @@ class Mixin_GraphModelObject(object):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def triggerModel(self, value):
 		"""
-		This method is the setter method for **self.__triggerModel** attribute.
+		Setter for **self.__triggerModel** attribute.
 	
 		:param value: Attribute value. ( Boolean )
 		"""
@@ -172,7 +172,7 @@ class Mixin_GraphModelObject(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def triggerModel(self):
 		"""
-		This method is the deleter method for **self.__triggerModel** attribute.
+		Deleter for **self.__triggerModel** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -185,7 +185,7 @@ class GraphModelAttribute(Attribute, Mixin_GraphModelObject):
 
 	def __init__(self, name=None, value=None, roles=None, flags=None, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param name: Attribute name. ( String )
 		:param value: Attribute value. ( Object )
@@ -208,7 +208,7 @@ class GraphModelAttribute(Attribute, Mixin_GraphModelObject):
 	#******************************************************************************************************************
 	def __setattr__(self, attribute, value):
 		"""
-		This method reimplements the :meth:`foundations.nodes.Attribute.__setattr__` method.
+		Reimplements the :meth:`foundations.nodes.Attribute.__setattr__` method.
 
 		:param attribute: Attribute. ( Object )
 		:param value: Value. ( Object )
@@ -232,7 +232,7 @@ class GraphModelAttribute(Attribute, Mixin_GraphModelObject):
 
 	def attributeChanged(self):
 		"""
-		This method triggers the host model(s) :meth:`umbra.ui.models.GraphModel.attributeChanged` method.
+		Triggers the host model(s) :meth:`umbra.ui.models.GraphModel.attributeChanged` method.
 		
 		:return: Method success. ( Boolean )
 		"""
@@ -255,7 +255,7 @@ class GraphModelNode(AbstractCompositeNode, Mixin_GraphModelObject):
 
 	def __init__(self, name=None, parent=None, children=None, roles=None, flags=None, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param name: Node name.  ( String )
 		:param parent: Node parent. ( AbstractNode / AbstractCompositeNode )
@@ -279,7 +279,7 @@ class GraphModelNode(AbstractCompositeNode, Mixin_GraphModelObject):
 	#******************************************************************************************************************
 	def __setattr__(self, attribute, value):
 		"""
-		This method reimplements the :meth:`foundations.nodes.AbstractCompositeNode.__setattr__` method.
+		Reimplements the :meth:`foundations.nodes.AbstractCompositeNode.__setattr__` method.
 
 		:param attribute.: Attribute. ( Object )
 		:param value.: Value. ( Object )
@@ -302,7 +302,7 @@ class GraphModelNode(AbstractCompositeNode, Mixin_GraphModelObject):
 
 	def nodeChanged(self):
 		"""
-		This method triggers the host model(s) :meth:`umbra.ui.models.GraphModel.nodeChanged` method.
+		Triggers the host model(s) :meth:`umbra.ui.models.GraphModel.nodeChanged` method.
 		
 		:return: Method success. ( Boolean )
 		"""
@@ -322,7 +322,7 @@ class DefaultNode(AbstractCompositeNode):
 
 	def __init__(self, name=None, parent=None, children=None, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param name: Node name.  ( String )
 		:param parent: Node parent. ( AbstractCompositeNode )
@@ -344,7 +344,7 @@ class FormatNode(AbstractCompositeNode):
 
 	def __init__(self, name=None, parent=None, children=None, format=None, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param name: Node name.  ( String )
 		:param parent: Node parent. ( AbstractNode / AbstractCompositeNode )
@@ -367,7 +367,7 @@ class FormatNode(AbstractCompositeNode):
 	@property
 	def format(self):
 		"""
-		This method is the property for **self.__format** attribute.
+		Property for **self.__format** attribute.
 
 		:return: self.__format. ( Object )
 		"""
@@ -377,7 +377,7 @@ class FormatNode(AbstractCompositeNode):
 	@format.setter
 	def format(self, value):
 		"""
-		This method is the setter method for **self.__format** attribute.
+		Setter for **self.__format** attribute.
 
 		:param value: Attribute value. ( Object )
 		"""
@@ -388,7 +388,7 @@ class FormatNode(AbstractCompositeNode):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def format(self):
 		"""
-		This method is the deleter method for **self.__format** attribute.
+		Deleter for **self.__format** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(

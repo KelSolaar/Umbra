@@ -85,7 +85,7 @@ class ReadOnlyFilter(QObject):
 
 	def eventFilter(self, object, event):
 		"""
-		This method reimplements the **QObject.eventFilter** method.
+		Reimplements the **QObject.eventFilter** method.
 		
 		:param object: Object. ( QObject )
 		:param event: Event. ( QEvent )
@@ -103,7 +103,7 @@ class ReadOnlyFilter(QObject):
 											foundations.exceptions.UserError)
 	def __raiseUserError(self, view) :
 		"""
-		This method raises an error if the given View has been set read only and the user attempted to edit its content.
+		Raises an error if the given View has been set read only and the user attempted to edit its content.
 
 		:param view: View. ( QWidget )
 		"""
@@ -118,7 +118,7 @@ class Mixin_AbstractBase(object):
 
 	def __init__(self, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param message: View default message when Model is empty. ( String )
@@ -142,7 +142,7 @@ class Mixin_AbstractBase(object):
 	@property
 	def message(self):
 		"""
-		This method is the property for **self.__message** attribute.
+		Property for **self.__message** attribute.
 
 		:return: self.__message. ( String )
 		"""
@@ -153,7 +153,7 @@ class Mixin_AbstractBase(object):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def message(self, value):
 		"""
-		This method is the setter method for **self.__message** attribute.
+		Setter for **self.__message** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -167,7 +167,7 @@ class Mixin_AbstractBase(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def message(self):
 		"""
-		This method is the deleter method for **self.__message** attribute.
+		Deleter for **self.__message** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -178,7 +178,7 @@ class Mixin_AbstractBase(object):
 	#******************************************************************************************************************
 	def resizeEvent(self, event):
 		"""
-		This method reimplements the :meth:`*.resizeEvent` method.
+		Reimplements the :meth:`*.resizeEvent` method.
 	
 		:param event: QEvent. ( QEvent )
 		"""
@@ -189,7 +189,7 @@ class Mixin_AbstractBase(object):
 
 	def paintEvent(self, event):
 		"""
-		This method reimplements the :meth:`*.paintEvent` method.
+		Reimplements the :meth:`*.paintEvent` method.
 	
 		:param event: QEvent. ( QEvent )
 		"""
@@ -219,7 +219,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 
 	def __init__(self, readOnly=None, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param readOnly: View is read only. ( Boolean )
@@ -241,7 +241,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 	@property
 	def readOnly(self):
 		"""
-		This method is the property for **self.__readOnly** attribute.
+		Property for **self.__readOnly** attribute.
 
 		:return: self.__readOnly. ( Boolean )
 		"""
@@ -252,7 +252,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def readOnly(self, value):
 		"""
-		This method is the setter method for **self.__readOnly** attribute.
+		Setter for **self.__readOnly** attribute.
 
 		:param value: Attribute value. ( Boolean )
 		"""
@@ -265,7 +265,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def readOnly(self):
 		"""
-		This method is the deleter method for **self.__readOnly** attribute.
+		Deleter for **self.__readOnly** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -276,7 +276,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 	#******************************************************************************************************************
 	def __initializeUi(self):
 		"""
-		This method initializes the View ui.
+		Initializes the View ui.
 		"""
 
 		self.viewport().installEventFilter(ReadOnlyFilter(self))
@@ -288,7 +288,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 
 	def getNodes(self):
 		"""
-		This method returns the View nodes.
+		Returns the View nodes.
 
 		:return: View nodes. ( List )
 		"""
@@ -297,7 +297,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 
 	def filterNodes(self, pattern, attribute, flags=re.IGNORECASE):
 		"""
-		This method filters the View Nodes on given attribute using given pattern.
+		Filters the View Nodes on given attribute using given pattern.
 	
 		:param pattern: Filtering pattern. ( String )
 		:param attribute: Filtering attribute. ( String )
@@ -312,7 +312,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 	# @foundations.decorators.memoize(None)
 	def getViewNodesFromIndexes(self, *indexes):
 		"""
-		This method returns the View Nodes from given indexes.
+		Returns the View Nodes from given indexes.
 	
 		:param view: View. ( QWidget )
 		:param \*indexes: Indexes. ( List )
@@ -342,7 +342,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 
 	def getViewSelectedNodes(self):
 		"""
-		This method returns the View selected nodes.
+		Returns the View selected nodes.
 	
 		:param view: View. ( QWidget )
 		:return: View selected nodes. ( Dictionary )
@@ -352,7 +352,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 
 	def getSelectedNodes(self):
 		"""
-		This method returns the View selected nodes.
+		Returns the View selected nodes.
 
 		:return: View selected nodes. ( Dictionary )
 		"""
@@ -361,7 +361,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 
 	def selectViewIndexes(self, indexes, flags=QItemSelectionModel.Select | QItemSelectionModel.Rows):
 		"""
-		This method selects the View given indexes.
+		Selects the View given indexes.
 	
 		:param view: View. ( QWidget )
 		:param indexes: Indexes to select. ( List )
@@ -378,7 +378,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 
 	def selectIndexes(self, indexes, flags=QItemSelectionModel.Select | QItemSelectionModel.Rows):
 		"""
-		This method selects given indexes.
+		Selects given indexes.
 
 		:param indexes: Indexes to select. ( List )
 		:param flags: Selection flags. ( QItemSelectionModel.SelectionFlags )
@@ -402,7 +402,7 @@ class Abstract_QListView(QListView, Mixin_AbstractView):
 
 	def __init__(self, parent=None, readOnly=False, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param readOnly: View is read only. ( Boolean )
@@ -422,7 +422,7 @@ class Abstract_QTableView(QTableView, Mixin_AbstractView):
 
 	def __init__(self, parent=None, readOnly=False, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param readOnly: View is read only. ( Boolean )
@@ -442,7 +442,7 @@ class Abstract_QTreeView(QTreeView, Mixin_AbstractView):
 
 	def __init__(self, parent=None, readOnly=False, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param readOnly: View is read only. ( Boolean )
@@ -462,7 +462,7 @@ class Abstract_QListWidget(QListWidget, Mixin_AbstractWidget):
 
 	def __init__(self, parent=None, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param message: View default message when Model is empty. ( String )
@@ -481,7 +481,7 @@ class Abstract_QTableWidget(QTableWidget, Mixin_AbstractWidget):
 
 	def __init__(self, parent=None, readOnly=False, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param message: View default message when Model is empty. ( String )
@@ -500,7 +500,7 @@ class Abstract_QTreeWidget(QTreeWidget, Mixin_AbstractWidget):
 
 	def __init__(self, parent=None, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param message: View default message when Model is empty. ( String )

@@ -92,7 +92,7 @@ class Active_QLabelsCollection(QObject):
 
 	def __init__(self, parent=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Widget parent. ( QObject )
 		"""
@@ -112,7 +112,7 @@ class Active_QLabelsCollection(QObject):
 	@property
 	def container(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		Property for **self.__container** attribute.
 
 		:return: self.__container. ( QObject )
 		"""
@@ -123,7 +123,7 @@ class Active_QLabelsCollection(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		Setter for **self.__container** attribute.
 
 		:param value: Attribute value. ( QObject )
 		"""
@@ -135,7 +135,7 @@ class Active_QLabelsCollection(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		Deleter for **self.__container** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -144,7 +144,7 @@ class Active_QLabelsCollection(QObject):
 	@property
 	def activeLabels(self):
 		"""
-		This method is the property for **self.__activeLabels** attribute.
+		Property for **self.__activeLabels** attribute.
 
 		:return: self.__activeLabels. ( List )
 		"""
@@ -155,7 +155,7 @@ class Active_QLabelsCollection(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def activeLabels(self, value):
 		"""
-		This method is the setter method for **self.__activeLabels** attribute.
+		Setter for **self.__activeLabels** attribute.
 
 		:param value: Attribute value. ( List )
 		"""
@@ -167,7 +167,7 @@ class Active_QLabelsCollection(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def activeLabels(self):
 		"""
-		This method is the deleter method for **self.__activeLabels** attribute.
+		Deleter for **self.__activeLabels** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -178,7 +178,7 @@ class Active_QLabelsCollection(QObject):
 	#******************************************************************************************************************
 	def __activeLabel__toggled(self, activeLabel, state):
 		"""
-		This method is triggered when an **Active_QLabel** Widget is toggled.
+		Defines the slot triggered by an **Active_QLabel** Widget when toggled.
 
 		:param activeLabel: Active label. ( Active_QLabel )
 		:param state: Active label checked state. ( Boolean )
@@ -190,7 +190,7 @@ class Active_QLabelsCollection(QObject):
 
 	def __updateSiblingsActiveLabelsStates(self, activeLabel):
 		"""
-		This method updates given **Active_QLabel** widget siblings states.
+		Updates given **Active_QLabel** Widget siblings states.
 
 		:param activeLabel: Active label. ( Active_QLabel )
 		"""
@@ -206,7 +206,7 @@ class Active_QLabelsCollection(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def addActiveLabel(self, activeLabel):
 		"""
-		This method adds given **Active_QLabel** Widget.
+		Adds given **Active_QLabel** Widget.
 
 		:param activeLabel: Active label to add. ( Active_QLabel )
 		:return: Method success. ( Boolean )
@@ -236,7 +236,7 @@ class Active_QLabelsCollection(QObject):
 
 	def removeActiveLabel(self, activeLabel):
 		"""
-		This method removes given **Active_QLabel** Widget.
+		Removes given **Active_QLabel** Widget.
 
 		:param activeLabel: Active label to remove. ( Active_QLabel )
 		:return: Method success. ( Boolean )
@@ -251,7 +251,7 @@ class Active_QLabelsCollection(QObject):
 
 	def getToggledActiveLabel(self):
 		"""
-		This method returns the toggled **Active_QLabel** Widget.
+		Returns the toggled **Active_QLabel** Widget.
 
 		:return: Checked active label. ( Boolean )
 		"""
@@ -262,7 +262,7 @@ class Active_QLabelsCollection(QObject):
 
 	def getActiveLabelIndex(self, activeLabel):
 		"""
-		This method returns given **Active_QLabel** Widget index.
+		Returns given **Active_QLabel** Widget index.
 
 		:param activeLabel: Active label to retrieve index. ( Active_QLabel )
 		:return: Active label index. ( Integer )
@@ -272,7 +272,7 @@ class Active_QLabelsCollection(QObject):
 
 	def getActiveLabelFromIndex(self, index):
 		"""
-		This method returns the **Active_QLabel** Widget from given index.
+		Returns the **Active_QLabel** Widget from given index.
 
 		:param index: Index. ( Integer )
 		:return: Active label. ( Active_QLabel )

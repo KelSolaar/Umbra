@@ -68,7 +68,7 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param module: Module.  ( Module )
 		:param name: Node name.  ( String )
@@ -95,7 +95,7 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 	@property
 	def module(self):
 		"""
-		This method is the property for **self.__module** attribute.
+		Property for **self.__module** attribute.
 
 		:return: self.__module. ( Object )
 		"""
@@ -106,7 +106,7 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def module(self, value):
 		"""
-		This method is the setter method for **self.__module** attribute.
+		Setter for **self.__module** attribute.
 
 		:param value: Attribute value. ( Object )
 		"""
@@ -118,7 +118,7 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def module(self):
 		"""
-		This method is the deleter method for **self.__module** attribute.
+		Deleter for **self.__module** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -129,7 +129,7 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
 		:param attributesFlags: Attributes flags. ( Integer )
 		"""
@@ -141,7 +141,7 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 
 	def updateNodeAttributes(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method updates the Node attributes.
+		Updates the Node attributes.
 		
 		:param attributesFlags: Attributes flags. ( Integer )
 		:return: Method success. ( Boolean )

@@ -56,7 +56,7 @@ class RuntimeGlobalsTestCase(unittest.TestCase):
 
 	def testRequiredAttributes(self):
 		"""
-		This method tests presence of required attributes.
+		Tests presence of required attributes.
 		"""
 
 		requiredAttributes = ("parameters",
@@ -94,14 +94,14 @@ class RuntimeGlobalsTestCase(unittest.TestCase):
 
 	def testResourcesPathsAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.runtimeGlobals.RuntimeGlobals.resourcesDirectories` attribute.
+		Tests :attr:`umbra.globals.runtimeGlobals.RuntimeGlobals.resourcesDirectories` attribute.
 		"""
 
 		self.assertIsInstance(RuntimeGlobals.resourcesDirectories, list)
 
 	def testLastBrowsedPath(self):
 		"""
-		This method tests :attr:`umbra.globals.runtimeGlobals.RuntimeGlobals.lastBrowsedPath` attribute.
+		Tests :attr:`umbra.globals.runtimeGlobals.RuntimeGlobals.lastBrowsedPath` attribute.
 		"""
 
 		self.assertTrue(os.path.exists(RuntimeGlobals.lastBrowsedPath))

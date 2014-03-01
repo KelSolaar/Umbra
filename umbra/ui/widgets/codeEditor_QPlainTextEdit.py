@@ -76,7 +76,7 @@ class LinesNumbers_QWidget(QWidget):
 
 	def __init__(self, parent, *args, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param \*args: Arguments. ( \* )
@@ -104,7 +104,7 @@ class LinesNumbers_QWidget(QWidget):
 	@property
 	def editor(self):
 		"""
-		This method is the property for **self.__editor** attribute.
+		Property for **self.__editor** attribute.
 
 		:return: self.__editor. ( QWidget )
 		"""
@@ -114,7 +114,7 @@ class LinesNumbers_QWidget(QWidget):
 	@editor.setter
 	def editor(self, value):
 		"""
-		This method is the setter method for **self.__editor** attribute.
+		Setter for **self.__editor** attribute.
 
 		:param value: Attribute value. ( QWidget )
 		"""
@@ -125,7 +125,7 @@ class LinesNumbers_QWidget(QWidget):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def editor(self):
 		"""
-		This method is the deleter method for **self.__editor** attribute.
+		Deleter for **self.__editor** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -134,7 +134,7 @@ class LinesNumbers_QWidget(QWidget):
 	@property
 	def margin(self):
 		"""
-		This method is the property for **self.__margin** attribute.
+		Property for **self.__margin** attribute.
 
 		:return: self.__margin. ( Integer )
 		"""
@@ -145,7 +145,7 @@ class LinesNumbers_QWidget(QWidget):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def margin(self, value):
 		"""
-		This method is the setter method for **self.__margin** attribute.
+		Setter for **self.__margin** attribute.
 
 		:param value: Attribute value. ( Integer )
 		"""
@@ -159,7 +159,7 @@ class LinesNumbers_QWidget(QWidget):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def margin(self):
 		"""
-		This method is the deleter method for **self.__margin** attribute.
+		Deleter for **self.__margin** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -168,7 +168,7 @@ class LinesNumbers_QWidget(QWidget):
 	@property
 	def separatorWidth(self):
 		"""
-		This method is the property for **self.__separatorWidth** attribute.
+		Property for **self.__separatorWidth** attribute.
 
 		:return: self.__separatorWidth. ( Integer )
 		"""
@@ -179,7 +179,7 @@ class LinesNumbers_QWidget(QWidget):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def separatorWidth(self, value):
 		"""
-		This method is the setter method for **self.__separatorWidth** attribute.
+		Setter for **self.__separatorWidth** attribute.
 
 		:param value: Attribute value. ( Integer )
 		"""
@@ -193,7 +193,7 @@ class LinesNumbers_QWidget(QWidget):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def separatorWidth(self):
 		"""
-		This method is the deleter method for **self.__separatorWidth** attribute.
+		Deleter for **self.__separatorWidth** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -202,7 +202,7 @@ class LinesNumbers_QWidget(QWidget):
 	@property
 	def backgroundColor(self):
 		"""
-		This method is the property for **self.__backgroundColor** attribute.
+		Property for **self.__backgroundColor** attribute.
 
 		:return: self.__backgroundColor. ( QColor )
 		"""
@@ -213,7 +213,7 @@ class LinesNumbers_QWidget(QWidget):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def backgroundColor(self, value):
 		"""
-		This method is the setter method for **self.__backgroundColor** attribute.
+		Setter for **self.__backgroundColor** attribute.
 
 		:param value: Attribute value. ( QColor )
 		"""
@@ -226,7 +226,7 @@ class LinesNumbers_QWidget(QWidget):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def backgroundColor(self):
 		"""
-		This method is the deleter method for **self.__backgroundColor** attribute.
+		Deleter for **self.__backgroundColor** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -235,7 +235,7 @@ class LinesNumbers_QWidget(QWidget):
 	@property
 	def color(self):
 		"""
-		This method is the property for **self.__color** attribute.
+		Property for **self.__color** attribute.
 
 		:return: self.__color. ( QColor )
 		"""
@@ -246,7 +246,7 @@ class LinesNumbers_QWidget(QWidget):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def color(self, value):
 		"""
-		This method is the setter method for **self.__color** attribute.
+		Setter for **self.__color** attribute.
 
 		:param value: Attribute value. ( QColor )
 		"""
@@ -259,7 +259,7 @@ class LinesNumbers_QWidget(QWidget):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def color(self):
 		"""
-		This method is the deleter method for **self.__color** attribute.
+		Deleter for **self.__color** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -268,7 +268,7 @@ class LinesNumbers_QWidget(QWidget):
 	@property
 	def separatorColor(self):
 		"""
-		This method is the property for **self.__separatorColor** attribute.
+		Property for **self.__separatorColor** attribute.
 
 		:return: self.__separatorColor. ( QColor )
 		"""
@@ -279,7 +279,7 @@ class LinesNumbers_QWidget(QWidget):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def separatorColor(self, value):
 		"""
-		This method is the setter method for **self.__separatorColor** attribute.
+		Setter for **self.__separatorColor** attribute.
 
 		:param value: Attribute value. ( QColor )
 		"""
@@ -292,7 +292,7 @@ class LinesNumbers_QWidget(QWidget):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def separatorColor(self):
 		"""
-		This method is the deleter method for **self.__separatorColor** attribute.
+		Deleter for **self.__separatorColor** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -303,7 +303,7 @@ class LinesNumbers_QWidget(QWidget):
 	#******************************************************************************************************************
 	def sizeHint(self):
 		"""
-		This method reimplements the :meth:`QWidget.sizeHint` method.
+		Reimplements the :meth:`QWidget.sizeHint` method.
 
 		:return: Size hint. ( QSize )
 		"""
@@ -312,14 +312,14 @@ class LinesNumbers_QWidget(QWidget):
 
 	def paintEvent(self, event):
 		"""
-		This method reimplements the :meth:`QWidget.paintEvent` method.
+		Reimplements the :meth:`QWidget.paintEvent` method.
 		
 		:param event: Event. ( QEvent )
 		"""
 
 		def __setBold(state):
 			"""
-			This definition sets the current painter font bold state.
+			Sets the current painter font bold state.
 
 			:return: Definiton success. ( Boolean )
 			"""
@@ -370,7 +370,7 @@ class LinesNumbers_QWidget(QWidget):
 
 	def getWidth(self):
 		"""
-		This method returns the Widget target width.
+		Returns the Widget target width.
 
 		:return: Widget target width. ( Integer )
 		"""
@@ -380,7 +380,7 @@ class LinesNumbers_QWidget(QWidget):
 
 	def setEditorViewportMargins(self, newBlocksCount):
 		"""
-		This method sets the editor viewport margins.
+		Sets the editor viewport margins.
 		
 		:param newBlocksCount: Updated editor blocks count. ( Integer )
 		:return: Method success. ( Boolean )
@@ -391,7 +391,7 @@ class LinesNumbers_QWidget(QWidget):
 
 	def updateRectangle(self, rectangle, scrollY):
 		"""
-		This method updates the given widget rectangle.
+		Updates the given Widget rectangle.
 		
 		:param rectangle: Rectangle to update. ( QRect )
 		:param scrollY: Amount of pixels the viewport was scrolled. ( Integer )
@@ -409,7 +409,7 @@ class LinesNumbers_QWidget(QWidget):
 
 	def updateGeometry(self):
 		"""
-		This method updates the widget geometry.
+		Updates the Widget geometry.
 		
 		:return: Method success. ( Boolean )
 		"""
@@ -440,7 +440,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 				*args,
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Widget parent. ( QObject )
 		:param language: Editor language. ( Language )
@@ -485,7 +485,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@property
 	def language(self):
 		"""
-		This method is the property for **self.__language** attribute.
+		Property for **self.__language** attribute.
 
 		:return: self.__language. ( Language )
 		"""
@@ -496,7 +496,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def language(self, value):
 		"""
-		This method is the setter method for **self.__language** attribute.
+		Setter for **self.__language** attribute.
 
 		:param value: Attribute value. ( Language )
 		"""
@@ -508,7 +508,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def language(self):
 		"""
-		This method is the deleter method for **self.__language** attribute.
+		Deleter for **self.__language** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -518,7 +518,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@property
 	def indentMarker(self):
 		"""
-		This method is the property for **self.__indentMarker** attribute.
+		Property for **self.__indentMarker** attribute.
 
 		:return: self.__indentMarker. ( String )
 		"""
@@ -529,7 +529,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def indentMarker(self, value):
 		"""
-		This method is the setter method for **self.__indentMarker** attribute.
+		Setter for **self.__indentMarker** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -545,7 +545,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def indentMarker(self):
 		"""
-		This method is the deleter method for **self.__indentMarker** attribute.
+		Deleter for **self.__indentMarker** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -554,7 +554,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@property
 	def indentWidth(self):
 		"""
-		This method is the property for **self.__indentWidth** attribute.
+		Property for **self.__indentWidth** attribute.
 
 		:return: self.__indentWidth. ( Integer )
 		"""
@@ -565,7 +565,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def indentWidth(self, value):
 		"""
-		This method is the setter method for **self.__indentWidth** attribute.
+		Setter for **self.__indentWidth** attribute.
 
 		:param value: Attribute value. ( Integer )
 		"""
@@ -578,7 +578,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def indentWidth(self):
 		"""
-		This method is the deleter method for **self.__indentWidth** attribute.
+		Deleter for **self.__indentWidth** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -587,7 +587,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@property
 	def commentMarker(self):
 		"""
-		This method is the property for **self.__commentMarker** attribute.
+		Property for **self.__commentMarker** attribute.
 
 		:return: self.__commentMarker. ( String )
 		"""
@@ -598,7 +598,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def commentMarker(self, value):
 		"""
-		This method is the setter method for **self.__commentMarker** attribute.
+		Setter for **self.__commentMarker** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -612,7 +612,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def commentMarker(self):
 		"""
-		This method is the deleter method for **self.__commentMarker** attribute.
+		Deleter for **self.__commentMarker** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -621,7 +621,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@property
 	def marginArea_LinesNumbers_widget(self):
 		"""
-		This method is the property for **self.__marginArea_LinesNumbers_widget** attribute.
+		Property for **self.__marginArea_LinesNumbers_widget** attribute.
 
 		:return: self.__marginArea_LinesNumbers_widget. ( LinesNumbers_QWidget )
 		"""
@@ -632,7 +632,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def marginArea_LinesNumbers_widget(self, value):
 		"""
-		This method is the setter method for **self.__marginArea_LinesNumbers_widget** attribute.
+		Setter for **self.__marginArea_LinesNumbers_widget** attribute.
 
 		:param value: Attribute value. ( LinesNumbers_QWidget )
 		"""
@@ -646,7 +646,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def marginArea_LinesNumbers_widget(self):
 		"""
-		This method is the deleter method for **self.__marginArea_LinesNumbers_widget** attribute.
+		Deleter for **self.__marginArea_LinesNumbers_widget** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -655,7 +655,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@property
 	def highlighter(self):
 		"""
-		This method is the property for **self.__highlighter** attribute.
+		Property for **self.__highlighter** attribute.
 
 		:return: self.__highlighter. ( QSyntaxHighlighter )
 		"""
@@ -666,7 +666,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def highlighter(self, value):
 		"""
-		This method is the setter method for **self.__highlighter** attribute.
+		Setter for **self.__highlighter** attribute.
 
 		:param value: Attribute value. ( QSyntaxHighlighter )
 		"""
@@ -678,7 +678,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def highlighter(self):
 		"""
-		This method is the deleter method for **self.__highlighter** attribute.
+		Deleter for **self.__highlighter** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -687,7 +687,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@property
 	def completer(self):
 		"""
-		This method is the property for **self.__completer** attribute.
+		Property for **self.__completer** attribute.
 
 		:return: self.__completer. ( QCompleter )
 		"""
@@ -698,7 +698,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def completer(self, value):
 		"""
-		This method is the setter method for **self.__completer** attribute.
+		Setter for **self.__completer** attribute.
 
 		:param value: Attribute value. ( QCompleter )
 		"""
@@ -710,7 +710,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def completer(self):
 		"""
-		This method is the deleter method for **self.__completer** attribute.
+		Deleter for **self.__completer** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -719,7 +719,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@property
 	def preInputAccelerators(self):
 		"""
-		This method is the property for **self.__preInputAccelerators** attribute.
+		Property for **self.__preInputAccelerators** attribute.
 
 		:return: self.__preInputAccelerators. ( Tuple / List )
 		"""
@@ -730,7 +730,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def preInputAccelerators(self, value):
 		"""
-		This method is the setter method for **self.__preInputAccelerators** attribute.
+		Setter for **self.__preInputAccelerators** attribute.
 
 		:param value: Attribute value. ( Tuple / List )
 		"""
@@ -744,7 +744,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def preInputAccelerators(self):
 		"""
-		This method is the deleter method for **self.__preInputAccelerators** attribute.
+		Deleter for **self.__preInputAccelerators** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -753,7 +753,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@property
 	def postInputAccelerators(self):
 		"""
-		This method is the property for **self.__postInputAccelerators** attribute.
+		Property for **self.__postInputAccelerators** attribute.
 
 		:return: self.__postInputAccelerators. ( Tuple / List )
 		"""
@@ -764,7 +764,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def postInputAccelerators(self, value):
 		"""
-		This method is the setter method for **self.__postInputAccelerators** attribute.
+		Setter for **self.__postInputAccelerators** attribute.
 
 		:param value: Attribute value. ( Tuple / List )
 		"""
@@ -778,7 +778,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def postInputAccelerators(self):
 		"""
-		This method is the deleter method for **self.__postInputAccelerators** attribute.
+		Deleter for **self.__postInputAccelerators** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -787,7 +787,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@property
 	def visualAccelerators(self):
 		"""
-		This method is the property for **self.__visualAccelerators** attribute.
+		Property for **self.__visualAccelerators** attribute.
 
 		:return: self.__visualAccelerators. ( Tuple / List )
 		"""
@@ -798,7 +798,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def visualAccelerators(self, value):
 		"""
-		This method is the setter method for **self.__visualAccelerators** attribute.
+		Setter for **self.__visualAccelerators** attribute.
 
 		:param value: Attribute value. ( Tuple / List )
 		"""
@@ -812,7 +812,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def visualAccelerators(self):
 		"""
-		This method is the deleter method for **self.__visualAccelerators** attribute.
+		Deleter for **self.__visualAccelerators** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -823,7 +823,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	#******************************************************************************************************************
 	def __initializeUi(self):
 		"""
-		This method initializes the Widget ui.
+		Initializes the Widget ui.
 		"""
 
 		self.__marginArea_LinesNumbers_widget = LinesNumbers_QWidget(self)
@@ -839,7 +839,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 	def resizeEvent(self, event):
 		"""
-		This method reimplements the :meth:`Basic_QPlainTextEdit.resizeEvent` method.
+		Reimplements the :meth:`Basic_QPlainTextEdit.resizeEvent` method.
 
 		:param event: Event. ( QEvent )
 		"""
@@ -850,7 +850,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@editBlock
 	def keyPressEvent(self, event):
 		"""
-		This method reimplements the :meth:`Basic_QPlainTextEdit.keyPressEvent` method.
+		Reimplements the :meth:`Basic_QPlainTextEdit.keyPressEvent` method.
 
 		:param event: Event. ( QEvent )
 		"""
@@ -869,7 +869,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 	def __setExtraSelections(self):
 		"""
-		This method sets current document extra selections.
+		Sets current document extra selections.
 		"""
 
 		self.setExtraSelections(())
@@ -878,7 +878,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 	def __insertCompletion(self, completion):
 		"""
-		This method inserts the completion text in the current document.
+		Inserts the completion text in the current document.
 
 		:param completion: Completion text. ( QString )
 		"""
@@ -892,7 +892,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 	def __setLanguageDescription(self):
 		"""
-		This method sets the language accelerators.
+		Sets the language accelerators.
 		"""
 
 		LOGGER.debug("> Setting language description.")
@@ -935,7 +935,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 	def setLanguage(self, language):
 		"""
-		This method sets the language.
+		Sets the language.
 
 		:param language: Language to set. ( Language )
 		:return: Method success. ( Boolean )
@@ -950,7 +950,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def setHighlighter(self, highlighter):
 		"""
-		This method sets given highlighter as the current document highlighter.
+		Sets given highlighter as the current document highlighter.
 
 		:param highlighter: Highlighter. ( QSyntaxHighlighter )
 		:return: Method success. ( Boolean )
@@ -970,7 +970,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 	def removeHighlighter(self):
 		"""
-		This method removes current highlighter.
+		Removes current highlighter.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -984,7 +984,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def setCompleter(self, completer):
 		"""
-		This method sets given completer as the current completer.
+		Sets given completer as the current completer.
 
 		:param completer: Completer. ( QCompleter )
 		:return: Method success. ( Boolean )
@@ -1008,7 +1008,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 	def removeCompleter(self):
 		"""
-		This method removes current completer.
+		Removes current completer.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -1024,7 +1024,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 	def getMatchingSymbolsPairs(self, cursor, openingSymbol, closingSymbol, backward=False):
 		"""
-		This method returns the cursor for matching given symbols pairs.
+		Returns the cursor for matching given symbols pairs.
 
 		:param cursor: Cursor to match from. ( QTextCursor )
 		:param openingSymbol: Opening symbol. ( String )
@@ -1059,7 +1059,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@editBlock
 	def indent(self):
 		"""
-		This method indents the document text under cursor.
+		Indents the document text under cursor.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -1081,7 +1081,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@editBlock
 	def unindent(self):
 		"""
-		This method unindents the document text under cursor.
+		Unindents the document text under cursor.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -1109,7 +1109,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@editBlock
 	def toggleComments(self):
 		"""
-		This method toggles comments on the document selected lines.
+		Toggles comments on the document selected lines.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -1145,7 +1145,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@editBlock
 	def removeTrailingWhiteSpaces(self):
 		"""
-		This method removes document trailing white spaces.
+		Removes document trailing white spaces.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -1169,7 +1169,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@editBlock
 	def convertIndentationToTabs(self):
 		"""
-		This method converts document indentation to tabs.
+		Converts document indentation to tabs.
 
 		:return: Method success. ( Boolean )
 		"""
@@ -1193,7 +1193,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	@editBlock
 	def convertIndentationToSpaces(self):
 		"""
-		This method converts document indentation to spaces.
+		Converts document indentation to spaces.
 
 		:return: Method success. ( Boolean )
 		"""

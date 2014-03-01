@@ -64,7 +64,7 @@ class ActionsManager(QObject):
 
 	def __init__(self, parent=None, namespaceSplitter="|", rootNamespace="Actions", defaultNamespace="Others"):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param namespaceSplitter: Namespace splitters character. ( String )
@@ -94,7 +94,7 @@ class ActionsManager(QObject):
 	@property
 	def namespaceSplitter(self):
 		"""
-		This method is the property for **self.__namespaceSplitter** attribute.
+		Property for **self.__namespaceSplitter** attribute.
 
 		:return: self.__namespaceSplitter. ( String )
 		"""
@@ -105,7 +105,7 @@ class ActionsManager(QObject):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def namespaceSplitter(self, value):
 		"""
-		This method is the setter method for **self.__namespaceSplitter** attribute.
+		Setter for **self.__namespaceSplitter** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -122,7 +122,7 @@ class ActionsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def namespaceSplitter(self):
 		"""
-		This method is the deleter method for **self.__namespaceSplitter** attribute.
+		Deleter for **self.__namespaceSplitter** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -131,7 +131,7 @@ class ActionsManager(QObject):
 	@property
 	def rootNamespace(self):
 		"""
-		This method is the property for **self.__rootNamespace** attribute.
+		Property for **self.__rootNamespace** attribute.
 
 		:return: self.__rootNamespace. ( String )
 		"""
@@ -142,7 +142,7 @@ class ActionsManager(QObject):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def rootNamespace(self, value):
 		"""
-		This method is the setter method for **self.__rootNamespace** attribute.
+		Setter for **self.__rootNamespace** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -156,7 +156,7 @@ class ActionsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def rootNamespace(self):
 		"""
-		This method is the deleter method for **self.__rootNamespace** attribute.
+		Deleter for **self.__rootNamespace** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -165,7 +165,7 @@ class ActionsManager(QObject):
 	@property
 	def defaultNamespace(self):
 		"""
-		This method is the property for **self.__defaultNamespace** attribute.
+		Property for **self.__defaultNamespace** attribute.
 
 		:return: self.__defaultNamespace. ( String )
 		"""
@@ -176,7 +176,7 @@ class ActionsManager(QObject):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def defaultNamespace(self, value):
 		"""
-		This method is the setter method for **self.__defaultNamespace** attribute.
+		Setter for **self.__defaultNamespace** attribute.
 
 		:param value: Attribute value. ( String )
 		"""
@@ -190,7 +190,7 @@ class ActionsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultNamespace(self):
 		"""
-		This method is the deleter method for **self.__defaultNamespace** attribute.
+		Deleter for **self.__defaultNamespace** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -199,7 +199,7 @@ class ActionsManager(QObject):
 	@property
 	def categories(self):
 		"""
-		This method is the property for **self.__categories** attribute.
+		Property for **self.__categories** attribute.
 
 		:return: self.__categories. ( Dictionary )
 		"""
@@ -210,7 +210,7 @@ class ActionsManager(QObject):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def categories(self, value):
 		"""
-		This method is the setter method for **self.__categories** attribute.
+		Setter for **self.__categories** attribute.
 
 		:param value: Attribute value. ( Dictionary )
 		"""
@@ -226,7 +226,7 @@ class ActionsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def categories(self):
 		"""
-		This method is the deleter method for **self.__categories** attribute.
+		Deleter for **self.__categories** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -237,7 +237,7 @@ class ActionsManager(QObject):
 	#******************************************************************************************************************
 	def __getitem__(self, action):
 		"""
-		This method reimplements the :meth:`object.__getitem__` method.
+		Reimplements the :meth:`object.__getitem__` method.
 
 		:param action: Action name. ( String )
 		:return: Action. ( QAction )
@@ -252,7 +252,7 @@ class ActionsManager(QObject):
 																								action))
 	def __iter__(self):
 		"""
-		This method reimplements the :meth:`object.__iter__` method.
+		Reimplements the :meth:`object.__iter__` method.
 
 		:return: Actions iterator. ( Object )
 		"""
@@ -261,7 +261,7 @@ class ActionsManager(QObject):
 
 	def __contains__(self, action):
 		"""
-		This method reimplements the :meth:`object.__contains__` method.
+		Reimplements the :meth:`object.__contains__` method.
 
 		:param action: Action name. ( String )
 		:return: Action existence. ( Boolean )
@@ -274,7 +274,7 @@ class ActionsManager(QObject):
 
 	def __len__(self):
 		"""
-		This method reimplements the :meth:`object.__len__` method.
+		Reimplements the :meth:`object.__len__` method.
 
 		:return: Actions count. ( Integer )
 		"""
@@ -283,7 +283,7 @@ class ActionsManager(QObject):
 
 	def __normalizeName(self, name):
 		"""
-		This method normalizes given action name.
+		Normalizes given action name.
 
 		:param name: Action name. ( String )
 		:return: Normalized name. ( Boolean )
@@ -300,7 +300,7 @@ class ActionsManager(QObject):
 
 	def __getCategory(self, category, name, vivify=False):
 		"""
-		This method gets recusively requested category, alternately if **vivify** argument is set,
+		Gets recusively requested category, alternately if **vivify** argument is set,
 		the category will be created.
 
 		:param category: Base category. ( Dictionary )
@@ -322,7 +322,7 @@ class ActionsManager(QObject):
 
 	def listActions(self):
 		"""
-		This method returns the registered actions.
+		Returns the registered actions.
 
 		:return: Actions list. ( List )
 		"""
@@ -335,7 +335,7 @@ class ActionsManager(QObject):
 	@foundations.exceptions.handleExceptions(umbra.exceptions.CategoryExistsError)
 	def getCategory(self, name, vivify=False):
 		"""
-		This method returns requested category.
+		Returns requested category.
 
 		:param name: Category to retrieve. ( String )
 		:param vivify: Vivify missing parents in the chain to the requested category. ( Boolean )
@@ -352,7 +352,7 @@ class ActionsManager(QObject):
 
 	def addToCategory(self, category, name, action):
 		"""
-		This method adds given action to given category.
+		Adds given action to given category.
 
 		:param category: Category to store the action. ( String )
 		:param name: Action name. ( String )
@@ -370,7 +370,7 @@ class ActionsManager(QObject):
 
 	def removeFromCategory(self, category, name):
 		"""
-		This method removes given action from given category.
+		Removes given action from given category.
 
 		:param category: Category to remove the action from. ( String )
 		:param name: Action name. ( String )
@@ -388,7 +388,7 @@ class ActionsManager(QObject):
 	@foundations.exceptions.handleExceptions(umbra.exceptions.ActionExistsError)
 	def getAction(self, action):
 		"""
-		This method returns requested action.
+		Returns requested action.
 
 		:param action: Action name. ( String )
 		:return: Action. ( QAction )
@@ -398,7 +398,7 @@ class ActionsManager(QObject):
 
 	def isActionRegistered(self, name):
 		"""
-		This method returns if the given action name is registered.
+		Returns if the given action name is registered.
 
 		:param name: Action name. ( String )
 		:return: Is action registered. ( Boolean )
@@ -408,7 +408,7 @@ class ActionsManager(QObject):
 
 	def registerAction(self, name, **kwargs):
 		"""
-		This method registers given action name, optional arguments like a parent, icon, slot etc ... can be given.
+		Registers given action name, optional arguments like a parent, icon, slot etc ... can be given.
 
 		:param name: Action to register. ( String )
 		:param \*\*kwargs: Keywords arguments. ( \*\* )
@@ -453,7 +453,7 @@ class ActionsManager(QObject):
 
 	def unregisterAction(self, name):
 		"""
-		This method unregisters given action name.
+		Unregisters given action name.
 
 		:param name: Action to register. ( String )
 		:return: Method success. ( Boolean )
@@ -473,7 +473,7 @@ class ActionsManager(QObject):
 
 	def isShortcutInUse(self, shortcut):
 		"""
-		This method returns if given action shortcut is in use.
+		Returns if given action shortcut is in use.
 
 		:param name: Action shortcut. ( String )
 		:return: Is shortcut in use. ( Boolean )
@@ -486,7 +486,7 @@ class ActionsManager(QObject):
 
 	def getShortcut(self, name):
 		"""
-		This method returns given action shortcut.
+		Returns given action shortcut.
 
 		:param name: Action to retrieve the shortcut. ( String )
 		:return: Action shortcut. ( String )
@@ -501,7 +501,7 @@ class ActionsManager(QObject):
 
 	def setShortcut(self, name, shortcut):
 		"""
-		This method sets given action shortcut.
+		Sets given action shortcut.
 
 		:param name: Action to set the shortcut. ( String )
 		:param shortcut: Shortcut to set. ( String )

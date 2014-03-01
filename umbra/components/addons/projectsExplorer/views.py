@@ -57,7 +57,7 @@ class Projects_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 	def __init__(self, parent, model=None, readOnly=False, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param parent: Object parent. ( QObject )
 		:param model: Model. ( QObject )
@@ -82,7 +82,7 @@ class Projects_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	@property
 	def treeViewIndentation(self):
 		"""
-		This method is the property for **self.__treeViewIndentation** attribute.
+		Property for **self.__treeViewIndentation** attribute.
 
 		:return: self.__treeViewIndentation. ( Integer )
 		"""
@@ -93,7 +93,7 @@ class Projects_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def treeViewIndentation(self, value):
 		"""
-		This method is the setter method for **self.__treeViewIndentation** attribute.
+		Setter for **self.__treeViewIndentation** attribute.
 
 		:param value: Attribute value. ( Integer )
 		"""
@@ -105,7 +105,7 @@ class Projects_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def treeViewIndentation(self):
 		"""
-		This method is the deleter method for **self.__treeViewIndentation** attribute.
+		Deleter for **self.__treeViewIndentation** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -116,7 +116,7 @@ class Projects_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	#******************************************************************************************************************
 	def __initializeUi(self):
 		"""
-		This method initializes the Widget ui.
+		Initializes the Widget ui.
 		"""
 
 		self.setAutoScroll(True)
@@ -136,7 +136,7 @@ class Projects_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 	def __setDefaultUiState(self):
 		"""
-		This method sets the Widget default ui state.
+		Sets the Widget default ui state.
 		"""
 
 		LOGGER.debug("> Setting default View state!")
@@ -148,7 +148,7 @@ class Projects_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 	def setModel(self, model):
 		"""
-		This method reimplements the **umbra.ui.views.Abstract_QTreeView.setModel** method.
+		Reimplements the **umbra.ui.views.Abstract_QTreeView.setModel** method.
 		
 		:param model: Model to set. ( QObject )
 		"""
