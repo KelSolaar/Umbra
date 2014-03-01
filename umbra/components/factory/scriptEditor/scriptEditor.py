@@ -95,7 +95,7 @@ COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Script_Editor
 #**********************************************************************************************************************
 class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
-	This class is the :mod:`sibl_gui.components.addons.scriptEditor.scriptEditor` Component Interface class.
+	Defines the :mod:`sibl_gui.components.addons.scriptEditor.scriptEditor` Component Interface class.
 	"""
 
 	# Custom signals definitions.

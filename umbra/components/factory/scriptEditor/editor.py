@@ -63,7 +63,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Editor(CodeEditor_QPlainTextEdit):
 	"""
-	This class defines the default editor used by
+	Defines the default editor used by
 	the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` Component Interface class. 
 	"""
 

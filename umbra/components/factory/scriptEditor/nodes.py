@@ -61,7 +61,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class EditorNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class **Editor** node.
 	"""
 
@@ -148,7 +148,7 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 
 class FileNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class **File** node.
 	"""
 
@@ -234,7 +234,7 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 
 class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class **Directory** node.
 	"""
 
@@ -323,7 +323,7 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 
 class ProjectNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class **Project** node.
 	"""
 
@@ -412,7 +412,7 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 
 class PatternNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchAndReplace.SearchAndReplace` class
+	Defines :class:`umbra.patterns.factory.scriptEditor.searchAndReplace.SearchAndReplace` class
 	search and replace pattern node.
 	"""
 
@@ -459,7 +459,7 @@ class PatternNode(umbra.ui.nodes.GraphModelNode):
 
 class SearchFileNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
+	Defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
 	search file node.
 	"""
 
@@ -506,7 +506,7 @@ class SearchFileNode(umbra.ui.nodes.GraphModelNode):
 
 class SearchOccurenceNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
+	Defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
 	search occurence node.
 	"""
 
@@ -553,7 +553,7 @@ class SearchOccurenceNode(umbra.ui.nodes.GraphModelNode):
 
 class ReplaceResultNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
+	Defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
 	replace result node.
 	"""
 

@@ -53,7 +53,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Active_QLabelsCollection(QObject):
 	"""
-	This class is a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass providing
+	Defines a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass providing
 	a group for :class:`umbra.ui.widgets.active_QLabel.Active_QLabel` class objects.
 	"""
 

@@ -59,7 +59,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class ActionsManager(QObject):
 	"""
-	This class is a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass providing an actions manager.
+	Defines a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass providing an actions manager.
 	"""
 
 	def __init__(self, parent=None, namespaceSplitter="|", rootNamespace="Actions", defaultNamespace="Others"):

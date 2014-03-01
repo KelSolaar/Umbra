@@ -51,7 +51,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class PathNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.components.factory.componentsManagerUi.componentsManagerUi.ComponentsManagerUi`
+	Defines :class:`umbra.components.factory.componentsManagerUi.componentsManagerUi.ComponentsManagerUi`
 		Component Interface class Model path node.
 	"""
 
@@ -105,7 +105,7 @@ class PathNode(umbra.ui.nodes.GraphModelNode):
 
 class ComponentNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines
+	Defines
 	:class:`umbra.components.factory.componentsManagerUi.componentsManagerUi.ComponentsManagerUi`
 	Component Interface class Model component node.
 	"""

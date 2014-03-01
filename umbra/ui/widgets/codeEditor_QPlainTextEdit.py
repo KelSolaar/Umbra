@@ -71,7 +71,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class LinesNumbers_QWidget(QWidget):
 	"""
-	This class is a `QWidget <http://doc.qt.nokia.com/qwidget.html>`_ subclass providing a lines numbers widget.
+	Defines a `QWidget <http://doc.qt.nokia.com/qwidget.html>`_ subclass providing a lines numbers widget.
 	"""
 
 	def __init__(self, parent, *args, **kwargs):
@@ -422,7 +422,7 @@ class LinesNumbers_QWidget(QWidget):
 
 class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 	"""
-	This class provides	a code editor base class.
+	Defines	a code editor base class.
 	"""
 
 	languageChanged = pyqtSignal()

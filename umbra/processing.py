@@ -49,7 +49,7 @@ UI_FILE = umbra.ui.common.getResourcePath(UiConstants.processingUiFile)
 #**********************************************************************************************************************
 class Processing(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
-	This class defines the Application processing status bar widget. 
+	Defines the Application processing status bar widget. 
 	"""
 
 	def __init__(self, parent, *args, **kwargs):

@@ -54,7 +54,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Preferences(object):
 	"""
-	| This class provides methods to manipulate Application preferences / settings.
+	| Defines methods to manipulate Application preferences / settings.
 	| Those are stored and retrieved using a `QSettings <http://doc.qt.nokia.com/qsettings.html>`_ class.
 	"""
 

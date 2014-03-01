@@ -52,7 +52,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Modules_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	"""
-	This class is used to display modules.
+	Defines the view for modules.
 	"""
 
 	def __init__(self, parent, model=None, readOnly=False, message=None):

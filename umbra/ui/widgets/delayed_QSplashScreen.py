@@ -53,7 +53,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Delayed_QSplashScreen(QSplashScreen):
 	"""
-	This class is a `QSplashScreen <http://doc.qt.nokia.com/qsplashscreen.html>`_ subclass providing
+	Defines a `QSplashScreen <http://doc.qt.nokia.com/qsplashscreen.html>`_ subclass providing
 	delayed messages capabilities.
 	"""
 

@@ -68,7 +68,7 @@ COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Trace_Ui.ui")
 #**********************************************************************************************************************
 class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
-	This class is the :mod:`umbra.components.addons.traceUi.traceUi` Component Interface class.
+	Defines the :mod:`umbra.components.addons.traceUi.traceUi` Component Interface class.
 	"""
 
 	# Custom signals definitions.

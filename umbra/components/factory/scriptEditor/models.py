@@ -68,7 +68,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class ProjectsModel(umbra.ui.models.GraphModel):
 	"""
-	This class defines the Model used by :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Defines the Model used by :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class. 
 	"""
 
@@ -767,7 +767,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 class LanguagesModel(QAbstractListModel):
 	"""
-	This class is a `QAbstractListModel <http://doc.qt.nokia.com/qabstractListmodel.html>`_ subclass used
+	Defines a `QAbstractListModel <http://doc.qt.nokia.com/qabstractListmodel.html>`_ subclass used
 	to store the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class languages.
 	"""
@@ -938,7 +938,7 @@ class LanguagesModel(QAbstractListModel):
 
 class PatternsModel(umbra.ui.models.GraphModel):
 	"""
-	This class defines the Model used the by
+	Defines the Model used the by
 	:class:`umbra.patterns.factory.scriptEditor.searchAndReplace.SearchAndReplace` class to store the search and \
 	replace patterns.
 	"""
@@ -1035,7 +1035,7 @@ class PatternsModel(umbra.ui.models.GraphModel):
 
 class SearchResultsModel(umbra.ui.models.GraphModel):
 	"""
-	This class defines the Model used the by
+	Defines the Model used the by
 	:class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class to store the search results.
 	"""
 

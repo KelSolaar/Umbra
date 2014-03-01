@@ -160,7 +160,7 @@ def centerTextCursor(object):
 
 class Basic_QPlainTextEdit(QPlainTextEdit):
 	"""
-	This class is a `QPlainTextEdit <http://doc.qt.nokia.com/qplaintextedit.html>`_ subclass providing
+	Defines a `QPlainTextEdit <http://doc.qt.nokia.com/qplaintextedit.html>`_ subclass providing
 	a basic editor base class.
 	"""
 

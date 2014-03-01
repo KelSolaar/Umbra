@@ -53,7 +53,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Layout(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for :class:`LayoutsManager` class layout.
+	Defines a storage object for :class:`LayoutsManager` class layout.
 	"""
 
 	def __init__(self, **kwargs):
@@ -69,7 +69,7 @@ class Layout(foundations.dataStructures.Structure):
 
 class LayoutsManager(QObject):
 	"""
-	This class defines the Application layouts manager. 
+	Defines the Application layouts manager. 
 	"""
 
 	layoutRestored = pyqtSignal(unicode)

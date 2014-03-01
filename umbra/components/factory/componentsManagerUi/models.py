@@ -45,7 +45,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class ComponentsModel(umbra.ui.models.GraphModel):
 	"""
-	This class defines the Model used the by
+	Defines the Model used the by
 	:class:`umbra.components.factory.componentsManagerUi.componentsManagerUi.ComponentsManagerUi`
 	Component Interface class. 
 	"""

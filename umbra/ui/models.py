@@ -65,7 +65,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class GraphModel(QAbstractItemModel):
 	"""
-	| This class is a `QAbstractItemModel <http://doc.qt.nokia.com/qabstractitemmodel.html>`_ subclass
+	| Defines a `QAbstractItemModel <http://doc.qt.nokia.com/qabstractitemmodel.html>`_ subclass
 		providing a graph model.
 	| The Model provided by this object is very generic and abstract making it compatible with major Qt Views
 		( `QListView <http://doc.qt.nokia.com/qlistview.html>`_,

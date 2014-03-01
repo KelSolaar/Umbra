@@ -98,7 +98,7 @@ DEFAULT_INDENT_MARKER = "\t"
 #**********************************************************************************************************************
 class Language(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for the :class:`Editor` class language description. 
+	Defines a storage object for the :class:`Editor` class language description. 
 	"""
 
 	def __init__(self, **kwargs):

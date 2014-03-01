@@ -59,7 +59,7 @@ COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "TCP_Server_Ui
 #**********************************************************************************************************************
 class RequestsStackDataHandler(SocketServer.BaseRequestHandler):
 	"""
-	This class represents the default requests handler.
+	Defines the default requests handler.
 	"""
 
 	codes = foundations.dataStructures.Structure(requestEnd="<!RE>",
@@ -109,7 +109,7 @@ class RequestsStackDataHandler(SocketServer.BaseRequestHandler):
 
 class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
-	| This class is the :mod:`umbra.components.factory.tcpServerUi.tcpServerUi` Component Interface class.
+	| Defines the :mod:`umbra.components.factory.tcpServerUi.tcpServerUi` Component Interface class.
 	| It provides various methods to operate the TCP Server.
 	"""
 

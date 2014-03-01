@@ -71,7 +71,7 @@ COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Components_Ma
 #**********************************************************************************************************************
 class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
-	| This class is the :mod:`umbra.components.factory.componentsManagerUi.componentsManagerUi` Component Interface class.
+	| Defines the :mod:`umbra.components.factory.componentsManagerUi.componentsManagerUi` Component Interface class.
 	| It defines methods to interact with
 		the :class:`manager.componentsManager.Manager` class Application instance Components.
 	"""

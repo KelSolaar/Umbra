@@ -77,105 +77,105 @@ def notifyExceptionHandler(*args):
 
 class AbstractEngineError(foundations.exceptions.AbstractError):
 	"""
-	This class is the abstract base class for engine related exceptions.
+	Defines the abstract base class for engine related exceptions.
 	"""
 
 	pass
 
 class EngineConfigurationError(AbstractEngineError):
 	"""
-	This class is used for engine configuration exceptions.
+	Defines engine configuration exceptions.
 	"""
 
 	pass
 
 class EngineInitializationError(AbstractEngineError):
 	"""
-	This class is used for engine initialization exceptions.
+	Defines engine initialization exceptions.
 	"""
 
 	pass
 
 class ResourceExistsError(foundations.exceptions.AbstractOsError):
 	"""
-	This class is used for non existing resource exceptions.
+	Defines non existing resource exceptions.
 	"""
 
 	pass
 
 class AbstractActionsManagerError(foundations.exceptions.AbstractError):
 	"""
-	This class is the abstract base class for :class:`umbra.managers.actionsManager.ActionsManager` related exceptions.
+	Defines the abstract base class for :class:`umbra.managers.actionsManager.ActionsManager` related exceptions.
 	"""
 
 	pass
 
 class CategoryExistsError(AbstractActionsManagerError):
 	"""
-	This class is used for non existing category exceptions.
+	Defines non existing category exceptions.
 	"""
 
 	pass
 
 class ActionExistsError(AbstractActionsManagerError):
 	"""
-	This class is used for non existing action exceptions.
+	Defines non existing action exceptions.
 	"""
 
 	pass
 
 class AbstractPatchesManagerError(foundations.exceptions.AbstractError):
 	"""
-	This class is the abstract base class for :class:`umbra.managers.patchesManager.PatchesManager` related exceptions.
+	Defines the abstract base class for :class:`umbra.managers.patchesManager.PatchesManager` related exceptions.
 	"""
 
 	pass
 
 class PatchRegistrationError(AbstractPatchesManagerError):
 	"""
-	This class is used for patch registration exceptions.
+	Defines patch registration exceptions.
 	"""
 
 	pass
 
 class PatchInterfaceError(AbstractPatchesManagerError):
 	"""
-	This class is used for patch interface exceptions.
+	Defines patch interface exceptions.
 	"""
 
 	pass
 
 class PatchApplyError(AbstractPatchesManagerError):
 	"""
-	This class is used for patch apply exceptions.
+	Defines patch apply exceptions.
 	"""
 
 	pass
 
 class AbstractLayoutsManagerError(foundations.exceptions.AbstractError):
 	"""
-	This class is the abstract base class for :class:`umbra.managers.layoutsManager.LayoutsManager` related exceptions.
+	Defines the abstract base class for :class:`umbra.managers.layoutsManager.LayoutsManager` related exceptions.
 	"""
 
 	pass
 
 class LayoutRegistrationError(AbstractLayoutsManagerError):
 	"""
-	This class is used for layout registration exceptions.
+	Defines layout registration exceptions.
 	"""
 
 	pass
 
 class LayoutExistError(AbstractLayoutsManagerError):
 	"""
-	This class is used for non existing layout exceptions.
+	Defines non existing layout exceptions.
 	"""
 
 	pass
 
 class AbstractFileSystemEventsManagerError(foundations.exceptions.AbstractError):
 	"""
-	This class is the abstract base class for :class:`umbra.managers.fileSystemEventsManager.FileSystemEventsManager`
+	Defines the abstract base class for :class:`umbra.managers.fileSystemEventsManager.FileSystemEventsManager`
 	related exceptions.
 	"""
 
@@ -183,28 +183,28 @@ class AbstractFileSystemEventsManagerError(foundations.exceptions.AbstractError)
 
 class PathRegistrationError(AbstractFileSystemEventsManagerError):
 	"""
-	This class is used for path registration exceptions.
+	Defines path registration exceptions.
 	"""
 
 	pass
 
 class PathExistsError(AbstractFileSystemEventsManagerError):
 	"""
-	This class is used for non existing path exceptions.
+	Defines non existing path exceptions.
 	"""
 
 	pass
 
 class AbstractLanguageError(foundations.exceptions.AbstractError):
 	"""
-	This class is the abstract base class for language related exceptions.
+	Defines the abstract base class for language related exceptions.
 	"""
 
 	pass
 
 class LanguageGrammarError(AbstractLanguageError):
 	"""
-	This class is used for language grammar exceptions.
+	Defines language grammar exceptions.
 	"""
 
 	pass

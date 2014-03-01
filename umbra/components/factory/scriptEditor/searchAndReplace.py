@@ -64,7 +64,7 @@ UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Search_And_Replace.ui")
 #**********************************************************************************************************************
 class ValidationFilter(QObject):
 	"""
-	This class is a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass used as an event filter
+	Defines a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass used as an event filter
 	for the :class:`SearchAndReplace` class.
 	"""
 
@@ -88,7 +88,7 @@ class ValidationFilter(QObject):
 
 class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
-	This class defines the default search and replace dialog used by the **ScriptEditor** Component. 
+	Defines the default search and replace dialog used by the **ScriptEditor** Component. 
 	"""
 
 	def __init__(self, parent, *args, **kwargs):

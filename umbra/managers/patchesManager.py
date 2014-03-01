@@ -56,7 +56,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Patch(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for :class:`PatchesManager` class patch.
+	Defines a storage object for :class:`PatchesManager` class patch.
 	"""
 
 	def __init__(self, **kwargs):
@@ -72,7 +72,7 @@ class Patch(foundations.dataStructures.Structure):
 
 class PatchesManager(object):
 	"""
-	This class defines the Application patches manager. 
+	Defines the Application patches manager. 
 	"""
 
 	def __init__(self, historyFile=None, paths=None, extension="py"):

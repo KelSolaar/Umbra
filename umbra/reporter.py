@@ -80,7 +80,7 @@ UI_FILE = umbra.ui.common.getResourcePath(UiConstants.reporterUiFile)
 #**********************************************************************************************************************
 class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
-	This class provides an exception reporting Widget.
+	Defines an exception reporting Widget.
 	"""
 
 	__instance = None

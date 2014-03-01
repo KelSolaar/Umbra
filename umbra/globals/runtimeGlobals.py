@@ -41,7 +41,7 @@ __all__ = ["RuntimeGlobals"]
 #**********************************************************************************************************************
 class RuntimeGlobals():
 	"""
-	This class provides **Umbra** package runtime constants.
+	Defines **Umbra** package runtime constants.
 	"""
 
 	parameters = None

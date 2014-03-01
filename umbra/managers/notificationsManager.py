@@ -55,7 +55,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Notification(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for :class:`NotificationsManager` class notification.
+	Defines a storage object for :class:`NotificationsManager` class notification.
 	"""
 
 	def __init__(self, **kwargs):
@@ -71,7 +71,7 @@ class Notification(foundations.dataStructures.Structure):
 
 class NotificationsManager(QObject):
 	"""
-	This class defines the Application notifications manager. 
+	Defines the Application notifications manager. 
 	"""
 
 	# Custom signals definitions.

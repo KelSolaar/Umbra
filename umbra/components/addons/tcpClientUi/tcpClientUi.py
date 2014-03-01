@@ -59,7 +59,7 @@ COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "TCP_Client_Ui
 #**********************************************************************************************************************
 class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
-	This class is the :mod:`umbra.components.factory.tcpClientUi.tcpClientUi` Component Interface class.
+	Defines the :mod:`umbra.components.factory.tcpClientUi.tcpClientUi` Component Interface class.
 	"""
 
 	def __init__(self, parent=None, name=None, *args, **kwargs):

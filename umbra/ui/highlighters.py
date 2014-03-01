@@ -61,7 +61,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Rule(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for highlighters rule. 
+	Defines a storage object for highlighters rule. 
 	"""
 
 	def __init__(self, **kwargs):
@@ -77,7 +77,7 @@ class Rule(foundations.dataStructures.Structure):
 
 class FormatsTree(object):
 	"""
-	This class defines the formats tree object representing higlighters theme.
+	Defines the formats tree object representing higlighters theme.
 	"""
 
 	def __init__(self, theme=None):
@@ -202,7 +202,7 @@ class FormatsTree(object):
 
 class AbstractHighlighter(QSyntaxHighlighter):
 	"""
-	This class is a `QSyntaxHighlighter <http://doc.qt.nokia.com/qsyntaxhighlighter.html>`_ subclass used
+	Defines a `QSyntaxHighlighter <http://doc.qt.nokia.com/qsyntaxhighlighter.html>`_ subclass used
 	as a base for highlighters classes.
 	"""
 
@@ -327,7 +327,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 
 class DefaultHighlighter(AbstractHighlighter):
 	"""
-	This class is a :class:`AbstractHighlighter` subclass providing syntax highlighting for documents.
+	Defines a :class:`AbstractHighlighter` subclass providing syntax highlighting for documents.
 	"""
 
 	def __init__(self, parent=None, rules=None, theme=None):

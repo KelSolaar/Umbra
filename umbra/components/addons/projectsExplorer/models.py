@@ -52,7 +52,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class ProjectsProxyModel(QSortFilterProxyModel):
 	"""
-	This class defines the proxy Model used the by 
+	Defines the proxy Model used the by 
 	:class:`umbra.components.factory.projectsExplorer.projectsExplorer.ProjectsExplorer` Component Interface class. 
 	"""
 

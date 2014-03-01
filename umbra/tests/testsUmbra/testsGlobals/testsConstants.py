@@ -50,7 +50,7 @@ __all__ = ["ConstantsTestCase"]
 #**********************************************************************************************************************
 class ConstantsTestCase(unittest.TestCase):
 	"""
-	This class defines :class:`umbra.globals.constants.Constants` class units tests methods.
+	Defines :class:`umbra.globals.constants.Constants` class units tests methods.
 	"""
 
 	def testRequiredAttributes(self):

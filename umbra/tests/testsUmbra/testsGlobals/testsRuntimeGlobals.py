@@ -51,7 +51,7 @@ __all__ = ["RuntimeGlobalsTestCase"]
 #**********************************************************************************************************************
 class RuntimeGlobalsTestCase(unittest.TestCase):
 	"""
-	This class defines :class:`umbra.globals.runtimeGlobals.RuntimeGlobals` class units tests methods.
+	Defines :class:`umbra.globals.runtimeGlobals.RuntimeGlobals` class units tests methods.
 	"""
 
 	def testRequiredAttributes(self):

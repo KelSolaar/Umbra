@@ -54,7 +54,7 @@ UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Editor_Status.ui")
 #**********************************************************************************************************************
 class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
-	This class defines the
+	Defines the
 	:class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` Component Interface class status bar widget. 
 	"""
 

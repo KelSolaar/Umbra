@@ -84,7 +84,7 @@ UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Search_In_Files.ui")
 #**********************************************************************************************************************
 class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
-	This class defines search and replace in files dialog used by the **ScriptEditor** Component. 
+	Defines search and replace in files dialog used by the **ScriptEditor** Component. 
 	"""
 
 	def __init__(self, parent, *args, **kwargs):

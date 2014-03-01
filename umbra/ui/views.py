@@ -79,7 +79,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class ReadOnlyFilter(QObject):
 	"""
-	This class is a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass used as an event filter
+	Defines a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass used as an event filter
 	for the :class:`Abstract_QListView` and :class:`Abstract_QTreeView` classes.
 	"""
 
@@ -113,7 +113,7 @@ class ReadOnlyFilter(QObject):
 
 class Mixin_AbstractBase(object):
 	"""
-	This class is the base mixin used to bring common capabilities in Application Views classes.
+	Defines the base mixin used to bring common capabilities in Application Views classes.
 	"""
 
 	def __init__(self, message=None):
@@ -214,7 +214,7 @@ class Mixin_AbstractBase(object):
 
 class Mixin_AbstractView(Mixin_AbstractBase):
 	"""
-	This class is a mixin used to bring common capabilities in Application Views classes.
+	Defines a mixin used to bring common capabilities in Application Views classes.
 	"""
 
 	def __init__(self, readOnly=None, message=None):
@@ -389,14 +389,14 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 
 class Mixin_AbstractWidget(Mixin_AbstractBase):
 	"""
-	This class is a mixin used to bring common capabilities in Application Widgets Views classes.
+	Defines a mixin used to bring common capabilities in Application Widgets Views classes.
 	"""
 
 	pass
 
 class Abstract_QListView(QListView, Mixin_AbstractView):
 	"""
-	This class is a `QListView <http://doc.qt.nokia.com/qlistview.html>`_ subclass used as base
+	Defines a `QListView <http://doc.qt.nokia.com/qlistview.html>`_ subclass used as base
 	by others Application Views classes.
 	"""
 
@@ -416,7 +416,7 @@ class Abstract_QListView(QListView, Mixin_AbstractView):
 
 class Abstract_QTableView(QTableView, Mixin_AbstractView):
 	"""
-	This class is a `QTableView <http://doc.qt.nokia.com/qtableview.html>`_ subclass used as base
+	Defines a `QTableView <http://doc.qt.nokia.com/qtableview.html>`_ subclass used as base
 	by others Application Views classes.
 	"""
 
@@ -436,7 +436,7 @@ class Abstract_QTableView(QTableView, Mixin_AbstractView):
 
 class Abstract_QTreeView(QTreeView, Mixin_AbstractView):
 	"""
-	This class is a `QTreeView <http://doc.qt.nokia.com/qtreeview.html>`_ subclass used as base
+	Defines a `QTreeView <http://doc.qt.nokia.com/qtreeview.html>`_ subclass used as base
 	by others Application Views classes.
 	"""
 
@@ -456,7 +456,7 @@ class Abstract_QTreeView(QTreeView, Mixin_AbstractView):
 
 class Abstract_QListWidget(QListWidget, Mixin_AbstractWidget):
 	"""
-	This class is a `QListWidget <http://doc.qt.nokia.com/qlistwidget.html>`_ subclass used as base
+	Defines a `QListWidget <http://doc.qt.nokia.com/qlistwidget.html>`_ subclass used as base
 	by others Application Widgets Views classes.
 	"""
 
@@ -475,7 +475,7 @@ class Abstract_QListWidget(QListWidget, Mixin_AbstractWidget):
 
 class Abstract_QTableWidget(QTableWidget, Mixin_AbstractWidget):
 	"""
-	This class is a `QTableWidget <http://doc.qt.nokia.com/qtablewidget.html>`_ subclass used as base
+	Defines a `QTableWidget <http://doc.qt.nokia.com/qtablewidget.html>`_ subclass used as base
 	by others Application Widgets Views classes.
 	"""
 
@@ -494,7 +494,7 @@ class Abstract_QTableWidget(QTableWidget, Mixin_AbstractWidget):
 
 class Abstract_QTreeWidget(QTreeWidget, Mixin_AbstractWidget):
 	"""
-	This class is a `QTreeWidget <http://doc.qt.nokia.com/qtreewidget.html>`_ subclass used as base
+	Defines a `QTreeWidget <http://doc.qt.nokia.com/qtreewidget.html>`_ subclass used as base
 	by others Application Widgets Views classes.
 	"""
 

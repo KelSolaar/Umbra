@@ -55,7 +55,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Notification_QLabel(QLabel):
 	"""
-	This class is a `QLabel <http://doc.qt.nokia.com/qlabel.html>`_ subclass providing
+	Defines a `QLabel <http://doc.qt.nokia.com/qlabel.html>`_ subclass providing
 	a notification label with fading capabilities.
 	"""
 

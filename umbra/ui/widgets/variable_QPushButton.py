@@ -52,7 +52,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Variable_QPushButton(QPushButton):
 	"""
-	This class is a `QPushButton <http://doc.qt.nokia.com/qpushbutton.html>`_ subclass providing
+	Defines a `QPushButton <http://doc.qt.nokia.com/qpushbutton.html>`_ subclass providing
 	a button with different colors and labels depending on its clicked state.
 	"""
 

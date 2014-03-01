@@ -261,7 +261,7 @@ def encapsulateProcessing(object):
 
 class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	"""
-	This class is the main class of the **Umbra** package.
+	Defines the main class of the **Umbra** package.
 	"""
 
 	# Custom signals definitions.

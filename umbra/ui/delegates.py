@@ -56,7 +56,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Style(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for the :class:`RichText_QStyledItemDelegate` class style. 
+	Defines a storage object for the :class:`RichText_QStyledItemDelegate` class style. 
 	"""
 
 	def __init__(self, **kwargs):
@@ -72,7 +72,7 @@ class Style(foundations.dataStructures.Structure):
 
 class RichText_QStyledItemDelegate(QStyledItemDelegate):
 	"""
-	This class is a `QStyledItemDelegate <http://doc.qt.nokia.com/qstyleditemdelegate.html>`_ subclass used as a rich
+	Defines a `QStyledItemDelegate <http://doc.qt.nokia.com/qstyleditemdelegate.html>`_ subclass used as a rich
 	text Delegate for Application Views. 
 	"""
 

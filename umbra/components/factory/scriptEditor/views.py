@@ -54,7 +54,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	"""
-	This class is used to display Database Ibl Sets columns.
+	Defines the view for Database Ibl Sets columns.
 	"""
 
 	def __init__(self, parent, model=None, readOnly=False, message=None):
@@ -150,7 +150,7 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 class ScriptEditor_QTabWidget(QTabWidget):
 	"""
-	| This class is a `QTabWidget <http://doc.qt.nokia.com/qtabwidget.html>`_ subclass used
+	| Defines a `QTabWidget <http://doc.qt.nokia.com/qtabwidget.html>`_ subclass used
 		to display :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` editors.
 	| It provides support for drag'n'drop by reimplementing relevant methods.
 	"""

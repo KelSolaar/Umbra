@@ -36,7 +36,7 @@ __all__ = ["UiConstants"]
 #**********************************************************************************************************************
 class UiConstants():
 	"""
-	This class provides **Umbra** package ui constants.
+	Defines **Umbra** package ui constants.
 	"""
 
 	uiFile = "Umbra.ui"

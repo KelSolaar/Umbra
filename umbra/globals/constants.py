@@ -47,7 +47,7 @@ __all__ = ["Constants"]
 #**********************************************************************************************************************
 class Constants():
 	"""
-	This class provides **Umbra** package default constants.
+	Defines **Umbra** package default constants.
 	"""
 
 	applicationName = "Umbra"

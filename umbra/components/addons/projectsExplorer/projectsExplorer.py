@@ -65,7 +65,7 @@ COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Projects_Expl
 #**********************************************************************************************************************
 class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
-	This class is the :mod:`sibl_gui.components.addons.projectsExplorer.projectsExplorer` Component Interface class.
+	Defines the :mod:`sibl_gui.components.addons.projectsExplorer.projectsExplorer` Component Interface class.
 	"""
 
 	def __init__(self, parent=None, name=None, *args, **kwargs):

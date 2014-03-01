@@ -52,7 +52,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class ModuleNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.components.factory.traceUi.traceUi.TraceUi`
+	Defines :class:`umbra.components.factory.traceUi.traceUi.TraceUi`
 	Component Interface class **Module** node.
 	"""
 

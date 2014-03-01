@@ -55,7 +55,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class FileSystemEventsManager(QThread):
 	"""
-	This class defines the file system events manager. 
+	Defines the file system events manager. 
 	"""
 
 	# Custom signals definitions.

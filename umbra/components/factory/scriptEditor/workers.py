@@ -62,7 +62,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Occurence(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for the :class:`Search_worker` class search occurence.
+	Defines a storage object for the :class:`Search_worker` class search occurence.
 	"""
 
 	def __init__(self, **kwargs):
@@ -78,7 +78,7 @@ class Occurence(foundations.dataStructures.Structure):
 
 class SearchResult(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for the :class:`Search_worker` class search result.
+	Defines a storage object for the :class:`Search_worker` class search result.
 	"""
 
 	def __init__(self, **kwargs):
@@ -94,7 +94,7 @@ class SearchResult(foundations.dataStructures.Structure):
 
 class CacheData(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for the :class:`Search_worker` class cache data.
+	Defines a storage object for the :class:`Search_worker` class cache data.
 	"""
 
 	def __init__(self, **kwargs):
@@ -110,7 +110,7 @@ class CacheData(foundations.dataStructures.Structure):
 
 class Search_worker(QThread):
 	"""
-	This class is a `QThread <http://doc.qt.nokia.com/qthread.html>`_ subclass used
+	Defines a `QThread <http://doc.qt.nokia.com/qthread.html>`_ subclass used
 	to search for a pattern in a directory files.
 	"""
 

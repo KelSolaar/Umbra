@@ -81,7 +81,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Location(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for the :class:`SearchInFiles` class location.
+	Defines a storage object for the :class:`SearchInFiles` class location.
 	"""
 
 	def __init__(self, **kwargs):

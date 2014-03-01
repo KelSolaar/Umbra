@@ -65,7 +65,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Application_QToolBar(QToolBar):
 	"""
-	This class is a `QToolBar <http://doc.qt.nokia.com/qtoolbar.html>`_ subclass providing
+	Defines a `QToolBar <http://doc.qt.nokia.com/qtoolbar.html>`_ subclass providing
 	the Application toolbar.
 	"""
 

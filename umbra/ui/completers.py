@@ -53,7 +53,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class DefaultCompleter(QCompleter):
 	"""
-	This class is a `QCompleter <http://doc.qt.nokia.com/qcompleter.html>`_ subclass used
+	Defines a `QCompleter <http://doc.qt.nokia.com/qcompleter.html>`_ subclass used
 	as a completion widget.
 	"""
 

@@ -45,7 +45,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class ModulesModel(umbra.ui.models.GraphModel):
 	"""
-	This class defines the Model used the by :class:`umbra.components.factory.traceUi.traceUi.TraceUi`
+	Defines the Model used the by :class:`umbra.components.factory.traceUi.traceUi.TraceUi`
 	Component Interface class. 
 	"""
 

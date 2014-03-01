@@ -57,7 +57,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Mixin_GraphModelObject(object):
 	"""
-	This class is a mixin used to bring common capabilities in Application Nodes classes.
+	Defines a mixin used to bring common capabilities in Application Nodes classes.
 	"""
 
 	def __init__(self):
@@ -180,7 +180,7 @@ class Mixin_GraphModelObject(object):
 
 class GraphModelAttribute(Attribute, Mixin_GraphModelObject):
 	"""
-	This class represents a storage object for the :class:`GraphModelNode` class attributes.
+	Defines a storage object for the :class:`GraphModelNode` class attributes.
 	"""
 
 	def __init__(self, name=None, value=None, roles=None, flags=None, **kwargs):
@@ -247,7 +247,7 @@ class GraphModelAttribute(Attribute, Mixin_GraphModelObject):
 
 class GraphModelNode(AbstractCompositeNode, Mixin_GraphModelObject):
 	"""
-	This class defines :class:`GraphModel` class base Node object.
+	Defines :class:`GraphModel` class base Node object.
 	"""
 
 	__family = "GraphModel"
@@ -313,7 +313,7 @@ class GraphModelNode(AbstractCompositeNode, Mixin_GraphModelObject):
 
 class DefaultNode(AbstractCompositeNode):
 	"""
-	| This class defines the default Node used in :class:`GraphModel` class model.
+	| Defines the default Node used in :class:`GraphModel` class model.
 	| This simple Node is used as an invisible root Node for :class:`GraphModel` class models.
 	"""
 
@@ -336,7 +336,7 @@ class DefaultNode(AbstractCompositeNode):
 
 class FormatNode(AbstractCompositeNode):
 	"""
-	This class defines the format base Node object.
+	Defines the format base Node object.
 	"""
 
 	__family = "Format"

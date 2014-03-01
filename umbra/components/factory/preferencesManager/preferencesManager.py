@@ -59,7 +59,7 @@ COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Preferences_M
 #**********************************************************************************************************************
 class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
-	| This class is the :mod:`umbra.components.factory.preferencesManager.preferencesManager` Component Interface class.
+	| Defines the :mod:`umbra.components.factory.preferencesManager.preferencesManager` Component Interface class.
 	| It exposes Application preferences inside
 		a dedicated `QDockWidget <http://doc.qt.nokia.com/qdockwidget.html>`_ window.
 	"""
