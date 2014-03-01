@@ -65,7 +65,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 def editBlock(object):
 	"""
-	This decorator is used to handle edit blocks undo states.
+	Handles edit blocks undo states.
 	
 	:param object: Object to decorate. ( Object )
 	:return: Object. ( Object )
@@ -74,7 +74,7 @@ def editBlock(object):
 	@functools.wraps(object)
 	def editBlockWrapper(*args, **kwargs):
 		"""
-		This decorator is used to handle edit blocks undo states.
+		Handles edit blocks undo states.
 
 		:param \*args: Arguments. ( \* )
 		:param \*\*kwargs: Keywords arguments. ( \*\* )
@@ -96,7 +96,7 @@ def editBlock(object):
 
 def anchorTextCursor(object):
 	"""
-	This decorator is used to anchor the text cursor position.
+	Anchors the text cursor position.
 	
 	:param object: Object to decorate. ( Object )
 	:return: Object. ( Object )
@@ -105,7 +105,7 @@ def anchorTextCursor(object):
 	@functools.wraps(object)
 	def anchorTextCursorWrapper(*args, **kwargs):
 		"""
-		This decorator is used to anchor the text cursor position.
+		Anchors the text cursor position.
 
 		:param \*args: Arguments. ( \* )
 		:param \*\*kwargs: Keywords arguments. ( \*\* )
@@ -128,7 +128,7 @@ def anchorTextCursor(object):
 
 def centerTextCursor(object):
 	"""
-	This decorator is used to center the text cursor position.
+	Centers the text cursor position.
 	
 	:param object: Object to decorate. ( Object )
 	:return: Object. ( Object )
@@ -137,7 +137,7 @@ def centerTextCursor(object):
 	@functools.wraps(object)
 	def centerTextCursorWrapper(*args, **kwargs):
 		"""
-		This decorator is used to center the text cursor position.
+		Centers the text cursor position.
 
 		:param \*args: Arguments. ( \* )
 		:param \*\*kwargs: Keywords arguments. ( \*\* )

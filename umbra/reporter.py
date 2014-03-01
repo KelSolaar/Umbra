@@ -726,7 +726,7 @@ def systemExitExceptionHandler(*args):
 
 def criticalExceptionHandler(object):
 	"""
-	This decorator is used to mark an object that would system exit in case of critical exception.
+	Marks an object that would system exit in case of critical exception.
 
 	:param object: Object to decorate. ( Object )
 	:return: Object. ( Object )
@@ -735,7 +735,7 @@ def criticalExceptionHandler(object):
 	@functools.wraps(object)
 	def criticalExceptionHandlerWrapper(*args, **kwargs):
 		"""
-		This decorator is used to mark an object that would system exit in case of critical exception.
+		Marks an object that would system exit in case of critical exception.
 
 		:param \*args: Arguments. ( \* )
 		:param \*\*kwargs: Keywords arguments. ( \*\* )

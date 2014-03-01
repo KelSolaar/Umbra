@@ -271,7 +271,7 @@ def signalsBlocker(instance, attribute, *args, **kwargs):
 
 def showWaitCursor(object):
 	"""
-	This decorator is used to show a wait cursor while processing.
+	Shows a wait cursor while processing.
 	
 	:param object: Object to decorate. ( Object )
 	:return: Object. ( Object )
@@ -280,7 +280,7 @@ def showWaitCursor(object):
 	@functools.wraps(object)
 	def showWaitCursorWrapper(*args, **kwargs):
 		"""
-		This decorator is used to show a wait cursor while processing.
+		Shows a wait cursor while processing.
 
 		:param \*args: Arguments. ( \* )
 		:param \*\*kwargs: Keywords arguments. ( \*\* )

@@ -41,7 +41,7 @@ __all__ = ["LOGGER", "attributeWarfare", "baseWarfare"]
 #**********************************************************************************************************************
 def attributeWarfare(object):
 	"""
-	This decorator is used to alterate an object attribute using guerilla / monkey patching.
+	Alterates object attributes using guerilla / monkey patching.
 	
 	:param object: Object to alterate. ( Object )
 	:return: Object. ( Object )
@@ -49,7 +49,7 @@ def attributeWarfare(object):
 
 	def attributeWarfareWrapper(attribute):
 		"""
-		This decorator is used to alterate an object attribute using guerilla / monkey patching.
+		Alterates object attributes using guerilla / monkey patching.
 		
 		:param attribute: Attribute to alterate. ( Object )
 		:return: Object. ( Object )

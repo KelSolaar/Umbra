@@ -199,7 +199,7 @@ SESSION_FOOTER_TEXT = ("{0} | Closing interface! ".format(Constants.applicationN
 #**********************************************************************************************************************
 def showProcessing(message=""):
 	"""
-	This decorator is used for a processing operation.
+	Shows processing behavior.
 	
 	:param message: Operation description. ( String )
 	:return: Object. ( Object )
@@ -207,7 +207,7 @@ def showProcessing(message=""):
 
 	def showProcessingDecorator(object):
 		"""
-		This decorator is used for a processing operation.
+		Shows processing behavior.
 
 		:param object: Object to decorate. ( Object )
 		:return: Object. ( Object )
@@ -216,7 +216,7 @@ def showProcessing(message=""):
 		@functools.wraps(object)
 		def showProcessingWrapper(*args, **kwargs):
 			"""
-			This decorator is used for a processing operation.
+			Shows processing behavior.
 
 			:param \*args: Arguments. ( \* )
 			:param \*\*kwargs: Keywords arguments. ( \*\* )
@@ -234,7 +234,7 @@ def showProcessing(message=""):
 
 def encapsulateProcessing(object):
 	"""
-	This decorator is used to encapsulate a processing operation.
+	Encapsulates a processing operation.
 
 	:param object: Object to decorate. ( Object )
 	:return: Object. ( Object )
@@ -243,7 +243,7 @@ def encapsulateProcessing(object):
 	@functools.wraps(object)
 	def encapsulateProcessingWrapper(*args, **kwargs):
 		"""
-		This decorator is used to encapsulate a processing operation.
+		Encapsulates a processing operation.
 
 		:param \*args: Arguments. ( \* )
 		:param \*\*kwargs: Keywords arguments. ( \*\* )
