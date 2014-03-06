@@ -86,7 +86,7 @@ class GraphModel(QAbstractItemModel):
 		:param \*\*kwargs: Keywords arguments.
 		:type \*\*kwargs: \*\*
 		:return: Class instance.
-		:rtype: AbunicodeactNode
+		:rtype: AbstractNode
 		"""
 
 		instance = super(GraphModel, cls).__new__(cls)
@@ -106,13 +106,13 @@ class GraphModel(QAbstractItemModel):
 		:param parent: Object parent.
 		:type parent: QObject
 		:param rootNode: Root node.
-		:type rootNode: AbunicodeactCompositeNode or GraphModelNode
+		:type rootNode: AbstractCompositeNode or GraphModelNode
 		:param horizontalHeaders: Headers.
 		:type horizontalHeaders: OrderedDict
 		:param verticalHeaders: Headers.
 		:type verticalHeaders: OrderedDict
 		:param defaultNode: Default node.
-		:type defaultNode: AbunicodeactCompositeNode or GraphModelNode
+		:type defaultNode: AbstractCompositeNode or GraphModelNode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -138,7 +138,7 @@ class GraphModel(QAbstractItemModel):
 		Property for **self.__rootNode** attribute.
 
 		:return: self.__rootNode.
-		:rtype: AbunicodeactCompositeNode or GraphModelNode
+		:rtype: AbstractCompositeNode or GraphModelNode
 		"""
 
 		return self.__rootNode
@@ -150,7 +150,7 @@ class GraphModel(QAbstractItemModel):
 		Setter for **self.__rootNode** attribute.
 
 		:param value: Attribute value.
-		:type value: AbunicodeactCompositeNode or GraphModelNode
+		:type value: AbstractCompositeNode or GraphModelNode
 		"""
 
 		if value is not None:
@@ -246,7 +246,7 @@ class GraphModel(QAbstractItemModel):
 		Property for **self.__defaultNode** attribute.
 
 		:return: self.__defaultNode.
-		:rtype: AbunicodeactCompositeNode or GraphModelNode
+		:rtype: AbstractCompositeNode or GraphModelNode
 		"""
 
 		return self.__defaultNode
@@ -258,7 +258,7 @@ class GraphModel(QAbstractItemModel):
 		Setter for **self.__defaultNode** attribute.
 
 		:param value: Attribute value.
-		:type value: AbunicodeactCompositeNode or GraphModelNode
+		:type value: AbstractCompositeNode or GraphModelNode
 		"""
 
 		if value is not None:
@@ -284,7 +284,7 @@ class GraphModel(QAbstractItemModel):
 		Reimplements the :meth:`QAbstractItemModel.rowCount` method.
 		
 		:param parent: Parent node.
-		:type parent: AbunicodeactCompositeNode or GraphModelNode
+		:type parent: AbstractCompositeNode or GraphModelNode
 		:return: Row count.
 		:rtype: int
 		"""
@@ -300,7 +300,7 @@ class GraphModel(QAbstractItemModel):
 		Reimplements the :meth:`QAbstractItemModel.columnCount` method.
 		
 		:param parent: Parent node.
-		:type parent: AbunicodeactCompositeNode or GraphModelNode
+		:type parent: AbstractCompositeNode or GraphModelNode
 		:return: Column count.
 		:rtype: int
 		"""
@@ -590,7 +590,7 @@ class GraphModel(QAbstractItemModel):
 		:param index: Index.
 		:type index: QModelIndex
 		:return: Node.
-		:rtype: AbunicodeactCompositeNode or GraphModelNode
+		:rtype: AbstractCompositeNode or GraphModelNode
 		"""
 
 		if not index.isValid():
@@ -602,7 +602,7 @@ class GraphModel(QAbstractItemModel):
 		Returns the given Node attribute associated to the given column.
 		
 		:param node: Node.
-		:type node: AbunicodeactCompositeNode or GraphModelNode
+		:type node: AbstractCompositeNode or GraphModelNode
 		:param column: Column.
 		:type column: int
 		:return: Attribute.
@@ -617,7 +617,7 @@ class GraphModel(QAbstractItemModel):
 		Returns given Node index.
 		
 		:param node: Node.
-		:type node: AbunicodeactCompositeNode or GraphModelNode
+		:type node: AbstractCompositeNode or GraphModelNode
 		:return: Index.
 		:rtype: QModelIndex
 		"""
@@ -633,7 +633,7 @@ class GraphModel(QAbstractItemModel):
 		Returns given Node attribute index at given column.
 		
 		:param node: Node.
-		:type node: AbunicodeactCompositeNode or GraphModelNode
+		:type node: AbstractCompositeNode or GraphModelNode
 		:param column: Attribute column.
 		:type column: int
 		:return: Index.
@@ -667,7 +667,7 @@ class GraphModel(QAbstractItemModel):
 		:param flags: Matching regex flags.
 		:type flags: int
 		:param node: Node to start walking from.
-		:type node: AbunicodeactNode or AbunicodeactCompositeNode or GraphModelNode
+		:type node: AbstractNode or AbstractCompositeNode or GraphModelNode
 		:return: Family nodes.
 		:rtype: list
 		"""
@@ -734,7 +734,7 @@ class GraphModel(QAbstractItemModel):
 		Calls :meth:`QAbstractItemModel.dataChanged` with given Node index.
 		
 		:param node: Node.
-		:type node: AbunicodeactCompositeNode or GraphModelNode
+		:type node: AbstractCompositeNode or GraphModelNode
 		:return: Method success.
 		:rtype: bool
 		"""
@@ -751,7 +751,7 @@ class GraphModel(QAbstractItemModel):
 		Calls :meth:`QAbstractItemModel.dataChanged` with given Node attribute index.
 		
 		:param node: Node.
-		:type node: AbunicodeactCompositeNode or GraphModelNode
+		:type node: AbstractCompositeNode or GraphModelNode
 		:param column: Attribute column.
 		:type column: int
 		:return: Method success.

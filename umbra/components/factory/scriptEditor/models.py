@@ -151,7 +151,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		:param parent: Object parent.
 		:type parent: QObject
 		:param rootNode: Root node.
-		:type rootNode: AbunicodeactCompositeNode
+		:type rootNode: AbstractCompositeNode
 		:param horizontalHeaders: Headers.
 		:type horizontalHeaders: OrderedDict
 		:param verticalHeaders: Headers.
@@ -269,7 +269,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		Returns the Model :class:`umbra.components.factory.scriptEditor.nodes.EditorNode` class nodes.
 		
 		:param node: Node to start walking from.
-		:type node: AbunicodeactNode or AbunicodeactCompositeNode or Object
+		:type node: AbstractNode or AbstractCompositeNode or Object
 		:return: EditorNode nodes.
 		:rtype: list
 		"""
@@ -281,7 +281,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		Returns the Model :class:`umbra.components.factory.scriptEditor.nodes.FileNode` class nodes.
 		
 		:param node: Node to start walking from.
-		:type node: AbunicodeactNode or AbunicodeactCompositeNode or Object
+		:type node: AbstractNode or AbstractCompositeNode or Object
 		:return: FileNode nodes.
 		:rtype: list
 		"""
@@ -317,7 +317,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		Returns the Model editors.
 		
 		:param node: Node to start walking from.
-		:type node: AbunicodeactNode or AbunicodeactCompositeNode or Object
+		:type node: AbstractNode or AbstractCompositeNode or Object
 		:return: Editors.
 		:rtype: list
 		"""
@@ -329,7 +329,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		Returns the Model files.
 		
 		:param node: Node to start walking from.
-		:type node: AbunicodeactNode or AbunicodeactCompositeNode or Object
+		:type node: AbstractNode or AbstractCompositeNode or Object
 		:return: FileNode nodes.
 		:rtype: list
 		"""
@@ -363,7 +363,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		Returns the :class:`umbra.components.factory.scriptEditor.nodes.EditorNode` class Nodes with given editor.
 		
 		:param node: Node to start walking from.
-		:type node: AbunicodeactNode or AbunicodeactCompositeNode or Object
+		:type node: AbstractNode or AbstractCompositeNode or Object
 		:param editor: Editor.
 		:type editor: Editor
 		:return: EditorNode nodes.
@@ -377,7 +377,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		Returns the :class:`umbra.components.factory.scriptEditor.nodes.FileNode` class Nodes with given path.
 		
 		:param node: Node to start walking from.
-		:type node: AbunicodeactNode or AbunicodeactCompositeNode or Object
+		:type node: AbstractNode or AbstractCompositeNode or Object
 		:param path: File path.
 		:type path: unicode
 		:return: FileNode nodes.
@@ -1070,7 +1070,7 @@ class PatternsModel(umbra.ui.models.GraphModel):
 		:param parent: Object parent.
 		:type parent: QObject
 		:param rootNode: Root node.
-		:type rootNode: AbunicodeactCompositeNode
+		:type rootNode: AbstractCompositeNode
 		:param horizontalHeaders: Headers.
 		:type horizontalHeaders: OrderedDict
 		:param verticalHeaders: Headers.
@@ -1161,7 +1161,7 @@ class SearchResultsModel(umbra.ui.models.GraphModel):
 		:param parent: Object parent.
 		:type parent: QObject
 		:param rootNode: Root node.
-		:type rootNode: AbunicodeactCompositeNode
+		:type rootNode: AbstractCompositeNode
 		:param horizontalHeaders: Headers.
 		:type horizontalHeaders: OrderedDict
 		:param verticalHeaders: Headers.

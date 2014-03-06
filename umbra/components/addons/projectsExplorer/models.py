@@ -139,7 +139,7 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 		:param index: Index.
 		:type index: QModelIndex
 		:return: Node.
-		:rtype: AbunicodeactCompositeNode
+		:rtype: AbstractCompositeNode
 		"""
 
 		index = self.mapToSource(index)

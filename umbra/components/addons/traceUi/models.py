@@ -56,7 +56,7 @@ class ModulesModel(umbra.ui.models.GraphModel):
 		:param parent: Object parent.
 		:type parent: QObject
 		:param rootNode: Root node.
-		:type rootNode: AbunicodeactCompositeNode
+		:type rootNode: AbstractCompositeNode
 		:param horizontalHeaders: Headers.
 		:type horizontalHeaders: OrderedDict
 		:param verticalHeaders: Headers.

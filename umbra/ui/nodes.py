@@ -274,7 +274,7 @@ class GraphModelNode(AbstractCompositeNode, Mixin_GraphModelObject):
 		:param name: Node name.
 		:type name: unicode
 		:param parent: Node parent.
-		:type parent: AbunicodeactNode or AbunicodeactCompositeNode
+		:type parent: AbstractNode or AbstractCompositeNode
 		:param children: Children.
 		:type children: list
 		:param roles: Roles.
@@ -349,7 +349,7 @@ class DefaultNode(AbstractCompositeNode):
 		:param name: Node name.
 		:type name: unicode
 		:param parent: Node parent.
-		:type parent: AbunicodeactCompositeNode
+		:type parent: AbstractCompositeNode
 		:param children: Children.
 		:type children: list
 		:param \*\*kwargs: Keywords arguments.
@@ -375,7 +375,7 @@ class FormatNode(AbstractCompositeNode):
 		:param name: Node name.
 		:type name: unicode
 		:param parent: Node parent.
-		:type parent: AbunicodeactNode or AbunicodeactCompositeNode
+		:type parent: AbstractNode or AbstractCompositeNode
 		:param children: Children.
 		:type children: list
 		:param format: Format.

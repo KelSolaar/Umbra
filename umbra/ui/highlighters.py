@@ -105,7 +105,7 @@ class FormatsTree(object):
 		Property for **self.__rootNode** attribute.
 
 		:return: self.__rootNode.
-		:rtype: AbunicodeactCompositeNode
+		:rtype: AbstractCompositeNode
 		"""
 
 		return self.__rootNode
@@ -117,7 +117,7 @@ class FormatsTree(object):
 		Setter for **self.__rootNode** attribute.
 
 		:param value: Attribute value.
-		:type value: AbunicodeactCompositeNode
+		:type value: AbstractCompositeNode
 		"""
 
 		if value is not None:
@@ -161,7 +161,7 @@ class FormatsTree(object):
 		Lists the object formats in sorted order.
 		
 		:param node: Root node to start listing the formats from.
-		:type node: AbunicodeactCompositeNode
+		:type node: AbstractCompositeNode
 		:param path: Walked paths.
 		:type path: tuple
 		:param formats: Formats.
