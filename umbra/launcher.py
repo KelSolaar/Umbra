@@ -63,7 +63,8 @@ def main():
 	"""
 	Starts the Application.
 
-	:return: Definition success. ( Boolean )
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	componentsPaths = []

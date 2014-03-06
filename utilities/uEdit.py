@@ -49,8 +49,10 @@ def uEdit(*args):
 	"""
 	Edits given paths into Umbra.
 
-	:param \*args: Arguments. ( \* )
-	:return: Definition success. ( Boolean )
+	:param \*args: Arguments.
+	:type \*args: \*
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	paths = []

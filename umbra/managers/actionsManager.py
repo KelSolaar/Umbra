@@ -66,10 +66,14 @@ class ActionsManager(QObject):
 		"""
 		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param namespaceSplitter: Namespace splitters character. ( String )
-		:param rootNamespace: Root foundations.namespace. ( String )
-		:param defaultNamespace: Default namespace ( For actions with relative path ). ( String )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param namespaceSplitter: Namespace splitters character.
+		:type namespaceSplitter: unicode
+		:param rootNamespace: Root foundations.namespace.
+		:type rootNamespace: unicode
+		:param defaultNamespace: Default namespace ( For actions with relative path ).
+		:type defaultNamespace: unicode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -96,7 +100,8 @@ class ActionsManager(QObject):
 		"""
 		Property for **self.__namespaceSplitter** attribute.
 
-		:return: self.__namespaceSplitter. ( String )
+		:return: self.__namespaceSplitter.
+		:rtype: unicode
 		"""
 
 		return self.__namespaceSplitter
@@ -107,7 +112,8 @@ class ActionsManager(QObject):
 		"""
 		Setter for **self.__namespaceSplitter** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -133,7 +139,8 @@ class ActionsManager(QObject):
 		"""
 		Property for **self.__rootNamespace** attribute.
 
-		:return: self.__rootNamespace. ( String )
+		:return: self.__rootNamespace.
+		:rtype: unicode
 		"""
 
 		return self.__rootNamespace
@@ -144,7 +151,8 @@ class ActionsManager(QObject):
 		"""
 		Setter for **self.__rootNamespace** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -167,7 +175,8 @@ class ActionsManager(QObject):
 		"""
 		Property for **self.__defaultNamespace** attribute.
 
-		:return: self.__defaultNamespace. ( String )
+		:return: self.__defaultNamespace.
+		:rtype: unicode
 		"""
 
 		return self.__defaultNamespace
@@ -178,7 +187,8 @@ class ActionsManager(QObject):
 		"""
 		Setter for **self.__defaultNamespace** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -201,7 +211,8 @@ class ActionsManager(QObject):
 		"""
 		Property for **self.__categories** attribute.
 
-		:return: self.__categories. ( Dictionary )
+		:return: self.__categories.
+		:rtype: dict
 		"""
 
 		return self.__categories
@@ -212,7 +223,8 @@ class ActionsManager(QObject):
 		"""
 		Setter for **self.__categories** attribute.
 
-		:param value: Attribute value. ( Dictionary )
+		:param value: Attribute value.
+		:type value: dict
 		"""
 
 		if value is not None:
@@ -239,8 +251,10 @@ class ActionsManager(QObject):
 		"""
 		Reimplements the :meth:`object.__getitem__` method.
 
-		:param action: Action name. ( String )
-		:return: Action. ( QAction )
+		:param action: Action name.
+		:type action: unicode
+		:return: Action.
+		:rtype: QAction
 		"""
 
 		action = self.__normalizeName(action)
@@ -254,7 +268,8 @@ class ActionsManager(QObject):
 		"""
 		Reimplements the :meth:`object.__iter__` method.
 
-		:return: Actions iterator. ( Object )
+		:return: Actions iterator.
+		:rtype: object
 		"""
 
 		return foundations.walkers.dictionariesWalker(self.__categories)
@@ -263,8 +278,10 @@ class ActionsManager(QObject):
 		"""
 		Reimplements the :meth:`object.__contains__` method.
 
-		:param action: Action name. ( String )
-		:return: Action existence. ( Boolean )
+		:param action: Action name.
+		:type action: unicode
+		:return: Action existence.
+		:rtype: bool
 		"""
 
 		for path, name, object in self:
@@ -276,7 +293,8 @@ class ActionsManager(QObject):
 		"""
 		Reimplements the :meth:`object.__len__` method.
 
-		:return: Actions count. ( Integer )
+		:return: Actions count.
+		:rtype: int
 		"""
 
 		return len([action for action in self])
@@ -285,8 +303,10 @@ class ActionsManager(QObject):
 		"""
 		Normalizes given action name.
 
-		:param name: Action name. ( String )
-		:return: Normalized name. ( Boolean )
+		:param name: Action name.
+		:type name: unicode
+		:return: Normalized name.
+		:rtype: bool
 		"""
 
 		if not name.startswith(self.__rootNamespace):
@@ -303,10 +323,14 @@ class ActionsManager(QObject):
 		Gets recusively requested category, alternately if **vivify** argument is set,
 		the category will be created.
 
-		:param category: Base category. ( Dictionary )
-		:param name: Category to retrieve or vivify. ( String )
-		:param vivify: Vivify missing parents in the chain to the requested category. ( Boolean )
-		:return: Requested category. ( Dictionary )
+		:param category: Base category.
+		:type category: dict
+		:param name: Category to retrieve or vivify.
+		:type name: unicode
+		:param vivify: Vivify missing parents in the chain to the requested category.
+		:type vivify: bool
+		:return: Requested category.
+		:rtype: dict
 		"""
 
 		namespace = foundations.namespace.getNamespace(name, rootOnly=True)
@@ -324,7 +348,8 @@ class ActionsManager(QObject):
 		"""
 		Returns the registered actions.
 
-		:return: Actions list. ( List )
+		:return: Actions list.
+		:rtype: list
 		"""
 
 		actions = []
@@ -337,9 +362,12 @@ class ActionsManager(QObject):
 		"""
 		Returns requested category.
 
-		:param name: Category to retrieve. ( String )
-		:param vivify: Vivify missing parents in the chain to the requested category. ( Boolean )
-		:return: Category. ( Dictionary )
+		:param name: Category to retrieve.
+		:type name: unicode
+		:param vivify: Vivify missing parents in the chain to the requested category.
+		:type vivify: bool
+		:return: Category.
+		:rtype: dict
 		"""
 
 		category = self.__getCategory(self.__categories, name, vivify)
@@ -354,10 +382,14 @@ class ActionsManager(QObject):
 		"""
 		Adds given action to given category.
 
-		:param category: Category to store the action. ( String )
-		:param name: Action name. ( String )
-		:param action: Action object. ( QAction )
-		:return: Method success. ( Boolean )
+		:param category: Category to store the action.
+		:type category: unicode
+		:param name: Action name.
+		:type name: unicode
+		:param action: Action object.
+		:type action: QAction
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		category = self.getCategory(category, vivify=True)
@@ -372,9 +404,12 @@ class ActionsManager(QObject):
 		"""
 		Removes given action from given category.
 
-		:param category: Category to remove the action from. ( String )
-		:param name: Action name. ( String )
-		:return: Method success. ( Boolean )
+		:param category: Category to remove the action from.
+		:type category: unicode
+		:param name: Action name.
+		:type name: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		category = self.getCategory(category)
@@ -390,8 +425,10 @@ class ActionsManager(QObject):
 		"""
 		Returns requested action.
 
-		:param action: Action name. ( String )
-		:return: Action. ( QAction )
+		:param action: Action name.
+		:type action: unicode
+		:return: Action.
+		:rtype: QAction
 		"""
 
 		return self[action]
@@ -400,8 +437,10 @@ class ActionsManager(QObject):
 		"""
 		Returns if the given action name is registered.
 
-		:param name: Action name. ( String )
-		:return: Is action registered. ( Boolean )
+		:param name: Action name.
+		:type name: unicode
+		:return: Is action registered.
+		:rtype: bool
 		"""
 
 		return name in self
@@ -410,9 +449,12 @@ class ActionsManager(QObject):
 		"""
 		Registers given action name, optional arguments like a parent, icon, slot etc ... can be given.
 
-		:param name: Action to register. ( String )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		:return: Action. ( QAction )
+		:param name: Action to register.
+		:type name: unicode
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
+		:return: Action.
+		:rtype: QAction
 		"""
 
 		settings = foundations.dataStructures.Structure(**{"parent" : None,
@@ -455,8 +497,10 @@ class ActionsManager(QObject):
 		"""
 		Unregisters given action name.
 
-		:param name: Action to register. ( String )
-		:return: Method success. ( Boolean )
+		:param name: Action to register.
+		:type name: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		name = self.__normalizeName(name)
@@ -475,8 +519,10 @@ class ActionsManager(QObject):
 		"""
 		Returns if given action shortcut is in use.
 
-		:param name: Action shortcut. ( String )
-		:return: Is shortcut in use. ( Boolean )
+		:param name: Action shortcut.
+		:type name: unicode
+		:return: Is shortcut in use.
+		:rtype: bool
 		"""
 
 		for path, actionName, action in foundations.walkers.dictionariesWalker(self.__categories):
@@ -488,8 +534,10 @@ class ActionsManager(QObject):
 		"""
 		Returns given action shortcut.
 
-		:param name: Action to retrieve the shortcut. ( String )
-		:return: Action shortcut. ( String )
+		:param name: Action to retrieve the shortcut.
+		:type name: unicode
+		:return: Action shortcut.
+		:rtype: unicode
 		"""
 
 		name = self.__normalizeName(name)
@@ -503,9 +551,12 @@ class ActionsManager(QObject):
 		"""
 		Sets given action shortcut.
 
-		:param name: Action to set the shortcut. ( String )
-		:param shortcut: Shortcut to set. ( String )
-		:return: Method success. ( Boolean )
+		:param name: Action to set the shortcut.
+		:type name: unicode
+		:param shortcut: Shortcut to set.
+		:type shortcut: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		name = self.__normalizeName(name)

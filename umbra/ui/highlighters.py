@@ -68,7 +68,8 @@ class Rule(foundations.dataStructures.Structure):
 		"""
 		Initializes the class.
 
-		:param \*\*kwargs: pattern, format. ( Key / Value pairs )
+		:param \*\*kwargs: pattern, format.
+		:type \*\*kwargs: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -84,7 +85,8 @@ class FormatsTree(object):
 		"""
 		Initializes the class.
 
-		:param theme: Theme. ( Dictionary )
+		:param theme: Theme.
+		:type theme: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -102,7 +104,8 @@ class FormatsTree(object):
 		"""
 		Property for **self.__rootNode** attribute.
 
-		:return: self.__rootNode. ( AbstractCompositeNode )
+		:return: self.__rootNode.
+		:rtype: AbunicodeactCompositeNode
 		"""
 
 		return self.__rootNode
@@ -113,7 +116,8 @@ class FormatsTree(object):
 		"""
 		Setter for **self.__rootNode** attribute.
 
-		:param value: Attribute value. ( AbstractCompositeNode )
+		:param value: Attribute value.
+		:type value: AbunicodeactCompositeNode
 		"""
 
 		if value is not None:
@@ -138,7 +142,8 @@ class FormatsTree(object):
 		"""
 		Initializes the object formats tree.
 		
-		:param theme: Theme. ( Dictionary )
+		:param theme: Theme.
+		:type theme: dict
 		"""
 
 		for item in sorted(theme):
@@ -155,10 +160,14 @@ class FormatsTree(object):
 		"""
 		Lists the object formats in sorted order.
 		
-		:param node: Root node to start listing the formats from. ( AbstractCompositeNode )
-		:param path: Walked paths. ( Tuple )
-		:param formats: Formats. ( List )
-		:return: Formats. ( List )
+		:param node: Root node to start listing the formats from.
+		:type node: AbunicodeactCompositeNode
+		:param path: Walked paths.
+		:type path: tuple
+		:param formats: Formats.
+		:type formats: list
+		:return: Formats.
+		:rtype: list
 		"""
 
 		if formats == None:
@@ -174,8 +183,10 @@ class FormatsTree(object):
 		"""
 		Returns the closest format or closest parent format associated to given name.
 		
-		:param name: Format name. ( String)
-		:return: Format. ( QTextCharFormat )
+		:param name: Format name.
+		:type name: unicode
+		:return: Format.
+		:rtype: QTextCharFormat
 		"""
 
 		formats = [format for format in self.listFormats(self.__rootNode) if format in name]
@@ -210,7 +221,8 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		"""
 		Initializes the class.
 
-		:param parent: Widget parent. ( QObject )
+		:param parent: Widget parent.
+		:type parent: QObject
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -229,7 +241,8 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		"""
 		Property for **self.__formats** attribute.
 
-		:return: self.__formats. ( FormatsTree )
+		:return: self.__formats.
+		:rtype: FormatsTree
 		"""
 
 		return self.__formats
@@ -240,7 +253,8 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		"""
 		Setter for **self.__formats** attribute.
 
-		:param value: Attribute value. ( FormatsTree )
+		:param value: Attribute value.
+		:type value: FormatsTree
 		"""
 
 		if value is not None:
@@ -262,7 +276,8 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		"""
 		Property for **self.__rules** attribute.
 
-		:return: self.__rules. ( Tuple / List )
+		:return: self.__rules.
+		:rtype: tuple or list
 		"""
 
 		return self.__rules
@@ -273,7 +288,8 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		"""
 		Setter for **self.__rules** attribute.
 
-		:param value: Attribute value. ( Tuple / List )
+		:param value: Attribute value.
+		:type value: tuple or list
 		"""
 
 		if value is not None:
@@ -299,7 +315,8 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		"""
 		Reimplements the :meth:`QSyntaxHighlighter.highlightBlock` method.
 
-		:param block: Text block. ( QString )
+		:param block: Text block.
+		:type block: QString
 		"""
 
 		raise NotImplementedError("{0} | '{1}' must be implemented by '{2}' subclasses!".format(self.__class__.__name__,
@@ -310,10 +327,14 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		"""
 		Highlights given text.
 
-		:param text: Text. ( QString )
-		:param start: Text start index. ( Integer )
-		:param end: Text end index. ( Integer )
-		:return: Method success. ( Boolean )
+		:param text: Text.
+		:type text: QString
+		:param start: Text start index.
+		:type start: int
+		:param end: Text end index.
+		:type end: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		for rule in self.__rules:
@@ -334,9 +355,12 @@ class DefaultHighlighter(AbstractHighlighter):
 		"""
 		Initializes the class.
 
-		:param parent: Widget parent. ( QObject )
-		:param rules: Rules. ( Tuple / List )
-		:param theme: Theme. ( Dictionary )
+		:param parent: Widget parent.
+		:type parent: QObject
+		:param rules: Rules.
+		:type rules: tuple or list
+		:param theme: Theme.
+		:type theme: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -358,7 +382,8 @@ class DefaultHighlighter(AbstractHighlighter):
 		"""
 		Property for **self.__theme** attribute.
 
-		:return: self.__theme. ( Dictionary )
+		:return: self.__theme.
+		:rtype: dict
 		"""
 
 		return self.__theme
@@ -369,7 +394,8 @@ class DefaultHighlighter(AbstractHighlighter):
 		"""
 		Setter for **self.__theme** attribute.
 
-		:param value: Attribute value. ( Dictionary )
+		:param value: Attribute value.
+		:type value: dict
 		"""
 
 		if value is not None:
@@ -400,7 +426,8 @@ class DefaultHighlighter(AbstractHighlighter):
 		"""
 		Reimplements the :meth:`AbstractHighlighter.highlightBlock` method.
 
-		:param block: Text block. ( QString )
+		:param block: Text block.
+		:type block: QString
 		"""
 
 		self.highlightText(block, 0, len(block))
@@ -419,12 +446,18 @@ class DefaultHighlighter(AbstractHighlighter):
 		"""
 		Highlights given multiline text block.
 
-		:param block: Text block. ( QString )
-		:param pattern: Start regex pattern. ( QRegExp )
-		:param pattern: End regex pattern. ( QRegExp )
-		:param format: Format. ( QTextCharFormat )
-		:param state: Block state. ( Integer )
-		:return: Current block matching state. ( Boolean )
+		:param block: Text block.
+		:type block: QString
+		:param pattern: Start regex pattern.
+		:type pattern: QRegExp
+		:param pattern: End regex pattern.
+		:type pattern: QRegExp
+		:param format: Format.
+		:type format: QTextCharFormat
+		:param state: Block state.
+		:type state: int
+		:return: Current block matching state.
+		:rtype: bool
 		"""
 
 		if self.previousBlockState() == state:

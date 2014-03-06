@@ -57,8 +57,10 @@ def highlightCurrentLine(editor):
 	"""
 	Highlights given editor current line.
 	
-	:param editor: Document editor. ( QWidget )
-	:return: Method success. ( Boolean )
+	:param editor: Document editor.
+	:type editor: QWidget
+	:return: Method success.
+	:rtype: bool
 	"""
 
 	format = editor.language.theme.get("accelerator.line")
@@ -80,8 +82,10 @@ def highlightOccurences(editor):
 	"""
 	Highlights given editor current line.
 	
-	:param editor: Document editor. ( QWidget )
-	:return: Method success. ( Boolean )
+	:param editor: Document editor.
+	:type editor: QWidget
+	:return: Method success.
+	:rtype: bool
 	"""
 
 	format = editor.language.theme.get("accelerator.occurence")
@@ -114,8 +118,10 @@ def highlightMatchingSymbolsPairs(editor):
 	"""
 	Highlights given editor matching pairs.
 	
-	:param editor: Document editor. ( QWidget )
-	:return: Method success. ( Boolean )
+	:param editor: Document editor.
+	:type editor: QWidget
+	:return: Method success.
+	:rtype: bool
 	"""
 
 	format = editor.language.theme.get("accelerator.pair")

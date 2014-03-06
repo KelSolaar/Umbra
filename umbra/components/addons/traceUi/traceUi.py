@@ -82,10 +82,14 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param name: Component name. ( String )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param name: Component name.
+		:type name: unicode
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -114,7 +118,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__dockArea** attribute.
 
-		:return: self.__dockArea. ( Integer )
+		:return: self.__dockArea.
+		:rtype: int
 		"""
 
 		return self.__dockArea
@@ -125,7 +130,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__dockArea** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -146,7 +152,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__engine** attribute.
 
-		:return: self.__engine. ( QObject )
+		:return: self.__engine.
+		:rtype: QObject
 		"""
 
 		return self.__engine
@@ -157,7 +164,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__engine** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -178,7 +186,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( QSettings )
+		:return: self.__settings.
+		:rtype: QSettings
 		"""
 
 		return self.__settings
@@ -189,7 +198,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( QSettings )
+		:param value: Attribute value.
+		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -210,7 +220,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__settingsSection** attribute.
 
-		:return: self.__settingsSection. ( String )
+		:return: self.__settingsSection.
+		:rtype: unicode
 		"""
 
 		return self.__settingsSection
@@ -221,7 +232,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__settingsSection** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -242,7 +254,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__model** attribute.
 
-		:return: self.__model. ( CollectionsModel )
+		:return: self.__model.
+		:rtype: CollectionsModel
 		"""
 
 		return self.__model
@@ -253,7 +266,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__model** attribute.
 
-		:param value: Attribute value. ( CollectionsModel )
+		:param value: Attribute value.
+		:type value: CollectionsModel
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -274,7 +288,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__view** attribute.
 
-		:return: self.__view. ( QWidget )
+		:return: self.__view.
+		:rtype: QWidget
 		"""
 
 		return self.__view
@@ -285,7 +300,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__view** attribute.
 
-		:param value: Attribute value. ( QWidget )
+		:param value: Attribute value.
+		:type value: QWidget
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -306,7 +322,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__headers** attribute.
 
-		:return: self.__headers. ( OrderedDict )
+		:return: self.__headers.
+		:rtype: OrderedDict
 		"""
 
 		return self.__headers
@@ -317,7 +334,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__headers** attribute.
 
-		:param value: Attribute value. ( OrderedDict )
+		:param value: Attribute value.
+		:type value: OrderedDict
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -340,8 +358,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Activates the Component.
 
-		:param engine: Engine to attach the Component to. ( QObject )
-		:return: Method success. ( Boolean )
+		:param engine: Engine to attach the Component to.
+		:type engine: QObject
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
@@ -357,7 +377,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Deactivates the Component.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Deactivating '{0}' Component.".format(self.__class__.__name__))
@@ -373,7 +394,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Initializes the Component ui.
 		
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
@@ -405,7 +427,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Uninitializes the Component ui.
 		
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Uninitializing '{0}' Component ui.".format(self.__class__.__name__))
@@ -425,7 +448,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Adds the Component Widget to the engine.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Adding '{0}' Component Widget.".format(self.__class__.__name__))
@@ -438,7 +462,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Removes the Component Widget from the engine.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Removing '{0}' Component Widget.".format(self.__class__.__name__))
@@ -494,8 +519,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by **'Actions|Umbra|Components|addons.traceUi|Trace Module(s)'** action.
 
-		:param checked: Action checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Action checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		pattern = foundations.strings.toString(self.Trace_Modules_Filter_lineEdit.text()) or r".*"
@@ -506,8 +533,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by **'Actions|Umbra|Components|addons.traceUi|Untrace Module(s)'** action.
 
-		:param checked: Action checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Action checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.untraceModules(self.getSelectedModules())
@@ -516,7 +545,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Returns the View selected nodes.
 
-		:return: View selected nodes. ( Dictionary )
+		:return: View selected nodes.
+		:rtype: dict
 		"""
 
 		return self.__view.getSelectedNodes()
@@ -525,7 +555,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Returns the View selected modules.
 
-		:return: View selected modules. ( List )
+		:return: View selected modules.
+		:rtype: list
 		"""
 
 		return [node.module for node in self.getSelectedNodes()]
@@ -536,10 +567,14 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Traces given modules using given filter pattern.
 
-		:param modules: Modules to trace. ( List )
-		:param pattern: Matching pattern. ( String )
-		:param flags: Matching regex flags. ( Integer )
-		:return: Method success. ( Boolean )
+		:param modules: Modules to trace.
+		:type modules: list
+		:param pattern: Matching pattern.
+		:type pattern: unicode
+		:param flags: Matching regex flags.
+		:type flags: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		try:
@@ -557,8 +592,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Untraces given modules.
 
-		:param modules: Modules to untrace. ( List )
-		:return: Method success. ( Boolean )
+		:param modules: Modules to untrace.
+		:type modules: list
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		for module in modules:
@@ -570,7 +607,8 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Sets the registered Modules.
 	
-		:return: Registered modules. ( List )
+		:return: Registered modules.
+		:rtype: list
 		"""
 
 		return foundations.trace.REGISTERED_MODULES
@@ -579,8 +617,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Sets the modules Model nodes.
 	
-		:param modules: Modules to set. ( List )
-		:return: Method success. ( Boolean )
+		:param modules: Modules to set.
+		:type modules: list
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		nodeFlags = int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)

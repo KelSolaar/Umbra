@@ -56,9 +56,12 @@ class Processing(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -78,7 +81,8 @@ class Processing(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -89,7 +93,8 @@ class Processing(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(

@@ -62,9 +62,12 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -86,7 +89,8 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -97,7 +101,8 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -118,7 +123,8 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__Lines_Columns_label_defaultText** attribute.
 
-		:return: self.__Lines_Columns_label_defaultText. ( String )
+		:return: self.__Lines_Columns_label_defaultText.
+		:rtype: unicode
 		"""
 
 		return self.__Lines_Columns_label_defaultText
@@ -129,7 +135,8 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__Lines_Columns_label_defaultText** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -178,7 +185,8 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Defines the slot triggered by the **Languages_comboBox** Widget when current index is changed.
 
-		:param index: ComboBox current item index. ( Integer )
+		:param index: ComboBox current item index.
+		:type index: int
 		"""
 
 		if not self.__container.hasEditorTab():

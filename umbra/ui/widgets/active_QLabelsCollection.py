@@ -63,7 +63,8 @@ class Active_QLabelsCollection(QObject):
 	This signal is emited by the :class:`Active_QLabelsCollection` class
 	when one of its :class:`umbra.ui.widgets.active_QLabel.Active_QLabel` child has been clicked. ( pyqtSignal )
 
-	:return: Current clicked active label. ( Active_QLabel )	
+	:return: Current clicked active label.
+	:rtype: Active_QLabel
 	"""
 
 	activeLabelPressed = pyqtSignal(Active_QLabel)
@@ -71,7 +72,8 @@ class Active_QLabelsCollection(QObject):
 	This signal is emited by the :class:`Active_QLabelsCollection` class
 	when one of its :class:`umbra.ui.widgets.active_QLabel.Active_QLabel` child has been pressed. ( pyqtSignal )
 
-	:return: Current clicked active label. ( Active_QLabel )	
+	:return: Current clicked active label.
+	:rtype: Active_QLabel
 	"""
 
 	activeLabelReleased = pyqtSignal(Active_QLabel)
@@ -79,7 +81,8 @@ class Active_QLabelsCollection(QObject):
 	This signal is emited by the :class:`Active_QLabelsCollection` class
 	when one of its :class:`umbra.ui.widgets.active_QLabel.Active_QLabel` child has been released. ( pyqtSignal )
 
-	:return: Current clicked active label. ( Active_QLabel )	
+	:return: Current clicked active label.
+	:rtype: Active_QLabel
 	"""
 
 	activeLabelToggled = pyqtSignal(Active_QLabel)
@@ -87,14 +90,16 @@ class Active_QLabelsCollection(QObject):
 	This signal is emited by the :class:`Active_QLabelsCollection` class
 	when one of its :class:`umbra.ui.widgets.active_QLabel.Active_QLabel` child has been toggled. ( pyqtSignal )
 
-	:return: Current checked active label. ( Active_QLabel )	
+	:return: Current checked active label.
+	:rtype: Active_QLabel
 	"""
 
 	def __init__(self, parent=None):
 		"""
 		Initializes the class.
 
-		:param parent: Widget parent. ( QObject )
+		:param parent: Widget parent.
+		:type parent: QObject
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -114,7 +119,8 @@ class Active_QLabelsCollection(QObject):
 		"""
 		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -125,7 +131,8 @@ class Active_QLabelsCollection(QObject):
 		"""
 		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -146,7 +153,8 @@ class Active_QLabelsCollection(QObject):
 		"""
 		Property for **self.__activeLabels** attribute.
 
-		:return: self.__activeLabels. ( List )
+		:return: self.__activeLabels.
+		:rtype: list
 		"""
 
 		return self.__activeLabels
@@ -157,7 +165,8 @@ class Active_QLabelsCollection(QObject):
 		"""
 		Setter for **self.__activeLabels** attribute.
 
-		:param value: Attribute value. ( List )
+		:param value: Attribute value.
+		:type value: list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -180,8 +189,10 @@ class Active_QLabelsCollection(QObject):
 		"""
 		Defines the slot triggered by an **Active_QLabel** Widget when toggled.
 
-		:param activeLabel: Active label. ( Active_QLabel )
-		:param state: Active label checked state. ( Boolean )
+		:param activeLabel: Active label.
+		:type activeLabel: Active_QLabel
+		:param state: Active label checked state.
+		:type state: bool
 		"""
 
 		LOGGER.debug("> Toggled 'Active_QLabel': '{0}'.".format(activeLabel))
@@ -192,7 +203,8 @@ class Active_QLabelsCollection(QObject):
 		"""
 		Updates given **Active_QLabel** Widget siblings states.
 
-		:param activeLabel: Active label. ( Active_QLabel )
+		:param activeLabel: Active label.
+		:type activeLabel: Active_QLabel
 		"""
 
 		LOGGER.debug("> Clicked 'Active_QLabel': '{0}'.".format(activeLabel))
@@ -208,8 +220,10 @@ class Active_QLabelsCollection(QObject):
 		"""
 		Adds given **Active_QLabel** Widget.
 
-		:param activeLabel: Active label to add. ( Active_QLabel )
-		:return: Method success. ( Boolean )
+		:param activeLabel: Active label to add.
+		:type activeLabel: Active_QLabel
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not issubclass(activeLabel.__class__, Active_QLabel):
@@ -238,8 +252,10 @@ class Active_QLabelsCollection(QObject):
 		"""
 		Removes given **Active_QLabel** Widget.
 
-		:param activeLabel: Active label to remove. ( Active_QLabel )
-		:return: Method success. ( Boolean )
+		:param activeLabel: Active label to remove.
+		:type activeLabel: Active_QLabel
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not activeLabel in self.__activeLabels:
@@ -253,7 +269,8 @@ class Active_QLabelsCollection(QObject):
 		"""
 		Returns the toggled **Active_QLabel** Widget.
 
-		:return: Checked active label. ( Boolean )
+		:return: Checked active label.
+		:rtype: bool
 		"""
 
 		for activeLabel in self.__activeLabels:
@@ -264,8 +281,10 @@ class Active_QLabelsCollection(QObject):
 		"""
 		Returns given **Active_QLabel** Widget index.
 
-		:param activeLabel: Active label to retrieve index. ( Active_QLabel )
-		:return: Active label index. ( Integer )
+		:param activeLabel: Active label to retrieve index.
+		:type activeLabel: Active_QLabel
+		:return: Active label index.
+		:rtype: int
 		"""
 
 		return self.__activeLabels.index(activeLabel)
@@ -274,8 +293,10 @@ class Active_QLabelsCollection(QObject):
 		"""
 		Returns the **Active_QLabel** Widget from given index.
 
-		:param index: Index. ( Integer )
-		:return: Active label. ( Active_QLabel )
+		:param index: Index.
+		:type index: int
+		:return: Active label.
+		:rtype: Active_QLabel
 		"""
 
 		return self.__activeLabels[index]

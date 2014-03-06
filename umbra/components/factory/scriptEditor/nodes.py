@@ -79,13 +79,20 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the class.
 
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -106,7 +113,8 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Property for **self.__editor** attribute.
 
-		:return: self.__editor. ( Editor )
+		:return: self.__editor.
+		:rtype: Editor
 		"""
 
 		return self.__editor
@@ -117,7 +125,8 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Setter for **self.__editor** attribute.
 
-		:param value: Attribute value. ( Editor )
+		:param value: Attribute value.
+		:type value: Editor
 		"""
 
 		if value is not None:
@@ -141,7 +150,8 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		pass
@@ -165,13 +175,20 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the class.
 
-		:param path: File path.  ( String )
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param path: File path.
+		:type path: unicode
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -192,7 +209,8 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Property for **self.__path** attribute.
 
-		:return: self.__path. ( String )
+		:return: self.__path.
+		:rtype: unicode
 		"""
 
 		return self.__path
@@ -203,7 +221,8 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Setter for **self.__path** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -227,7 +246,8 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		pass
@@ -252,14 +272,22 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the class.
 
-		:param path: Directory path.  ( String )
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param path: Directory path.
+		:type path: unicode
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -280,7 +308,8 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Property for **self.__path** attribute.
 
-		:return: self.__path. ( String )
+		:return: self.__path.
+		:rtype: unicode
 		"""
 
 		return self.__path
@@ -291,7 +320,8 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Setter for **self.__path** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -316,7 +346,8 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		pass
@@ -341,14 +372,22 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the class.
 
-		:param path: Project path.  ( String )
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param path: Project path.
+		:type path: unicode
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -369,7 +408,8 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Property for **self.__path** attribute.
 
-		:return: self.__path. ( String )
+		:return: self.__path.
+		:rtype: unicode
 		"""
 
 		return self.__path
@@ -380,7 +420,8 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Setter for **self.__path** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -405,7 +446,8 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		pass
@@ -430,13 +472,20 @@ class PatternNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the class.
 
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -452,7 +501,8 @@ class PatternNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		pass
@@ -477,13 +527,20 @@ class SearchFileNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the class.
 
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -499,7 +556,8 @@ class SearchFileNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		pass
@@ -524,13 +582,20 @@ class SearchOccurenceNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the class.
 
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -546,7 +611,8 @@ class SearchOccurenceNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		pass
@@ -571,13 +637,20 @@ class ReplaceResultNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the class.
 
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -593,7 +666,8 @@ class ReplaceResultNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		pass

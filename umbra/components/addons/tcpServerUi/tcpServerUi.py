@@ -69,7 +69,8 @@ class RequestsStackDataHandler(SocketServer.BaseRequestHandler):
 		"""
 		Reimplements the :meth:`SocketServer.BaseRequestHandler.handle` method.
 	
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		allData = []
@@ -117,10 +118,14 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param name: Component name. ( String )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param name: Component name.
+		:type name: unicode
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -148,7 +153,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__engine** attribute.
 
-		:return: self.__engine. ( QObject )
+		:return: self.__engine.
+		:rtype: QObject
 		"""
 
 		return self.__engine
@@ -159,7 +165,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__engine** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -180,7 +187,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( QSettings )
+		:return: self.__settings.
+		:rtype: QSettings
 		"""
 
 		return self.__settings
@@ -191,7 +199,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( QSettings )
+		:param value: Attribute value.
+		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -212,7 +221,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__settingsSection** attribute.
 
-		:return: self.__settingsSection. ( String )
+		:return: self.__settingsSection.
+		:rtype: unicode
 		"""
 
 		return self.__settingsSection
@@ -223,7 +233,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__settingsSection** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -244,7 +255,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__preferencesManager** attribute.
 
-		:return: self.__preferencesManager. ( QWidget )
+		:return: self.__preferencesManager.
+		:rtype: QWidget
 		"""
 
 		return self.__preferencesManager
@@ -255,7 +267,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__preferencesManager** attribute.
 
-		:param value: Attribute value. ( QWidget )
+		:param value: Attribute value.
+		:type value: QWidget
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -276,7 +289,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__tcpServer** attribute.
 
-		:return: self.__tcpServer. ( QWidget )
+		:return: self.__tcpServer.
+		:rtype: QWidget
 		"""
 
 		return self.__tcpServer
@@ -287,7 +301,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__tcpServer** attribute.
 
-		:param value: Attribute value. ( QWidget )
+		:param value: Attribute value.
+		:type value: QWidget
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -308,7 +323,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__address** attribute.
 
-		:return: self.__address. ( String )
+		:return: self.__address.
+		:rtype: unicode
 		"""
 
 		return self.__address
@@ -319,7 +335,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__address** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -342,7 +359,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__port** attribute.
 
-		:return: self.__port. ( Integer )
+		:return: self.__port.
+		:rtype: int
 		"""
 
 		return self.__port
@@ -353,7 +371,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__port** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -381,8 +400,10 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Activates the Component.
 
-		:param engine: Engine to attach the Component to. ( QObject )
-		:return: Method success. ( Boolean )
+		:param engine: Engine to attach the Component to.
+		:type engine: QObject
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
@@ -402,7 +423,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Deactivates the Component.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Deactivating '{0}' Component.".format(self.__class__.__name__))
@@ -423,7 +445,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Initializes the Component ui.
 		
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
@@ -445,7 +468,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Uninitializes the Component ui.
 		
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Uninitializing '{0}' Component ui.".format(self.__class__.__name__))
@@ -464,7 +488,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Adds the Component Widget to the engine.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Adding '{0}' Component Widget.".format(self.__class__.__name__))
@@ -477,7 +502,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Removes the Component Widget from the engine.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Removing '{0}' Component Widget.".format(self.__class__.__name__))
@@ -527,7 +553,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by the **Port_spinBox** Widget when value changed.
 
-		:param value: Port value. ( Integer )
+		:param value: Port value.
+		:type value: int
 		"""
 
 		LOGGER.debug("> 'Port' value: '{0}'.".format(value))
@@ -553,7 +580,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by **Autostart_TCP_Server_checkBox** Widged when state changed.
 
-		:param state: Checkbox state. ( Integer )
+		:param state: Checkbox state.
+		:type state: int
 		"""
 
 		autostartTcpServer = self.Autostart_TCP_Server_checkBox.checkState()
@@ -564,7 +592,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by **Start_TCP_Server_pushButton** Widget when clicked.
 
-		:param checked: Checked state. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
 		"""
 
 		self.startTcpServer(self.Port_spinBox.value())
@@ -573,7 +602,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by **Stop_TCP_Server_pushButton** Widget when clicked.
 
-		:param checked: Checked state. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
 		"""
 
 		self.stopTcpServer()
@@ -582,8 +612,10 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Starts the TCP server using given port.
 
-		:param port: Port. ( Integer )
-		:return: Method success. ( Boolean )
+		:param port: Port.
+		:type port: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.__tcpServer.port = port
@@ -604,7 +636,8 @@ class TCPServerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Stops the TCP server.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if self.__tcpServer.online:

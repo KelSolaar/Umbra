@@ -70,14 +70,22 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the class.
 
-		:param module: Module.  ( Module )
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param module: Module.
+		:type module: ModuleType
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -97,7 +105,8 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Property for **self.__module** attribute.
 
-		:return: self.__module. ( Object )
+		:return: self.__module.
+		:rtype: object
 		"""
 
 		return self.__module
@@ -108,7 +117,8 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Setter for **self.__module** attribute.
 
-		:param value: Attribute value. ( Object )
+		:param value: Attribute value.
+		:type value: object
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -131,7 +141,8 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		self["traced"] = umbra.ui.nodes.GraphModelAttribute(name="traced",
@@ -143,8 +154,10 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Updates the Node attributes.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
-		:return: Method success. ( Boolean )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.traced.value = foundations.trace.isTraced(self.__module)

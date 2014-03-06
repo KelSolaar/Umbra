@@ -73,7 +73,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Initializes the class.
 
-		:param parent: Widget parent. ( QObject )
+		:param parent: Widget parent.
+		:type parent: QObject
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -104,7 +105,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -115,7 +117,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -136,7 +139,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( Preferences )
+		:return: self.__settings.
+		:rtype: Preferences
 		"""
 
 		return self.__settings
@@ -147,7 +151,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( Preferences )
+		:param value: Attribute value.
+		:type value: Preferences
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -168,7 +173,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Property for **self.__layoutsActiveLabelsCollection** attribute.
 
-		:return: self.__layoutsActiveLabelsCollection. ( Active_QLabelsCollection )
+		:return: self.__layoutsActiveLabelsCollection.
+		:rtype: Active_QLabelsCollection
 		"""
 
 		return self.__layoutsActiveLabelsCollection
@@ -179,7 +185,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Setter for **self.__layoutsActiveLabelsCollection** attribute.
 
-		:param value: Attribute value. ( Active_QLabelsCollection )
+		:param value: Attribute value.
+		:type value: Active_QLabelsCollection
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -200,7 +207,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Property for **self.__customLayoutsMenu** attribute.
 
-		:return: self.__customLayoutsMenu. ( QMenu )
+		:return: self.__customLayoutsMenu.
+		:rtype: QMenu
 		"""
 
 		return self.__customLayoutsMenu
@@ -211,7 +219,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Setter for **self.__customLayoutsMenu** attribute.
 
-		:param value: Attribute value. ( QMenu )
+		:param value: Attribute value.
+		:type value: QMenu
 		"""
 
 		if value is not None:
@@ -233,7 +242,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Property for **self.__miscellaneousMenu** attribute.
 
-		:return: self.__miscellaneousMenu. ( QMenu )
+		:return: self.__miscellaneousMenu.
+		:rtype: QMenu
 		"""
 
 		return self.__miscellaneousMenu
@@ -244,7 +254,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Setter for **self.__miscellaneousMenu** attribute.
 
-		:param value: Attribute value. ( QMenu )
+		:param value: Attribute value.
+		:type value: QMenu
 		"""
 
 		if value is not None:
@@ -290,7 +301,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Defines the slot triggered by a **Active_QLabel** Widget when clicked.
 
-		:param layout: Layout name. ( String )
+		:param layout: Layout name.
+		:type layout: unicode
 		"""
 
 		self.__container.layoutsManager.restoreLayout(layout)
@@ -300,7 +312,8 @@ class Application_QToolBar(QToolBar):
 		Defines the slot triggered by :class:`umbra.managers.layoutsManager.LayoutsManager` class
 		when a layout is stored.
 
-		:param layout: Layout name. ( String )
+		:param layout: Layout name.
+		:type layout: unicode
 		"""
 
 		layoutActiveLabel = self.__layoutsActiveLabelsCollection.getToggledActiveLabel()
@@ -313,7 +326,8 @@ class Application_QToolBar(QToolBar):
 		Defines the slot triggered by :class:`umbra.managers.layoutsManager.LayoutsManager` class
 		when a layout is restored.
 
-		:param layout: Layout name. ( String )
+		:param layout: Layout name.
+		:type layout: unicode
 		"""
 
 		layoutActiveLabel = self.__settings.getKey("Layouts", "{0}_activeLabel".format(layout)).toString()
@@ -327,8 +341,10 @@ class Application_QToolBar(QToolBar):
 		"""
 		Defines the slot triggered by **'Actions|Umbra|ToolBar|Miscellaneous|Help content ...'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Opening url: '{0}'.".format(UiConstants.helpFile))
@@ -339,8 +355,10 @@ class Application_QToolBar(QToolBar):
 		"""
 		Defines the slot triggered by **'Actions|Umbra|ToolBar|Miscellaneous|Api content ...'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Opening url: '{0}'.".format(UiConstants.apiFile))
@@ -351,7 +369,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Sets the toolBar layout default geometry.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.layout().setSpacing(8)
@@ -362,7 +381,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Sets the toolBar children widgets.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Adding 'Application_Logo_label' widget!")
@@ -390,7 +410,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Provides the default **Application_Logo_label** widget.
 
-		:return: Application logo label. ( QLabel )
+		:return: Application logo label.
+		:rtype: QLabel
 		"""
 
 		logoLabel = QLabel()
@@ -402,12 +423,17 @@ class Application_QToolBar(QToolBar):
 		"""
 		Returns a layout **Active_QLabel** widget.
 
-		:param resources: Icons resources ( Default / Hover / Active ). ( Tuple )
-		:param name: Ui object name. ( String )
-		:param title: Layout registration title. ( String )
-		:param identity: Layout code name. ( String )
+		:param resources: Icons resources ( Default / Hover / Active ).
+		:type resources: tuple
+		:param name: Ui object name.
+		:type name: unicode
+		:param title: Layout registration title.
+		:type title: unicode
+		:param identity: Layout code name.
+		:type identity: unicode
 		:param shortcut: Layout associated shortcut. ( QtCore.Key )
-		:return: Layout active label. ( Active_QLabel )
+		:return: Layout active label.
+		:rtype: Active_QLabel
 		"""
 
 		defaultIcon, hoverIcon, activeIcon = resources
@@ -437,7 +463,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Returns the layouts **Active_QLabel** widgets.
 
-		:return: Layouts active labels. ( List )
+		:return: Layouts active labels.
+		:rtype: list
 		"""
 
 		self.__layoutsActiveLabelsCollection = Active_QLabelsCollection(self)
@@ -463,7 +490,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Provides the default **Custom_Layouts_activeLabel** widget.
 
-		:return: Layout active label. ( Active_QLabel )
+		:return: Layout active label.
+		:rtype: Active_QLabel
 		"""
 
 		layoutActiveLabel = Active_QLabel(self, QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsIcon)),
@@ -502,7 +530,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Provides the default **Miscellaneous_activeLabel** widget.
 
-		:return: Miscellaneous active label. ( Active_QLabel )
+		:return: Miscellaneous active label.
+		:rtype: Active_QLabel
 		"""
 
 		miscellaneousActiveLabel = Active_QLabel(self,
@@ -529,7 +558,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Provides the default **Spacer_label** widget.
 
-		:return: Logo spacer label. ( QLabel )
+		:return: Logo spacer label.
+		:rtype: QLabel
 		"""
 
 		spacer = QLabel()
@@ -541,7 +571,8 @@ class Application_QToolBar(QToolBar):
 		"""
 		Provides the default **Closure_Spacer_label** widget.
 
-		:return: Closure spacer label. ( QLabel )
+		:return: Closure spacer label.
+		:rtype: QLabel
 		"""
 
 		spacer = QLabel()

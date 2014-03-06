@@ -69,13 +69,20 @@ class PathNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the class.
 
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -91,7 +98,8 @@ class PathNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		self["activated"] = umbra.ui.nodes.GraphModelAttribute(name="activated",
@@ -125,14 +133,22 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Initializes the class.
 
-		:param component: Component.  ( Component / QWidgetComponent / QObjectComponent )
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param component: Component.
+		:type component: Component or QWidgetComponent or QObjectComponent
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -160,7 +176,8 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Property for **self.__component** attribute.
 
-		:return: self.__component. ( Component / QWidgetComponent / QObjectComponent )
+		:return: self.__component.
+		:rtype: Component or QWidgetComponent or QObjectComponent
 		"""
 
 		return self.__component
@@ -171,7 +188,8 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Setter for **self.__component** attribute.
 
-		:param value: Attribute value. ( Component / QWidgetComponent / QObjectComponent )
+		:param value: Attribute value.
+		:type value: Component or QWidgetComponent or QObjectComponent
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -192,7 +210,8 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Property for **self.__toolTipText** attribute.
 
-		:return: self.__toolTipText. ( String )
+		:return: self.__toolTipText.
+		:rtype: unicode
 		"""
 
 		return self.__toolTipText
@@ -203,7 +222,8 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		Setter for **self.__toolTipText** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -228,7 +248,8 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		This method initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		attributes = dir(self.__component)
@@ -251,7 +272,8 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 		"""
 		This method updates the node tooltip.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.roles[Qt.ToolTipRole] = self.__toolTipText.format(self.component.name,

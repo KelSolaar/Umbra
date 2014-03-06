@@ -90,9 +90,12 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Constructor of the class.
 
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		:return: Class instance. ( Library )
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
+		:return: Class instance.
+		:rtype: Library
 		"""
 
 		if not cls._Reporter__instance:
@@ -103,11 +106,16 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param report: Report to Crittercism. ( Boolean )
-		:param enabled: Is reporter enabled. ( Boolean )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param report: Report to Crittercism.
+		:type report: bool
+		:param enabled: Is reporter enabled.
+		:type enabled: bool
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		if hasattr(self, "_Reporter__initialized"):
@@ -293,7 +301,8 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		"""
 		Property for **self.__report** attribute.
 
-		:return: self.__report. ( Boolean )
+		:return: self.__report.
+		:rtype: bool
 		"""
 
 		return self.__report
@@ -304,7 +313,8 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		"""
 		Setter for **self.__report** attribute.
 
-		:param value: Attribute value. ( Boolean )
+		:param value: Attribute value.
+		:type value: bool
 		"""
 
 		if value is not None:
@@ -326,7 +336,8 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		"""
 		Property for **self.__enabled** attribute.
 
-		:return: self.__enabled. ( Boolean )
+		:return: self.__enabled.
+		:rtype: bool
 		"""
 
 		return self.__enabled
@@ -337,7 +348,8 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		"""
 		Setter for **self.__enabled** attribute.
 
-		:param value: Attribute value. ( Boolean )
+		:param value: Attribute value.
+		:type value: bool
 		"""
 
 		if value is not None:
@@ -361,9 +373,12 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		"""
 		Caller of the class.
 
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		:return: Class instance. ( Library )
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
+		:return: Class instance.
+		:rtype: Library
 		"""
 
 		self.handleException(*args)
@@ -413,7 +428,8 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		"""
 		Defines the slot triggered by **Copy_Report_pushButton** Widget when clicked.
 
-		:param checked: Checked state. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
 		"""
 
 		clipboard = QApplication.clipboard()
@@ -423,7 +439,8 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		"""
 		Defines the slot triggered by **Disable_Reporter_pushButton** Widget when clicked.
 
-		:param checked: Checked state. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
 		"""
 
 		uninstallExceptionReporter()
@@ -433,8 +450,10 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		"""
 		Returns the html content with given body tag content.
 
-		:param body: Body tag content. ( String )
-		:return: Html. ( String )
+		:param body: Body tag content.
+		:type body: unicode
+		:return: Html.
+		:rtype: unicode
 		"""
 
 		output = []
@@ -464,7 +483,8 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		"""
 		Sets the html content in the View using given body.
 
-		:param html: Html content. ( String )
+		:param html: Html content.
+		:type html: unicode
 		"""
 
 		self.__html = self.__getHtml(html)
@@ -474,7 +494,8 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		"""
 		Updates the View with given html content.
 
-		:param html: Html content. ( String )
+		:param html: Html content.
+		:type html: unicode
 		"""
 
 		if platform.system() in ("Windows", "Microsoft"):
@@ -489,7 +510,8 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		"""
 		Evaluates given javascript content in the View.
 
-		:param javascript: Javascript. ( String )
+		:param javascript: Javascript.
+		:type javascript: unicode
 		"""
 
 		self.__view.page().mainFrame().evaluateJavaScript(javascript)
@@ -498,7 +520,8 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		"""
 		Handles given exception.
 
-		:param \*args: Arguments. ( \* )
+		:param \*args: Arguments.
+		:type \*args: \*
 		"""
 
 		if not self.__enabled:
@@ -522,8 +545,10 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		"""
 		Formats given exception as an html text.
 
-		:param \*args: Arguments. ( \* )
-		:return: Exception html text. ( String )
+		:param \*args: Arguments.
+		:type \*args: \*
+		:return: Exception html text.
+		:rtype: unicode
 		"""
 
 		escape = lambda x: foundations.strings.replace(x,
@@ -610,8 +635,10 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		"""
 		Formats given exception as a text.
 
-		:param \*args: Arguments. ( \* )
-		:return: Exception text. ( String )
+		:param \*args: Arguments.
+		:type \*args: \*
+		:return: Exception text.
+		:rtype: unicode
 		"""
 
 		format = lambda x: re.sub(r"^(\s+)", lambda y: "{0} ".format("." * len(y.group(0))), x.rstrip().expandtabs(4))
@@ -672,8 +699,10 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		"""
 		Reports given exception to Crittercism.
 
-		:param \*args: Arguments. ( \* )
-		:return: Method success. ( Boolean )
+		:param \*args: Arguments.
+		:type \*args: \*
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if foundations.common.isInternetAvailable():
@@ -697,8 +726,10 @@ def baseExceptionHandler(*args):
 	"""
 	Provides a base exception handler.
 
-	:param \*args: Arguments. ( \* )
-	:return: Definition success. ( Boolean )
+	:param \*args: Arguments.
+	:type \*args: \*
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	Reporter().handleException(*args)
@@ -709,8 +740,10 @@ def systemExitExceptionHandler(*args):
 	"""
 	Provides a system exit exception handler.
 
-	:param \*args: Arguments. ( \* )
-	:return: Definition success. ( Boolean )
+	:param \*args: Arguments.
+	:type \*args: \*
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	reporter = Reporter()
@@ -728,8 +761,10 @@ def criticalExceptionHandler(object):
 	"""
 	Marks an object that would system exit in case of critical exception.
 
-	:param object: Object to decorate. ( Object )
-	:return: Object. ( Object )
+	:param object: Object to decorate.
+	:type object: object
+	:return: Object.
+	:rtype: object
 	"""
 
 	@functools.wraps(object)
@@ -737,8 +772,10 @@ def criticalExceptionHandler(object):
 		"""
 		Marks an object that would system exit in case of critical exception.
 
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		_exceptions__frame__ = True
@@ -754,8 +791,10 @@ def installExceptionReporter(report=True):
 	"""
 	Installs the exceptions reporter.
 
-	:param report: Report to Crittercism. ( Boolean )
-	:return: Reporter instance. ( Reporter )
+	:param report: Report to Crittercism.
+	:type report: bool
+	:return: Reporter instance.
+	:rtype: Reporter
 	"""
 
 	reporter = Reporter(report=report)
@@ -766,7 +805,8 @@ def uninstallExceptionReporter():
 	"""
 	Uninstalls the exceptions reporter.
 
-	:return: Definition success. ( Boolean )
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	return foundations.exceptions.installExceptionHandler()
@@ -775,7 +815,8 @@ def enableExceptionReporter():
 	"""
 	Enables the exceptions reporter.
 
-	:return: Definition success. ( Boolean )
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	reporter = Reporter().enabled = True
@@ -785,7 +826,8 @@ def disableExceptionReporter():
 	"""
 	Disables the exceptions reporter.
 
-	:return: Definition success. ( Boolean )
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	reporter = Reporter().enabled = False

@@ -69,7 +69,8 @@ class Occurence(foundations.dataStructures.Structure):
 		"""
 		Initializes the class.
 
-		:param \*\*kwargs: line, column, length, text. ( Key / Value pairs )
+		:param \*\*kwargs: line, column, length, text.
+		:type \*\*kwargs: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -85,7 +86,8 @@ class SearchResult(foundations.dataStructures.Structure):
 		"""
 		Initializes the class.
 
-		:param \*\*kwargs: file, pattern, settings, occurences. ( Key / Value pairs )
+		:param \*\*kwargs: file, pattern, settings, occurences.
+		:type \*\*kwargs: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -101,7 +103,8 @@ class CacheData(foundations.dataStructures.Structure):
 		"""
 		Initializes the class.
 
-		:param \*\*kwargs: content, document. ( Key / Value pairs )
+		:param \*\*kwargs: content, document.
+		:type \*\*kwargs: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -119,14 +122,16 @@ class Search_worker(QThread):
 	"""
 	This signal is emited by the :class:`Search_worker` class when the search is finished. ( pyqtSignal )
 
-	:return: Search results. ( List )
+	:return: Search results.
+	:rtype: list
 	"""
 
 	def __init__(self, parent, pattern=None, location=None, settings=None):
 		"""
 		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
+		:param parent: Object parent.
+		:type parent: QObject
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -156,7 +161,8 @@ class Search_worker(QThread):
 		"""
 		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -167,7 +173,8 @@ class Search_worker(QThread):
 		"""
 		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -188,7 +195,8 @@ class Search_worker(QThread):
 		"""
 		Property for **self.__pattern** attribute.
 
-		:return: self.__pattern. ( String )
+		:return: self.__pattern.
+		:rtype: unicode
 		"""
 
 		return self.__pattern
@@ -199,7 +207,8 @@ class Search_worker(QThread):
 		"""
 		Setter for **self.__pattern** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -222,7 +231,8 @@ class Search_worker(QThread):
 		"""
 		Property for **self.__location** attribute.
 
-		:return: self.__location. ( Location )
+		:return: self.__location.
+		:rtype: Location
 		"""
 
 		return self.__location
@@ -233,7 +243,8 @@ class Search_worker(QThread):
 		"""
 		Setter for **self.__location** attribute.
 
-		:param value: Attribute value. ( Location )
+		:param value: Attribute value.
+		:type value: Location
 		"""
 
 		if value is not None:
@@ -256,7 +267,8 @@ class Search_worker(QThread):
 		"""
 		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( Location )
+		:return: self.__settings.
+		:rtype: Location
 		"""
 
 		return self.__settings
@@ -267,7 +279,8 @@ class Search_worker(QThread):
 		"""
 		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( Location )
+		:param value: Attribute value.
+		:type value: Location
 		"""
 
 		if value is not None:
@@ -292,7 +305,8 @@ class Search_worker(QThread):
 		"""
 		Property for **self.__searchResults** attribute.
 
-		:return: self.__searchResults. ( List )
+		:return: self.__searchResults.
+		:rtype: list
 		"""
 
 		return self.__searchResults
@@ -303,7 +317,8 @@ class Search_worker(QThread):
 		"""
 		Setter for **self.__searchResults** attribute.
 
-		:param value: Attribute value. ( List )
+		:param value: Attribute value.
+		:type value: list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -368,7 +383,8 @@ class Search_worker(QThread):
 		"""
 		Searches in :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` class editors files.
 
-		:param files: Editor files. ( List )
+		:param files: Editor files.
+		:type files: list
 		"""
 
 		for file in files:
@@ -395,7 +411,8 @@ class Search_worker(QThread):
 		"""
 		Searches in given files.
 
-		:param files: Files. ( List )
+		:param files: Files.
+		:type files: list
 		"""
 
 		for file in files:
@@ -429,10 +446,14 @@ class Search_worker(QThread):
 		"""
 		Searches for given pattern occurences in given document using given settings.
 	
-		:param document: Document. ( QTextDocument )
-		:param pattern: Pattern. ( String )
-		:param settings: Search settings. ( Structure )
-		:return: Matched occurences. ( List )
+		:param document: Document.
+		:type document: QTextDocument
+		:param pattern: Pattern.
+		:type pattern: unicode
+		:param settings: Search settings.
+		:type settings: Structure
+		:return: Matched occurences.
+		:rtype: list
 		"""
 
 		pattern = settings.regularExpressions and QRegExp(pattern) or pattern

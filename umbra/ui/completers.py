@@ -64,9 +64,12 @@ class DefaultCompleter(QCompleter):
 		"""
 		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param language: Language name. ( String )
-		:param tokens: Completer tokens list. ( Tuple / List )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param language: Language name.
+		:type language: unicode
+		:param tokens: Completer tokens list.
+		:type tokens: tuple or list
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -91,7 +94,8 @@ class DefaultCompleter(QCompleter):
 		"""
 		Property for **self.__language** attribute.
 
-		:return: self.__language. ( String )
+		:return: self.__language.
+		:rtype: unicode
 		"""
 
 		return self.__language
@@ -102,7 +106,8 @@ class DefaultCompleter(QCompleter):
 		"""
 		Setter for **self.__language** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -127,7 +132,8 @@ class DefaultCompleter(QCompleter):
 		"""
 		Sets the tokens cache.
 		
-		:param tokens: Completer tokens list. ( Tuple / List )
+		:param tokens: Completer tokens list.
+		:type tokens: tuple or list
 		"""
 
 		if DefaultCompleter._DefaultCompleter__tokens.get(self.__language):
@@ -139,8 +145,10 @@ class DefaultCompleter(QCompleter):
 		"""
 		Updates the completer model.
 
-		:param words: Words to update the completer with. ( Tuple / List )
-		:return: Method success. ( Boolean )
+		:param words: Words to update the completer with.
+		:type words: tuple or list
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		extendedWords = DefaultCompleter._DefaultCompleter__tokens[self.__language][:]

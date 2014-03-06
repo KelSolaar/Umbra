@@ -87,21 +87,24 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
 	This signal is emited by the :class:`ComponentsManagerUi` class when a Component is activated. ( pyqtSignal )
 
-	:return: Activated Component name. ( String )	
+	:return: Activated Component name.
+	:rtype: unicode
 	"""
 
 	deactivatedComponent = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`ComponentsManagerUi` class when a Component is deactivated. ( pyqtSignal )
 
-	:return: Deactivated Component name. ( String )	
+	:return: Deactivated Component name.
+	:rtype: unicode
 	"""
 
 	reloadedComponent = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`ComponentsManagerUi` class when a Component is reloaded. ( pyqtSignal )
 
-	:return: Reloaded Component name. ( String )	
+	:return: Reloaded Component name.
+	:rtype: unicode
 	"""
 
 
@@ -109,10 +112,14 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param name: Component name. ( String )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param name: Component name.
+		:type name: unicode
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -169,7 +176,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__uiResourcesDirectory** attribute.
 
-		:return: self.__uiResourcesDirectory. ( String )
+		:return: self.__uiResourcesDirectory.
+		:rtype: unicode
 		"""
 
 		return self.__uiResourcesDirectory
@@ -180,7 +188,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__uiResourcesDirectory** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -201,7 +210,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__uiActivatedImage** attribute.
 
-		:return: self.__uiActivatedImage. ( String )
+		:return: self.__uiActivatedImage.
+		:rtype: unicode
 		"""
 
 		return self.__uiActivatedImage
@@ -212,7 +222,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__uiActivatedImage** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -233,7 +244,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__uiDeactivatedImage** attribute.
 
-		:return: self.__uiDeactivatedImage. ( String )
+		:return: self.__uiDeactivatedImage.
+		:rtype: unicode
 		"""
 
 		return self.__uiDeactivatedImage
@@ -244,7 +256,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__uiDeactivatedImage** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -265,7 +278,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__uiCategoryAffixe** attribute.
 
-		:return: self.__uiCategoryAffixe. ( String )
+		:return: self.__uiCategoryAffixe.
+		:rtype: unicode
 		"""
 
 		return self.__uiCategoryAffixe
@@ -276,7 +290,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__uiCategoryAffixe** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -297,7 +312,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__dockArea** attribute.
 
-		:return: self.__dockArea. ( Integer )
+		:return: self.__dockArea.
+		:rtype: int
 		"""
 
 		return self.__dockArea
@@ -308,7 +324,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__dockArea** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -329,7 +346,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__engine** attribute.
 
-		:return: self.__engine. ( QObject )
+		:return: self.__engine.
+		:rtype: QObject
 		"""
 
 		return self.__engine
@@ -340,7 +358,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__engine** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -361,7 +380,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( QSettings )
+		:return: self.__settings.
+		:rtype: QSettings
 		"""
 
 		return self.__settings
@@ -372,7 +392,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( QSettings )
+		:param value: Attribute value.
+		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -393,7 +414,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__model** attribute.
 
-		:return: self.__model. ( ComponentsModel )
+		:return: self.__model.
+		:rtype: ComponentsModel
 		"""
 
 		return self.__model
@@ -404,7 +426,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__model** attribute.
 
-		:param value: Attribute value. ( ComponentsModel )
+		:param value: Attribute value.
+		:type value: ComponentsModel
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -425,7 +448,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__view** attribute.
 
-		:return: self.__view. ( QWidget )
+		:return: self.__view.
+		:rtype: QWidget
 		"""
 
 		return self.__view
@@ -436,7 +460,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__view** attribute.
 
-		:param value: Attribute value. ( QWidget )
+		:param value: Attribute value.
+		:type value: QWidget
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -457,7 +482,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__headers** attribute.
 
-		:return: self.__headers. ( List )
+		:return: self.__headers.
+		:rtype: list
 		"""
 
 		return self.__headers
@@ -468,7 +494,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__headers** attribute.
 
-		:param value: Attribute value. ( List )
+		:param value: Attribute value.
+		:type value: list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -489,7 +516,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__treeViewInnerMargins** attribute.
 
-		:return: self.__treeViewInnerMargins. ( Integer )
+		:return: self.__treeViewInnerMargins.
+		:rtype: int
 		"""
 
 		return self.__treeViewInnerMargins
@@ -500,7 +528,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__treeViewInnerMargins** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -521,7 +550,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__componentsInformationsDefaultText** attribute.
 
-		:return: self.__componentsInformationsDefaultText. ( String )
+		:return: self.__componentsInformationsDefaultText.
+		:rtype: unicode
 		"""
 
 		return self.__componentsInformationsDefaultText
@@ -532,7 +562,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__componentsInformationsDefaultText** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -553,7 +584,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__componentsInformationsText** attribute.
 
-		:return: self.__componentsInformationsText. ( String )
+		:return: self.__componentsInformationsText.
+		:rtype: unicode
 		"""
 
 		return self.__componentsInformationsText
@@ -564,7 +596,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__componentsInformationsText** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -587,8 +620,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method activates the Component.
 
-		:param engine: Engine to attach the Component to. ( QObject )
-		:return: Method success. ( Boolean )
+		:param engine: Engine to attach the Component to.
+		:type engine: QObject
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
@@ -614,7 +649,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method initializes the Component ui.
 		
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
@@ -655,7 +691,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method adds the Component Widget to the engine.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Adding '{0}' Component Widget.".format(self.__class__.__name__))
@@ -677,7 +714,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method is triggered on Framework startup.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Calling '{0}' Component Framework 'onStartup' method.".format(self.__class__.__name__))
@@ -722,8 +760,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.ComponentsManagerUi|Activate Component(s)'** action.
 
-		:param checked: Action checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Action checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.activateComponentsUi()
@@ -733,8 +773,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		This method is triggered by
 		**'Actions|Umbra|Components|factory.ComponentsManagerUi|Deactivate Component(s)'** action.
 
-		:param checked: Action checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Action checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.deactivateComponentsUi()
@@ -743,8 +785,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method is triggered by **'Actions|Umbra|Components|factory.ComponentsManagerUi|Reload Component(s)'** action.
 
-		:param checked: Action checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Action checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.reloadComponentsUi()
@@ -753,8 +797,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method sets the **Additional_Informations_textEdit** Widget.
 
-		:param selectedItems: Selected items. ( QItemSelection )
-		:param deselectedItems: Deselected items. ( QItemSelection )
+		:param selectedItems: Selected items.
+		:type selectedItems: QItemSelection
+		:param deselectedItems: Deselected items.
+		:type deselectedItems: QItemSelection
 		"""
 
 		LOGGER.debug("> Initializing '{0}' Widget.".format("Additional_Informations_textEdit"))
@@ -795,7 +841,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method activates user selected Components.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 
 		:note: This method may require user interaction.
 		"""
@@ -831,7 +878,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method deactivates user selected Components.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 
 		:note: This method may require user interaction.
 		"""
@@ -872,7 +920,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method reloads user selected Components.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 
 		:note: This method may require user interaction.
 		"""
@@ -905,8 +954,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method activates given Component.
 
-		:param name: Component name. ( String )
-		:return: Method success. ( Boolean )
+		:param name: Component name.
+		:type name: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not name in self.__engine.componentsManager.components:
@@ -936,8 +987,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method deactivates given Component.
 
-		:param name: Component name. ( String )
-		:return: Method success. ( Boolean )
+		:param name: Component name.
+		:type name: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not name in self.__engine.componentsManager.components:
@@ -971,8 +1024,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method reloads given Component.
 
-		:param name: Component name. ( String )
-		:return: Method success. ( Boolean )
+		:param name: Component name.
+		:type name: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not name in self.__engine.componentsManager.components:
@@ -1022,7 +1077,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method returns the Components.
 
-		:return: Components. ( List )
+		:return: Components.
+		:rtype: list
 		"""
 
 		return self.__engine.componentsManager.components
@@ -1031,7 +1087,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method lists the Components names.
 
-		:return: Components names. ( List )
+		:return: Components names.
+		:rtype: list
 		"""
 
 		return self.__engine.componentsManager.listComponents()
@@ -1088,7 +1145,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method returns the View selected nodes.
 
-		:return: View selected nodes. ( Dictionary )
+		:return: View selected nodes.
+		:rtype: dict
 		"""
 
 		return self.__view.getSelectedNodes()
@@ -1097,7 +1155,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method returns the View selected Components nodes.
 
-		:return: View selected Components nodes. ( List )
+		:return: View selected Components nodes.
+		:rtype: list
 		"""
 
 		return [node for node in self.getSelectedNodes() if node.family == "Component"]
@@ -1106,7 +1165,8 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		This method gets the View selected Components.
 
-		:return: View selected Components. ( List )
+		:return: View selected Components.
+		:rtype: list
 		"""
 
 		return [node.component for node in self.getSelectedComponentsNodes()]

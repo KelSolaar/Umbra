@@ -65,8 +65,10 @@ def notifyExceptionHandler(*args):
 	"""
 	Provides a notifier exception handler.
 
-	:param \*args: Arguments. ( \* )
-	:return: Definition success. ( Boolean )
+	:param \*args: Arguments.
+	:type \*args: \*
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	callback = RuntimeGlobals.componentsManager["factory.scriptEditor"].restoreDevelopmentLayout

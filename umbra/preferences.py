@@ -62,7 +62,8 @@ class Preferences(object):
 		"""
 		Initializes the class.
 
-		:param file: Current preferences file path. ( String )
+		:param file: Current preferences file path.
+		:type file: unicode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -88,7 +89,8 @@ class Preferences(object):
 		"""
 		Property for **self.__file** attribute.
 
-		:return: self.__file. ( String )
+		:return: self.__file.
+		:rtype: unicode
 		"""
 
 		return self.__file
@@ -99,7 +101,8 @@ class Preferences(object):
 		"""
 		Setter for **self.__file** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -122,7 +125,8 @@ class Preferences(object):
 		"""
 		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( QSettings )
+		:return: self.__settings.
+		:rtype: QSettings
 		"""
 
 		return self.__settings
@@ -133,7 +137,8 @@ class Preferences(object):
 		"""
 		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( QSettings )
+		:param value: Attribute value.
+		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -154,7 +159,8 @@ class Preferences(object):
 		"""
 		Property for **self.__defaultSettings** attribute.
 
-		:return: self.__defaultSettings. ( QSettings )
+		:return: self.__defaultSettings.
+		:rtype: QSettings
 		"""
 
 		return self.__defaultSettings
@@ -165,7 +171,8 @@ class Preferences(object):
 		"""
 		Setter for **self.__defaultSettings** attribute.
 
-		:param value: Attribute value. ( QSettings )
+		:param value: Attribute value.
+		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -186,7 +193,8 @@ class Preferences(object):
 		"""
 		Property for **self.__defaultLayoutsSettings** attribute.
 
-		:return: self.__defaultLayoutsSettings. ( QSettings )
+		:return: self.__defaultLayoutsSettings.
+		:rtype: QSettings
 		"""
 
 		return self.__defaultLayoutsSettings
@@ -197,7 +205,8 @@ class Preferences(object):
 		"""
 		Setter for **self.__defaultLayoutsSettings** attribute.
 
-		:param value: Attribute value. ( QSettings )
+		:param value: Attribute value.
+		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -220,9 +229,12 @@ class Preferences(object):
 		"""
 		Stores given key in settings file.
 
-		:param section: Current section to save the key into. ( String )
-		:param key: Current key to save. ( String )
-		:param value: Current key value to save. ( Object )
+		:param section: Current section to save the key into.
+		:type section: unicode
+		:param key: Current key to save.
+		:type key: unicode
+		:param value: Current key value to save.
+		:type value: object
 		"""
 
 		LOGGER.debug("> Saving '{0}' in '{1}' section with value: '{2}' in settings file.".format(
@@ -236,9 +248,12 @@ class Preferences(object):
 		"""
 		Gets key value from settings file.
 
-		:param section: Current section to retrieve key from. ( String )
-		:param key: Current key to retrieve. ( String )
-		:return: Current key value. ( Object )
+		:param section: Current section to retrieve key from.
+		:type section: unicode
+		:param key: Current key to retrieve.
+		:type key: unicode
+		:return: Current key value.
+		:rtype: object
 		"""
 
 		LOGGER.debug("> Retrieving '{0}' in '{1}' section.".format(key, section))
@@ -254,9 +269,12 @@ class Preferences(object):
 		"""
 		Checks if given key exists.
 
-		:param section: Current section to check key in. ( String )
-		:param key: Current key to check. ( String )
-		:return: Key existence. ( Boolean )
+		:param section: Current section to check key in.
+		:type section: unicode
+		:param key: Current key to check.
+		:type key: unicode
+		:return: Key existence.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Checking '{0}' key existence in '{1}' section.".format(key, section))
@@ -287,7 +305,8 @@ class Preferences(object):
 		"""
 		Defines the default settings file content.
 		
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Initializing default settings!")
@@ -302,8 +321,10 @@ class Preferences(object):
 		"""
 		Sets the default layouts in the preferences file.
 
-		:param ignoredLayouts: Ignored layouts. ( Tuple / List )
-		:return: Method success. ( Boolean )
+		:param ignoredLayouts: Ignored layouts.
+		:type ignoredLayouts: tuple or list
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		for key in self.__defaultLayoutsSettings.allKeys():

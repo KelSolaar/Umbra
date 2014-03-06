@@ -78,9 +78,12 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -106,7 +109,8 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Property for **self.__editor** attribute.
 
-		:return: self.__editor. ( QWidget )
+		:return: self.__editor.
+		:rtype: QWidget
 		"""
 
 		return self.__editor
@@ -116,7 +120,8 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Setter for **self.__editor** attribute.
 
-		:param value: Attribute value. ( QWidget )
+		:param value: Attribute value.
+		:type value: QWidget
 		"""
 
 		self.__editor = value
@@ -136,7 +141,8 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Property for **self.__margin** attribute.
 
-		:return: self.__margin. ( Integer )
+		:return: self.__margin.
+		:rtype: int
 		"""
 
 		return self.__margin
@@ -147,7 +153,8 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Setter for **self.__margin** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -170,7 +177,8 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Property for **self.__separatorWidth** attribute.
 
-		:return: self.__separatorWidth. ( Integer )
+		:return: self.__separatorWidth.
+		:rtype: int
 		"""
 
 		return self.__separatorWidth
@@ -181,7 +189,8 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Setter for **self.__separatorWidth** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -204,7 +213,8 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Property for **self.__backgroundColor** attribute.
 
-		:return: self.__backgroundColor. ( QColor )
+		:return: self.__backgroundColor.
+		:rtype: QColor
 		"""
 
 		return self.__backgroundColor
@@ -215,7 +225,8 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Setter for **self.__backgroundColor** attribute.
 
-		:param value: Attribute value. ( QColor )
+		:param value: Attribute value.
+		:type value: QColor
 		"""
 
 		if value is not None:
@@ -237,7 +248,8 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Property for **self.__color** attribute.
 
-		:return: self.__color. ( QColor )
+		:return: self.__color.
+		:rtype: QColor
 		"""
 
 		return self.__color
@@ -248,7 +260,8 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Setter for **self.__color** attribute.
 
-		:param value: Attribute value. ( QColor )
+		:param value: Attribute value.
+		:type value: QColor
 		"""
 
 		if value is not None:
@@ -270,7 +283,8 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Property for **self.__separatorColor** attribute.
 
-		:return: self.__separatorColor. ( QColor )
+		:return: self.__separatorColor.
+		:rtype: QColor
 		"""
 
 		return self.__separatorColor
@@ -281,7 +295,8 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Setter for **self.__separatorColor** attribute.
 
-		:param value: Attribute value. ( QColor )
+		:param value: Attribute value.
+		:type value: QColor
 		"""
 
 		if value is not None:
@@ -305,7 +320,8 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Reimplements the :meth:`QWidget.sizeHint` method.
 
-		:return: Size hint. ( QSize )
+		:return: Size hint.
+		:rtype: QSize
 		"""
 
 		return QSize(self.getWidth(), 0)
@@ -314,14 +330,16 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Reimplements the :meth:`QWidget.paintEvent` method.
 		
-		:param event: Event. ( QEvent )
+		:param event: Event.
+		:type event: QEvent
 		"""
 
 		def __setBold(state):
 			"""
 			Sets the current painter font bold state.
 
-			:return: Definiton success. ( Boolean )
+			:return: Definiton success.
+			:rtype: bool
 			"""
 
 			font = painter.font()
@@ -372,7 +390,8 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Returns the Widget target width.
 
-		:return: Widget target width. ( Integer )
+		:return: Widget target width.
+		:rtype: int
 		"""
 
 		return self.__margin + \
@@ -382,8 +401,10 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Sets the editor viewport margins.
 		
-		:param newBlocksCount: Updated editor blocks count. ( Integer )
-		:return: Method success. ( Boolean )
+		:param newBlocksCount: Updated editor blocks count.
+		:type newBlocksCount: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.__editor.setViewportMargins(self.getWidth(), 0, 0, 0)
@@ -393,9 +414,12 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Updates the given Widget rectangle.
 		
-		:param rectangle: Rectangle to update. ( QRect )
-		:param scrollY: Amount of pixels the viewport was scrolled. ( Integer )
-		:return: Method success. ( Boolean )
+		:param rectangle: Rectangle to update.
+		:type rectangle: QRect
+		:param scrollY: Amount of pixels the viewport was scrolled.
+		:type scrollY: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if scrollY:
@@ -411,7 +435,8 @@ class LinesNumbers_QWidget(QWidget):
 		"""
 		Updates the Widget geometry.
 		
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.setGeometry(self.__editor.contentsRect().left(),
@@ -442,13 +467,20 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Initializes the class.
 
-		:param parent: Widget parent. ( QObject )
-		:param language: Editor language. ( Language )
-		:param indentMarker: Indentation marker. ( String )
-		:param indentWidth: Indentation spaces count. ( Integer )
-		:param commentMarker: Comment marker. ( String )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Widget parent.
+		:type parent: QObject
+		:param language: Editor language.
+		:type language: Language
+		:param indentMarker: Indentation marker.
+		:type indentMarker: unicode
+		:param indentWidth: Indentation spaces count.
+		:type indentWidth: int
+		:param commentMarker: Comment marker.
+		:type commentMarker: unicode
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -487,7 +519,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Property for **self.__language** attribute.
 
-		:return: self.__language. ( Language )
+		:return: self.__language.
+		:rtype: Language
 		"""
 
 		return self.__language
@@ -498,7 +531,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Setter for **self.__language** attribute.
 
-		:param value: Attribute value. ( Language )
+		:param value: Attribute value.
+		:type value: Language
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -520,7 +554,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Property for **self.__indentMarker** attribute.
 
-		:return: self.__indentMarker. ( String )
+		:return: self.__indentMarker.
+		:rtype: unicode
 		"""
 
 		return self.__indentMarker
@@ -531,7 +566,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Setter for **self.__indentMarker** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -556,7 +592,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Property for **self.__indentWidth** attribute.
 
-		:return: self.__indentWidth. ( Integer )
+		:return: self.__indentWidth.
+		:rtype: int
 		"""
 
 		return self.__indentWidth
@@ -567,7 +604,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Setter for **self.__indentWidth** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -589,7 +627,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Property for **self.__commentMarker** attribute.
 
-		:return: self.__commentMarker. ( String )
+		:return: self.__commentMarker.
+		:rtype: unicode
 		"""
 
 		return self.__commentMarker
@@ -600,7 +639,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Setter for **self.__commentMarker** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -623,7 +663,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Property for **self.__marginArea_LinesNumbers_widget** attribute.
 
-		:return: self.__marginArea_LinesNumbers_widget. ( LinesNumbers_QWidget )
+		:return: self.__marginArea_LinesNumbers_widget.
+		:rtype: LinesNumbers_QWidget
 		"""
 
 		return self.__marginArea_LinesNumbers_widget
@@ -634,7 +675,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Setter for **self.__marginArea_LinesNumbers_widget** attribute.
 
-		:param value: Attribute value. ( LinesNumbers_QWidget )
+		:param value: Attribute value.
+		:type value: LinesNumbers_QWidget
 		"""
 
 		if value is not None:
@@ -657,7 +699,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Property for **self.__highlighter** attribute.
 
-		:return: self.__highlighter. ( QSyntaxHighlighter )
+		:return: self.__highlighter.
+		:rtype: QSyntaxHighlighter
 		"""
 
 		return self.__highlighter
@@ -668,7 +711,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Setter for **self.__highlighter** attribute.
 
-		:param value: Attribute value. ( QSyntaxHighlighter )
+		:param value: Attribute value.
+		:type value: QSyntaxHighlighter
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -689,7 +733,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Property for **self.__completer** attribute.
 
-		:return: self.__completer. ( QCompleter )
+		:return: self.__completer.
+		:rtype: QCompleter
 		"""
 
 		return self.__completer
@@ -700,7 +745,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Setter for **self.__completer** attribute.
 
-		:param value: Attribute value. ( QCompleter )
+		:param value: Attribute value.
+		:type value: QCompleter
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -721,7 +767,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Property for **self.__preInputAccelerators** attribute.
 
-		:return: self.__preInputAccelerators. ( Tuple / List )
+		:return: self.__preInputAccelerators.
+		:rtype: tuple or list
 		"""
 
 		return self.__preInputAccelerators
@@ -732,7 +779,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Setter for **self.__preInputAccelerators** attribute.
 
-		:param value: Attribute value. ( Tuple / List )
+		:param value: Attribute value.
+		:type value: tuple or list
 		"""
 
 		if value is not None:
@@ -755,7 +803,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Property for **self.__postInputAccelerators** attribute.
 
-		:return: self.__postInputAccelerators. ( Tuple / List )
+		:return: self.__postInputAccelerators.
+		:rtype: tuple or list
 		"""
 
 		return self.__postInputAccelerators
@@ -766,7 +815,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Setter for **self.__postInputAccelerators** attribute.
 
-		:param value: Attribute value. ( Tuple / List )
+		:param value: Attribute value.
+		:type value: tuple or list
 		"""
 
 		if value is not None:
@@ -789,7 +839,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Property for **self.__visualAccelerators** attribute.
 
-		:return: self.__visualAccelerators. ( Tuple / List )
+		:return: self.__visualAccelerators.
+		:rtype: tuple or list
 		"""
 
 		return self.__visualAccelerators
@@ -800,7 +851,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Setter for **self.__visualAccelerators** attribute.
 
-		:param value: Attribute value. ( Tuple / List )
+		:param value: Attribute value.
+		:type value: tuple or list
 		"""
 
 		if value is not None:
@@ -841,7 +893,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Reimplements the :meth:`Basic_QPlainTextEdit.resizeEvent` method.
 
-		:param event: Event. ( QEvent )
+		:param event: Event.
+		:type event: QEvent
 		"""
 
 		Basic_QPlainTextEdit.resizeEvent(self, event)
@@ -852,7 +905,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Reimplements the :meth:`Basic_QPlainTextEdit.keyPressEvent` method.
 
-		:param event: Event. ( QEvent )
+		:param event: Event.
+		:type event: QEvent
 		"""
 
 		processEvent = True
@@ -880,7 +934,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Inserts the completion text in the current document.
 
-		:param completion: Completion text. ( QString )
+		:param completion: Completion text.
+		:type completion: QString
 		"""
 
 		LOGGER.debug("> Inserting '{0}' completion.".format(completion))
@@ -937,8 +992,10 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Sets the language.
 
-		:param language: Language to set. ( Language )
-		:return: Method success. ( Boolean )
+		:param language: Language to set.
+		:type language: Language
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Setting editor language to '{0}'.".format(language.name))
@@ -952,8 +1009,10 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Sets given highlighter as the current document highlighter.
 
-		:param highlighter: Highlighter. ( QSyntaxHighlighter )
-		:return: Method success. ( Boolean )
+		:param highlighter: Highlighter.
+		:type highlighter: QSyntaxHighlighter
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not issubclass(highlighter.__class__, QSyntaxHighlighter):
@@ -972,7 +1031,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Removes current highlighter.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if self.__highlighter:
@@ -986,8 +1046,10 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Sets given completer as the current completer.
 
-		:param completer: Completer. ( QCompleter )
-		:return: Method success. ( Boolean )
+		:param completer: Completer.
+		:type completer: QCompleter
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not issubclass(completer.__class__, QCompleter):
@@ -1010,7 +1072,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Removes current completer.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if self.__completer:
@@ -1026,10 +1089,14 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Returns the cursor for matching given symbols pairs.
 
-		:param cursor: Cursor to match from. ( QTextCursor )
-		:param openingSymbol: Opening symbol. ( String )
-		:param closingSymbol: Closing symbol to match. ( String )
-		:return: Matching cursor. ( QTextCursor )
+		:param cursor: Cursor to match from.
+		:type cursor: QTextCursor
+		:param openingSymbol: Opening symbol.
+		:type openingSymbol: unicode
+		:param closingSymbol: Closing symbol to match.
+		:type closingSymbol: unicode
+		:return: Matching cursor.
+		:rtype: QTextCursor
 		"""
 
 		if cursor.hasSelection():
@@ -1061,7 +1128,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Indents the document text under cursor.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		cursor = self.textCursor()
@@ -1083,7 +1151,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Unindents the document text under cursor.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		cursor = self.textCursor()
@@ -1111,7 +1180,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Toggles comments on the document selected lines.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.__commentMarker:
@@ -1147,7 +1217,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Removes document trailing white spaces.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		cursor = self.textCursor()
@@ -1171,7 +1242,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Converts document indentation to tabs.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		cursor = self.textCursor()
@@ -1195,7 +1267,8 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		"""
 		Converts document indentation to spaces.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		cursor = self.textCursor()

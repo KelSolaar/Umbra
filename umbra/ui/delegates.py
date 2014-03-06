@@ -63,7 +63,8 @@ class Style(foundations.dataStructures.Structure):
 		"""
 		Initializes the class.
 
-		:param \*\*kwargs: . ( Key / Value pairs )
+		:param \*\*kwargs: .
+		:type \*\*kwargs: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -87,8 +88,10 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 		"""
 		Initializes the class.
 
-		:param parent: Widget parent. ( QObject )
-		:param style: Style. ( Style )
+		:param parent: Widget parent.
+		:type parent: QObject
+		:param style: Style.
+		:type style: Style
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -135,7 +138,8 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 		"""
 		Property for **self.__style** attribute.
 
-		:return: self.__style. ( Style )
+		:return: self.__style.
+		:rtype: Style
 		"""
 
 		return self.__style
@@ -146,7 +150,8 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 		"""
 		Setter for **self.__style** attribute.
 
-		:param value: Attribute value. ( Style )
+		:param value: Attribute value.
+		:type value: Style
 		"""
 
 		if value is not None:

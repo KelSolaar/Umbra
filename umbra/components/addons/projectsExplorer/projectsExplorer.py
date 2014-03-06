@@ -72,10 +72,14 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param name: Component name. ( String )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param name: Component name.
+		:type name: unicode
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -126,7 +130,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__dockArea** attribute.
 
-		:return: self.__dockArea. ( Integer )
+		:return: self.__dockArea.
+		:rtype: int
 		"""
 
 		return self.__dockArea
@@ -137,7 +142,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__dockArea** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -158,7 +164,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__engine** attribute.
 
-		:return: self.__engine. ( QObject )
+		:return: self.__engine.
+		:rtype: QObject
 		"""
 
 		return self.__engine
@@ -169,7 +176,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__engine** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -190,7 +198,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( QSettings )
+		:return: self.__settings.
+		:rtype: QSettings
 		"""
 
 		return self.__settings
@@ -201,7 +210,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( QSettings )
+		:param value: Attribute value.
+		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -222,7 +232,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__settingsSection** attribute.
 
-		:return: self.__settingsSection. ( String )
+		:return: self.__settingsSection.
+		:rtype: unicode
 		"""
 
 		return self.__settingsSection
@@ -233,7 +244,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__settingsSection** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -254,7 +266,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__scriptEditor** attribute.
 
-		:return: self.__scriptEditor. ( QWidget )
+		:return: self.__scriptEditor.
+		:rtype: QWidget
 		"""
 
 		return self.__scriptEditor
@@ -265,7 +278,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__scriptEditor** attribute.
 
-		:param value: Attribute value. ( QWidget )
+		:param value: Attribute value.
+		:type value: QWidget
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -286,7 +300,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__model** attribute.
 
-		:return: self.__model. ( ProjectsProxyModel )
+		:return: self.__model.
+		:rtype: ProjectsProxyModel
 		"""
 
 		return self.__model
@@ -297,7 +312,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__model** attribute.
 
-		:param value: Attribute value. ( ProjectsProxyModel )
+		:param value: Attribute value.
+		:type value: ProjectsProxyModel
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -318,7 +334,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__view** attribute.
 
-		:return: self.__view. ( QWidget )
+		:return: self.__view.
+		:rtype: QWidget
 		"""
 
 		return self.__view
@@ -329,7 +346,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__view** attribute.
 
-		:param value: Attribute value. ( QWidget )
+		:param value: Attribute value.
+		:type value: QWidget
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -350,7 +368,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__delegate** attribute.
 
-		:return: self.__delegate. ( QItemDelegate )
+		:return: self.__delegate.
+		:rtype: QItemDelegate
 		"""
 
 		return self.__delegate
@@ -361,7 +380,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__delegate** attribute.
 
-		:param value: Attribute value. ( QItemDelegate )
+		:param value: Attribute value.
+		:type value: QItemDelegate
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -382,7 +402,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__style** attribute.
 
-		:return: self.__style. ( Style )
+		:return: self.__style.
+		:rtype: Style
 		"""
 
 		return self.__style
@@ -393,7 +414,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__style** attribute.
 
-		:param value: Attribute value. ( Style )
+		:param value: Attribute value.
+		:type value: Style
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -416,8 +438,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Activates the Component.
 
-		:param engine: Engine to attach the Component to. ( QObject )
-		:return: Method success. ( Boolean )
+		:param engine: Engine to attach the Component to.
+		:type engine: QObject
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
@@ -435,7 +459,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Deactivates the Component.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Deactivating '{0}' Component.".format(self.__class__.__name__))
@@ -453,7 +478,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Initializes the Component ui.
 		
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
@@ -487,7 +513,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Uninitializes the Component ui.
 		
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Uninitializing '{0}' Component ui.".format(self.__class__.__name__))
@@ -515,7 +542,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Adds the Component Widget to the engine.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Adding '{0}' Component Widget.".format(self.__class__.__name__))
@@ -528,7 +556,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Removes the Component Widget from the engine.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Removing '{0}' Component Widget.".format(self.__class__.__name__))
@@ -658,7 +687,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by a View when an item is expanded.
 
-		:param index: Expdanded item. ( QModelIndex )
+		:param index: Expdanded item.
+		:type index: QModelIndex
 		"""
 
 		node = self.__model.getNode(index)
@@ -671,7 +701,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by a View when double clicked.
 
-		:param index: Clicked item index. ( QModelIndex )
+		:param index: Clicked item index.
+		:type index: QModelIndex
 		"""
 
 		node = self.__model.getNode(index)
@@ -684,8 +715,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by the View **selectionModel** when selection changed.
 
-		:param selectedItems: Selected items. ( QItemSelection )
-		:param deselectedItems: Deselected items. ( QItemSelection )
+		:param selectedItems: Selected items.
+		:type selectedItems: QItemSelection
+		:param deselectedItems: Deselected items.
+		:type deselectedItems: QItemSelection
 		"""
 
 		for node in self.__view.getSelectedNodes():
@@ -697,7 +730,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		Defines the slot triggered by :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 		Component Interface class when the current tab is changed.
 
-		:param index: Tab index. ( Integer )
+		:param index: Tab index.
+		:type index: int
 		"""
 
 		editor = self.__scriptEditor.getCurrentEditor()
@@ -717,7 +751,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		Defines the slot triggered by :class:`umbra.components.factory.scriptEditor.scriptEditor` class
 		Model when a project is registered.
 		
-		:param projectNode: Registered project ProjectNode. ( ProjectNode )
+		:param projectNode: Registered project ProjectNode.
+		:type projectNode: ProjectNode
 		"""
 
 		index = self.__model.mapFromSource(self.__scriptEditor.model.getNodeIndex(projectNode))
@@ -727,8 +762,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by **'Actions|Umbra|Components|addons.projectsExplorer|Add Project ...'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.__scriptEditor.addProjectUi()
@@ -737,8 +774,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by **'Actions|Umbra|Components|addons.projectsExplorer|Remove Project'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		node = foundations.common.getFirstItem(self.getSelectedNodes())
@@ -751,8 +790,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Add New File ..."'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		node = foundations.common.getFirstItem(self.getSelectedNodes())
@@ -765,8 +806,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Add New Directory ..."'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		node = foundations.common.getFirstItem(self.getSelectedNodes())
@@ -779,8 +822,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Rename ..."'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		node = foundations.common.getFirstItem(self.getSelectedNodes())
@@ -793,8 +838,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	# 	"""
 	# 	This method is triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Copy ..."'** action.
 	#
-	# 	:param checked: Checked state. ( Boolean )
-	# 	:return: Method success. ( Boolean )
+	# 	:param checked: Checked state.
+	# 	:type :param: bool
+	# 	:return: Method success.
+	# 	:rtype: bool
 	# 	"""
 	#
 	# 	print "Actions|Umbra|Components|addons.projectsExplorer|Copy ..."
@@ -803,8 +850,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	# 	"""
 	# 	This method is triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Move ..."'** action.
 	#
-	# 	:param checked: Checked state. ( Boolean )
-	# 		:return: Method success. ( Boolean )
+	# 	:param checked: Checked state.
+	# 	:type :param: bool
+	# 	:return: Method success.
+	# 	:rtype: bool
 	# 	"""
 	#
 	# 	print "Actions|Umbra|Components|addons.projectsExplorer|Move ..."
@@ -813,8 +862,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Delete ..."'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		node = foundations.common.getFirstItem(self.getSelectedNodes())
@@ -827,8 +878,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by **'Actions|Umbra|Components|addons.projectsExplorer|Find In Files ...'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		node = foundations.common.getFirstItem(self.__view.getSelectedNodes().iterkeys())
@@ -843,8 +896,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by **'Actions|Umbra|Components|addons.projectsExplorer|Output Selected Path'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		node = foundations.common.getFirstItem(self.__view.getSelectedNodes().iterkeys())
@@ -862,8 +917,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Raises a common fileSystem exception.
 
-		:param item: Name of the item generating the exception. ( String )
-		:param directory: Name of the target directory. ( String )
+		:param item: Name of the item generating the exception.
+		:type item: unicode
+		:param directory: Name of the target directory.
+		:type directory: unicode
 		"""
 
 		path = os.path.join(directory, item)
@@ -882,8 +939,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Sets given editor authoring nodes.
 
-		:param source: Source file. ( String )
-		:param target: Target file. ( String )
+		:param source: Source file.
+		:type source: unicode
+		:param target: Target file.
+		:type target: unicode
 		"""
 
 		editor = self.__scriptEditor.getEditor(source)
@@ -894,8 +953,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Renames given source with given target name.
 
-		:param source: Source file. ( String )
-		:param target: Target file. ( String )
+		:param source: Source file.
+		:type source: unicode
+		:param target: Target file.
+		:type target: unicode
 		"""
 
 		if not foundations.common.pathExists(source):
@@ -911,7 +972,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Deletes given path.
 
-		:param path: Path to delete. ( String )
+		:param path: Path to delete.
+		:type path: unicode
 		"""
 
 		if not foundations.common.pathExists(path):
@@ -930,8 +992,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Renames a file using given source and target names.
 
-		:param source: Source file. ( String )
-		:param target: Target file. ( String )
+		:param source: Source file.
+		:type source: unicode
+		:param target: Target file.
+		:type target: unicode
 		"""
 
 		for fileNode in self.__scriptEditor.model.getFileNodes(source, self.__scriptEditor.model.rootNode):
@@ -947,8 +1011,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Renames a directory using given source and target names.
 
-		:param source: Source file. ( String )
-		:param target: Target file. ( String )
+		:param source: Source file.
+		:type source: unicode
+		:param target: Target file.
+		:type target: unicode
 		"""
 
 		for node in itertools.chain(self.__scriptEditor.model.getProjectNodes(source),
@@ -966,8 +1032,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Renames a project using given source and target names.
 
-		:param source: Source project. ( String )
-		:param target: Target project. ( String )
+		:param source: Source project.
+		:type source: unicode
+		:param target: Target project.
+		:type target: unicode
 		"""
 
 		self.__renameDirectory(source, target)
@@ -976,7 +1044,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Deletes given file.
 
-		:param file: File to delete. ( String )
+		:param file: File to delete.
+		:type file: unicode
 		"""
 
 		for fileNode in self.__scriptEditor.model.getFileNodes(file, self.__scriptEditor.model.rootNode):
@@ -991,7 +1060,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Deletes given directory.
 
-		:param directory: Directory to delete. ( String )
+		:param directory: Directory to delete.
+		:type directory: unicode
 		"""
 
 		for node in itertools.chain(self.__scriptEditor.model.getProjectNodes(directory),
@@ -1008,7 +1078,8 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Returns the View selected nodes.
 
-		:return: View selected nodes. ( Dictionary )
+		:return: View selected nodes.
+		:rtype: dict
 		"""
 
 		return self.__view.getSelectedNodes()
@@ -1017,8 +1088,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Removes the project associated with given node.
 
-		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
-		:return: Method success. ( Boolean )
+		:param node: Node.
+		:type node: ProjectNode or DirectoryNode or FileNode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if node.family == "Project":
@@ -1034,8 +1107,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Adds a new file next to given Node associated path.
 
-		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
-		:return: Method success. ( Boolean )
+		:param node: Node.
+		:type node: ProjectNode or DirectoryNode or FileNode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if self.__scriptEditor.model.isAuthoringNode(node):
@@ -1063,8 +1138,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Adds a new directory next to given Node associated path.
 
-		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
-		:return: Method success. ( Boolean )
+		:param node: Node.
+		:type node: ProjectNode or DirectoryNode or FileNode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if self.__scriptEditor.model.isAuthoringNode(node):
@@ -1092,8 +1169,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Renames given Node associated path.
 
-		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
-		:return: Method success. ( Boolean )
+		:param node: Node.
+		:type node: ProjectNode or DirectoryNode or FileNode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		source = node.path
@@ -1133,8 +1212,10 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Deletes given Node associated path.
 
-		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
-		:return: Method success. ( Boolean )
+		:param node: Node.
+		:type node: ProjectNode or DirectoryNode or FileNode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		path = node.path

@@ -65,10 +65,14 @@ class Variable_QPushButton(QPushButton):
 		"""
 		Initializes the class.
 
-		:param parent: Widget parent. ( QObject )
-		:param state: Current button state. ( Boolean )
-		:param colors: Button colors. ( Tuple )
-		:param labels: Button texts. ( Tuple )
+		:param parent: Widget parent.
+		:type parent: QObject
+		:param state: Current button state.
+		:type state: bool
+		:param colors: Button colors.
+		:type colors: tuple
+		:param labels: Button texts.
+		:type labels: tuple
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -103,7 +107,8 @@ class Variable_QPushButton(QPushButton):
 		"""
 		Property for **self.__state** attribute.
 
-		:return: self.__state. ( Boolean )
+		:return: self.__state.
+		:rtype: bool
 		"""
 
 		return self.__state
@@ -114,7 +119,8 @@ class Variable_QPushButton(QPushButton):
 		"""
 		Setter for **self.__state** attribute.
 
-		:param value: Attribute value. ( Boolean )
+		:param value: Attribute value.
+		:type value: bool
 		"""
 
 		if value is not None:
@@ -136,7 +142,8 @@ class Variable_QPushButton(QPushButton):
 		"""
 		Property for **self.__colors** attribute.
 
-		:return: self.__colors. ( Tuple )
+		:return: self.__colors.
+		:rtype: tuple
 		"""
 
 		return self.__colors
@@ -147,7 +154,8 @@ class Variable_QPushButton(QPushButton):
 		"""
 		Setter for **self.__colors** attribute.
 
-		:param value: Attribute value. ( Tuple )
+		:param value: Attribute value.
+		:type value: tuple
 		"""
 		if value is not None:
 			assert type(value) is tuple, "'{0}' attribute: '{1}' type is not 'tuple'!".format("colors", value)
@@ -172,7 +180,8 @@ class Variable_QPushButton(QPushButton):
 		"""
 		Property for **self.__labels** attribute.
 
-		:return: self.__labels. ( Tuple )
+		:return: self.__labels.
+		:rtype: tuple
 		"""
 
 		return self.__labels
@@ -183,7 +192,8 @@ class Variable_QPushButton(QPushButton):
 		"""
 		Setter for **self.__labels** attribute.
 
-		:param value: Attribute value. ( Tuple )
+		:param value: Attribute value.
+		:type value: tuple
 		"""
 		if value is not None:
 			assert type(value) is tuple, "'{0}' attribute: '{1}' type is not 'tuple'!".format("labels", value)
@@ -210,7 +220,8 @@ class Variable_QPushButton(QPushButton):
 		"""
 		Defines the slot triggered by a **Variable_QPushButton** Widget when clicked.
 
-		:param checked: Checked state. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
 		"""
 
 		if self.__state:

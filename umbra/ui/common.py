@@ -88,7 +88,8 @@ class Location(foundations.dataStructures.Structure):
 		"""
 		Initializes the class.
 
-		:param \*\*kwargs: directories, files, filtersIn, filtersOut, targets. ( Key / Value pairs )
+		:param \*\*kwargs: directories, files, filtersIn, filtersOut, targets.
+		:type \*\*kwargs: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -100,7 +101,8 @@ def getApplicationInstance():
 	Returns the current `QApplication <http://doc.qt.nokia.com/qapplication.html>`_ instance or
 	create one if it doesn't exists.
 
-	:return: Application instance. ( QApplication )
+	:return: Application instance.
+	:rtype: QApplication
 	"""
 
 	instance = QApplication.instance()
@@ -112,8 +114,10 @@ def parseLocation(data):
 	"""
 	Parses given location data.
 
-	:param data: Exception. ( Exception )
-	:return: Location object. ( Location )
+	:param data: Exception.
+	:type data: Exception
+	:return: Location object.
+	:rtype: Location
 	"""
 
 	tokens = data.split(",")
@@ -151,9 +155,12 @@ def getResourcePath(name, raiseException=False):
 	"""
 	Returns the resource file path matching the given name.
 
-	:param name: Resource name. ( String )
-	:param raiseException: Raise the exception. ( Boolean )
-	:return: Resource path. ( String )
+	:param name: Resource name.
+	:type name: unicode
+	:param raiseException: Raise the exception.
+	:type raiseException: bool
+	:return: Resource path.
+	:rtype: unicode
 	"""
 
 	if not RuntimeGlobals.resourcesDirectories:
@@ -174,8 +181,10 @@ def setWindowDefaultIcon(window):
 	"""
 	Sets the default Application icon to the given window.
 
-	:param window: Window. ( QWidget )
-	:return: Definition success. ( Boolean )
+	:param window: Window.
+	:type window: QWidget
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	window.setWindowIcon(QIcon(getResourcePath(UiConstants.applicationWindowsIcon)))
@@ -186,8 +195,10 @@ def getSectionsFileParser(file):
 	"""
 	Returns a sections file parser.
 
-	:param file: File. ( String )
-	:return: Parser. ( SectionsFileParser )
+	:param file: File.
+	:type file: unicode
+	:return: Parser.
+	:rtype: SectionsFileParser
 	"""
 
 	if not foundations.common.pathExists(file):
@@ -202,8 +213,10 @@ def storeLastBrowsedPath(data):
 	"""
 	Defines a wrapper method used to store the last browsed path.
 
-	:param data: Path data. ( QString / QList  )
-	:return: Last browsed path. ( String )
+	:param data: Path data.
+	:type data: QString or QList
+	:return: Last browsed path.
+	:rtype: unicode
 	"""
 
 	if type(data) in (tuple, list, QStringList):
@@ -227,8 +240,10 @@ def getQVariantAsString(data):
 	"""
 	Returns given `QVariant <http://doc.qt.nokia.com/qvariant.html>`_ data as a string.
 
-	:param data: Given data. ( Object )
-	:return: QVariant data as string. ( String )
+	:param data: Given data.
+	:type data: object
+	:return: QVariant data as string.
+	:rtype: unicode
 	"""
 
 	if isinstance(data, QVariant):
@@ -241,7 +256,8 @@ def parentsWalker(object):
 	"""
 	Defines a generator used to retrieve the chain of parents of the given :class:`QObject` instance.
 
-	:param object: Given path. ( QObject )
+	:param object: Given path.
+	:type object: QObject
 	:yield: Object parent. ( QObject )
 	"""
 
@@ -254,11 +270,16 @@ def signalsBlocker(instance, attribute, *args, **kwargs):
 	Blocks given instance signals before calling the given attribute with \
 	given arguments and then unblocks the signals.
 
-	:param instance: Instance object. ( QObject )
-	:param attribute: Attribute to call. ( QObject )
-	:param \*args: Arguments. ( \* )
-	:param \*\*kwargs: Keywords arguments. ( \*\* )
-	:return: Object. ( Object )
+	:param instance: Instance object.
+	:type instance: QObject
+	:param attribute: Attribute to call.
+	:type attribute: QObject
+	:param \*args: Arguments.
+	:type \*args: \*
+	:param \*\*kwargs: Keywords arguments.
+	:type \*\*kwargs: \*\*
+	:return: Object.
+	:rtype: object
 	"""
 
 	value = None
@@ -273,8 +294,10 @@ def showWaitCursor(object):
 	"""
 	Shows a wait cursor while processing.
 	
-	:param object: Object to decorate. ( Object )
-	:return: Object. ( Object )
+	:param object: Object to decorate.
+	:type object: object
+	:return: Object.
+	:rtype: object
 	"""
 
 	@functools.wraps(object)
@@ -282,9 +305,12 @@ def showWaitCursor(object):
 		"""
 		Shows a wait cursor while processing.
 
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		:return: Object. ( Object )
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
+		:return: Object.
+		:rtype: object
 		"""
 
 		QApplication.setOverrideCursor(Qt.WaitCursor)
@@ -301,9 +327,12 @@ def setToolBoxHeight(toolBox, height=32):
 	"""
 	Sets given height to given QToolBox widget.
 
-	:param toolbox: ToolBox. ( QToolBox )
-	:param height: Height. ( Integer )
-	:return: Definition success. ( Boolean )
+	:param toolbox: ToolBox.
+	:type toolbox: QToolBox
+	:param height: Height.
+	:type height: int
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	for button in toolBox.findChildren(QAbstractButton):
@@ -314,11 +343,16 @@ def setChildrenPadding(widget, types, height=None, width=None):
 	"""
 	Sets given Widget children padding.
 
-	:param widget: Widget to sets the children padding. ( QWidget )
-	:param types: Children types. ( Tuple / List )
-	:param height: Height padding. ( Integer )
-	:param width: Width padding. ( Integer )
-	:return: Definition success. ( Boolean )
+	:param widget: Widget to sets the children padding.
+	:type widget: QWidget
+	:param types: Children types.
+	:type types: tuple or list
+	:param height: Height padding.
+	:type height: int
+	:param width: Width padding.
+	:type width: int
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	for type in types:

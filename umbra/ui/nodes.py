@@ -82,7 +82,8 @@ class Mixin_GraphModelObject(object):
 		"""
 		Property for **self.__roles** attribute.
 	
-		:return: self.__roles. ( Dictionary )
+		:return: self.__roles.
+		:rtype: dict
 		"""
 
 		return self.__roles
@@ -93,7 +94,8 @@ class Mixin_GraphModelObject(object):
 		"""
 		Setter for **self.__roles** attribute.
 	
-		:param value: Attribute value. ( Dictionary )
+		:param value: Attribute value.
+		:type value: dict
 		"""
 
 		if value is not None:
@@ -117,7 +119,8 @@ class Mixin_GraphModelObject(object):
 		"""
 		Property for **self.__flags** attribute.
 	
-		:return: self.__flags. ( Integer )
+		:return: self.__flags.
+		:rtype: int
 		"""
 
 		return self.__flags
@@ -128,7 +131,8 @@ class Mixin_GraphModelObject(object):
 		"""
 		Setter for **self.__flags** attribute.
 	
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -150,7 +154,8 @@ class Mixin_GraphModelObject(object):
 		"""
 		Property for **self.__triggerModel** attribute.
 	
-		:return: self.__triggerModel. ( Boolean )
+		:return: self.__triggerModel.
+		:rtype: bool
 		"""
 
 		return self.__triggerModel
@@ -161,7 +166,8 @@ class Mixin_GraphModelObject(object):
 		"""
 		Setter for **self.__triggerModel** attribute.
 	
-		:param value: Attribute value. ( Boolean )
+		:param value: Attribute value.
+		:type value: bool
 		"""
 
 		if value is not None:
@@ -187,11 +193,16 @@ class GraphModelAttribute(Attribute, Mixin_GraphModelObject):
 		"""
 		Initializes the class.
 
-		:param name: Attribute name. ( String )
-		:param value: Attribute value. ( Object )
-		:param roles: Roles. ( Dictionary )
-		:param flags: Flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param name: Attribute name.
+		:type name: unicode
+		:param value: Attribute value.
+		:type value: object
+		:param roles: Roles.
+		:type roles: dict
+		:param flags: Flags.
+		:type flags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -210,8 +221,10 @@ class GraphModelAttribute(Attribute, Mixin_GraphModelObject):
 		"""
 		Reimplements the :meth:`foundations.nodes.Attribute.__setattr__` method.
 
-		:param attribute: Attribute. ( Object )
-		:param value: Value. ( Object )
+		:param attribute: Attribute.
+		:type attribute: object
+		:param value: Value.
+		:type value: object
 		"""
 
 		currentValue = getattr(self, attribute, None)
@@ -234,7 +247,8 @@ class GraphModelAttribute(Attribute, Mixin_GraphModelObject):
 		"""
 		Triggers the host model(s) :meth:`umbra.ui.models.GraphModel.attributeChanged` method.
 		
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		for model in umbra.ui.models.GraphModel.findModel(self):
@@ -257,12 +271,17 @@ class GraphModelNode(AbstractCompositeNode, Mixin_GraphModelObject):
 		"""
 		Initializes the class.
 
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( AbstractNode / AbstractCompositeNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: AbunicodeactNode or AbunicodeactCompositeNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
 		:param flags: Flags. ( Qt.ItemFlag )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -281,8 +300,10 @@ class GraphModelNode(AbstractCompositeNode, Mixin_GraphModelObject):
 		"""
 		Reimplements the :meth:`foundations.nodes.AbstractCompositeNode.__setattr__` method.
 
-		:param attribute.: Attribute. ( Object )
-		:param value.: Value. ( Object )
+		:param attribute.: Attribute.
+		:type attribute.: object
+		:param value.: Value.
+		:type value.: object
 		"""
 
 		currentValue = getattr(self, attribute, None)
@@ -304,7 +325,8 @@ class GraphModelNode(AbstractCompositeNode, Mixin_GraphModelObject):
 		"""
 		Triggers the host model(s) :meth:`umbra.ui.models.GraphModel.nodeChanged` method.
 		
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		for model in umbra.ui.models.GraphModel.findModel(self):
@@ -324,10 +346,14 @@ class DefaultNode(AbstractCompositeNode):
 		"""
 		Initializes the class.
 
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( AbstractCompositeNode )
-		:param children: Children. ( List )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: AbunicodeactCompositeNode
+		:param children: Children.
+		:type children: list
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -346,11 +372,16 @@ class FormatNode(AbstractCompositeNode):
 		"""
 		Initializes the class.
 
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( AbstractNode / AbstractCompositeNode )
-		:param children: Children. ( List )
-		:param format: Format. ( Object )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: AbunicodeactNode or AbunicodeactCompositeNode
+		:param children: Children.
+		:type children: list
+		:param format: Format.
+		:type format: object
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -369,7 +400,8 @@ class FormatNode(AbstractCompositeNode):
 		"""
 		Property for **self.__format** attribute.
 
-		:return: self.__format. ( Object )
+		:return: self.__format.
+		:rtype: object
 		"""
 
 		return self.__format
@@ -379,7 +411,8 @@ class FormatNode(AbstractCompositeNode):
 		"""
 		Setter for **self.__format** attribute.
 
-		:param value: Attribute value. ( Object )
+		:param value: Attribute value.
+		:type value: object
 		"""
 
 		self.__format = value

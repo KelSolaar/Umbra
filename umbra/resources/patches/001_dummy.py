@@ -39,7 +39,8 @@ UID = "845d7ca6fca3888b0293eb982fa51ddf"
 def apply():
 	"""
 	Triggers the patch execution.
-	:return: Definition success. ( Boolean )
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	return True

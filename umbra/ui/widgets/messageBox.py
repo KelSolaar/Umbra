@@ -59,12 +59,18 @@ def messageBox(type, title, message, icon=None, buttons=QMessageBox.Ok, customBu
 	"""
 	Provides a fast GUI message box.
 
-	:param title: Current message title. ( String )
-	:param message: Message. ( String )
-	:param icon: Custom icon. ( QConstant )
-	:param buttons: Standard buttons. ( QConstant )
-	:param customButtons: Custom buttons. ( Tuple / List )
-	:return: User choice. ( Integer )
+	:param title: Current message title.
+	:type title: unicode
+	:param message: Message.
+	:type message: unicode
+	:param icon: Custom icon.
+	:type icon: QConstant
+	:param buttons: Standard buttons.
+	:type buttons: QConstant
+	:param customButtons: Custom buttons.
+	:type customButtons: tuple or list
+	:return: User choice.
+	:rtype: int
 	"""
 
 	LOGGER.debug("> Launching messagebox().")

@@ -91,9 +91,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -143,7 +146,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -154,7 +158,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -175,7 +180,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__scriptEditor** attribute.
 
-		:return: self.__scriptEditor. ( QWidget )
+		:return: self.__scriptEditor.
+		:rtype: QWidget
 		"""
 
 		return self.__scriptEditor
@@ -186,7 +192,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__scriptEditor** attribute.
 
-		:param value: Attribute value. ( QWidget )
+		:param value: Attribute value.
+		:type value: QWidget
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -207,7 +214,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__filesCache** attribute.
 
-		:return: self.__filesCache. ( Cache )
+		:return: self.__filesCache.
+		:rtype: Cache
 		"""
 
 		return self.__filesCache
@@ -218,7 +226,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__filesCache** attribute.
 
-		:param value: Attribute value. ( Cache )
+		:param value: Attribute value.
+		:type value: Cache
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -239,7 +248,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__searchPatternsModel** attribute.
 
-		:return: self.__searchPatternsModel. ( PatternsModel )
+		:return: self.__searchPatternsModel.
+		:rtype: PatternsModel
 		"""
 
 		return self.__searchPatternsModel
@@ -250,7 +260,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__searchPatternsModel** attribute.
 
-		:param value: Attribute value. ( PatternsModel )
+		:param value: Attribute value.
+		:type value: PatternsModel
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -271,7 +282,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__replaceWithPatternsModel** attribute.
 
-		:return: self.__replaceWithPatternsModel. ( PatternsModel )
+		:return: self.__replaceWithPatternsModel.
+		:rtype: PatternsModel
 		"""
 
 		return self.__replaceWithPatternsModel
@@ -282,7 +294,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__replaceWithPatternsModel** attribute.
 
-		:param value: Attribute value. ( PatternsModel )
+		:param value: Attribute value.
+		:type value: PatternsModel
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -303,7 +316,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__model** attribute.
 
-		:return: self.__model. ( SearchResultsModel )
+		:return: self.__model.
+		:rtype: SearchResultsModel
 		"""
 
 		return self.__model
@@ -314,7 +328,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__model** attribute.
 
-		:param value: Attribute value. ( SearchResultsModel )
+		:param value: Attribute value.
+		:type value: SearchResultsModel
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -335,7 +350,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__view** attribute.
 
-		:return: self.__view. ( QWidget )
+		:return: self.__view.
+		:rtype: QWidget
 		"""
 
 		return self.__view
@@ -346,7 +362,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__view** attribute.
 
-		:param value: Attribute value. ( QWidget )
+		:param value: Attribute value.
+		:type value: QWidget
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -367,7 +384,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__delegate** attribute.
 
-		:return: self.__delegate. ( QItemDelegate )
+		:return: self.__delegate.
+		:rtype: QItemDelegate
 		"""
 
 		return self.__delegate
@@ -378,7 +396,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__delegate** attribute.
 
-		:param value: Attribute value. ( QItemDelegate )
+		:param value: Attribute value.
+		:type value: QItemDelegate
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -399,7 +418,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__locations** attribute.
 
-		:return: self.__locations. ( OrderedDict )
+		:return: self.__locations.
+		:rtype: OrderedDict
 		"""
 
 		return self.__locations
@@ -410,7 +430,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__locations** attribute.
 
-		:param value: Attribute value. ( OrderedDict )
+		:param value: Attribute value.
+		:type value: OrderedDict
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -431,7 +452,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__locationsMenu** attribute.
 
-		:return: self.__locationsMenu. ( QMenu )
+		:return: self.__locationsMenu.
+		:rtype: QMenu
 		"""
 
 		return self.__locationsMenu
@@ -442,7 +464,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__locationsMenu** attribute.
 
-		:param value: Attribute value. ( QMenu )
+		:param value: Attribute value.
+		:type value: QMenu
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -463,7 +486,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__defaultFilterIn** attribute.
 
-		:return: self.__defaultFilterIn. ( String )
+		:return: self.__defaultFilterIn.
+		:rtype: unicode
 		"""
 
 		return self.__defaultFilterIn
@@ -474,7 +498,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__defaultFilterIn** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -497,7 +522,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__filtersInFormat** attribute.
 
-		:return: self.__filtersInFormat. ( String )
+		:return: self.__filtersInFormat.
+		:rtype: unicode
 		"""
 
 		return self.__filtersInFormat
@@ -508,7 +534,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__filtersInFormat** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -532,7 +559,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__defaultFilterOut** attribute.
 
-		:return: self.__defaultFilterOut. ( String )
+		:return: self.__defaultFilterOut.
+		:rtype: unicode
 		"""
 
 		return self.__defaultFilterOut
@@ -543,7 +571,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__defaultFilterOut** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -566,7 +595,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__filtersOutFormat** attribute.
 
-		:return: self.__filtersOutFormat. ( String )
+		:return: self.__filtersOutFormat.
+		:rtype: unicode
 		"""
 
 		return self.__filtersOutFormat
@@ -577,7 +607,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__filtersOutFormat** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -601,7 +632,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__defaultTarget** attribute.
 
-		:return: self.__defaultTarget. ( String )
+		:return: self.__defaultTarget.
+		:rtype: unicode
 		"""
 
 		return self.__defaultTarget
@@ -612,7 +644,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__defaultTarget** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -635,7 +668,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__targetsFormat** attribute.
 
-		:return: self.__targetsFormat. ( String )
+		:return: self.__targetsFormat.
+		:rtype: unicode
 		"""
 
 		return self.__targetsFormat
@@ -646,7 +680,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__targetsFormat** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -670,7 +705,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__defaultLineNumberWidth** attribute.
 
-		:return: self.__defaultLineNumberWidth. ( Integer )
+		:return: self.__defaultLineNumberWidth.
+		:rtype: int
 		"""
 
 		return self.__defaultLineNumberWidth
@@ -681,7 +717,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__defaultLineNumberWidth** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -705,7 +742,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__defaultLineColor** attribute.
 
-		:return: self.__defaultLineColor. ( QColor )
+		:return: self.__defaultLineColor.
+		:rtype: QColor
 		"""
 
 		return self.__defaultLineColor
@@ -716,7 +754,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__defaultLineColor** attribute.
 
-		:param value: Attribute value. ( QColor )
+		:param value: Attribute value.
+		:type value: QColor
 		"""
 
 		if value is not None:
@@ -738,7 +777,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__ignoreHiddenFiles** attribute.
 
-		:return: self.__ignoreHiddenFiles. ( Boolean )
+		:return: self.__ignoreHiddenFiles.
+		:rtype: bool
 		"""
 
 		return self.__ignoreHiddenFiles
@@ -749,7 +789,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__ignoreHiddenFiles** attribute.
 
-		:param value: Attribute value. ( Boolean )
+		:param value: Attribute value.
+		:type value: bool
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -770,7 +811,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Property for **self.__searchWorkerThread** attribute.
 
-		:return: self.__searchWorkerThread. ( QThread )
+		:return: self.__searchWorkerThread.
+		:rtype: QThread
 		"""
 
 		return self.__searchWorkerThread
@@ -781,7 +823,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Setter for **self.__searchWorkerThread** attribute.
 
-		:param value: Attribute value. ( QThread )
+		:param value: Attribute value.
+		:type value: QThread
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -817,7 +860,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Reimplements the :meth:`QWidget.closeEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		self.__interruptSearch()
@@ -904,8 +948,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Replace All'** action.
 
-		:param checked: Action checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Action checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		allNodes = filter(lambda x: x.family in ("SearchFile", "SearchOccurence"), self.__model.rootNode.children)
@@ -916,8 +962,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Replace Selected'** action.
 
-		:param checked: Action checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Action checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		selectedNodes = filter(lambda x: x.family in ("SearchFile", "SearchOccurence"), self.__view.getSelectedNodes())
@@ -928,8 +976,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Save All'** action.
 
-		:param checked: Action checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Action checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		allNodes = filter(lambda x: x.family is "ReplaceResult", self.__model.rootNode.children)
@@ -940,8 +990,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Save Selected'** action.
 
-		:param checked: Action checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Action checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		selectedNodes = filter(lambda x: x.family is "ReplaceResult", self.__view.getSelectedNodes())
@@ -952,8 +1004,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Defines the slot triggered by a pattern when inserted into a patterns Model.
 
-		:param comboBox: Pattern Model attached comboBox. ( QComboBox )
-		:param index: Inserted pattern index. ( QModelIndex )
+		:param comboBox: Pattern Model attached comboBox.
+		:type comboBox: QComboBox
+		:param index: Inserted pattern index.
+		:type index: QModelIndex
 		"""
 
 		comboBox.setCurrentIndex(index.row())
@@ -962,7 +1016,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Defines the slot triggered by **Search_pushButton** Widget when clicked.
 
-		:param checked: Checked state. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
 		"""
 
 		self.search()
@@ -971,7 +1026,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Defines the slot triggered by **Close_pushButton** Widget when clicked.
 
-		:param checked: Checked state. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
 		"""
 
 		self.close()
@@ -980,7 +1036,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Defines the slot triggered by a View when double clicked.
 
-		:param index: Clicked item index. ( QModelIndex )
+		:param index: Clicked item index.
+		:type index: QModelIndex
 		"""
 
 		node = self.__model.getNode(index)
@@ -998,8 +1055,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Defines the slot triggered by the View **selectionModel** when selection changed.
 
-		:param selectedItems: Selected items. ( QItemSelection )
-		:param deselectedItems: Deselected items. ( QItemSelection )
+		:param selectedItems: Selected items.
+		:type selectedItems: QItemSelection
+		:param deselectedItems: Deselected items.
+		:type deselectedItems: QItemSelection
 		"""
 
 		indexes = selectedItems.indexes()
@@ -1023,7 +1082,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		Defines the slot triggered by :attr:`SearchInFiles.grepWorkerThread` attribute worker thread
 		when the search is finished.
 	
-		:param searchResults: Search results. ( List )
+		:param searchResults: Search results.
+		:type searchResults: list
 		"""
 
 		self.setSearchResults(searchResults)
@@ -1039,8 +1099,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Defines the slot triggered by **Where_lineEdit** Widget when a context menu entry is clicked.
 
-		:param type: Location type. ( String )
-		:param \*args: Arguments. ( \* )
+		:param type: Location type.
+		:type type: unicode
+		:param \*args: Arguments.
+		:type \*args: \*
 		"""
 
 		if type == "directory":
@@ -1066,8 +1128,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Formats the given occurence and returns the matching rich html text.
 
-		:param occurence: Occurence to format. ( Occurence )
-		:return: Rich text. ( String )
+		:param occurence: Occurence to format.
+		:type occurence: Occurence
+		:return: Rich text.
+		:rtype: unicode
 		"""
 
 		color = "rgb({0}, {1}, {2})"
@@ -1084,9 +1148,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Formats the given replace metrics and returns the matching rich html text.
 
-		:param file: File. ( String )
-		:param metrics: Replace metrics to format. ( String )
-		:return: Rich text. ( String )
+		:param file: File.
+		:type file: unicode
+		:param metrics: Replace metrics to format.
+		:type metrics: unicode
+		:return: Rich text.
+		:rtype: unicode
 		"""
 
 		color = "rgb({0}, {1}, {2})"
@@ -1107,8 +1174,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Highlights given file occurence.
 		
-		:param file: File containing the occurence. ( String )
-		:param occurence: Occurence to highlight. ( Occurence / SearchOccurenceNode )
+		:param file: File containing the occurence.
+		:type file: unicode
+		:param occurence: Occurence to highlight.
+		:type occurence: Occurence or SearchOccurenceNode
 		"""
 
 		if not self.__container.getEditor(file):
@@ -1135,7 +1204,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		Returns a `QTextDocument <http://doc.qt.nokia.com/qtextdocument.html>`_ class instance
 		with given content.
 
-		:return: Document. ( QTextDocument )
+		:return: Document.
+		:rtype: QTextDocument
 		"""
 
 		document = QTextDocument(QString(content))
@@ -1147,9 +1217,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Replaces given pattern occurences in given document using given settings.
 	
-		:param document: Document. ( QTextDocument )
-		:param replacementPattern: Replacement pattern. ( String )
-		:return: Replaced occurences count. ( Integer )
+		:param document: Document.
+		:type document: QTextDocument
+		:param replacementPattern: Replacement pattern.
+		:type replacementPattern: unicode
+		:return: Replaced occurences count.
+		:rtype: int
 		"""
 
 		cursor = QTextCursor(document)
@@ -1168,7 +1241,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Returns the current search and replace settings.
 
-		:return: Settings. ( Dictionary )
+		:return: Settings.
+		:rtype: dict
 		"""
 
 		return {"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
@@ -1189,9 +1263,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Caches given file.
 
-		:param file: File to cache. ( String )
-		:param content: File content. ( List )
-		:param document: File document. ( QTextDocument )
+		:param file: File to cache.
+		:type file: unicode
+		:param content: File content.
+		:type content: list
+		:param document: File document.
+		:type document: QTextDocument
 		"""
 
 		self.__filesCache.addContent(**{file : CacheData(content=content, document=document)})
@@ -1200,7 +1277,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Uncaches given file.
 
-		:param file: File to uncache. ( String )
+		:param file: File to uncache.
+		:type file: unicode
 		"""
 
 		if file in self.__filesCache:
@@ -1210,8 +1288,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Sets the Model Nodes using given search results.
 		
-		:param searchResults: Search results. ( List )
-		:return: Method success. ( Boolean )
+		:param searchResults: Search results.
+		:type searchResults: list
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		rootNode = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
@@ -1236,8 +1316,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Sets the Model Nodes using given replace results.
 		
-		:param replaceResults: Replace results. ( List )
-		:return: Method success. ( Boolean )
+		:param replaceResults: Replace results.
+		:type replaceResults: list
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		rootNode = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
@@ -1252,7 +1334,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Searchs user defined locations for search pattern.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.__interruptSearch()
@@ -1285,8 +1368,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Replaces user defined files search pattern occurences with replacement pattern using given nodes.
 		
-		:param nodes: Nodes. ( List )
-		:return: Method success. ( Boolean )
+		:param nodes: Nodes.
+		:type nodes: list
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		files = {}
@@ -1329,8 +1414,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Saves user defined files using give nodes.
 
-		:param nodes: Nodes. ( List )
-		:return: Method success. ( Boolean )
+		:param nodes: Nodes.
+		:type nodes: list
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		metrics = {"Opened" : 0, "Cached" : 0}

@@ -201,16 +201,20 @@ def showProcessing(message=""):
 	"""
 	Shows processing behavior.
 	
-	:param message: Operation description. ( String )
-	:return: Object. ( Object )
+	:param message: Operation description.
+	:type message: unicode
+	:return: Object.
+	:rtype: object
 	"""
 
 	def showProcessingDecorator(object):
 		"""
 		Shows processing behavior.
 
-		:param object: Object to decorate. ( Object )
-		:return: Object. ( Object )
+		:param object: Object to decorate.
+		:type object: object
+		:return: Object.
+		:rtype: object
 		"""
 
 		@functools.wraps(object)
@@ -218,8 +222,10 @@ def showProcessing(message=""):
 			"""
 			Shows processing behavior.
 
-			:param \*args: Arguments. ( \* )
-			:param \*\*kwargs: Keywords arguments. ( \*\* )
+			:param \*args: Arguments.
+			:type \*args: \*
+			:param \*\*kwargs: Keywords arguments.
+			:type \*\*kwargs: \*\*
 			"""
 
 			RuntimeGlobals.engine.startProcessing(message, warning=False)
@@ -236,8 +242,10 @@ def encapsulateProcessing(object):
 	"""
 	Encapsulates a processing operation.
 
-	:param object: Object to decorate. ( Object )
-	:return: Object. ( Object )
+	:param object: Object to decorate.
+	:type object: object
+	:return: Object.
+	:rtype: object
 	"""
 
 	@functools.wraps(object)
@@ -245,8 +253,10 @@ def encapsulateProcessing(object):
 		"""
 		Encapsulates a processing operation.
 
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		RuntimeGlobals.engine._Umbra__storeProcessingState()
@@ -269,21 +279,24 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	"""
 	This signal is emited by the :class:`Umbra` class when the current verbosity level has changed. ( pyqtSignal )
 
-	:return: Current verbosity level. ( Integer )	
+	:return: Current verbosity level.
+	:rtype: int
 	"""
 
 	contentDropped = pyqtSignal(QEvent)
 	"""
 	This signal is emited by the :class:`Umbra` class when it receives dropped content. ( pyqtSignal )
 
-	:return: Event. ( QEvent )	
+	:return: Event.
+	:rtype: QEvent
 	"""
 
 	sizeChanged = pyqtSignal(QEvent)
 	"""
 	This signal is emited by the :class:`Umbra` class when its size changes. ( pyqtSignal )
 
-	:return: Event. ( QEvent )	
+	:return: Event.
+	:rtype: QEvent
 	"""
 
 	@umbra.reporter.criticalExceptionHandler
@@ -297,11 +310,16 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		"""
 		Initializes the class.
 
-		:param componentsPaths: Components componentsPaths. ( Tuple / List )
-		:param requisiteComponents: Requisite components names. ( Tuple / List )
-		:param visibleComponents: Visible components names. ( Tuple / List )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param componentsPaths: Components componentsPaths.
+		:type componentsPaths: tuple or list
+		:param requisiteComponents: Requisite components names.
+		:type requisiteComponents: tuple or list
+		:param visibleComponents: Visible components names.
+		:type visibleComponents: tuple or list
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		# --- Running pre initialisation method. ---
@@ -451,7 +469,8 @@ component, error)))
 		"""
 		Property for **self.__timer** attribute.
 
-		:return: self.__timer. ( QTimer )
+		:return: self.__timer.
+		:rtype: QTimer
 		"""
 
 		return self.__timer
@@ -462,7 +481,8 @@ component, error)))
 		"""
 		Setter for **self.__timer** attribute.
 
-		:param value: Attribute value. ( QTimer )
+		:param value: Attribute value.
+		:type value: QTimer
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -515,7 +535,8 @@ component, error)))
 		"""
 		Property for **self.__componentsPaths** attribute.
 
-		:return: self.__componentsPaths. ( Tuple / List )
+		:return: self.__componentsPaths.
+		:rtype: tuple or list
 		"""
 
 		return self.__componentsPaths
@@ -526,7 +547,8 @@ component, error)))
 		"""
 		Setter for **self.__componentsPaths** attribute.
 
-		:param value: Attribute value. ( Tuple / List )
+		:param value: Attribute value.
+		:type value: tuple or list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -547,7 +569,8 @@ component, error)))
 		"""
 		Property for **self.__requisiteComponents** attribute.
 
-		:return: self.__requisiteComponents. ( Tuple / List )
+		:return: self.__requisiteComponents.
+		:rtype: tuple or list
 		"""
 
 		return self.__requisiteComponents
@@ -558,7 +581,8 @@ component, error)))
 		"""
 		Setter for **self.__requisiteComponents** attribute.
 
-		:param value: Attribute value. ( Tuple / List )
+		:param value: Attribute value.
+		:type value: tuple or list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -579,7 +603,8 @@ component, error)))
 		"""
 		Property for **self.__visibleComponents** attribute.
 
-		:return: self.__visibleComponents. ( Tuple / List )
+		:return: self.__visibleComponents.
+		:rtype: tuple or list
 		"""
 
 		return self.__visibleComponents
@@ -590,7 +615,8 @@ component, error)))
 		"""
 		Setter for **self.__visibleComponents** attribute.
 
-		:param value: Attribute value. ( Tuple / List )
+		:param value: Attribute value.
+		:type value: tuple or list
 		"""
 
 		if value is not None:
@@ -616,7 +642,8 @@ component, error)))
 		"""
 		Property for **self.__patchesManager** attribute.
 
-		:return: self.__patchesManager. ( PatchesManager )
+		:return: self.__patchesManager.
+		:rtype: PatchesManager
 		"""
 
 		return self.__patchesManager
@@ -627,7 +654,8 @@ component, error)))
 		"""
 		Setter for **self.__patchesManager** attribute.
 
-		:param value: Attribute value. ( PatchesManager )
+		:param value: Attribute value.
+		:type value: PatchesManager
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -648,7 +676,8 @@ component, error)))
 		"""
 		Property for **self.__componentsManager** attribute.
 
-		:return: self.__componentsManager. ( ComponentsManager )
+		:return: self.__componentsManager.
+		:rtype: ComponentsManager
 		"""
 
 		return self.__componentsManager
@@ -659,7 +688,8 @@ component, error)))
 		"""
 		Setter for **self.__componentsManager** attribute.
 
-		:param value: Attribute value. ( ComponentsManager )
+		:param value: Attribute value.
+		:type value: ComponentsManager
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -680,7 +710,8 @@ component, error)))
 		"""
 		Property for **self.__notificationsManager** attribute.
 
-		:return: self.__notificationsManager. ( NotificationsManager )
+		:return: self.__notificationsManager.
+		:rtype: NotificationsManager
 		"""
 
 		return self.__notificationsManager
@@ -691,7 +722,8 @@ component, error)))
 		"""
 		Setter for **self.__notificationsManager** attribute.
 
-		:param value: Attribute value. ( NotificationsManager )
+		:param value: Attribute value.
+		:type value: NotificationsManager
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -712,7 +744,8 @@ component, error)))
 		"""
 		Property for **self.__actionsManager** attribute.
 
-		:return: self.__actionsManager. ( ActionsManager )
+		:return: self.__actionsManager.
+		:rtype: ActionsManager
 		"""
 
 		return self.__actionsManager
@@ -723,7 +756,8 @@ component, error)))
 		"""
 		Setter for **self.__actionsManager** attribute.
 
-		:param value: Attribute value. ( ActionsManager )
+		:param value: Attribute value.
+		:type value: ActionsManager
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -744,7 +778,8 @@ component, error)))
 		"""
 		Property for **self.__fileSystemEventsManager** attribute.
 
-		:return: self.__fileSystemEventsManager. ( FileSystemEventsManager )
+		:return: self.__fileSystemEventsManager.
+		:rtype: FileSystemEventsManager
 		"""
 
 		return self.__fileSystemEventsManager
@@ -755,7 +790,8 @@ component, error)))
 		"""
 		Setter for **self.__fileSystemEventsManager** attribute.
 
-		:param value: Attribute value. ( FileSystemEventsManager )
+		:param value: Attribute value.
+		:type value: FileSystemEventsManager
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -776,7 +812,8 @@ component, error)))
 		"""
 		Property for **self.__layoutsManager** attribute.
 
-		:return: self.__layoutsManager. ( LayoutsManager )
+		:return: self.__layoutsManager.
+		:rtype: LayoutsManager
 		"""
 
 		return self.__layoutsManager
@@ -787,7 +824,8 @@ component, error)))
 		"""
 		Setter for **self.__layoutsManager** attribute.
 
-		:param value: Attribute value. ( LayoutsManager )
+		:param value: Attribute value.
+		:type value: LayoutsManager
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -808,7 +846,8 @@ component, error)))
 		"""
 		Property for **self.__userApplicationDataDirectory** attribute.
 
-		:return: self.__userApplicationDataDirectory. ( String )
+		:return: self.__userApplicationDataDirectory.
+		:rtype: unicode
 		"""
 
 		return self.__userApplicationDataDirectory
@@ -819,7 +858,8 @@ component, error)))
 		"""
 		Setter for **self.__userApplicationDataDirectory** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -840,7 +880,8 @@ component, error)))
 		"""
 		Property for **self.__loggingSessionHandler** attribute.
 
-		:return: self.__loggingSessionHandler. ( Handler )
+		:return: self.__loggingSessionHandler.
+		:rtype: Handler
 		"""
 
 		return self.__loggingSessionHandler
@@ -851,7 +892,8 @@ component, error)))
 		"""
 		Setter for **self.__loggingSessionHandler** attribute.
 
-		:param value: Attribute value. ( Handler )
+		:param value: Attribute value.
+		:type value: Handler
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -872,7 +914,8 @@ component, error)))
 		"""
 		Property for **self.__loggingFileHandler** attribute.
 
-		:return: self.__loggingFileHandler. ( Handler )
+		:return: self.__loggingFileHandler.
+		:rtype: Handler
 		"""
 
 		return self.__loggingFileHandler
@@ -883,7 +926,8 @@ component, error)))
 		"""
 		Setter for **self.__loggingFileHandler** attribute.
 
-		:param value: Attribute value. ( Handler )
+		:param value: Attribute value.
+		:type value: Handler
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -904,7 +948,8 @@ component, error)))
 		"""
 		Property for **self.__loggingConsoleHandler** attribute.
 
-		:return: self.__loggingConsoleHandler. ( Handler )
+		:return: self.__loggingConsoleHandler.
+		:rtype: Handler
 		"""
 
 		return self.__loggingConsoleHandler
@@ -915,7 +960,8 @@ component, error)))
 		"""
 		Setter for **self.__loggingConsoleHandler** attribute.
 
-		:param value: Attribute value. ( Handler )
+		:param value: Attribute value.
+		:type value: Handler
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -937,7 +983,8 @@ component, error)))
 		"""
 		Property for **self.__loggingSessionHandlerStream** attribute.
 
-		:return: self.__loggingSessionHandlerStream. ( StreamObject )
+		:return: self.__loggingSessionHandlerStream.
+		:rtype: StreamObject
 		"""
 
 		return self.__loggingSessionHandlerStream
@@ -949,7 +996,8 @@ component, error)))
 		"""
 		Setter for **self.__loggingSessionHandlerStream** attribute.
 
-		:param value: Attribute value. ( StreamObject )
+		:param value: Attribute value.
+		:type value: StreamObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -971,7 +1019,8 @@ component, error)))
 		"""
 		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( QSettings )
+		:return: self.__settings.
+		:rtype: QSettings
 		"""
 
 		return self.__settings
@@ -982,7 +1031,8 @@ component, error)))
 		"""
 		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( QSettings )
+		:param value: Attribute value.
+		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1003,7 +1053,8 @@ component, error)))
 		"""
 		Property for **self.__verbosityLevel** attribute.
 
-		:return: self.__verbosityLevel. ( Integer )
+		:return: self.__verbosityLevel.
+		:rtype: int
 		"""
 
 		return self.__verbosityLevel
@@ -1014,7 +1065,8 @@ component, error)))
 		"""
 		Setter for **self.__verbosityLevel** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -1038,7 +1090,8 @@ component, error)))
 		"""
 		Property for **self.__parameters** attribute.
 
-		:return: self.__parameters. ( Object )
+		:return: self.__parameters.
+		:rtype: object
 		"""
 
 		return self.__parameters
@@ -1049,7 +1102,8 @@ component, error)))
 		"""
 		Setter for **self.__parameters** attribute.
 
-		:param value: Attribute value. ( Object )
+		:param value: Attribute value.
+		:type value: object
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1070,7 +1124,8 @@ component, error)))
 		"""
 		Property for **self.__arguments** attribute.
 
-		:return: self.__arguments. ( List )
+		:return: self.__arguments.
+		:rtype: list
 		"""
 
 		return self.__arguments
@@ -1081,7 +1136,8 @@ component, error)))
 		"""
 		Setter for **self.__arguments** attribute.
 
-		:param value: Attribute value. ( List )
+		:param value: Attribute value.
+		:type value: list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1102,7 +1158,8 @@ component, error)))
 		"""
 		Property for **self.__workerThreads** attribute.
 
-		:return: self.__workerThreads. ( List )
+		:return: self.__workerThreads.
+		:rtype: list
 		"""
 
 		return self.__workerThreads
@@ -1113,7 +1170,8 @@ component, error)))
 		"""
 		Setter for **self.__workerThreads** attribute.
 
-		:param value: Attribute value. ( List )
+		:param value: Attribute value.
+		:type value: list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1134,7 +1192,8 @@ component, error)))
 		"""
 		Property for **self.__isProcessing** attribute.
 
-		:return: self.__isProcessing. ( Boolean )
+		:return: self.__isProcessing.
+		:rtype: bool
 		"""
 
 		return self.__isProcessing
@@ -1145,7 +1204,8 @@ component, error)))
 		"""
 		Setter for **self.__isProcessing** attribute.
 
-		:param value: Attribute value. ( Boolean )
+		:param value: Attribute value.
+		:type value: bool
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1166,7 +1226,8 @@ component, error)))
 		"""
 		Property for **self.__locals** attribute.
 
-		:return: self.__locals. ( Dictionary )
+		:return: self.__locals.
+		:rtype: dict
 		"""
 
 		return self.__locals
@@ -1177,7 +1238,8 @@ component, error)))
 		"""
 		Setter for **self.__locals** attribute.
 
-		:param value: Attribute value. ( Dictionary )
+		:param value: Attribute value.
+		:type value: dict
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1200,7 +1262,8 @@ component, error)))
 		"""
 		Reimplements the :meth:`QWidget.dragEnterEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		LOGGER.debug("> Application drag enter event accepted!")
@@ -1210,7 +1273,8 @@ component, error)))
 		"""
 		Reimplements the :meth:`QWidget.dragMoveEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		LOGGER.debug("> Application drag move event accepted!")
@@ -1220,7 +1284,8 @@ component, error)))
 		"""
 		Reimplements the :meth:`QWidget.dropEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		LOGGER.debug("> Application drop event accepted!")
@@ -1237,7 +1302,8 @@ component, error)))
 		"""
 		Reimplements the :meth:`QWidget.closeEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		self.quit(event=event)
@@ -1246,7 +1312,8 @@ component, error)))
 		"""
 		Reimplements the :meth:`QWidget.resizeEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		LOGGER.debug("> Application resize event accepted!")
@@ -1257,7 +1324,8 @@ component, error)))
 		"""
 		Sets the Components.
 
-		:param requisite: Set only requisite Components. ( Boolean )
+		:param requisite: Set only requisite Components.
+		:type requisite: bool
 		"""
 
 		components = self.__componentsManager.listComponents()
@@ -1329,7 +1397,8 @@ component, error)))
 		"""
 		Defines a callback for Components instantiation.
 
-		:param profile: Component Profile. ( Profile )
+		:param profile: Component Profile.
+		:type profile: Profile
 		"""
 
 		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.showMessage(
@@ -1364,8 +1433,10 @@ component, error)))
 		"""
 		Sets the Application verbosity level.
 		
-		:param verbosityLevel: Verbosity level. ( Integer )
-		:return: Method success. ( Boolean )
+		:param verbosityLevel: Verbosity level.
+		:type verbosityLevel: int
+		:return: Method success.
+		:rtype: bool
 		
 		:note: The expected verbosity level value is an integer between 0 to 4.
 		"""
@@ -1381,8 +1452,10 @@ component, error)))
 		"""
 		Sets the Application visual style.
 		
-		:param fullScreenStyle: Use fullscreen stylesheet file. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param fullScreenStyle: Use fullscreen stylesheet file.
+		:type fullScreenStyle: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Setting Application visual style.")
@@ -1438,7 +1511,8 @@ component, error)))
 		"""
 		Returns if Application is in fullscreen state.
 
-		:return: FullScreen state. ( Boolean )
+		:return: FullScreen state.
+		:rtype: bool
 		"""
 
 		return self.windowState().__int__() == 4 and True or False
@@ -1447,8 +1521,10 @@ component, error)))
 		"""
 		Toggles Application fullscreen state.
 
-		:param \*args: Arguments. ( \* )
-		:return: Method success. ( Boolean )
+		:param \*args: Arguments.
+		:type \*args: \*
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Toggling FullScreen state.")
@@ -1469,8 +1545,10 @@ component, error)))
 		"""
 		Process Application events.
 
-		:param flags: Events flags. ( Integer )
-		:return: Method success. ( Boolean )
+		:param flags: Events flags.
+		:type flags: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		QApplication.processEvents(flags)
@@ -1480,9 +1558,12 @@ component, error)))
 		"""
 		Sets the processing operation message.
 
-		:param message: Operation description. ( String )
-		:param warning: Emit warning message. ( Integer )
-		:return: Method success. ( Boolean )
+		:param message: Operation description.
+		:type message: unicode
+		:param warning: Emit warning message.
+		:type warning: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.__isProcessing:
@@ -1501,10 +1582,14 @@ component, error)))
 		"""
 		Registers the start of a processing operation.
 
-		:param message: Operation description. ( String )
-		:param steps: Operation steps. ( Integer )
-		:param warning: Emit warning message. ( Integer )
-		:return: Method success. ( Boolean )
+		:param message: Operation description.
+		:type message: unicode
+		:param steps: Operation steps.
+		:type steps: int
+		:param warning: Emit warning message.
+		:type warning: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if self.__isProcessing:
@@ -1526,8 +1611,10 @@ component, error)))
 		"""
 		Steps the processing operation progress indicator.
 
-		:param warning: Emit warning message. ( Integer )
-		:return: Method success. ( Boolean )
+		:param warning: Emit warning message.
+		:type warning: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.__isProcessing:
@@ -1547,8 +1634,10 @@ component, error)))
 		"""
 		Registers the end of a processing operation.
 
-		:param warning: Emit warning message. ( Integer )
-		:return: Method success. ( Boolean )
+		:param warning: Emit warning message.
+		:type warning: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.__isProcessing:
@@ -1569,7 +1658,8 @@ component, error)))
 		"""
 		Triggers the garbage collecting.
 
-		:return: Number of unreachable objects found. ( Integer )
+		:return: Number of unreachable objects found.
+		:rtype: int
 		"""
 
 		LOGGER.debug("> Garbage collecting!")
@@ -1580,8 +1670,10 @@ component, error)))
 		"""
 		Quits the Application.
 
-		:param exitCode: Exit code. ( Integer )
-		:param event: QEvent. ( QEvent )
+		:param exitCode: Exit code.
+		:type exitCode: int
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		# --- Running onClose components methods. ---
@@ -1629,8 +1721,10 @@ def setUserApplicationDataDirectory(path):
 	"""
 	Sets the Application data directory.
 
-	:param path: Starting point for the directories tree creation. ( String )
-	:return: Definition success. ( Boolean )
+	:param path: Starting point for the directories tree creation.
+	:type path: unicode
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory
@@ -1651,7 +1745,8 @@ def getCommandLineParametersParser():
 	"""
 	Returns the command line parameters parser.
 
-	:return: Parser. ( Parser )
+	:return: Parser.
+	:rtype: Parser
 	"""
 
 	parser = optparse.OptionParser(formatter=optparse.IndentedHelpFormatter(indent_increment=2,
@@ -1721,9 +1816,12 @@ def getLoggingFile(maximumLoggingFiles=10, retries=2 ^ 16):
 	"""
 	Returns the logging file path.
 
-	:param maximumLoggingFiles: Maximum allowed logging files in the logging directory. ( Integer )
-	:param retries: Number of retries to generate a unique logging file name. ( Integer )
-	:return: Logging file path. ( String )
+	:param maximumLoggingFiles: Maximum allowed logging files in the logging directory.
+	:type maximumLoggingFiles: int
+	:param retries: Number of retries to generate a unique logging file name.
+	:type retries: int
+	:return: Logging file path.
+	:rtype: unicode
 	"""
 
 	loggingDirectory = os.path.join(RuntimeGlobals.userApplicationDataDirectory, Constants.loggingDirectory)
@@ -1756,12 +1854,18 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	"""
 	Starts the Application.
 
-	:param engine: Engine. ( QObject )
-	:param parameters: Command line parameters. ( Tuple )
-	:param componentsPaths: Components componentsPaths. ( Tuple / List )
-	:param requisiteComponents: Requisite components names. ( Tuple / List )
-	:param visibleComponents: Visible components names. ( Tuple / List )
-	:return: Definition success. ( Boolean )
+	:param engine: Engine.
+	:type engine: QObject
+	:param parameters: Command line parameters.
+	:type parameters: tuple
+	:param componentsPaths: Components componentsPaths.
+	:type componentsPaths: tuple or list
+	:param requisiteComponents: Requisite components names.
+	:type requisiteComponents: tuple or list
+	:param visibleComponents: Visible components names.
+	:type visibleComponents: tuple or list
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	# Command line parameters handling.
@@ -1890,7 +1994,8 @@ def exit(exitCode=0):
 	"""
 	Exits the Application.
 	
-	:param exitCode: Exit code. ( Integer )
+	:param exitCode: Exit code.
+	:type exitCode: int
 	"""
 
 	for line in SESSION_FOOTER_TEXT:

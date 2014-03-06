@@ -43,16 +43,20 @@ def attributeWarfare(object):
 	"""
 	Alterates object attributes using guerilla / monkey patching.
 	
-	:param object: Object to alterate. ( Object )
-	:return: Object. ( Object )
+	:param object: Object to alterate.
+	:type object: object
+	:return: Object.
+	:rtype: object
 	"""
 
 	def attributeWarfareWrapper(attribute):
 		"""
 		Alterates object attributes using guerilla / monkey patching.
 		
-		:param attribute: Attribute to alterate. ( Object )
-		:return: Object. ( Object )
+		:param attribute: Attribute to alterate.
+		:type attribute: object
+		:return: Object.
+		:rtype: object
 		"""
 
 		setattr(object, attribute.__name__, attribute)
@@ -64,10 +68,14 @@ def baseWarfare(name, bases, attributes):
 	"""
 	Adds any number of attributes to an existing class.
 	
-	:param name: Name. ( String )
-	:param bases: Bases. ( List )
-	:param attributes: Attributes. ( Dictionary )
-	:return: Base. ( Object )
+	:param name: Name.
+	:type name: unicode
+	:param bases: Bases.
+	:type bases: list
+	:param attributes: Attributes.
+	:type attributes: dict
+	:return: Base.
+	:rtype: object
 	"""
 
 	assert len(bases) == 1, "{0} | '{1}' object has multiple bases!".format(__name__, name)

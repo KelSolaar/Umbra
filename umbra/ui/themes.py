@@ -56,8 +56,10 @@ def getFormat(**kwargs):
 	"""
 	Returns a `QTextCharFormat <http://doc.qt.nokia.com/qtextcharformat.html>`_ format.
 	
-	:param \*\*kwargs: Format settings. ( Key / Value pairs )
-	:return: Format. ( QTextCharFormat )
+	:param \*\*kwargs: Format settings.
+	:type \*\*kwargs: dict
+	:return: Format.
+	:rtype: QTextCharFormat
 	"""
 
 	settings = foundations.dataStructures.Structure(**{"format" : QTextCharFormat(),

@@ -60,9 +60,12 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 		"""
 		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -84,9 +87,12 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 		"""
 		Reimplements the :meth:`QSortFilterProxyModel.filterAcceptsRow` method.
 		
-		:param row: Source row. ( Integer )
-		:param parent: Source parent. ( QModelIndex )
-		:return: Filter result ( Boolean )
+		:param row: Source row.
+		:type row: int
+		:param parent: Source parent.
+		:type parent: QModelIndex
+		:return: Filter result
+		:rtype: bool
 		"""
 
 		child = self.sourceModel().getNode(parent).child(row)
@@ -99,9 +105,12 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 		"""
 		Reimplements the :meth:`QSortFilterProxyModel.data` method.
 		
-		:param index: Index. ( QModelIndex )
-		:param role: Role. ( Integer )
-		:return: Data. ( QVariant )
+		:param index: Index.
+		:type index: QModelIndex
+		:param role: Role.
+		:type role: int
+		:return: Data.
+		:rtype: QVariant
 		"""
 
 		if role == Qt.DisplayRole:
@@ -127,8 +136,10 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 		"""
 		Returns the Node at given index.
 		
-		:param index: Index. ( QModelIndex )
-		:return: Node. ( AbstractCompositeNode )
+		:param index: Index.
+		:type index: QModelIndex
+		:return: Node.
+		:rtype: AbunicodeactCompositeNode
 		"""
 
 		index = self.mapToSource(index)

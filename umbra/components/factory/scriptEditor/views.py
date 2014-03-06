@@ -61,9 +61,12 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		"""
 		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param readOnly: View is read only. ( Boolean )
-		:param message: View default message when Model is empty. ( String )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param readOnly: View is read only.
+		:type readOnly: bool
+		:param message: View default message when Model is empty.
+		:type message: unicode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -85,7 +88,8 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		"""
 		Property for **self.__treeViewIndentation** attribute.
 
-		:return: self.__treeViewIndentation. ( Integer )
+		:return: self.__treeViewIndentation.
+		:rtype: int
 		"""
 
 		return self.__treeViewIndentation
@@ -96,7 +100,8 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		"""
 		Setter for **self.__treeViewIndentation** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -135,7 +140,8 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		"""
 		Sets the Widget default ui state.
 		
-		:param \*args: Arguments. ( \* )
+		:param \*args: Arguments.
+		:type \*args: \*
 		"""
 
 		LOGGER.debug("> Setting default View state!")
@@ -160,14 +166,16 @@ class ScriptEditor_QTabWidget(QTabWidget):
 	"""
 	This signal is emited by the :class:`ScriptEditor_QTabWidget` class when it receives dropped content. ( pyqtSignal )
 
-	:return: Event. ( QEvent )	
+	:return: Event.
+	:rtype: QEvent
 	"""
 
 	def __init__(self, parent):
 		"""
 		Initializes the class.
 
-		:param parent: Parent object. ( QObject )
+		:param parent: Parent object.
+		:type parent: QObject
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -187,7 +195,8 @@ class ScriptEditor_QTabWidget(QTabWidget):
 		"""
 		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -198,7 +207,8 @@ class ScriptEditor_QTabWidget(QTabWidget):
 		"""
 		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -221,7 +231,8 @@ class ScriptEditor_QTabWidget(QTabWidget):
 		"""
 		Reimplements the :meth:`QTabWidget.dragEnterEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		LOGGER.debug("> '{0}' widget drag enter event accepted!".format(self.__class__.__name__))
@@ -231,7 +242,8 @@ class ScriptEditor_QTabWidget(QTabWidget):
 		"""
 		Reimplements the :meth:`QTabWidget.dragMoveEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		LOGGER.debug("> '{0}' widget drag move event accepted!".format(self.__class__.__name__))
@@ -241,7 +253,8 @@ class ScriptEditor_QTabWidget(QTabWidget):
 		"""
 		Reimplements the :meth:`QTabWidget.dropEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		LOGGER.debug("> '{0}' widget drop event accepted!".format(self.__class__.__name__))

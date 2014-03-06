@@ -118,8 +118,10 @@ def getObjectFromLanguageAccelerators(accelerator):
 	"""
 	Returns the object associated to given accelerator.
 
-	:param accelerator: Accelerator. ( String )
-	:return: Object. ( Object )
+	:param accelerator: Accelerator.
+	:type accelerator: unicode
+	:return: Object.
+	:rtype: object
 	"""
 
 	return LANGUAGES_ACCELERATORS.get(accelerator)
@@ -129,8 +131,10 @@ def getLanguageDescription(grammarfile):
 	"""
 	Gets the language description from given language grammar file.
 
-	:param grammarfile: Language grammar. ( String )
-	:return: Language description. ( Language )
+	:param grammarfile: Language grammar.
+	:type grammarfile: unicode
+	:return: Language description.
+	:rtype: Language
 	"""
 
 	LOGGER.debug("> Processing '{0}' grammar file.".format(grammarfile))
@@ -242,7 +246,8 @@ def getPythonLanguage():
 	"""
 	Returns the Python language description.
 
-	:return: Python language description. ( Language )
+	:return: Python language description.
+	:rtype: Language
 	"""
 
 	return getLanguageDescription(PYTHON_GRAMMAR_FILE)
@@ -251,7 +256,8 @@ def getLoggingLanguage():
 	"""
 	Returns the Logging language description.
 
-	:return: Logging language description. ( Language )
+	:return: Logging language description.
+	:rtype: Language
 	"""
 
 	return getLanguageDescription(LOGGING_GRAMMAR_FILE)
@@ -260,7 +266,8 @@ def getTextLanguage():
 	"""
 	Returns the Text language description.
 
-	:return: Text language description. ( Language )
+	:return: Text language description.
+	:rtype: Language
 	"""
 
 	return getLanguageDescription(TEXT_GRAMMAR_FILE)

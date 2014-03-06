@@ -62,7 +62,8 @@ class Notification(foundations.dataStructures.Structure):
 		"""
 		Initializes the class.
 
-		:param \*\*kwargs: message, time. ( Key / Value pairs )
+		:param \*\*kwargs: message, time.
+		:type \*\*kwargs: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -79,7 +80,8 @@ class NotificationsManager(QObject):
 	"""
 	This signal is emited by the :class:`NotificationsManager` class when a notification is registered. ( pyqtSignal )
 
-	:return: Current registered notification. ( Notification )	
+	:return: Current registered notification.
+	:rtype: Notification
 	"""
 
 	def __init__(self, parent=None):
@@ -107,7 +109,8 @@ class NotificationsManager(QObject):
 		"""
 		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -118,7 +121,8 @@ class NotificationsManager(QObject):
 		"""
 		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -139,7 +143,8 @@ class NotificationsManager(QObject):
 		"""
 		Property for **self.__notifications** attribute.
 
-		:return: self.__notifications. ( List )
+		:return: self.__notifications.
+		:rtype: list
 		"""
 
 		return self.__notifications
@@ -150,7 +155,8 @@ class NotificationsManager(QObject):
 		"""
 		Setter for **self.__notifications** attribute.
 
-		:param value: Attribute value. ( List )
+		:param value: Attribute value.
+		:type value: list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -171,7 +177,8 @@ class NotificationsManager(QObject):
 		"""
 		Property for **self.__notifiers** attribute.
 
-		:return: self.__notifiers. ( List )
+		:return: self.__notifiers.
+		:rtype: list
 		"""
 
 		return self.__notifiers
@@ -182,7 +189,8 @@ class NotificationsManager(QObject):
 		"""
 		Setter for **self.__notifiers** attribute.
 
-		:param value: Attribute value. ( List )
+		:param value: Attribute value.
+		:type value: list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -203,7 +211,8 @@ class NotificationsManager(QObject):
 		"""
 		Property for **self.__notifiersStackPadding** attribute.
 
-		:return: self.__notifiersStackPadding. ( Integer )
+		:return: self.__notifiersStackPadding.
+		:rtype: int
 		"""
 
 		return self.__notifiersStackPadding
@@ -214,7 +223,8 @@ class NotificationsManager(QObject):
 		"""
 		Setter for **self.__notifiersStackPadding** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -239,7 +249,8 @@ class NotificationsManager(QObject):
 		"""
 		Reimplements the :meth:`object.__iter__` method.
 
-		:return: Notifications iterator. ( Object )
+		:return: Notifications iterator.
+		:rtype: object
 		"""
 
 		return iter(self.__notifications)
@@ -248,7 +259,8 @@ class NotificationsManager(QObject):
 		"""
 		Reimplements the :meth:`object.__len__` method.
 
-		:return: Notifications count. ( Integer )
+		:return: Notifications count.
+		:rtype: int
 		"""
 
 		return len(self.__notifications)
@@ -264,7 +276,8 @@ class NotificationsManager(QObject):
 		"""
 		Offsets existing notifiers.
 
-		:param offset: Offset. ( Integer )
+		:param offset: Offset.
+		:type offset: int
 		"""
 
 		for notifier in self.__notifiers:
@@ -275,7 +288,8 @@ class NotificationsManager(QObject):
 		"""
 		Returns the registered notifications.
 
-		:return: Notifications list. ( List )
+		:return: Notifications list.
+		:rtype: list
 		"""
 
 		return [self.formatNotification(notification) for notification in self]
@@ -284,8 +298,10 @@ class NotificationsManager(QObject):
 		"""
 		Returns if the given notification is registered.
 
-		:param notification: Notification. ( String )
-		:return: Is notification registered. ( Boolean )
+		:param notification: Notification.
+		:type notification: unicode
+		:return: Is notification registered.
+		:rtype: bool
 		"""
 
 		return notification in self
@@ -294,8 +310,10 @@ class NotificationsManager(QObject):
 		"""
 		Registers given notification.
 
-		:param notification: Notification to register. ( Notification )
-		:return: Method success. ( Boolean )
+		:param notification: Notification to register.
+		:type notification: Notification
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Registering notification: '{0}'.".format(notification))
@@ -308,8 +326,10 @@ class NotificationsManager(QObject):
 		"""
 		Formats given notification.
 
-		:param notification: Notification to format. ( Notification )
-		:return: Method success. ( Boolean )
+		:param notification: Notification to format.
+		:type notification: Notification
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return "{0} | '{1}'".format(time.ctime(notification.time), notification.message)
@@ -318,12 +338,18 @@ class NotificationsManager(QObject):
 		"""
 		Displays an Application notification.
 
-		:param message: Notification message. ( String )
-		:param duration: Notification display duration. ( Integer )
-		:param notificationClickedSlot: Notification clicked slot. ( Object )
-		:param messageLevel: Message level ( "Information", "Warning", "Exception" ). ( String )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		:return: Method success. ( Boolean )
+		:param message: Notification message.
+		:type message: unicode
+		:param duration: Notification display duration.
+		:type duration: int
+		:param notificationClickedSlot: Notification clicked slot.
+		:type notificationClickedSlot: object
+		:param messageLevel: Message level ( "Information", "Warning", "Exception" ).
+		:type messageLevel: unicode
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		notification = Notification(message=message, time=time.time())
@@ -357,11 +383,16 @@ class NotificationsManager(QObject):
 		"""
 		Displays an Application notification warning.
 
-		:param message: Notification message. ( String )
-		:param duration: Notification display duration. ( Integer )
-		:param notificationClickedSlot: Notification clicked slot. ( Object )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		:return: Method success. ( Boolean )
+		:param message: Notification message.
+		:type message: unicode
+		:param duration: Notification display duration.
+		:type duration: int
+		:param notificationClickedSlot: Notification clicked slot.
+		:type notificationClickedSlot: object
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.notify(message,
@@ -377,11 +408,16 @@ class NotificationsManager(QObject):
 		"""
 		Displays an Application notification exception.
 
-		:param message: Notification message. ( String )
-		:param duration: Notification display duration. ( Integer )
-		:param notificationClickedSlot: Notification clicked slot. ( Object )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		:return: Method success. ( Boolean )
+		:param message: Notification message.
+		:type message: unicode
+		:param duration: Notification display duration.
+		:type duration: int
+		:param notificationClickedSlot: Notification clicked slot.
+		:type notificationClickedSlot: object
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.notify(message,

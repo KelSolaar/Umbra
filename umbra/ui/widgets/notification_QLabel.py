@@ -64,7 +64,8 @@ class Notification_QLabel(QLabel):
 	"""
 	This signal is emited by the :class:`Notification_QLabel` class when it receives a mouse press event. ( pyqtSignal )
 
-	:return: Current notification text. ( QString )	
+	:return: Current notification text.
+	:rtype: QString
 	"""
 
 	fadedIn = pyqtSignal()
@@ -93,18 +94,30 @@ class Notification_QLabel(QLabel):
 		"""
 		Initializes the class.
 
-		:param parent: Widget parent. ( QObject )
-		:param color: Widget text color. ( QColor )
-		:param backgroundColor: Widget background color. ( QColor )
-		:param borderColor: Widget border color. ( QColor )
-		:param anchor: Widget anchoring area ( From 0 to 8 ). ( Integer )
-		:param horizontalPadding: Left padding relative to parent Widget. ( Integer )
-		:param verticalPadding: Bottom padding relative to parent Widget. ( Integer )
-		:param horizontalOffset: Widget horizontal offset. ( Integer )
-		:param verticalOffset: Widget vertical offset. ( Integer )
-		:param fadeSpeed: Notification fading speed. ( Float )
-		:param targetOpacity: Notification maximum target opacity. ( Float )
-		:param duration: Notification duration in milliseconds. ( Integer )
+		:param parent: Widget parent.
+		:type parent: QObject
+		:param color: Widget text color.
+		:type color: QColor
+		:param backgroundColor: Widget background color.
+		:type backgroundColor: QColor
+		:param borderColor: Widget border color.
+		:type borderColor: QColor
+		:param anchor: Widget anchoring area ( From 0 to 8 ).
+		:type anchor: int
+		:param horizontalPadding: Left padding relative to parent Widget.
+		:type horizontalPadding: int
+		:param verticalPadding: Bottom padding relative to parent Widget.
+		:type verticalPadding: int
+		:param horizontalOffset: Widget horizontal offset.
+		:type horizontalOffset: int
+		:param verticalOffset: Widget vertical offset.
+		:type verticalOffset: int
+		:param fadeSpeed: Notification fading speed.
+		:type fadeSpeed: float
+		:param targetOpacity: Notification maximum target opacity.
+		:type targetOpacity: float
+		:param duration: Notification duration in milliseconds.
+		:type duration: int
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -167,7 +180,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Property for **self.__color** attribute.
 
-		:return: self.__color. ( QColor )
+		:return: self.__color.
+		:rtype: QColor
 		"""
 
 		return self.__color
@@ -178,7 +192,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Setter for **self.__color** attribute.
 
-		:param value: Attribute value. ( QColor )
+		:param value: Attribute value.
+		:type value: QColor
 		"""
 
 		if value is not None:
@@ -201,7 +216,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Property for **self.__backgroundColor** attribute.
 
-		:return: self.__backgroundColor. ( QColor )
+		:return: self.__backgroundColor.
+		:rtype: QColor
 		"""
 
 		return self.__backgroundColor
@@ -212,7 +228,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Setter for **self.__backgroundColor** attribute.
 
-		:param value: Attribute value. ( QColor )
+		:param value: Attribute value.
+		:type value: QColor
 		"""
 
 		if value is not None:
@@ -235,7 +252,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Property for **self.__borderColor** attribute.
 
-		:return: self.__borderColor. ( QColor )
+		:return: self.__borderColor.
+		:rtype: QColor
 		"""
 
 		return self.__borderColor
@@ -246,7 +264,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Setter for **self.__borderColor** attribute.
 
-		:param value: Attribute value. ( QColor )
+		:param value: Attribute value.
+		:type value: QColor
 		"""
 
 		if value is not None:
@@ -269,7 +288,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Property for **self.__anchor** attribute.
 
-		:return: self.__anchor. ( Integer )
+		:return: self.__anchor.
+		:rtype: int
 		"""
 
 		return self.__anchor
@@ -280,7 +300,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Setter for **self.__anchor** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -303,7 +324,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Property for **self.__horizontalPadding** attribute.
 
-		:return: self.__horizontalPadding. ( Integer )
+		:return: self.__horizontalPadding.
+		:rtype: int
 		"""
 
 		return self.__horizontalPadding
@@ -314,7 +336,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Setter for **self.__horizontalPadding** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -337,7 +360,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Property for **self.__verticalPadding** attribute.
 
-		:return: self.__verticalPadding. ( Integer )
+		:return: self.__verticalPadding.
+		:rtype: int
 		"""
 
 		return self.__verticalPadding
@@ -348,7 +372,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Setter for **self.__verticalPadding** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -371,7 +396,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Property for **self.__horizontalOffset** attribute.
 
-		:return: self.__horizontalOffset. ( Integer )
+		:return: self.__horizontalOffset.
+		:rtype: int
 		"""
 
 		return self.__horizontalOffset
@@ -382,7 +408,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Setter for **self.__horizontalOffset** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -404,7 +431,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Property for **self.__verticalOffset** attribute.
 
-		:return: self.__verticalOffset. ( Integer )
+		:return: self.__verticalOffset.
+		:rtype: int
 		"""
 
 		return self.__verticalOffset
@@ -415,7 +443,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Setter for **self.__verticalOffset** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -437,7 +466,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Property for **self.__fadeSpeed** attribute.
 
-		:return: self.__fadeSpeed. ( Float )
+		:return: self.__fadeSpeed.
+		:rtype: float
 		"""
 
 		return self.__fadeSpeed
@@ -448,7 +478,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Setter for **self.__fadeSpeed** attribute.
 
-		:param value: Attribute value. ( Float )
+		:param value: Attribute value.
+		:type value: float
 		"""
 
 		if value is not None:
@@ -471,7 +502,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Property for **self.__targetOpacity** attribute.
 
-		:return: self.__targetOpacity. ( Float )
+		:return: self.__targetOpacity.
+		:rtype: float
 		"""
 
 		return self.__targetOpacity
@@ -482,7 +514,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Setter for **self.__targetOpacity** attribute.
 
-		:param value: Attribute value. ( Float )
+		:param value: Attribute value.
+		:type value: float
 		"""
 
 		if value is not None:
@@ -506,7 +539,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Property for **self.__duration** attribute.
 
-		:return: self.__duration. ( Integer )
+		:return: self.__duration.
+		:rtype: int
 		"""
 
 		return self.__duration
@@ -517,7 +551,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Setter for **self.__duration** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -540,7 +575,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Property for **self.__opacity** attribute.
 
-		:return: self.__opacity. ( Float )
+		:return: self.__opacity.
+		:rtype: float
 		"""
 
 		return self.__opacity
@@ -551,7 +587,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Setter for **self.__opacity** attribute.
 
-		:param value: Attribute value. ( Float )
+		:param value: Attribute value.
+		:type value: float
 		"""
 
 		if value is not None:
@@ -580,7 +617,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Property for **self.__style** attribute.
 
-		:return: self.__style. ( String )
+		:return: self.__style.
+		:rtype: unicode
 		"""
 
 		return self.__style
@@ -591,7 +629,8 @@ class Notification_QLabel(QLabel):
 		"""
 		Setter for **self.__style** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -614,7 +653,8 @@ class Notification_QLabel(QLabel):
 		"""
 		This method reimplements the :meth:`QLabel.setParent` method.
 
-		:param parent: Parent. ( QObject )
+		:param parent: Parent.
+		:type parent: QObject
 		"""
 
 		QLabel.setParent(self, parent)
@@ -624,7 +664,8 @@ class Notification_QLabel(QLabel):
 		"""
 		This method reimplements the :meth:`QLabel.resizeEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		QLabel.resizeEvent(self, event)
@@ -634,7 +675,8 @@ class Notification_QLabel(QLabel):
 		"""
 		This method reimplements the :meth:`QLabel.mousePressEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		self.notificationClicked.emit(self.text())
@@ -643,7 +685,8 @@ class Notification_QLabel(QLabel):
 		"""
 		This method reimplements the :meth:`QLabel.showEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		QLabel.showEvent(self, event)
@@ -653,7 +696,8 @@ class Notification_QLabel(QLabel):
 		"""
 		This method ensures that the Widget stays on top of the parent stack forcing the redraw.
 
-		:param \*args: Arguments. ( \* )
+		:param \*args: Arguments.
+		:type \*args: \*
 		"""
 
 		children = self.parent().children().remove(self)
@@ -757,9 +801,12 @@ class Notification_QLabel(QLabel):
 		"""
 		This method shows given message.
 		
-		:param message: Message. ( String )
-		:param duration: Notification duration in milliseconds. ( Integer )
-		:return: Method success. ( Boolean )
+		:param message: Message.
+		:type message: unicode
+		:param duration: Notification duration in milliseconds.
+		:type duration: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.setText(message)
@@ -777,7 +824,8 @@ class Notification_QLabel(QLabel):
 		"""
 		This method hides the current message.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.__fadeOut()
@@ -787,7 +835,8 @@ class Notification_QLabel(QLabel):
 		"""
 		This method refreshes the Widget position.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.__setPosition()

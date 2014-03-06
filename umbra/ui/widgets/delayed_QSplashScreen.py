@@ -61,10 +61,14 @@ class Delayed_QSplashScreen(QSplashScreen):
 		"""
 		Initializes the class.
 
-		:param pixmap: Current pixmap path. ( String )
-		:param waitTime: wait time. ( Integer )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param pixmap: Current pixmap path.
+		:type pixmap: unicode
+		:param waitTime: wait time.
+		:type waitTime: int
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -87,7 +91,8 @@ class Delayed_QSplashScreen(QSplashScreen):
 		"""
 		Property for **self.__waitTime** attribute.
 
-		:return: self.__waitTime ( Integer / Float )
+		:return: self.__waitTime
+		:rtype: int or float
 		"""
 
 		return self.__waitTime
@@ -98,7 +103,8 @@ class Delayed_QSplashScreen(QSplashScreen):
 		"""
 		Setter for **self.__waitTime** attribute.
 
-		:param value: Attribute value. ( Integer / Float )
+		:param value: Attribute value.
+		:type value: int or float
 		"""
 
 		if value is not None:
@@ -122,7 +128,8 @@ class Delayed_QSplashScreen(QSplashScreen):
 		"""
 		Property for **self.__textColor** attribute.
 
-		:return: self.__textColor ( Integer / QColor )
+		:return: self.__textColor
+		:rtype: int or QColor
 		"""
 
 		return self.__textColor
@@ -133,7 +140,8 @@ class Delayed_QSplashScreen(QSplashScreen):
 		"""
 		Setter for **self.__textColor** attribute.
 
-		:param value: Attribute value. ( Integer / QColor )
+		:param value: Attribute value.
+		:type value: int or QColor
 		"""
 
 		if value is not None:
@@ -158,10 +166,14 @@ class Delayed_QSplashScreen(QSplashScreen):
 		"""
 		Reimplements the :meth:`QSplashScreen.showMessage` method.
 
-		:param message: Message to display on the splashscreen. ( String )
-		:param textAlignement: Text message alignment. ( Object )
-		:param textColor: Text message color. ( Object )
-		:param waitTime: Wait time. ( Integer )
+		:param message: Message to display on the splashscreen.
+		:type message: unicode
+		:param textAlignement: Text message alignment.
+		:type textAlignement: object
+		:param textColor: Text message color.
+		:type textColor: object
+		:param waitTime: Wait time.
+		:type waitTime: int
 		"""
 
 		QSplashScreen.showMessage(self, message, textAlignement, self.__textColor if textColor is None else textColor)

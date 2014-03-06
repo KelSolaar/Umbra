@@ -60,7 +60,8 @@ class Layout(foundations.dataStructures.Structure):
 		"""
 		Initializes the class.
 
-		:param \*\*kwargs: name, identity, shortcut. ( Key / Value pairs )
+		:param \*\*kwargs: name, identity, shortcut.
+		:type \*\*kwargs: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -76,21 +77,24 @@ class LayoutsManager(QObject):
 	"""
 	This signal is emited by the :class:`LayoutsManager` class when the current layout has been restored. ( pyqtSignal )
 
-	:return: Current layout. ( String )	
+	:return: Current layout.
+	:rtype: unicode
 	"""
 
 	layoutStored = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`LayoutsManager` class when the current layout has been stored. ( pyqtSignal )
 
-	:return: Current layout. ( String )	
+	:return: Current layout.
+	:rtype: unicode
 	"""
 
 	def __init__(self, parent=None):
 		"""
 		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
+		:param parent: Object parent.
+		:type parent: QObject
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -118,7 +122,8 @@ class LayoutsManager(QObject):
 		"""
 		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -129,7 +134,8 @@ class LayoutsManager(QObject):
 		"""
 		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -150,7 +156,8 @@ class LayoutsManager(QObject):
 		"""
 		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( Preferences )
+		:return: self.__settings.
+		:rtype: Preferences
 		"""
 
 		return self.__settings
@@ -161,7 +168,8 @@ class LayoutsManager(QObject):
 		"""
 		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( Preferences )
+		:param value: Attribute value.
+		:type value: Preferences
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -182,7 +190,8 @@ class LayoutsManager(QObject):
 		"""
 		Property for **self.__layouts** attribute.
 
-		:return: self.__layouts. ( Dictionary )
+		:return: self.__layouts.
+		:rtype: dict
 		"""
 
 		return self.__layouts
@@ -193,7 +202,8 @@ class LayoutsManager(QObject):
 		"""
 		Setter for **self.__layouts** attribute.
 
-		:param value: Attribute value. ( Dictionary )
+		:param value: Attribute value.
+		:type value: dict
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -214,7 +224,8 @@ class LayoutsManager(QObject):
 		"""
 		Property for **self.__currentLayout** attribute.
 
-		:return: self.__currentLayout. ( Tuple / List )
+		:return: self.__currentLayout.
+		:rtype: tuple or list
 		"""
 
 		return self.__currentLayout
@@ -225,7 +236,8 @@ class LayoutsManager(QObject):
 		"""
 		Setter for **self.__currentLayout** attribute.
 
-		:param value: Attribute value. ( Tuple / List )
+		:param value: Attribute value.
+		:type value: tuple or list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -246,7 +258,8 @@ class LayoutsManager(QObject):
 		"""
 		Property for **self.__restoreGeometryOnLayoutChange** attribute.
 
-		:return: self.__restoreGeometryOnLayoutChange. ( Boolean )
+		:return: self.__restoreGeometryOnLayoutChange.
+		:rtype: bool
 		"""
 
 		return self.__restoreGeometryOnLayoutChange
@@ -257,7 +270,8 @@ class LayoutsManager(QObject):
 		"""
 		Setter for **self.__restoreGeometryOnLayoutChange** attribute.
 
-		:param value: Attribute value. ( Boolean )
+		:param value: Attribute value.
+		:type value: bool
 		"""
 
 		if value is not None:
@@ -282,8 +296,10 @@ class LayoutsManager(QObject):
 		"""
 		Reimplements the :meth:`object.__getitem__` method.
 
-		:param layout: Layout name. ( String )
-		:return: Layout. ( Layout )
+		:param layout: Layout name.
+		:type layout: unicode
+		:return: Layout.
+		:rtype: Layout
 		"""
 
 		return self.__layouts.__getitem__(layout)
@@ -292,7 +308,8 @@ class LayoutsManager(QObject):
 		"""
 		Reimplements the :meth:`object.__iter__` method.
 
-		:return: Layouts iterator. ( Object )
+		:return: Layouts iterator.
+		:rtype: object
 		"""
 
 		return self.__layouts.iteritems()
@@ -301,8 +318,10 @@ class LayoutsManager(QObject):
 		"""
 		Reimplements the :meth:`object.__contains__` method.
 
-		:param layout: Layout name. ( String )
-		:return: Layout existence. ( Boolean )
+		:param layout: Layout name.
+		:type layout: unicode
+		:return: Layout existence.
+		:rtype: bool
 		"""
 
 		return layout in self.__layouts.keys()
@@ -311,7 +330,8 @@ class LayoutsManager(QObject):
 		"""
 		Reimplements the :meth:`object.__len__` method.
 
-		:return: Layouts count. ( Integer )
+		:return: Layouts count.
+		:rtype: int
 		"""
 
 		return len(self.__layouts.keys())
@@ -320,7 +340,8 @@ class LayoutsManager(QObject):
 		"""
 		Returns the registered layouts.
 
-		:return: Registered layouts. ( List )
+		:return: Registered layouts.
+		:rtype: list
 		"""
 
 		return sorted(self.__layouts.keys())
@@ -329,8 +350,10 @@ class LayoutsManager(QObject):
 		"""
 		Returns if the given layout name is registered.
 
-		:param name: Layout name. ( String )
-		:return: Is layout registered. ( Boolean )
+		:param name: Layout name.
+		:type name: unicode
+		:return: Is layout registered.
+		:rtype: bool
 		"""
 
 		return name in self
@@ -340,9 +363,12 @@ class LayoutsManager(QObject):
 		"""
 		Registers given layout.
 
-		:param name: Layout name. ( String )
-		:param layout: Layout object. ( Layout )
-		:return: Method success. ( Boolean )
+		:param name: Layout name.
+		:type name: unicode
+		:param layout: Layout object.
+		:type layout: Layout
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if name in self:
@@ -357,9 +383,12 @@ class LayoutsManager(QObject):
 		"""
 		Unregisters given layout.
 
-		:param name: Layout name. ( String )
-		:param layout: Layout object. ( Layout )
-		:return: Method success. ( Boolean )
+		:param name: Layout name.
+		:type name: unicode
+		:param layout: Layout object.
+		:type layout: Layout
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not name in self:
@@ -374,9 +403,12 @@ class LayoutsManager(QObject):
 		"""
 		Restores given layout.
 
-		:param name: Layout name. ( String )
-		:param \*args: Arguments. ( \* )
-		:return: Method success. ( Boolean )
+		:param name: Layout name.
+		:type name: unicode
+		:param \*args: Arguments.
+		:type \*args: \*
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		layout = self.__layouts.get(name)
@@ -407,9 +439,12 @@ class LayoutsManager(QObject):
 		"""
 		Stores given layout.
 
-		:param name: Layout name. ( String )
-		:param \*args: Arguments. ( \* )
-		:return: Method success. ( Boolean )
+		:param name: Layout name.
+		:type name: unicode
+		:param \*args: Arguments.
+		:type \*args: \*
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		layout = self.__layouts.get(name)
@@ -430,7 +465,8 @@ class LayoutsManager(QObject):
 		"""
 		Restores the startup layout.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Restoring startup layout.")
@@ -444,7 +480,8 @@ class LayoutsManager(QObject):
 		"""
 		Stores the startup layout.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Storing startup layout.")

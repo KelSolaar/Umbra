@@ -66,10 +66,14 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param name: Component name. ( String )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param name: Component name.
+		:type name: unicode
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -99,7 +103,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__engine** attribute.
 
-		:return: self.__engine. ( QObject )
+		:return: self.__engine.
+		:rtype: QObject
 		"""
 
 		return self.__engine
@@ -110,7 +115,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__engine** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -131,7 +137,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( QSettings )
+		:return: self.__settings.
+		:rtype: QSettings
 		"""
 
 		return self.__settings
@@ -142,7 +149,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( QSettings )
+		:param value: Attribute value.
+		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -163,7 +171,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__settingsSection** attribute.
 
-		:return: self.__settingsSection. ( String )
+		:return: self.__settingsSection.
+		:rtype: unicode
 		"""
 
 		return self.__settingsSection
@@ -174,7 +183,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__settingsSection** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -195,7 +205,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__preferencesManager** attribute.
 
-		:return: self.__preferencesManager. ( QWidget )
+		:return: self.__preferencesManager.
+		:rtype: QWidget
 		"""
 
 		return self.__preferencesManager
@@ -206,7 +217,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__preferencesManager** attribute.
 
-		:param value: Attribute value. ( QWidget )
+		:param value: Attribute value.
+		:type value: QWidget
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -227,7 +239,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__scriptEditor** attribute.
 
-		:return: self.__scriptEditor. ( QWidget )
+		:return: self.__scriptEditor.
+		:rtype: QWidget
 		"""
 
 		return self.__scriptEditor
@@ -238,7 +251,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__scriptEditor** attribute.
 
-		:param value: Attribute value. ( QWidget )
+		:param value: Attribute value.
+		:type value: QWidget
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -259,7 +273,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__address** attribute.
 
-		:return: self.__address. ( String )
+		:return: self.__address.
+		:rtype: unicode
 		"""
 
 		return self.__address
@@ -270,7 +285,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__address** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -294,7 +310,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__port** attribute.
 
-		:return: self.__port. ( Integer )
+		:return: self.__port.
+		:rtype: int
 		"""
 
 		return self.__port
@@ -305,7 +322,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__port** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -331,7 +349,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__fileCommand** attribute.
 
-		:return: self.__fileCommand. ( String )
+		:return: self.__fileCommand.
+		:rtype: unicode
 		"""
 
 		return self.__fileCommand
@@ -342,7 +361,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__fileCommand** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -365,7 +385,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__connectionEnd** attribute.
 
-		:return: self.__connectionEnd. ( String )
+		:return: self.__connectionEnd.
+		:rtype: unicode
 		"""
 
 		return self.__connectionEnd
@@ -376,7 +397,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__connectionEnd** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -401,8 +423,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Activates the Component.
 
-		:param engine: Engine to attach the Component to. ( QObject )
-		:return: Method success. ( Boolean )
+		:param engine: Engine to attach the Component to.
+		:type engine: QObject
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
@@ -421,7 +445,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Deactivates the Component.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Deactivating '{0}' Component.".format(self.__class__.__name__))
@@ -439,7 +464,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Initializes the Component ui.
 		
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
@@ -464,7 +490,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Uninitializes the Component ui.
 		
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Uninitializing '{0}' Component ui.".format(self.__class__.__name__))
@@ -484,7 +511,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Adds the Component Widget to the engine.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Adding '{0}' Component Widget.".format(self.__class__.__name__))
@@ -497,7 +525,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Removes the Component Widget from the engine.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Removing '{0}' Component Widget.".format(self.__class__.__name__))
@@ -580,7 +609,8 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by the **Port_spinBox** Widget when value changed.
 
-		:param value: Port value. ( Integer )
+		:param value: Port value.
+		:type value: int
 		"""
 
 		LOGGER.debug("> 'Port' value: '{0}'.".format(value))
@@ -639,8 +669,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by **'Actions|Umbra|Components|addons.tcpServerUi|&Command|Send Selection To Server'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		editor = self.__scriptEditor.getCurrentEditor()
@@ -658,8 +690,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by **'Actions|Umbra|Components|addons.tcpServerUi|&Command|&Send Current File To Server'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		editor = self.__scriptEditor.getCurrentEditor()
@@ -673,9 +707,12 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Sends given data to the Server.
 
-		:param data: Data to send. ( String )
-		:param timeOut: Connection timeout in seconds. ( Float )
-		:return: Method success. ( Boolean )
+		:param data: Data to send.
+		:type data: unicode
+		:param timeOut: Connection timeout in seconds.
+		:type timeOut: float
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not data.endswith(self.__connectionEnd):

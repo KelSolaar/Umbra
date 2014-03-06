@@ -68,10 +68,14 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param name: Component name. ( String )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param name: Component name.
+		:type name: unicode
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -94,7 +98,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__dockArea** attribute.
 
-		:return: self.__dockArea. ( Integer )
+		:return: self.__dockArea.
+		:rtype: int
 		"""
 
 		return self.__dockArea
@@ -105,7 +110,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__dockArea** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -126,7 +132,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__engine** attribute.
 
-		:return: self.__engine. ( QObject )
+		:return: self.__engine.
+		:rtype: QObject
 		"""
 
 		return self.__engine
@@ -137,7 +144,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__engine** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -158,7 +166,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( QSettings )
+		:return: self.__settings.
+		:rtype: QSettings
 		"""
 
 		return self.__settings
@@ -169,7 +178,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( QSettings )
+		:param value: Attribute value.
+		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -192,8 +202,10 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Activates the Component.
 
-		:param engine: Engine to attach the Component to. ( QObject )
-		:return: Method success. ( Boolean )
+		:param engine: Engine to attach the Component to.
+		:type engine: QObject
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
@@ -218,7 +230,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Initializes the Component ui.
 		
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
@@ -252,7 +265,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Adds the Component Widget to the engine.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Adding '{0}' Component Widget.".format(self.__class__.__name__))
@@ -274,7 +288,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by the engine when verbosity level has changed.
 
-		:param verbosityLevel: Current verbosity level. ( Integer )
+		:param verbosityLevel: Current verbosity level.
+		:type verbosityLevel: int
 		"""
 
 		self.Verbose_Level_comboBox.setCurrentIndex(verbosityLevel)
@@ -296,7 +311,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by the **Logging_Formatter_comboBox** Widget when activated.
 
-		:param index: ComboBox activated item index. ( Integer )
+		:param index: ComboBox activated item index.
+		:type index: int
 		"""
 
 		formatter = foundations.strings.toString(self.Logging_Formatters_comboBox.currentText())
@@ -321,7 +337,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by the **Verbose_Level_ComboBox** Widget when activated.
 
-		:param index: ComboBox activated item index. ( Integer )
+		:param index: ComboBox activated item index.
+		:type index: int
 		"""
 
 		LOGGER.debug("> Setting verbose level: '{0}'.".format(self.Verbose_Level_comboBox.currentText()))
@@ -349,7 +366,8 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by **Restore_Geometry_On_Layout_Change_checkBox** Widget when state changed.
 
-		:param state: Checkbox state. ( Integer )
+		:param state: Checkbox state.
+		:type state: int
 		"""
 
 		LOGGER.debug("> 'Restore Geometry On Layout Change' state: '{0}'.".format(state))

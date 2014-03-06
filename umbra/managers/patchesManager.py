@@ -63,7 +63,8 @@ class Patch(foundations.dataStructures.Structure):
 		"""
 		Initializes the class.
 
-		:param \*\*kwargs: name, path, module, apply, uid. ( Key / Value pairs )
+		:param \*\*kwargs: name, path, module, apply, uid.
+		:type \*\*kwargs: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -79,9 +80,12 @@ class PatchesManager(object):
 		"""
 		Initializes the class.
 
-		:param historyFile: Patches history file. ( String )
-		:param paths: Patches paths. ( Tuple / List )
-		:param extension: Patches extension. ( String )
+		:param historyFile: Patches history file.
+		:type historyFile: unicode
+		:param paths: Patches paths.
+		:type paths: tuple or list
+		:param extension: Patches extension.
+		:type extension: unicode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -107,7 +111,8 @@ class PatchesManager(object):
 		"""
 		Property for **self.__historyFile** attribute.
 
-		:return: self.__historyFile. ( String )
+		:return: self.__historyFile.
+		:rtype: unicode
 		"""
 
 		return self.__historyFile
@@ -118,7 +123,8 @@ class PatchesManager(object):
 		"""
 		Setter for **self.__historyFile** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -141,7 +147,8 @@ class PatchesManager(object):
 		"""
 		Property for **self.__paths** attribute.
 
-		:return: self.__paths. ( Tuple / List )
+		:return: self.__paths.
+		:rtype: tuple or list
 		"""
 
 		return self.__paths
@@ -152,7 +159,8 @@ class PatchesManager(object):
 		"""
 		Setter for **self.__paths** attribute.
 
-		:param value: Attribute value. ( Tuple / List )
+		:param value: Attribute value.
+		:type value: tuple or list
 		"""
 
 		if value is not None:
@@ -179,7 +187,8 @@ class PatchesManager(object):
 		"""
 		Property for **self.__extension** attribute.
 
-		:return: self.__extension. ( String )
+		:return: self.__extension.
+		:rtype: unicode
 		"""
 
 		return self.__extension
@@ -190,7 +199,8 @@ class PatchesManager(object):
 		"""
 		Setter for **self.__extension** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -213,7 +223,8 @@ class PatchesManager(object):
 		"""
 		Property for **self.__patches** attribute.
 
-		:return: self.__patches. ( Dictionary )
+		:return: self.__patches.
+		:rtype: dict
 		"""
 
 		return self.__patches
@@ -224,7 +235,8 @@ class PatchesManager(object):
 		"""
 		Setter for **self.__patches** attribute.
 
-		:param value: Attribute value. ( Dictionary )
+		:param value: Attribute value.
+		:type value: dict
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -247,8 +259,10 @@ class PatchesManager(object):
 		"""
 		Reimplements the :meth:`object.__getitem__` method.
 
-		:param patch: Patch name. ( String )
-		:return: Patch. ( Patch )
+		:param patch: Patch name.
+		:type patch: unicode
+		:return: Patch.
+		:rtype: Patch
 		"""
 
 		return self.__patches.__getitem__(patch)
@@ -257,7 +271,8 @@ class PatchesManager(object):
 		"""
 		Reimplements the :meth:`object.__iter__` method.
 
-		:return: Patchs iterator. ( Object )
+		:return: Patchs iterator.
+		:rtype: object
 		"""
 
 		return self.__patches.iteritems()
@@ -266,8 +281,10 @@ class PatchesManager(object):
 		"""
 		Reimplements the :meth:`object.__contains__` method.
 
-		:param patch: Patch name. ( String )
-		:return: Patch existence. ( Boolean )
+		:param patch: Patch name.
+		:type patch: unicode
+		:return: Patch existence.
+		:rtype: bool
 		"""
 
 		return patch in self.__patches.keys()
@@ -276,7 +293,8 @@ class PatchesManager(object):
 		"""
 		Reimplements the :meth:`object.__len__` method.
 
-		:return: Patchs count. ( Integer )
+		:return: Patchs count.
+		:rtype: int
 		"""
 
 		return len(self.__patches.keys())
@@ -285,7 +303,8 @@ class PatchesManager(object):
 		"""
 		Returns the registered patches.
 
-		:return: Patches list. ( List )
+		:return: Patches list.
+		:rtype: list
 		"""
 
 		return sorted(self.__patches.keys())
@@ -294,8 +313,10 @@ class PatchesManager(object):
 		"""
 		Returns if the given patch is registered.
 
-		:param patch: Patch. ( String )
-		:return: Is patch registered. ( Boolean )
+		:param patch: Patch.
+		:type patch: unicode
+		:return: Is patch registered.
+		:rtype: bool
 		"""
 
 		return patch in self
@@ -305,9 +326,12 @@ class PatchesManager(object):
 		"""
 		Registers given patch.
 
-		:param name: Patch name. ( String )
-		:param path: Patch path. ( String )
-		:return: Method success. ( Boolean )
+		:param name: Patch name.
+		:type name: unicode
+		:param path: Patch path.
+		:type path: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		patch = foundations.strings.getSplitextBasename(path)
@@ -333,7 +357,8 @@ class PatchesManager(object):
 		"""
 		Registers the patches.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.__paths:
@@ -358,8 +383,10 @@ class PatchesManager(object):
 		"""
 		Applies given patch.
 
-		:param patch: Patch. ( Patch )
-		:return: Method success. ( Boolean )
+		:param patch: Patch.
+		:type patch: Patch
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		historyFile = File(self.__historyFile)
@@ -381,7 +408,8 @@ class PatchesManager(object):
 		"""
 		Applies the patches.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		success = True
@@ -393,8 +421,10 @@ class PatchesManager(object):
 		"""
 		Returns the patch with given uid.
 
-		:param uid: Patch uid. ( String )
-		:return: Patch. ( Patch )
+		:param uid: Patch uid.
+		:type uid: unicode
+		:return: Patch.
+		:rtype: Patch
 		"""
 
 		for name, patch in self:
