@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines languages manipulation related objects.
+	Defines languages manipulation related objects.
 
 **Others:**
 

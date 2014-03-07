@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`SearchInFiles` class.
+	Defines the :class:`SearchInFiles` class.
 
 **Others:**
 

@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`Reporter` class and various others exceptions handling related objects.
+	Defines the :class:`Reporter` class and various others exceptions handling related objects.
 
 **Others:**
 

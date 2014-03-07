@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`umbra.components.factory.traceUi.traceUi.TraceUi`
+	Defines the :class:`umbra.components.factory.traceUi.traceUi.TraceUi`
 	Component Interface class View.
 
 **Others:**

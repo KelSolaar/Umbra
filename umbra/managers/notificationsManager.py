@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`NotificationsManager` and :class:`Notification` classes.
+	Defines the :class:`NotificationsManager` and :class:`Notification` classes.
 
 **Others:**
 

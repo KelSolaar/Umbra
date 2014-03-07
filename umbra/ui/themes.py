@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the Application themes classes.
+	Defines the Application themes classes.
 
 **Others:**
 

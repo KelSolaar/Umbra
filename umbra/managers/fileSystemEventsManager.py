@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`FileSystemEventsManager` class.
+	Defines the :class:`FileSystemEventsManager` class.
 
 **Others:**
 

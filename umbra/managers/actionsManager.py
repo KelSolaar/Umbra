@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	| This module defines the :class:`ActionsManager` class.
+	| Defines the :class:`ActionsManager` class.
 	| The :class:`ActionsManager` class provides a centralized hub to manage Applications actions.
 	| It defines methods to register, unregister and list actions.
 

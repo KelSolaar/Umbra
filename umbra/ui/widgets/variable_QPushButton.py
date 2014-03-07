@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`Variable_QPushButton` class.
+	Defines the :class:`Variable_QPushButton` class.
 
 **Others:**
 

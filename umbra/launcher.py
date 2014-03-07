@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module runs the **Umbra** package :class:`umbra.engine.Umbra` engine class.
+	Runs the **Umbra** package :class:`umbra.engine.Umbra` engine class.
 
 **Others:**
 

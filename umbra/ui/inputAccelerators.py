@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the Application input accelerators objects.
+	Defines the Application input accelerators objects.
 
 **Others:**
 """

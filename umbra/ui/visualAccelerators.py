@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the Application visual accelerators objects.
+	Defines the Application visual accelerators objects.
 
 **Others:**
 """

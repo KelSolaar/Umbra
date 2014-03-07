@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`PreferencesManager` Component Interface class.
+	Defines the :class:`PreferencesManager` Component Interface class.
 
 **Others:**
 

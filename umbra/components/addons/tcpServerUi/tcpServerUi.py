@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`TCPServerUi` Component Interface class and others helper objects.
+	Defines the :class:`TCPServerUi` Component Interface class and others helper objects.
 
 **Others:**
 

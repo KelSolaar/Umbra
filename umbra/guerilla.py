@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines various guerilla / monkey patching objects.
+	Defines various guerilla / monkey patching objects.
 
 **Others:**
 	Portions of the code by Guido Van Rossum: http://mail.python.org/pipermail/python-dev/2008-January/076194.html

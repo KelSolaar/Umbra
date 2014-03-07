@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines **Umbra** package default constants through the :class:`Constants` class.
+	Defines **Umbra** package default constants through the :class:`Constants` class.
 
 **Others:**
 

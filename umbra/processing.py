@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`Processing` class.
+	Defines the :class:`Processing` class.
 
 **Others:**
 

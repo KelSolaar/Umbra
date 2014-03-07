@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the Application Delegates classes.
+	Defines the Application Delegates classes.
 
 **Others:**
 

@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`Active_QLabelsCollection` class.
+	Defines the :class:`Active_QLabelsCollection` class.
 
 **Others:**
 

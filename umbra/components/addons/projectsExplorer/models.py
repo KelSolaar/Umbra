@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`umbra.components.factory.projectsExplorer.projectsExplorer.ProjectsExplorer`
+	Defines the :class:`umbra.components.factory.projectsExplorer.projectsExplorer.ProjectsExplorer`
 	Component Interface class Models.
 
 **Others:**

@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module is a dummy patch provided as an example file.
+	Is a dummy patch provided as an example file.
 
 **Others:**
 

@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines **Umbra** package ui constants through the :class:`UiConstants` class.
+	Defines **Umbra** package ui constants through the :class:`UiConstants` class.
 
 **Others:**
 

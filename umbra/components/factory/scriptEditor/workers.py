@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Defines the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class Workers.
 
 **Others:**

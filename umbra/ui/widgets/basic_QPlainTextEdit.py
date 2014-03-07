@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`Basic_QPlainTextEdit` class.
+	Defines the :class:`Basic_QPlainTextEdit` class.
 
 **Others:**
 	Portions of the code from codeeditor.py by Roberto Alsina: http://lateral.netmanagers.com.ar/weblog/posts/BB832.html,

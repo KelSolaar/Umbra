@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	| This module is the main **Umbra** package module.
+	| Is the main **Umbra** package module.
 	| It defines various classes, methods and definitions to run, maintain and exit the Application.
 	| The main Application object is the :class:`Umbra` class.
 

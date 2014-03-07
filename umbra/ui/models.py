@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the Application Models classes.
+	Defines the Application Models classes.
 
 **Others:**
 

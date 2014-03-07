@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`Editor` class and others editing helper objects.
+	Defines the :class:`Editor` class and others editing helper objects.
 
 **Others:**
 

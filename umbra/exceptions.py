@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines **Umbra** package exceptions. 
+	Defines **Umbra** package exceptions. 
 
 **Others:**
 

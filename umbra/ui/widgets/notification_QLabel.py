@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`Notification_QLabel` class.
+	Defines the :class:`Notification_QLabel` class.
 
 **Others:**
 	Portions of the code and logic from Prymatex:
