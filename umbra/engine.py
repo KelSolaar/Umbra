@@ -8,8 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	| Is the main **Umbra** package module.
-	| It defines various classes, methods and definitions to run, maintain and exit the Application.
+	| Defines various classes, methods and definitions to run, maintain and exit the Application.
 	| The main Application object is the :class:`Umbra` class.
 
 **Others:**
@@ -129,16 +128,17 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "SESSION_HEADER_TEXT",
-			"SESSION_FOOTER_TEXT",
-			"showProcessing",
-			"encapsulateProcessing",
-			"Umbra",
-			"setUserApplicationDataDirectory",
-			"getCommandLineParametersParser",
-			"getLoggingFile",
-			"run",
-			"exit"]
+__all__ = ["LOGGER",
+		"SESSION_HEADER_TEXT",
+		"SESSION_FOOTER_TEXT",
+		"showProcessing",
+		"encapsulateProcessing",
+		"Umbra",
+		"setUserApplicationDataDirectory",
+		"getCommandLineParametersParser",
+		"getLoggingFile",
+		"run",
+		"exit"]
 
 LOGGER = foundations.verbose.installLogger()
 
@@ -1015,12 +1015,46 @@ component, error)))
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingSessionHandlerStream"))
 
 	@property
+	def loggingActiveFormatter(self):
+		"""
+		Property for **self.__loggingActiveFormatter** attribute.
+
+		:return: self.__loggingActiveFormatter.
+		:rtype: Formatter
+		"""
+
+		return self.__loggingActiveFormatter
+
+	@loggingActiveFormatter.setter
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	def loggingActiveFormatter(self, value):
+		"""
+		Setter for **self.__loggingActiveFormatter** attribute.
+
+		:param value: Attribute value.
+		:type value: Formatter
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingActiveFormatter"))
+
+	@loggingActiveFormatter.deleter
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	def loggingActiveFormatter(self):
+		"""
+		Deleter for **self.__loggingActiveFormatter** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingActiveFormatter"))
+
+	@property
 	def settings(self):
 		"""
 		Property for **self.__settings** attribute.
 
 		:return: self.__settings.
-		:rtype: QSettings
+		:rtype: Preferences
 		"""
 
 		return self.__settings
@@ -1032,7 +1066,7 @@ component, error)))
 		Setter for **self.__settings** attribute.
 
 		:param value: Attribute value.
-		:type value: QSettings
+		:type value: Preferences
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1654,6 +1688,7 @@ component, error)))
 		self.Application_Progress_Status_processing.Processing_progressBar.setValue(0)
 		self.Application_Progress_Status_processing.hide()
 		return True
+
 	def garbageCollect(self):
 		"""
 		Triggers the garbage collecting.
@@ -1913,6 +1948,8 @@ You will have to define your own preferences directory by launching {0} with the
 	LOGGER.debug("> Application startup location: '{0}'".format(os.getcwd()))
 	LOGGER.debug("> Session user Application data directory: '{0}'".format(RuntimeGlobals.userApplicationDataDirectory))
 
+	LOGGER.debug("> Initializing '{0}'!".format(Constants.applicationName))
+
 	# Getting the logging file path.
 	RuntimeGlobals.loggingFile = getLoggingFile()
 	RuntimeGlobals.loggingFileHandler = foundations.verbose.getLoggingFileHandler(file=RuntimeGlobals.loggingFile)
@@ -1928,7 +1965,6 @@ You will have to define your own preferences directory by launching {0} with the
 	RuntimeGlobals.patchesManager.registerPatches() and RuntimeGlobals.patchesManager.applyPatches()
 
 	# Retrieving settings file.
-	LOGGER.debug("> Initializing '{0}'!".format(Constants.applicationName))
 	RuntimeGlobals.settingsFile = os.path.join(RuntimeGlobals.userApplicationDataDirectory,
 												Constants.settingsDirectory,
 												Constants.settingsFile)
@@ -1949,10 +1985,10 @@ You will have to define your own preferences directory by launching {0} with the
 	RuntimeGlobals.settings.setKey("Settings", "verbosityLevel", RuntimeGlobals.verbosityLevel)
 
 	LOGGER.debug("> Retrieving stored logging formatter.")
-	loggingFormatter = RuntimeGlobals.parameters.loggingFormater and RuntimeGlobals.parameters.loggingFormater or \
+	loggingFormatter = RuntimeGlobals.parameters.loggingFormater if RuntimeGlobals.parameters.loggingFormater is not None else \
 	foundations.strings.toString(RuntimeGlobals.settings.getKey("Settings", "loggingFormatter").toString())
-	loggingFormatter = loggingFormatter in RuntimeGlobals.loggingFormatters and loggingFormatter or None
-	RuntimeGlobals.loggingActiveFormatter = loggingFormatter and loggingFormatter or Constants.loggingDefaultFormatter
+	loggingFormatter = loggingFormatter if loggingFormatter in RuntimeGlobals.loggingFormatters else None
+	RuntimeGlobals.loggingActiveFormatter = loggingFormatter if loggingFormatter is not None else Constants.loggingDefaultFormatter
 	LOGGER.debug("> Setting logging formatter: '{0}'.".format(RuntimeGlobals.loggingActiveFormatter))
 	for handler in (RuntimeGlobals.loggingConsoleHandler, RuntimeGlobals.loggingFileHandler):
 		handler and handler.setFormatter(RuntimeGlobals.loggingFormatters[RuntimeGlobals.loggingActiveFormatter])
