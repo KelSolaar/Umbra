@@ -1026,17 +1026,19 @@ component, error)))
 		return self.__loggingActiveFormatter
 
 	@loggingActiveFormatter.setter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handleExceptions(AssertionError)
 	def loggingActiveFormatter(self, value):
 		"""
 		Setter for **self.__loggingActiveFormatter** attribute.
 
 		:param value: Attribute value.
-		:type value: Formatter
+		:type value: unicode or QString
 		"""
 
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingActiveFormatter"))
+		if value is not None:
+			assert type(value) in (unicode, QString), "'{0}' attribute: '{1}' type is not 'unicode' or 'QString'!".format(
+			"loggingActiveFormatter", value)
+		self.__loggingActiveFormatter = value
 
 	@loggingActiveFormatter.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
@@ -1752,28 +1754,26 @@ component, error)))
 		exit(exitCode)
 
 @umbra.reporter.criticalExceptionHandler
-def setUserApplicationDataDirectory(path):
+def setUserApplicationDataDirectory(directory):
 	"""
-	Sets the Application data directory.
+	Sets the user Application data directory.
 
-	:param path: Starting point for the directories tree creation.
-	:type path: unicode
+	:param directory: Starting point for the directories tree creation.
+	:type directory: unicode
 	:return: Definition success.
 	:rtype: bool
 	"""
 
-	userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory
-
-	LOGGER.debug("> Current Application data directory '{0}'.".format(userApplicationDataDirectory))
-	if foundations.io.setDirectory(userApplicationDataDirectory):
-		for directory in Constants.preferencesDirectories:
-			if not foundations.io.setDirectory(os.path.join(userApplicationDataDirectory, directory)):
+	LOGGER.debug("> Current Application data directory '{0}'.".format(directory))
+	if foundations.io.setDirectory(directory):
+		for subDirectory in Constants.preferencesDirectories:
+			if not foundations.io.setDirectory(os.path.join(directory, subDirectory)):
 				raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(
-				__name__, os.path.join(userApplicationDataDirectory, directory), Constants.applicationName))
+				__name__, os.path.join(directory, subDirectory), Constants.applicationName))
 		return True
 	else:
 		raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(__name__,
-																							userApplicationDataDirectory,
+																							directory,
 																							Constants.applicationName))
 
 def getCommandLineParametersParser():
@@ -1810,7 +1810,7 @@ def getCommandLineParametersParser():
 					"--loggingFormatter",
 					action="store",
 					type="string",
-					dest="loggingFormater",
+					dest="loggingFormatter",
 					help="'Application logging formatter: '{0}'.'".format(
 					", ".join(sorted(RuntimeGlobals.loggingFormatters))))
 	parser.add_option("-u",
@@ -1922,10 +1922,12 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 
 	# Setting user application data directory.
 	if RuntimeGlobals.parameters.userApplicationDataDirectory:
-		RuntimeGlobals.userApplicationDataDirectory = RuntimeGlobals.parameters.userApplicationDataDirectory
+		userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory = \
+									RuntimeGlobals.parameters.userApplicationDataDirectory
 	else:
 		systemApplicationDataDirectory = foundations.environment.getSystemApplicationDataDirectory()
-		userApplicationDataDirectory = foundations.environment.getUserApplicationDataDirectory()
+		userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory = \
+									foundations.environment.getUserApplicationDataDirectory()
 		if not foundations.common.pathExists(systemApplicationDataDirectory):
 			umbra.ui.widgets.messageBox.messageBox("Error",
 			"Error",
@@ -1937,9 +1939,8 @@ and has defaulted to the following directory:\n\n\t'{1}'.\n\nReasons for this ar
 You will have to define your own preferences directory by launching {0} with the \
 '-u \"path\\to\\the\\custom\\preferences\\directory\"' command line parameter.".format(Constants.applicationName,
 																				userApplicationDataDirectory))
-		RuntimeGlobals.userApplicationDataDirectory = userApplicationDataDirectory
 
-	if not setUserApplicationDataDirectory(RuntimeGlobals.userApplicationDataDirectory):
+	if not setUserApplicationDataDirectory(userApplicationDataDirectory):
 		raise umbra.exceptions.EngineConfigurationError(
 		"{0} | '{1}' user Application data directory is not available, '{2}' will now close!".format(
 		__name__, RuntimeGlobals.userApplicationDataDirectory, Constants.applicationName))
@@ -1985,7 +1986,7 @@ You will have to define your own preferences directory by launching {0} with the
 	RuntimeGlobals.settings.setKey("Settings", "verbosityLevel", RuntimeGlobals.verbosityLevel)
 
 	LOGGER.debug("> Retrieving stored logging formatter.")
-	loggingFormatter = RuntimeGlobals.parameters.loggingFormater if RuntimeGlobals.parameters.loggingFormater is not None else \
+	loggingFormatter = RuntimeGlobals.parameters.loggingFormatter if RuntimeGlobals.parameters.loggingFormatter is not None else \
 	foundations.strings.toString(RuntimeGlobals.settings.getKey("Settings", "loggingFormatter").toString())
 	loggingFormatter = loggingFormatter if loggingFormatter in RuntimeGlobals.loggingFormatters else None
 	RuntimeGlobals.loggingActiveFormatter = loggingFormatter if loggingFormatter is not None else Constants.loggingDefaultFormatter
