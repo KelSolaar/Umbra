@@ -422,7 +422,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		:rtype: bool
 		"""
 
-		# TODO: This method should be refactored once this ticket is fixed:
+		# TODO: Should be refactored once this ticket is fixed:
 		# https://bugreports.qt-project.org/browse/PYSIDE-78
 		if not fromIndex >= 0 or \
 		not fromIndex < parent.childrenCount() or \

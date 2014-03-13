@@ -613,7 +613,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 		:return: Method success.
 		:rtype: bool
 		
-		:note: This method may require user interaction.
+		:note: May require user interaction.
 		"""
 
 		file = file or umbra.ui.common.storeLastBrowsedPath(QFileDialog.getSaveFileName(self, "Save As:", self.__file))

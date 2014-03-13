@@ -618,7 +618,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	#******************************************************************************************************************
 	def activate(self, engine):
 		"""
-		This method activates the Component.
+		Activates the Component.
 
 		:param engine: Engine to attach the Component to.
 		:type engine: QObject
@@ -639,7 +639,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def deactivate(self):
 		"""
-		This method deactivates the Component.
+		Deactivates the Component.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -647,7 +647,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def initializeUi(self):
 		"""
-		This method initializes the Component ui.
+		Initializes the Component ui.
 		
 		:return: Method success.
 		:rtype: bool
@@ -681,7 +681,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def uninitializeUi(self):
 		"""
-		This method uninitializes the Component ui.
+		Uninitializes the Component ui.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -689,7 +689,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def addWidget(self):
 		"""
-		This method adds the Component Widget to the engine.
+		Adds the Component Widget to the engine.
 
 		:return: Method success.
 		:rtype: bool
@@ -704,7 +704,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def removeWidget(self):
 		"""
-		This method removes the Component Widget from the engine.
+		Removes the Component Widget from the engine.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -712,7 +712,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def onStartup(self):
 		"""
-		This method is triggered on Framework startup.
+		Defines the slot triggered by Framework startup.
 
 		:return: Method success.
 		:rtype: bool
@@ -725,7 +725,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __model__refreshNodes(self):
 		"""
-		This method is triggered when the Model data need refresh.
+		Defines the slot triggered by the Model when nodes need refresh.
 		"""
 
 		LOGGER.debug("> Refreshing '{0}' Model!".format("Components_Manager_Ui_treeView"))
@@ -734,7 +734,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __view_addActions(self):
 		"""
-		This method sets the **Components_Manager_Ui_treeView** actions.
+		Sets the **Components_Manager_Ui_treeView** actions.
 		"""
 
 		self.Components_Manager_Ui_treeView.addAction(self.__engine.actionsManager.registerAction(
@@ -758,7 +758,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __view_activateComponentsAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.ComponentsManagerUi|Activate Component(s)'** action.
+		Defines the slot triggered by \*\*'Actions|Umbra|Components|factory.ComponentsManagerUi|Activate Component(s)'** action.
 
 		:param checked: Action checked state.
 		:type checked: bool
@@ -770,7 +770,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __view_deactivateComponentsAction__triggered(self, checked):
 		"""
-		This method is triggered by
+		Defines the slot triggered by
 		**'Actions|Umbra|Components|factory.ComponentsManagerUi|Deactivate Component(s)'** action.
 
 		:param checked: Action checked state.
@@ -783,7 +783,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __view_reloadComponentsAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.ComponentsManagerUi|Reload Component(s)'** action.
+		Defines the slot triggered by \*\*'Actions|Umbra|Components|factory.ComponentsManagerUi|Reload Component(s)'** action.
 
 		:param checked: Action checked state.
 		:type checked: bool
@@ -795,7 +795,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __view_selectionModel__selectionChanged(self, selectedItems, deselectedItems):
 		"""
-		This method sets the **Additional_Informations_textEdit** Widget.
+		Sets the **Additional_Informations_textEdit** Widget.
 
 		:param selectedItems: Selected items.
 		:type selectedItems: QItemSelection
@@ -823,7 +823,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __storeDeactivatedComponents(self):
 		"""
-		This method stores deactivated Components in settings file.
+		Stores deactivated Components in settings file.
 		"""
 
 		deactivatedComponents = []
@@ -839,12 +839,12 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@umbra.engine.encapsulateProcessing
 	def activateComponentsUi(self):
 		"""
-		This method activates user selected Components.
+		Activates user selected Components.
 
 		:return: Method success.
 		:rtype: bool
 
-		:note: This method may require user interaction.
+		:note: May require user interaction.
 		"""
 
 		selectedComponents = self.getSelectedComponents()
@@ -876,12 +876,12 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@umbra.engine.encapsulateProcessing
 	def deactivateComponentsUi(self):
 		"""
-		This method deactivates user selected Components.
+		Deactivates user selected Components.
 
 		:return: Method success.
 		:rtype: bool
 
-		:note: This method may require user interaction.
+		:note: May require user interaction.
 		"""
 
 		selectedComponents = self.getSelectedComponents()
@@ -918,12 +918,12 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@umbra.engine.encapsulateProcessing
 	def reloadComponentsUi(self):
 		"""
-		This method reloads user selected Components.
+		Reloads user selected Components.
 
 		:return: Method success.
 		:rtype: bool
 
-		:note: This method may require user interaction.
+		:note: May require user interaction.
 		"""
 
 		selectedComponents = self.getSelectedComponents()
@@ -952,7 +952,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(manager.exceptions.ComponentExistsError, Exception)
 	def activateComponent(self, name):
 		"""
-		This method activates given Component.
+		Activates given Component.
 
 		:param name: Component name.
 		:type name: unicode
@@ -985,7 +985,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 											manager.exceptions.ComponentDeactivationError)
 	def deactivateComponent(self, name):
 		"""
-		This method deactivates given Component.
+		Deactivates given Component.
 
 		:param name: Component name.
 		:type name: unicode
@@ -1022,7 +1022,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 											manager.exceptions.ComponentReloadError)
 	def reloadComponent(self, name):
 		"""
-		This method reloads given Component.
+		Reloads given Component.
 
 		:param name: Component name.
 		:type name: unicode
@@ -1075,7 +1075,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def getComponents(self):
 		"""
-		This method returns the Components.
+		Returns the Components.
 
 		:return: Components.
 		:rtype: list
@@ -1085,7 +1085,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def listComponents(self):
 		"""
-		This method lists the Components names.
+		Lists the Components names.
 
 		:return: Components names.
 		:rtype: list
@@ -1095,7 +1095,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def setComponents(self):
 		"""
-		This method sets the Components Model nodes.
+		Sets the Components Model nodes.
 		"""
 
 		nodeFlags = attributesFlags = int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
@@ -1143,7 +1143,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def getSelectedNodes(self):
 		"""
-		This method returns the View selected nodes.
+		Returns the View selected nodes.
 
 		:return: View selected nodes.
 		:rtype: dict
@@ -1153,7 +1153,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def getSelectedComponentsNodes(self):
 		"""
-		This method returns the View selected Components nodes.
+		Returns the View selected Components nodes.
 
 		:return: View selected Components nodes.
 		:rtype: list
@@ -1163,7 +1163,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def getSelectedComponents(self):
 		"""
-		This method gets the View selected Components.
+		Returns the View selected Components.
 
 		:return: View selected Components.
 		:rtype: list

@@ -651,7 +651,7 @@ class Notification_QLabel(QLabel):
 	#******************************************************************************************************************
 	def setParent(self, parent):
 		"""
-		This method reimplements the :meth:`QLabel.setParent` method.
+		Reimplements the :meth:`QLabel.setParent` method.
 
 		:param parent: Parent.
 		:type parent: QObject
@@ -662,7 +662,7 @@ class Notification_QLabel(QLabel):
 
 	def resizeEvent(self, event):
 		"""
-		This method reimplements the :meth:`QLabel.resizeEvent` method.
+		Reimplements the :meth:`QLabel.resizeEvent` method.
 
 		:param event: QEvent.
 		:type event: QEvent
@@ -673,7 +673,7 @@ class Notification_QLabel(QLabel):
 
 	def mousePressEvent(self, event):
 		"""
-		This method reimplements the :meth:`QLabel.mousePressEvent` method.
+		Reimplements the :meth:`QLabel.mousePressEvent` method.
 
 		:param event: QEvent.
 		:type event: QEvent
@@ -683,7 +683,7 @@ class Notification_QLabel(QLabel):
 
 	def showEvent(self, event):
 		"""
-		This method reimplements the :meth:`QLabel.showEvent` method.
+		Reimplements the :meth:`QLabel.showEvent` method.
 
 		:param event: QEvent.
 		:type event: QEvent
@@ -694,7 +694,7 @@ class Notification_QLabel(QLabel):
 
 	def __raise(self, *args):
 		"""
-		This method ensures that the Widget stays on top of the parent stack forcing the redraw.
+		Ensures that the Widget stays on top of the parent stack forcing the redraw.
 
 		:param \*args: Arguments.
 		:type \*args: \*
@@ -709,7 +709,7 @@ class Notification_QLabel(QLabel):
 
 	def __setPosition(self):
 		"""
-		This method sets the Widget position relatively to its parent.
+		Sets the Widget position relatively to its parent.
 		"""
 
 		rectangle = hasattr(self.parent(), "viewport") and self.parent().viewport().rect() or self.parent().rect()
@@ -750,7 +750,7 @@ class Notification_QLabel(QLabel):
 
 	def __fadeIn(self):
 		"""
-		This method starts the Widget fade in.
+		Starts the Widget fade in.
 		"""
 
 		self.__timer.stop()
@@ -759,7 +759,7 @@ class Notification_QLabel(QLabel):
 
 	def __fadeOut(self):
 		"""
-		This method starts the Widget fade out.
+		Starts the Widget fade out.
 		"""
 
 		self.__timer.stop()
@@ -768,7 +768,7 @@ class Notification_QLabel(QLabel):
 
 	def __setOpacity(self):
 		"""
-		This method sets the Widget opacity.
+		Sets the Widget opacity.
 		"""
 
 		if self.__vector > 0:
@@ -790,7 +790,7 @@ class Notification_QLabel(QLabel):
 
 	def __setStyleSheet(self):
 		"""
-		This method sets the Widget stylesheet.
+		Sets the Widget stylesheet.
 		"""
 
 		colors = map(lambda x:"rgb({0}, {1}, {2}, {3})".format(x.red(), x.green(), x.blue(), int(self.__opacity * 255)),
@@ -799,7 +799,7 @@ class Notification_QLabel(QLabel):
 
 	def showMessage(self, message, duration=2500):
 		"""
-		This method shows given message.
+		Shows given message.
 		
 		:param message: Message.
 		:type message: unicode
@@ -822,7 +822,7 @@ class Notification_QLabel(QLabel):
 
 	def hideMessage(self):
 		"""
-		This method hides the current message.
+		Hides the current message.
 
 		:return: Method success.
 		:rtype: bool
@@ -833,7 +833,7 @@ class Notification_QLabel(QLabel):
 
 	def refreshPosition(self):
 		"""
-		This method refreshes the Widget position.
+		Refreshes the Widget position.
 
 		:return: Method success.
 		:rtype: bool

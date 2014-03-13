@@ -246,7 +246,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
 		:param attributesFlags: Attributes flags.
 		:type attributesFlags: int
@@ -270,7 +270,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 
 	def updateToolTip(self):
 		"""
-		This method updates the node tooltip.
+		Updates the node tooltip.
 
 		:return: Method success.
 		:rtype: bool

@@ -1971,7 +1971,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __engine_fileSystemEventsManager__fileChanged(self, file):
 		"""
-		Defines the slot triggered by **fileSystemEventsManager** when a file is changed.
+		Defines the slot triggered by the **fileSystemEventsManager** when a file is changed.
 		
 		:param file: File changed.
 		:type file: unicode
@@ -1983,7 +1983,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __engine_fileSystemEventsManager__fileInvalidated(self, file):
 		"""
-		Defines the slot triggered by **fileSystemEventsManager** when a file is invalidated.
+		Defines the slot triggered by the **fileSystemEventsManager** when a file is invalidated.
 		
 		:param file: File changed.
 		:type file: unicode
@@ -1996,7 +1996,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __engine_fileSystemEventsManager__directoryChanged(self, directory):
 		"""
-		Defines the slot triggered by **fileSystemEventsManager** when a directory is changed.
+		Defines the slot triggered by the **fileSystemEventsManager** when a directory is changed.
 		
 		:param directory: Directory changed.
 		:type directory: unicode
@@ -2013,7 +2013,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __engine_fileSystemEventsManager__directoryInvalidated(self, directory):
 		"""
-		Defines the slot triggered by **fileSystemEventsManager** when a directory is invalidated.
+		Defines the slot triggered by the **fileSystemEventsManager** when a directory is invalidated.
 		
 		:param directory: Directory invalidated.
 		:type directory: unicode
@@ -2987,7 +2987,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success.
 		:rtype: bool
 		
-		:note: This method may require user interaction.
+		:note: May require user interaction.
 		"""
 
 		editor = self.getCurrentEditor()
@@ -3013,7 +3013,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success.
 		:rtype: bool
 		
-		:note: This method may require user interaction.
+		:note: May require user interaction.
 		"""
 
 		directory = umbra.ui.common.storeLastBrowsedPath(QFileDialog.getExistingDirectory(self,
@@ -3031,7 +3031,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success.
 		:rtype: bool
 
-		:note: This method may require user interaction.
+		:note: May require user interaction.
 		"""
 
 		self.__searchAndReplace.show()
@@ -3044,7 +3044,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success.
 		:rtype: bool
 
-		:note: This method may require user interaction.
+		:note: May require user interaction.
 		"""
 
 		self.__searchInFiles.show()
@@ -3604,7 +3604,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:return: Method success.
 		:rtype: bool
 
-		:note: This method may require user interaction.
+		:note: May require user interaction.
 		"""
 
 		editor = self.getCurrentEditor()

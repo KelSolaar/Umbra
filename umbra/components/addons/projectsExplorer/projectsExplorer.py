@@ -836,7 +836,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	# def __view_copyAction__triggered(self, checked):
 	# 	"""
-	# 	This method is triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Copy ..."'** action.
+	# 	Defines the slot triggered by \*\*'"Actions|Umbra|Components|addons.projectsExplorer|Copy ..."'** action.
 	#
 	# 	:param checked: Checked state.
 	# 	:type :param: bool
@@ -848,7 +848,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	# def __view_moveAction__triggered(self, checked):
 	# 	"""
-	# 	This method is triggered by **'"Actions|Umbra|Components|addons.projectsExplorer|Move ..."'** action.
+	# 	Defines the slot triggered by \*\*'"Actions|Umbra|Components|addons.projectsExplorer|Move ..."'** action.
 	#
 	# 	:param checked: Checked state.
 	# 	:type :param: bool
