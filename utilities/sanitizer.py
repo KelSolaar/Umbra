@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 """
-**reStructuredTextToHtml.py**
+**sanitizer.py**
 
 **Platform:**
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	Converts a reStructuredText file to html.
+	Sanitizes python module file. :func:`bleach` definition is called by **Oncilla** package.
 
 **Others:**
 
@@ -22,12 +22,12 @@ from __future__ import unicode_literals
 #**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
-import os
-import sys
+import re
 
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
+import foundations.strings
 import foundations.verbose
 from foundations.io import File
 
@@ -42,19 +42,24 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-		"RST2HTML",
-		"CSS_FILE",
-		"TIDY_SETTINGS_FILE",
-		"NORMALIZATION",
-		"reStructuredTextToHtml"]
+		   "STATEMENT_UPDATE_MESSAGE",
+		   "CONTENT_SUBSTITUTE",
+		   "bleach"]
 
 LOGGER = foundations.verbose.installLogger()
 
-RST2HTML = "/Users/$USER/Documents/Development/VirtualEnv/HDRLabs/bin/rst2html.py"
-CSS_FILE = "css/style.css"
-TIDY_SETTINGS_FILE = "tidy/tidySettings.rc"
+STATEMENT_UPDATE_MESSAGE = "# Oncilla: Statement commented by auto-documentation process: "
 
-NORMALIZATION = {"document": "document"}
+CONTENT_SUBSTITUTE = ("(\n)(?P<bleach>\s*if\s+__name__\s+==\s+[\"']__main__[\"']\s*:.*)",
+					  "(\n)(?P<bleach>\s*@(?!property|\w+\.setter|\w+\.deleter).*?)(\n+\s*def\s+)",
+					  "(\n)(?P<bleach>\s*_initializeApplication\(\))")
+
+CONTENT_REPLACE = {"PYTHON_LANGUAGE = getPythonLanguage()": \
+					   "{0}\nPYTHON_LANGUAGE = None".format(STATEMENT_UPDATE_MESSAGE),
+				   "LOGGING_LANGUAGE = getLoggingLanguage()": \
+					   "{0}\nLOGGING_LANGUAGE = None".format(STATEMENT_UPDATE_MESSAGE),
+				   "TEXT_LANGUAGE = getTextLanguage()": \
+					   "{0}\nTEXT_LANGUAGE = None".format(STATEMENT_UPDATE_MESSAGE)}
 
 foundations.verbose.getLoggingConsoleHandler()
 foundations.verbose.setVerbosityLevel(3)
@@ -62,31 +67,37 @@ foundations.verbose.setVerbosityLevel(3)
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-def reStructuredTextToHtml(fileIn, fileOut):
+def bleach(file):
 	"""
-	Outputs a reStructuredText file to html.
+	Sanitizes given python module.
 
-	:param fileIn: File to convert.
-	:type fileIn: unicode
-	:param fileOut: Output file.
-	:type fileOut: unicode
+	:param file: Python module file.
+	:type file: unicode
+	:return: Definition success.
+	:rtype: bool
 	"""
 
-	LOGGER.info("{0} | Converting '{1}' reStructuredText file to html!".format(reStructuredTextToHtml.__name__, fileIn))
-	os.system("{0} --stylesheet-path='{1}' '{2}' > '{3}'".format(RST2HTML,
-																os.path.join(os.path.dirname(__file__), CSS_FILE),
-																fileIn,
-																fileOut))
+	LOGGER.info("{0} | Sanitizing '{1}' python module!".format(__name__, file))
 
-	LOGGER.info("{0} | Formatting html file!".format("Tidy"))
-	os.system("tidy -config {0} -m '{1}'".format(os.path.join(os.path.dirname(__file__), TIDY_SETTINGS_FILE), fileOut))
+	sourceFile = File(file)
+	content = sourceFile.read()
+	for pattern in CONTENT_SUBSTITUTE:
+		matches = [match for match in re.finditer(pattern, content, re.DOTALL)]
 
-	file = File(fileOut)
-	file.cache()
-	LOGGER.info("{0} | Replacing spaces with tabs!".format(reStructuredTextToHtml.__name__))
-	file.content = [line.replace(" " * 4, "\t") for line in file.content]
-	file.write()
+		offset = 0
+		for match in matches:
+			start, end = match.start("bleach"), match.end("bleach")
+			substitution = "{0}{1}".format(STATEMENT_UPDATE_MESSAGE,
+										   re.sub("\n", "\n{0}".format(STATEMENT_UPDATE_MESSAGE),
+												  match.group("bleach")))
+			content = "".join((content[0: start + offset],
+							   substitution,
+							   content[end + offset:]))
+			offset += len(substitution) - len(match.group("bleach"))
 
-if __name__ == "__main__":
-	arguments = map(unicode, sys.argv)
-	reStructuredTextToHtml(arguments[1], arguments[2])
+	content = foundations.strings.replace(content, CONTENT_REPLACE)
+
+	sourceFile.content = [content]
+	sourceFile.write()
+
+	return True
