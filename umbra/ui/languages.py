@@ -140,7 +140,7 @@ def getLanguageDescription(grammarfile):
 	LOGGER.debug("> Processing '{0}' grammar file.".format(grammarfile))
 
 	sectionsParser = foundations.parsers.SectionsFileParser(grammarfile)
-	sectionsParser.read() and sectionsParser.parse(stripQuotationMarkers=False)
+	sectionsParser.parse(stripQuotationMarkers=False)
 
 	name = sectionsParser.getValue("Name", "Language")
 	if not name:

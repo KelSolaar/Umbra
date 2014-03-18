@@ -205,7 +205,7 @@ def getSectionsFileParser(file):
 		raise foundations.exceptions.FileExistsError("{0} | '{1}' sections file doesn't exists!".format(__name__, file))
 
 	sectionsFileParser = SectionsFileParser(file)
-	sectionsFileParser.read() and sectionsFileParser.parse()
+	sectionsFileParser.parse()
 	return sectionsFileParser
 
 @foundations.exceptions.handleExceptions(TypeError)
