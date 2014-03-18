@@ -43,26 +43,23 @@ __status__ = "Production"
 
 __all__ = ["LOGGER",
 		   "STATEMENT_UPDATE_MESSAGE",
-		   "CONTENT_SUBSTITUTE",
+		   "STATEMENT_SUBSTITUTE",
 		   "bleach"]
 
 LOGGER = foundations.verbose.installLogger()
 
 STATEMENT_UPDATE_MESSAGE = "# Oncilla: Statement commented by auto-documentation process: "
 
-CONTENT_SUBSTITUTE = ("(\n)(?P<bleach>\s*if\s+__name__\s+==\s+[\"']__main__[\"']\s*:.*)",
+STATEMENT_SUBSTITUTE = ("(\n)(?P<bleach>\s*if\s+__name__\s+==\s+[\"']__main__[\"']\s*:.*)",
 					  "(\n)(?P<bleach>\s*@(?!property|\w+\.setter|\w+\.deleter).*?)(\n+\s*def\s+)",
 					  "(\n)(?P<bleach>\s*_initializeApplication\(\))")
 
-CONTENT_REPLACE = {"PYTHON_LANGUAGE = getPythonLanguage()": \
+STATEMENT_REPLACE = {"PYTHON_LANGUAGE = getPythonLanguage()": \
 					   "{0}\nPYTHON_LANGUAGE = None".format(STATEMENT_UPDATE_MESSAGE),
 				   "LOGGING_LANGUAGE = getLoggingLanguage()": \
 					   "{0}\nLOGGING_LANGUAGE = None".format(STATEMENT_UPDATE_MESSAGE),
 				   "TEXT_LANGUAGE = getTextLanguage()": \
 					   "{0}\nTEXT_LANGUAGE = None".format(STATEMENT_UPDATE_MESSAGE)}
-
-foundations.verbose.getLoggingConsoleHandler()
-foundations.verbose.setVerbosityLevel(3)
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -81,7 +78,7 @@ def bleach(file):
 
 	sourceFile = File(file)
 	content = sourceFile.read()
-	for pattern in CONTENT_SUBSTITUTE:
+	for pattern in STATEMENT_SUBSTITUTE:
 		matches = [match for match in re.finditer(pattern, content, re.DOTALL)]
 
 		offset = 0
@@ -95,7 +92,7 @@ def bleach(file):
 							   content[end + offset:]))
 			offset += len(substitution) - len(match.group("bleach"))
 
-	content = foundations.strings.replace(content, CONTENT_REPLACE)
+	content = foundations.strings.replace(content, STATEMENT_REPLACE)
 
 	sourceFile.content = [content]
 	sourceFile.write()
