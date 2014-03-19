@@ -74,7 +74,7 @@ class Constants():
 
 	defaultCodec = umbra.DEFAULT_CODEC
 	"""Default codec: '**utf-8**' ( String )"""
-	codecError = "ignore"
+	codecError = umbra.CODEC_ERROR
 	"""Default codec error behavior: '**ignore**' ( String )"""
 
 	applicationDirectory = os.sep.join(("Umbra", ".".join((majorVersion, minorVersion))))
