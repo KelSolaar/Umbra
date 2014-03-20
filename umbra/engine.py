@@ -94,6 +94,7 @@ _extendResourcesPaths()
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.core
+import foundations.dataStructures
 import foundations.exceptions
 import foundations.environment
 import foundations.io
@@ -303,20 +304,13 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	@umbra.reporter.criticalExceptionHandler
 	def __init__(self,
 				 parent=None,
-				 componentsPaths=None,
-				 requisiteComponents=None,
-				 visibleComponents=None,
 				 *args,
 				 **kwargs):
 		"""
 		Initializes the class.
 
-		:param componentsPaths: Components componentsPaths.
-		:type componentsPaths: tuple or list
-		:param requisiteComponents: Requisite components names.
-		:type requisiteComponents: tuple or list
-		:param visibleComponents: Visible components names.
-		:type visibleComponents: tuple or list
+		:param parent: QWidget parent.
+		:type parent: QWidget
 		:param \*args: Arguments.
 		:type \*args: \*
 		:param \*\*kwargs: Keywords arguments.
@@ -328,37 +322,57 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		super(Umbra, self).__init__(parent, *args, **kwargs)
+		settings = foundations.dataStructures.Structure(**{"componentsPaths": None,
+														   "requisiteComponents": None,
+														   "visibleComponents": None,
+														   "splashscreen": None,
+														   "requestsStack": None,
+														   "patchesManager": None,
+														   "userApplicationDataDirectory": None,
+														   "loggingSessionHandler": None,
+														   "loggingFileHandler": None,
+														   "loggingConsoleHandler": None,
+														   "loggingSessionHandlerStream": None,
+														   "loggingActiveFormatter": None,
+														   "settings": None,
+														   "verbosityLevel": None,
+														   "parameters": None,
+														   "arguments": None})
+
+		settings.update(dict((key, value) for key, value in kwargs.iteritems() if key in settings))
+
+		super(Umbra, self).__init__(parent,
+									*args,
+									**dict((key, value) for key, value in kwargs.iteritems() if key not in settings))
 
 		# --- Running initialisation method. ---
 		hasattr(self, "onInitialisation") and self.onInitialisation()
 
-		# Engine binding to global variable.
-		RuntimeGlobals.engine = self
-
 		# --- Setting class attributes. ---
-		self.__componentsPaths = componentsPaths or []
-		self.__requisiteComponents = requisiteComponents or []
-		self.__visibleComponents = visibleComponents or []
+		self.__componentsPaths = settings.componentsPaths or []
+		self.__requisiteComponents = settings.requisiteComponents or []
+		self.__visibleComponents = settings.visibleComponents or []
+
+		self.__splashscreen = settings.splashscreen
 
 		self.__timer = None
-		self.__requestsStack = RuntimeGlobals.requestsStack
-		self.__patchesManager = RuntimeGlobals.patchesManager
+		self.__requestsStack = settings.requestsStack
+		self.__patchesManager = settings.patchesManager
 		self.__componentsManager = None
 		self.__actionsManager = None
 		self.__fileSystemEventsManager = None
 		self.__notificationsManager = None
 		self.__layoutsManager = None
-		self.__userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory
-		self.__loggingSessionHandler = RuntimeGlobals.loggingSessionHandler
-		self.__loggingFileHandler = RuntimeGlobals.loggingFileHandler
-		self.__loggingConsoleHandler = RuntimeGlobals.loggingConsoleHandler
-		self.__loggingSessionHandlerStream = RuntimeGlobals.loggingSessionHandlerStream
-		self.__loggingActiveFormatter = RuntimeGlobals.loggingActiveFormatter
-		self.__settings = RuntimeGlobals.settings
-		self.__verbosityLevel = RuntimeGlobals.verbosityLevel
-		self.__parameters = RuntimeGlobals.parameters
-		self.__arguments = RuntimeGlobals.arguments
+		self.__userApplicationDataDirectory = settings.userApplicationDataDirectory
+		self.__loggingSessionHandler = settings.loggingSessionHandler
+		self.__loggingFileHandler = settings.loggingFileHandler
+		self.__loggingConsoleHandler = settings.loggingConsoleHandler
+		self.__loggingSessionHandlerStream = settings.loggingSessionHandlerStream
+		self.__loggingActiveFormatter = settings.loggingActiveFormatter
+		self.__verbosityLevel = settings.verbosityLevel
+		self.__settings = settings.settings
+		self.__parameters = settings.parameters
+		self.__arguments = settings.arguments
 		self.__workerThreads = []
 		self.__isProcessing = False
 		self.__locals = {}
@@ -370,7 +384,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__timer.start(Constants.defaultTimerCycle)
 
 		# --- Initializing Application. ---
-		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.showMessage(
+		self.__splashscreen and self.__splashscreen.showMessage(
 			"{0} - {1} | Initializing interface.".format(self.__class__.__name__, Constants.releaseVersion),
 			waitTime=0.25)
 
@@ -412,11 +426,11 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.Application_Progress_Status_processing.hide()
 
 		# --- Initializing the Components Manager. ---
-		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.showMessage(
+		self.__splashscreen and self.__splashscreen.showMessage(
 			"{0} - {1} | Initializing Components manager.".format(self.__class__.__name__, Constants.releaseVersion),
 			waitTime=0.25)
 
-		self.__componentsManager = RuntimeGlobals.componentsManager = Manager(componentsPaths)
+		self.__componentsManager = RuntimeGlobals.componentsManager = Manager(settings.componentsPaths)
 		self.__componentsManager.registerComponents()
 
 		if not self.__componentsManager.components:
@@ -438,10 +452,10 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		# Hiding splashscreen.
 		LOGGER.debug("> Hiding splashscreen.")
-		if RuntimeGlobals.splashscreen:
-			RuntimeGlobals.splashscreen.showMessage("{0} - {1} | Initialization done.".format(
+		if self.__splashscreen:
+			self.__splashscreen.showMessage("{0} - {1} | Initialization done.".format(
 				self.__class__.__name__, Constants.releaseVersion))
-			RuntimeGlobals.splashscreen.hide()
+			self.__splashscreen.hide()
 
 		# --- Running onStartup components methods. ---
 		for component in self.__componentsManager.listComponents():
@@ -637,6 +651,40 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		raise foundations.exceptions.ProgrammingError(
 			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "visibleComponents"))
+
+	@property
+	def splashscreen(self):
+		"""
+		Property for **self.__splashscreen** attribute.
+
+		:return: self.__splashscreen.
+		:rtype: Delayed_QSplashScreen
+		"""
+
+		return self.__splashscreen
+
+	@splashscreen.setter
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	def splashscreen(self, value):
+		"""
+		Setter for **self.__splashscreen** attribute.
+
+		:param value: Attribute value.
+		:type value: Delayed_QSplashScreen
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "splashscreen"))
+
+	@splashscreen.deleter
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	def splashscreen(self):
+		"""
+		Deleter for **self.__splashscreen** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "splashscreen"))
 
 	@property
 	def patchesManager(self):
@@ -1053,40 +1101,6 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingActiveFormatter"))
 
 	@property
-	def settings(self):
-		"""
-		Property for **self.__settings** attribute.
-
-		:return: self.__settings.
-		:rtype: Preferences
-		"""
-
-		return self.__settings
-
-	@settings.setter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def settings(self, value):
-		"""
-		Setter for **self.__settings** attribute.
-
-		:param value: Attribute value.
-		:type value: Preferences
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
-
-	@settings.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def settings(self):
-		"""
-		Deleter for **self.__settings** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
-
-	@property
 	def verbosityLevel(self):
 		"""
 		Property for **self.__verbosityLevel** attribute.
@@ -1122,6 +1136,40 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		raise foundations.exceptions.ProgrammingError(
 			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "verbosityLevel"))
+
+	@property
+	def settings(self):
+		"""
+		Property for **self.__settings** attribute.
+
+		:return: self.__settings.
+		:rtype: Preferences
+		"""
+
+		return self.__settings
+
+	@settings.setter
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	def settings(self, value):
+		"""
+		Setter for **self.__settings** attribute.
+
+		:param value: Attribute value.
+		:type value: Preferences
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
+
+	@settings.deleter
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	def settings(self):
+		"""
+		Deleter for **self.__settings** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
 	@property
 	def parameters(self):
@@ -1382,7 +1430,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 						"_{0}__{1}".format(self.__class__.__name__, foundations.namespace.getLeaf(component, ".")),
 						interface)
 
-				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.showMessage(
+				self.__splashscreen and self.__splashscreen.showMessage(
 					"{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component))
 				interface.activate(self)
 				if profile.category in ("Default", "QObject"):
@@ -1440,7 +1488,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		:type profile: Profile
 		"""
 
-		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.showMessage(
+		self.__splashscreen and self.__splashscreen.showMessage(
 			"{0} - {1} | Instantiating {2} Component.".format(self.__class__.__name__, Constants.releaseVersion,
 															  profile.name))
 
@@ -1942,8 +1990,9 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 									\t- User name with non 'UTF-8' encoding compliant characters.\n\
 									\t- Non 'UTF-8' encoding compliant characters in the preferences directory path.\n\n\
 									You will have to define your own preferences directory by launching {0} with the \
-									'-u \"path\\to\\the\\custom\\preferences\\directory\"' command line parameter.".format(Constants.applicationName,
-																					   userApplicationDataDirectory))
+									'-u \"path\\to\\the\\custom\\preferences\\directory\"' command line parameter.".format(
+													   Constants.applicationName,
+													   userApplicationDataDirectory))
 
 	if not setUserApplicationDataDirectory(userApplicationDataDirectory):
 		raise umbra.exceptions.EngineConfigurationError(
@@ -2028,10 +2077,23 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	RuntimeGlobals.requestsStack = collections.deque()
 
 	# Initializing engine.
-	RuntimeGlobals.engine = engine(None,
-								   componentsPaths,
-								   requisiteComponents,
-								   visibleComponents)
+	RuntimeGlobals.engine = engine(parent=None,
+								   componentsPaths=componentsPaths,
+								   requisiteComponents=requisiteComponents,
+								   visibleComponents=visibleComponents,
+								   splashscreen=RuntimeGlobals.splashscreen,
+								   requestsStack=RuntimeGlobals.requestsStack,
+								   patchesManager=RuntimeGlobals.patchesManager,
+								   userApplicationDataDirectory=RuntimeGlobals.userApplicationDataDirectory,
+								   loggingSessionHandler=RuntimeGlobals.loggingSessionHandler,
+								   loggingFileHandler=RuntimeGlobals.loggingFileHandler,
+								   loggingConsoleHandler=RuntimeGlobals.loggingConsoleHandler,
+								   loggingSessionHandlerStream=RuntimeGlobals.loggingSessionHandlerStream,
+								   loggingActiveFormatter=RuntimeGlobals.loggingActiveFormatter,
+								   settings=RuntimeGlobals.settings,
+								   verbosityLevel=RuntimeGlobals.verbosityLevel,
+								   parameters=RuntimeGlobals.parameters,
+								   arguments=RuntimeGlobals.arguments)
 	RuntimeGlobals.engine.show()
 	RuntimeGlobals.engine.raise_()
 
