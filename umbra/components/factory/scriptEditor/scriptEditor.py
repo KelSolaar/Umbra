@@ -2749,7 +2749,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		:type changed: bool
 		"""
 
-		self.searchInFiles._SearchInFiles__uncache(self.sender().file)
+		if self.sender() is not None:
+			self.searchInFiles._SearchInFiles__uncache(self.sender().file)
 
 	def __initializeLanguagesModel(self):
 		"""
