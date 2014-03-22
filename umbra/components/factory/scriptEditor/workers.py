@@ -391,7 +391,10 @@ class Search_worker(QThread):
 			if self.__interrupt:
 				return
 
-			if foundations.common.isBinaryFile(file):
+			try:
+				if foundations.common.isBinaryFile(file):
+					continue
+			except IOError as error:
 				continue
 
 			LOGGER.info("{0} | Searching '{1}' file!".format(self.__class__.__name__, file))
@@ -422,7 +425,10 @@ class Search_worker(QThread):
 			if not foundations.common.pathExists(file):
 				continue
 
-			if foundations.common.isBinaryFile(file):
+			try:
+				if foundations.common.isBinaryFile(file):
+					continue
+			except IOError as error:
 				continue
 
 			LOGGER.info("{0} | Searching '{1}' file!".format(self.__class__.__name__, file))
@@ -445,7 +451,7 @@ class Search_worker(QThread):
 	def __searchDocument(self, document, pattern, settings):
 		"""
 		Searches for given pattern occurences in given document using given settings.
-	
+
 		:param document: Document.
 		:type document: QTextDocument
 		:param pattern: Pattern.
