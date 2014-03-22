@@ -100,6 +100,7 @@ class NotificationsManager(QObject):
 		self.__notifiers = []
 
 		self.__notifiersStackPadding = 10
+		self.__maximumNotifiers = 5
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -243,6 +244,43 @@ class NotificationsManager(QObject):
 		raise foundations.exceptions.ProgrammingError(
 			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "notifiersStackPadding"))
 
+	@property
+	def maximumNotifiers(self):
+		"""
+		Property for **self.__maximumNotifiers** attribute.
+
+		:return: self.__maximumNotifiers.
+		:rtype: int
+		"""
+
+		return self.__maximumNotifiers
+
+	@maximumNotifiers.setter
+	@foundations.exceptions.handleExceptions(AssertionError)
+	def maximumNotifiers(self, value):
+		"""
+		Setter for **self.__maximumNotifiers** attribute.
+
+		:param value: Attribute value.
+		:type value: int
+		"""
+
+		if value is not None:
+			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("maximumNotifiers",
+																						  value)
+			assert value > 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("maximumNotifiers", value)
+		self.__maximumNotifiers = value
+
+	@maximumNotifiers.deleter
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	def maximumNotifiers(self):
+		"""
+		Deleter for **self.__maximumNotifiers** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "maximumNotifiers"))
+
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
@@ -271,7 +309,8 @@ class NotificationsManager(QObject):
 		Defines the slot triggered by **Notification_QLabel** Widget when faded out.
 		"""
 
-		self.__notifiers.pop(self.__notifiers.index(self.sender()))
+		if self.sender() in self.__notifiers:
+			self.__notifiers.pop(self.__notifiers.index(self.sender()))
 
 	def __offsetNotifiers(self, offset):
 		"""
@@ -281,9 +320,11 @@ class NotificationsManager(QObject):
 		:type offset: int
 		"""
 
+		overallOffset = offset
 		for notifier in self.__notifiers:
-			notifier.verticalOffset += offset
+			notifier.verticalOffset = overallOffset
 			notifier.refreshPosition()
+			overallOffset += offset
 
 	def listNotifications(self):
 		"""
@@ -353,6 +394,10 @@ class NotificationsManager(QObject):
 		:rtype: bool
 		"""
 
+		for notifier in self.__notifiers[self.__maximumNotifiers - 1:]:
+			notifier.duration=150
+			notifier.hideMessage()
+
 		notification = Notification(message=message, time=time.time())
 
 		self.registerNotification(notification)
@@ -378,6 +423,7 @@ class NotificationsManager(QObject):
 			LOGGER.warning("!> {0} | '{1}'.".format(self.__class__.__name__, self.formatNotification(notification)))
 		elif messageLevel == "Exception":
 			LOGGER.error("!> {0} | '{1}'.".format(self.__class__.__name__, self.formatNotification(notification)))
+
 		return True
 
 	def warnify(self, message, duration=3000, notificationClickedSlot=None, **kwargs):
