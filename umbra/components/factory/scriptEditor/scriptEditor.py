@@ -3072,6 +3072,9 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 
 		currentWidget = QApplication.focusWidget()
+		if currentWidget is None:
+			return False
+
 		if currentWidget.objectName() == "Script_Editor_Output_plainTextEdit" or \
 			isinstance(currentWidget, Editor):
 			return currentWidget
@@ -3080,8 +3083,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Returns the **Script_Editor_tabWidget** Widget tab associated with the given editor.
 
-		:param Editor: Editor to search tab for.
-		:type Editor: Editor
+		:param editor: Editor to search tab for.
+		:type editor: Editor
 		:return: Tab index.
 		:rtype: Editor
 		"""
