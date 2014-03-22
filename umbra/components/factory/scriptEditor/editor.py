@@ -64,7 +64,7 @@ LOGGER = foundations.verbose.installLogger()
 class Editor(CodeEditor_QPlainTextEdit):
 	"""
 	Defines the default editor used by
-	the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` Component Interface class. 
+	the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` Component Interface class.
 	"""
 
 	__untitledNameId = 1
@@ -421,7 +421,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	def __document__modificationChanged(self, changed):
 		"""
 		Defines the slot triggered by the editor when document is modified.
-		
+
 		:param changed: File modification state.
 		:type changed: bool
 		"""
@@ -612,7 +612,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		:return: Method success.
 		:rtype: bool
-		
+
 		:note: May require user interaction.
 		"""
 
@@ -667,3 +667,5 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 			self.fileClosed.emit()
 			return True
+		else:
+			return False

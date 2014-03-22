@@ -1626,6 +1626,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		LOGGER.debug("> Calling '{0}' Component Framework 'onClose' method.".format(self.__class__.__name__))
 
+		map(self.unregisterFile, self.listFiles())
+
 		if self.storeSession() and self.closeAllFiles(leaveFirstEditor=False):
 			return True
 
@@ -1952,7 +1954,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def __engine__contentDropped(self, event):
 		"""
 		Defines the slot triggered by content when dropped into the engine.
-		
+
 		:param event: Event.
 		:type event: QEvent
 		"""
@@ -1972,7 +1974,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def __engine_fileSystemEventsManager__fileChanged(self, file):
 		"""
 		Defines the slot triggered by the **fileSystemEventsManager** when a file is changed.
-		
+
 		:param file: File changed.
 		:type file: unicode
 		"""
@@ -1984,7 +1986,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def __engine_fileSystemEventsManager__fileInvalidated(self, file):
 		"""
 		Defines the slot triggered by the **fileSystemEventsManager** when a file is invalidated.
-		
+
 		:param file: File changed.
 		:type file: unicode
 		"""
@@ -1997,7 +1999,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def __engine_fileSystemEventsManager__directoryChanged(self, directory):
 		"""
 		Defines the slot triggered by the **fileSystemEventsManager** when a directory is changed.
-		
+
 		:param directory: Directory changed.
 		:type directory: unicode
 		"""
@@ -2014,7 +2016,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def __engine_fileSystemEventsManager__directoryInvalidated(self, directory):
 		"""
 		Defines the slot triggered by the **fileSystemEventsManager** when a directory is invalidated.
-		
+
 		:param directory: Directory invalidated.
 		:type directory: unicode
 		"""
@@ -2049,7 +2051,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def __model__fileRegistered(self, fileNode):
 		"""
 		Defines the slot triggered by Model when a file is registered.
-		
+
 		:param fileNode: Registered file FileNode.
 		:type fileNode: FileNode
 		"""
@@ -2059,7 +2061,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def __model__fileUnregistered(self, fileNode):
 		"""
 		Defines the slot triggered by Model when a file is unregistered.
-		
+
 		:param fileNode: Unregistered file FileNode.
 		:type fileNode: FileNode
 		"""
@@ -2069,7 +2071,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def __model__directoryRegistered(self, directoryNode):
 		"""
 		Defines the slot triggered by Model when a directory is registered.
-		
+
 		:param directoryNode: Registered directory DirectoryNode.
 		:type directoryNode: DirectoryNode
 		"""
@@ -2079,7 +2081,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def __model__directoryUnregistered(self, directoryNode):
 		"""
 		Defines the slot triggered by Model when a directory is unregistered.
-		
+
 		:param directoryNode: Unregistered directory DirectoryNode.
 		:type directoryNode: DirectoryNode
 		"""
@@ -2089,7 +2091,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def __model__projectRegistered(self, projectNode):
 		"""
 		Defines the slot triggered by Model when a project is registered.
-		
+
 		:param projectNode: Registered project ProjectNode.
 		:type projectNode: ProjectNode
 		"""
@@ -2099,7 +2101,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def __model__projectUnregistered(self, projectNode):
 		"""
 		Defines the slot triggered by Model when a project is unregistered.
-		
+
 		:param projectNode: Unregistered project ProjectNode.
 		:type projectNode: ProjectNode
 		"""
@@ -2109,7 +2111,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def __model__editorRegistered(self, editorNode):
 		"""
 		Defines the slot triggered by Model when an editor is registered.
-		
+
 		:param editorNode: Registered editor EditorNode.
 		:type editorNode: EditorNode
 		"""
@@ -2119,7 +2121,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def __model__editorUnregistered(self, editorNode):
 		"""
 		Defines the slot triggered by Model when an editor is unregistered.
-		
+
 		:param editorNode: Unregistered editor EditorNode.
 		:type editorNode: EditorNode
 		"""
@@ -2742,7 +2744,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def __editor__modificationChanged(self, changed):
 		"""
 		Defines the slot triggered by an editor when document is modified.
-		
+
 		:param changed: File modification state.
 		:type changed: bool
 		"""
@@ -2776,7 +2778,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def __handleDroppedContent(self, event):
 		"""
 		Handles dopped content event.
-		
+
 		:param event: Content dropped event.
 		:type event: QEvent
 		"""
@@ -2835,7 +2837,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def __storeRecentFile(self, file):
 		"""
 		Stores given recent file into the settings.
-		
+
 		:param file: File to store.
 		:type file: unicode
 		"""
@@ -2945,6 +2947,34 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Next untitled file name: '{0}'.".format(name))
 		return name
 
+	def registerFile(self, file):
+		"""
+		Registers given file in the **fileSystemEventsManager**.
+
+		:param file: File.
+		:type file: unicode
+		:return: Method success.
+		:rtype: bool
+		"""
+
+		not self.__engine.fileSystemEventsManager.isPathRegistered(file) and \
+		self.__engine.fileSystemEventsManager.registerPath(file)
+		return True
+
+	def unregisterFile(self, file):
+		"""
+		Unregisters given file in the **fileSystemEventsManager**.
+
+		:param file: File.
+		:type file: unicode
+		:return: Method success.
+		:rtype: bool
+		"""
+
+		self.__engine.fileSystemEventsManager.isPathRegistered(file) and \
+		self.__engine.fileSystemEventsManager.unregisterPath(file)
+		return True
+
 	def registerNodePath(self, node):
 		"""
 		Registers given Node path in the **fileSystemEventsManager**.
@@ -2960,13 +2990,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not foundations.common.pathExists(path):
 			return False
 
-		not self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
-		self.__engine.fileSystemEventsManager.registerPath(path)
-		return True
+		return self.registerFile(path)
 
 	def unregisterNodePath(self, node):
 		"""
-		Unregisters given Node path from the **fileSystemEventsManager**..
+		Unregisters given Node path from the **fileSystemEventsManager**.
 
 		:param node: Node.
 		:type node: FileNode or DirectoryNode or ProjectNode
@@ -2976,9 +3004,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		path = node.file if hasattr(node, "file") else node.path
 		path = foundations.strings.toString(path)
-		self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
-		self.__engine.fileSystemEventsManager.unregisterPath(path)
-		return True
+
+		return self.unregisterFile(path)
 
 	def loadFileUi(self):
 		"""
@@ -2986,7 +3013,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		:return: Method success.
 		:rtype: bool
-		
+
 		:note: May require user interaction.
 		"""
 
@@ -3012,7 +3039,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 		:return: Method success.
 		:rtype: bool
-		
+
 		:note: May require user interaction.
 		"""
 
@@ -3193,7 +3220,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def loadPath(self, path):
 		"""
 		Loads given path.
-		
+
 		:param path: Path to load.
 		:type path: unicode
 		:return: Method success.
@@ -3252,7 +3279,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def addProject(self, path):
 		"""
 		Adds a project.
-		
+
 		:param path: Project path.
 		:type path: unicode
 		:return: Method success.
@@ -3279,7 +3306,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def removeProject(self, path):
 		"""
 		Removes a project.
-		
+
 		:param path: Project path.
 		:type path: unicode
 		:return: Method success.
@@ -3512,7 +3539,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		# self.__engine.startProcessing("Closing All Files ...", len(self.listEditors()))
 		success = True
 		for file in self.listFiles():
-			success *= self.closeFile(file, leaveFirstEditor) and True or False
+			success *= True if self.closeFile(file, leaveFirstEditor) else False
+			if not success:
+				break
+
 			# self.__engine.stepProcessing()
 		# self.__engine.stopProcessing()
 		return success
@@ -3543,7 +3573,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def listFiles(self):
 		"""
 		Returns the Model files.
-		
+
 		:return: FileNode nodes.
 		:rtype: list
 		"""
@@ -3553,7 +3583,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def listDirectories(self):
 		"""
 		Returns the Model directories.
-		
+
 		:return: DirectoryNode nodes.
 		:rtype: list
 		"""
@@ -3563,7 +3593,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def listProjects(self, ignoreDefaultProject=True):
 		"""
 		Returns the Model projects.
-		
+
 		:return: ProjectNode nodes.
 		:rtype: list
 		"""
@@ -3587,7 +3617,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def setLanguage(self, editor, language):
 		"""
 		Sets given language to given Model editor.
-		
+
 		:param editor: Editor to set language to.
 		:type editor: Editor
 		:param language: Language to set.
@@ -3759,7 +3789,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def restoreDevelopmentLayout(self):
 		"""
 		Restores the development layout.
-	
+
 		:return: Definition success.
 		:rtype: bool
 		"""
