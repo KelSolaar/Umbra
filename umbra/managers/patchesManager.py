@@ -73,7 +73,7 @@ class Patch(foundations.dataStructures.Structure):
 
 class PatchesManager(object):
 	"""
-	Defines the Application patches manager. 
+	Defines the Application patches manager.
 	"""
 
 	def __init__(self, historyFile=None, paths=None, extension="py"):
@@ -287,7 +287,7 @@ class PatchesManager(object):
 		:rtype: bool
 		"""
 
-		return patch in self.__patches.keys()
+		return patch in self.__patches
 
 	def __len__(self):
 		"""
@@ -297,7 +297,7 @@ class PatchesManager(object):
 		:rtype: int
 		"""
 
-		return len(self.__patches.keys())
+		return len(self.__patches)
 
 	def listPatches(self):
 		"""

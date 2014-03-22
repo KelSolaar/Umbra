@@ -70,7 +70,7 @@ class Layout(foundations.dataStructures.Structure):
 
 class LayoutsManager(QObject):
 	"""
-	Defines the Application layouts manager. 
+	Defines the Application layouts manager.
 	"""
 
 	layoutRestored = pyqtSignal(unicode)
@@ -324,7 +324,7 @@ class LayoutsManager(QObject):
 		:rtype: bool
 		"""
 
-		return layout in self.__layouts.keys()
+		return layout in self.__layouts
 
 	def __len__(self):
 		"""
@@ -334,7 +334,7 @@ class LayoutsManager(QObject):
 		:rtype: int
 		"""
 
-		return len(self.__layouts.keys())
+		return len(self.__layouts)
 
 	def listLayouts(self):
 		"""

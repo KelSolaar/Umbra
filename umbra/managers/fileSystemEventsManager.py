@@ -55,7 +55,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class FileSystemEventsManager(QThread):
 	"""
-	Defines the file system events manager. 
+	Defines the file system events manager.
 	"""
 
 	# Custom signals definitions.
@@ -285,7 +285,7 @@ class FileSystemEventsManager(QThread):
 		:rtype: bool
 		"""
 
-		return path in self.__paths.keys()
+		return path in self.__paths
 
 	def __len__(self):
 		"""
@@ -295,7 +295,7 @@ class FileSystemEventsManager(QThread):
 		:rtype: int
 		"""
 
-		return len(self.__paths.keys())
+		return len(self.__paths)
 
 	def run(self):
 		"""
@@ -412,7 +412,7 @@ class FileSystemEventsManager(QThread):
 		del(self.__paths[path])
 		return True
 
-	@staticmethod		
+	@staticmethod
 	def getPathModifiedTime(path):
 		"""
 		Returns given path modification time.
