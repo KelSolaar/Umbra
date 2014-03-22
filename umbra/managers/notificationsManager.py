@@ -370,7 +370,7 @@ class NotificationsManager(QObject):
 		notifier.showMessage(message, duration)
 
 		self.__offsetNotifiers(-notifier.height() - self.__notifiersStackPadding)
-		self.__notifiers.append(notifier)
+		self.__notifiers.insert(0, notifier)
 
 		if messageLevel == "Information":
 			LOGGER.info("{0} | '{1}'.".format(self.__class__.__name__, self.formatNotification(notification)))
