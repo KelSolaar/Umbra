@@ -391,11 +391,9 @@ class Search_worker(QThread):
 			if self.__interrupt:
 				return
 
-			try:
-				if foundations.common.isBinaryFile(file):
+			if foundations.io.isReadable(file):
+				if foundations.io.isBinaryFile(file):
 					continue
-			except IOError as error:
-				continue
 
 			LOGGER.info("{0} | Searching '{1}' file!".format(self.__class__.__name__, file))
 			editor = self.__container.scriptEditor.getEditor(file)
@@ -425,11 +423,9 @@ class Search_worker(QThread):
 			if not foundations.common.pathExists(file):
 				continue
 
-			try:
-				if foundations.common.isBinaryFile(file):
+			if foundations.io.isReadable(file):
+				if foundations.io.isBinaryFile(file):
 					continue
-			except IOError as error:
-				continue
 
 			LOGGER.info("{0} | Searching '{1}' file!".format(self.__class__.__name__, file))
 			cacheData = self.__container.filesCache.getContent(file)

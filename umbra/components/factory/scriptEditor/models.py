@@ -809,11 +809,9 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 				if path in paths:
 					continue
 
-				try:
-					if foundations.common.isBinaryFile(path):
+				if foundations.io.isReadable(path):
+					if foundations.io.isBinaryFile(path):
 						continue
-				except IOError as error:
-					continue
 
 				fileNode = self.registerFile(path, parentNode)
 
