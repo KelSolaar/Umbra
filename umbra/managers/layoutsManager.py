@@ -336,6 +336,23 @@ class LayoutsManager(QObject):
 
 		return len(self.__layouts)
 
+	def get(self, layout, default=None):
+		"""
+		Returns given layout value.
+
+		:param layout: Layout name.
+		:type layout: unicode
+		:param default: Default value if layout is not found.
+		:type default: object
+		:return: Action.
+		:rtype: QAction
+		"""
+
+		try:
+			return self.__getitem__(layout)
+		except KeyError as error:
+			return default
+
 	def listLayouts(self):
 		"""
 		Returns the registered layouts.

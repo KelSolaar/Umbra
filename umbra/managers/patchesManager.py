@@ -299,6 +299,23 @@ class PatchesManager(object):
 
 		return len(self.__patches)
 
+	def get(self, patch, default=None):
+		"""
+		Returns given patch value.
+
+		:param patch: Patch name.
+		:type patch: unicode
+		:param default: Default value if patch is not found.
+		:type default: object
+		:return: Action.
+		:rtype: QAction
+		"""
+
+		try:
+			return self.__getitem__(patch)
+		except KeyError as error:
+			return default
+
 	def listPatches(self):
 		"""
 		Returns the registered patches.

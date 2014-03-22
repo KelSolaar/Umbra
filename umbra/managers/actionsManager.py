@@ -344,6 +344,23 @@ class ActionsManager(QObject):
 				category[name] = {}
 			return category[name]
 
+	def get(self, action, default=None):
+		"""
+		Returns given action value.
+
+		:param action: Action name.
+		:type action: unicode
+		:param default: Default value if action is not found.
+		:type default: object
+		:return: Action.
+		:rtype: QAction
+		"""
+
+		try:
+			return self.__getitem__(action)
+		except KeyError as error:
+			return default
+
 	def listActions(self):
 		"""
 		Returns the registered actions.

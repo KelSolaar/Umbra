@@ -297,6 +297,23 @@ class FileSystemEventsManager(QThread):
 
 		return len(self.__paths)
 
+	def get(self, path, default=None):
+		"""
+		Returns given path value.
+
+		:param path: Path name.
+		:type path: unicode
+		:param default: Default value if path is not found.
+		:type default: object
+		:return: Action.
+		:rtype: QAction
+		"""
+
+		try:
+			return self.__getitem__(path)
+		except KeyError as error:
+			return default
+
 	def run(self):
 		"""
 		Reimplements the :meth:`QThread.run` method.
