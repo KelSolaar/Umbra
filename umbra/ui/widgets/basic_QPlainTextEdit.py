@@ -66,7 +66,7 @@ LOGGER = foundations.verbose.installLogger()
 def editBlock(object):
 	"""
 	Handles edit blocks undo states.
-	
+
 	:param object: Object to decorate.
 	:type object: object
 	:return: Object.
@@ -102,7 +102,7 @@ def editBlock(object):
 def anchorTextCursor(object):
 	"""
 	Anchors the text cursor position.
-	
+
 	:param object: Object to decorate.
 	:type object: object
 	:return: Object.
@@ -139,7 +139,7 @@ def anchorTextCursor(object):
 def centerTextCursor(object):
 	"""
 	Centers the text cursor position.
-	
+
 	:param object: Object to decorate.
 	:type object: object
 	:return: Object.
@@ -184,7 +184,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	"""
 	This signal is emited by the :class:`Basic_QPlainTextEdit` class
 	when patterns have been replaced. ( pyqtSignal )
-	
+
 	:return: Replaced patterns.
 	:rtype: list
 	"""
@@ -713,9 +713,9 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	def search(self, pattern, **kwargs):
 		"""
 		Searchs given pattern text in the document.
-		
+
 		Usage::
-			
+
 			>>> scriptEditor = Umbra.componentsManager.getInterface("factory.scriptEditor")
 			True
 			>>> codeEditor = scriptEditor.getCurrentEditor()
@@ -723,7 +723,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 			>>> codeEditor.search(searchPattern, caseSensitive=True, wholeWord=True, regularExpressions=True, \
 backwardSearch=True, wrapAround=True)
 			True
-				
+
 		:param pattern: Pattern to search for.
 		:type pattern: unicode
 		:param \*\*kwargs: Search settings.
@@ -817,7 +817,7 @@ backwardSearch=True, wrapAround=True)
 		Replaces current given pattern occurence in the document with the replacement pattern.
 
 		Usage::
-			
+
 			>>> scriptEditor = Umbra.componentsManager.getInterface("factory.scriptEditor")
 			True
 			>>> codeEditor = scriptEditor.getCurrentEditor()
@@ -869,8 +869,8 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 	@editBlock
 	def replaceAll(self, pattern, replacementPattern, **kwargs):
 		"""
-		| Replaces every given pattern occurences in the document with the replacement pattern.
-		
+		| Replaces every given pattern occurrences in the document with the replacement pattern.
+
 		.. warning::
 
 			Initializing **wrapAround** keyword to **True** leads to infinite recursion loop

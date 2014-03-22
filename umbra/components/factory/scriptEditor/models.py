@@ -35,6 +35,7 @@ from PyQt4.QtCore import pyqtSignal
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.exceptions
+import foundations.io
 import foundations.verbose
 import foundations.walkers
 import umbra.ui.models

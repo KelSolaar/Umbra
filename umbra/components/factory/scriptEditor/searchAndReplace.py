@@ -71,7 +71,7 @@ class ValidationFilter(QObject):
 	def eventFilter(self, object, event):
 		"""
 		Reimplements the **QObject.eventFilter** method.
-		
+
 		:param object: Object.
 		:type object: QObject
 		:param event: Event.
@@ -91,7 +91,7 @@ class ValidationFilter(QObject):
 
 class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
-	Defines the default search and replace dialog used by the **ScriptEditor** Component. 
+	Defines the default search and replace dialog used by the **ScriptEditor** Component.
 	"""
 
 	def __init__(self, parent, *args, **kwargs):
@@ -390,7 +390,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	def insertPattern(pattern, model, index=0):
 		"""
 		Inserts given pattern into given Model.
-	
+
 		:param pattern: Pattern.
 		:type pattern: unicode
 		:param model: Model.
@@ -462,7 +462,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def replaceAll(self):
 		"""
-		Replaces current editor Widget search pattern occurences with replacement pattern.
+		Replaces current editor Widget search pattern occurrences with replacement pattern.
 
 		:return: Method success.
 		:rtype: bool

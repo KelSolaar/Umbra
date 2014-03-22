@@ -86,7 +86,7 @@ class SearchResult(foundations.dataStructures.Structure):
 		"""
 		Initializes the class.
 
-		:param \*\*kwargs: file, pattern, settings, occurences.
+		:param \*\*kwargs: file, pattern, settings, occurrences.
 		:type \*\*kwargs: dict
 		"""
 
@@ -401,12 +401,12 @@ class Search_worker(QThread):
 				continue
 
 			self.__lock.lock()
-			occurences = self.__searchDocument(editor.document(), self.__pattern, self.__settings)
+			occurrences = self.__searchDocument(editor.document(), self.__pattern, self.__settings)
 			self.__lock.unlock()
-			occurences and self.__searchResults.append(SearchResult(file=file,
+			occurrences and self.__searchResults.append(SearchResult(file=file,
 																	pattern=self.__pattern,
 																	settings=self.__settings,
-																	occurences=occurences))
+																	occurrences=occurrences))
 
 	def __searchFiles(self, files):
 		"""
@@ -438,15 +438,15 @@ class Search_worker(QThread):
 				self.__container.filesCache.addContent(**{file : CacheData(content=content, document=None)})
 			else:
 				content = cacheData.content
-			occurences = self.__searchDocument(QTextDocument(QString(content)), self.__pattern, self.__settings)
-			occurences and self.__searchResults.append(SearchResult(file=file,
+			occurrences = self.__searchDocument(QTextDocument(QString(content)), self.__pattern, self.__settings)
+			occurrences and self.__searchResults.append(SearchResult(file=file,
 																	pattern=self.__pattern,
 																	settings=self.__settings,
-																	occurences=occurences))
+																	occurrences=occurrences))
 
 	def __searchDocument(self, document, pattern, settings):
 		"""
-		Searches for given pattern occurences in given document using given settings.
+		Searches for given pattern occurrences in given document using given settings.
 
 		:param document: Document.
 		:type document: QTextDocument
@@ -454,7 +454,7 @@ class Search_worker(QThread):
 		:type pattern: unicode
 		:param settings: Search settings.
 		:type settings: Structure
-		:return: Matched occurences.
+		:return: Matched occurrences.
 		:rtype: list
 		"""
 
@@ -466,7 +466,7 @@ class Search_worker(QThread):
 		if settings.wholeWord:
 			flags = flags | QTextDocument.FindWholeWords
 
-		occurences = []
+		occurrences = []
 		block = document.findBlock(0)
 		cursor = document.find(pattern, block.position(), flags)
 		while block.isValid() and cursor.position() != -1:
@@ -477,11 +477,11 @@ class Search_worker(QThread):
 			blockCursor.movePosition(QTextCursor.StartOfLine, QTextCursor.MoveAnchor)
 			blockCursor.movePosition(QTextCursor.EndOfLine, QTextCursor.KeepAnchor)
 			length = cursor.selectionEnd() - cursor.selectionStart()
-			occurences.append(Occurence(line=cursor.blockNumber(),
+			occurrences.append(Occurence(line=cursor.blockNumber(),
 										column=cursor.columnNumber() - length,
 										length=length,
 										position=cursor.position() - length,
 										text=blockCursor.selectedText()))
 			cursor = document.find(pattern, cursor.position(), flags)
 			block = block.next()
-		return occurences
+		return occurrences

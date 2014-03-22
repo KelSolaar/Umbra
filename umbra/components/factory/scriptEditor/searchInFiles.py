@@ -84,7 +84,7 @@ UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Search_In_Files.ui")
 #**********************************************************************************************************************
 class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
-	Defines search and replace in files dialog used by the **ScriptEditor** Component. 
+	Defines search and replace in files dialog used by the **ScriptEditor** Component.
 	"""
 
 	def __init__(self, parent, *args, **kwargs):
@@ -1081,7 +1081,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"""
 		Defines the slot triggered by :attr:`SearchInFiles.grepWorkerThread` attribute worker thread
 		when the search is finished.
-	
+
 		:param searchResults: Search results.
 		:type searchResults: list
 		"""
@@ -1173,7 +1173,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	def __highlightOccurence(self, file, occurence):
 		"""
 		Highlights given file occurence.
-		
+
 		:param file: File containing the occurence.
 		:type file: unicode
 		:param occurence: Occurence to highlight.
@@ -1213,22 +1213,22 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		document.setModified(False)
 		return document
 
-	def __replaceWithinDocument(self, document, occurences, replacementPattern):
+	def __replaceWithinDocument(self, document, occurrences, replacementPattern):
 		"""
-		Replaces given pattern occurences in given document using given settings.
-	
+		Replaces given pattern occurrences in given document using given settings.
+
 		:param document: Document.
 		:type document: QTextDocument
 		:param replacementPattern: Replacement pattern.
 		:type replacementPattern: unicode
-		:return: Replaced occurences count.
+		:return: Replaced occurrences count.
 		:rtype: int
 		"""
 
 		cursor = QTextCursor(document)
 		cursor.beginEditBlock()
 		offset = count = 0
-		for occurence in sorted(occurences, key=lambda x: x.position):
+		for occurence in sorted(occurrences, key=lambda x: x.position):
 			cursor.setPosition(offset + occurence.position, QTextCursor.MoveAnchor)
 			cursor.setPosition(offset + occurence.position + occurence.length, QTextCursor.KeepAnchor)
 			cursor.insertText(replacementPattern)
@@ -1287,7 +1287,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	def setSearchResults(self, searchResults):
 		"""
 		Sets the Model Nodes using given search results.
-		
+
 		:param searchResults: Search results.
 		:type searchResults: list
 		:return: Method success.
@@ -1301,8 +1301,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			searchFileNode.update(searchResult)
 			width = \
 			max(self.__defaultLineNumberWidth,
-			max([len(foundations.strings.toString(occurence.line)) for occurence in searchResult.occurences]))
-			for occurence in searchResult.occurences:
+			max([len(foundations.strings.toString(occurence.line)) for occurence in searchResult.occurrences]))
+			for occurence in searchResult.occurrences:
 				formatter = "{{0:>{0}}}".format(width)
 				name = "{0}:{1}".format(formatter.format(occurence.line + 1).replace(" ", "&nbsp;"),
 										self.__formatOccurence(occurence))
@@ -1315,7 +1315,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	def setReplaceResults(self, replaceResults):
 		"""
 		Sets the Model Nodes using given replace results.
-		
+
 		:param replaceResults: Replace results.
 		:type replaceResults: list
 		:return: Method success.
@@ -1366,8 +1366,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def replace(self, nodes):
 		"""
-		Replaces user defined files search pattern occurences with replacement pattern using given nodes.
-		
+		Replaces user defined files search pattern occurrences with replacement pattern using given nodes.
+
 		:param nodes: Nodes.
 		:type nodes: list
 		:return: Method success.
@@ -1388,7 +1388,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		SearchAndReplace.insertPattern(replacementPattern, self.__replaceWithPatternsModel)
 
 		replaceResults = {}
-		for file, occurences in files.iteritems():
+		for file, occurrences in files.iteritems():
 			editor = self.__container.getEditor(file)
 			if editor:
 				document = editor.document()
@@ -1402,7 +1402,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 				content = self.__filesCache.getContent(file).content
 				document = self.__getDocument(content)
 				self.__cache(file, content, document)
-			replaceResults[file] = self.__replaceWithinDocument(document, occurences, replacementPattern)
+			replaceResults[file] = self.__replaceWithinDocument(document, occurrences, replacementPattern)
 
 		self.setReplaceResults(replaceResults)
 		self.__container.engine.notificationsManager.notify(
