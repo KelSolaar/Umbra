@@ -304,6 +304,18 @@ class LayoutsManager(QObject):
 
 		return self.__layouts.__getitem__(layout)
 
+	def __setitem__(self, name, layout):
+		"""
+		Reimplements the :meth:`object.__setitem__` method.
+
+		:param name: Layout name.
+		:type name: unicode
+		:param layout: Layout.
+		:type layout: Layout
+		"""
+
+		self.registerLayout(name, layout)
+
 	def __iter__(self):
 		"""
 		Reimplements the :meth:`object.__iter__` method.

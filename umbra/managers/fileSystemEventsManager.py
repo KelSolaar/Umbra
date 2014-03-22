@@ -265,6 +265,18 @@ class FileSystemEventsManager(QThread):
 
 		return self.__paths.__getitem__(path)
 
+	def __setitem__(self, path, modifiedTime):
+		"""
+		Reimplements the :meth:`object.__setitem__` method.
+
+		:param path: Path.
+		:type path: unicode
+		:param modifiedTime: Modified time.
+		:type modifiedTime: int or float
+		"""
+
+		self.registerPath(path, modifiedTime)
+
 	def __iter__(self):
 		"""
 		Reimplements the :meth:`object.__iter__` method.

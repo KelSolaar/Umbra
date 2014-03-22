@@ -72,7 +72,7 @@ class Notification(foundations.dataStructures.Structure):
 
 class NotificationsManager(QObject):
 	"""
-	Defines the Application notifications manager. 
+	Defines the Application notifications manager.
 	"""
 
 	# Custom signals definitions.
@@ -126,7 +126,7 @@ class NotificationsManager(QObject):
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
@@ -136,7 +136,7 @@ class NotificationsManager(QObject):
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
 	@property
 	def notifications(self):
@@ -160,7 +160,7 @@ class NotificationsManager(QObject):
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "notifications"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "notifications"))
 
 	@notifications.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
@@ -170,7 +170,7 @@ class NotificationsManager(QObject):
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "notifications"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "notifications"))
 
 	@property
 	def notifiers(self):
@@ -194,7 +194,7 @@ class NotificationsManager(QObject):
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "notifiers"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "notifiers"))
 
 	@notifiers.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
@@ -204,7 +204,7 @@ class NotificationsManager(QObject):
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "notifiers"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "notifiers"))
 
 	@property
 	def notifiersStackPadding(self):
@@ -228,7 +228,8 @@ class NotificationsManager(QObject):
 		"""
 
 		if value is not None:
-			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("notifiersStackPadding", value)
+			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("notifiersStackPadding",
+																						  value)
 			assert value >= 0, "'{0}' attribute: '{1}' need to be positive!".format("notifiersStackPadding", value)
 		self.__notifiersStackPadding = value
 
@@ -240,7 +241,7 @@ class NotificationsManager(QObject):
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "notifiersStackPadding"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "notifiersStackPadding"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -396,13 +397,13 @@ class NotificationsManager(QObject):
 		"""
 
 		return self.notify(message,
-					duration,
-					notificationClickedSlot,
-					messageLevel="Warning",
-					color=QColor(220, 128, 64),
-					backgroundColor=QColor(32, 32, 32),
-					borderColor=QColor(220, 128, 64),
-					**kwargs)
+						   duration,
+						   notificationClickedSlot,
+						   messageLevel="Warning",
+						   color=QColor(220, 128, 64),
+						   backgroundColor=QColor(32, 32, 32),
+						   borderColor=QColor(220, 128, 64),
+						   **kwargs)
 
 	def exceptify(self, message, duration=3000, notificationClickedSlot=None, **kwargs):
 		"""
@@ -421,10 +422,10 @@ class NotificationsManager(QObject):
 		"""
 
 		return self.notify(message,
-					duration,
-					notificationClickedSlot,
-					messageLevel="Exception",
-					color=QColor(220, 64, 64),
-					backgroundColor=QColor(32, 32, 32),
-					borderColor=QColor(220, 64, 64),
-					**kwargs)
+						   duration,
+						   notificationClickedSlot,
+						   messageLevel="Exception",
+						   color=QColor(220, 64, 64),
+						   backgroundColor=QColor(32, 32, 32),
+						   borderColor=QColor(220, 64, 64),
+						   **kwargs)

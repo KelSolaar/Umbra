@@ -129,7 +129,7 @@ class PatchesManager(object):
 
 		if value is not None:
 			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-			"historyFile", value)
+				"historyFile", value)
 		self.__historyFile = value
 
 	@historyFile.deleter
@@ -140,7 +140,7 @@ class PatchesManager(object):
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "historyFile"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "historyFile"))
 
 	@property
 	def paths(self):
@@ -165,11 +165,12 @@ class PatchesManager(object):
 
 		if value is not None:
 			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
-			"paths", value)
+				"paths", value)
 			for element in value:
 				assert type(element) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-				"paths", element)
-				assert os.path.exists(element), "'{0}' attribute: '{1}' directory doesn't exists!".format("paths", element)
+					"paths", element)
+				assert os.path.exists(element), "'{0}' attribute: '{1}' directory doesn't exists!".format("paths",
+																										  element)
 		self.__paths = value
 
 	@paths.deleter
@@ -180,7 +181,7 @@ class PatchesManager(object):
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "paths"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "paths"))
 
 	@property
 	def extension(self):
@@ -205,7 +206,7 @@ class PatchesManager(object):
 
 		if value is not None:
 			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-			"extension", value)
+				"extension", value)
 		self.__extension = value
 
 	@extension.deleter
@@ -216,7 +217,7 @@ class PatchesManager(object):
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "extension"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "extension"))
 
 	@property
 	def patches(self):
@@ -240,7 +241,7 @@ class PatchesManager(object):
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "patches"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "patches"))
 
 	@patches.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
@@ -250,7 +251,7 @@ class PatchesManager(object):
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "patches"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "patches"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -266,6 +267,18 @@ class PatchesManager(object):
 		"""
 
 		return self.__patches.__getitem__(patch)
+
+	def __setitem__(self, name, path):
+		"""
+		Reimplements the :meth:`object.__setitem__` method.
+
+		:param name: Patch name.
+		:type name: unicode
+		:param path: Patch path.
+		:type path: unicode
+		"""
+
+		self.registerPatch(name, path)
 
 	def __iter__(self):
 		"""
@@ -360,13 +373,13 @@ class PatchesManager(object):
 		module = __import__(patch)
 		if hasattr(module, "apply") and hasattr(module, "UID"):
 			self.__patches[name] = Patch(name=name,
-										path=path,
-										module=module,
-										apply=getattr(module, "apply"),
-										uid=getattr(module, "UID"))
+										 path=path,
+										 module=module,
+										 apply=getattr(module, "apply"),
+										 uid=getattr(module, "UID"))
 		else:
 			raise umbra.exceptions.PatchInterfaceError(
-			"{0} | '{1}' is not a valid patch and has been rejected!".format(self.__class__.__name__, patch))
+				"{0} | '{1}' is not a valid patch and has been rejected!".format(self.__class__.__name__, patch))
 		return True
 
 	@foundations.exceptions.handleExceptions(umbra.exceptions.PatchRegistrationError)
@@ -392,8 +405,8 @@ class PatchesManager(object):
 			return True
 		else:
 			raise umbra.exceptions.PatchRegistrationError(
-			"{0} | '{1}' patches failed to register!".format(self.__class__.__name__,
-																", ".join(unregisteredPatches)))
+				"{0} | '{1}' patches failed to register!".format(self.__class__.__name__,
+																 ", ".join(unregisteredPatches)))
 
 	@foundations.exceptions.handleExceptions(umbra.exceptions.PatchApplyError)
 	def applyPatch(self, patch):
@@ -416,7 +429,7 @@ class PatchesManager(object):
 				historyFile.append()
 			else:
 				raise umbra.exceptions.PatchApplyError("{0} | '{1}' patch failed to apply!".format(
-				self.__class__.__name__, patch.path))
+					self.__class__.__name__, patch.path))
 		else:
 			LOGGER.debug("> '{0}' patch is already applied!".format(patch.name))
 		return True

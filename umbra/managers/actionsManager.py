@@ -118,10 +118,11 @@ class ActionsManager(QObject):
 
 		if value is not None:
 			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-			"namespaceSplitter", value)
-			assert len(value) == 1, "'{0}' attribute: '{1}' has multiples characters!".format("namespaceSplitter", value)
+				"namespaceSplitter", value)
+			assert len(value) == 1, "'{0}' attribute: '{1}' has multiples characters!".format("namespaceSplitter",
+																							  value)
 			assert not re.search(r"\w", value), "'{0}' attribute: '{1}' is an alphanumeric character!".format(
-			"namespaceSplitter", value)
+				"namespaceSplitter", value)
 		self.__namespaceSplitter = value
 
 	@namespaceSplitter.deleter
@@ -132,7 +133,7 @@ class ActionsManager(QObject):
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "namespaceSplitter"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "namespaceSplitter"))
 
 	@property
 	def rootNamespace(self):
@@ -157,7 +158,7 @@ class ActionsManager(QObject):
 
 		if value is not None:
 			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-			"rootNamespace", value)
+				"rootNamespace", value)
 		self.__rootNamespace = value
 
 	@rootNamespace.deleter
@@ -168,7 +169,7 @@ class ActionsManager(QObject):
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "rootNamespace"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "rootNamespace"))
 
 	@property
 	def defaultNamespace(self):
@@ -193,7 +194,7 @@ class ActionsManager(QObject):
 
 		if value is not None:
 			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-			"defaultNamespace", value)
+				"defaultNamespace", value)
 		self.__defaultNamespace = value
 
 	@defaultNamespace.deleter
@@ -204,7 +205,7 @@ class ActionsManager(QObject):
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultNamespace"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultNamespace"))
 
 	@property
 	def categories(self):
@@ -242,7 +243,7 @@ class ActionsManager(QObject):
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "categories"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "categories"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -262,8 +263,21 @@ class ActionsManager(QObject):
 			if action == foundations.namespace.setNamespace(self.__namespaceSplitter.join(path), name):
 				LOGGER.debug("> Retrieved object for '{0}' action name!".format(action))
 				return object
-		raise umbra.exceptions.ActionExistsError("{0} | '{1}' action isn't registered!".format(self.__class__.__name__,
-																								action))
+		raise umbra.exceptions.ActionExistsError(
+			"{0} | '{1}' action isn't registered!".format(self.__class__.__name__, action))
+
+	def __setitem__(self, action, kwargs):
+		"""
+		Reimplements the :meth:`object.__setitem__` method.
+
+		:param action: Action.
+		:type action: unicode
+		:param kwargs: kwargs.
+		:type kwargs: dict
+		"""
+
+		self.registerAction(action, **kwargs)
+
 	def __iter__(self):
 		"""
 		Reimplements the :meth:`object.__iter__` method.
@@ -311,7 +325,7 @@ class ActionsManager(QObject):
 
 		if not name.startswith(self.__rootNamespace):
 			name = foundations.namespace.setNamespace(self.__rootNamespace,
-													foundations.namespace.setNamespace(self.__defaultNamespace, name))
+													  foundations.namespace.setNamespace(self.__defaultNamespace, name))
 			LOGGER.debug("> Normalized name: '{0}'.".format(name))
 			return name
 		else:
@@ -393,7 +407,7 @@ class ActionsManager(QObject):
 			return category
 		else:
 			raise umbra.exceptions.CategoryExistsError("{0} | '{1}' category doesn't exists!".format
-			(self.__class__.__name__, name))
+													   (self.__class__.__name__, name))
 
 	def addToCategory(self, category, name, action):
 		"""
@@ -433,7 +447,7 @@ class ActionsManager(QObject):
 		if not isinstance(category, dict):
 			return False
 
-		del(category[name])
+		del (category[name])
 		LOGGER.debug("> Removed '{0}' action from '{1}' category!".format(category, name))
 		return True
 
@@ -474,18 +488,18 @@ class ActionsManager(QObject):
 		:rtype: QAction
 		"""
 
-		settings = foundations.dataStructures.Structure(**{"parent" : None,
-									"text" : None,
-									"icon" : None,
-									"iconText" : None,
-									"checkable" : None,
-									"checked" : None,
-									"statusTip" : None,
-									"whatsThis" : None,
-									"toolTip" : None,
-									"shortcut" : None,
-									"shortcutContext" : None,
-									"slot" : None})
+		settings = foundations.dataStructures.Structure(**{"parent": None,
+														   "text": None,
+														   "icon": None,
+														   "iconText": None,
+														   "checkable": None,
+														   "checked": None,
+														   "statusTip": None,
+														   "whatsThis": None,
+														   "toolTip": None,
+														   "shortcut": None,
+														   "shortcutContext": None,
+														   "slot": None})
 		settings.update(kwargs)
 
 		name = self.__normalizeName(name)
