@@ -301,6 +301,21 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	:rtype: QEvent
 	"""
 
+	def __new__(cls, *args, **kwargs):
+		"""
+		Constructor of the class.
+		
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
+		:return: Class instance.
+		:rtype: Umbra
+		"""
+
+		RuntimeGlobals.engine = super(Umbra, cls).__new__(cls)
+		return RuntimeGlobals.engine
+
 	@umbra.reporter.criticalExceptionHandler
 	def __init__(self,
 				 parent=None,
@@ -1978,10 +1993,9 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 		userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory = \
 			RuntimeGlobals.parameters.userApplicationDataDirectory
 	else:
-		systemApplicationDataDirectory = foundations.environment.getSystemApplicationDataDirectory()
 		userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory = \
 			foundations.environment.getUserApplicationDataDirectory()
-		if not foundations.common.pathExists(systemApplicationDataDirectory):
+		if not foundations.common.pathExists(userApplicationDataDirectory):
 			umbra.ui.widgets.messageBox.messageBox("Error",
 												   "Error",
 												   "{0} failed to use the default user Application data directory to store its preferences \
