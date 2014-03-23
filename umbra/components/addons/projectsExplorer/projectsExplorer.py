@@ -34,6 +34,7 @@ from PyQt4.QtGui import QMessageBox
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.exceptions
+import foundations.io
 import foundations.strings
 import foundations.verbose
 import umbra.exceptions
@@ -477,7 +478,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def initializeUi(self):
 		"""
 		Initializes the Component ui.
-		
+
 		:return: Method success.
 		:rtype: bool
 		"""
@@ -512,7 +513,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	def uninitializeUi(self):
 		"""
 		Uninitializes the Component ui.
-		
+
 		:return: Method success.
 		:rtype: bool
 		"""
@@ -750,7 +751,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		"""
 		Defines the slot triggered by :class:`umbra.components.factory.scriptEditor.scriptEditor` class
 		Model when a project is registered.
-		
+
 		:param projectNode: Registered project ProjectNode.
 		:type projectNode: ProjectNode
 		"""
@@ -982,10 +983,7 @@ class ProjectsExplorer(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		parentDirectory = os.path.dirname(path)
 		isPathRegistered = self.__engine.fileSystemEventsManager.isPathRegistered(parentDirectory)
 		isPathRegistered and self.__engine.fileSystemEventsManager.unregisterPath(parentDirectory)
-		if os.path.isfile(path):
-			os.remove(path)
-		else:
-			shutil.rmtree(path)
+		foundations.io.remove(path)
 		isPathRegistered and self.__engine.fileSystemEventsManager.registerPath(parentDirectory)
 
 	def __renameFile(self, source, target):
