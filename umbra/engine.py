@@ -304,7 +304,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	def __new__(cls, *args, **kwargs):
 		"""
 		Constructor of the class.
-		
+
 		:param \*args: Arguments.
 		:type \*args: \*
 		:param \*\*kwargs: Keywords arguments.
@@ -1995,23 +1995,24 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 	else:
 		userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory = \
 			foundations.environment.getUserApplicationDataDirectory()
-		if not foundations.common.pathExists(userApplicationDataDirectory):
-			umbra.ui.widgets.messageBox.messageBox("Error",
-												   "Error",
-												   "{0} failed to use the default user Application data directory to store its preferences \
-									and has defaulted to the following directory:\n\n\t'{1}'.\n\nReasons for this are various:\n\
-									\t- Undefined 'APPDATA' ( Windows ) or 'HOME' ( Mac Os X, Linux) environment variables.\n\
-									\t- User name with non 'UTF-8' encoding compliant characters.\n\
-									\t- Non 'UTF-8' encoding compliant characters in the preferences directory path.\n\n\
-									You will have to define your own preferences directory by launching {0} with the \
-									'-u \"path\\to\\the\\custom\\preferences\\directory\"' command line parameter.".format(
-													   Constants.applicationName,
-													   userApplicationDataDirectory))
 
 	if not setUserApplicationDataDirectory(userApplicationDataDirectory):
 		raise umbra.exceptions.EngineConfigurationError(
 			"{0} | '{1}' user Application data directory is not available, '{2}' will now close!".format(
 				__name__, RuntimeGlobals.userApplicationDataDirectory, Constants.applicationName))
+
+	if not foundations.common.pathExists(userApplicationDataDirectory):
+		umbra.ui.widgets.messageBox.messageBox("Error",
+											   "Error",
+											   "{0} failed to use the default user Application data directory to store its preferences \
+								and has defaulted to the following directory:\n\n\t'{1}'.\n\nReasons for this are various:\n\
+								\t- Undefined 'APPDATA' ( Windows ) or 'HOME' ( Mac Os X, Linux) environment variables.\n\
+								\t- User name with non 'UTF-8' encoding compliant characters.\n\
+								\t- Non 'UTF-8' encoding compliant characters in the preferences directory path.\n\n\
+								You will have to define your own preferences directory by launching {0} with the \
+								'-u \"path\\to\\the\\custom\\preferences\\directory\"' command line parameter.".format(
+												   Constants.applicationName,
+												   userApplicationDataDirectory))
 
 	LOGGER.debug("> Application Python interpreter: '{0}'".format(sys.executable))
 	LOGGER.debug("> Application startup location: '{0}'".format(os.getcwd()))
