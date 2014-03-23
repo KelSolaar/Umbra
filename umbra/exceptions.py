@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines **Umbra** package exceptions. 
+	Defines **Umbra** package exceptions.
 
 **Others:**
 
@@ -86,21 +86,21 @@ class AbstractEngineError(foundations.exceptions.AbstractError):
 
 class EngineConfigurationError(AbstractEngineError):
 	"""
-	Defines engine configuration exceptions.
+	Defines engine configuration exception.
 	"""
 
 	pass
 
 class EngineInitializationError(AbstractEngineError):
 	"""
-	Defines engine initialization exceptions.
+	Defines engine initialization exception.
 	"""
 
 	pass
 
 class ResourceExistsError(foundations.exceptions.AbstractOsError):
 	"""
-	Defines non existing resource exceptions.
+	Defines non existing resource exception.
 	"""
 
 	pass
@@ -114,14 +114,14 @@ class AbstractActionsManagerError(foundations.exceptions.AbstractError):
 
 class CategoryExistsError(AbstractActionsManagerError):
 	"""
-	Defines non existing category exceptions.
+	Defines non existing category exception.
 	"""
 
 	pass
 
 class ActionExistsError(AbstractActionsManagerError):
 	"""
-	Defines non existing action exceptions.
+	Defines non existing action exception.
 	"""
 
 	pass
@@ -135,21 +135,21 @@ class AbstractPatchesManagerError(foundations.exceptions.AbstractError):
 
 class PatchRegistrationError(AbstractPatchesManagerError):
 	"""
-	Defines patch registration exceptions.
+	Defines patch registration exception.
 	"""
 
 	pass
 
 class PatchInterfaceError(AbstractPatchesManagerError):
 	"""
-	Defines patch interface exceptions.
+	Defines patch interface exception.
 	"""
 
 	pass
 
 class PatchApplyError(AbstractPatchesManagerError):
 	"""
-	Defines patch apply exceptions.
+	Defines patch apply exception.
 	"""
 
 	pass
@@ -163,14 +163,14 @@ class AbstractLayoutsManagerError(foundations.exceptions.AbstractError):
 
 class LayoutRegistrationError(AbstractLayoutsManagerError):
 	"""
-	Defines layout registration exceptions.
+	Defines layout registration exception.
 	"""
 
 	pass
 
 class LayoutExistError(AbstractLayoutsManagerError):
 	"""
-	Defines non existing layout exceptions.
+	Defines non existing layout exception.
 	"""
 
 	pass
@@ -185,14 +185,14 @@ class AbstractFileSystemEventsManagerError(foundations.exceptions.AbstractError)
 
 class PathRegistrationError(AbstractFileSystemEventsManagerError):
 	"""
-	Defines path registration exceptions.
+	Defines path registration exception.
 	"""
 
 	pass
 
 class PathExistsError(AbstractFileSystemEventsManagerError):
 	"""
-	Defines non existing path exceptions.
+	Defines non existing path exception.
 	"""
 
 	pass
@@ -206,7 +206,7 @@ class AbstractLanguageError(foundations.exceptions.AbstractError):
 
 class LanguageGrammarError(AbstractLanguageError):
 	"""
-	Defines language grammar exceptions.
+	Defines language grammar exception.
 	"""
 
 	pass
