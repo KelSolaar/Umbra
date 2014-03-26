@@ -2002,16 +2002,16 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 			"{0} | '{1}' user Application data directory is not available, '{2}' will now close!".format(
 				__name__, RuntimeGlobals.userApplicationDataDirectory, Constants.applicationName))
 
-	if not foundations.common.pathExists(userApplicationDataDirectory):
+	if foundations.environment.getTemporaryDirectory() in userApplicationDataDirectory:
 		umbra.ui.widgets.messageBox.messageBox("Error",
 											   "Error",
-											   "{0} failed to use the default user Application data directory to store its preferences \
-								and has defaulted to the following directory:\n\n\t'{1}'.\n\nReasons for this are various:\n\
-								\t- Undefined 'APPDATA' ( Windows ) or 'HOME' ( Mac Os X, Linux) environment variables.\n\
-								\t- User name with non 'UTF-8' encoding compliant characters.\n\
-								\t- Non 'UTF-8' encoding compliant characters in the preferences directory path.\n\n\
-								You will have to define your own preferences directory by launching {0} with the \
-								'-u \"path\\to\\the\\custom\\preferences\\directory\"' command line parameter.".format(
+"{0} failed to use the default user Application data directory to store its preferences \
+and has defaulted to the following directory:\n\n\t'{1}'.\n\nReasons for this are various:\n\
+\t- Undefined 'APPDATA' ( Windows ) or 'HOME' ( Mac Os X, Linux ) environment variables.\n\
+\t- User name with non 'UTF-8' encoding compliant characters.\n\
+\t- Non 'UTF-8' encoding compliant characters in the preferences directory path.\n\n\
+You will have to define your own preferences directory by launching {0} with the \
+'-u \"path\\to\\the\\custom\\preferences\\directory\"' command line parameter.".format(
 												   Constants.applicationName,
 												   userApplicationDataDirectory))
 
