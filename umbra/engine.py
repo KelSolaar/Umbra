@@ -32,6 +32,7 @@ import platform
 import re
 import sys
 import time
+from PyQt4.QtCore import PYQT_VERSION_STR
 from PyQt4.QtCore import QEvent
 from PyQt4.QtCore import QEventLoop
 from PyQt4.QtCore import QString
@@ -2015,6 +2016,7 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 												   userApplicationDataDirectory))
 
 	LOGGER.debug("> Application Python interpreter: '{0}'".format(sys.executable))
+	LOGGER.debug("> Application PyQt version: '{0}'".format(PYQT_VERSION_STR))
 	LOGGER.debug("> Application startup location: '{0}'".format(os.getcwd()))
 	LOGGER.debug("> Session user Application data directory: '{0}'".format(RuntimeGlobals.userApplicationDataDirectory))
 
