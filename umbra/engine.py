@@ -190,7 +190,7 @@ SESSION_HEADER_TEXT = ("{0} | Copyright ( C ) 2008 - 2014 Thomas Mansencal - tho
 					   "{0} | This software is released under terms of GNU GPL V3 license.".format(
 						   Constants.applicationName),
 					   "{0} | http://www.gnu.org/licenses/ ".format(Constants.applicationName),
-					   "{0} | Version: {1}".format(Constants.applicationName, Constants.releaseVersion))
+					   "{0} | Version: {1}".format(Constants.applicationName, Constants.version))
 
 SESSION_FOOTER_TEXT = ("{0} | Closing interface! ".format(Constants.applicationName),
 					   Constants.loggingSeparators,
@@ -401,7 +401,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		# --- Initializing Application. ---
 		self.__splashscreen and self.__splashscreen.showMessage(
-			"{0} - {1} | Initializing interface.".format(self.__class__.__name__, Constants.releaseVersion),
+			"{0} - {1} | Initializing interface.".format(self.__class__.__name__, Constants.version),
 			waitTime=0.25)
 
 		# --- Initializing the Actions Manager. ---
@@ -432,7 +432,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.setAcceptDrops(True)
 
 		# Setting window title and toolBar and statusBar.
-		self.setWindowTitle("{0} - {1}".format(Constants.applicationName, Constants.releaseVersion))
+		self.setWindowTitle("{0} - {1}".format(Constants.applicationName, Constants.version))
 		self.toolBar = Application_QToolBar(self)
 		self.addToolBar(self.toolBar)
 
@@ -443,7 +443,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		# --- Initializing the Components Manager. ---
 		self.__splashscreen and self.__splashscreen.showMessage(
-			"{0} - {1} | Initializing Components manager.".format(self.__class__.__name__, Constants.releaseVersion),
+			"{0} - {1} | Initializing Components manager.".format(self.__class__.__name__, Constants.version),
 			waitTime=0.25)
 
 		self.__componentsManager = RuntimeGlobals.componentsManager = Manager(settings.componentsPaths)
@@ -470,7 +470,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		LOGGER.debug("> Hiding splashscreen.")
 		if self.__splashscreen:
 			self.__splashscreen.showMessage("{0} - {1} | Initialization done.".format(
-				self.__class__.__name__, Constants.releaseVersion))
+				self.__class__.__name__, Constants.version))
 			self.__splashscreen.hide()
 
 		# --- Running onStartup components methods. ---
@@ -1447,7 +1447,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 						interface)
 
 				self.__splashscreen and self.__splashscreen.showMessage(
-					"{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component))
+					"{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.version, component))
 				interface.activate(self)
 				if profile.category in ("Default", "QObject"):
 					interface.initialize()
@@ -1505,7 +1505,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		"""
 
 		self.__splashscreen and self.__splashscreen.showMessage(
-			"{0} - {1} | Instantiating {2} Component.".format(self.__class__.__name__, Constants.releaseVersion,
+			"{0} - {1} | Instantiating {2} Component.".format(self.__class__.__name__, Constants.version,
 															  profile.name))
 
 	def __storeProcessingState(self):
@@ -2087,7 +2087,7 @@ You will have to define your own preferences directory by launching {0} with the
 		RuntimeGlobals.splashscreenImage = QPixmap(umbra.ui.common.getResourcePath(UiConstants.splashScreenImage))
 		RuntimeGlobals.splashscreen = Delayed_QSplashScreen(RuntimeGlobals.splashscreenImage, textColor=Qt.white)
 		RuntimeGlobals.splashscreen.showMessage(
-			"{0} - {1} | Initializing {0}.".format(Constants.applicationName, Constants.releaseVersion))
+			"{0} - {1} | Initializing {0}.".format(Constants.applicationName, Constants.version))
 		RuntimeGlobals.splashscreen.show()
 
 	# Initializing requests stack.

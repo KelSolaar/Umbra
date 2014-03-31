@@ -142,7 +142,7 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		self.__jqueryJavascript = foundations.io.File(self.__jqueryJavascriptPath).read()
 		self.__crittercismJavascript = foundations.io.File(self.__crittercismJavascriptPath).read()
 		self.__reporterJavascript = foundations.io.File(self.__reporterJavascriptPath).read().format(
-		UiConstants.crittercismId, Constants.releaseVersion)
+		UiConstants.crittercismId, Constants.version)
 
 		self.__style = """* {
 							margin: 0;
@@ -579,7 +579,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		html.append("<div class=\"content\">")
 		html.append("<p>An unhandled exception occured in <b>{0} {1}</b>! \
 				Sequence of calls leading up to the exception, in their occurring order:</p>".format(
-				Constants.applicationName, Constants.releaseVersion))
+				Constants.applicationName, Constants.version))
 		html.append("<br/>")
 		html.append("<div class=\"stack\">")
 		for frame, fileName, lineNumber, name, context, index in stack:
@@ -659,7 +659,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		text.append("")
 
 		text.append("An unhandled exception occured in {0} {1}!".format(Constants.applicationName,
-																		Constants.releaseVersion))
+																		Constants.version))
 		text.append("Sequence of calls leading up to the exception, in their occurring order:")
 		text.append("")
 

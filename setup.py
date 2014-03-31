@@ -82,7 +82,7 @@ def getLongDescription():
 	return "".join(description)
 
 setup(name=umbra.globals.constants.Constants.applicationName,
-	version=umbra.globals.constants.Constants.releaseVersion,
+	version=umbra.globals.constants.Constants.version,
 	author=umbra.globals.constants.__author__,
 	author_email=umbra.globals.constants.__email__,
 	include_package_data=True,
