@@ -65,7 +65,7 @@ class Constants():
 	:param minorVersion: Package minor version.
 	:type minorVersion: unicode
 	"""
-	changeVersion = "8"
+	changeVersion = "9"
 	"""
 	:param changeVersion: Package change version.
 	:type changeVersion: unicode
