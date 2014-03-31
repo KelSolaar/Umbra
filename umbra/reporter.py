@@ -84,7 +84,10 @@ class Reporter(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
 
 	__instance = None
-	"""Class instance. ( Reporter )"""
+	"""
+	:param __instance: Class instance.
+	:type __instance: Reporter
+	"""
 
 	def __new__(cls, *args, **kwargs):
 		"""

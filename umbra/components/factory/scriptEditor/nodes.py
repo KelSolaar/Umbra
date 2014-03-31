@@ -459,7 +459,10 @@ class PatternNode(umbra.ui.nodes.GraphModelNode):
 	"""
 
 	__family = "Pattern"
-	"""Node family. ( String )"""
+	"""
+	:param __family: Node family.
+	:type __family: unicode
+	"""
 
 	def __init__(self,
 				name=None,
@@ -514,7 +517,10 @@ class SearchFileNode(umbra.ui.nodes.GraphModelNode):
 	"""
 
 	__family = "SearchFile"
-	"""Node family. ( String )"""
+	"""
+	:param __family: Node family.
+	:type __family: unicode
+	"""
 
 	def __init__(self,
 				name=None,
@@ -569,7 +575,10 @@ class SearchOccurenceNode(umbra.ui.nodes.GraphModelNode):
 	"""
 
 	__family = "SearchOccurence"
-	"""Node family. ( String )"""
+	"""
+	:param __family: Node family.
+	:type __family: unicode
+	"""
 
 	def __init__(self,
 				name=None,
@@ -624,7 +633,10 @@ class ReplaceResultNode(umbra.ui.nodes.GraphModelNode):
 	"""
 
 	__family = "ReplaceResult"
-	"""Node family. ( String )"""
+	"""
+	:param __family: Node family.
+	:type __family: unicode
+	"""
 
 	def __init__(self,
 				name=None,

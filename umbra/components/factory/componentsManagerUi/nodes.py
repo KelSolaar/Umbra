@@ -56,7 +56,10 @@ class PathNode(umbra.ui.nodes.GraphModelNode):
 	"""
 
 	__family = "Path"
-	"""Node family. ( String )"""
+	"""
+	:param __family: Node family.
+	:type __family: unicode
+	"""
 
 	def __init__(self,
 				name=None,
@@ -119,7 +122,10 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 	"""
 
 	__family = "Component"
-	"""Node family. ( String )"""
+	"""
+	:param __family: Node family.
+	:type __family: unicode
+	"""
 
 	def __init__(self,
 				component,

@@ -68,7 +68,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 	"""
 
 	__untitledNameId = 1
-	"""Editor untitled name id. ( Integer )"""
+	"""
+	:param __untitledNameId: Editor untitled name id.
+	:type __untitledNameId: int
+	"""
 
 	# Custom signals definitions.
 	titleChanged = pyqtSignal()

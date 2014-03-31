@@ -75,7 +75,10 @@ class GraphModel(QAbstractItemModel):
 	"""
 
 	__modelsInstances = weakref.WeakValueDictionary()
-	"""Models instances: Each model, once instanced is referenced in this attribute. ( Dictionary )"""
+	"""
+	:param __modelsInstances: Models instances.
+	:type __modelsInstances: dict
+	"""
 
 	def __new__(cls, *args, **kwargs):
 		"""

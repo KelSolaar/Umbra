@@ -265,7 +265,10 @@ class GraphModelNode(AbstractCompositeNode, Mixin_GraphModelObject):
 	"""
 
 	__family = "GraphModel"
-	"""Node family. ( String )"""
+	"""
+	:param __family: Node family.
+	:type __family: unicode
+	"""
 
 	def __init__(self, name=None, parent=None, children=None, roles=None, flags=None, **kwargs):
 		"""
@@ -340,7 +343,10 @@ class DefaultNode(AbstractCompositeNode):
 	"""
 
 	__family = "Default"
-	"""Node family. ( String )"""
+	"""
+	:param __family: Node family.
+	:type __family: unicode
+	"""
 
 	def __init__(self, name=None, parent=None, children=None, **kwargs):
 		"""
@@ -366,7 +372,10 @@ class FormatNode(AbstractCompositeNode):
 	"""
 
 	__family = "Format"
-	"""Node family. ( String )"""
+	"""
+	:param __family: Node family.
+	:type __family: unicode
+	"""
 
 	def __init__(self, name=None, parent=None, children=None, format=None, **kwargs):
 		"""

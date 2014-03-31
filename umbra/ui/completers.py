@@ -58,7 +58,10 @@ class DefaultCompleter(QCompleter):
 	"""
 
 	__tokens = {}
-	"""Tokens cache. ( Dictionary )"""
+	"""
+	:param __tokens: Tokens cache.
+	:type __tokens: dict
+	"""
 
 	def __init__(self, parent=None, language=None, tokens=None):
 		"""
