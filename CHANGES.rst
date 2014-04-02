@@ -1,4 +1,4 @@
-**Umbra** - 1.0.8 - Stable
+**Umbra** - 1.0.9 - Stable
 ==========================
 
 .. .changes

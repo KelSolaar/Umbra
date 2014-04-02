@@ -52,7 +52,7 @@ or this alternative command::
 
 	easy_install Umbra
 
-Alternatively, if you want to directly install from `Github <http://github.com/KelSolaar/Umbra>`_ source repository::
+You can also directly install from `Github <http://github.com/KelSolaar/Umbra>`_ source repository::
 
 	git clone git://github.com/KelSolaar/Umbra.git
 	cd Umbra
