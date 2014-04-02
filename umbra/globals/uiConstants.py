@@ -246,7 +246,7 @@ class UiConstants():
 	:type invalidLinkHtmlFile: unicode
 	"""
 
-	crittercismId = "5075c158d5f9b9796b000002"
+	crittercismId = "51290b63421c983d17000490"
 	"""
 	:param crittercismId: Crittercism Id.
 	:type crittercismId: unicode
