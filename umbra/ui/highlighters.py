@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the Application highlighters classes.
+	Defines the Application highlighters classes.
 
 **Others:**
 	Portions of the code from PyQtWiki: http://diotavelli.net/PyQtWiki/Python%20syntax%20highlighting
@@ -43,7 +43,7 @@ from umbra.ui.themes import DEFAULT_THEME
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -61,14 +61,15 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Rule(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for highlighters rule. 
+	Defines a storage object for highlighters rule. 
 	"""
 
 	def __init__(self, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param \*\*kwargs: pattern, format. ( Key / Value pairs )
+		:param \*\*kwargs: pattern, format.
+		:type \*\*kwargs: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -77,14 +78,15 @@ class Rule(foundations.dataStructures.Structure):
 
 class FormatsTree(object):
 	"""
-	This class defines the formats tree object representing higlighters theme.
+	Defines the formats tree object representing higlighters theme.
 	"""
 
 	def __init__(self, theme=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param theme: Theme. ( Dictionary )
+		:param theme: Theme.
+		:type theme: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -100,9 +102,10 @@ class FormatsTree(object):
 	@property
 	def rootNode(self):
 		"""
-		This method is the property for **self.__rootNode** attribute.
+		Property for **self.__rootNode** attribute.
 
-		:return: self.__rootNode. ( AbstractCompositeNode )
+		:return: self.__rootNode.
+		:rtype: AbstractCompositeNode
 		"""
 
 		return self.__rootNode
@@ -111,9 +114,10 @@ class FormatsTree(object):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def rootNode(self, value):
 		"""
-		This method is the setter method for **self.__rootNode** attribute.
+		Setter for **self.__rootNode** attribute.
 
-		:param value: Attribute value. ( AbstractCompositeNode )
+		:param value: Attribute value.
+		:type value: AbstractCompositeNode
 		"""
 
 		if value is not None:
@@ -125,7 +129,7 @@ class FormatsTree(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def rootNode(self):
 		"""
-		This method is the deleter method for **self.__rootNode** attribute.
+		Deleter for **self.__rootNode** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -136,9 +140,10 @@ class FormatsTree(object):
 	#******************************************************************************************************************
 	def __initializeTree(self, theme):
 		"""
-		This method initializes the object formats tree.
+		Initializes the object formats tree.
 		
-		:param theme: Theme. ( Dictionary )
+		:param theme: Theme.
+		:type theme: dict
 		"""
 
 		for item in sorted(theme):
@@ -153,12 +158,16 @@ class FormatsTree(object):
 
 	def listFormats(self, node, path=(), formats=None):
 		"""
-		This method lists the object formats in sorted order.
+		Lists the object formats in sorted order.
 		
-		:param node: Root node to start listing the formats from. ( AbstractCompositeNode )
-		:param path: Walked paths. ( Tuple )
-		:param formats: Formats. ( List )
-		:return: Formats. ( List )
+		:param node: Root node to start listing the formats from.
+		:type node: AbstractCompositeNode
+		:param path: Walked paths.
+		:type path: tuple
+		:param formats: Formats.
+		:type formats: list
+		:return: Formats.
+		:rtype: list
 		"""
 
 		if formats == None:
@@ -172,10 +181,12 @@ class FormatsTree(object):
 	@foundations.decorators.memoize(None)
 	def getFormat(self, name):
 		"""
-		This method returns the closest format or closest parent format associated to given name.
+		Returns the closest format or closest parent format associated to given name.
 		
-		:param name: Format name. ( String)
-		:return: Format. ( QTextCharFormat )
+		:param name: Format name.
+		:type name: unicode
+		:return: Format.
+		:rtype: QTextCharFormat
 		"""
 
 		formats = [format for format in self.listFormats(self.__rootNode) if format in name]
@@ -202,15 +213,16 @@ class FormatsTree(object):
 
 class AbstractHighlighter(QSyntaxHighlighter):
 	"""
-	This class is a `QSyntaxHighlighter <http://doc.qt.nokia.com/qsyntaxhighlighter.html>`_ subclass used
+	Defines a `QSyntaxHighlighter <http://doc.qt.nokia.com/qsyntaxhighlighter.html>`_ subclass used
 	as a base for highlighters classes.
 	"""
 
 	def __init__(self, parent=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Widget parent. ( QObject )
+		:param parent: Widget parent.
+		:type parent: QObject
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -227,9 +239,10 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	@property
 	def formats(self):
 		"""
-		This method is the property for **self.__formats** attribute.
+		Property for **self.__formats** attribute.
 
-		:return: self.__formats. ( FormatsTree )
+		:return: self.__formats.
+		:rtype: FormatsTree
 		"""
 
 		return self.__formats
@@ -238,9 +251,10 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def formats(self, value):
 		"""
-		This method is the setter method for **self.__formats** attribute.
+		Setter for **self.__formats** attribute.
 
-		:param value: Attribute value. ( FormatsTree )
+		:param value: Attribute value.
+		:type value: FormatsTree
 		"""
 
 		if value is not None:
@@ -251,7 +265,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def formats(self):
 		"""
-		This method is the deleter method for **self.__formats** attribute.
+		Deleter for **self.__formats** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -260,9 +274,10 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	@property
 	def rules(self):
 		"""
-		This method is the property for **self.__rules** attribute.
+		Property for **self.__rules** attribute.
 
-		:return: self.__rules. ( Tuple / List )
+		:return: self.__rules.
+		:rtype: tuple or list
 		"""
 
 		return self.__rules
@@ -271,9 +286,10 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def rules(self, value):
 		"""
-		This method is the setter method for **self.__rules** attribute.
+		Setter for **self.__rules** attribute.
 
-		:param value: Attribute value. ( Tuple / List )
+		:param value: Attribute value.
+		:type value: tuple or list
 		"""
 
 		if value is not None:
@@ -285,7 +301,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def rules(self):
 		"""
-		This method is the deleter method for **self.__rules** attribute.
+		Deleter for **self.__rules** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -297,9 +313,10 @@ class AbstractHighlighter(QSyntaxHighlighter):
 	@foundations.exceptions.handleExceptions(NotImplementedError)
 	def highlightBlock(self, block):
 		"""
-		This method reimplements the :meth:`QSyntaxHighlighter.highlightBlock` method.
+		Reimplements the :meth:`QSyntaxHighlighter.highlightBlock` method.
 
-		:param block: Text block. ( QString )
+		:param block: Text block.
+		:type block: QString
 		"""
 
 		raise NotImplementedError("{0} | '{1}' must be implemented by '{2}' subclasses!".format(self.__class__.__name__,
@@ -308,12 +325,16 @@ class AbstractHighlighter(QSyntaxHighlighter):
 
 	def highlightText(self, text, start, end):
 		"""
-		This method highlights given text.
+		Highlights given text.
 
-		:param text: Text. ( QString )
-		:param start: Text start index. ( Integer )
-		:param end: Text end index. ( Integer )
-		:return: Method success. ( Boolean )
+		:param text: Text.
+		:type text: QString
+		:param start: Text start index.
+		:type start: int
+		:param end: Text end index.
+		:type end: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		for rule in self.__rules:
@@ -327,16 +348,19 @@ class AbstractHighlighter(QSyntaxHighlighter):
 
 class DefaultHighlighter(AbstractHighlighter):
 	"""
-	This class is a :class:`AbstractHighlighter` subclass providing syntax highlighting for documents.
+	Defines a :class:`AbstractHighlighter` subclass providing syntax highlighting for documents.
 	"""
 
 	def __init__(self, parent=None, rules=None, theme=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Widget parent. ( QObject )
-		:param rules: Rules. ( Tuple / List )
-		:param theme: Theme. ( Dictionary )
+		:param parent: Widget parent.
+		:type parent: QObject
+		:param rules: Rules.
+		:type rules: tuple or list
+		:param theme: Theme.
+		:type theme: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -356,9 +380,10 @@ class DefaultHighlighter(AbstractHighlighter):
 	@property
 	def theme(self):
 		"""
-		This method is the property for **self.__theme** attribute.
+		Property for **self.__theme** attribute.
 
-		:return: self.__theme. ( Dictionary )
+		:return: self.__theme.
+		:rtype: dict
 		"""
 
 		return self.__theme
@@ -367,9 +392,10 @@ class DefaultHighlighter(AbstractHighlighter):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def theme(self, value):
 		"""
-		This method is the setter method for **self.__theme** attribute.
+		Setter for **self.__theme** attribute.
 
-		:param value: Attribute value. ( Dictionary )
+		:param value: Attribute value.
+		:type value: dict
 		"""
 
 		if value is not None:
@@ -380,7 +406,7 @@ class DefaultHighlighter(AbstractHighlighter):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def theme(self):
 		"""
-		This method is the deleter method for **self.__theme** attribute.
+		Deleter for **self.__theme** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -391,16 +417,17 @@ class DefaultHighlighter(AbstractHighlighter):
 	#******************************************************************************************************************
 	def __setFormats(self):
 		"""
-		This method sets the highlighting formats.
+		Sets the highlighting formats.
 		"""
 
 		self.formats = FormatsTree(self.__theme)
 
 	def highlightBlock(self, block):
 		"""
-		This method reimplements the :meth:`AbstractHighlighter.highlightBlock` method.
+		Reimplements the :meth:`AbstractHighlighter.highlightBlock` method.
 
-		:param block: Text block. ( QString )
+		:param block: Text block.
+		:type block: QString
 		"""
 
 		self.highlightText(block, 0, len(block))
@@ -417,14 +444,20 @@ class DefaultHighlighter(AbstractHighlighter):
 
 	def highlightMultilineBlock(self, block, startPattern, endPattern, state, format):
 		"""
-		This method highlights given multiline text block.
+		Highlights given multiline text block.
 
-		:param block: Text block. ( QString )
-		:param pattern: Start regex pattern. ( QRegExp )
-		:param pattern: End regex pattern. ( QRegExp )
-		:param format: Format. ( QTextCharFormat )
-		:param state: Block state. ( Integer )
-		:return: Current block matching state. ( Boolean )
+		:param block: Text block.
+		:type block: QString
+		:param pattern: Start regex pattern.
+		:type pattern: QRegExp
+		:param pattern: End regex pattern.
+		:type pattern: QRegExp
+		:param format: Format.
+		:type format: QTextCharFormat
+		:param state: Block state.
+		:type state: int
+		:return: Current block matching state.
+		:rtype: bool
 		"""
 
 		if self.previousBlockState() == state:

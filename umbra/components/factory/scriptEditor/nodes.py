@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Defines the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class nodes.
 
 **Others:**
@@ -38,7 +38,7 @@ from umbra.components.factory.scriptEditor.editor import Editor
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -61,7 +61,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class EditorNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class **Editor** node.
 	"""
 
@@ -77,15 +77,22 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -104,9 +111,10 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 	@property
 	def editor(self):
 		"""
-		This method is the property for **self.__editor** attribute.
+		Property for **self.__editor** attribute.
 
-		:return: self.__editor. ( Editor )
+		:return: self.__editor.
+		:rtype: Editor
 		"""
 
 		return self.__editor
@@ -115,9 +123,10 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def editor(self, value):
 		"""
-		This method is the setter method for **self.__editor** attribute.
+		Setter for **self.__editor** attribute.
 
-		:param value: Attribute value. ( Editor )
+		:param value: Attribute value.
+		:type value: Editor
 		"""
 
 		if value is not None:
@@ -128,7 +137,7 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def editor(self):
 		"""
-		This method is the deleter method for **self.__editor** attribute.
+		Deleter for **self.__editor** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -139,16 +148,17 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		pass
 
 class FileNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class **File** node.
 	"""
 
@@ -163,16 +173,22 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param path: File path.  ( String )
-		:param editor: File editor.  ( Editor )
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param path: File path.
+		:type path: unicode
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -191,9 +207,10 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 	@property
 	def path(self):
 		"""
-		This method is the property for **self.__path** attribute.
+		Property for **self.__path** attribute.
 
-		:return: self.__path. ( String )
+		:return: self.__path.
+		:rtype: unicode
 		"""
 
 		return self.__path
@@ -202,9 +219,10 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def path(self, value):
 		"""
-		This method is the setter method for **self.__path** attribute.
+		Setter for **self.__path** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -215,7 +233,7 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def path(self):
 		"""
-		This method is the deleter method for **self.__path** attribute.
+		Deleter for **self.__path** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -226,16 +244,17 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		pass
 
 class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class **Directory** node.
 	"""
 
@@ -251,16 +270,24 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param path: Directory path.  ( String )
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param path: Directory path.
+		:type path: unicode
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -279,9 +306,10 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 	@property
 	def path(self):
 		"""
-		This method is the property for **self.__path** attribute.
+		Property for **self.__path** attribute.
 
-		:return: self.__path. ( String )
+		:return: self.__path.
+		:rtype: unicode
 		"""
 
 		return self.__path
@@ -290,9 +318,10 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def path(self, value):
 		"""
-		This method is the setter method for **self.__path** attribute.
+		Setter for **self.__path** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -304,7 +333,7 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def path(self):
 		"""
-		This method is the deleter method for **self.__path** attribute.
+		Deleter for **self.__path** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -315,16 +344,17 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		pass
 
 class ProjectNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Defines :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class **Project** node.
 	"""
 
@@ -340,16 +370,24 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param path: Project path.  ( String )
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param path: Project path.
+		:type path: unicode
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -368,9 +406,10 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 	@property
 	def path(self):
 		"""
-		This method is the property for **self.__path** attribute.
+		Property for **self.__path** attribute.
 
-		:return: self.__path. ( String )
+		:return: self.__path.
+		:rtype: unicode
 		"""
 
 		return self.__path
@@ -379,9 +418,10 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def path(self, value):
 		"""
-		This method is the setter method for **self.__path** attribute.
+		Setter for **self.__path** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -393,7 +433,7 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def path(self):
 		"""
-		This method is the deleter method for **self.__path** attribute.
+		Deleter for **self.__path** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -404,21 +444,25 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		pass
 
 class PatternNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchAndReplace.SearchAndReplace` class
+	Defines :class:`umbra.patterns.factory.scriptEditor.searchAndReplace.SearchAndReplace` class
 	search and replace pattern node.
 	"""
 
 	__family = "Pattern"
-	"""Node family. ( String )"""
+	"""
+	:param __family: Node family.
+	:type __family: unicode
+	"""
 
 	def __init__(self,
 				name=None,
@@ -429,15 +473,22 @@ class PatternNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -451,21 +502,25 @@ class PatternNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		pass
 
 class SearchFileNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
+	Defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
 	search file node.
 	"""
 
 	__family = "SearchFile"
-	"""Node family. ( String )"""
+	"""
+	:param __family: Node family.
+	:type __family: unicode
+	"""
 
 	def __init__(self,
 				name=None,
@@ -476,15 +531,22 @@ class SearchFileNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -498,21 +560,25 @@ class SearchFileNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		pass
 
 class SearchOccurenceNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
+	Defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
 	search occurence node.
 	"""
 
 	__family = "SearchOccurence"
-	"""Node family. ( String )"""
+	"""
+	:param __family: Node family.
+	:type __family: unicode
+	"""
 
 	def __init__(self,
 				name=None,
@@ -523,15 +589,22 @@ class SearchOccurenceNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -545,21 +618,25 @@ class SearchOccurenceNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		pass
 
 class ReplaceResultNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
+	Defines :class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class
 	replace result node.
 	"""
 
 	__family = "ReplaceResult"
-	"""Node family. ( String )"""
+	"""
+	:param __family: Node family.
+	:type __family: unicode
+	"""
 
 	def __init__(self,
 				name=None,
@@ -570,15 +647,22 @@ class ReplaceResultNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -592,9 +676,10 @@ class ReplaceResultNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		pass

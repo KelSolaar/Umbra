@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`Processing` class.
+	Defines the :class:`Processing` class.
 
 **Others:**
 
@@ -32,7 +32,7 @@ from umbra.globals.uiConstants import UiConstants
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -49,16 +49,19 @@ UI_FILE = umbra.ui.common.getResourcePath(UiConstants.processingUiFile)
 #**********************************************************************************************************************
 class Processing(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
-	This class defines the Application processing status bar widget. 
+	Defines the Application processing status bar widget. 
 	"""
 
 	def __init__(self, parent, *args, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -76,9 +79,10 @@ class Processing(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def container(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -87,9 +91,10 @@ class Processing(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -99,7 +104,7 @@ class Processing(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		Deleter for **self.__container** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -110,7 +115,7 @@ class Processing(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	#******************************************************************************************************************
 	def __initializeUi(self):
 		"""
-		This method initializes the Widget ui.
+		Initializes the Widget ui.
 		"""
 
 		pass

@@ -34,7 +34,6 @@ Modules Summary:
    umbra.globals.constants <api/umbra.globals.constants>
    umbra.globals.runtimeGlobals <api/umbra.globals.runtimeGlobals>
    umbra.globals.uiConstants <api/umbra.globals.uiConstants>
-   umbra.guerilla <api/umbra.guerilla>
    umbra.launcher <api/umbra.launcher>
    umbra.managers.actionsManager <api/umbra.managers.actionsManager>
    umbra.managers.fileSystemEventsManager <api/umbra.managers.fileSystemEventsManager>

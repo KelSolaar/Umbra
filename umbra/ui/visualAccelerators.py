@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the Application visual accelerators objects.
+	Defines the Application visual accelerators objects.
 
 **Others:**
 """
@@ -37,7 +37,7 @@ import foundations.verbose
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -55,10 +55,12 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 def highlightCurrentLine(editor):
 	"""
-	This definition highlights given editor current line.
+	Highlights given editor current line.
 	
-	:param editor: Document editor. ( QWidget )
-	:return: Method success. ( Boolean )
+	:param editor: Document editor.
+	:type editor: QWidget
+	:return: Method success.
+	:rtype: bool
 	"""
 
 	format = editor.language.theme.get("accelerator.line")
@@ -78,10 +80,12 @@ def highlightCurrentLine(editor):
 
 def highlightOccurences(editor):
 	"""
-	This definition highlights given editor current line.
+	Highlights given editor current line.
 	
-	:param editor: Document editor. ( QWidget )
-	:return: Method success. ( Boolean )
+	:param editor: Document editor.
+	:type editor: QWidget
+	:return: Method success.
+	:rtype: bool
 	"""
 
 	format = editor.language.theme.get("accelerator.occurence")
@@ -112,10 +116,12 @@ def highlightOccurences(editor):
 
 def highlightMatchingSymbolsPairs(editor):
 	"""
-	This definition highlights given editor matching pairs.
+	Highlights given editor matching pairs.
 	
-	:param editor: Document editor. ( QWidget )
-	:return: Method success. ( Boolean )
+	:param editor: Document editor.
+	:type editor: QWidget
+	:return: Method success.
+	:rtype: bool
 	"""
 
 	format = editor.language.theme.get("accelerator.pair")

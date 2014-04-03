@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-**uEdit.py
+**uEdit.py**
 
 **Platform:**
 	Windows, Linux, Mac Os X.
@@ -30,7 +30,7 @@ import sys
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -47,10 +47,12 @@ COMMAND_TEMPLATE = ["[application.componentsManager[\"factory.scriptEditor\"].lo
 #**********************************************************************************************************************
 def uEdit(*args):
 	"""
-	This definition edits given paths into Umbra.
+	Edits given paths into Umbra.
 
-	:param \*args: Arguments. ( \* )
-	:return: Definition success. ( Boolean )
+	:param \*args: Arguments.
+	:type \*args: \*
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	paths = []

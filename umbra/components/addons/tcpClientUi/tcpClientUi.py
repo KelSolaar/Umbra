@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`TCPClientUi` Component Interface class.
+	Defines the :class:`TCPClientUi` Component Interface class.
 
 **Others:**
 
@@ -42,7 +42,7 @@ from manager.qwidgetComponent import QWidgetComponentFactory
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -59,17 +59,21 @@ COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "TCP_Client_Ui
 #**********************************************************************************************************************
 class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
-	This class is the :mod:`umbra.components.factory.tcpClientUi.tcpClientUi` Component Interface class.
+	Defines the :mod:`umbra.components.factory.tcpClientUi.tcpClientUi` Component Interface class.
 	"""
 
 	def __init__(self, parent=None, name=None, *args, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param name: Component name. ( String )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param name: Component name.
+		:type name: unicode
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -97,9 +101,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def engine(self):
 		"""
-		This method is the property for **self.__engine** attribute.
+		Property for **self.__engine** attribute.
 
-		:return: self.__engine. ( QObject )
+		:return: self.__engine.
+		:rtype: QObject
 		"""
 
 		return self.__engine
@@ -108,9 +113,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def engine(self, value):
 		"""
-		This method is the setter method for **self.__engine** attribute.
+		Setter for **self.__engine** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -120,7 +126,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def engine(self):
 		"""
-		This method is the deleter method for **self.__engine** attribute.
+		Deleter for **self.__engine** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -129,9 +135,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def settings(self):
 		"""
-		This method is the property for **self.__settings** attribute.
+		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( QSettings )
+		:return: self.__settings.
+		:rtype: QSettings
 		"""
 
 		return self.__settings
@@ -140,9 +147,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self, value):
 		"""
-		This method is the setter method for **self.__settings** attribute.
+		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( QSettings )
+		:param value: Attribute value.
+		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -152,7 +160,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
-		This method is the deleter method for **self.__settings** attribute.
+		Deleter for **self.__settings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -161,9 +169,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def settingsSection(self):
 		"""
-		This method is the property for **self.__settingsSection** attribute.
+		Property for **self.__settingsSection** attribute.
 
-		:return: self.__settingsSection. ( String )
+		:return: self.__settingsSection.
+		:rtype: unicode
 		"""
 
 		return self.__settingsSection
@@ -172,9 +181,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settingsSection(self, value):
 		"""
-		This method is the setter method for **self.__settingsSection** attribute.
+		Setter for **self.__settingsSection** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -184,7 +194,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settingsSection(self):
 		"""
-		This method is the deleter method for **self.__settingsSection** attribute.
+		Deleter for **self.__settingsSection** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -193,9 +203,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def preferencesManager(self):
 		"""
-		This method is the property for **self.__preferencesManager** attribute.
+		Property for **self.__preferencesManager** attribute.
 
-		:return: self.__preferencesManager. ( QWidget )
+		:return: self.__preferencesManager.
+		:rtype: QWidget
 		"""
 
 		return self.__preferencesManager
@@ -204,9 +215,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def preferencesManager(self, value):
 		"""
-		This method is the setter method for **self.__preferencesManager** attribute.
+		Setter for **self.__preferencesManager** attribute.
 
-		:param value: Attribute value. ( QWidget )
+		:param value: Attribute value.
+		:type value: QWidget
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -216,7 +228,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def preferencesManager(self):
 		"""
-		This method is the deleter method for **self.__preferencesManager** attribute.
+		Deleter for **self.__preferencesManager** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -225,9 +237,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def scriptEditor(self):
 		"""
-		This method is the property for **self.__scriptEditor** attribute.
+		Property for **self.__scriptEditor** attribute.
 
-		:return: self.__scriptEditor. ( QWidget )
+		:return: self.__scriptEditor.
+		:rtype: QWidget
 		"""
 
 		return self.__scriptEditor
@@ -236,9 +249,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def scriptEditor(self, value):
 		"""
-		This method is the setter method for **self.__scriptEditor** attribute.
+		Setter for **self.__scriptEditor** attribute.
 
-		:param value: Attribute value. ( QWidget )
+		:param value: Attribute value.
+		:type value: QWidget
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -248,7 +262,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def scriptEditor(self):
 		"""
-		This method is the deleter method for **self.__scriptEditor** attribute.
+		Deleter for **self.__scriptEditor** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -257,9 +271,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def address(self):
 		"""
-		This method is the property for **self.__address** attribute.
+		Property for **self.__address** attribute.
 
-		:return: self.__address. ( String )
+		:return: self.__address.
+		:rtype: unicode
 		"""
 
 		return self.__address
@@ -268,9 +283,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def address(self, value):
 		"""
-		This method is the setter method for **self.__address** attribute.
+		Setter for **self.__address** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -283,7 +299,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def address(self):
 		"""
-		This method is the deleter method for **self.__address** attribute.
+		Deleter for **self.__address** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -292,9 +308,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def port(self):
 		"""
-		This method is the property for **self.__port** attribute.
+		Property for **self.__port** attribute.
 
-		:return: self.__port. ( Integer )
+		:return: self.__port.
+		:rtype: int
 		"""
 
 		return self.__port
@@ -303,9 +320,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def port(self, value):
 		"""
-		This method is the setter method for **self.__port** attribute.
+		Setter for **self.__port** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -320,7 +338,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def port(self):
 		"""
-		This method is the deleter method for **self.__port** attribute.
+		Deleter for **self.__port** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -329,9 +347,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def fileCommand(self):
 		"""
-		This method is the property for **self.__fileCommand** attribute.
+		Property for **self.__fileCommand** attribute.
 
-		:return: self.__fileCommand. ( String )
+		:return: self.__fileCommand.
+		:rtype: unicode
 		"""
 
 		return self.__fileCommand
@@ -340,9 +359,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def fileCommand(self, value):
 		"""
-		This method is the setter method for **self.__fileCommand** attribute.
+		Setter for **self.__fileCommand** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -354,7 +374,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def fileCommand(self):
 		"""
-		This method is the deleter method for **self.__fileCommand** attribute.
+		Deleter for **self.__fileCommand** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -363,9 +383,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def connectionEnd(self):
 		"""
-		This method is the property for **self.__connectionEnd** attribute.
+		Property for **self.__connectionEnd** attribute.
 
-		:return: self.__connectionEnd. ( String )
+		:return: self.__connectionEnd.
+		:rtype: unicode
 		"""
 
 		return self.__connectionEnd
@@ -374,9 +395,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def connectionEnd(self, value):
 		"""
-		This method is the setter method for **self.__connectionEnd** attribute.
+		Setter for **self.__connectionEnd** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -388,7 +410,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def connectionEnd(self):
 		"""
-		This method is the deleter method for **self.__connectionEnd** attribute.
+		Deleter for **self.__connectionEnd** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -399,10 +421,12 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	#******************************************************************************************************************
 	def activate(self, engine):
 		"""
-		This method activates the Component.
+		Activates the Component.
 
-		:param engine: Engine to attach the Component to. ( QObject )
-		:return: Method success. ( Boolean )
+		:param engine: Engine to attach the Component to.
+		:type engine: QObject
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
@@ -419,9 +443,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def deactivate(self):
 		"""
-		This method deactivates the Component.
+		Deactivates the Component.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Deactivating '{0}' Component.".format(self.__class__.__name__))
@@ -437,9 +462,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def initializeUi(self):
 		"""
-		This method initializes the Component ui.
+		Initializes the Component ui.
 		
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
@@ -462,9 +488,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def uninitializeUi(self):
 		"""
-		This method uninitializes the Component ui.
+		Uninitializes the Component ui.
 		
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Uninitializing '{0}' Component ui.".format(self.__class__.__name__))
@@ -482,9 +509,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def addWidget(self):
 		"""
-		This method adds the Component Widget to the engine.
+		Adds the Component Widget to the engine.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Adding '{0}' Component Widget.".format(self.__class__.__name__))
@@ -495,9 +523,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def removeWidget(self):
 		"""
-		This method removes the Component Widget from the engine.
+		Removes the Component Widget from the engine.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Removing '{0}' Component Widget.".format(self.__class__.__name__))
@@ -509,7 +538,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __addActions(self):
 		"""
-		This method sets Component actions.
+		Sets Component actions.
 		"""
 
 		LOGGER.debug("> Adding '{0}' Component actions.".format(self.__class__.__name__))
@@ -526,7 +555,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __removeActions(self):
 		"""
-		This method removes actions.
+		Removes actions.
 		"""
 
 		LOGGER.debug("> Removing '{0}' Component actions.".format(self.__class__.__name__))
@@ -539,7 +568,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Address_lineEdit_setUi(self):
 		"""
-		This method fills **Address_lineEdit** Widget.
+		Fills **Address_lineEdit** Widget.
 		"""
 
 		# Adding settings key if it doesn't exists.
@@ -554,7 +583,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Address_lineEdit__editFinished(self):
 		"""
-		This method is triggered when **Address_lineEdit** Widget is edited.
+		Defines the slot triggered by **Address_lineEdit** Widget when edited.
 		"""
 
 		address = self.Address_lineEdit.text()
@@ -563,7 +592,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Port_spinBox_setUi(self):
 		"""
-		This method sets the **Port_spinBox** Widget.
+		Sets the **Port_spinBox** Widget.
 		"""
 
 		# Adding settings key if it doesn't exists.
@@ -578,9 +607,10 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Port_spinBox__valueChanged (self, value):
 		"""
-		This method is triggered when the **Port_spinBox** Widget value is changed.
+		Defines the slot triggered by the **Port_spinBox** Widget when value changed.
 
-		:param value: Port value. ( Integer )
+		:param value: Port value.
+		:type value: int
 		"""
 
 		LOGGER.debug("> 'Port' value: '{0}'.".format(value))
@@ -589,7 +619,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __File_Command_lineEdit_setUi(self):
 		"""
-		This method fills **File_Command_lineEdit** Widget.
+		Fills **File_Command_lineEdit** Widget.
 		"""
 
 		# Adding settings key if it doesn't exists.
@@ -604,7 +634,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __File_Command_lineEdit__editFinished(self):
 		"""
-		This method is triggered when **File_Command_lineEdit** Widget is edited.
+		Defines the slot triggered by **File_Command_lineEdit** Widget when edited.
 		"""
 
 		fileCommand = self.File_Command_lineEdit.text()
@@ -613,7 +643,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Connection_End_lineEdit_setUi(self):
 		"""
-		This method fills **Connection_End_lineEdit** Widget.
+		Fills **Connection_End_lineEdit** Widget.
 		"""
 
 		# Adding settings key if it doesn't exists.
@@ -628,7 +658,7 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Connection_End_lineEdit__editFinished(self):
 		"""
-		This method is triggered when **Connection_End_lineEdit** Widget is edited.
+		Defines the slot triggered by **Connection_End_lineEdit** Widget when edited.
 		"""
 
 		connectionEnd = self.Connection_End_lineEdit.text()
@@ -637,10 +667,12 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __sendSelectionToServerAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|addons.tcpServerUi|&Command|Send Selection To Server'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|addons.tcpServerUi|&Command|Send Selection To Server'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		editor = self.__scriptEditor.getCurrentEditor()
@@ -656,10 +688,12 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __sendFileToServerAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|addons.tcpServerUi|&Command|&Send Current File To Server'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|addons.tcpServerUi|&Command|&Send Current File To Server'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		editor = self.__scriptEditor.getCurrentEditor()
@@ -671,11 +705,14 @@ class TCPClientUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def sendDataToServer(self, data, timeOut=5):
 		"""
-		This method sends given data to the Server.
+		Sends given data to the Server.
 
-		:param data: Data to send. ( String )
-		:param timeOut: Connection timeout in seconds. ( Float )
-		:return: Method success. ( Boolean )
+		:param data: Data to send.
+		:type data: unicode
+		:param timeOut: Connection timeout in seconds.
+		:type timeOut: float
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not data.endswith(self.__connectionEnd):

@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the Application Delegates classes.
+	Defines the Application Delegates classes.
 
 **Others:**
 
@@ -41,7 +41,7 @@ import umbra.ui.common
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -56,14 +56,15 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Style(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for the :class:`RichText_QStyledItemDelegate` class style. 
+	Defines a storage object for the :class:`RichText_QStyledItemDelegate` class style. 
 	"""
 
 	def __init__(self, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param \*\*kwargs: . ( Key / Value pairs )
+		:param \*\*kwargs: .
+		:type \*\*kwargs: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -72,7 +73,7 @@ class Style(foundations.dataStructures.Structure):
 
 class RichText_QStyledItemDelegate(QStyledItemDelegate):
 	"""
-	This class is a `QStyledItemDelegate <http://doc.qt.nokia.com/qstyleditemdelegate.html>`_ subclass used as a rich
+	Defines a `QStyledItemDelegate <http://doc.qt.nokia.com/qstyleditemdelegate.html>`_ subclass used as a rich
 	text Delegate for Application Views. 
 	"""
 
@@ -85,10 +86,12 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 				highlightBackgroundColor=None,
 				hoverBackgroundColor=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Widget parent. ( QObject )
-		:param style: Style. ( Style )
+		:param parent: Widget parent.
+		:type parent: QObject
+		:param style: Style.
+		:type style: Style
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -133,9 +136,10 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 	@property
 	def style(self):
 		"""
-		This method is the property for **self.__style** attribute.
+		Property for **self.__style** attribute.
 
-		:return: self.__style. ( Style )
+		:return: self.__style.
+		:rtype: Style
 		"""
 
 		return self.__style
@@ -144,9 +148,10 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def style(self, value):
 		"""
-		This method is the setter method for **self.__style** attribute.
+		Setter for **self.__style** attribute.
 
-		:param value: Attribute value. ( Style )
+		:param value: Attribute value.
+		:type value: Style
 		"""
 
 		if value is not None:
@@ -161,7 +166,7 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def style(self):
 		"""
-		This method is the deleter method for **self.__style** attribute.
+		Deleter for **self.__style** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -172,7 +177,7 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 	#******************************************************************************************************************
 	def paint(self, painter, option, index):
 		"""
-		This method reimplements the :meth:`QStyledItemDelegate.paint` method.
+		Reimplements the :meth:`QStyledItemDelegate.paint` method.
 		"""
 
 		if option.state & QStyle.State_MouseOver:
@@ -193,7 +198,7 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 
 	def sizeHint(self, option, index):
 		"""
-		This method reimplements the :meth:`QStyledItemDelegate.sizeHint` method.
+		Reimplements the :meth:`QStyledItemDelegate.sizeHint` method.
 		"""
 
 		document = QTextDocument()

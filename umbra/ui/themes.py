@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the Application themes classes.
+	Defines the Application themes classes.
 
 **Others:**
 
@@ -36,7 +36,7 @@ import foundations.verbose
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -54,10 +54,12 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 def getFormat(**kwargs):
 	"""
-	This definition returns a `QTextCharFormat <http://doc.qt.nokia.com/qtextcharformat.html>`_ format.
+	Returns a `QTextCharFormat <http://doc.qt.nokia.com/qtextcharformat.html>`_ format.
 	
-	:param \*\*kwargs: Format settings. ( Key / Value pairs )
-	:return: Format. ( QTextCharFormat )
+	:param \*\*kwargs: Format settings.
+	:type \*\*kwargs: dict
+	:return: Format.
+	:rtype: QTextCharFormat
 	"""
 
 	settings = foundations.dataStructures.Structure(**{"format" : QTextCharFormat(),

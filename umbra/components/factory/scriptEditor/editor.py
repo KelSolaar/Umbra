@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`Editor` class and others editing helper objects.
+	Defines the :class:`Editor` class and others editing helper objects.
 
 **Others:**
 
@@ -48,7 +48,7 @@ from umbra.ui.widgets.codeEditor_QPlainTextEdit import CodeEditor_QPlainTextEdit
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -63,12 +63,15 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Editor(CodeEditor_QPlainTextEdit):
 	"""
-	This class defines the default editor used by
-	the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` Component Interface class. 
+	Defines the default editor used by
+	the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` Component Interface class.
 	"""
 
 	__untitledNameId = 1
-	"""Editor untitled name id. ( Integer )"""
+	"""
+	:param __untitledNameId: Editor untitled name id.
+	:type __untitledNameId: int
+	"""
 
 	# Custom signals definitions.
 	titleChanged = pyqtSignal()
@@ -110,13 +113,18 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	def __init__(self, parent=None, file=None, language=PYTHON_LANGUAGE, *args, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param file: File path. ( String )
-		:param language: Editor language. ( Language )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param file: File path.
+		:type file: unicode
+		:param language: Editor language.
+		:type language: Language
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -147,9 +155,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@property
 	def file(self):
 		"""
-		This method is the property for **self.__file** attribute.
+		Property for **self.__file** attribute.
 
-		:return: self.__file. ( String )
+		:return: self.__file.
+		:rtype: unicode
 		"""
 
 		return self.__file
@@ -158,9 +167,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def file(self, value):
 		"""
-		This method is the setter method for **self.__file** attribute.
+		Setter for **self.__file** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -171,7 +181,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def file(self):
 		"""
-		This method is the deleter method for **self.__file** attribute.
+		Deleter for **self.__file** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -180,9 +190,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@property
 	def defaultFontsSettings(self):
 		"""
-		This method is the property for **self.__defaultFontsSettings** attribute.
+		Property for **self.__defaultFontsSettings** attribute.
 
-		:return: self.__defaultFontsSettings. ( Dictionary )
+		:return: self.__defaultFontsSettings.
+		:rtype: dict
 		"""
 
 		return self.__defaultFontsSettings
@@ -191,9 +202,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultFontsSettings(self, value):
 		"""
-		This method is the setter method for **self.__defaultFontsSettings** attribute.
+		Setter for **self.__defaultFontsSettings** attribute.
 
-		:param value: Attribute value. ( Dictionary )
+		:param value: Attribute value.
+		:type value: dict
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -203,7 +215,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultFontsSettings(self):
 		"""
-		This method is the deleter method for **self.__defaultFontsSettings** attribute.
+		Deleter for **self.__defaultFontsSettings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -212,9 +224,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@property
 	def tabWidth(self):
 		"""
-		This method is the property for **self.__tabWidth** attribute.
+		Property for **self.__tabWidth** attribute.
 
-		:return: self.__tabWidth. ( Integer )
+		:return: self.__tabWidth.
+		:rtype: int
 		"""
 
 		return self.__tabWidth
@@ -223,9 +236,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def tabWidth(self, value):
 		"""
-		This method is the setter method for **self.__tabWidth** attribute.
+		Setter for **self.__tabWidth** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -235,7 +249,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def tabWidth(self):
 		"""
-		This method is the deleter method for **self.__tabWidth** attribute.
+		Deleter for **self.__tabWidth** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -244,9 +258,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@property
 	def title(self):
 		"""
-		This method is the property for **self.__title** attribute.
+		Property for **self.__title** attribute.
 
-		:return: self.__title. ( String )
+		:return: self.__title.
+		:rtype: unicode
 		"""
 
 		return self.__title
@@ -255,9 +270,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def title(self, value):
 		"""
-		This method is the setter method for **self.__title** attribute.
+		Setter for **self.__title** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -267,7 +283,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def title(self):
 		"""
-		This method is the deleter method for **self.__title** attribute.
+		Deleter for **self.__title** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -276,9 +292,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@property
 	def isUntitled(self):
 		"""
-		This method is the property for **self.__isUntitled** attribute.
+		Property for **self.__isUntitled** attribute.
 
-		:return: self.__isUntitled. ( Boolean )
+		:return: self.__isUntitled.
+		:rtype: bool
 		"""
 
 		return self.__isUntitled
@@ -287,9 +304,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def isUntitled(self, value):
 		"""
-		This method is the setter method for **self.__isUntitled** attribute.
+		Setter for **self.__isUntitled** attribute.
 
-		:param value: Attribute value. ( Boolean )
+		:param value: Attribute value.
+		:type value: bool
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -299,7 +317,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def isUntitled(self):
 		"""
-		This method is the deleter method for **self.__isUntitled** attribute.
+		Deleter for **self.__isUntitled** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -308,9 +326,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@property
 	def defaultFileName(self):
 		"""
-		This method is the property for **self.__defaultFileName** attribute.
+		Property for **self.__defaultFileName** attribute.
 
-		:return: self.__defaultFileName. ( String )
+		:return: self.__defaultFileName.
+		:rtype: unicode
 		"""
 
 		return self.__defaultFileName
@@ -319,9 +338,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultFileName(self, value):
 		"""
-		This method is the setter method for **self.__defaultFileName** attribute.
+		Setter for **self.__defaultFileName** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -331,7 +351,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultFileName(self):
 		"""
-		This method is the deleter method for **self.__defaultFileName** attribute.
+		Deleter for **self.__defaultFileName** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -340,9 +360,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@property
 	def defaultFileExtension(self):
 		"""
-		This method is the property for **self.__defaultFileExtension** attribute.
+		Property for **self.__defaultFileExtension** attribute.
 
-		:return: self.__defaultFileExtension. ( String )
+		:return: self.__defaultFileExtension.
+		:rtype: unicode
 		"""
 
 		return self.__defaultFileExtension
@@ -351,9 +372,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultFileExtension(self, value):
 		"""
-		This method is the setter method for **self.__defaultFileExtension** attribute.
+		Setter for **self.__defaultFileExtension** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -363,7 +385,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultFileExtension(self):
 		"""
-		This method is the deleter method for **self.__defaultFileExtension** attribute.
+		Deleter for **self.__defaultFileExtension** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -374,7 +396,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 	#******************************************************************************************************************
 	def __initializeUi(self):
 		"""
-		This method initializes the Widget ui.
+		Initializes the Widget ui.
 		"""
 
 		self.setAttribute(Qt.WA_DeleteOnClose)
@@ -394,23 +416,24 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	def __document__contentsChanged(self):
 		"""
-		This method is triggered when the editor document content changes.
+		Defines the slot triggered by the editor when document content changes.
 		"""
 
 		self.setTitle()
 
 	def __document__modificationChanged(self, changed):
 		"""
-		This method is triggered when the editor document is modified.
-		
-		:param changed: File modification state. ( Boolean )
+		Defines the slot triggered by the editor when document is modified.
+
+		:param changed: File modification state.
+		:type changed: bool
 		"""
 
 		self.setTitle()
 
 	def __setDocumentSignals(self):
 		"""
-		This method connects the editor document signals.
+		Connects the editor document signals.
 		"""
 
 		# Signals / Slots.
@@ -421,10 +444,12 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	def setTitle(self, title=None):
 		"""
-		This method sets the editor title.
+		Sets the editor title.
 
-		:param title: Editor title. ( String )
-		:return: Method success. ( Boolean )
+		:param title: Editor title.
+		:type title: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not title:
@@ -442,12 +467,16 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	def setFile(self, file=None, isModified=False, isUntitled=False):
 		"""
-		This method sets the editor file.
+		Sets the editor file.
 
-		:param File: File to set. ( String )
-		:param isModified: File modified state. ( Boolean )
-		:param isUntitled: File untitled state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param File: File to set.
+		:type File: unicode
+		:param isModified: File modified state.
+		:type isModified: bool
+		:param isUntitled: File untitled state.
+		:type isUntitled: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Setting '{0}' editor file.".format(file))
@@ -459,9 +488,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	def getFileShortName(self):
 		"""
-		This method returns the current editor file short name.
+		Returns the current editor file short name.
 
-		:return: File short name. ( String )
+		:return: File short name.
+		:rtype: unicode
 		"""
 
 		if not self.__file:
@@ -471,9 +501,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	def getUntitledFileName(self):
 		"""
-		This method returns an untitled editor file name.
+		Returns an untitled editor file name.
 
-		:return: Untitled file name. ( String )
+		:return: Untitled file name.
+		:rtype: unicode
 		"""
 
 		name = "{0} {1}.{2}".format(self.__defaultFileName, Editor._Editor__untitledNameId, self.defaultFileExtension)
@@ -483,12 +514,16 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	def loadDocument(self, document, file=None, language=None):
 		"""
-		This method loads given document into the editor.
+		Loads given document into the editor.
 
-		:param document: Document to load. ( QTextDocument )
-		:param file: File. ( String )
-		:param language: Editor language. ( String )
-		:return: Method success. ( Boolean )
+		:param document: Document to load.
+		:type document: QTextDocument
+		:param file: File.
+		:type file: unicode
+		:param language: Editor language.
+		:type language: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		document.setDocumentLayout(QPlainTextDocumentLayout(document))
@@ -502,9 +537,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	def newFile(self):
 		"""
-		This method creates a new editor file.
+		Creates a new editor file.
 
-		:return: File name. ( String )
+		:return: File name.
+		:rtype: unicode
 		"""
 
 		file = self.getUntitledFileName()
@@ -516,10 +552,12 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.FileExistsError)
 	def loadFile(self, file):
 		"""
-		This method reads and loads given file into the editor.
+		Reads and loads given file into the editor.
 
-		:param File: File to load. ( String )
-		:return: Method success. ( Boolean )
+		:param File: File to load.
+		:type File: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not foundations.common.pathExists(file):
@@ -537,10 +575,12 @@ class Editor(CodeEditor_QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.FileExistsError)
 	def reloadFile(self, isModified=True):
 		"""
-		This method reloads the current editor file.
+		Reloads the current editor file.
 
-		:param isModified: File modified state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param isModified: File modified state.
+		:type isModified: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not foundations.common.pathExists(self.__file):
@@ -558,9 +598,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	def saveFile(self):
 		"""
-		This method saves the editor file content.
+		Saves the editor file content.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.__isUntitled and foundations.common.pathExists(self.__file):
@@ -570,11 +611,12 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	def saveFileAs(self, file=None):
 		"""
-		This method saves the editor file content either using given file or user chosen file.
+		Saves the editor file content either using given file or user chosen file.
 
-		:return: Method success. ( Boolean )
-		
-		:note: This method may require user interaction.
+		:return: Method success.
+		:rtype: bool
+
+		:note: May require user interaction.
 		"""
 
 		file = file or umbra.ui.common.storeLastBrowsedPath(QFileDialog.getSaveFileName(self, "Save As:", self.__file))
@@ -585,10 +627,12 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	def writeFile(self, file):
 		"""
-		This method writes the editor file content into given file.
+		Writes the editor file content into given file.
 
-		:param file: File to write. ( String )
-		:return: Method success. ( Boolean )
+		:param file: File to write.
+		:type file: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Writing '{0}' file.".format(file))
@@ -602,9 +646,10 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 	def closeFile(self):
 		"""
-		This method closes the editor file.
+		Closes the editor file.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.isModified():
@@ -625,3 +670,5 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 			self.fileClosed.emit()
 			return True
+		else:
+			return False

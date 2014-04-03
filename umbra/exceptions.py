@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines **Umbra** package exceptions. 
+	Defines **Umbra** package exceptions.
 
 **Others:**
 
@@ -30,7 +30,7 @@ from umbra.globals.uiConstants import UiConstants
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -63,10 +63,12 @@ __all__ = ["LOGGER",
 #**********************************************************************************************************************
 def notifyExceptionHandler(*args):
 	"""
-	This definition provides a notifier exception handler.
+	Provides a notifier exception handler.
 
-	:param \*args: Arguments. ( \* )
-	:return: Definition success. ( Boolean )
+	:param \*args: Arguments.
+	:type \*args: \*
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	callback = RuntimeGlobals.componentsManager["factory.scriptEditor"].restoreDevelopmentLayout
@@ -77,105 +79,105 @@ def notifyExceptionHandler(*args):
 
 class AbstractEngineError(foundations.exceptions.AbstractError):
 	"""
-	This class is the abstract base class for engine related exceptions.
+	Defines the abstract base class for engine related exceptions.
 	"""
 
 	pass
 
 class EngineConfigurationError(AbstractEngineError):
 	"""
-	This class is used for engine configuration exceptions.
+	Defines engine configuration exception.
 	"""
 
 	pass
 
 class EngineInitializationError(AbstractEngineError):
 	"""
-	This class is used for engine initialization exceptions.
+	Defines engine initialization exception.
 	"""
 
 	pass
 
 class ResourceExistsError(foundations.exceptions.AbstractOsError):
 	"""
-	This class is used for non existing resource exceptions.
+	Defines non existing resource exception.
 	"""
 
 	pass
 
 class AbstractActionsManagerError(foundations.exceptions.AbstractError):
 	"""
-	This class is the abstract base class for :class:`umbra.managers.actionsManager.ActionsManager` related exceptions.
+	Defines the abstract base class for :class:`umbra.managers.actionsManager.ActionsManager` related exceptions.
 	"""
 
 	pass
 
 class CategoryExistsError(AbstractActionsManagerError):
 	"""
-	This class is used for non existing category exceptions.
+	Defines non existing category exception.
 	"""
 
 	pass
 
 class ActionExistsError(AbstractActionsManagerError):
 	"""
-	This class is used for non existing action exceptions.
+	Defines non existing action exception.
 	"""
 
 	pass
 
 class AbstractPatchesManagerError(foundations.exceptions.AbstractError):
 	"""
-	This class is the abstract base class for :class:`umbra.managers.patchesManager.PatchesManager` related exceptions.
+	Defines the abstract base class for :class:`umbra.managers.patchesManager.PatchesManager` related exceptions.
 	"""
 
 	pass
 
 class PatchRegistrationError(AbstractPatchesManagerError):
 	"""
-	This class is used for patch registration exceptions.
+	Defines patch registration exception.
 	"""
 
 	pass
 
 class PatchInterfaceError(AbstractPatchesManagerError):
 	"""
-	This class is used for patch interface exceptions.
+	Defines patch interface exception.
 	"""
 
 	pass
 
 class PatchApplyError(AbstractPatchesManagerError):
 	"""
-	This class is used for patch apply exceptions.
+	Defines patch apply exception.
 	"""
 
 	pass
 
 class AbstractLayoutsManagerError(foundations.exceptions.AbstractError):
 	"""
-	This class is the abstract base class for :class:`umbra.managers.layoutsManager.LayoutsManager` related exceptions.
+	Defines the abstract base class for :class:`umbra.managers.layoutsManager.LayoutsManager` related exceptions.
 	"""
 
 	pass
 
 class LayoutRegistrationError(AbstractLayoutsManagerError):
 	"""
-	This class is used for layout registration exceptions.
+	Defines layout registration exception.
 	"""
 
 	pass
 
 class LayoutExistError(AbstractLayoutsManagerError):
 	"""
-	This class is used for non existing layout exceptions.
+	Defines non existing layout exception.
 	"""
 
 	pass
 
 class AbstractFileSystemEventsManagerError(foundations.exceptions.AbstractError):
 	"""
-	This class is the abstract base class for :class:`umbra.managers.fileSystemEventsManager.FileSystemEventsManager`
+	Defines the abstract base class for :class:`umbra.managers.fileSystemEventsManager.FileSystemEventsManager`
 	related exceptions.
 	"""
 
@@ -183,28 +185,28 @@ class AbstractFileSystemEventsManagerError(foundations.exceptions.AbstractError)
 
 class PathRegistrationError(AbstractFileSystemEventsManagerError):
 	"""
-	This class is used for path registration exceptions.
+	Defines path registration exception.
 	"""
 
 	pass
 
 class PathExistsError(AbstractFileSystemEventsManagerError):
 	"""
-	This class is used for non existing path exceptions.
+	Defines non existing path exception.
 	"""
 
 	pass
 
 class AbstractLanguageError(foundations.exceptions.AbstractError):
 	"""
-	This class is the abstract base class for language related exceptions.
+	Defines the abstract base class for language related exceptions.
 	"""
 
 	pass
 
 class LanguageGrammarError(AbstractLanguageError):
 	"""
-	This class is used for language grammar exceptions.
+	Defines language grammar exception.
 	"""
 
 	pass

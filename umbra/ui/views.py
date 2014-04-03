@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the Application Views classes.
+	Defines the Application Views classes.
 
 **Others:**
 
@@ -54,7 +54,7 @@ from umbra.ui.widgets.notification_QLabel import Notification_QLabel
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -79,17 +79,20 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class ReadOnlyFilter(QObject):
 	"""
-	This class is a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass used as an event filter
+	Defines a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass used as an event filter
 	for the :class:`Abstract_QListView` and :class:`Abstract_QTreeView` classes.
 	"""
 
 	def eventFilter(self, object, event):
 		"""
-		This method reimplements the **QObject.eventFilter** method.
+		Reimplements the **QObject.eventFilter** method.
 		
-		:param object: Object. ( QObject )
-		:param event: Event. ( QEvent )
-		:return: Event filtered. ( Boolean )
+		:param object: Object.
+		:type object: QObject
+		:param event: Event.
+		:type event: QEvent
+		:return: Event filtered.
+		:rtype: bool
 		"""
 
 		if event.type() == QEvent.MouseButtonDblClick:
@@ -103,9 +106,10 @@ class ReadOnlyFilter(QObject):
 											foundations.exceptions.UserError)
 	def __raiseUserError(self, view) :
 		"""
-		This method raises an error if the given View has been set read only and the user attempted to edit its content.
+		Raises an error if the given View has been set read only and the user attempted to edit its content.
 
-		:param view: View. ( QWidget )
+		:param view: View.
+		:type view: QWidget
 		"""
 
 		raise foundations.exceptions.UserError("{0} | Cannot perform action, '{1}' View has been set read only!".format(
@@ -113,15 +117,17 @@ class ReadOnlyFilter(QObject):
 
 class Mixin_AbstractBase(object):
 	"""
-	This class is the base mixin used to bring common capabilities in Application Views classes.
+	Defines the base mixin used to bring common capabilities in Application Views classes.
 	"""
 
 	def __init__(self, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param message: View default message when Model is empty. ( String )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param message: View default message when Model is empty.
+		:type message: unicode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -142,9 +148,10 @@ class Mixin_AbstractBase(object):
 	@property
 	def message(self):
 		"""
-		This method is the property for **self.__message** attribute.
+		Property for **self.__message** attribute.
 
-		:return: self.__message. ( String )
+		:return: self.__message.
+		:rtype: unicode
 		"""
 
 		return self.__message
@@ -153,9 +160,10 @@ class Mixin_AbstractBase(object):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def message(self, value):
 		"""
-		This method is the setter method for **self.__message** attribute.
+		Setter for **self.__message** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -167,7 +175,7 @@ class Mixin_AbstractBase(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def message(self):
 		"""
-		This method is the deleter method for **self.__message** attribute.
+		Deleter for **self.__message** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -178,9 +186,10 @@ class Mixin_AbstractBase(object):
 	#******************************************************************************************************************
 	def resizeEvent(self, event):
 		"""
-		This method reimplements the :meth:`*.resizeEvent` method.
+		Reimplements the :meth:`*.resizeEvent` method.
 	
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		super(type(self), self).resizeEvent(event)
@@ -189,9 +198,10 @@ class Mixin_AbstractBase(object):
 
 	def paintEvent(self, event):
 		"""
-		This method reimplements the :meth:`*.paintEvent` method.
+		Reimplements the :meth:`*.paintEvent` method.
 	
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		super(type(self), self).paintEvent(event)
@@ -214,16 +224,19 @@ class Mixin_AbstractBase(object):
 
 class Mixin_AbstractView(Mixin_AbstractBase):
 	"""
-	This class is a mixin used to bring common capabilities in Application Views classes.
+	Defines a mixin used to bring common capabilities in Application Views classes.
 	"""
 
 	def __init__(self, readOnly=None, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param readOnly: View is read only. ( Boolean )
-		:param message: View default message when Model is empty. ( String )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param readOnly: View is read only.
+		:type readOnly: bool
+		:param message: View default message when Model is empty.
+		:type message: unicode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -241,9 +254,10 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 	@property
 	def readOnly(self):
 		"""
-		This method is the property for **self.__readOnly** attribute.
+		Property for **self.__readOnly** attribute.
 
-		:return: self.__readOnly. ( Boolean )
+		:return: self.__readOnly.
+		:rtype: bool
 		"""
 
 		return self.__readOnly
@@ -252,9 +266,10 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def readOnly(self, value):
 		"""
-		This method is the setter method for **self.__readOnly** attribute.
+		Setter for **self.__readOnly** attribute.
 
-		:param value: Attribute value. ( Boolean )
+		:param value: Attribute value.
+		:type value: bool
 		"""
 
 		if value is not None:
@@ -265,7 +280,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def readOnly(self):
 		"""
-		This method is the deleter method for **self.__readOnly** attribute.
+		Deleter for **self.__readOnly** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -276,7 +291,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 	#******************************************************************************************************************
 	def __initializeUi(self):
 		"""
-		This method initializes the View ui.
+		Initializes the View ui.
 		"""
 
 		self.viewport().installEventFilter(ReadOnlyFilter(self))
@@ -288,21 +303,26 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 
 	def getNodes(self):
 		"""
-		This method returns the View nodes.
+		Returns the View nodes.
 
-		:return: View nodes. ( List )
+		:return: View nodes.
+		:rtype: list
 		"""
 
 		return [node for node in foundations.walkers.nodesWalker(self.model().rootNode)]
 
 	def filterNodes(self, pattern, attribute, flags=re.IGNORECASE):
 		"""
-		This method filters the View Nodes on given attribute using given pattern.
+		Filters the View Nodes on given attribute using given pattern.
 	
-		:param pattern: Filtering pattern. ( String )
-		:param attribute: Filtering attribute. ( String )
-		:param flags: Regex filtering flags. ( Integer )
-		:return: View filtered nodes. ( List )
+		:param pattern: Filtering pattern.
+		:type pattern: unicode
+		:param attribute: Filtering attribute.
+		:type attribute: unicode
+		:param flags: Regex filtering flags.
+		:type flags: int
+		:return: View filtered nodes.
+		:rtype: list
 		"""
 
 		return [node for node in self.getNodes() if re.search(pattern, getattr(node, attribute), flags)]
@@ -312,11 +332,14 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 	# @foundations.decorators.memoize(None)
 	def getViewNodesFromIndexes(self, *indexes):
 		"""
-		This method returns the View Nodes from given indexes.
+		Returns the View Nodes from given indexes.
 	
-		:param view: View. ( QWidget )
-		:param \*indexes: Indexes. ( List )
-		:return: View nodes. ( Dictionary )
+		:param view: View.
+		:type view: QWidget
+		:param \*indexes: Indexes.
+		:type \*indexes: list
+		:return: View nodes.
+		:rtype: dict
 		"""
 
 		nodes = {}
@@ -342,31 +365,37 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 
 	def getViewSelectedNodes(self):
 		"""
-		This method returns the View selected nodes.
+		Returns the View selected nodes.
 	
-		:param view: View. ( QWidget )
-		:return: View selected nodes. ( Dictionary )
+		:param view: View.
+		:type view: QWidget
+		:return: View selected nodes.
+		:rtype: dict
 		"""
 
 		return self.getViewNodesFromIndexes(*self.selectedIndexes())
 
 	def getSelectedNodes(self):
 		"""
-		This method returns the View selected nodes.
+		Returns the View selected nodes.
 
-		:return: View selected nodes. ( Dictionary )
+		:return: View selected nodes.
+		:rtype: dict
 		"""
 
 		return self.getViewSelectedNodes()
 
 	def selectViewIndexes(self, indexes, flags=QItemSelectionModel.Select | QItemSelectionModel.Rows):
 		"""
-		This method selects the View given indexes.
+		Selects the View given indexes.
 	
-		:param view: View. ( QWidget )
-		:param indexes: Indexes to select. ( List )
+		:param view: View.
+		:type view: QWidget
+		:param indexes: Indexes to select.
+		:type indexes: list
 		:param flags: Selection flags. ( QItemSelectionModel.SelectionFlags )
-		:return: Definition success. ( Boolean )
+		:return: Definition success.
+		:rtype: bool
 		"""
 
 		if self.selectionModel():
@@ -378,35 +407,40 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 
 	def selectIndexes(self, indexes, flags=QItemSelectionModel.Select | QItemSelectionModel.Rows):
 		"""
-		This method selects given indexes.
+		Selects given indexes.
 
-		:param indexes: Indexes to select. ( List )
+		:param indexes: Indexes to select.
+		:type indexes: list
 		:param flags: Selection flags. ( QItemSelectionModel.SelectionFlags )
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.selectViewIndexes(indexes, flags)
 
 class Mixin_AbstractWidget(Mixin_AbstractBase):
 	"""
-	This class is a mixin used to bring common capabilities in Application Widgets Views classes.
+	Defines a mixin used to bring common capabilities in Application Widgets Views classes.
 	"""
 
 	pass
 
 class Abstract_QListView(QListView, Mixin_AbstractView):
 	"""
-	This class is a `QListView <http://doc.qt.nokia.com/qlistview.html>`_ subclass used as base
+	Defines a `QListView <http://doc.qt.nokia.com/qlistview.html>`_ subclass used as base
 	by others Application Views classes.
 	"""
 
 	def __init__(self, parent=None, readOnly=False, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param readOnly: View is read only. ( Boolean )
-		:param message: View default message when Model is empty. ( String )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param readOnly: View is read only.
+		:type readOnly: bool
+		:param message: View default message when Model is empty.
+		:type message: unicode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -416,17 +450,20 @@ class Abstract_QListView(QListView, Mixin_AbstractView):
 
 class Abstract_QTableView(QTableView, Mixin_AbstractView):
 	"""
-	This class is a `QTableView <http://doc.qt.nokia.com/qtableview.html>`_ subclass used as base
+	Defines a `QTableView <http://doc.qt.nokia.com/qtableview.html>`_ subclass used as base
 	by others Application Views classes.
 	"""
 
 	def __init__(self, parent=None, readOnly=False, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param readOnly: View is read only. ( Boolean )
-		:param message: View default message when Model is empty. ( String )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param readOnly: View is read only.
+		:type readOnly: bool
+		:param message: View default message when Model is empty.
+		:type message: unicode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -436,17 +473,20 @@ class Abstract_QTableView(QTableView, Mixin_AbstractView):
 
 class Abstract_QTreeView(QTreeView, Mixin_AbstractView):
 	"""
-	This class is a `QTreeView <http://doc.qt.nokia.com/qtreeview.html>`_ subclass used as base
+	Defines a `QTreeView <http://doc.qt.nokia.com/qtreeview.html>`_ subclass used as base
 	by others Application Views classes.
 	"""
 
 	def __init__(self, parent=None, readOnly=False, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param readOnly: View is read only. ( Boolean )
-		:param message: View default message when Model is empty. ( String )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param readOnly: View is read only.
+		:type readOnly: bool
+		:param message: View default message when Model is empty.
+		:type message: unicode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -456,16 +496,18 @@ class Abstract_QTreeView(QTreeView, Mixin_AbstractView):
 
 class Abstract_QListWidget(QListWidget, Mixin_AbstractWidget):
 	"""
-	This class is a `QListWidget <http://doc.qt.nokia.com/qlistwidget.html>`_ subclass used as base
+	Defines a `QListWidget <http://doc.qt.nokia.com/qlistwidget.html>`_ subclass used as base
 	by others Application Widgets Views classes.
 	"""
 
 	def __init__(self, parent=None, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param message: View default message when Model is empty. ( String )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param message: View default message when Model is empty.
+		:type message: unicode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -475,16 +517,18 @@ class Abstract_QListWidget(QListWidget, Mixin_AbstractWidget):
 
 class Abstract_QTableWidget(QTableWidget, Mixin_AbstractWidget):
 	"""
-	This class is a `QTableWidget <http://doc.qt.nokia.com/qtablewidget.html>`_ subclass used as base
+	Defines a `QTableWidget <http://doc.qt.nokia.com/qtablewidget.html>`_ subclass used as base
 	by others Application Widgets Views classes.
 	"""
 
 	def __init__(self, parent=None, readOnly=False, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param message: View default message when Model is empty. ( String )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param message: View default message when Model is empty.
+		:type message: unicode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -494,16 +538,18 @@ class Abstract_QTableWidget(QTableWidget, Mixin_AbstractWidget):
 
 class Abstract_QTreeWidget(QTreeWidget, Mixin_AbstractWidget):
 	"""
-	This class is a `QTreeWidget <http://doc.qt.nokia.com/qtreewidget.html>`_ subclass used as base
+	Defines a `QTreeWidget <http://doc.qt.nokia.com/qtreewidget.html>`_ subclass used as base
 	by others Application Widgets Views classes.
 	"""
 
 	def __init__(self, parent=None, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param message: View default message when Model is empty. ( String )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param message: View default message when Model is empty.
+		:type message: unicode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))

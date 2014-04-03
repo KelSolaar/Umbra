@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`PatchesManager` and :class:`Patches` classes.
+	Defines the :class:`PatchesManager` and :class:`Patches` classes.
 
 **Others:**
 
@@ -41,7 +41,7 @@ from foundations.io import File
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -56,14 +56,15 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Patch(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for :class:`PatchesManager` class patch.
+	Defines a storage object for :class:`PatchesManager` class patch.
 	"""
 
 	def __init__(self, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param \*\*kwargs: name, path, module, apply, uid. ( Key / Value pairs )
+		:param \*\*kwargs: name, path, module, apply, uid.
+		:type \*\*kwargs: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -72,16 +73,19 @@ class Patch(foundations.dataStructures.Structure):
 
 class PatchesManager(object):
 	"""
-	This class defines the Application patches manager. 
+	Defines the Application patches manager.
 	"""
 
 	def __init__(self, historyFile=None, paths=None, extension="py"):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param historyFile: Patches history file. ( String )
-		:param paths: Patches paths. ( Tuple / List )
-		:param extension: Patches extension. ( String )
+		:param historyFile: Patches history file.
+		:type historyFile: unicode
+		:param paths: Patches paths.
+		:type paths: tuple or list
+		:param extension: Patches extension.
+		:type extension: unicode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -105,9 +109,10 @@ class PatchesManager(object):
 	@property
 	def historyFile(self):
 		"""
-		This method is the property for **self.__historyFile** attribute.
+		Property for **self.__historyFile** attribute.
 
-		:return: self.__historyFile. ( String )
+		:return: self.__historyFile.
+		:rtype: unicode
 		"""
 
 		return self.__historyFile
@@ -116,32 +121,34 @@ class PatchesManager(object):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def historyFile(self, value):
 		"""
-		This method is the setter method for **self.__historyFile** attribute.
+		Setter for **self.__historyFile** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
 			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-			"historyFile", value)
+				"historyFile", value)
 		self.__historyFile = value
 
 	@historyFile.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def historyFile(self):
 		"""
-		This method is the deleter method for **self.__historyFile** attribute.
+		Deleter for **self.__historyFile** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "historyFile"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "historyFile"))
 
 	@property
 	def paths(self):
 		"""
-		This method is the property for **self.__paths** attribute.
+		Property for **self.__paths** attribute.
 
-		:return: self.__paths. ( Tuple / List )
+		:return: self.__paths.
+		:rtype: tuple or list
 		"""
 
 		return self.__paths
@@ -150,36 +157,39 @@ class PatchesManager(object):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def paths(self, value):
 		"""
-		This method is the setter method for **self.__paths** attribute.
+		Setter for **self.__paths** attribute.
 
-		:param value: Attribute value. ( Tuple / List )
+		:param value: Attribute value.
+		:type value: tuple or list
 		"""
 
 		if value is not None:
 			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
-			"paths", value)
+				"paths", value)
 			for element in value:
 				assert type(element) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-				"paths", element)
-				assert os.path.exists(element), "'{0}' attribute: '{1}' directory doesn't exists!".format("paths", element)
+					"paths", element)
+				assert os.path.exists(element), "'{0}' attribute: '{1}' directory doesn't exists!".format("paths",
+																										  element)
 		self.__paths = value
 
 	@paths.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def paths(self):
 		"""
-		This method is the deleter method for **self.__paths** attribute.
+		Deleter for **self.__paths** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "paths"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "paths"))
 
 	@property
 	def extension(self):
 		"""
-		This method is the property for **self.__extension** attribute.
+		Property for **self.__extension** attribute.
 
-		:return: self.__extension. ( String )
+		:return: self.__extension.
+		:rtype: unicode
 		"""
 
 		return self.__extension
@@ -188,32 +198,34 @@ class PatchesManager(object):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def extension(self, value):
 		"""
-		This method is the setter method for **self.__extension** attribute.
+		Setter for **self.__extension** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
 			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-			"extension", value)
+				"extension", value)
 		self.__extension = value
 
 	@extension.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def extension(self):
 		"""
-		This method is the deleter method for **self.__extension** attribute.
+		Deleter for **self.__extension** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "extension"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "extension"))
 
 	@property
 	def patches(self):
 		"""
-		This method is the property for **self.__patches** attribute.
+		Property for **self.__patches** attribute.
 
-		:return: self.__patches. ( Dictionary )
+		:return: self.__patches.
+		:rtype: dict
 		"""
 
 		return self.__patches
@@ -222,80 +234,119 @@ class PatchesManager(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def patches(self, value):
 		"""
-		This method is the setter method for **self.__patches** attribute.
+		Setter for **self.__patches** attribute.
 
-		:param value: Attribute value. ( Dictionary )
+		:param value: Attribute value.
+		:type value: dict
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "patches"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "patches"))
 
 	@patches.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def patches(self):
 		"""
-		This method is the deleter method for **self.__patches** attribute.
+		Deleter for **self.__patches** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "patches"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "patches"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
 	def __getitem__(self, patch):
 		"""
-		This method reimplements the :meth:`object.__getitem__` method.
+		Reimplements the :meth:`object.__getitem__` method.
 
-		:param patch: Patch name. ( String )
-		:return: Patch. ( Patch )
+		:param patch: Patch name.
+		:type patch: unicode
+		:return: Patch.
+		:rtype: Patch
 		"""
 
 		return self.__patches.__getitem__(patch)
 
+	def __setitem__(self, name, path):
+		"""
+		Reimplements the :meth:`object.__setitem__` method.
+
+		:param name: Patch name.
+		:type name: unicode
+		:param path: Patch path.
+		:type path: unicode
+		"""
+
+		self.registerPatch(name, path)
+
 	def __iter__(self):
 		"""
-		This method reimplements the :meth:`object.__iter__` method.
+		Reimplements the :meth:`object.__iter__` method.
 
-		:return: Patchs iterator. ( Object )
+		:return: Patchs iterator.
+		:rtype: object
 		"""
 
 		return self.__patches.iteritems()
 
 	def __contains__(self, patch):
 		"""
-		This method reimplements the :meth:`object.__contains__` method.
+		Reimplements the :meth:`object.__contains__` method.
 
-		:param patch: Patch name. ( String )
-		:return: Patch existence. ( Boolean )
+		:param patch: Patch name.
+		:type patch: unicode
+		:return: Patch existence.
+		:rtype: bool
 		"""
 
-		return patch in self.__patches.keys()
+		return patch in self.__patches
 
 	def __len__(self):
 		"""
-		This method reimplements the :meth:`object.__len__` method.
+		Reimplements the :meth:`object.__len__` method.
 
-		:return: Patchs count. ( Integer )
+		:return: Patchs count.
+		:rtype: int
 		"""
 
-		return len(self.__patches.keys())
+		return len(self.__patches)
+
+	def get(self, patch, default=None):
+		"""
+		Returns given patch value.
+
+		:param patch: Patch name.
+		:type patch: unicode
+		:param default: Default value if patch is not found.
+		:type default: object
+		:return: Action.
+		:rtype: QAction
+		"""
+
+		try:
+			return self.__getitem__(patch)
+		except KeyError as error:
+			return default
 
 	def listPatches(self):
 		"""
-		This method returns the registered patches.
+		Returns the registered patches.
 
-		:return: Patches list. ( List )
+		:return: Patches list.
+		:rtype: list
 		"""
 
 		return sorted(self.__patches.keys())
 
 	def isPatchRegistered(self, patch):
 		"""
-		This method returns if the given patch is registered.
+		Returns if the given patch is registered.
 
-		:param patch: Patch. ( String )
-		:return: Is patch registered. ( Boolean )
+		:param patch: Patch.
+		:type patch: unicode
+		:return: Is patch registered.
+		:rtype: bool
 		"""
 
 		return patch in self
@@ -303,11 +354,14 @@ class PatchesManager(object):
 	@foundations.exceptions.handleExceptions(umbra.exceptions.PatchInterfaceError)
 	def registerPatch(self, name, path):
 		"""
-		This method registers given patch.
+		Registers given patch.
 
-		:param name: Patch name. ( String )
-		:param path: Patch path. ( String )
-		:return: Method success. ( Boolean )
+		:param name: Patch name.
+		:type name: unicode
+		:param path: Patch path.
+		:type path: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		patch = foundations.strings.getSplitextBasename(path)
@@ -319,21 +373,22 @@ class PatchesManager(object):
 		module = __import__(patch)
 		if hasattr(module, "apply") and hasattr(module, "UID"):
 			self.__patches[name] = Patch(name=name,
-										path=path,
-										module=module,
-										apply=getattr(module, "apply"),
-										uid=getattr(module, "UID"))
+										 path=path,
+										 module=module,
+										 apply=getattr(module, "apply"),
+										 uid=getattr(module, "UID"))
 		else:
 			raise umbra.exceptions.PatchInterfaceError(
-			"{0} | '{1}' is not a valid patch and has been rejected!".format(self.__class__.__name__, patch))
+				"{0} | '{1}' is not a valid patch and has been rejected!".format(self.__class__.__name__, patch))
 		return True
 
 	@foundations.exceptions.handleExceptions(umbra.exceptions.PatchRegistrationError)
 	def registerPatches(self):
 		"""
-		This method registers the patches.
+		Registers the patches.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.__paths:
@@ -350,16 +405,18 @@ class PatchesManager(object):
 			return True
 		else:
 			raise umbra.exceptions.PatchRegistrationError(
-			"{0} | '{1}' patches failed to register!".format(self.__class__.__name__,
-																", ".join(unregisteredPatches)))
+				"{0} | '{1}' patches failed to register!".format(self.__class__.__name__,
+																 ", ".join(unregisteredPatches)))
 
 	@foundations.exceptions.handleExceptions(umbra.exceptions.PatchApplyError)
 	def applyPatch(self, patch):
 		"""
-		This method applies given patch.
+		Applies given patch.
 
-		:param patch: Patch. ( Patch )
-		:return: Method success. ( Boolean )
+		:param patch: Patch.
+		:type patch: Patch
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		historyFile = File(self.__historyFile)
@@ -372,16 +429,17 @@ class PatchesManager(object):
 				historyFile.append()
 			else:
 				raise umbra.exceptions.PatchApplyError("{0} | '{1}' patch failed to apply!".format(
-				self.__class__.__name__, patch.path))
+					self.__class__.__name__, patch.path))
 		else:
 			LOGGER.debug("> '{0}' patch is already applied!".format(patch.name))
 		return True
 
 	def applyPatches(self):
 		"""
-		This method applies the patches.
+		Applies the patches.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		success = True
@@ -391,10 +449,12 @@ class PatchesManager(object):
 
 	def getPatchFromUid(self, uid):
 		"""
-		This method returns the patch with given uid.
+		Returns the patch with given uid.
 
-		:param uid: Patch uid. ( String )
-		:return: Patch. ( Patch )
+		:param uid: Patch uid.
+		:type uid: unicode
+		:return: Patch.
+		:rtype: Patch
 		"""
 
 		for name, patch in self:

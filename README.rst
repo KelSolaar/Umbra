@@ -2,6 +2,7 @@ Umbra
 =====
 
 ..  image:: https://secure.travis-ci.org/KelSolaar/Umbra.png?branch=master
+..  image:: https://gemnasium.com/KelSolaar/Umbra.png  
 
 Introduction
 ------------
@@ -26,7 +27,7 @@ or this alternative command::
 
 	easy_install Umbra
 
-Alternatively, if you want to directly install from `Github <http://github.com/KelSolaar/Umbra>`_ source repository::
+You can also directly install from `Github <http://github.com/KelSolaar/Umbra>`_ source repository::
 
 	git clone git://github.com/KelSolaar/Umbra.git
 	cd Umbra
@@ -48,7 +49,7 @@ Please refer to `Umbra - Api <http://thomasmansencal.com/Sharing/Umbra/Support/D
 About
 -----
 
-| **Umbra** by Thomas Mansencal – 2010 - 2013
-| Copyright© 2010 - 2013 – Thomas Mansencal – `thomas.mansencal@gmail.com <mailto:thomas.mansencal@gmail.com>`_
+| **Umbra** by Thomas Mansencal – 2010 - 2014
+| Copyright © 2010 - 2014 – Thomas Mansencal – `thomas.mansencal@gmail.com <mailto:thomas.mansencal@gmail.com>`_
 | This software is released under terms of GNU GPL V3 license: http://www.gnu.org/licenses/
 | `http://www.thomasmansencal.com/ <http://www.thomasmansencal.com/>`_

@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`LayoutsManager` and :class:`Layout` classes.
+	Defines the :class:`LayoutsManager` and :class:`Layout` classes.
 
 **Others:**
 
@@ -38,7 +38,7 @@ from umbra.globals.uiConstants import UiConstants
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -53,14 +53,15 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Layout(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for :class:`LayoutsManager` class layout.
+	Defines a storage object for :class:`LayoutsManager` class layout.
 	"""
 
 	def __init__(self, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param \*\*kwargs: name, identity, shortcut. ( Key / Value pairs )
+		:param \*\*kwargs: name, identity, shortcut.
+		:type \*\*kwargs: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -69,26 +70,31 @@ class Layout(foundations.dataStructures.Structure):
 
 class LayoutsManager(QObject):
 	"""
-	This class defines the Application layouts manager. 
+	Defines the Application layouts manager.
 	"""
 
 	layoutRestored = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`LayoutsManager` class when the current layout has been restored. ( pyqtSignal )
 
-	:return: Current layout. ( String )	
+	:return: Current layout.
+	:rtype: unicode
 	"""
 
 	layoutStored = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`LayoutsManager` class when the current layout has been stored. ( pyqtSignal )
 
-	:return: Current layout. ( String )	
+	:return: Current layout.
+	:rtype: unicode
 	"""
 
 	def __init__(self, parent=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
+
+		:param parent: Object parent.
+		:type parent: QObject
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -114,9 +120,10 @@ class LayoutsManager(QObject):
 	@property
 	def container(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -125,9 +132,10 @@ class LayoutsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -137,7 +145,7 @@ class LayoutsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		Deleter for **self.__container** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -146,9 +154,10 @@ class LayoutsManager(QObject):
 	@property
 	def settings(self):
 		"""
-		This method is the property for **self.__settings** attribute.
+		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( Preferences )
+		:return: self.__settings.
+		:rtype: Preferences
 		"""
 
 		return self.__settings
@@ -157,9 +166,10 @@ class LayoutsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self, value):
 		"""
-		This method is the setter method for **self.__settings** attribute.
+		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( Preferences )
+		:param value: Attribute value.
+		:type value: Preferences
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -169,7 +179,7 @@ class LayoutsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
-		This method is the deleter method for **self.__settings** attribute.
+		Deleter for **self.__settings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -178,9 +188,10 @@ class LayoutsManager(QObject):
 	@property
 	def layouts(self):
 		"""
-		This method is the property for **self.__layouts** attribute.
+		Property for **self.__layouts** attribute.
 
-		:return: self.__layouts. ( Dictionary )
+		:return: self.__layouts.
+		:rtype: dict
 		"""
 
 		return self.__layouts
@@ -189,9 +200,10 @@ class LayoutsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def layouts(self, value):
 		"""
-		This method is the setter method for **self.__layouts** attribute.
+		Setter for **self.__layouts** attribute.
 
-		:param value: Attribute value. ( Dictionary )
+		:param value: Attribute value.
+		:type value: dict
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -201,7 +213,7 @@ class LayoutsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def layouts(self):
 		"""
-		This method is the deleter method for **self.__layouts** attribute.
+		Deleter for **self.__layouts** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -210,9 +222,10 @@ class LayoutsManager(QObject):
 	@property
 	def currentLayout(self):
 		"""
-		This method is the property for **self.__currentLayout** attribute.
+		Property for **self.__currentLayout** attribute.
 
-		:return: self.__currentLayout. ( Tuple / List )
+		:return: self.__currentLayout.
+		:rtype: tuple or list
 		"""
 
 		return self.__currentLayout
@@ -221,9 +234,10 @@ class LayoutsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def currentLayout(self, value):
 		"""
-		This method is the setter method for **self.__currentLayout** attribute.
+		Setter for **self.__currentLayout** attribute.
 
-		:param value: Attribute value. ( Tuple / List )
+		:param value: Attribute value.
+		:type value: tuple or list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -233,7 +247,7 @@ class LayoutsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def currentLayout(self):
 		"""
-		This method is the deleter method for **self.__currentLayout** attribute.
+		Deleter for **self.__currentLayout** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -242,9 +256,10 @@ class LayoutsManager(QObject):
 	@property
 	def restoreGeometryOnLayoutChange(self):
 		"""
-		This method is the property for **self.__restoreGeometryOnLayoutChange** attribute.
+		Property for **self.__restoreGeometryOnLayoutChange** attribute.
 
-		:return: self.__restoreGeometryOnLayoutChange. ( Boolean )
+		:return: self.__restoreGeometryOnLayoutChange.
+		:rtype: bool
 		"""
 
 		return self.__restoreGeometryOnLayoutChange
@@ -253,9 +268,10 @@ class LayoutsManager(QObject):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def restoreGeometryOnLayoutChange(self, value):
 		"""
-		This method is the setter method for **self.__restoreGeometryOnLayoutChange** attribute.
+		Setter for **self.__restoreGeometryOnLayoutChange** attribute.
 
-		:param value: Attribute value. ( Boolean )
+		:param value: Attribute value.
+		:type value: bool
 		"""
 
 		if value is not None:
@@ -267,7 +283,7 @@ class LayoutsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def restoreGeometryOnLayoutChange(self):
 		"""
-		This method is the deleter method for **self.__restoreGeometryOnLayoutChange** attribute.
+		Deleter for **self.__restoreGeometryOnLayoutChange** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -278,57 +294,95 @@ class LayoutsManager(QObject):
 	#******************************************************************************************************************
 	def __getitem__(self, layout):
 		"""
-		This method reimplements the :meth:`object.__getitem__` method.
+		Reimplements the :meth:`object.__getitem__` method.
 
-		:param layout: Layout name. ( String )
-		:return: Layout. ( Layout )
+		:param layout: Layout name.
+		:type layout: unicode
+		:return: Layout.
+		:rtype: Layout
 		"""
 
 		return self.__layouts.__getitem__(layout)
 
+	def __setitem__(self, name, layout):
+		"""
+		Reimplements the :meth:`object.__setitem__` method.
+
+		:param name: Layout name.
+		:type name: unicode
+		:param layout: Layout.
+		:type layout: Layout
+		"""
+
+		self.registerLayout(name, layout)
+
 	def __iter__(self):
 		"""
-		This method reimplements the :meth:`object.__iter__` method.
+		Reimplements the :meth:`object.__iter__` method.
 
-		:return: Layouts iterator. ( Object )
+		:return: Layouts iterator.
+		:rtype: object
 		"""
 
 		return self.__layouts.iteritems()
 
 	def __contains__(self, layout):
 		"""
-		This method reimplements the :meth:`object.__contains__` method.
+		Reimplements the :meth:`object.__contains__` method.
 
-		:param layout: Layout name. ( String )
-		:return: Layout existence. ( Boolean )
+		:param layout: Layout name.
+		:type layout: unicode
+		:return: Layout existence.
+		:rtype: bool
 		"""
 
-		return layout in self.__layouts.keys()
+		return layout in self.__layouts
 
 	def __len__(self):
 		"""
-		This method reimplements the :meth:`object.__len__` method.
+		Reimplements the :meth:`object.__len__` method.
 
-		:return: Layouts count. ( Integer )
+		:return: Layouts count.
+		:rtype: int
 		"""
 
-		return len(self.__layouts.keys())
+		return len(self.__layouts)
+
+	def get(self, layout, default=None):
+		"""
+		Returns given layout value.
+
+		:param layout: Layout name.
+		:type layout: unicode
+		:param default: Default value if layout is not found.
+		:type default: object
+		:return: Action.
+		:rtype: QAction
+		"""
+
+		try:
+			return self.__getitem__(layout)
+		except KeyError as error:
+			return default
 
 	def listLayouts(self):
 		"""
-		This method returns the registered layouts.
+		Returns the registered layouts.
 
-		:return: Registered layouts. ( List )
+		:return: Registered layouts.
+		:rtype: list
 		"""
 
 		return sorted(self.__layouts.keys())
 
 	def isLayoutRegistered(self, name):
 		"""
-		This method returns if the given layout name is registered.
+		Returns if the given layout name is registered.
 
-		:param name: Layout name. ( String )
-		:return: Is layout registered. ( Boolean )
+		:param name: Layout name.
+		:type name: unicode
+		:return: Is layout registered.
+		:rtype: bool
 		"""
 
 		return name in self
@@ -336,11 +390,14 @@ class LayoutsManager(QObject):
 	@foundations.exceptions.handleExceptions(umbra.exceptions.LayoutRegistrationError)
 	def registerLayout(self, name, layout):
 		"""
-		This method registers given layout.
+		Registers given layout.
 
-		:param name: Layout name. ( String )
-		:param layout: Layout object. ( Layout )
-		:return: Method success. ( Boolean )
+		:param name: Layout name.
+		:type name: unicode
+		:param layout: Layout object.
+		:type layout: Layout
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if name in self:
@@ -353,11 +410,14 @@ class LayoutsManager(QObject):
 	@foundations.exceptions.handleExceptions(umbra.exceptions.LayoutRegistrationError)
 	def unregisterLayout(self, name):
 		"""
-		This method unregisters given layout.
+		Unregisters given layout.
 
-		:param name: Layout name. ( String )
-		:param layout: Layout object. ( Layout )
-		:return: Method success. ( Boolean )
+		:param name: Layout name.
+		:type name: unicode
+		:param layout: Layout object.
+		:type layout: Layout
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not name in self:
@@ -370,11 +430,14 @@ class LayoutsManager(QObject):
 	@foundations.exceptions.handleExceptions(umbra.exceptions.LayoutExistError)
 	def restoreLayout(self, name, *args):
 		"""
-		This method restores given layout.
+		Restores given layout.
 
-		:param name: Layout name. ( String )
-		:param \*args: Arguments. ( \* )
-		:return: Method success. ( Boolean )
+		:param name: Layout name.
+		:type name: unicode
+		:param \*args: Arguments.
+		:type \*args: \*
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		layout = self.__layouts.get(name)
@@ -403,11 +466,14 @@ class LayoutsManager(QObject):
 	@foundations.exceptions.handleExceptions(umbra.exceptions.LayoutExistError)
 	def storeLayout(self, name, *args):
 		"""
-		This method stores given layout.
+		Stores given layout.
 
-		:param name: Layout name. ( String )
-		:param \*args: Arguments. ( \* )
-		:return: Method success. ( Boolean )
+		:param name: Layout name.
+		:type name: unicode
+		:param \*args: Arguments.
+		:type \*args: \*
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		layout = self.__layouts.get(name)
@@ -426,9 +492,10 @@ class LayoutsManager(QObject):
 
 	def restoreStartupLayout(self):
 		"""
-		This method restores the startup layout.
+		Restores the startup layout.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Restoring startup layout.")
@@ -440,9 +507,10 @@ class LayoutsManager(QObject):
 
 	def storeStartupLayout(self):
 		"""
-		This method stores the startup layout.
+		Stores the startup layout.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Storing startup layout.")

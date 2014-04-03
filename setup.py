@@ -22,14 +22,14 @@ from __future__ import unicode_literals
 #**********************************************************************************************************************
 #***	Encoding manipulations.
 #**********************************************************************************************************************
-import sys
-
 def _setEncoding():
 	"""
-	This definition sets the Application encoding.
+	Sets the Package encoding.
 	"""
 
+	import sys
 	reload(sys)
+
 	sys.setdefaultencoding("utf-8")
 
 _setEncoding()
@@ -50,7 +50,7 @@ import umbra.globals.constants
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -63,9 +63,10 @@ __all__ = ["getLongDescription"]
 #**********************************************************************************************************************
 def getLongDescription():
 	"""
-	This definition returns the Package long description.
+	Returns the Package long description.
 
-	:return: Package long description. ( String )
+	:return: Package long description.
+	:rtype: unicode
 	"""
 
 	description = []
@@ -81,7 +82,7 @@ def getLongDescription():
 	return "".join(description)
 
 setup(name=umbra.globals.constants.Constants.applicationName,
-	version=umbra.globals.constants.Constants.releaseVersion,
+	version=umbra.globals.constants.Constants.version,
 	author=umbra.globals.constants.__author__,
 	author_email=umbra.globals.constants.__email__,
 	include_package_data=True,
@@ -91,7 +92,7 @@ setup(name=umbra.globals.constants.Constants.applicationName,
 	license="GPLv3",
 	description="Umbra is the main package of sIBL_GUI and sIBL_Reporter.",
 	long_description=getLongDescription(),
-	install_requires=["Manager>=2.0.4"],
+	install_requires=["Manager>=2.0.5"],
 	classifiers=["Development Status :: 5 - Production/Stable",
 				"Environment :: Console",
 				"Environment :: MacOS X",

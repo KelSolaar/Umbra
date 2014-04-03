@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module runs the **Umbra** package :class:`umbra.engine.Umbra` engine class.
+	Runs the **Umbra** package :class:`umbra.engine.Umbra` engine class.
 
 **Others:**
 
@@ -20,31 +20,17 @@
 from __future__ import unicode_literals
 
 #**********************************************************************************************************************
-#***	Encoding manipulations.
-#**********************************************************************************************************************
-import sys
-
-def _setEncoding():
-	"""
-	This definition sets the Application encoding.
-	"""
-
-	reload(sys)
-	sys.setdefaultencoding("utf-8")
-
-_setEncoding()
-
-#**********************************************************************************************************************
 #***	External imports.
 #**********************************************************************************************************************
 import os
+import sys
 
 #**********************************************************************************************************************
 #***	Path manipulations.
 #**********************************************************************************************************************
 def _setPackageDirectory():
 	"""
-	This definition sets the Application package directory in the path.
+	Sets the Application package directory in the path.
 	"""
 
 	packageDirectory = os.path.normpath(os.path.join(os.path.dirname(__file__), "../"))
@@ -62,7 +48,7 @@ from umbra.globals.constants import Constants
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -75,9 +61,10 @@ __all__ = []
 #**********************************************************************************************************************
 def main():
 	"""
-	This definition starts the Application.
+	Starts the Application.
 
-	:return: Definition success. ( Boolean )
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	componentsPaths = []
@@ -86,7 +73,7 @@ def main():
 		os.path.exists(path) and componentsPaths.append(path)
 	return umbra.engine.run(umbra.engine.Umbra,
 							umbra.engine.getCommandLineParametersParser().parse_args(
-							[unicode(argument, Constants.encodingCodec) for argument in sys.argv]),
+							[unicode(argument, Constants.defaultCodec, Constants.codecError) for argument in sys.argv]),
 							componentsPaths,
 							("factory.scriptEditor", "factory.preferencesManager", "factory.componentsManagerUi"))
 

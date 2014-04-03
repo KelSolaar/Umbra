@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`umbra.components.factory.traceUi.traceUi.TraceUi`
+	Defines the :class:`umbra.components.factory.traceUi.traceUi.TraceUi`
 	Component Interface class nodes.
 
 **Others:**
@@ -37,7 +37,7 @@ import umbra.ui.nodes
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -52,7 +52,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class ModuleNode(umbra.ui.nodes.GraphModelNode):
 	"""
-	This class factory defines :class:`umbra.components.factory.traceUi.traceUi.TraceUi`
+	Defines :class:`umbra.components.factory.traceUi.traceUi.TraceUi`
 	Component Interface class **Module** node.
 	"""
 
@@ -68,16 +68,24 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 				attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
 				**kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param module: Module.  ( Module )
-		:param name: Node name.  ( String )
-		:param parent: Node parent. ( GraphModelNode )
-		:param children: Children. ( List )
-		:param roles: Roles. ( Dictionary )
-		:param nodeFlags: Node flags. ( Integer )
-		:param attributesFlags: Attributes flags. ( Integer )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param module: Module.
+		:type module: ModuleType
+		:param name: Node name.
+		:type name: unicode
+		:param parent: Node parent.
+		:type parent: GraphModelNode
+		:param children: Children.
+		:type children: list
+		:param roles: Roles.
+		:type roles: dict
+		:param nodeFlags: Node flags.
+		:type nodeFlags: int
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -95,9 +103,10 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 	@property
 	def module(self):
 		"""
-		This method is the property for **self.__module** attribute.
+		Property for **self.__module** attribute.
 
-		:return: self.__module. ( Object )
+		:return: self.__module.
+		:rtype: object
 		"""
 
 		return self.__module
@@ -106,9 +115,10 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def module(self, value):
 		"""
-		This method is the setter method for **self.__module** attribute.
+		Setter for **self.__module** attribute.
 
-		:param value: Attribute value. ( Object )
+		:param value: Attribute value.
+		:type value: object
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -118,7 +128,7 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def module(self):
 		"""
-		This method is the deleter method for **self.__module** attribute.
+		Deleter for **self.__module** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -129,9 +139,10 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 	#******************************************************************************************************************
 	def __initializeNode(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method initializes the node.
+		Initializes the node.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
 		"""
 
 		self["traced"] = umbra.ui.nodes.GraphModelAttribute(name="traced",
@@ -141,10 +152,12 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
 
 	def updateNodeAttributes(self, attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
-		This method updates the Node attributes.
+		Updates the Node attributes.
 		
-		:param attributesFlags: Attributes flags. ( Integer )
-		:return: Method success. ( Boolean )
+		:param attributesFlags: Attributes flags.
+		:type attributesFlags: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.traced.value = foundations.trace.isTraced(self.__module)

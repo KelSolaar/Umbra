@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines languages manipulation related objects.
+	Defines languages manipulation related objects.
 
 **Others:**
 
@@ -43,7 +43,7 @@ from umbra.globals.uiConstants import UiConstants
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -98,12 +98,12 @@ DEFAULT_INDENT_MARKER = "\t"
 #**********************************************************************************************************************
 class Language(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for the :class:`Editor` class language description. 
+	Defines a storage object for the :class:`Editor` class language description. 
 	"""
 
 	def __init__(self, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
 		:param \*\*kwargs: name, file, parser,	extensions, highlighter, completer,	preInputAccelerators,
 			postInputAccelerators, visualAccelerators, indentMarker, commentMarker, commentBlockMarkerStart, commentBlockMarkerEnd,
@@ -116,10 +116,12 @@ class Language(foundations.dataStructures.Structure):
 
 def getObjectFromLanguageAccelerators(accelerator):
 	"""
-	This definition returns the object associated to given accelerator.
+	Returns the object associated to given accelerator.
 
-	:param accelerator: Accelerator. ( String )
-	:return: Object. ( Object )
+	:param accelerator: Accelerator.
+	:type accelerator: unicode
+	:return: Object.
+	:rtype: object
 	"""
 
 	return LANGUAGES_ACCELERATORS.get(accelerator)
@@ -127,16 +129,18 @@ def getObjectFromLanguageAccelerators(accelerator):
 @foundations.exceptions.handleExceptions(LanguageGrammarError)
 def getLanguageDescription(grammarfile):
 	"""
-	This definition gets the language description from given language grammar file.
+	Gets the language description from given language grammar file.
 
-	:param grammarfile: Language grammar. ( String )
-	:return: Language description. ( Language )
+	:param grammarfile: Language grammar.
+	:type grammarfile: unicode
+	:return: Language description.
+	:rtype: Language
 	"""
 
 	LOGGER.debug("> Processing '{0}' grammar file.".format(grammarfile))
 
 	sectionsParser = foundations.parsers.SectionsFileParser(grammarfile)
-	sectionsParser.read() and sectionsParser.parse(stripQuotationMarkers=False)
+	sectionsParser.parse(stripQuotationMarkers=False)
 
 	name = sectionsParser.getValue("Name", "Language")
 	if not name:
@@ -240,27 +244,30 @@ def getLanguageDescription(grammarfile):
 
 def getPythonLanguage():
 	"""
-	This definition returns the Python language description.
+	Returns the Python language description.
 
-	:return: Python language description. ( Language )
+	:return: Python language description.
+	:rtype: Language
 	"""
 
 	return getLanguageDescription(PYTHON_GRAMMAR_FILE)
 
 def getLoggingLanguage():
 	"""
-	This definition returns the Logging language description.
+	Returns the Logging language description.
 
-	:return: Logging language description. ( Language )
+	:return: Logging language description.
+	:rtype: Language
 	"""
 
 	return getLanguageDescription(LOGGING_GRAMMAR_FILE)
 
 def getTextLanguage():
 	"""
-	This definition returns the Text language description.
+	Returns the Text language description.
 
-	:return: Text language description. ( Language )
+	:return: Text language description.
+	:rtype: Language
 	"""
 
 	return getLanguageDescription(TEXT_GRAMMAR_FILE)

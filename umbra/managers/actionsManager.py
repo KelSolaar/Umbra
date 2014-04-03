@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	| This module defines the :class:`ActionsManager` class.
+	| Defines the :class:`ActionsManager` class.
 	| The :class:`ActionsManager` class provides a centralized hub to manage Applications actions.
 	| It defines methods to register, unregister and list actions.
 
@@ -44,7 +44,7 @@ import umbra.exceptions
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -59,17 +59,21 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class ActionsManager(QObject):
 	"""
-	This class is a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass providing an actions manager.
+	Defines a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass providing an actions manager.
 	"""
 
 	def __init__(self, parent=None, namespaceSplitter="|", rootNamespace="Actions", defaultNamespace="Others"):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param namespaceSplitter: Namespace splitters character. ( String )
-		:param rootNamespace: Root foundations.namespace. ( String )
-		:param defaultNamespace: Default namespace ( For actions with relative path ). ( String )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param namespaceSplitter: Namespace splitters character.
+		:type namespaceSplitter: unicode
+		:param rootNamespace: Root foundations.namespace.
+		:type rootNamespace: unicode
+		:param defaultNamespace: Default namespace ( For actions with relative path ).
+		:type defaultNamespace: unicode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -94,9 +98,10 @@ class ActionsManager(QObject):
 	@property
 	def namespaceSplitter(self):
 		"""
-		This method is the property for **self.__namespaceSplitter** attribute.
+		Property for **self.__namespaceSplitter** attribute.
 
-		:return: self.__namespaceSplitter. ( String )
+		:return: self.__namespaceSplitter.
+		:rtype: unicode
 		"""
 
 		return self.__namespaceSplitter
@@ -105,35 +110,38 @@ class ActionsManager(QObject):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def namespaceSplitter(self, value):
 		"""
-		This method is the setter method for **self.__namespaceSplitter** attribute.
+		Setter for **self.__namespaceSplitter** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
 			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-			"namespaceSplitter", value)
-			assert len(value) == 1, "'{0}' attribute: '{1}' has multiples characters!".format("namespaceSplitter", value)
+				"namespaceSplitter", value)
+			assert len(value) == 1, "'{0}' attribute: '{1}' has multiples characters!".format("namespaceSplitter",
+																							  value)
 			assert not re.search(r"\w", value), "'{0}' attribute: '{1}' is an alphanumeric character!".format(
-			"namespaceSplitter", value)
+				"namespaceSplitter", value)
 		self.__namespaceSplitter = value
 
 	@namespaceSplitter.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def namespaceSplitter(self):
 		"""
-		This method is the deleter method for **self.__namespaceSplitter** attribute.
+		Deleter for **self.__namespaceSplitter** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "namespaceSplitter"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "namespaceSplitter"))
 
 	@property
 	def rootNamespace(self):
 		"""
-		This method is the property for **self.__rootNamespace** attribute.
+		Property for **self.__rootNamespace** attribute.
 
-		:return: self.__rootNamespace. ( String )
+		:return: self.__rootNamespace.
+		:rtype: unicode
 		"""
 
 		return self.__rootNamespace
@@ -142,32 +150,34 @@ class ActionsManager(QObject):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def rootNamespace(self, value):
 		"""
-		This method is the setter method for **self.__rootNamespace** attribute.
+		Setter for **self.__rootNamespace** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
 			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-			"rootNamespace", value)
+				"rootNamespace", value)
 		self.__rootNamespace = value
 
 	@rootNamespace.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def rootNamespace(self):
 		"""
-		This method is the deleter method for **self.__rootNamespace** attribute.
+		Deleter for **self.__rootNamespace** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "rootNamespace"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "rootNamespace"))
 
 	@property
 	def defaultNamespace(self):
 		"""
-		This method is the property for **self.__defaultNamespace** attribute.
+		Property for **self.__defaultNamespace** attribute.
 
-		:return: self.__defaultNamespace. ( String )
+		:return: self.__defaultNamespace.
+		:rtype: unicode
 		"""
 
 		return self.__defaultNamespace
@@ -176,32 +186,34 @@ class ActionsManager(QObject):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def defaultNamespace(self, value):
 		"""
-		This method is the setter method for **self.__defaultNamespace** attribute.
+		Setter for **self.__defaultNamespace** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
 			assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-			"defaultNamespace", value)
+				"defaultNamespace", value)
 		self.__defaultNamespace = value
 
 	@defaultNamespace.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultNamespace(self):
 		"""
-		This method is the deleter method for **self.__defaultNamespace** attribute.
+		Deleter for **self.__defaultNamespace** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultNamespace"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultNamespace"))
 
 	@property
 	def categories(self):
 		"""
-		This method is the property for **self.__categories** attribute.
+		Property for **self.__categories** attribute.
 
-		:return: self.__categories. ( Dictionary )
+		:return: self.__categories.
+		:rtype: dict
 		"""
 
 		return self.__categories
@@ -210,9 +222,10 @@ class ActionsManager(QObject):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def categories(self, value):
 		"""
-		This method is the setter method for **self.__categories** attribute.
+		Setter for **self.__categories** attribute.
 
-		:param value: Attribute value. ( Dictionary )
+		:param value: Attribute value.
+		:type value: dict
 		"""
 
 		if value is not None:
@@ -226,21 +239,23 @@ class ActionsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def categories(self):
 		"""
-		This method is the deleter method for **self.__categories** attribute.
+		Deleter for **self.__categories** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "categories"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "categories"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
 	def __getitem__(self, action):
 		"""
-		This method reimplements the :meth:`object.__getitem__` method.
+		Reimplements the :meth:`object.__getitem__` method.
 
-		:param action: Action name. ( String )
-		:return: Action. ( QAction )
+		:param action: Action name.
+		:type action: unicode
+		:return: Action.
+		:rtype: QAction
 		"""
 
 		action = self.__normalizeName(action)
@@ -248,23 +263,39 @@ class ActionsManager(QObject):
 			if action == foundations.namespace.setNamespace(self.__namespaceSplitter.join(path), name):
 				LOGGER.debug("> Retrieved object for '{0}' action name!".format(action))
 				return object
-		raise umbra.exceptions.ActionExistsError("{0} | '{1}' action isn't registered!".format(self.__class__.__name__,
-																								action))
+		raise umbra.exceptions.ActionExistsError(
+			"{0} | '{1}' action isn't registered!".format(self.__class__.__name__, action))
+
+	def __setitem__(self, action, kwargs):
+		"""
+		Reimplements the :meth:`object.__setitem__` method.
+
+		:param action: Action.
+		:type action: unicode
+		:param kwargs: kwargs.
+		:type kwargs: dict
+		"""
+
+		self.registerAction(action, **kwargs)
+
 	def __iter__(self):
 		"""
-		This method reimplements the :meth:`object.__iter__` method.
+		Reimplements the :meth:`object.__iter__` method.
 
-		:return: Actions iterator. ( Object )
+		:return: Actions iterator.
+		:rtype: object
 		"""
 
 		return foundations.walkers.dictionariesWalker(self.__categories)
 
 	def __contains__(self, action):
 		"""
-		This method reimplements the :meth:`object.__contains__` method.
+		Reimplements the :meth:`object.__contains__` method.
 
-		:param action: Action name. ( String )
-		:return: Action existence. ( Boolean )
+		:param action: Action name.
+		:type action: unicode
+		:return: Action existence.
+		:rtype: bool
 		"""
 
 		for path, name, object in self:
@@ -274,24 +305,27 @@ class ActionsManager(QObject):
 
 	def __len__(self):
 		"""
-		This method reimplements the :meth:`object.__len__` method.
+		Reimplements the :meth:`object.__len__` method.
 
-		:return: Actions count. ( Integer )
+		:return: Actions count.
+		:rtype: int
 		"""
 
 		return len([action for action in self])
 
 	def __normalizeName(self, name):
 		"""
-		This method normalizes given action name.
+		Normalizes given action name.
 
-		:param name: Action name. ( String )
-		:return: Normalized name. ( Boolean )
+		:param name: Action name.
+		:type name: unicode
+		:return: Normalized name.
+		:rtype: bool
 		"""
 
 		if not name.startswith(self.__rootNamespace):
 			name = foundations.namespace.setNamespace(self.__rootNamespace,
-													foundations.namespace.setNamespace(self.__defaultNamespace, name))
+													  foundations.namespace.setNamespace(self.__defaultNamespace, name))
 			LOGGER.debug("> Normalized name: '{0}'.".format(name))
 			return name
 		else:
@@ -300,13 +334,17 @@ class ActionsManager(QObject):
 
 	def __getCategory(self, category, name, vivify=False):
 		"""
-		This method gets recusively requested category, alternately if **vivify** argument is set,
+		Gets recusively requested category, alternately if **vivify** argument is set,
 		the category will be created.
 
-		:param category: Base category. ( Dictionary )
-		:param name: Category to retrieve or vivify. ( String )
-		:param vivify: Vivify missing parents in the chain to the requested category. ( Boolean )
-		:return: Requested category. ( Dictionary )
+		:param category: Base category.
+		:type category: dict
+		:param name: Category to retrieve or vivify.
+		:type name: unicode
+		:param vivify: Vivify missing parents in the chain to the requested category.
+		:type vivify: bool
+		:return: Requested category.
+		:rtype: dict
 		"""
 
 		namespace = foundations.namespace.getNamespace(name, rootOnly=True)
@@ -320,11 +358,29 @@ class ActionsManager(QObject):
 				category[name] = {}
 			return category[name]
 
+	def get(self, action, default=None):
+		"""
+		Returns given action value.
+
+		:param action: Action name.
+		:type action: unicode
+		:param default: Default value if action is not found.
+		:type default: object
+		:return: Action.
+		:rtype: QAction
+		"""
+
+		try:
+			return self.__getitem__(action)
+		except KeyError as error:
+			return default
+
 	def listActions(self):
 		"""
-		This method returns the registered actions.
+		Returns the registered actions.
 
-		:return: Actions list. ( List )
+		:return: Actions list.
+		:rtype: list
 		"""
 
 		actions = []
@@ -335,11 +391,14 @@ class ActionsManager(QObject):
 	@foundations.exceptions.handleExceptions(umbra.exceptions.CategoryExistsError)
 	def getCategory(self, name, vivify=False):
 		"""
-		This method returns requested category.
+		Returns requested category.
 
-		:param name: Category to retrieve. ( String )
-		:param vivify: Vivify missing parents in the chain to the requested category. ( Boolean )
-		:return: Category. ( Dictionary )
+		:param name: Category to retrieve.
+		:type name: unicode
+		:param vivify: Vivify missing parents in the chain to the requested category.
+		:type vivify: bool
+		:return: Category.
+		:rtype: dict
 		"""
 
 		category = self.__getCategory(self.__categories, name, vivify)
@@ -348,16 +407,20 @@ class ActionsManager(QObject):
 			return category
 		else:
 			raise umbra.exceptions.CategoryExistsError("{0} | '{1}' category doesn't exists!".format
-			(self.__class__.__name__, name))
+													   (self.__class__.__name__, name))
 
 	def addToCategory(self, category, name, action):
 		"""
-		This method adds given action to given category.
+		Adds given action to given category.
 
-		:param category: Category to store the action. ( String )
-		:param name: Action name. ( String )
-		:param action: Action object. ( QAction )
-		:return: Method success. ( Boolean )
+		:param category: Category to store the action.
+		:type category: unicode
+		:param name: Action name.
+		:type name: unicode
+		:param action: Action object.
+		:type action: QAction
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		category = self.getCategory(category, vivify=True)
@@ -370,63 +433,73 @@ class ActionsManager(QObject):
 
 	def removeFromCategory(self, category, name):
 		"""
-		This method removes given action from given category.
+		Removes given action from given category.
 
-		:param category: Category to remove the action from. ( String )
-		:param name: Action name. ( String )
-		:return: Method success. ( Boolean )
+		:param category: Category to remove the action from.
+		:type category: unicode
+		:param name: Action name.
+		:type name: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		category = self.getCategory(category)
 		if not isinstance(category, dict):
 			return False
 
-		del(category[name])
+		del (category[name])
 		LOGGER.debug("> Removed '{0}' action from '{1}' category!".format(category, name))
 		return True
 
 	@foundations.exceptions.handleExceptions(umbra.exceptions.ActionExistsError)
 	def getAction(self, action):
 		"""
-		This method returns requested action.
+		Returns requested action.
 
-		:param action: Action name. ( String )
-		:return: Action. ( QAction )
+		:param action: Action name.
+		:type action: unicode
+		:return: Action.
+		:rtype: QAction
 		"""
 
 		return self[action]
 
 	def isActionRegistered(self, name):
 		"""
-		This method returns if the given action name is registered.
+		Returns if the given action name is registered.
 
-		:param name: Action name. ( String )
-		:return: Is action registered. ( Boolean )
+		:param name: Action name.
+		:type name: unicode
+		:return: Is action registered.
+		:rtype: bool
 		"""
 
 		return name in self
 
 	def registerAction(self, name, **kwargs):
 		"""
-		This method registers given action name, optional arguments like a parent, icon, slot etc ... can be given.
+		Registers given action name, optional arguments like a parent, icon, slot etc ... can be given.
 
-		:param name: Action to register. ( String )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		:return: Action. ( QAction )
+		:param name: Action to register.
+		:type name: unicode
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
+		:return: Action.
+		:rtype: QAction
 		"""
 
-		settings = foundations.dataStructures.Structure(**{"parent" : None,
-									"text" : None,
-									"icon" : None,
-									"iconText" : None,
-									"checkable" : None,
-									"checked" : None,
-									"statusTip" : None,
-									"whatsThis" : None,
-									"toolTip" : None,
-									"shortcut" : None,
-									"shortcutContext" : None,
-									"slot" : None})
+		settings = foundations.dataStructures.Structure(**{"parent": None,
+														   "text": None,
+														   "icon": None,
+														   "iconText": None,
+														   "checkable": None,
+														   "checked": None,
+														   "statusTip": None,
+														   "whatsThis": None,
+														   "toolTip": None,
+														   "shortcut": None,
+														   "shortcutContext": None,
+														   "slot": None})
 		settings.update(kwargs)
 
 		name = self.__normalizeName(name)
@@ -453,10 +526,12 @@ class ActionsManager(QObject):
 
 	def unregisterAction(self, name):
 		"""
-		This method unregisters given action name.
+		Unregisters given action name.
 
-		:param name: Action to register. ( String )
-		:return: Method success. ( Boolean )
+		:param name: Action to register.
+		:type name: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		name = self.__normalizeName(name)
@@ -473,10 +548,12 @@ class ActionsManager(QObject):
 
 	def isShortcutInUse(self, shortcut):
 		"""
-		This method returns if given action shortcut is in use.
+		Returns if given action shortcut is in use.
 
-		:param name: Action shortcut. ( String )
-		:return: Is shortcut in use. ( Boolean )
+		:param name: Action shortcut.
+		:type name: unicode
+		:return: Is shortcut in use.
+		:rtype: bool
 		"""
 
 		for path, actionName, action in foundations.walkers.dictionariesWalker(self.__categories):
@@ -486,10 +563,12 @@ class ActionsManager(QObject):
 
 	def getShortcut(self, name):
 		"""
-		This method returns given action shortcut.
+		Returns given action shortcut.
 
-		:param name: Action to retrieve the shortcut. ( String )
-		:return: Action shortcut. ( String )
+		:param name: Action to retrieve the shortcut.
+		:type name: unicode
+		:return: Action shortcut.
+		:rtype: unicode
 		"""
 
 		name = self.__normalizeName(name)
@@ -501,11 +580,14 @@ class ActionsManager(QObject):
 
 	def setShortcut(self, name, shortcut):
 		"""
-		This method sets given action shortcut.
+		Sets given action shortcut.
 
-		:param name: Action to set the shortcut. ( String )
-		:param shortcut: Shortcut to set. ( String )
-		:return: Method success. ( Boolean )
+		:param name: Action to set the shortcut.
+		:type name: unicode
+		:param shortcut: Shortcut to set.
+		:type shortcut: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		name = self.__normalizeName(name)

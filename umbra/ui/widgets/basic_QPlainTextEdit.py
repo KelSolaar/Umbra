@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`Basic_QPlainTextEdit` class.
+	Defines the :class:`Basic_QPlainTextEdit` class.
 
 **Others:**
 	Portions of the code from codeeditor.py by Roberto Alsina: http://lateral.netmanagers.com.ar/weblog/posts/BB832.html,
@@ -50,7 +50,7 @@ import foundations.verbose
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -65,20 +65,25 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 def editBlock(object):
 	"""
-	This decorator is used to handle edit blocks undo states.
-	
-	:param object: Object to decorate. ( Object )
-	:return: Object. ( Object )
+	Handles edit blocks undo states.
+
+	:param object: Object to decorate.
+	:type object: object
+	:return: Object.
+	:rtype: object
 	"""
 
 	@functools.wraps(object)
 	def editBlockWrapper(*args, **kwargs):
 		"""
-		This decorator is used to handle edit blocks undo states.
+		Handles edit blocks undo states.
 
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		:return: Object. ( Object )
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
+		:return: Object.
+		:rtype: object
 		"""
 
 		if args:
@@ -96,20 +101,25 @@ def editBlock(object):
 
 def anchorTextCursor(object):
 	"""
-	This decorator is used to anchor the text cursor position.
-	
-	:param object: Object to decorate. ( Object )
-	:return: Object. ( Object )
+	Anchors the text cursor position.
+
+	:param object: Object to decorate.
+	:type object: object
+	:return: Object.
+	:rtype: object
 	"""
 
 	@functools.wraps(object)
 	def anchorTextCursorWrapper(*args, **kwargs):
 		"""
-		This decorator is used to anchor the text cursor position.
+		Anchors the text cursor position.
 
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		:return: Object. ( Object )
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
+		:return: Object.
+		:rtype: object
 		"""
 
 		if args:
@@ -128,20 +138,25 @@ def anchorTextCursor(object):
 
 def centerTextCursor(object):
 	"""
-	This decorator is used to center the text cursor position.
-	
-	:param object: Object to decorate. ( Object )
-	:return: Object. ( Object )
+	Centers the text cursor position.
+
+	:param object: Object to decorate.
+	:type object: object
+	:return: Object.
+	:rtype: object
 	"""
 
 	@functools.wraps(object)
 	def centerTextCursorWrapper(*args, **kwargs):
 		"""
-		This decorator is used to center the text cursor position.
+		Centers the text cursor position.
 
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		:return: Object. ( Object )
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
+		:return: Object.
+		:rtype: object
 		"""
 
 		if args:
@@ -160,7 +175,7 @@ def centerTextCursor(object):
 
 class Basic_QPlainTextEdit(QPlainTextEdit):
 	"""
-	This class is a `QPlainTextEdit <http://doc.qt.nokia.com/qplaintextedit.html>`_ subclass providing
+	Defines a `QPlainTextEdit <http://doc.qt.nokia.com/qplaintextedit.html>`_ subclass providing
 	a basic editor base class.
 	"""
 
@@ -169,17 +184,21 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	"""
 	This signal is emited by the :class:`Basic_QPlainTextEdit` class
 	when patterns have been replaced. ( pyqtSignal )
-	
-	:return: Replaced patterns. ( List )		
+
+	:return: Replaced patterns.
+	:rtype: list
 	"""
 
 	def __init__(self, parent=None, *args, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Widget parent. ( QObject )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Widget parent.
+		:type parent: QObject
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -199,9 +218,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	@property
 	def searchPattern(self):
 		"""
-		This method is the property for **self.__searchPattern** attribute.
+		Property for **self.__searchPattern** attribute.
 
-		:return: self.__searchPattern. ( String )
+		:return: self.__searchPattern.
+		:rtype: unicode
 		"""
 
 		return self.__searchPattern
@@ -210,9 +230,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def searchPattern(self, value):
 		"""
-		This method is the setter method for **self.__searchPattern** attribute.
+		Setter for **self.__searchPattern** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -224,7 +245,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchPattern(self):
 		"""
-		This method is the deleter method for **self.__searchPattern** attribute.
+		Deleter for **self.__searchPattern** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -233,9 +254,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	@property
 	def minimumFontPointSize(self):
 		"""
-		This method is the property for **self.__minimumFontPointSize** attribute.
+		Property for **self.__minimumFontPointSize** attribute.
 
-		:return: self.__minimumFontPointSize. ( Integer )
+		:return: self.__minimumFontPointSize.
+		:rtype: int
 		"""
 
 		return self.__minimumFontPointSize
@@ -244,9 +266,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def minimumFontPointSize(self, value):
 		"""
-		This method is the setter method for **self.__minimumFontPointSize** attribute.
+		Setter for **self.__minimumFontPointSize** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -259,7 +282,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def minimumFontPointSize(self):
 		"""
-		This method is the deleter method for **self.__minimumFontPointSize** attribute.
+		Deleter for **self.__minimumFontPointSize** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -268,9 +291,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	@property
 	def maximumFontPointSize(self):
 		"""
-		This method is the property for **self.__maximumFontPointSize** attribute.
+		Property for **self.__maximumFontPointSize** attribute.
 
-		:return: self.__maximumFontPointSize. ( Integer )
+		:return: self.__maximumFontPointSize.
+		:rtype: int
 		"""
 
 		return self.__maximumFontPointSize
@@ -279,9 +303,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def maximumFontPointSize(self, value):
 		"""
-		This method is the setter method for **self.__maximumFontPointSize** attribute.
+		Setter for **self.__maximumFontPointSize** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -296,7 +321,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def maximumFontPointSize(self):
 		"""
-		This method is the deleter method for **self.__maximumFontPointSize** attribute.
+		Deleter for **self.__maximumFontPointSize** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -308,9 +333,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	@foundations.trace.untracable
 	def wheelEvent(self, event):
 		"""
-		This method reimplements the :meth:`QPlainTextEdit.wheelEvent` method.
+		Reimplements the :meth:`QPlainTextEdit.wheelEvent` method.
 
-		:param event: Event. ( QEvent )
+		:param event: Event.
+		:type event: QEvent
 		"""
 
 		if event.modifiers() == Qt.ControlModifier:
@@ -324,9 +350,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	def __selectTextUnderCursorBlocks(self, cursor):
 		"""
-		This method selects the document text under cursor blocks.
+		Selects the document text under cursor blocks.
 
-		:param cursor: Cursor. ( QTextCursor )
+		:param cursor: Cursor.
+		:type cursor: QTextCursor
 		"""
 
 		startBlock = self.document().findBlock(cursor.selectionStart()).firstLineNumber()
@@ -338,9 +365,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	def getSelectedTextMetrics(self):
 		"""
-		This method returns current document selected text metrics.
+		Returns current document selected text metrics.
 
-		:return: Selected text metrics. ( Tuple )		
+		:return: Selected text metrics.
+		:rtype: tuple
 		"""
 
 		selectedText = self.getSelectedText()
@@ -351,19 +379,22 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	def getDefaultTextOption(self):
 		"""
-		This method returns default text option.
+		Returns default text option.
 
-		:return: Default text options. ( QTextOption )		
+		:return: Default text options.
+		:rtype: QTextOption
 		"""
 
 		return self.document().defaultTextOption()
 
 	def setDefaultTextOption(self, textOption):
 		"""
-		This method sets default text option using given flag.
+		Sets default text option using given flag.
 
-		:param textOption: Text option. ( QTextOption )
-		:return: Method success. ( Boolean )
+		:param textOption: Text option.
+		:type textOption: QTextOption
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.document().setDefaultTextOption(textOption)
@@ -371,9 +402,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	def storeTextCursorAnchor(self):
 		"""
-		This method stores the document cursor anchor.
+		Stores the document cursor anchor.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.__textCursorAnchor = (self.textCursor(),
@@ -383,9 +415,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	def restoreTextCursorAnchor(self):
 		"""
-		This method restores the document cursor anchor.
+		Restores the document cursor anchor.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.__textCursorAnchor:
@@ -399,27 +432,30 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	def getCursorLine(self):
 		"""
-		This method returns the document cursor line.
+		Returns the document cursor line.
 
-		:return: Cursor line. ( Integer )		
+		:return: Cursor line.
+		:rtype: int
 		"""
 
 		return self.textCursor().blockNumber()
 
 	def getCursorColumn(self):
 		"""
-		This method returns the document cursor column.
+		Returns the document cursor column.
 
-		:return: Cursor column. ( Integer )		
+		:return: Cursor column.
+		:rtype: int
 		"""
 
 		return self.textCursor().columnNumber()
 
 	def getPreviousCharacter(self):
 		"""
-		This method returns the character before the cursor.
+		Returns the character before the cursor.
 
-		:return: Previous cursor character. ( QString )		
+		:return: Previous cursor character.
+		:rtype: QString
 		"""
 
 		cursor = self.textCursor()
@@ -428,9 +464,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	def getNextCharacter(self):
 		"""
-		This method returns the character after the cursor.
+		Returns the character after the cursor.
 
-		:return: Next cursor character. ( QString )		
+		:return: Next cursor character.
+		:rtype: QString
 		"""
 
 		cursor = self.textCursor()
@@ -439,9 +476,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	def getWords(self):
 		"""
-		This method returns the document words.
+		Returns the document words.
 
-		:return: Document words. ( List )		
+		:return: Document words.
+		:rtype: list
 		"""
 
 		words = []
@@ -455,18 +493,20 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	def getSelectedText(self):
 		"""
-		This method returns the document text under cursor.
+		Returns the document text under cursor.
 
-		:return: Text under cursor. ( QString )		
+		:return: Text under cursor.
+		:rtype: QString
 		"""
 
 		return self.textCursor().selectedText()
 
 	def getWordUnderCursorLegacy(self):
 		"""
-		This method returns the document word under cursor ( Using Qt legacy "QTextCursor.WordUnderCursor" ).
+		Returns the document word under cursor ( Using Qt legacy "QTextCursor.WordUnderCursor" ).
 
-		:return: Word under cursor. ( QString )		
+		:return: Word under cursor.
+		:rtype: QString
 		"""
 
 		cursor = self.textCursor()
@@ -475,9 +515,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	def getWordUnderCursor(self):
 		"""
-		This method returns the document word under cursor.
+		Returns the document word under cursor.
 
-		:return: Word under cursor. ( QString )		
+		:return: Word under cursor.
+		:rtype: QString
 		"""
 
 		if not re.match(r"^\w+$", foundations.strings.toString(self.getPreviousCharacter())):
@@ -490,9 +531,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	def getPartialWordUnderCursor(self):
 		"""
-		This method returns the document partial word under cursor ( From word start to cursor position ).
+		Returns the document partial word under cursor ( From word start to cursor position ).
 
-		:return: Partial word under cursor. ( QString )		
+		:return: Partial word under cursor.
+		:rtype: QString
 		"""
 
 		if not re.match(r"^\w+$", foundations.strings.toString(self.getPreviousCharacter())):
@@ -505,19 +547,22 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	def isModified(self):
 		"""
-		This method returns if the document is modified.
+		Returns if the document is modified.
 
-		:return: Document modified state. ( Boolean )
+		:return: Document modified state.
+		:rtype: bool
 		"""
 
 		return self.document().isModified()
 
 	def setModified(self, state):
 		"""
-		This method sets the document modified state.
+		Sets the document modified state.
 
-		:param state: Modified state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param state: Modified state.
+		:type state: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.document().setModified(state)
@@ -525,9 +570,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	def isEmpty(self):
 		"""
-		This method returns if the document is empty.
+		Returns if the document is empty.
 
-		:return: Document empty state. ( Boolean )
+		:return: Document empty state.
+		:rtype: bool
 		"""
 
 		return self.document().isEmpty()
@@ -535,10 +581,12 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	@editBlock
 	def setContent(self, content):
 		"""
-		This method sets document with given content while providing undo capability.
+		Sets document with given content while providing undo capability.
 
-		:param content: Content to set. ( List )
-		:return: Method success. ( Boolean )
+		:param content: Content to set.
+		:type content: list
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		cursor = self.textCursor()
@@ -552,9 +600,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	def delete(self):
 		"""
-		This method deletes the document text under cursor.
+		Deletes the document text under cursor.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.textCursor().removeSelectedText()
@@ -563,9 +612,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	@editBlock
 	def deleteLines(self):
 		"""
-		This method deletes the document lines under cursor.
+		Deletes the document lines under cursor.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		cursor = self.textCursor()
@@ -577,9 +627,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	@editBlock
 	def duplicateLines(self):
 		"""
-		This method duplicates the document lines under cursor.
+		Duplicates the document lines under cursor.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		cursor = self.textCursor()
@@ -604,10 +655,11 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	@editBlock
 	def moveLines(self, direction=QTextCursor.Up):
 		"""
-		This method moves the document lines under cursor.
+		Moves the document lines under cursor.
 
 		:param direction: Move direction ( QTextCursor.Down / QTextCursor.Up ). ( QTextCursor.MoveOperation )
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		cursor = self.textCursor()
@@ -639,18 +691,20 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 	def moveLinesUp(self):
 		"""
-		This method moves up the document lines under cursor.
+		Moves up the document lines under cursor.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.moveLines(QTextCursor.Up)
 
 	def moveLinesDown(self):
 		"""
-		This method moves down the document lines under cursor.
+		Moves down the document lines under cursor.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.moveLines(QTextCursor.Down)
@@ -658,10 +712,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	@centerTextCursor
 	def search(self, pattern, **kwargs):
 		"""
-		This method searchs given pattern text in the document.
-		
+		Searchs given pattern text in the document.
+
 		Usage::
-			
+
 			>>> scriptEditor = Umbra.componentsManager.getInterface("factory.scriptEditor")
 			True
 			>>> codeEditor = scriptEditor.getCurrentEditor()
@@ -669,10 +723,13 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 			>>> codeEditor.search(searchPattern, caseSensitive=True, wholeWord=True, regularExpressions=True, \
 backwardSearch=True, wrapAround=True)
 			True
-				
-		:param pattern: Pattern to search for. ( String )
-		:param \*\*kwargs: Search settings. ( Key / Value pairs )
-		:return: Method success. ( Boolean )
+
+		:param pattern: Pattern to search for.
+		:type pattern: unicode
+		:param \*\*kwargs: Search settings.
+		:type \*\*kwargs: dict
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		settings = foundations.dataStructures.Structure(**{"caseSensitive" : False,
@@ -718,9 +775,10 @@ backwardSearch=True, wrapAround=True)
 	@centerTextCursor
 	def searchNext(self):
 		"""
-		This method searchs the next search pattern in the document.
+		Searchs the next search pattern in the document.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		pattern = self.getSelectedText() or self.__searchPattern
@@ -736,9 +794,10 @@ backwardSearch=True, wrapAround=True)
 	@centerTextCursor
 	def searchPrevious(self):
 		"""
-		This method searchs the previous search pattern in the document.
+		Searchs the previous search pattern in the document.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		pattern = self.getSelectedText() or self.__searchPattern
@@ -755,10 +814,10 @@ backwardSearch=True, wrapAround=True)
 	@editBlock
 	def replace(self, pattern, replacementPattern, **kwargs):
 		"""
-		This method replaces current given pattern occurence in the document with the replacement pattern.
+		Replaces current given pattern occurence in the document with the replacement pattern.
 
 		Usage::
-			
+
 			>>> scriptEditor = Umbra.componentsManager.getInterface("factory.scriptEditor")
 			True
 			>>> codeEditor = scriptEditor.getCurrentEditor()
@@ -767,10 +826,14 @@ backwardSearch=True, wrapAround=True)
 regularExpressions=True, backwardSearch=True, wrapAround=True)
 			True
 
-		:param pattern: Pattern to replace. ( String )
-		:param replacementPattern: Replacement pattern. ( String )
-		:param \*\*kwargs: Format settings. ( Key / Value pairs )
-		:return: Method success. ( Boolean )
+		:param pattern: Pattern to replace.
+		:type pattern: unicode
+		:param replacementPattern: Replacement pattern.
+		:type replacementPattern: unicode
+		:param \*\*kwargs: Format settings.
+		:type \*\*kwargs: dict
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		settings = foundations.dataStructures.Structure(**{"caseSensitive" : False,
@@ -806,17 +869,21 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 	@editBlock
 	def replaceAll(self, pattern, replacementPattern, **kwargs):
 		"""
-		| This method replaces every given pattern occurences in the document with the replacement pattern.
-		
+		| Replaces every given pattern occurrences in the document with the replacement pattern.
+
 		.. warning::
 
 			Initializing **wrapAround** keyword to **True** leads to infinite recursion loop
 			if the search pattern and the replacementPattern are the same.
 
-		:param pattern: Pattern to replace. ( String )
-		:param replacementPattern: Replacement pattern. ( String )
-		:param \*\*kwargs: Format settings. ( Key / Value pairs )
-		:return: Method success. ( Boolean )
+		:param pattern: Pattern to replace.
+		:type pattern: unicode
+		:param replacementPattern: Replacement pattern.
+		:type replacementPattern: unicode
+		:param \*\*kwargs: Format settings.
+		:type \*\*kwargs: dict
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		editCursor = self.textCursor()
@@ -846,10 +913,12 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 	@centerTextCursor
 	def gotoLine(self, line):
 		"""
-		This method moves the text cursor to given line.
+		Moves the text cursor to given line.
 
-		:param line: Line to go to. ( Integer )
-		:return: Method success. ( Boolean )
+		:param line: Line to go to.
+		:type line: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		cursor = self.textCursor()
@@ -859,10 +928,12 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 	def gotoColumn(self, column):
 		"""
-		This method moves the text cursor to given column.
+		Moves the text cursor to given column.
 
-		:param column: Column to go to. ( Integer )
-		:return: Method success. ( Boolean )
+		:param column: Column to go to.
+		:type column: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		cursor = self.textCursor()
@@ -872,10 +943,12 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 	def gotoPosition(self, position):
 		"""
-		This method moves the text cursor to given position.
+		Moves the text cursor to given position.
 
-		:param position: Position to go to. ( Integer )
-		:return: Method success. ( Boolean )
+		:param position: Position to go to.
+		:type position: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		cursor = self.textCursor()
@@ -885,9 +958,10 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 	def toggleWordWrap(self):
 		"""
-		This method toggles document word wrap.
+		Toggles document word wrap.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.setWordWrapMode(not self.wordWrapMode() and QTextOption.WordWrap or QTextOption.NoWrap)
@@ -895,9 +969,10 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 	def toggleWhiteSpaces(self):
 		"""
-		This method toggles document white spaces display.
+		Toggles document white spaces display.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		textOption = self.getDefaultTextOption()
@@ -912,10 +987,12 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 	def setFontIncrement(self, value):
 		"""
-		This method increments the document font size.
+		Increments the document font size.
 
-		:param value: Font size increment. ( Integer )
-		:return: Method success. ( Boolean )
+		:param value: Font size increment.
+		:type value: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		font = self.font()
@@ -929,18 +1006,20 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 
 	def zoomIn(self):
 		"""
-		This method increases the document font size.
+		Increases the document font size.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.setFontIncrement(1)
 
 	def zoomOut(self):
 		"""
-		This method increases the document font size.
+		Increases the document font size.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.setFontIncrement(-1)
@@ -953,6 +1032,7 @@ if __name__ == "__main__":
 	from PyQt4.QtGui import QWidget
 
 	import umbra.ui.common
+	from umbra.globals.constants import Constants
 
 	application = umbra.ui.common.getApplicationInstance()
 
@@ -975,7 +1055,7 @@ if __name__ == "__main__":
 	gridLayout.addWidget(lineEdit)
 
 	def _pushButton__clicked(*args):
-		statement = unicode(lineEdit.text())
+		statement = unicode(lineEdit.text(), Constants.defaultCodec, Constants.codecError)
 		exec(statement)
 
 	pushButton = QPushButton("Execute Statement")

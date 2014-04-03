@@ -8,8 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	| This module is the main **Umbra** package module.
-	| It defines various classes, methods and definitions to run, maintain and exit the Application.
+	| Defines various classes, methods and definitions to run, maintain and exit the Application.
 	| The main Application object is the :class:`Umbra` class.
 
 **Others:**
@@ -33,6 +32,7 @@ import platform
 import re
 import sys
 import time
+from PyQt4.QtCore import PYQT_VERSION_STR
 from PyQt4.QtCore import QEvent
 from PyQt4.QtCore import QEventLoop
 from PyQt4.QtCore import QString
@@ -47,7 +47,7 @@ from PyQt4.QtGui import QPixmap
 #**********************************************************************************************************************
 def _setPackageDirectory():
 	"""
-	This definition sets the Application package directory in the path.
+	Sets the Application package directory in the path.
 	"""
 
 	packageDirectory = os.path.normpath(os.path.join(os.path.dirname(__file__), "../"))
@@ -67,12 +67,12 @@ from umbra.globals.uiConstants import UiConstants
 
 def _overrideDependenciesGlobals():
 	"""
-	This definition overrides dependencies globals.
+	Overrides dependencies globals.
 	"""
 
 	foundations.globals.constants.Constants.logger = manager.globals.constants.Constants.logger = Constants.logger
 	foundations.globals.constants.Constants.applicationDirectory = \
-	manager.globals.constants.Constants.applicationDirectory = Constants.applicationDirectory
+		manager.globals.constants.Constants.applicationDirectory = Constants.applicationDirectory
 
 _overrideDependenciesGlobals()
 
@@ -80,11 +80,11 @@ import foundations.common
 
 def _extendResourcesPaths():
 	"""
-	This definition extend resources paths.
+	Extend resources paths.
 	"""
 
 	for path in (os.path.join(umbra.__path__[0], Constants.resourcesDirectory),
-				os.path.join(os.getcwd(), umbra.__name__, Constants.resourcesDirectory)):
+				 os.path.join(os.getcwd(), umbra.__name__, Constants.resourcesDirectory)):
 		path = os.path.normpath(path)
 		if foundations.common.pathExists(path):
 			path not in RuntimeGlobals.resourcesDirectories and RuntimeGlobals.resourcesDirectories.append(path)
@@ -95,6 +95,7 @@ _extendResourcesPaths()
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.core
+import foundations.dataStructures
 import foundations.exceptions
 import foundations.environment
 import foundations.io
@@ -112,6 +113,7 @@ import umbra.managers.patchesManager
 import umbra.managers.layoutsManager
 import umbra.reporter
 import umbra.ui.common
+import umbra.ui.widgets.messageBox
 from manager.componentsManager import Manager
 from umbra.preferences import Preferences
 from umbra.processing import Processing
@@ -122,28 +124,29 @@ from umbra.ui.widgets.delayed_QSplashScreen import Delayed_QSplashScreen
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "SESSION_HEADER_TEXT",
-			"SESSION_FOOTER_TEXT",
-			"showProcessing",
-			"encapsulateProcessing",
-			"Umbra",
-			"setUserApplicationDataDirectory",
-			"getCommandLineParametersParser",
-			"getLoggingFile",
-			"run",
-			"exit"]
+__all__ = ["LOGGER",
+		   "SESSION_HEADER_TEXT",
+		   "SESSION_FOOTER_TEXT",
+		   "showProcessing",
+		   "encapsulateProcessing",
+		   "Umbra",
+		   "setUserApplicationDataDirectory",
+		   "getCommandLineParametersParser",
+		   "getLoggingFile",
+		   "run",
+		   "exit"]
 
 LOGGER = foundations.verbose.installLogger()
 
 def _initializeLogging():
 	"""
-	This definition initializes the Application logging.
+	Initializes the Application logging.
 	"""
 
 	# Starting the console handler if a terminal is available.
@@ -151,15 +154,15 @@ def _initializeLogging():
 		RuntimeGlobals.loggingConsoleHandler = foundations.verbose.getLoggingConsoleHandler()
 
 	# Defining logging formatters.
-	RuntimeGlobals.loggingFormatters = {"Default" : foundations.verbose.LOGGING_DEFAULT_FORMATTER,
-										"Extended" : foundations.verbose.LOGGING_EXTENDED_FORMATTER,
-										"Standard" : foundations.verbose.LOGGING_STANDARD_FORMATTER}
+	RuntimeGlobals.loggingFormatters = {"Default": foundations.verbose.LOGGING_DEFAULT_FORMATTER,
+										"Extended": foundations.verbose.LOGGING_EXTENDED_FORMATTER,
+										"Standard": foundations.verbose.LOGGING_STANDARD_FORMATTER}
 
 _initializeLogging()
 
 def _initializeApplication():
 	"""
-	This definition initializes the Application.
+	Initializes the Application.
 	"""
 
 	RuntimeGlobals.application = umbra.ui.common.getApplicationInstance()
@@ -172,53 +175,60 @@ _initializeApplication()
 @umbra.reporter.criticalExceptionHandler
 def _initializeApplicationUiFile():
 	"""
-	This definition initializes the Application ui file.
+	Initializes the Application ui file.
 	"""
 
 	RuntimeGlobals.uiFile = umbra.ui.common.getResourcePath(UiConstants.uiFile)
 	if not foundations.common.pathExists(RuntimeGlobals.uiFile):
 		raise foundations.exceptions.FileExistsError("'{0}' ui file is not available, {1} will now close!".format(
-		UiConstants.uiFile, Constants.applicationName))
+			UiConstants.uiFile, Constants.applicationName))
 
 _initializeApplicationUiFile()
 
-SESSION_HEADER_TEXT = ("{0} | Copyright ( C ) 2008 - 2013 Thomas Mansencal - thomas.mansencal@gmail.com".format(
-					Constants.applicationName),
-				"{0} | This software is released under terms of GNU GPL V3 license.".format(Constants.applicationName),
-				"{0} | http://www.gnu.org/licenses/ ".format(Constants.applicationName),
-				"{0} | Version: {1}".format(Constants.applicationName, Constants.releaseVersion))
+SESSION_HEADER_TEXT = ("{0} | Copyright ( C ) 2008 - 2014 Thomas Mansencal - thomas.mansencal@gmail.com".format(
+	Constants.applicationName),
+					   "{0} | This software is released under terms of GNU GPL V3 license.".format(
+						   Constants.applicationName),
+					   "{0} | http://www.gnu.org/licenses/ ".format(Constants.applicationName),
+					   "{0} | Version: {1}".format(Constants.applicationName, Constants.version))
 
 SESSION_FOOTER_TEXT = ("{0} | Closing interface! ".format(Constants.applicationName),
-				Constants.loggingSeparators,
-				"{0} | Session ended at: {1}".format(Constants.applicationName, time.strftime('%X - %x')),
-				Constants.loggingSeparators)
+					   Constants.loggingSeparators,
+					   "{0} | Session ended at: {1}".format(Constants.applicationName, time.strftime('%X - %x')),
+					   Constants.loggingSeparators)
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
 def showProcessing(message=""):
 	"""
-	This decorator is used for a processing operation.
-	
-	:param message: Operation description. ( String )
-	:return: Object. ( Object )
+	Shows processing behavior.
+
+	:param message: Operation description.
+	:type message: unicode
+	:return: Object.
+	:rtype: object
 	"""
 
 	def showProcessingDecorator(object):
 		"""
-		This decorator is used for a processing operation.
+		Shows processing behavior.
 
-		:param object: Object to decorate. ( Object )
-		:return: Object. ( Object )
+		:param object: Object to decorate.
+		:type object: object
+		:return: Object.
+		:rtype: object
 		"""
 
 		@functools.wraps(object)
 		def showProcessingWrapper(*args, **kwargs):
 			"""
-			This decorator is used for a processing operation.
+			Shows processing behavior.
 
-			:param \*args: Arguments. ( \* )
-			:param \*\*kwargs: Keywords arguments. ( \*\* )
+			:param \*args: Arguments.
+			:type \*args: \*
+			:param \*\*kwargs: Keywords arguments.
+			:type \*\*kwargs: \*\*
 			"""
 
 			RuntimeGlobals.engine.startProcessing(message, warning=False)
@@ -233,19 +243,23 @@ def showProcessing(message=""):
 
 def encapsulateProcessing(object):
 	"""
-	This decorator is used to encapsulate a processing operation.
+	Encapsulates a processing operation.
 
-	:param object: Object to decorate. ( Object )
-	:return: Object. ( Object )
+	:param object: Object to decorate.
+	:type object: object
+	:return: Object.
+	:rtype: object
 	"""
 
 	@functools.wraps(object)
 	def encapsulateProcessingWrapper(*args, **kwargs):
 		"""
-		This decorator is used to encapsulate a processing operation.
+		Encapsulates a processing operation.
 
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		RuntimeGlobals.engine._Umbra__storeProcessingState()
@@ -260,7 +274,7 @@ def encapsulateProcessing(object):
 
 class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	"""
-	This class is the main class of the **Umbra** package.
+	Defines the main class of the **Umbra** package.
 	"""
 
 	# Custom signals definitions.
@@ -268,74 +282,113 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 	"""
 	This signal is emited by the :class:`Umbra` class when the current verbosity level has changed. ( pyqtSignal )
 
-	:return: Current verbosity level. ( Integer )	
+	:return: Current verbosity level.
+	:rtype: int
 	"""
 
 	contentDropped = pyqtSignal(QEvent)
 	"""
 	This signal is emited by the :class:`Umbra` class when it receives dropped content. ( pyqtSignal )
 
-	:return: Event. ( QEvent )	
+	:return: Event.
+	:rtype: QEvent
 	"""
 
 	sizeChanged = pyqtSignal(QEvent)
 	"""
 	This signal is emited by the :class:`Umbra` class when its size changes. ( pyqtSignal )
 
-	:return: Event. ( QEvent )	
+	:return: Event.
+	:rtype: QEvent
 	"""
+
+	def __new__(cls, *args, **kwargs):
+		"""
+		Constructor of the class.
+
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
+		:return: Class instance.
+		:rtype: Umbra
+		"""
+
+		RuntimeGlobals.engine = super(Umbra, cls).__new__(cls)
+		return RuntimeGlobals.engine
 
 	@umbra.reporter.criticalExceptionHandler
 	def __init__(self,
-				parent=None,
-				componentsPaths=None,
-				requisiteComponents=None,
-				visibleComponents=None,
-				*args,
-				**kwargs):
+				 parent=None,
+				 *args,
+				 **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param componentsPaths: Components componentsPaths. ( Tuple / List )
-		:param requisiteComponents: Requisite components names. ( Tuple / List )
-		:param visibleComponents: Visible components names. ( Tuple / List )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: QWidget parent.
+		:type parent: QWidget
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
-
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
 		# --- Running pre initialisation method. ---
 		hasattr(self, "onPreInitialisation") and self.onPreInitialisation()
 
-		super(Umbra, self).__init__(parent, *args, **kwargs)
+		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		# Engine binding to global variable.
-		RuntimeGlobals.engine = self
+		settings = foundations.dataStructures.Structure(**{"componentsPaths": None,
+														   "requisiteComponents": None,
+														   "visibleComponents": None,
+														   "splashscreen": None,
+														   "requestsStack": None,
+														   "patchesManager": None,
+														   "userApplicationDataDirectory": None,
+														   "loggingSessionHandler": None,
+														   "loggingFileHandler": None,
+														   "loggingConsoleHandler": None,
+														   "loggingSessionHandlerStream": None,
+														   "loggingActiveFormatter": None,
+														   "settings": None,
+														   "verbosityLevel": None,
+														   "parameters": None,
+														   "arguments": None})
+
+		settings.update(dict((key, value) for key, value in kwargs.iteritems() if key in settings))
+
+		super(Umbra, self).__init__(parent,
+									*args,
+									**dict((key, value) for key, value in kwargs.iteritems() if key not in settings))
+
+		# --- Running initialisation method. ---
+		hasattr(self, "onInitialisation") and self.onInitialisation()
 
 		# --- Setting class attributes. ---
-		self.__componentsPaths = componentsPaths or []
-		self.__requisiteComponents = requisiteComponents or []
-		self.__visibleComponents = visibleComponents or []
+		self.__componentsPaths = settings.componentsPaths or []
+		self.__requisiteComponents = settings.requisiteComponents or []
+		self.__visibleComponents = settings.visibleComponents or []
+
+		self.__splashscreen = settings.splashscreen
 
 		self.__timer = None
-		self.__requestsStack = RuntimeGlobals.requestsStack
-		self.__patchesManager = RuntimeGlobals.patchesManager
+		self.__requestsStack = settings.requestsStack
+		self.__patchesManager = settings.patchesManager
 		self.__componentsManager = None
 		self.__actionsManager = None
 		self.__fileSystemEventsManager = None
 		self.__notificationsManager = None
 		self.__layoutsManager = None
-		self.__userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory
-		self.__loggingSessionHandler = RuntimeGlobals.loggingSessionHandler
-		self.__loggingFileHandler = RuntimeGlobals.loggingFileHandler
-		self.__loggingConsoleHandler = RuntimeGlobals.loggingConsoleHandler
-		self.__loggingSessionHandlerStream = RuntimeGlobals.loggingSessionHandlerStream
-		self.__loggingActiveFormatter = RuntimeGlobals.loggingActiveFormatter
-		self.__settings = RuntimeGlobals.settings
-		self.__verbosityLevel = RuntimeGlobals.verbosityLevel
-		self.__parameters = RuntimeGlobals.parameters
-		self.__arguments = RuntimeGlobals.arguments
+		self.__userApplicationDataDirectory = settings.userApplicationDataDirectory
+		self.__loggingSessionHandler = settings.loggingSessionHandler
+		self.__loggingFileHandler = settings.loggingFileHandler
+		self.__loggingConsoleHandler = settings.loggingConsoleHandler
+		self.__loggingSessionHandlerStream = settings.loggingSessionHandlerStream
+		self.__loggingActiveFormatter = settings.loggingActiveFormatter
+		self.__verbosityLevel = settings.verbosityLevel
+		self.__settings = settings.settings
+		self.__parameters = settings.parameters
+		self.__arguments = settings.arguments
 		self.__workerThreads = []
 		self.__isProcessing = False
 		self.__locals = {}
@@ -347,26 +400,26 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.__timer.start(Constants.defaultTimerCycle)
 
 		# --- Initializing Application. ---
-		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.showMessage(
-		"{0} - {1} | Initializing interface.".format(self.__class__.__name__, Constants.releaseVersion),
-		waitTime=0.25)
+		self.__splashscreen and self.__splashscreen.showMessage(
+			"{0} - {1} | Initializing interface.".format(self.__class__.__name__, Constants.version),
+			waitTime=0.25)
 
 		# --- Initializing the Actions Manager. ---
 		self.__actionsManager = RuntimeGlobals.actionsManager = umbra.managers.actionsManager.ActionsManager(self)
 
 		# --- Initializing the File System Events Manager. ---
 		self.__fileSystemEventsManager = RuntimeGlobals.fileSystemEventsManager = \
-							umbra.managers.fileSystemEventsManager.FileSystemEventsManager(self)
+			umbra.managers.fileSystemEventsManager.FileSystemEventsManager(self)
 		self.__workerThreads.append(self.__fileSystemEventsManager)
 		if not self.__parameters.deactivateWorkerThreads:
 			self.__fileSystemEventsManager.start()
 		else:
 			LOGGER.info("{0} | File system events ignored by '{1}' command line parameter value!".format(
-			self.__class__.__name__, "deactivateWorkerThreads"))
+				self.__class__.__name__, "deactivateWorkerThreads"))
 
 		# --- Initializing the Notifications Manager. ---
 		self.__notificationsManager = RuntimeGlobals.notificationsManager = \
-									umbra.managers.notificationsManager.NotificationsManager(self)
+			umbra.managers.notificationsManager.NotificationsManager(self)
 
 		# --- Initializing the Layouts Manager. ---
 		self.__layoutsManager = RuntimeGlobals.layoutsManager = umbra.managers.layoutsManager.LayoutsManager(self)
@@ -379,7 +432,7 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.setAcceptDrops(True)
 
 		# Setting window title and toolBar and statusBar.
-		self.setWindowTitle("{0} - {1}".format(Constants.applicationName, Constants.releaseVersion))
+		self.setWindowTitle("{0} - {1}".format(Constants.applicationName, Constants.version))
 		self.toolBar = Application_QToolBar(self)
 		self.addToolBar(self.toolBar)
 
@@ -389,16 +442,16 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 		self.Application_Progress_Status_processing.hide()
 
 		# --- Initializing the Components Manager. ---
-		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.showMessage(
-		"{0} - {1} | Initializing Components manager.".format(self.__class__.__name__, Constants.releaseVersion),
-		waitTime=0.25)
+		self.__splashscreen and self.__splashscreen.showMessage(
+			"{0} - {1} | Initializing Components manager.".format(self.__class__.__name__, Constants.version),
+			waitTime=0.25)
 
-		self.__componentsManager = RuntimeGlobals.componentsManager = Manager(componentsPaths)
+		self.__componentsManager = RuntimeGlobals.componentsManager = Manager(settings.componentsPaths)
 		self.__componentsManager.registerComponents()
 
 		if not self.__componentsManager.components:
 			self.notificationsManager.warnify("{0} | '{1}' Components Manager has no Components!".format(
-			self.__class__.__name__, Constants.applicationName))
+				self.__class__.__name__, Constants.applicationName))
 
 		self.__componentsManager.instantiateComponents(self.__componentsInstantiationCallback)
 
@@ -415,10 +468,10 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 
 		# Hiding splashscreen.
 		LOGGER.debug("> Hiding splashscreen.")
-		if RuntimeGlobals.splashscreen:
-			RuntimeGlobals.splashscreen.showMessage("{0} - {1} | Initialization done.".format(
-			self.__class__.__name__, Constants.releaseVersion))
-			RuntimeGlobals.splashscreen.hide()
+		if self.__splashscreen:
+			self.__splashscreen.showMessage("{0} - {1} | Initialization done.".format(
+				self.__class__.__name__, Constants.version))
+			self.__splashscreen.hide()
 
 		# --- Running onStartup components methods. ---
 		for component in self.__componentsManager.listComponents():
@@ -431,8 +484,8 @@ class Umbra(foundations.ui.common.QWidgetFactory(uiFile=RuntimeGlobals.uiFile)):
 					hasattr(interface, "onStartup") and interface.onStartup()
 			except Exception as error:
 				umbra.reporter.baseExceptionHandler(umbra.exceptions.EngineInitializationError(
-"'{0}' Component 'onStartup' method raised an exception, unexpected behavior may occur!\n Exception raised: {1}".format(
-component, error)))
+					"'{0}' Component 'onStartup' method raised an exception, unexpected behavior may occur!\n Exception raised: {1}".format(
+						component, error)))
 
 		self.__layoutsManager.restoreStartupLayout()
 
@@ -445,9 +498,10 @@ component, error)))
 	@property
 	def timer(self):
 		"""
-		This method is the property for **self.__timer** attribute.
+		Property for **self.__timer** attribute.
 
-		:return: self.__timer. ( QTimer )
+		:return: self.__timer.
+		:rtype: QTimer
 		"""
 
 		return self.__timer
@@ -456,28 +510,29 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def timer(self, value):
 		"""
-		This method is the setter method for **self.__timer** attribute.
+		Setter for **self.__timer** attribute.
 
-		:param value: Attribute value. ( QTimer )
+		:param value: Attribute value.
+		:type value: QTimer
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "timer"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "timer"))
 
 	@timer.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def timer(self):
 		"""
-		This method is the deleter method for **self.__timer** attribute.
+		Deleter for **self.__timer** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "timer"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "timer"))
 
 	@property
 	def requestsStack(self):
 		"""
-		This method is the property for **self.__requestsStack** attribute.
+		Property for **self.__requestsStack** attribute.
 
 		:return: self.__requestsStack. ( collections.deque )
 		"""
@@ -488,30 +543,31 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def requestsStack(self, value):
 		"""
-		This method is the setter method for **self.__requestsStack** attribute.
+		Setter for **self.__requestsStack** attribute.
 
 		:param value: Attribute value. ( collections.deque )
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "requestsStack"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "requestsStack"))
 
 	@requestsStack.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def requestsStack(self):
 		"""
-		This method is the deleter method for **self.__requestsStack** attribute.
+		Deleter for **self.__requestsStack** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "requestsStack"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "requestsStack"))
 
 	@property
 	def componentsPaths(self):
 		"""
-		This method is the property for **self.__componentsPaths** attribute.
+		Property for **self.__componentsPaths** attribute.
 
-		:return: self.__componentsPaths. ( Tuple / List )
+		:return: self.__componentsPaths.
+		:rtype: tuple or list
 		"""
 
 		return self.__componentsPaths
@@ -520,30 +576,32 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def componentsPaths(self, value):
 		"""
-		This method is the setter method for **self.__componentsPaths** attribute.
+		Setter for **self.__componentsPaths** attribute.
 
-		:param value: Attribute value. ( Tuple / List )
+		:param value: Attribute value.
+		:type value: tuple or list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "componentsPaths"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "componentsPaths"))
 
 	@componentsPaths.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def componentsPaths(self):
 		"""
-		This method is the deleter method for **self.__componentsPaths** attribute.
+		Deleter for **self.__componentsPaths** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "componentsPaths"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "componentsPaths"))
 
 	@property
 	def requisiteComponents(self):
 		"""
-		This method is the property for **self.__requisiteComponents** attribute.
+		Property for **self.__requisiteComponents** attribute.
 
-		:return: self.__requisiteComponents. ( Tuple / List )
+		:return: self.__requisiteComponents.
+		:rtype: tuple or list
 		"""
 
 		return self.__requisiteComponents
@@ -552,30 +610,32 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def requisiteComponents(self, value):
 		"""
-		This method is the setter method for **self.__requisiteComponents** attribute.
+		Setter for **self.__requisiteComponents** attribute.
 
-		:param value: Attribute value. ( Tuple / List )
+		:param value: Attribute value.
+		:type value: tuple or list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "requisiteComponents"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "requisiteComponents"))
 
 	@requisiteComponents.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def requisiteComponents(self):
 		"""
-		This method is the deleter method for **self.__requisiteComponents** attribute.
+		Deleter for **self.__requisiteComponents** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "requisiteComponents"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "requisiteComponents"))
 
 	@property
 	def visibleComponents(self):
 		"""
-		This method is the property for **self.__visibleComponents** attribute.
+		Property for **self.__visibleComponents** attribute.
 
-		:return: self.__visibleComponents. ( Tuple / List )
+		:return: self.__visibleComponents.
+		:rtype: tuple or list
 		"""
 
 		return self.__visibleComponents
@@ -584,35 +644,71 @@ component, error)))
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def visibleComponents(self, value):
 		"""
-		This method is the setter method for **self.__visibleComponents** attribute.
+		Setter for **self.__visibleComponents** attribute.
 
-		:param value: Attribute value. ( Tuple / List )
+		:param value: Attribute value.
+		:type value: tuple or list
 		"""
 
 		if value is not None:
 			assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
-			"visibleComponents", value)
+				"visibleComponents", value)
 			for element in value:
 				assert type(element) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-				"visibleComponents", element)
+					"visibleComponents", element)
 		self.__visibleComponents = value
 
 	@visibleComponents.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def visibleComponents(self):
 		"""
-		This method is the deleter method for **self.__visibleComponents** attribute.
+		Deleter for **self.__visibleComponents** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "visibleComponents"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "visibleComponents"))
+
+	@property
+	def splashscreen(self):
+		"""
+		Property for **self.__splashscreen** attribute.
+
+		:return: self.__splashscreen.
+		:rtype: Delayed_QSplashScreen
+		"""
+
+		return self.__splashscreen
+
+	@splashscreen.setter
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	def splashscreen(self, value):
+		"""
+		Setter for **self.__splashscreen** attribute.
+
+		:param value: Attribute value.
+		:type value: Delayed_QSplashScreen
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "splashscreen"))
+
+	@splashscreen.deleter
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	def splashscreen(self):
+		"""
+		Deleter for **self.__splashscreen** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "splashscreen"))
 
 	@property
 	def patchesManager(self):
 		"""
-		This method is the property for **self.__patchesManager** attribute.
+		Property for **self.__patchesManager** attribute.
 
-		:return: self.__patchesManager. ( ActionsManager )
+		:return: self.__patchesManager.
+		:rtype: PatchesManager
 		"""
 
 		return self.__patchesManager
@@ -621,30 +717,32 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def patchesManager(self, value):
 		"""
-		This method is the setter method for **self.__patchesManager** attribute.
+		Setter for **self.__patchesManager** attribute.
 
-		:param value: Attribute value. ( ActionsManager )
+		:param value: Attribute value.
+		:type value: PatchesManager
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "patchesManager"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "patchesManager"))
 
 	@patchesManager.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def patchesManager(self):
 		"""
-		This method is the deleter method for **self.__patchesManager** attribute.
+		Deleter for **self.__patchesManager** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "patchesManager"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "patchesManager"))
 
 	@property
 	def componentsManager(self):
 		"""
-		This method is the property for **self.__componentsManager** attribute.
+		Property for **self.__componentsManager** attribute.
 
-		:return: self.__componentsManager. ( ComponentsManager )
+		:return: self.__componentsManager.
+		:rtype: ComponentsManager
 		"""
 
 		return self.__componentsManager
@@ -653,30 +751,32 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def componentsManager(self, value):
 		"""
-		This method is the setter method for **self.__componentsManager** attribute.
+		Setter for **self.__componentsManager** attribute.
 
-		:param value: Attribute value. ( ComponentsManager )
+		:param value: Attribute value.
+		:type value: ComponentsManager
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "componentsManager"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "componentsManager"))
 
 	@componentsManager.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def componentsManager(self):
 		"""
-		This method is the deleter method for **self.__componentsManager** attribute.
+		Deleter for **self.__componentsManager** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "componentsManager"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "componentsManager"))
 
 	@property
 	def notificationsManager(self):
 		"""
-		This method is the property for **self.__notificationsManager** attribute.
+		Property for **self.__notificationsManager** attribute.
 
-		:return: self.__notificationsManager. ( NotificationsManager )
+		:return: self.__notificationsManager.
+		:rtype: NotificationsManager
 		"""
 
 		return self.__notificationsManager
@@ -685,30 +785,32 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notificationsManager(self, value):
 		"""
-		This method is the setter method for **self.__notificationsManager** attribute.
+		Setter for **self.__notificationsManager** attribute.
 
-		:param value: Attribute value. ( NotificationsManager )
+		:param value: Attribute value.
+		:type value: NotificationsManager
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "notificationsManager"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "notificationsManager"))
 
 	@notificationsManager.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notificationsManager(self):
 		"""
-		This method is the deleter method for **self.__notificationsManager** attribute.
+		Deleter for **self.__notificationsManager** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "notificationsManager"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "notificationsManager"))
 
 	@property
 	def actionsManager(self):
 		"""
-		This method is the property for **self.__actionsManager** attribute.
+		Property for **self.__actionsManager** attribute.
 
-		:return: self.__actionsManager. ( ActionsManager )
+		:return: self.__actionsManager.
+		:rtype: ActionsManager
 		"""
 
 		return self.__actionsManager
@@ -717,30 +819,32 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def actionsManager(self, value):
 		"""
-		This method is the setter method for **self.__actionsManager** attribute.
+		Setter for **self.__actionsManager** attribute.
 
-		:param value: Attribute value. ( ActionsManager )
+		:param value: Attribute value.
+		:type value: ActionsManager
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "actionsManager"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "actionsManager"))
 
 	@actionsManager.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def actionsManager(self):
 		"""
-		This method is the deleter method for **self.__actionsManager** attribute.
+		Deleter for **self.__actionsManager** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "actionsManager"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "actionsManager"))
 
 	@property
 	def fileSystemEventsManager(self):
 		"""
-		This method is the property for **self.__fileSystemEventsManager** attribute.
+		Property for **self.__fileSystemEventsManager** attribute.
 
-		:return: self.__fileSystemEventsManager. ( FileSystemEventsManager )
+		:return: self.__fileSystemEventsManager.
+		:rtype: FileSystemEventsManager
 		"""
 
 		return self.__fileSystemEventsManager
@@ -749,30 +853,32 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def fileSystemEventsManager(self, value):
 		"""
-		This method is the setter method for **self.__fileSystemEventsManager** attribute.
+		Setter for **self.__fileSystemEventsManager** attribute.
 
-		:param value: Attribute value. ( FileSystemEventsManager )
+		:param value: Attribute value.
+		:type value: FileSystemEventsManager
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "fileSystemEventsManager"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "fileSystemEventsManager"))
 
 	@fileSystemEventsManager.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def fileSystemEventsManager(self):
 		"""
-		This method is the deleter method for **self.__fileSystemEventsManager** attribute.
+		Deleter for **self.__fileSystemEventsManager** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "fileSystemEventsManager"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "fileSystemEventsManager"))
 
 	@property
 	def layoutsManager(self):
 		"""
-		This method is the property for **self.__layoutsManager** attribute.
+		Property for **self.__layoutsManager** attribute.
 
-		:return: self.__layoutsManager. ( LayoutsManager )
+		:return: self.__layoutsManager.
+		:rtype: LayoutsManager
 		"""
 
 		return self.__layoutsManager
@@ -781,30 +887,32 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def layoutsManager(self, value):
 		"""
-		This method is the setter method for **self.__layoutsManager** attribute.
+		Setter for **self.__layoutsManager** attribute.
 
-		:param value: Attribute value. ( LayoutsManager )
+		:param value: Attribute value.
+		:type value: LayoutsManager
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "layoutsManager"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "layoutsManager"))
 
 	@layoutsManager.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def layoutsManager(self):
 		"""
-		This method is the deleter method for **self.__layoutsManager** attribute.
+		Deleter for **self.__layoutsManager** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "layoutsManager"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "layoutsManager"))
 
 	@property
 	def userApplicationDataDirectory(self):
 		"""
-		This method is the property for **self.__userApplicationDataDirectory** attribute.
+		Property for **self.__userApplicationDataDirectory** attribute.
 
-		:return: self.__userApplicationDataDirectory. ( String )
+		:return: self.__userApplicationDataDirectory.
+		:rtype: unicode
 		"""
 
 		return self.__userApplicationDataDirectory
@@ -813,30 +921,32 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def userApplicationDataDirectory(self, value):
 		"""
-		This method is the setter method for **self.__userApplicationDataDirectory** attribute.
+		Setter for **self.__userApplicationDataDirectory** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "userApplicationDataDirectory"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "userApplicationDataDirectory"))
 
 	@userApplicationDataDirectory.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def userApplicationDataDirectory(self):
 		"""
-		This method is the deleter method for **self.__userApplicationDataDirectory** attribute.
+		Deleter for **self.__userApplicationDataDirectory** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "userApplicationDataDirectory"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "userApplicationDataDirectory"))
 
 	@property
 	def loggingSessionHandler(self):
 		"""
-		This method is the property for **self.__loggingSessionHandler** attribute.
+		Property for **self.__loggingSessionHandler** attribute.
 
-		:return: self.__loggingSessionHandler. ( Handler )
+		:return: self.__loggingSessionHandler.
+		:rtype: Handler
 		"""
 
 		return self.__loggingSessionHandler
@@ -845,30 +955,32 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingSessionHandler(self, value):
 		"""
-		This method is the setter method for **self.__loggingSessionHandler** attribute.
+		Setter for **self.__loggingSessionHandler** attribute.
 
-		:param value: Attribute value. ( Handler )
+		:param value: Attribute value.
+		:type value: Handler
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingSessionHandler"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingSessionHandler"))
 
 	@loggingSessionHandler.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingSessionHandler(self):
 		"""
-		This method is the deleter method for **self.__loggingSessionHandler** attribute.
+		Deleter for **self.__loggingSessionHandler** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingSessionHandler"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingSessionHandler"))
 
 	@property
 	def loggingFileHandler(self):
 		"""
-		This method is the property for **self.__loggingFileHandler** attribute.
+		Property for **self.__loggingFileHandler** attribute.
 
-		:return: self.__loggingFileHandler. ( Handler )
+		:return: self.__loggingFileHandler.
+		:rtype: Handler
 		"""
 
 		return self.__loggingFileHandler
@@ -877,30 +989,32 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingFileHandler(self, value):
 		"""
-		This method is the setter method for **self.__loggingFileHandler** attribute.
+		Setter for **self.__loggingFileHandler** attribute.
 
-		:param value: Attribute value. ( Handler )
+		:param value: Attribute value.
+		:type value: Handler
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingFileHandler"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingFileHandler"))
 
 	@loggingFileHandler.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingFileHandler(self):
 		"""
-		This method is the deleter method for **self.__loggingFileHandler** attribute.
+		Deleter for **self.__loggingFileHandler** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingFileHandler"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingFileHandler"))
 
 	@property
 	def loggingConsoleHandler(self):
 		"""
-		This method is the property for **self.__loggingConsoleHandler** attribute.
+		Property for **self.__loggingConsoleHandler** attribute.
 
-		:return: self.__loggingConsoleHandler. ( Handler )
+		:return: self.__loggingConsoleHandler.
+		:rtype: Handler
 		"""
 
 		return self.__loggingConsoleHandler
@@ -909,31 +1023,33 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingConsoleHandler(self, value):
 		"""
-		This method is the setter method for **self.__loggingConsoleHandler** attribute.
+		Setter for **self.__loggingConsoleHandler** attribute.
 
-		:param value: Attribute value. ( Handler )
+		:param value: Attribute value.
+		:type value: Handler
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingConsoleHandler"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingConsoleHandler"))
 
 	@loggingConsoleHandler.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingConsoleHandler(self):
 		"""
-		This method is the deleter method for **self.__loggingConsoleHandler** attribute.
+		Deleter for **self.__loggingConsoleHandler** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingConsoleHandler"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingConsoleHandler"))
 
 	@property
 	@foundations.trace.untracable
 	def loggingSessionHandlerStream(self):
 		"""
-		This method is the property for **self.__loggingSessionHandlerStream** attribute.
+		Property for **self.__loggingSessionHandlerStream** attribute.
 
-		:return: self.__loggingSessionHandlerStream. ( StreamObject )
+		:return: self.__loggingSessionHandlerStream.
+		:rtype: StreamObject
 		"""
 
 		return self.__loggingSessionHandlerStream
@@ -943,63 +1059,70 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingSessionHandlerStream(self, value):
 		"""
-		This method is the setter method for **self.__loggingSessionHandlerStream** attribute.
+		Setter for **self.__loggingSessionHandlerStream** attribute.
 
-		:param value: Attribute value. ( StreamObject )
+		:param value: Attribute value.
+		:type value: StreamObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingSessionHandlerStream"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "loggingSessionHandlerStream"))
 
 	@loggingSessionHandlerStream.deleter
 	@foundations.trace.untracable
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def loggingSessionHandlerStream(self):
 		"""
-		This method is the deleter method for **self.__loggingSessionHandlerStream** attribute.
+		Deleter for **self.__loggingSessionHandlerStream** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingSessionHandlerStream"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingSessionHandlerStream"))
 
 	@property
-	def settings(self):
+	def loggingActiveFormatter(self):
 		"""
-		This method is the property for **self.__settings** attribute.
+		Property for **self.__loggingActiveFormatter** attribute.
 
-		:return: self.__settings. ( QSettings )
+		:return: self.__loggingActiveFormatter.
+		:rtype: Formatter
 		"""
 
-		return self.__settings
+		return self.__loggingActiveFormatter
 
-	@settings.setter
+	@loggingActiveFormatter.setter
+	@foundations.exceptions.handleExceptions(AssertionError)
+	def loggingActiveFormatter(self, value):
+		"""
+		Setter for **self.__loggingActiveFormatter** attribute.
+
+		:param value: Attribute value.
+		:type value: unicode or QString
+		"""
+
+		if value is not None:
+			assert type(value) in (
+			unicode, QString), "'{0}' attribute: '{1}' type is not 'unicode' or 'QString'!".format(
+				"loggingActiveFormatter", value)
+		self.__loggingActiveFormatter = value
+
+	@loggingActiveFormatter.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def settings(self, value):
+	def loggingActiveFormatter(self):
 		"""
-		This method is the setter method for **self.__settings** attribute.
-
-		:param value: Attribute value. ( QSettings )
+		Deleter for **self.__loggingActiveFormatter** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
-
-	@settings.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def settings(self):
-		"""
-		This method is the deleter method for **self.__settings** attribute.
-		"""
-
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "loggingActiveFormatter"))
 
 	@property
 	def verbosityLevel(self):
 		"""
-		This method is the property for **self.__verbosityLevel** attribute.
+		Property for **self.__verbosityLevel** attribute.
 
-		:return: self.__verbosityLevel. ( Integer )
+		:return: self.__verbosityLevel.
+		:rtype: int
 		"""
 
 		return self.__verbosityLevel
@@ -1008,33 +1131,69 @@ component, error)))
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def verbosityLevel(self, value):
 		"""
-		This method is the setter method for **self.__verbosityLevel** attribute.
+		Setter for **self.__verbosityLevel** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
 			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("verbosityLevel", value)
 			assert value >= 0 and value <= 4, "'{0}' attribute: Value need to be exactly beetween 0 and 4!".format(
-			"verbosityLevel")
+				"verbosityLevel")
 		self.__verbosityLevel = value
 
 	@verbosityLevel.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def verbosityLevel(self):
 		"""
-		This method is the deleter method for **self.__verbosityLevel** attribute.
+		Deleter for **self.__verbosityLevel** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "verbosityLevel"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "verbosityLevel"))
+
+	@property
+	def settings(self):
+		"""
+		Property for **self.__settings** attribute.
+
+		:return: self.__settings.
+		:rtype: Preferences
+		"""
+
+		return self.__settings
+
+	@settings.setter
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	def settings(self, value):
+		"""
+		Setter for **self.__settings** attribute.
+
+		:param value: Attribute value.
+		:type value: Preferences
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
+
+	@settings.deleter
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	def settings(self):
+		"""
+		Deleter for **self.__settings** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
 	@property
 	def parameters(self):
 		"""
-		This method is the property for **self.__parameters** attribute.
+		Property for **self.__parameters** attribute.
 
-		:return: self.__parameters. ( Object )
+		:return: self.__parameters.
+		:rtype: object
 		"""
 
 		return self.__parameters
@@ -1043,30 +1202,32 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def parameters(self, value):
 		"""
-		This method is the setter method for **self.__parameters** attribute.
+		Setter for **self.__parameters** attribute.
 
-		:param value: Attribute value. ( Object )
+		:param value: Attribute value.
+		:type value: object
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "parameters"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "parameters"))
 
 	@parameters.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def parameters(self):
 		"""
-		This method is the deleter method for **self.__parameters** attribute.
+		Deleter for **self.__parameters** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "parameters"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "parameters"))
 
 	@property
 	def arguments(self):
 		"""
-		This method is the property for **self.__arguments** attribute.
+		Property for **self.__arguments** attribute.
 
-		:return: self.__arguments. ( List )
+		:return: self.__arguments.
+		:rtype: list
 		"""
 
 		return self.__arguments
@@ -1075,30 +1236,32 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def arguments(self, value):
 		"""
-		This method is the setter method for **self.__arguments** attribute.
+		Setter for **self.__arguments** attribute.
 
-		:param value: Attribute value. ( List )
+		:param value: Attribute value.
+		:type value: list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "arguments"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "arguments"))
 
 	@arguments.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def arguments(self):
 		"""
-		This method is the deleter method for **self.__arguments** attribute.
+		Deleter for **self.__arguments** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "arguments"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "arguments"))
 
 	@property
 	def workerThreads(self):
 		"""
-		This method is the property for **self.__workerThreads** attribute.
+		Property for **self.__workerThreads** attribute.
 
-		:return: self.__workerThreads. ( List )
+		:return: self.__workerThreads.
+		:rtype: list
 		"""
 
 		return self.__workerThreads
@@ -1107,30 +1270,32 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def workerThreads(self, value):
 		"""
-		This method is the setter method for **self.__workerThreads** attribute.
+		Setter for **self.__workerThreads** attribute.
 
-		:param value: Attribute value. ( List )
+		:param value: Attribute value.
+		:type value: list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "workerThreads"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "workerThreads"))
 
 	@workerThreads.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def workerThreads(self):
 		"""
-		This method is the deleter method for **self.__workerThreads** attribute.
+		Deleter for **self.__workerThreads** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "workerThreads"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "workerThreads"))
 
 	@property
 	def isProcessing(self):
 		"""
-		This method is the property for **self.__isProcessing** attribute.
+		Property for **self.__isProcessing** attribute.
 
-		:return: self.__isProcessing. ( Boolean )
+		:return: self.__isProcessing.
+		:rtype: bool
 		"""
 
 		return self.__isProcessing
@@ -1139,30 +1304,32 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def isProcessing(self, value):
 		"""
-		This method is the setter method for **self.__isProcessing** attribute.
+		Setter for **self.__isProcessing** attribute.
 
-		:param value: Attribute value. ( Boolean )
+		:param value: Attribute value.
+		:type value: bool
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "isProcessing"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "isProcessing"))
 
 	@isProcessing.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def isProcessing(self):
 		"""
-		This method is the deleter method for **self.__isProcessing** attribute.
+		Deleter for **self.__isProcessing** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "isProcessing"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "isProcessing"))
 
 	@property
 	def locals(self):
 		"""
-		This method is the property for **self.__locals** attribute.
+		Property for **self.__locals** attribute.
 
-		:return: self.__locals. ( Dictionary )
+		:return: self.__locals.
+		:rtype: dict
 		"""
 
 		return self.__locals
@@ -1171,32 +1338,34 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def locals(self, value):
 		"""
-		This method is the setter method for **self.__locals** attribute.
+		Setter for **self.__locals** attribute.
 
-		:param value: Attribute value. ( Dictionary )
+		:param value: Attribute value.
+		:type value: dict
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "locals"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "locals"))
 
 	@locals.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def locals(self):
 		"""
-		This method is the deleter method for **self.__locals** attribute.
+		Deleter for **self.__locals** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "locals"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "locals"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
 	def dragEnterEvent(self, event):
 		"""
-		This method reimplements the :meth:`QWidget.dragEnterEvent` method.
+		Reimplements the :meth:`QWidget.dragEnterEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		LOGGER.debug("> Application drag enter event accepted!")
@@ -1204,9 +1373,10 @@ component, error)))
 
 	def dragMoveEvent(self, event):
 		"""
-		This method reimplements the :meth:`QWidget.dragMoveEvent` method.
+		Reimplements the :meth:`QWidget.dragMoveEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		LOGGER.debug("> Application drag move event accepted!")
@@ -1214,9 +1384,10 @@ component, error)))
 
 	def dropEvent(self, event):
 		"""
-		This method reimplements the :meth:`QWidget.dropEvent` method.
+		Reimplements the :meth:`QWidget.dropEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		LOGGER.debug("> Application drop event accepted!")
@@ -1224,25 +1395,27 @@ component, error)))
 
 	def show(self):
 		"""
-		This method reimplements the :meth:`QWidget.show` method.
+		Reimplements the :meth:`QWidget.show` method.
 		"""
 
 		super(Umbra, self).show(setGeometry=False)
 
 	def closeEvent(self, event):
 		"""
-		This method reimplements the :meth:`QWidget.closeEvent` method.
+		Reimplements the :meth:`QWidget.closeEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		self.quit(event=event)
 
 	def resizeEvent(self, event):
 		"""
-		This method reimplements the :meth:`QWidget.resizeEvent` method.
+		Reimplements the :meth:`QWidget.resizeEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		LOGGER.debug("> Application resize event accepted!")
@@ -1251,28 +1424,30 @@ component, error)))
 
 	def __setComponents(self, requisite=True):
 		"""
-		This method sets the Components.
+		Sets the Components.
 
-		:param requisite: Set only requisite Components. ( Boolean )
+		:param requisite: Set only requisite Components.
+		:type requisite: bool
 		"""
 
 		components = self.__componentsManager.listComponents()
 		candidateComponents = \
-		getattr(set(components), "intersection" if requisite else "difference")(self.__requisiteComponents)
+			getattr(set(components), "intersection" if requisite else "difference")(self.__requisiteComponents)
 		deactivatedComponents = self.__settings.getKey("Settings", "deactivatedComponents").toString().split(",")
 		candidateComponents = \
-		sorted(filter(lambda x: x not in deactivatedComponents, candidateComponents), key=(components).index)
+			sorted(filter(lambda x: x not in deactivatedComponents, candidateComponents), key=(components).index)
 
 		for component in candidateComponents:
 			try:
 				profile = self.__componentsManager.components[component]
 				interface = self.__componentsManager.getInterface(component)
 
-				setattr(self, "_{0}__{1}".format(self.__class__.__name__, foundations.namespace.getLeaf(component, ".")),
-																											interface)
+				setattr(self,
+						"_{0}__{1}".format(self.__class__.__name__, foundations.namespace.getLeaf(component, ".")),
+						interface)
 
-				RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.showMessage(
-				"{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.releaseVersion, component))
+				self.__splashscreen and self.__splashscreen.showMessage(
+					"{0} - {1} | Activating {2}.".format(self.__class__.__name__, Constants.version, component))
 				interface.activate(self)
 				if profile.category in ("Default", "QObject"):
 					interface.initialize()
@@ -1292,7 +1467,7 @@ component, error)))
 
 	def __setLocals(self):
 		"""
-		This method sets the locals for the requestsStack.
+		Sets the locals for the requestsStack.
 		"""
 
 		for globals in (Constants, RuntimeGlobals, UiConstants):
@@ -1312,7 +1487,7 @@ component, error)))
 
 	def __processRequestsStack(self):
 		"""
-		This method process the requests stack.
+		Process the requests stack.
 		"""
 
 		while self.__requestsStack:
@@ -1323,17 +1498,19 @@ component, error)))
 
 	def __componentsInstantiationCallback(self, profile):
 		"""
-		This method is a callback for Components instantiation.
+		Defines a callback for Components instantiation.
 
-		:param profile: Component Profile. ( Profile )
+		:param profile: Component Profile.
+		:type profile: Profile
 		"""
 
-		RuntimeGlobals.splashscreen and RuntimeGlobals.splashscreen.showMessage(
-		"{0} - {1} | Instantiating {2} Component.".format(self.__class__.__name__, Constants.releaseVersion, profile.name))
+		self.__splashscreen and self.__splashscreen.showMessage(
+			"{0} - {1} | Instantiating {2} Component.".format(self.__class__.__name__, Constants.version,
+															  profile.name))
 
 	def __storeProcessingState(self):
 		"""
-		This method stores the processing state.
+		Stores the processing state.
 		"""
 
 		steps = self.Application_Progress_Status_processing.Processing_progressBar.maximum()
@@ -1345,7 +1522,7 @@ component, error)))
 
 	def __restoreProcessingState(self):
 		"""
-		This method restores the processing state.
+		Restores the processing state.
 		"""
 
 		steps, value, message, state = self.__processingState
@@ -1358,11 +1535,13 @@ component, error)))
 
 	def setVerbosityLevel(self, verbosityLevel):
 		"""
-		This method sets the Application verbosity level.
-		
-		:param verbosityLevel: Verbosity level. ( Integer )
-		:return: Method success. ( Boolean )
-		
+		Sets the Application verbosity level.
+
+		:param verbosityLevel: Verbosity level.
+		:type verbosityLevel: int
+		:return: Method success.
+		:rtype: bool
+
 		:note: The expected verbosity level value is an integer between 0 to 4.
 		"""
 
@@ -1375,25 +1554,27 @@ component, error)))
 	@foundations.exceptions.handleExceptions(foundations.exceptions.FileExistsError)
 	def setVisualStyle(self, fullScreenStyle=False):
 		"""
-		This method sets the Application visual style.
-		
-		:param fullScreenStyle: Use fullscreen stylesheet file. ( Boolean )
-		:return: Method success. ( Boolean )
+		Sets the Application visual style.
+
+		:param fullScreenStyle: Use fullscreen stylesheet file.
+		:type fullScreenStyle: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Setting Application visual style.")
-		platformStyles = {"Windows":(("Windows", "Microsoft"),
-		 							UiConstants.windowsStyle,
-									UiConstants.windowsStylesheetFile,
-									UiConstants.windowsFullScreenStylesheetFile),
-						"Darwin":(("Darwin",),
-								UiConstants.darwinStyle,
-								UiConstants.darwinStylesheetFile,
-								UiConstants.darwinFullScreenStylesheetFile),
-						"Linux":(("Linux",),
-								UiConstants.linuxStyle,
-								UiConstants.linuxStylesheetFile,
-								UiConstants.linuxFullScreenStylesheetFile)}
+		platformStyles = {"Windows": (("Windows", "Microsoft"),
+									  UiConstants.windowsStyle,
+									  UiConstants.windowsStylesheetFile,
+									  UiConstants.windowsFullScreenStylesheetFile),
+						  "Darwin": (("Darwin",),
+									 UiConstants.darwinStyle,
+									 UiConstants.darwinStylesheetFile,
+									 UiConstants.darwinFullScreenStylesheetFile),
+						  "Linux": (("Linux",),
+									UiConstants.linuxStyle,
+									UiConstants.linuxStylesheetFile,
+									UiConstants.linuxFullScreenStylesheetFile)}
 
 		styleSheetFile = None
 		for platformStyle, settings in platformStyles.iteritems():
@@ -1404,14 +1585,14 @@ component, error)))
 				styleSheetPath = umbra.ui.common.getResourcePath(styleSheeFile)
 				if fullScreenStyle:
 					fullScreenStyleSheetPath = umbra.ui.common.getResourcePath(fullScreenStyleSheetFile,
-																				raiseException=False)
+																			   raiseException=False)
 					styleSheetPath = fullScreenStyleSheetPath or styleSheetPath
 				styleSheetFile = foundations.io.File(styleSheetPath)
 				break
 
 		if not styleSheetFile:
 			raise foundations.exceptions.FileExistsError(
-			"{0} | No stylesheet file found, visual style will not be applied!".format(self.__class__.__name__))
+				"{0} | No stylesheet file found, visual style will not be applied!".format(self.__class__.__name__))
 
 		if foundations.common.pathExists(styleSheetFile.path):
 			LOGGER.debug("> Reading style sheet file: '{0}'.".format(styleSheetFile.path))
@@ -1422,29 +1603,33 @@ component, error)))
 					continue
 
 				styleSheetFile.content[i] = line.replace(search.group("url"),
-				foundations.strings.toForwardSlashes(umbra.ui.common.getResourcePath(search.group("url"))))
+														 foundations.strings.toForwardSlashes(
+															 umbra.ui.common.getResourcePath(search.group("url"))))
 			RuntimeGlobals.application.setStyleSheet(QString("".join(styleSheetFile.content)))
 			return True
 		else:
 			raise foundations.exceptions.FileExistsError(
-			"{0} | '{1}' stylesheet file is not available, visual style will not be applied!".format(
-			self.__class__.__name__, styleSheetFile.path))
+				"{0} | '{1}' stylesheet file is not available, visual style will not be applied!".format(
+					self.__class__.__name__, styleSheetFile.path))
 
 	def isFullScreen(self):
 		"""
-		This method returns if Application is in fullscreen state.
+		Returns if Application is in fullscreen state.
 
-		:return: FullScreen state. ( Boolean )
+		:return: FullScreen state.
+		:rtype: bool
 		"""
 
 		return self.windowState().__int__() == 4 and True or False
 
 	def toggleFullScreen(self, *args):
 		"""
-		This method toggles Application fullscreen state.
+		Toggles Application fullscreen state.
 
-		:param \*args: Arguments. ( \* )
-		:return: Method success. ( Boolean )
+		:param \*args: Arguments.
+		:type \*args: \*
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Toggling FullScreen state.")
@@ -1463,10 +1648,12 @@ component, error)))
 
 	def processEvents(self, flags=QEventLoop.AllEvents):
 		"""
-		This method process Application events.
+		Process Application events.
 
-		:param flags: Events flags. ( Integer )
-		:return: Method success. ( Boolean )
+		:param flags: Events flags.
+		:type flags: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		QApplication.processEvents(flags)
@@ -1474,17 +1661,20 @@ component, error)))
 
 	def setProcessingMessage(self, message, warning=True):
 		"""
-		This method sets the processing operation message.
+		Sets the processing operation message.
 
-		:param message: Operation description. ( String )
-		:param warning: Emit warning message. ( Integer )
-		:return: Method success. ( Boolean )
+		:param message: Operation description.
+		:type message: unicode
+		:param warning: Emit warning message.
+		:type warning: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.__isProcessing:
 			warning and LOGGER.warning(
-			"!> {0} | Engine not processing, 'setProcessingMessage' request has been ignored!".format(
-			self.__class__.__name__))
+				"!> {0} | Engine not processing, 'setProcessingMessage' request has been ignored!".format(
+					self.__class__.__name__))
 			return False
 
 		LOGGER.debug("> Setting processing message!")
@@ -1495,18 +1685,22 @@ component, error)))
 
 	def startProcessing(self, message, steps=0, warning=True):
 		"""
-		This method registers the start of a processing operation.
+		Registers the start of a processing operation.
 
-		:param message: Operation description. ( String )
-		:param steps: Operation steps. ( Integer )
-		:param warning: Emit warning message. ( Integer )
-		:return: Method success. ( Boolean )
+		:param message: Operation description.
+		:type message: unicode
+		:param steps: Operation steps.
+		:type steps: int
+		:param warning: Emit warning message.
+		:type warning: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if self.__isProcessing:
 			warning and LOGGER.warning(
-			"!> {0} | Engine is already processing, 'startProcessing' request has been ignored!".format(
-			self.__class__.__name__))
+				"!> {0} | Engine is already processing, 'startProcessing' request has been ignored!".format(
+					self.__class__.__name__))
 			return False
 
 		LOGGER.debug("> Starting processing operation!")
@@ -1520,37 +1714,41 @@ component, error)))
 
 	def stepProcessing(self, warning=True):
 		"""
-		This method steps the processing operation progress indicator.
+		Steps the processing operation progress indicator.
 
-		:param warning: Emit warning message. ( Integer )
-		:return: Method success. ( Boolean )
+		:param warning: Emit warning message.
+		:type warning: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.__isProcessing:
-			warning and	LOGGER.warning(
-			"!> {0} | Engine is not processing, 'stepProcessing' request has been ignored!".format(
-			self.__class__.__name__))
+			warning and LOGGER.warning(
+				"!> {0} | Engine is not processing, 'stepProcessing' request has been ignored!".format(
+					self.__class__.__name__))
 			return False
 
 		LOGGER.debug("> Stepping processing operation!")
 
 		self.Application_Progress_Status_processing.Processing_progressBar.setValue(
-		self.Application_Progress_Status_processing.Processing_progressBar.value() + 1)
+			self.Application_Progress_Status_processing.Processing_progressBar.value() + 1)
 		self.processEvents()
 		return True
 
 	def stopProcessing(self, warning=True):
 		"""
-		This method registers the end of a processing operation.
+		Registers the end of a processing operation.
 
-		:param warning: Emit warning message. ( Integer )
-		:return: Method success. ( Boolean )
+		:param warning: Emit warning message.
+		:type warning: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.__isProcessing:
 			warning and LOGGER.warning(
-			"!> {0} | Engine is not processing, 'stopProcessing' request has been ignored!".format(
-			self.__class__.__name__))
+				"!> {0} | Engine is not processing, 'stopProcessing' request has been ignored!".format(
+					self.__class__.__name__))
 			return False
 
 		LOGGER.debug("> Stopping processing operation!")
@@ -1561,11 +1759,13 @@ component, error)))
 		self.Application_Progress_Status_processing.Processing_progressBar.setValue(0)
 		self.Application_Progress_Status_processing.hide()
 		return True
+
 	def garbageCollect(self):
 		"""
-		This method triggers the garbage collecting.
+		Triggers the garbage collecting.
 
-		:return: Number of unreachable objects found. ( Integer )
+		:return: Number of unreachable objects found.
+		:rtype: int
 		"""
 
 		LOGGER.debug("> Garbage collecting!")
@@ -1574,10 +1774,12 @@ component, error)))
 
 	def quit(self, exitCode=0, event=None):
 		"""
-		This method quits the Application.
+		Quits the Application.
 
-		:param exitCode: Exit code. ( Integer )
-		:param event: QEvent. ( QEvent )
+		:param exitCode: Exit code.
+		:type exitCode: int
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		# --- Running onClose components methods. ---
@@ -1621,127 +1823,131 @@ component, error)))
 		exit(exitCode)
 
 @umbra.reporter.criticalExceptionHandler
-def setUserApplicationDataDirectory(path):
+def setUserApplicationDataDirectory(directory):
 	"""
-	This definition sets the Application data directory.
+	Sets the user Application data directory.
 
-	:param path: Starting point for the directories tree creation. ( String )
-	:return: Definition success. ( Boolean )
+	:param directory: Starting point for the directories tree creation.
+	:type directory: unicode
+	:return: Definition success.
+	:rtype: bool
 	"""
 
-	userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory
-
-	LOGGER.debug("> Current Application data directory '{0}'.".format(userApplicationDataDirectory))
-	if foundations.io.setDirectory(userApplicationDataDirectory):
-		for directory in Constants.preferencesDirectories:
-			if not foundations.io.setDirectory(os.path.join(userApplicationDataDirectory, directory)):
+	LOGGER.debug("> Current Application data directory '{0}'.".format(directory))
+	if foundations.io.setDirectory(directory):
+		for subDirectory in Constants.preferencesDirectories:
+			if not foundations.io.setDirectory(os.path.join(directory, subDirectory)):
 				raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(
-				__name__, os.path.join(userApplicationDataDirectory, directory), Constants.applicationName))
+					__name__, os.path.join(directory, subDirectory), Constants.applicationName))
 		return True
 	else:
 		raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(__name__,
-																							userApplicationDataDirectory,
-																							Constants.applicationName))
+																							 directory,
+																							 Constants.applicationName))
 
 def getCommandLineParametersParser():
 	"""
-	This definition returns the command line parameters parser.
+	Returns the command line parameters parser.
 
-	:return: Parser. ( Parser )
+	:return: Parser.
+	:rtype: Parser
 	"""
 
 	parser = optparse.OptionParser(formatter=optparse.IndentedHelpFormatter(indent_increment=2,
 																			max_help_position=8,
 																			width=128,
 																			short_first=1),
-																			add_help_option=None)
+								   add_help_option=None)
 
 	parser.add_option("-h",
-					"--help",
-					action="help",
-					help="'Display this help message and exit.'")
+					  "--help",
+					  action="help",
+					  help="'Display this help message and exit.'")
 	parser.add_option("-a",
-					"--about",
-					action="store_true",
-					default=False,
-					dest="about",
-					help="'Display Application about message.'")
+					  "--about",
+					  action="store_true",
+					  default=False,
+					  dest="about",
+					  help="'Display Application about message.'")
 	parser.add_option("-v",
-					"--verbose",
-					action="store",
-					type="int",
-					dest="verbosityLevel",
-					help="'Application verbosity levels: 0 = Critical | 1 = Error | 2 = Warning | 3 = Info | 4 = Debug.'")
+					  "--verbose",
+					  action="store",
+					  type="int",
+					  dest="verbosityLevel",
+					  help="'Application verbosity levels: 0 = Critical | 1 = Error | 2 = Warning | 3 = Info | 4 = Debug.'")
 	parser.add_option("-f",
-					"--loggingFormatter",
-					action="store",
-					type="string",
-					dest="loggingFormater",
-					help="'Application logging formatter: '{0}'.'".format(
-					", ".join(sorted(RuntimeGlobals.loggingFormatters))))
+					  "--loggingFormatter",
+					  action="store",
+					  type="string",
+					  dest="loggingFormatter",
+					  help="'Application logging formatter: '{0}'.'".format(
+						  ", ".join(sorted(RuntimeGlobals.loggingFormatters))))
 	parser.add_option("-u",
-					"--userApplicationDataDirectory",
-					action="store",
-					type="string",
-					dest="userApplicationDataDirectory",
-					help="'User Application data directory'.")
+					  "--userApplicationDataDirectory",
+					  action="store",
+					  type="string",
+					  dest="userApplicationDataDirectory",
+					  help="'User Application data directory'.")
 	parser.add_option("-s",
-					"--hideSplashScreen",
-					action="store_true",
-					default=False,
-					dest="hideSplashScreen",
-					help="'Hide splashscreen'.")
+					  "--hideSplashScreen",
+					  action="store_true",
+					  default=False,
+					  dest="hideSplashScreen",
+					  help="'Hide splashscreen'.")
 	parser.add_option("-w",
-					"--deactivateWorkerThreads",
-					action="store_true",
-					default=False,
-					dest="deactivateWorkerThreads",
-					help="'Deactivate worker threads'.")
+					  "--deactivateWorkerThreads",
+					  action="store_true",
+					  default=False,
+					  dest="deactivateWorkerThreads",
+					  help="'Deactivate worker threads'.")
 	parser.add_option("-x",
-					"--startupScript",
-					action="store",
-					type="string",
-					dest="startupScript",
-					help="'Execute given startup script'.")
+					  "--startupScript",
+					  action="store",
+					  type="string",
+					  dest="startupScript",
+					  help="'Execute given startup script'.")
 	parser.add_option("-t",
-					"--traceModules",
-					action="store",
-					default="{}",
-					type="string",
-					dest="traceModules",
-					help="'Trace given modules'.")
+					  "--traceModules",
+					  action="store",
+					  default="{}",
+					  type="string",
+					  dest="traceModules",
+					  help="'Trace given modules'.")
 	return parser
 
 @umbra.reporter.criticalExceptionHandler
 def getLoggingFile(maximumLoggingFiles=10, retries=2 ^ 16):
 	"""
-	This definition returns the logging file path.
+	Returns the logging file path.
 
-	:param maximumLoggingFiles: Maximum allowed logging files in the logging directory. ( Integer )
-	:param retries: Number of retries to generate a unique logging file name. ( Integer )
-	:return: Logging file path. ( String )
+	:param maximumLoggingFiles: Maximum allowed logging files in the logging directory.
+	:type maximumLoggingFiles: int
+	:param retries: Number of retries to generate a unique logging file name.
+	:type retries: int
+	:return: Logging file path.
+	:rtype: unicode
 	"""
 
 	loggingDirectory = os.path.join(RuntimeGlobals.userApplicationDataDirectory, Constants.loggingDirectory)
 	for file in sorted(foundations.walkers.filesWalker(loggingDirectory),
-	key=lambda y: os.path.getmtime(os.path.abspath(y)), reverse=True)[maximumLoggingFiles:]:
+					   key=lambda y: os.path.getmtime(os.path.abspath(y)), reverse=True)[maximumLoggingFiles:]:
 		try:
 			os.remove(file)
 		except OSError:
 			LOGGER.warning(
-			"!> {0} | Cannot remove '{1}' file!".format(__name__, file, Constants.applicationName))
+				"!> {0} | Cannot remove '{1}' file!".format(__name__, file, Constants.applicationName))
 
 	path = None
 	for i in range(retries):
 		path = os.path.join(RuntimeGlobals.userApplicationDataDirectory,
-												Constants.loggingDirectory,
-												Constants.loggingFile.format(foundations.strings.getRandomSequence()))
+							Constants.loggingDirectory,
+							Constants.loggingFile.format(foundations.strings.getRandomSequence()))
 		if not os.path.exists(path):
 			break
 
 	if path is None:
 		raise umbra.exceptions.EngineConfigurationError(
-		"{0} | Logging file is not available, '{1}' will now close!".format(__name__, Constants.applicationName))
+			"{0} | Logging file is not available, '{1}' will now close!".format(__name__, Constants.applicationName))
 
 	LOGGER.debug("> Current Logging file: '{0}'".format(path))
 
@@ -1750,14 +1956,20 @@ def getLoggingFile(maximumLoggingFiles=10, retries=2 ^ 16):
 @umbra.reporter.criticalExceptionHandler
 def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visibleComponents=None):
 	"""
-	This definition starts the Application.
+	Starts the Application.
 
-	:param engine: Engine. ( QObject )
-	:param parameters: Command line parameters. ( Tuple )
-	:param componentsPaths: Components componentsPaths. ( Tuple / List )
-	:param requisiteComponents: Requisite components names. ( Tuple / List )
-	:param visibleComponents: Visible components names. ( Tuple / List )
-	:return: Definition success. ( Boolean )
+	:param engine: Engine.
+	:type engine: QObject
+	:param parameters: Command line parameters.
+	:type parameters: tuple
+	:param componentsPaths: Components componentsPaths.
+	:type componentsPaths: tuple or list
+	:param requisiteComponents: Requisite components names.
+	:type requisiteComponents: tuple or list
+	:param visibleComponents: Visible components names.
+	:type visibleComponents: tuple or list
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	# Command line parameters handling.
@@ -1779,18 +1991,36 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 
 	# Setting user application data directory.
 	if RuntimeGlobals.parameters.userApplicationDataDirectory:
-		RuntimeGlobals.userApplicationDataDirectory = RuntimeGlobals.parameters.userApplicationDataDirectory
+		userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory = \
+			RuntimeGlobals.parameters.userApplicationDataDirectory
 	else:
-		RuntimeGlobals.userApplicationDataDirectory = foundations.environment.getUserApplicationDataDirectory()
+		userApplicationDataDirectory = RuntimeGlobals.userApplicationDataDirectory = \
+			foundations.environment.getUserApplicationDataDirectory()
 
-	if not setUserApplicationDataDirectory(RuntimeGlobals.userApplicationDataDirectory):
+	if not setUserApplicationDataDirectory(userApplicationDataDirectory):
 		raise umbra.exceptions.EngineConfigurationError(
-		"{0} | '{1}' user Application data directory is not available, '{2}' will now close!".format(
-		__name__, RuntimeGlobals.userApplicationDataDirectory, Constants.applicationName))
+			"{0} | '{1}' user Application data directory is not available, '{2}' will now close!".format(
+				__name__, RuntimeGlobals.userApplicationDataDirectory, Constants.applicationName))
+
+	if foundations.environment.getTemporaryDirectory() in userApplicationDataDirectory:
+		umbra.ui.widgets.messageBox.messageBox("Error",
+											   "Error",
+"{0} failed to use the default user Application data directory to store its preferences \
+and has defaulted to the following directory:\n\n\t'{1}'.\n\nReasons for this are various:\n\
+\t- Undefined 'APPDATA' ( Windows ) or 'HOME' ( Mac Os X, Linux ) environment variables.\n\
+\t- User name with non 'UTF-8' encoding compliant characters.\n\
+\t- Non 'UTF-8' encoding compliant characters in the preferences directory path.\n\n\
+You will have to define your own preferences directory by launching {0} with the \
+'-u \"path\\to\\the\\custom\\preferences\\directory\"' command line parameter.".format(
+												   Constants.applicationName,
+												   userApplicationDataDirectory))
 
 	LOGGER.debug("> Application Python interpreter: '{0}'".format(sys.executable))
+	LOGGER.debug("> Application PyQt version: '{0}'".format(PYQT_VERSION_STR))
 	LOGGER.debug("> Application startup location: '{0}'".format(os.getcwd()))
 	LOGGER.debug("> Session user Application data directory: '{0}'".format(RuntimeGlobals.userApplicationDataDirectory))
+
+	LOGGER.debug("> Initializing '{0}'!".format(Constants.applicationName))
 
 	# Getting the logging file path.
 	RuntimeGlobals.loggingFile = getLoggingFile()
@@ -1798,19 +2028,20 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 
 	# Getting the patches file path.
 	RuntimeGlobals.patchesFile = os.path.join(RuntimeGlobals.userApplicationDataDirectory,
-											Constants.patchesDirectory,
-											Constants.patchesFile)
+											  Constants.patchesDirectory,
+											  Constants.patchesFile)
 	# Initializing the patches manager.
 	RuntimeGlobals.patchesManager = umbra.managers.patchesManager.PatchesManager(RuntimeGlobals.patchesFile,
-																		[os.path.join(path, Constants.patchesDirectory)
-																		for path in RuntimeGlobals.resourcesDirectories])
+																				 [os.path.join(path,
+																							   Constants.patchesDirectory)
+																				  for path in
+																				  RuntimeGlobals.resourcesDirectories])
 	RuntimeGlobals.patchesManager.registerPatches() and RuntimeGlobals.patchesManager.applyPatches()
 
 	# Retrieving settings file.
-	LOGGER.debug("> Initializing '{0}'!".format(Constants.applicationName))
 	RuntimeGlobals.settingsFile = os.path.join(RuntimeGlobals.userApplicationDataDirectory,
-												Constants.settingsDirectory,
-												Constants.settingsFile)
+											   Constants.settingsDirectory,
+											   Constants.settingsFile)
 
 	RuntimeGlobals.settings = Preferences(RuntimeGlobals.settingsFile)
 
@@ -1821,17 +2052,17 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 
 	LOGGER.debug("> Retrieving stored verbose level.")
 	RuntimeGlobals.verbosityLevel = RuntimeGlobals.parameters.verbosityLevel \
-	if RuntimeGlobals.parameters.verbosityLevel is not None else \
-	foundations.common.getFirstItem(RuntimeGlobals.settings.getKey("Settings", "verbosityLevel").toInt())
+		if RuntimeGlobals.parameters.verbosityLevel is not None else \
+		foundations.common.getFirstItem(RuntimeGlobals.settings.getKey("Settings", "verbosityLevel").toInt())
 	LOGGER.debug("> Setting logger verbosity level to: '{0}'.".format(RuntimeGlobals.verbosityLevel))
 	foundations.verbose.setVerbosityLevel(RuntimeGlobals.verbosityLevel)
 	RuntimeGlobals.settings.setKey("Settings", "verbosityLevel", RuntimeGlobals.verbosityLevel)
 
 	LOGGER.debug("> Retrieving stored logging formatter.")
-	loggingFormatter = RuntimeGlobals.parameters.loggingFormater and RuntimeGlobals.parameters.loggingFormater or \
-	foundations.strings.toString(RuntimeGlobals.settings.getKey("Settings", "loggingFormatter").toString())
-	loggingFormatter = loggingFormatter in RuntimeGlobals.loggingFormatters and loggingFormatter or None
-	RuntimeGlobals.loggingActiveFormatter = loggingFormatter and loggingFormatter or Constants.loggingDefaultFormatter
+	loggingFormatter = RuntimeGlobals.parameters.loggingFormatter if RuntimeGlobals.parameters.loggingFormatter is not None else \
+		foundations.strings.toString(RuntimeGlobals.settings.getKey("Settings", "loggingFormatter").toString())
+	loggingFormatter = loggingFormatter if loggingFormatter in RuntimeGlobals.loggingFormatters else None
+	RuntimeGlobals.loggingActiveFormatter = loggingFormatter if loggingFormatter is not None else Constants.loggingDefaultFormatter
 	LOGGER.debug("> Setting logging formatter: '{0}'.".format(RuntimeGlobals.loggingActiveFormatter))
 	for handler in (RuntimeGlobals.loggingConsoleHandler, RuntimeGlobals.loggingFileHandler):
 		handler and handler.setFormatter(RuntimeGlobals.loggingFormatters[RuntimeGlobals.loggingActiveFormatter])
@@ -1856,14 +2087,30 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 		RuntimeGlobals.splashscreenImage = QPixmap(umbra.ui.common.getResourcePath(UiConstants.splashScreenImage))
 		RuntimeGlobals.splashscreen = Delayed_QSplashScreen(RuntimeGlobals.splashscreenImage, textColor=Qt.white)
 		RuntimeGlobals.splashscreen.showMessage(
-		"{0} - {1} | Initializing {0}.".format(Constants.applicationName, Constants.releaseVersion))
+			"{0} - {1} | Initializing {0}.".format(Constants.applicationName, Constants.version))
 		RuntimeGlobals.splashscreen.show()
 
 	# Initializing requests stack.
 	RuntimeGlobals.requestsStack = collections.deque()
 
 	# Initializing engine.
-	RuntimeGlobals.engine = engine(None, componentsPaths, requisiteComponents, visibleComponents)
+	RuntimeGlobals.engine = engine(parent=None,
+								   componentsPaths=componentsPaths,
+								   requisiteComponents=requisiteComponents,
+								   visibleComponents=visibleComponents,
+								   splashscreen=RuntimeGlobals.splashscreen,
+								   requestsStack=RuntimeGlobals.requestsStack,
+								   patchesManager=RuntimeGlobals.patchesManager,
+								   userApplicationDataDirectory=RuntimeGlobals.userApplicationDataDirectory,
+								   loggingSessionHandler=RuntimeGlobals.loggingSessionHandler,
+								   loggingFileHandler=RuntimeGlobals.loggingFileHandler,
+								   loggingConsoleHandler=RuntimeGlobals.loggingConsoleHandler,
+								   loggingSessionHandlerStream=RuntimeGlobals.loggingSessionHandlerStream,
+								   loggingActiveFormatter=RuntimeGlobals.loggingActiveFormatter,
+								   settings=RuntimeGlobals.settings,
+								   verbosityLevel=RuntimeGlobals.verbosityLevel,
+								   parameters=RuntimeGlobals.parameters,
+								   arguments=RuntimeGlobals.arguments)
 	RuntimeGlobals.engine.show()
 	RuntimeGlobals.engine.raise_()
 
@@ -1871,9 +2118,10 @@ def run(engine, parameters, componentsPaths=None, requisiteComponents=None, visi
 
 def exit(exitCode=0):
 	"""
-	This definition exits the Application.
-	
-	:param exitCode: Exit code. ( Integer )
+	Exits the Application.
+
+	:param exitCode: Exit code.
+	:type exitCode: int
 	"""
 
 	for line in SESSION_FOOTER_TEXT:

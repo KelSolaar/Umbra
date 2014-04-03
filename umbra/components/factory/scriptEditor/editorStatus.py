@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`EditorStatus` class.
+	Defines the :class:`EditorStatus` class.
 
 **Others:**
 
@@ -37,7 +37,7 @@ import foundations.verbose
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -54,17 +54,20 @@ UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Editor_Status.ui")
 #**********************************************************************************************************************
 class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
-	This class defines the
+	Defines the
 	:class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` Component Interface class status bar widget. 
 	"""
 
 	def __init__(self, parent, *args, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -84,9 +87,10 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def container(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -95,9 +99,10 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -107,7 +112,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		Deleter for **self.__container** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -116,9 +121,10 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def Lines_Columns_label_defaultText(self):
 		"""
-		This method is the property for **self.__Lines_Columns_label_defaultText** attribute.
+		Property for **self.__Lines_Columns_label_defaultText** attribute.
 
-		:return: self.__Lines_Columns_label_defaultText. ( String )
+		:return: self.__Lines_Columns_label_defaultText.
+		:rtype: unicode
 		"""
 
 		return self.__Lines_Columns_label_defaultText
@@ -127,9 +133,10 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def Lines_Columns_label_defaultText(self, value):
 		"""
-		This method is the setter method for **self.__Lines_Columns_label_defaultText** attribute.
+		Setter for **self.__Lines_Columns_label_defaultText** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -139,7 +146,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def Lines_Columns_label_defaultText(self):
 		"""
-		This method is the deleter method for **self.__Lines_Columns_label_defaultText** attribute.
+		Deleter for **self.__Lines_Columns_label_defaultText** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -150,7 +157,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	#******************************************************************************************************************
 	def __initializeUi(self):
 		"""
-		This method initializes the Widget ui.
+		Initializes the Widget ui.
 		"""
 
 		self.Lines_Columns_label.setAlignment(Qt.AlignRight)
@@ -163,7 +170,7 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __Languages_comboBox_setDefaultViewState(self):
 		"""
-		This method sets the **Languages_comboBox** Widget default View state.
+		Sets the **Languages_comboBox** Widget default View state.
 		"""
 
 		if not self.__container.hasEditorTab():
@@ -176,9 +183,10 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __Languages_comboBox__currentIndexChanged(self, index):
 		"""
-		This method is triggered when the **Languages_comboBox** Widget current index is changed.
+		Defines the slot triggered by the **Languages_comboBox** Widget when current index is changed.
 
-		:param index: ComboBox current item index. ( Integer )
+		:param index: ComboBox current item index.
+		:type index: int
 		"""
 
 		if not self.__container.hasEditorTab():
@@ -199,9 +207,8 @@ class EditorStatus(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __editor__cursorPositionChanged(self):
 		"""
-		This method is triggered when a
-		:class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` Component Interface class editor
-		cursor position is changed.
+		Defines the slot triggered by :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
+		Component Interface class editor when cursor position is changed.
 		"""
 
 		if not self.__container.hasEditorTab():

@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`Delayed_QSplashScreen` class.
+	Defines the :class:`Delayed_QSplashScreen` class.
 
 **Others:**
 
@@ -38,7 +38,7 @@ import foundations.verbose
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -53,18 +53,22 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Delayed_QSplashScreen(QSplashScreen):
 	"""
-	This class is a `QSplashScreen <http://doc.qt.nokia.com/qsplashscreen.html>`_ subclass providing
+	Defines a `QSplashScreen <http://doc.qt.nokia.com/qsplashscreen.html>`_ subclass providing
 	delayed messages capabilities.
 	"""
 
 	def __init__(self, pixmap, waitTime=0, textColor=Qt.black, *args, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param pixmap: Current pixmap path. ( String )
-		:param waitTime: wait time. ( Integer )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param pixmap: Current pixmap path.
+		:type pixmap: unicode
+		:param waitTime: wait time.
+		:type waitTime: int
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -85,9 +89,10 @@ class Delayed_QSplashScreen(QSplashScreen):
 	@property
 	def waitTime(self):
 		"""
-		This method is the property for **self.__waitTime** attribute.
+		Property for **self.__waitTime** attribute.
 
-		:return: self.__waitTime ( Integer / Float )
+		:return: self.__waitTime
+		:rtype: int or float
 		"""
 
 		return self.__waitTime
@@ -96,9 +101,10 @@ class Delayed_QSplashScreen(QSplashScreen):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def waitTime(self, value):
 		"""
-		This method is the setter method for **self.__waitTime** attribute.
+		Setter for **self.__waitTime** attribute.
 
-		:param value: Attribute value. ( Integer / Float )
+		:param value: Attribute value.
+		:type value: int or float
 		"""
 
 		if value is not None:
@@ -111,7 +117,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def waitTime(self):
 		"""
-		This method is the deleter method for **self.__waitTime** attribute.
+		Deleter for **self.__waitTime** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -120,9 +126,10 @@ class Delayed_QSplashScreen(QSplashScreen):
 	@property
 	def textColor(self):
 		"""
-		This method is the property for **self.__textColor** attribute.
+		Property for **self.__textColor** attribute.
 
-		:return: self.__textColor ( Integer / QColor )
+		:return: self.__textColor
+		:rtype: int or QColor
 		"""
 
 		return self.__textColor
@@ -131,9 +138,10 @@ class Delayed_QSplashScreen(QSplashScreen):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def textColor(self, value):
 		"""
-		This method is the setter method for **self.__textColor** attribute.
+		Setter for **self.__textColor** attribute.
 
-		:param value: Attribute value. ( Integer / QColor )
+		:param value: Attribute value.
+		:type value: int or QColor
 		"""
 
 		if value is not None:
@@ -145,7 +153,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def textColor(self):
 		"""
-		This method is the deleter method for **self.__textColor** attribute.
+		Deleter for **self.__textColor** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -156,12 +164,16 @@ class Delayed_QSplashScreen(QSplashScreen):
 	#******************************************************************************************************************
 	def showMessage(self, message, textAlignement=Qt.AlignLeft, textColor=None, waitTime=None):
 		"""
-		This method reimplements the :meth:`QSplashScreen.showMessage` method.
+		Reimplements the :meth:`QSplashScreen.showMessage` method.
 
-		:param message: Message to display on the splashscreen. ( String )
-		:param textAlignement: Text message alignment. ( Object )
-		:param textColor: Text message color. ( Object )
-		:param waitTime: Wait time. ( Integer )
+		:param message: Message to display on the splashscreen.
+		:type message: unicode
+		:param textAlignement: Text message alignment.
+		:type textAlignement: object
+		:param textColor: Text message color.
+		:type textColor: object
+		:param waitTime: Wait time.
+		:type waitTime: int
 		"""
 
 		QSplashScreen.showMessage(self, message, textAlignement, self.__textColor if textColor is None else textColor)
