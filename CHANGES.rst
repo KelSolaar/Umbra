@@ -1,10 +1,42 @@
-**Umbra** - 1.0.8 - Stable
+**Umbra** - 1.0.9 - Stable
 ==========================
 
 .. .changes
 
 Changes
 =======
+
+1.0.9 - Stable
+--------------
+
+| **Umbra** 1.0.9 - Stable - Milestone: https://github.com/KelSolaar/Umbra/issues?milestone=10&state=closed
+| **Manager** 2.0.5 - Stable - Milestone: https://github.com/KelSolaar/Manager/issues?milestone=4&state=closed
+| **Foundations** 2.1.0 - Stable - Milestone: https://github.com/KelSolaar/Foundations/issues?milestone=8&page=1&state=closed
+
+-  Handled potential **IOError** exceptions related to **foundations.common.foundations.common.isBinaryFile** definition usage when accessing a locked file.
+-  Prevented exception reports stacking.
+-  Prevented **AttributeError** exception in **umbra.components.scriptEditor.scriptEditor.ScriptEditor.__editor__modificationChanged** method.
+-  Prevented files reloading on exit in **scriptEditor** component.
+-  Fixed **notificationsManager** notifiers insertion order.
+-  Fixed caching issue in **foundations.parsers.SectionsFileParser.write** method.
+-  Handled **BadZipfile** exception in **foundations.pkzip.Pkzip.extractZipFile** method.
+-  Ensured **notificationsManager** has a maximum number of displayed notifiers at same time.
+-  Ensured **foundations.parsers.SectionsFileParser.parse** method reads current file content if no content has been previously set.
+-  Ensured that loggers and their formatters receive unicode data. 
+-  Removed dependency on **ordereddict** for Python versions that already include it.
+-  Moved **foundations.common.isBinaryFile** definition into **foundations.io** module.
+-  Added **foundations.shell.** module.
+-  Extracted documentation utilities to their own repository.
+-  Pass various globals variables through arguments in **umbra.engine.Umbra** class.
+-  Refactored magic methods implementation in various managers.
+-  Implemented **get** method in various managers.
+-  Implemented **__setitem__** method in various managers.
+-  Implemented magic methods tests for **foundations.parsers.SectionsFileParser** class.
+-  Implemented **foundations.parsers.SectionsFileParser.setValue** method.
+-  Implemented support for **ANSI** escape codes.
+-  Implemented new documentation theme.
+-  Reformatted package docstrings.
+-  Verbosed **PyQt** version on startup.
 
 1.0.8 - Stable
 --------------
@@ -119,7 +151,7 @@ Changes
 About
 -----
 
-| **Umbra** by Thomas Mansencal – 2010 - 2013
-| Copyright© 2010 - 2013 – Thomas Mansencal – `thomas.mansencal@gmail.com <mailto:thomas.mansencal@gmail.com>`_
+| **Umbra** by Thomas Mansencal – 2010 - 2014
+| Copyright © 2010 - 2014 – Thomas Mansencal – `thomas.mansencal@gmail.com <mailto:thomas.mansencal@gmail.com>`_
 | This software is released under terms of GNU GPL V3 license: http://www.gnu.org/licenses/
 | `http://www.thomasmansencal.com/ <http://www.thomasmansencal.com/>`_

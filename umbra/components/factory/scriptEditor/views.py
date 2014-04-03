@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Defines the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class Views.
 
 **Others:**
@@ -39,7 +39,7 @@ import umbra.ui.views
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -54,16 +54,19 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	"""
-	This class is used to display Database Ibl Sets columns.
+	Defines the view for Database Ibl Sets columns.
 	"""
 
 	def __init__(self, parent, model=None, readOnly=False, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param readOnly: View is read only. ( Boolean )
-		:param message: View default message when Model is empty. ( String )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param readOnly: View is read only.
+		:type readOnly: bool
+		:param message: View default message when Model is empty.
+		:type message: unicode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -83,9 +86,10 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	@property
 	def treeViewIndentation(self):
 		"""
-		This method is the property for **self.__treeViewIndentation** attribute.
+		Property for **self.__treeViewIndentation** attribute.
 
-		:return: self.__treeViewIndentation. ( Integer )
+		:return: self.__treeViewIndentation.
+		:rtype: int
 		"""
 
 		return self.__treeViewIndentation
@@ -94,9 +98,10 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def treeViewIndentation(self, value):
 		"""
-		This method is the setter method for **self.__treeViewIndentation** attribute.
+		Setter for **self.__treeViewIndentation** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -106,7 +111,7 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def treeViewIndentation(self):
 		"""
-		This method is the deleter method for **self.__treeViewIndentation** attribute.
+		Deleter for **self.__treeViewIndentation** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -117,7 +122,7 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	#******************************************************************************************************************
 	def __initializeUi(self):
 		"""
-		This method initializes the Widget ui.
+		Initializes the Widget ui.
 		"""
 
 		self.setAutoScroll(True)
@@ -133,9 +138,10 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 	def __setDefaultUiState(self, *args):
 		"""
-		This method sets the Widget default ui state.
+		Sets the Widget default ui state.
 		
-		:param \*args: Arguments. ( \* )
+		:param \*args: Arguments.
+		:type \*args: \*
 		"""
 
 		LOGGER.debug("> Setting default View state!")
@@ -150,7 +156,7 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 class ScriptEditor_QTabWidget(QTabWidget):
 	"""
-	| This class is a `QTabWidget <http://doc.qt.nokia.com/qtabwidget.html>`_ subclass used
+	| Defines a `QTabWidget <http://doc.qt.nokia.com/qtabwidget.html>`_ subclass used
 		to display :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` editors.
 	| It provides support for drag'n'drop by reimplementing relevant methods.
 	"""
@@ -160,14 +166,16 @@ class ScriptEditor_QTabWidget(QTabWidget):
 	"""
 	This signal is emited by the :class:`ScriptEditor_QTabWidget` class when it receives dropped content. ( pyqtSignal )
 
-	:return: Event. ( QEvent )	
+	:return: Event.
+	:rtype: QEvent
 	"""
 
 	def __init__(self, parent):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Parent object. ( QObject )
+		:param parent: Parent object.
+		:type parent: QObject
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -185,9 +193,10 @@ class ScriptEditor_QTabWidget(QTabWidget):
 	@property
 	def container(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -196,9 +205,10 @@ class ScriptEditor_QTabWidget(QTabWidget):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -208,7 +218,7 @@ class ScriptEditor_QTabWidget(QTabWidget):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		Deleter for **self.__container** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -219,9 +229,10 @@ class ScriptEditor_QTabWidget(QTabWidget):
 	#******************************************************************************************************************
 	def dragEnterEvent(self, event):
 		"""
-		This method reimplements the :meth:`QTabWidget.dragEnterEvent` method.
+		Reimplements the :meth:`QTabWidget.dragEnterEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		LOGGER.debug("> '{0}' widget drag enter event accepted!".format(self.__class__.__name__))
@@ -229,9 +240,10 @@ class ScriptEditor_QTabWidget(QTabWidget):
 
 	def dragMoveEvent(self, event):
 		"""
-		This method reimplements the :meth:`QTabWidget.dragMoveEvent` method.
+		Reimplements the :meth:`QTabWidget.dragMoveEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		LOGGER.debug("> '{0}' widget drag move event accepted!".format(self.__class__.__name__))
@@ -239,9 +251,10 @@ class ScriptEditor_QTabWidget(QTabWidget):
 
 	def dropEvent(self, event):
 		"""
-		This method reimplements the :meth:`QTabWidget.dropEvent` method.
+		Reimplements the :meth:`QTabWidget.dropEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		LOGGER.debug("> '{0}' widget drop event accepted!".format(self.__class__.__name__))

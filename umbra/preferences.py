@@ -8,9 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	| This module is the main **Umbra** package module.
-	| It defines various classes, methods and definitions to run, maintain and exit the Application.
-	| The main Application object is the :class:`Umbra` class.
+	Defines the :class:`Preferences` class.
 
 **Others:**
 
@@ -39,7 +37,7 @@ from umbra.globals.uiConstants import UiConstants
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -54,15 +52,16 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Preferences(object):
 	"""
-	| This class provides methods to manipulate Application preferences / settings.
+	| Defines methods to manipulate Application preferences / settings.
 	| Those are stored and retrieved using a `QSettings <http://doc.qt.nokia.com/qsettings.html>`_ class.
 	"""
 
 	def __init__(self, file=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param file: Current preferences file path. ( String )
+		:param file: Current preferences file path.
+		:type file: unicode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -86,9 +85,10 @@ class Preferences(object):
 	@property
 	def file(self):
 		"""
-		This method is the property for **self.__file** attribute.
+		Property for **self.__file** attribute.
 
-		:return: self.__file. ( String )
+		:return: self.__file.
+		:rtype: unicode
 		"""
 
 		return self.__file
@@ -97,9 +97,10 @@ class Preferences(object):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def file(self, value):
 		"""
-		This method is the setter method for **self.__file** attribute.
+		Setter for **self.__file** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -111,7 +112,7 @@ class Preferences(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def file(self):
 		"""
-		This method is the deleter method for **self.__file** attribute.
+		Deleter for **self.__file** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -120,9 +121,10 @@ class Preferences(object):
 	@property
 	def settings(self):
 		"""
-		This method is the property for **self.__settings** attribute.
+		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( QSettings )
+		:return: self.__settings.
+		:rtype: QSettings
 		"""
 
 		return self.__settings
@@ -131,9 +133,10 @@ class Preferences(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self, value):
 		"""
-		This method is the setter method for **self.__settings** attribute.
+		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( QSettings )
+		:param value: Attribute value.
+		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -143,7 +146,7 @@ class Preferences(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
-		This method is the deleter method for **self.__settings** attribute.
+		Deleter for **self.__settings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -152,9 +155,10 @@ class Preferences(object):
 	@property
 	def defaultSettings(self):
 		"""
-		This method is the property for **self.__defaultSettings** attribute.
+		Property for **self.__defaultSettings** attribute.
 
-		:return: self.__defaultSettings. ( QSettings )
+		:return: self.__defaultSettings.
+		:rtype: QSettings
 		"""
 
 		return self.__defaultSettings
@@ -163,9 +167,10 @@ class Preferences(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultSettings(self, value):
 		"""
-		This method is the setter method for **self.__defaultSettings** attribute.
+		Setter for **self.__defaultSettings** attribute.
 
-		:param value: Attribute value. ( QSettings )
+		:param value: Attribute value.
+		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -175,7 +180,7 @@ class Preferences(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultSettings(self):
 		"""
-		This method is the deleter method for **self.__defaultSettings** attribute.
+		Deleter for **self.__defaultSettings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -184,9 +189,10 @@ class Preferences(object):
 	@property
 	def defaultLayoutsSettings(self):
 		"""
-		This method is the property for **self.__defaultLayoutsSettings** attribute.
+		Property for **self.__defaultLayoutsSettings** attribute.
 
-		:return: self.__defaultLayoutsSettings. ( QSettings )
+		:return: self.__defaultLayoutsSettings.
+		:rtype: QSettings
 		"""
 
 		return self.__defaultLayoutsSettings
@@ -195,9 +201,10 @@ class Preferences(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultLayoutsSettings(self, value):
 		"""
-		This method is the setter method for **self.__defaultLayoutsSettings** attribute.
+		Setter for **self.__defaultLayoutsSettings** attribute.
 
-		:param value: Attribute value. ( QSettings )
+		:param value: Attribute value.
+		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -207,7 +214,7 @@ class Preferences(object):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultLayoutsSettings(self):
 		"""
-		This method is the deleter method for **self.__defaultLayoutsSettings** attribute.
+		Deleter for **self.__defaultLayoutsSettings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -218,11 +225,14 @@ class Preferences(object):
 	#******************************************************************************************************************
 	def setKey(self, section, key, value):
 		"""
-		This method stores given key in settings file.
+		Stores given key in settings file.
 
-		:param section: Current section to save the key into. ( String )
-		:param key: Current key to save. ( String )
-		:param value: Current key value to save. ( Object )
+		:param section: Current section to save the key into.
+		:type section: unicode
+		:param key: Current key to save.
+		:type key: unicode
+		:param value: Current key value to save.
+		:type value: object
 		"""
 
 		LOGGER.debug("> Saving '{0}' in '{1}' section with value: '{2}' in settings file.".format(
@@ -234,11 +244,14 @@ class Preferences(object):
 
 	def getKey(self, section, key):
 		"""
-		This method gets key value from settings file.
+		Gets key value from settings file.
 
-		:param section: Current section to retrieve key from. ( String )
-		:param key: Current key to retrieve. ( String )
-		:return: Current key value. ( Object )
+		:param section: Current section to retrieve key from.
+		:type section: unicode
+		:param key: Current key to retrieve.
+		:type key: unicode
+		:return: Current key value.
+		:rtype: object
 		"""
 
 		LOGGER.debug("> Retrieving '{0}' in '{1}' section.".format(key, section))
@@ -252,11 +265,14 @@ class Preferences(object):
 
 	def keyExists(self, section, key):
 		"""
-		This method checks if given key exists.
+		Checks if given key exists.
 
-		:param section: Current section to check key in. ( String )
-		:param key: Current key to check. ( String )
-		:return: Key existence. ( Boolean )
+		:param section: Current section to check key in.
+		:type section: unicode
+		:param key: Current key to check.
+		:type key: unicode
+		:return: Key existence.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Checking '{0}' key existence in '{1}' section.".format(key, section))
@@ -268,7 +284,7 @@ class Preferences(object):
 
 	def __getDefaultSettings(self):
 		"""
-		This method gets the default settings.
+		Gets the default settings.
 		"""
 
 		LOGGER.debug("> Accessing '{0}' default settings file!".format(UiConstants.settingsFile))
@@ -276,7 +292,7 @@ class Preferences(object):
 
 	def __getDefaultLayoutsSettings(self):
 		"""
-		This method gets the default layouts settings.
+		Gets the default layouts settings.
 		"""
 
 		LOGGER.debug("> Accessing '{0}' default layouts settings file!".format(UiConstants.layoutsFile))
@@ -285,9 +301,10 @@ class Preferences(object):
 
 	def setDefaultPreferences(self):
 		"""
-		This method defines the default settings file content.
+		Defines the default settings file content.
 		
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Initializing default settings!")
@@ -300,10 +317,12 @@ class Preferences(object):
 
 	def setDefaultLayouts(self, ignoredLayouts=None):
 		"""
-		This method sets the default layouts in the preferences file.
+		Sets the default layouts in the preferences file.
 
-		:param ignoredLayouts: Ignored layouts. ( Tuple / List )
-		:return: Method success. ( Boolean )
+		:param ignoredLayouts: Ignored layouts.
+		:type ignoredLayouts: tuple or list
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		for key in self.__defaultLayoutsSettings.allKeys():

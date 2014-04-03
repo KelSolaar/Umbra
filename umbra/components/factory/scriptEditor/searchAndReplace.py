@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`SearchAndReplace` class.
+	Defines the :class:`SearchAndReplace` class.
 
 **Others:**
 
@@ -47,7 +47,7 @@ from umbra.components.factory.scriptEditor.nodes import PatternNode
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -64,17 +64,20 @@ UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Search_And_Replace.ui")
 #**********************************************************************************************************************
 class ValidationFilter(QObject):
 	"""
-	This class is a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass used as an event filter
+	Defines a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass used as an event filter
 	for the :class:`SearchAndReplace` class.
 	"""
 
 	def eventFilter(self, object, event):
 		"""
-		This method reimplements the **QObject.eventFilter** method.
-		
-		:param object: Object. ( QObject )
-		:param event: Event. ( QEvent )
-		:return: Event filtered. ( Boolean )
+		Reimplements the **QObject.eventFilter** method.
+
+		:param object: Object.
+		:type object: QObject
+		:param event: Event.
+		:type event: QEvent
+		:return: Event filtered.
+		:rtype: bool
 		"""
 
 		if event.type() == QEvent.KeyPress:
@@ -88,16 +91,19 @@ class ValidationFilter(QObject):
 
 class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
-	This class defines the default search and replace dialog used by the **ScriptEditor** Component. 
+	Defines the default search and replace dialog used by the **ScriptEditor** Component.
 	"""
 
 	def __init__(self, parent, *args, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -120,9 +126,10 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def container(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -131,9 +138,10 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -143,7 +151,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		Deleter for **self.__container** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -152,9 +160,10 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def searchPatternsModel(self):
 		"""
-		This method is the property for **self.__searchPatternsModel** attribute.
+		Property for **self.__searchPatternsModel** attribute.
 
-		:return: self.__searchPatternsModel. ( PatternsModel )
+		:return: self.__searchPatternsModel.
+		:rtype: PatternsModel
 		"""
 
 		return self.__searchPatternsModel
@@ -163,9 +172,10 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchPatternsModel(self, value):
 		"""
-		This method is the setter method for **self.__searchPatternsModel** attribute.
+		Setter for **self.__searchPatternsModel** attribute.
 
-		:param value: Attribute value. ( PatternsModel )
+		:param value: Attribute value.
+		:type value: PatternsModel
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -175,7 +185,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchPatternsModel(self):
 		"""
-		This method is the deleter method for **self.__searchPatternsModel** attribute.
+		Deleter for **self.__searchPatternsModel** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -184,9 +194,10 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def replaceWithPatternsModel(self):
 		"""
-		This method is the property for **self.__replaceWithPatternsModel** attribute.
+		Property for **self.__replaceWithPatternsModel** attribute.
 
-		:return: self.__replaceWithPatternsModel. ( PatternsModel )
+		:return: self.__replaceWithPatternsModel.
+		:rtype: PatternsModel
 		"""
 
 		return self.__replaceWithPatternsModel
@@ -195,9 +206,10 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def replaceWithPatternsModel(self, value):
 		"""
-		This method is the setter method for **self.__replaceWithPatternsModel** attribute.
+		Setter for **self.__replaceWithPatternsModel** attribute.
 
-		:param value: Attribute value. ( PatternsModel )
+		:param value: Attribute value.
+		:type value: PatternsModel
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -207,7 +219,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def replaceWithPatternsModel(self):
 		"""
-		This method is the deleter method for **self.__replaceWithPatternsModel** attribute.
+		Deleter for **self.__replaceWithPatternsModel** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -216,9 +228,10 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def maximumStoredPatterns(self):
 		"""
-		This method is the property for **self.__maximumStoredPatterns** attribute.
+		Property for **self.__maximumStoredPatterns** attribute.
 
-		:return: self.__maximumStoredPatterns. ( Integer )
+		:return: self.__maximumStoredPatterns.
+		:rtype: int
 		"""
 
 		return self.__maximumStoredPatterns
@@ -227,9 +240,10 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def maximumStoredPatterns(self, value):
 		"""
-		This method is the setter method for **self.__maximumStoredPatterns** attribute.
+		Setter for **self.__maximumStoredPatterns** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -239,7 +253,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def maximumStoredPatterns(self):
 		"""
-		This method is the deleter method for **self.__maximumStoredPatterns** attribute.
+		Deleter for **self.__maximumStoredPatterns** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -250,7 +264,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	#******************************************************************************************************************
 	def show(self):
 		"""
-		This method reimplements the :meth:`QWidget.show` method.
+		Reimplements the :meth:`QWidget.show` method.
 		"""
 
 		selectedText = self.__container.getCurrentEditor().getSelectedText()
@@ -263,7 +277,7 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __initializeUi(self):
 		"""
-		This method initializes the Widget ui.
+		Initializes the Widget ui.
 		"""
 
 		umbra.ui.common.setWindowDefaultIcon(self)
@@ -298,11 +312,14 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __patternsModel__patternInserted(self, settingsKey, comboBox, index):
 		"""
-		This method is triggered when a pattern has been inserted into a patterns Model.
+		Defines the slot triggered by a pattern when inserted into a patterns Model.
 
-		:param settingsKey: Pattern Model settings key. ( String )
-		:param comboBox: Pattern Model attached comboBox. ( QComboBox )
-		:param index: Inserted pattern index. ( QModelIndex )
+		:param settingsKey: Pattern Model settings key.
+		:type settingsKey: unicode
+		:param comboBox: Pattern Model attached comboBox.
+		:type comboBox: QComboBox
+		:param index: Inserted pattern index.
+		:type index: QModelIndex
 		"""
 
 		patternsModel = self.sender()
@@ -317,45 +334,50 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __Search_pushButton__clicked(self, checked):
 		"""
-		This method is triggered when **Search_pushButton** Widget is clicked.
+		Defines the slot triggered by **Search_pushButton** Widget when clicked.
 
-		:param checked: Checked state. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
 		"""
 
 		self.search()
 
 	def __Replace_pushButton__clicked(self, checked):
 		"""
-		This method is triggered when **Replace_pushButton** Widget is clicked.
+		Defines the slot triggered by **Replace_pushButton** Widget when clicked.
 
-		:param checked: Checked state. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
 		"""
 
 		self.replace()
 
 	def __Replace_All_pushButton__clicked(self, checked):
 		"""
-		This method is triggered when **Replace_All_pushButton** Widget is clicked.
+		Defines the slot triggered by **Replace_All_pushButton** Widget when clicked.
 
-		:param checked: Checked state. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
 		"""
 
 		self.replaceAll()
 
 	def __Close_pushButton__clicked(self, checked):
 		"""
-		This method is triggered when **Close_pushButton** Widget is clicked.
+		Defines the slot triggered by **Close_pushButton** Widget when clicked.
 
-		:param checked: Checked state. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
 		"""
 
 		self.close()
 
 	def __getSettings(self):
 		"""
-		This method returns the current search and replace settings.
+		Returns the current search and replace settings.
 
-		:return: Settings. ( Dictionary )
+		:return: Settings.
+		:rtype: dict
 		"""
 
 		return {"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
@@ -367,12 +389,16 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@staticmethod
 	def insertPattern(pattern, model, index=0):
 		"""
-		This definition inserts given pattern into given Model.
-	
-		:param pattern: Pattern. ( String )
-		:param model: Model. ( PatternsModel )
-		:param index: Insertion indes. ( Integer )
-		:return: Method success. ( Boolean )
+		Inserts given pattern into given Model.
+
+		:param pattern: Pattern.
+		:type pattern: unicode
+		:param model: Model.
+		:type model: PatternsModel
+		:param index: Insertion indes.
+		:type index: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not pattern:
@@ -387,9 +413,10 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def search(self):
 		"""
-		This method searchs current editor Widget for search pattern.
+		Searchs current editor Widget for search pattern.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		editor = self.__container.getCurrentEditor()
@@ -410,9 +437,10 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def replace(self):
 		"""
-		This method replaces current editor Widget current search pattern occurence with replacement pattern.
+		Replaces current editor Widget current search pattern occurence with replacement pattern.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		editor = self.__container.getCurrentEditor()
@@ -434,9 +462,10 @@ class SearchAndReplace(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def replaceAll(self):
 		"""
-		This method replaces current editor Widget search pattern occurences with replacement pattern.
+		Replaces current editor Widget search pattern occurrences with replacement pattern.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		editor = self.__container.getCurrentEditor()

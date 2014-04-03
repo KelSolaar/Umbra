@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`umbra.components.factory.traceUi.traceUi.TraceUi`
+	Defines the :class:`umbra.components.factory.traceUi.traceUi.TraceUi`
 	Component Interface class View.
 
 **Others:**
@@ -37,7 +37,7 @@ import umbra.ui.views
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -52,17 +52,21 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Modules_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	"""
-	This class is used to display modules.
+	Defines the view for modules.
 	"""
 
 	def __init__(self, parent, model=None, readOnly=False, message=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param model: Model. ( QObject )
-		:param readOnly: View is read only. ( Boolean )
-		:param message: View default message when Model is empty. ( String )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param model: Model.
+		:type model: QObject
+		:param readOnly: View is read only.
+		:type readOnly: bool
+		:param message: View default message when Model is empty.
+		:type message: unicode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -82,9 +86,10 @@ class Modules_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	@property
 	def treeViewIndentation(self):
 		"""
-		This method is the property for **self.__treeViewIndentation** attribute.
+		Property for **self.__treeViewIndentation** attribute.
 
-		:return: self.__treeViewIndentation. ( Integer )
+		:return: self.__treeViewIndentation.
+		:rtype: int
 		"""
 
 		return self.__treeViewIndentation
@@ -93,9 +98,10 @@ class Modules_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def treeViewIndentation(self, value):
 		"""
-		This method is the setter method for **self.__treeViewIndentation** attribute.
+		Setter for **self.__treeViewIndentation** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -105,7 +111,7 @@ class Modules_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def treeViewIndentation(self):
 		"""
-		This method is the deleter method for **self.__treeViewIndentation** attribute.
+		Deleter for **self.__treeViewIndentation** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -116,7 +122,7 @@ class Modules_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	#******************************************************************************************************************
 	def __initializeUi(self):
 		"""
-		This method initializes the Widget ui.
+		Initializes the Widget ui.
 		"""
 
 		self.setAutoScroll(True)
@@ -135,7 +141,7 @@ class Modules_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 	def __setDefaultUiState(self):
 		"""
-		This method sets the Widget default ui state.
+		Sets the Widget default ui state.
 		"""
 
 		LOGGER.debug("> Setting default View state!")
@@ -150,9 +156,10 @@ class Modules_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 	def setModel(self, model):
 		"""
-		This method reimplements the **umbra.ui.views.Abstract_QTreeView.setModel** method.
+		Reimplements the **umbra.ui.views.Abstract_QTreeView.setModel** method.
 		
-		:param model: Model to set. ( QObject )
+		:param model: Model to set.
+		:type model: QObject
 		"""
 
 		LOGGER.debug("> Setting '{0}' model.".format(model))

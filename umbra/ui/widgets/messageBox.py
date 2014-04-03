@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :func:`messageBox` and :func:`standaloneMessageBox` functions.
+	Defines the :func:`messageBox` and :func:`standaloneMessageBox` functions.
 
 **Others:**
 
@@ -42,7 +42,7 @@ from umbra.globals.constants import Constants
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -57,14 +57,20 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 def messageBox(type, title, message, icon=None, buttons=QMessageBox.Ok, customButtons=None):
 	"""
-	This definition provides a fast GUI message box.
+	Provides a fast GUI message box.
 
-	:param title: Current message title. ( String )
-	:param message: Message. ( String )
-	:param icon: Custom icon. ( QConstant )
-	:param buttons: Standard buttons. ( QConstant )
-	:param customButtons: Custom buttons. ( Tuple / List )
-	:return: User choice. ( Integer )
+	:param title: Current message title.
+	:type title: unicode
+	:param message: Message.
+	:type message: unicode
+	:param icon: Custom icon.
+	:type icon: QConstant
+	:param buttons: Standard buttons.
+	:type buttons: QConstant
+	:param customButtons: Custom buttons.
+	:type customButtons: tuple or list
+	:return: User choice.
+	:rtype: int
 	"""
 
 	LOGGER.debug("> Launching messagebox().")

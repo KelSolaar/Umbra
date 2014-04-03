@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`Application_QToolBar` class.
+	Defines the :class:`Application_QToolBar` class.
 
 **Others:**
 
@@ -50,7 +50,7 @@ from umbra.ui.widgets.active_QLabelsCollection import Active_QLabelsCollection
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -65,15 +65,16 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Application_QToolBar(QToolBar):
 	"""
-	This class is a `QToolBar <http://doc.qt.nokia.com/qtoolbar.html>`_ subclass providing
+	Defines a `QToolBar <http://doc.qt.nokia.com/qtoolbar.html>`_ subclass providing
 	the Application toolbar.
 	"""
 
 	def __init__(self, parent=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Widget parent. ( QObject )
+		:param parent: Widget parent.
+		:type parent: QObject
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -102,9 +103,10 @@ class Application_QToolBar(QToolBar):
 	@property
 	def container(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -113,9 +115,10 @@ class Application_QToolBar(QToolBar):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -125,7 +128,7 @@ class Application_QToolBar(QToolBar):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		Deleter for **self.__container** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -134,9 +137,10 @@ class Application_QToolBar(QToolBar):
 	@property
 	def settings(self):
 		"""
-		This method is the property for **self.__settings** attribute.
+		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( Preferences )
+		:return: self.__settings.
+		:rtype: Preferences
 		"""
 
 		return self.__settings
@@ -145,9 +149,10 @@ class Application_QToolBar(QToolBar):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self, value):
 		"""
-		This method is the setter method for **self.__settings** attribute.
+		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( Preferences )
+		:param value: Attribute value.
+		:type value: Preferences
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -157,7 +162,7 @@ class Application_QToolBar(QToolBar):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
-		This method is the deleter method for **self.__settings** attribute.
+		Deleter for **self.__settings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -166,9 +171,10 @@ class Application_QToolBar(QToolBar):
 	@property
 	def layoutsActiveLabelsCollection(self):
 		"""
-		This method is the property for **self.__layoutsActiveLabelsCollection** attribute.
+		Property for **self.__layoutsActiveLabelsCollection** attribute.
 
-		:return: self.__layoutsActiveLabelsCollection. ( Active_QLabelsCollection )
+		:return: self.__layoutsActiveLabelsCollection.
+		:rtype: Active_QLabelsCollection
 		"""
 
 		return self.__layoutsActiveLabelsCollection
@@ -177,9 +183,10 @@ class Application_QToolBar(QToolBar):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def layoutsActiveLabelsCollection(self, value):
 		"""
-		This method is the setter method for **self.__layoutsActiveLabelsCollection** attribute.
+		Setter for **self.__layoutsActiveLabelsCollection** attribute.
 
-		:param value: Attribute value. ( Active_QLabelsCollection )
+		:param value: Attribute value.
+		:type value: Active_QLabelsCollection
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -189,7 +196,7 @@ class Application_QToolBar(QToolBar):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def layoutsActiveLabelsCollection(self):
 		"""
-		This method is the deleter method for **self.__layoutsActiveLabelsCollection** attribute.
+		Deleter for **self.__layoutsActiveLabelsCollection** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -198,9 +205,10 @@ class Application_QToolBar(QToolBar):
 	@property
 	def customLayoutsMenu(self):
 		"""
-		This method is the property for **self.__customLayoutsMenu** attribute.
+		Property for **self.__customLayoutsMenu** attribute.
 
-		:return: self.__customLayoutsMenu. ( QMenu )
+		:return: self.__customLayoutsMenu.
+		:rtype: QMenu
 		"""
 
 		return self.__customLayoutsMenu
@@ -209,9 +217,10 @@ class Application_QToolBar(QToolBar):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def customLayoutsMenu(self, value):
 		"""
-		This method is the setter method for **self.__customLayoutsMenu** attribute.
+		Setter for **self.__customLayoutsMenu** attribute.
 
-		:param value: Attribute value. ( QMenu )
+		:param value: Attribute value.
+		:type value: QMenu
 		"""
 
 		if value is not None:
@@ -222,7 +231,7 @@ class Application_QToolBar(QToolBar):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def customLayoutsMenu(self):
 		"""
-		This method is the deleter method for **self.__customLayoutsMenu** attribute.
+		Deleter for **self.__customLayoutsMenu** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -231,9 +240,10 @@ class Application_QToolBar(QToolBar):
 	@property
 	def miscellaneousMenu(self):
 		"""
-		This method is the property for **self.__miscellaneousMenu** attribute.
+		Property for **self.__miscellaneousMenu** attribute.
 
-		:return: self.__miscellaneousMenu. ( QMenu )
+		:return: self.__miscellaneousMenu.
+		:rtype: QMenu
 		"""
 
 		return self.__miscellaneousMenu
@@ -242,9 +252,10 @@ class Application_QToolBar(QToolBar):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def miscellaneousMenu(self, value):
 		"""
-		This method is the setter method for **self.__miscellaneousMenu** attribute.
+		Setter for **self.__miscellaneousMenu** attribute.
 
-		:param value: Attribute value. ( QMenu )
+		:param value: Attribute value.
+		:type value: QMenu
 		"""
 
 		if value is not None:
@@ -255,7 +266,7 @@ class Application_QToolBar(QToolBar):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def miscellaneousMenu(self):
 		"""
-		This method is the deleter method for **self.__miscellaneousMenu** attribute.
+		Deleter for **self.__miscellaneousMenu** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -266,7 +277,7 @@ class Application_QToolBar(QToolBar):
 	#******************************************************************************************************************
 	def __initializeUi(self):
 		"""
-		This method initializes the Widget ui.
+		Initializes the Widget ui.
 		"""
 
 		LOGGER.debug("> Initializing Application toolBar!")
@@ -288,19 +299,21 @@ class Application_QToolBar(QToolBar):
 
 	def __layoutActiveLabel__clicked(self, layout):
 		"""
-		This method is triggered when a **Active_QLabel** Widget is clicked.
+		Defines the slot triggered by a **Active_QLabel** Widget when clicked.
 
-		:param layout: Layout name. ( String )
+		:param layout: Layout name.
+		:type layout: unicode
 		"""
 
 		self.__container.layoutsManager.restoreLayout(layout)
 
 	def __layoutsManager__layoutStored(self, layout):
 		"""
-		This method is triggered by the :class:`umbra.managers.layoutsManager.LayoutsManager` class
+		Defines the slot triggered by :class:`umbra.managers.layoutsManager.LayoutsManager` class
 		when a layout is stored.
 
-		:param layout: Layout name. ( String )
+		:param layout: Layout name.
+		:type layout: unicode
 		"""
 
 		layoutActiveLabel = self.__layoutsActiveLabelsCollection.getToggledActiveLabel()
@@ -310,10 +323,11 @@ class Application_QToolBar(QToolBar):
 
 	def __layoutsManager__layoutRestored(self, layout):
 		"""
-		This method is triggered by the :class:`umbra.managers.layoutsManager.LayoutsManager` class
+		Defines the slot triggered by :class:`umbra.managers.layoutsManager.LayoutsManager` class
 		when a layout is restored.
 
-		:param layout: Layout name. ( String )
+		:param layout: Layout name.
+		:type layout: unicode
 		"""
 
 		layoutActiveLabel = self.__settings.getKey("Layouts", "{0}_activeLabel".format(layout)).toString()
@@ -325,10 +339,12 @@ class Application_QToolBar(QToolBar):
 
 	def __helpDisplayMiscAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|ToolBar|Miscellaneous|Help content ...'** action.
+		Defines the slot triggered by **'Actions|Umbra|ToolBar|Miscellaneous|Help content ...'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Opening url: '{0}'.".format(UiConstants.helpFile))
@@ -337,10 +353,12 @@ class Application_QToolBar(QToolBar):
 
 	def __apiDisplayMiscAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|ToolBar|Miscellaneous|Api content ...'** action.
+		Defines the slot triggered by **'Actions|Umbra|ToolBar|Miscellaneous|Api content ...'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Opening url: '{0}'.".format(UiConstants.apiFile))
@@ -349,9 +367,10 @@ class Application_QToolBar(QToolBar):
 
 	def setLayoutDefaultGeometry(self):
 		"""
-		This method sets the toolBar layout default geometry.
+		Sets the toolBar layout default geometry.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.layout().setSpacing(8)
@@ -360,9 +379,10 @@ class Application_QToolBar(QToolBar):
 
 	def setToolBarChildrenWidgets(self):
 		"""
-		This method sets the toolBar children widgets.
+		Sets the toolBar children widgets.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Adding 'Application_Logo_label' widget!")
@@ -388,9 +408,10 @@ class Application_QToolBar(QToolBar):
 
 	def getApplicationLogoLabel(self):
 		"""
-		This method provides the default **Application_Logo_label** widget.
+		Provides the default **Application_Logo_label** widget.
 
-		:return: Application logo label. ( QLabel )
+		:return: Application logo label.
+		:rtype: QLabel
 		"""
 
 		logoLabel = QLabel()
@@ -400,14 +421,19 @@ class Application_QToolBar(QToolBar):
 
 	def getLayoutActiveLabel(self, resources, name, title, identity, shortcut):
 		"""
-		This method returns a layout **Active_QLabel** widget.
+		Returns a layout **Active_QLabel** widget.
 
-		:param resources: Icons resources ( Default / Hover / Active ). ( Tuple )
-		:param name: Ui object name. ( String )
-		:param title: Layout registration title. ( String )
-		:param identity: Layout code name. ( String )
+		:param resources: Icons resources ( Default / Hover / Active ).
+		:type resources: tuple
+		:param name: Ui object name.
+		:type name: unicode
+		:param title: Layout registration title.
+		:type title: unicode
+		:param identity: Layout code name.
+		:type identity: unicode
 		:param shortcut: Layout associated shortcut. ( QtCore.Key )
-		:return: Layout active label. ( Active_QLabel )
+		:return: Layout active label.
+		:rtype: Active_QLabel
 		"""
 
 		defaultIcon, hoverIcon, activeIcon = resources
@@ -435,9 +461,10 @@ class Application_QToolBar(QToolBar):
 
 	def getLayoutsActiveLabels(self):
 		"""
-		This method returns the layouts **Active_QLabel** widgets.
+		Returns the layouts **Active_QLabel** widgets.
 
-		:return: Layouts active labels. ( List )
+		:return: Layouts active labels.
+		:rtype: list
 		"""
 
 		self.__layoutsActiveLabelsCollection = Active_QLabelsCollection(self)
@@ -461,9 +488,10 @@ class Application_QToolBar(QToolBar):
 
 	def getCustomLayoutsActiveLabel(self):
 		"""
-		This method provides the default **Custom_Layouts_activeLabel** widget.
+		Provides the default **Custom_Layouts_activeLabel** widget.
 
-		:return: Layout active label. ( Active_QLabel )
+		:return: Layout active label.
+		:rtype: Active_QLabel
 		"""
 
 		layoutActiveLabel = Active_QLabel(self, QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsIcon)),
@@ -500,9 +528,10 @@ class Application_QToolBar(QToolBar):
 
 	def getMiscellaneousActiveLabel(self):
 		"""
-		This method provides the default **Miscellaneous_activeLabel** widget.
+		Provides the default **Miscellaneous_activeLabel** widget.
 
-		:return: Miscellaneous active label. ( Active_QLabel )
+		:return: Miscellaneous active label.
+		:rtype: Active_QLabel
 		"""
 
 		miscellaneousActiveLabel = Active_QLabel(self,
@@ -527,9 +556,10 @@ class Application_QToolBar(QToolBar):
 
 	def getSpacerLabel(self):
 		"""
-		This method provides the default **Spacer_label** widget.
+		Provides the default **Spacer_label** widget.
 
-		:return: Logo spacer label. ( QLabel )
+		:return: Logo spacer label.
+		:rtype: QLabel
 		"""
 
 		spacer = QLabel()
@@ -539,9 +569,10 @@ class Application_QToolBar(QToolBar):
 
 	def getClosureSpacerLabel(self):
 		"""
-		This method provides the default **Closure_Spacer_label** widget.
+		Provides the default **Closure_Spacer_label** widget.
 
-		:return: Closure spacer label. ( QLabel )
+		:return: Closure spacer label.
+		:rtype: QLabel
 		"""
 
 		spacer = QLabel()

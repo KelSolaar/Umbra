@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`TraceUi` Component Interface class and others helper objects.
+	Defines the :class:`TraceUi` Component Interface class and others helper objects.
 
 **Others:**
 
@@ -51,7 +51,7 @@ from umbra.ui.widgets.search_QLineEdit import Search_QLineEdit
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -68,7 +68,7 @@ COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Trace_Ui.ui")
 #**********************************************************************************************************************
 class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
-	This class is the :mod:`umbra.components.addons.traceUi.traceUi` Component Interface class.
+	Defines the :mod:`umbra.components.addons.traceUi.traceUi` Component Interface class.
 	"""
 
 	# Custom signals definitions.
@@ -80,12 +80,16 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __init__(self, parent=None, name=None, *args, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param name: Component name. ( String )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param name: Component name.
+		:type name: unicode
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -112,9 +116,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def dockArea(self):
 		"""
-		This method is the property for **self.__dockArea** attribute.
+		Property for **self.__dockArea** attribute.
 
-		:return: self.__dockArea. ( Integer )
+		:return: self.__dockArea.
+		:rtype: int
 		"""
 
 		return self.__dockArea
@@ -123,9 +128,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def dockArea(self, value):
 		"""
-		This method is the setter method for **self.__dockArea** attribute.
+		Setter for **self.__dockArea** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -135,7 +141,7 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def dockArea(self):
 		"""
-		This method is the deleter method for **self.__dockArea** attribute.
+		Deleter for **self.__dockArea** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -144,9 +150,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def engine(self):
 		"""
-		This method is the property for **self.__engine** attribute.
+		Property for **self.__engine** attribute.
 
-		:return: self.__engine. ( QObject )
+		:return: self.__engine.
+		:rtype: QObject
 		"""
 
 		return self.__engine
@@ -155,9 +162,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def engine(self, value):
 		"""
-		This method is the setter method for **self.__engine** attribute.
+		Setter for **self.__engine** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -167,7 +175,7 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def engine(self):
 		"""
-		This method is the deleter method for **self.__engine** attribute.
+		Deleter for **self.__engine** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -176,9 +184,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def settings(self):
 		"""
-		This method is the property for **self.__settings** attribute.
+		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( QSettings )
+		:return: self.__settings.
+		:rtype: QSettings
 		"""
 
 		return self.__settings
@@ -187,9 +196,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self, value):
 		"""
-		This method is the setter method for **self.__settings** attribute.
+		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( QSettings )
+		:param value: Attribute value.
+		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -199,7 +209,7 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
-		This method is the deleter method for **self.__settings** attribute.
+		Deleter for **self.__settings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -208,9 +218,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def settingsSection(self):
 		"""
-		This method is the property for **self.__settingsSection** attribute.
+		Property for **self.__settingsSection** attribute.
 
-		:return: self.__settingsSection. ( String )
+		:return: self.__settingsSection.
+		:rtype: unicode
 		"""
 
 		return self.__settingsSection
@@ -219,9 +230,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settingsSection(self, value):
 		"""
-		This method is the setter method for **self.__settingsSection** attribute.
+		Setter for **self.__settingsSection** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -231,7 +243,7 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settingsSection(self):
 		"""
-		This method is the deleter method for **self.__settingsSection** attribute.
+		Deleter for **self.__settingsSection** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -240,9 +252,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def model(self):
 		"""
-		This method is the property for **self.__model** attribute.
+		Property for **self.__model** attribute.
 
-		:return: self.__model. ( CollectionsModel )
+		:return: self.__model.
+		:rtype: CollectionsModel
 		"""
 
 		return self.__model
@@ -251,9 +264,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def model(self, value):
 		"""
-		This method is the setter method for **self.__model** attribute.
+		Setter for **self.__model** attribute.
 
-		:param value: Attribute value. ( CollectionsModel )
+		:param value: Attribute value.
+		:type value: CollectionsModel
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -263,7 +277,7 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def model(self):
 		"""
-		This method is the deleter method for **self.__model** attribute.
+		Deleter for **self.__model** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -272,9 +286,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def view(self):
 		"""
-		This method is the property for **self.__view** attribute.
+		Property for **self.__view** attribute.
 
-		:return: self.__view. ( QWidget )
+		:return: self.__view.
+		:rtype: QWidget
 		"""
 
 		return self.__view
@@ -283,9 +298,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def view(self, value):
 		"""
-		This method is the setter method for **self.__view** attribute.
+		Setter for **self.__view** attribute.
 
-		:param value: Attribute value. ( QWidget )
+		:param value: Attribute value.
+		:type value: QWidget
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -295,7 +311,7 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def view(self):
 		"""
-		This method is the deleter method for **self.__view** attribute.
+		Deleter for **self.__view** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -304,9 +320,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def headers(self):
 		"""
-		This method is the property for **self.__headers** attribute.
+		Property for **self.__headers** attribute.
 
-		:return: self.__headers. ( OrderedDict )
+		:return: self.__headers.
+		:rtype: OrderedDict
 		"""
 
 		return self.__headers
@@ -315,9 +332,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def headers(self, value):
 		"""
-		This method is the setter method for **self.__headers** attribute.
+		Setter for **self.__headers** attribute.
 
-		:param value: Attribute value. ( OrderedDict )
+		:param value: Attribute value.
+		:type value: OrderedDict
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -327,7 +345,7 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def headers(self):
 		"""
-		This method is the deleter method for **self.__headers** attribute.
+		Deleter for **self.__headers** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -338,10 +356,12 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	#******************************************************************************************************************
 	def activate(self, engine):
 		"""
-		This method activates the Component.
+		Activates the Component.
 
-		:param engine: Engine to attach the Component to. ( QObject )
-		:return: Method success. ( Boolean )
+		:param engine: Engine to attach the Component to.
+		:type engine: QObject
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
@@ -355,9 +375,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def deactivate(self):
 		"""
-		This method deactivates the Component.
+		Deactivates the Component.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Deactivating '{0}' Component.".format(self.__class__.__name__))
@@ -371,9 +392,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def initializeUi(self):
 		"""
-		This method initializes the Component ui.
+		Initializes the Component ui.
 		
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
@@ -403,9 +425,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def uninitializeUi(self):
 		"""
-		This method uninitializes the Component ui.
+		Uninitializes the Component ui.
 		
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Uninitializing '{0}' Component ui.".format(self.__class__.__name__))
@@ -423,9 +446,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def addWidget(self):
 		"""
-		This method adds the Component Widget to the engine.
+		Adds the Component Widget to the engine.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Adding '{0}' Component Widget.".format(self.__class__.__name__))
@@ -436,9 +460,10 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def removeWidget(self):
 		"""
-		This method removes the Component Widget from the engine.
+		Removes the Component Widget from the engine.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Removing '{0}' Component Widget.".format(self.__class__.__name__))
@@ -450,14 +475,14 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __model__refreshNodes(self):
 		"""
-		This method is triggered when the Model Nodes need refresh.
+		Defines the slot triggered by the Model when Nodes need refresh.
 		"""
 
 		self.setModules()
 
 	def __model__refreshAttributes(self):
 		"""
-		This method refreshes the Model Nodes attributes.
+		Refreshes the Model Nodes attributes.
 		"""
 
 		for node in foundations.walkers.nodesWalker(self.__model.rootNode):
@@ -468,7 +493,7 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __view_addActions(self):
 		"""
-		This method sets the View actions.
+		Sets the View actions.
 		"""
 
 		self.__view.addAction(self.__engine.actionsManager.registerAction(
@@ -480,7 +505,7 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __view_removeActions(self):
 		"""
-		This method removes the View actions.
+		Removes the View actions.
 		"""
 
 		traceModulesAction = "Actions|Umbra|Components|addons.traceUi|Trace Module(s)"
@@ -492,10 +517,12 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __view_traceModulesAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|addons.traceUi|Trace Module(s)'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|addons.traceUi|Trace Module(s)'** action.
 
-		:param checked: Action checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Action checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		pattern = foundations.strings.toString(self.Trace_Modules_Filter_lineEdit.text()) or r".*"
@@ -504,28 +531,32 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __view_untraceModulesAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|addons.traceUi|Untrace Module(s)'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|addons.traceUi|Untrace Module(s)'** action.
 
-		:param checked: Action checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Action checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.untraceModules(self.getSelectedModules())
 
 	def getSelectedNodes(self):
 		"""
-		This method returns the View selected nodes.
+		Returns the View selected nodes.
 
-		:return: View selected nodes. ( Dictionary )
+		:return: View selected nodes.
+		:rtype: dict
 		"""
 
 		return self.__view.getSelectedNodes()
 
 	def getSelectedModules(self):
 		"""
-		This method returns the View selected modules.
+		Returns the View selected modules.
 
-		:return: View selected modules. ( List )
+		:return: View selected modules.
+		:rtype: list
 		"""
 
 		return [node.module for node in self.getSelectedNodes()]
@@ -534,12 +565,16 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 											foundations.exceptions.UserError)
 	def traceModules(self, modules, pattern=r".*", flags=re.IGNORECASE):
 		"""
-		This method traces given modules using given filter pattern.
+		Traces given modules using given filter pattern.
 
-		:param modules: Modules to trace. ( List )
-		:param pattern: Matching pattern. ( String )
-		:param flags: Matching regex flags. ( Integer )
-		:return: Method success. ( Boolean )
+		:param modules: Modules to trace.
+		:type modules: list
+		:param pattern: Matching pattern.
+		:type pattern: unicode
+		:param flags: Matching regex flags.
+		:type flags: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		try:
@@ -555,10 +590,12 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def untraceModules(self, modules):
 		"""
-		This method untraces given modules.
+		Untraces given modules.
 
-		:param modules: Modules to untrace. ( List )
-		:return: Method success. ( Boolean )
+		:param modules: Modules to untrace.
+		:type modules: list
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		for module in modules:
@@ -568,19 +605,22 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def getModules(self):
 		"""
-		This method sets the registered Modules.
+		Sets the registered Modules.
 	
-		:return: Registered modules. ( List )
+		:return: Registered modules.
+		:rtype: list
 		"""
 
 		return foundations.trace.REGISTERED_MODULES
 
 	def setModules(self, modules=None):
 		"""
-		This method sets the modules Model nodes.
+		Sets the modules Model nodes.
 	
-		:param modules: Modules to set. ( List )
-		:return: Method success. ( Boolean )
+		:param modules: Modules to set.
+		:type modules: list
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		nodeFlags = int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
@@ -588,7 +628,7 @@ class TraceUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		rootNode = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
 		for module in modules:
 			moduleNode = ModuleNode(module=module,
-									name=unicode(module.__name__),
+									name=foundations.strings.toString(module.__name__),
 									parent=rootNode,
 									nodeFlags=nodeFlags,
 									attributesFlags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled))

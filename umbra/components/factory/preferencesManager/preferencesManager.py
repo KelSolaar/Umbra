@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`PreferencesManager` Component Interface class.
+	Defines the :class:`PreferencesManager` Component Interface class.
 
 **Others:**
 
@@ -42,7 +42,7 @@ from umbra.globals.runtimeGlobals import RuntimeGlobals
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -59,19 +59,23 @@ COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Preferences_M
 #**********************************************************************************************************************
 class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
-	| This class is the :mod:`umbra.components.factory.preferencesManager.preferencesManager` Component Interface class.
+	| Defines the :mod:`umbra.components.factory.preferencesManager.preferencesManager` Component Interface class.
 	| It exposes Application preferences inside
 		a dedicated `QDockWidget <http://doc.qt.nokia.com/qdockwidget.html>`_ window.
 	"""
 
 	def __init__(self, parent=None, name=None, *args, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param name: Component name. ( String )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param name: Component name.
+		:type name: unicode
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -92,9 +96,10 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def dockArea(self):
 		"""
-		This method is the property for **self.__dockArea** attribute.
+		Property for **self.__dockArea** attribute.
 
-		:return: self.__dockArea. ( Integer )
+		:return: self.__dockArea.
+		:rtype: int
 		"""
 
 		return self.__dockArea
@@ -103,9 +108,10 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def dockArea(self, value):
 		"""
-		This method is the setter method for **self.__dockArea** attribute.
+		Setter for **self.__dockArea** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -115,7 +121,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def dockArea(self):
 		"""
-		This method is the deleter method for **self.__dockArea** attribute.
+		Deleter for **self.__dockArea** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -124,9 +130,10 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def engine(self):
 		"""
-		This method is the property for **self.__engine** attribute.
+		Property for **self.__engine** attribute.
 
-		:return: self.__engine. ( QObject )
+		:return: self.__engine.
+		:rtype: QObject
 		"""
 
 		return self.__engine
@@ -135,9 +142,10 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def engine(self, value):
 		"""
-		This method is the setter method for **self.__engine** attribute.
+		Setter for **self.__engine** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -147,7 +155,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def engine(self):
 		"""
-		This method is the deleter method for **self.__engine** attribute.
+		Deleter for **self.__engine** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -156,9 +164,10 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def settings(self):
 		"""
-		This method is the property for **self.__settings** attribute.
+		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( QSettings )
+		:return: self.__settings.
+		:rtype: QSettings
 		"""
 
 		return self.__settings
@@ -167,9 +176,10 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self, value):
 		"""
-		This method is the setter method for **self.__settings** attribute.
+		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( QSettings )
+		:param value: Attribute value.
+		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -179,7 +189,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
-		This method is the deleter method for **self.__settings** attribute.
+		Deleter for **self.__settings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -190,10 +200,12 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	#******************************************************************************************************************
 	def activate(self, engine):
 		"""
-		This method activates the Component.
+		Activates the Component.
 
-		:param engine: Engine to attach the Component to. ( QObject )
-		:return: Method success. ( Boolean )
+		:param engine: Engine to attach the Component to.
+		:type engine: QObject
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
@@ -208,7 +220,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def deactivate(self):
 		"""
-		This method deactivates the Component.
+		Deactivates the Component.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -216,9 +228,10 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def initializeUi(self):
 		"""
-		This method initializes the Component ui.
+		Initializes the Component ui.
 		
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
@@ -242,7 +255,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def uninitializeUi(self):
 		"""
-		This method uninitializes the Component ui.
+		Uninitializes the Component ui.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -250,9 +263,10 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def addWidget(self):
 		"""
-		This method adds the Component Widget to the engine.
+		Adds the Component Widget to the engine.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Adding '{0}' Component Widget.".format(self.__class__.__name__))
@@ -264,7 +278,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def removeWidget(self):
 		"""
-		This method removes the Component Widget from the engine.
+		Removes the Component Widget from the engine.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -272,16 +286,17 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __engine__verbosityLevelChanged(self, verbosityLevel):
 		"""
-		This method is triggered when the engine verbosity level has changed.
+		Defines the slot triggered by the engine when verbosity level has changed.
 
-		:param verbosityLevel: Current verbosity level. ( Integer )
+		:param verbosityLevel: Current verbosity level.
+		:type verbosityLevel: int
 		"""
 
 		self.Verbose_Level_comboBox.setCurrentIndex(verbosityLevel)
 
 	def __Logging_Formatters_comboBox_setUi(self):
 		"""
-		This method fills **Logging_Formatter_comboBox** Widget.
+		Fills **Logging_Formatter_comboBox** Widget.
 		"""
 
 		self.Logging_Formatters_comboBox.clear()
@@ -294,9 +309,10 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Logging_Formatters_comboBox__activated(self, index):
 		"""
-		This method is triggered when the **Logging_Formatter_comboBox** Widget is activated.
+		Defines the slot triggered by the **Logging_Formatter_comboBox** Widget when activated.
 
-		:param index: ComboBox activated item index. ( Integer )
+		:param index: ComboBox activated item index.
+		:type index: int
 		"""
 
 		formatter = foundations.strings.toString(self.Logging_Formatters_comboBox.currentText())
@@ -307,7 +323,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Verbose_Level_comboBox_setUi(self):
 		"""
-		This method fills **Verbose_Level_ComboBox** Widget.
+		Fills **Verbose_Level_ComboBox** Widget.
 		"""
 
 		self.Verbose_Level_comboBox.clear()
@@ -319,9 +335,10 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Verbose_Level_comboBox__activated(self, index):
 		"""
-		This method is triggered when the **Verbose_Level_ComboBox** Widget is triggered.
+		Defines the slot triggered by the **Verbose_Level_ComboBox** Widget when activated.
 
-		:param index: ComboBox activated item index. ( Integer )
+		:param index: ComboBox activated item index.
+		:type index: int
 		"""
 
 		LOGGER.debug("> Setting verbose level: '{0}'.".format(self.Verbose_Level_comboBox.currentText()))
@@ -331,7 +348,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Restore_Geometry_On_Layout_Change_checkBox_setUi(self):
 		"""
-		This method sets the **Restore_Geometry_On_Layout_Change_checkBox** Widget.
+		Sets the **Restore_Geometry_On_Layout_Change_checkBox** Widget.
 		"""
 
 		# Adding settings key if it doesn't exists.
@@ -347,9 +364,10 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Restore_Geometry_On_Layout_Change_checkBox__stateChanged(self, state):
 		"""
-		This method is triggered when **Restore_Geometry_On_Layout_Change_checkBox** Widget state changes.
+		Defines the slot triggered by **Restore_Geometry_On_Layout_Change_checkBox** Widget when state changed.
 
-		:param state: Checkbox state. ( Integer )
+		:param state: Checkbox state.
+		:type state: int
 		"""
 
 		LOGGER.debug("> 'Restore Geometry On Layout Change' state: '{0}'.".format(state))
@@ -358,7 +376,7 @@ class PreferencesManager(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def setLoggingFormatter(self):
 		"""
-		This method sets the logging formatter.
+		Sets the logging formatter.
 		"""
 
 		for handler in (RuntimeGlobals.loggingConsoleHandler,

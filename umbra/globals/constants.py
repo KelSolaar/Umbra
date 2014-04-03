@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines **Umbra** package default constants through the :class:`Constants` class.
+	Defines **Umbra** package default constants through the :class:`Constants` class.
 
 **Others:**
 
@@ -26,10 +26,15 @@ import os
 import platform
 
 #**********************************************************************************************************************
+#***	External imports.
+#**********************************************************************************************************************
+import umbra
+
+#**********************************************************************************************************************
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -42,83 +47,173 @@ __all__ = ["Constants"]
 #**********************************************************************************************************************
 class Constants():
 	"""
-	This class provides **Umbra** package default constants.
+	Defines **Umbra** package default constants.
 	"""
 
 	applicationName = "Umbra"
-	"""Package Application name: '**Umbra**' ( String )"""
+	"""
+	:param applicationName: Package Application name.
+	:type applicationName: unicode
+	"""
 	majorVersion = "1"
-	"""Package major version: '**4**' ( String )"""
+	"""
+	:param majorVersion: Package major version.
+	:type majorVersion: unicode
+	"""
 	minorVersion = "0"
-	"""Package minor version: '**0**' ( String )"""
-	changeVersion = "8"
-	"""Package change version: '**8**' ( String )"""
-	releaseVersion = ".".join((majorVersion, minorVersion, changeVersion))
-	"""Package release version: '**1.0.8**' ( String )"""
+	"""
+	:param minorVersion: Package minor version.
+	:type minorVersion: unicode
+	"""
+	changeVersion = "9"
+	"""
+	:param changeVersion: Package change version.
+	:type changeVersion: unicode
+	"""
+	version = ".".join((majorVersion, minorVersion, changeVersion))
+	"""
+	:param version: Package version.
+	:type version: unicode
+	"""
 
 	logger = "Umbra_Logger"
-	"""Package logger name: '**Umbra_Logger**' ( String )"""
+	"""
+	:param logger: Package logger name.
+	:type logger: unicode
+	"""
 	verbosityLevel = 3
-	"""Default logging verbosity level: '**3**' ( Integer )"""
+	"""
+	:param verbosityLevel: Default logging verbosity level.
+	:type verbosityLevel: int
+	"""
 	verbosityLabels = ("Critical", "Error", "Warning", "Info", "Debug")
-	"""Logging verbosity labels: ('**Critical**', '**Error**', '**Warning**', '**Info**', '**Debug**') ( Tuple )"""
+	"""
+	:param verbosityLabels: Logging verbosity labels.
+	:type verbosityLabels: tuple
+	"""
 	loggingDefaultFormatter = "Default"
-	"""Default logging formatter name: '**Default**' ( String )"""
+	"""
+	:param loggingDefaultFormatter: Default logging formatter name.
+	:type loggingDefaultFormatter: unicode
+	"""
 	loggingSeparators = "*" * 96
-	"""Logging separators: '*' * 96 ( String )"""
+	"""
+	:param loggingSeparators: Logging separators.
+	:type loggingSeparators: unicode
+	"""
 
-	encodingCodec = "utf-8"
-	"""Default encoding format: '**utf-8**' ( String )"""
-	encodingError = "ignore"
-	"""Default encoding error behavior: '**ignore**' ( String )"""
+	defaultCodec = umbra.DEFAULT_CODEC
+	"""
+	:param defaultCodec: Default codec.
+	:type defaultCodec: unicode
+	"""
+	codecError = umbra.CODEC_ERROR
+	"""
+	:param codecError: Default codec error behavior.
+	:type codecError: unicode
+	"""
 
 	applicationDirectory = os.sep.join(("Umbra", ".".join((majorVersion, minorVersion))))
-	"""Package Application directory: '**Umbra**' ( String )"""
-	if platform.system() == "Windows" or platform.system() == "Microsoft" or platform.system() == "Darwin":
+	"""
+	:param applicationDirectory: Package Application directory.
+	:type applicationDirectory: unicode
+	"""
+	if platform.system() in ("Windows", "Microsoft") or platform.system() == "Darwin":
 		providerDirectory = "HDRLabs"
-		"""Package provider directory: '**HDRLabs** on Windows / Darwin, **.HDRLabs** on Linux' ( String )"""
+		"""
+		:param providerDirectory: Package provider directory.
+		:type providerDirectory: unicode
+		"""
 	elif platform.system() == "Linux":
 		providerDirectory = ".HDRLabs"
-		"""Package provider directory: '**HDRLabs** on Windows / Darwin, **.HDRLabs** on Linux' ( String )"""
+		"""
+		:param providerDirectory: Package provider directory.
+		:type providerDirectory: unicode
+		"""
 
 	patchesDirectory = "patches"
-	"""Application patches directory: '**patches**' ( String )"""
+	"""
+	:param patchesDirectory: Application patches directory.
+	:type patchesDirectory: unicode
+	"""
 	settingsDirectory = "settings"
-	"""Application settings directory: '**settings**' ( String )"""
+	"""
+	:param settingsDirectory: Application settings directory.
+	:type settingsDirectory: unicode
+	"""
 	userComponentsDirectory = "components"
-	"""Application user components directory: '**components**' ( String )"""
+	"""
+	:param userComponentsDirectory: Application user components directory.
+	:type userComponentsDirectory: unicode
+	"""
 	loggingDirectory = "logging"
-	"""Application logging directory: '**logging**' ( String )"""
+	"""
+	:param loggingDirectory: Application logging directory.
+	:type loggingDirectory: unicode
+	"""
 	ioDirectory = "io"
-	"""Application io directory: '**io**' ( String )"""
+	"""
+	:param ioDirectory: Application io directory.
+	:type ioDirectory: unicode
+	"""
 
 	preferencesDirectories = (patchesDirectory,
 								settingsDirectory,
 								userComponentsDirectory,
 								loggingDirectory,
 								ioDirectory)
-	"""Application preferences directories ( Tuple )"""
+	"""
+	:param preferencesDirectories: Application preferences directories.
+	:type preferencesDirectories: tuple
+	"""
 
 	factoryComponentsDirectory = "components/factory"
-	"""Application factory components directory: '**components/factory**' ( String )"""
+	"""
+	:param factoryComponentsDirectory: Application factory components directory.
+	:type factoryComponentsDirectory: unicode
+	"""
 
 	factoryAddonsComponentsDirectory = "components/addons"
-	"""Application addons components directory: '**components/addons**' ( String )"""
+	"""
+	:param factoryAddonsComponentsDirectory: Application addons components directory.
+	:type factoryAddonsComponentsDirectory: unicode
+	"""
 
 	resourcesDirectory = "resources"
-	"""Application resources directory: '**resources**' ( String )"""
+	"""
+	:param resourcesDirectory: Application resources directory.
+	:type resourcesDirectory: unicode
+	"""
 
 	patchesFile = "Umbra_Patches.rc"
-	"""Application settings file: '**Umbra_Patches.rc**' ( String )"""
+	"""
+	:param patchesFile: Application settings file.
+	:type patchesFile: unicode
+	"""
 	settingsFile = "Umbra_Settings.rc"
-	"""Application settings file: '**Umbra_Settings.rc**' ( String )"""
+	"""
+	:param settingsFile: Application settings file.
+	:type settingsFile: unicode
+	"""
 	loggingFile = "Umbra_Logging_{0}.log"
-	"""Application logging file: '**Umbra_Logging_{0}.log**' ( String )"""
+	"""
+	:param loggingFile: Application logging file.
+	:type loggingFile: unicode
+	"""
 
 	librariesDirectory = "libraries"
-	"""Application libraries directory: '**libraries**' ( String )"""
+	"""
+	:param librariesDirectory: Application libraries directory.
+	:type librariesDirectory: unicode
+	"""
 
 	defaultTimerCycle = 125
-	"""Default timer cycle length in milliseconds: '**125**' ( Integer )"""
+	"""
+	:param defaultTimerCycle: Default timer cycle length in milliseconds.
+	:type defaultTimerCycle: int
+	"""
 	nullObject = "None"
-	"""Default null object string: '**None**' ( String )"""
+	"""
+	:param nullObject: Default null object string.
+	:type nullObject: unicode
+	"""

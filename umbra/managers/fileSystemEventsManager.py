@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`FileSystemEventsManager` class.
+	Defines the :class:`FileSystemEventsManager` class.
 
 **Others:**
 
@@ -40,7 +40,7 @@ from umbra.globals.constants import Constants
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -55,7 +55,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class FileSystemEventsManager(QThread):
 	"""
-	This class defines the file system events manager. 
+	Defines the file system events manager.
 	"""
 
 	# Custom signals definitions.
@@ -63,33 +63,37 @@ class FileSystemEventsManager(QThread):
 	"""
 	This signal is emited by the :class:`FileSystemEventsManager` class when a file is changed. ( pyqtSignal )
 
-	:return: Current changed file. ( String )	
+	:return: Current changed file.
+	:rtype: unicode
 	"""
 
 	fileInvalidated = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`FileSystemEventsManager` class when a file is invalidated. ( pyqtSignal )
 
-	:return: Current invalidated file. ( String )	
+	:return: Current invalidated file.
+	:rtype: unicode
 	"""
 
 	directoryChanged = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`FileSystemEventsManager` class when a directory is changed. ( pyqtSignal )
 
-	:return: Current changed directory. ( String )	
+	:return: Current changed directory.
+	:rtype: unicode
 	"""
 
 	directoryInvalidated = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`FileSystemEventsManager` class when a directory is invalidated. ( pyqtSignal )
 
-	:return: Current invalidated directory. ( String )	
+	:return: Current invalidated directory.
+	:rtype: unicode
 	"""
 
 	def __init__(self, parent=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -113,9 +117,10 @@ class FileSystemEventsManager(QThread):
 	@property
 	def container(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -124,9 +129,10 @@ class FileSystemEventsManager(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -136,7 +142,7 @@ class FileSystemEventsManager(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		Deleter for **self.__container** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -145,9 +151,10 @@ class FileSystemEventsManager(QThread):
 	@property
 	def paths(self):
 		"""
-		This method is the property for **self.__paths** attribute.
+		Property for **self.__paths** attribute.
 
-		:return: self.__paths. ( Dictionary )
+		:return: self.__paths.
+		:rtype: dict
 		"""
 
 		return self.__paths
@@ -156,9 +163,10 @@ class FileSystemEventsManager(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def paths(self, value):
 		"""
-		This method is the setter method for **self.__paths** attribute.
+		Setter for **self.__paths** attribute.
 
-		:param value: Attribute value. ( Dictionary )
+		:param value: Attribute value.
+		:type value: dict
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -168,7 +176,7 @@ class FileSystemEventsManager(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def paths(self):
 		"""
-		This method is the deleter method for **self.__paths** attribute.
+		Deleter for **self.__paths** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -177,9 +185,10 @@ class FileSystemEventsManager(QThread):
 	@property
 	def timer(self):
 		"""
-		This method is the property for **self.__timer** attribute.
+		Property for **self.__timer** attribute.
 
-		:return: self.__timer. ( QTimer )
+		:return: self.__timer.
+		:rtype: QTimer
 		"""
 
 		return self.__timer
@@ -188,9 +197,10 @@ class FileSystemEventsManager(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def timer(self, value):
 		"""
-		This method is the setter method for **self.__timer** attribute.
+		Setter for **self.__timer** attribute.
 
-		:param value: Attribute value. ( QTimer )
+		:param value: Attribute value.
+		:type value: QTimer
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -200,7 +210,7 @@ class FileSystemEventsManager(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def timer(self):
 		"""
-		This method is the deleter method for **self.__timer** attribute.
+		Deleter for **self.__timer** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -209,9 +219,10 @@ class FileSystemEventsManager(QThread):
 	@property
 	def timerCycleMultiplier(self):
 		"""
-		This method is the property for **self.__timerCycleMultiplier** attribute.
+		Property for **self.__timerCycleMultiplier** attribute.
 
-		:return: self.__timerCycleMultiplier. ( Float )
+		:return: self.__timerCycleMultiplier.
+		:rtype: float
 		"""
 
 		return self.__timerCycleMultiplier
@@ -220,9 +231,10 @@ class FileSystemEventsManager(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def timerCycleMultiplier(self, value):
 		"""
-		This method is the setter method for **self.__timerCycleMultiplier** attribute.
+		Setter for **self.__timerCycleMultiplier** attribute.
 
-		:param value: Attribute value. ( Float )
+		:param value: Attribute value.
+		:type value: float
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -232,7 +244,7 @@ class FileSystemEventsManager(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def timerCycleMultiplier(self):
 		"""
-		This method is the deleter method for **self.__timerCycleMultiplier** attribute.
+		Deleter for **self.__timerCycleMultiplier** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -243,45 +255,80 @@ class FileSystemEventsManager(QThread):
 	#******************************************************************************************************************
 	def __getitem__(self, path):
 		"""
-		This method reimplements the :meth:`object.__getitem__` method.
+		Reimplements the :meth:`object.__getitem__` method.
 
-		:param path: Path name. ( String )
-		:return: Path. ( Path )
+		:param path: Path name.
+		:type path: unicode
+		:return: Path.
+		:rtype: Path
 		"""
 
 		return self.__paths.__getitem__(path)
 
+	def __setitem__(self, path, modifiedTime):
+		"""
+		Reimplements the :meth:`object.__setitem__` method.
+
+		:param path: Path.
+		:type path: unicode
+		:param modifiedTime: Modified time.
+		:type modifiedTime: int or float
+		"""
+
+		self.registerPath(path, modifiedTime)
+
 	def __iter__(self):
 		"""
-		This method reimplements the :meth:`object.__iter__` method.
+		Reimplements the :meth:`object.__iter__` method.
 
-		:return: Paths iterator. ( Object )
+		:return: Paths iterator.
+		:rtype: object
 		"""
 
 		return self.__paths.iteritems()
 
 	def __contains__(self, path):
 		"""
-		This method reimplements the :meth:`object.__contains__` method.
+		Reimplements the :meth:`object.__contains__` method.
 
-		:param path: Path name. ( String )
-		:return: Path existence. ( Boolean )
+		:param path: Path name.
+		:type path: unicode
+		:return: Path existence.
+		:rtype: bool
 		"""
 
-		return path in self.__paths.keys()
+		return path in self.__paths
 
 	def __len__(self):
 		"""
-		This method reimplements the :meth:`object.__len__` method.
+		Reimplements the :meth:`object.__len__` method.
 
-		:return: Paths count. ( Integer )
+		:return: Paths count.
+		:rtype: int
 		"""
 
-		return len(self.__paths.keys())
+		return len(self.__paths)
+
+	def get(self, path, default=None):
+		"""
+		Returns given path value.
+
+		:param path: Path name.
+		:type path: unicode
+		:param default: Default value if path is not found.
+		:type default: object
+		:return: Action.
+		:rtype: QAction
+		"""
+
+		try:
+			return self.__getitem__(path)
+		except KeyError as error:
+			return default
 
 	def run(self):
 		"""
-		This method reimplements the :meth:`QThread.run` method.
+		Reimplements the :meth:`QThread.run` method.
 		"""
 
 		self.__timer = QTimer()
@@ -294,7 +341,7 @@ class FileSystemEventsManager(QThread):
 
 	def __watchFileSystem(self):
 		"""
-		This method watches the file system for paths that have been changed or invalidated on disk.
+		Watches the file system for paths that have been changed or invalidated on disk.
 		"""
 
 		for path, data in self.__paths.items():
@@ -315,7 +362,7 @@ class FileSystemEventsManager(QThread):
 				continue
 
 			try:
-				modifiedTime = os.path.getmtime(path)
+				modifiedTime = self.getPathModifiedTime(path)
 			except OSError:
 				LOGGER.debug("> {0} | '{1}' path has been invalidated while iterating!".format(
 				self.__class__.__name__, path))
@@ -331,19 +378,22 @@ class FileSystemEventsManager(QThread):
 
 	def listPaths(self):
 		"""
-		This method returns the registered paths.
+		Returns the registered paths.
 
-		:return: Registered paths. ( List )
+		:return: Registered paths.
+		:rtype: list
 		"""
 
 		return sorted(self.__paths.keys())
 
 	def isPathRegistered(self, path):
 		"""
-		This method returns if the given path is registered.
+		Returns if the given path is registered.
 
-		:param path: Path name. ( String )
-		:return: Is path registered. ( Boolean )
+		:param path: Path name.
+		:type path: unicode
+		:return: Is path registered.
+		:rtype: bool
 		"""
 
 		return path in self
@@ -352,11 +402,14 @@ class FileSystemEventsManager(QThread):
 											umbra.exceptions.PathRegistrationError)
 	def registerPath(self, path, modifiedTime=None):
 		"""
-		This method registers given path.
+		Registers given path.
 
-		:param path: Path name. ( String )
-		:param modifiedTime: Custom modified time. ( Integer / Float )
-		:return: Method success. ( Boolean )
+		:param path: Path name.
+		:type path: unicode
+		:param modifiedTime: Custom modified time.
+		:type modifiedTime: int or float
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not foundations.common.pathExists(path):
@@ -367,16 +420,18 @@ class FileSystemEventsManager(QThread):
 			raise umbra.exceptions.PathRegistrationError("{0} | '{1}' path is already registered!".format(
 			self.__class__.__name__, path))
 
-		self.__paths[path] = (os.path.getmtime(path) if modifiedTime is None else modifiedTime, os.path.isfile(path))
+		self.__paths[path] = (self.getPathModifiedTime(path) if modifiedTime is None else modifiedTime, os.path.isfile(path))
 		return True
 
 	@foundations.exceptions.handleExceptions(umbra.exceptions.PathExistsError)
 	def unregisterPath(self, path):
 		"""
-		This method unregisters given path.
+		Unregisters given path.
 
-		:param path: Path name. ( String )
-		:return: Method success. ( Boolean )
+		:param path: Path name.
+		:type path: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not path in self:
@@ -385,3 +440,16 @@ class FileSystemEventsManager(QThread):
 
 		del(self.__paths[path])
 		return True
+
+	@staticmethod
+	def getPathModifiedTime(path):
+		"""
+		Returns given path modification time.
+
+		:param path: Path.
+		:type path: unicode
+		:return: Modification time.
+		:rtype: int
+		"""
+
+		return float(foundations.common.getFirstItem(str(os.path.getmtime(path)).split(".")))

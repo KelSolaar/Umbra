@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`SearchInFiles` class.
+	Defines the :class:`SearchInFiles` class.
 
 **Others:**
 
@@ -67,7 +67,7 @@ from umbra.ui.widgets.search_QLineEdit import Search_QLineEdit
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -84,16 +84,19 @@ UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Search_In_Files.ui")
 #**********************************************************************************************************************
 class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	"""
-	This class defines search and replace in files dialog used by the **ScriptEditor** Component. 
+	Defines search and replace in files dialog used by the **ScriptEditor** Component.
 	"""
 
 	def __init__(self, parent, *args, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -141,9 +144,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def container(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -152,9 +156,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -164,7 +169,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		Deleter for **self.__container** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -173,9 +178,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def scriptEditor(self):
 		"""
-		This method is the property for **self.__scriptEditor** attribute.
+		Property for **self.__scriptEditor** attribute.
 
-		:return: self.__scriptEditor. ( QWidget )
+		:return: self.__scriptEditor.
+		:rtype: QWidget
 		"""
 
 		return self.__scriptEditor
@@ -184,9 +190,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def scriptEditor(self, value):
 		"""
-		This method is the setter method for **self.__scriptEditor** attribute.
+		Setter for **self.__scriptEditor** attribute.
 
-		:param value: Attribute value. ( QWidget )
+		:param value: Attribute value.
+		:type value: QWidget
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -196,7 +203,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def scriptEditor(self):
 		"""
-		This method is the deleter method for **self.__scriptEditor** attribute.
+		Deleter for **self.__scriptEditor** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -205,9 +212,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def filesCache(self):
 		"""
-		This method is the property for **self.__filesCache** attribute.
+		Property for **self.__filesCache** attribute.
 
-		:return: self.__filesCache. ( Cache )
+		:return: self.__filesCache.
+		:rtype: Cache
 		"""
 
 		return self.__filesCache
@@ -216,9 +224,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def filesCache(self, value):
 		"""
-		This method is the setter method for **self.__filesCache** attribute.
+		Setter for **self.__filesCache** attribute.
 
-		:param value: Attribute value. ( Cache )
+		:param value: Attribute value.
+		:type value: Cache
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -228,7 +237,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def filesCache(self):
 		"""
-		This method is the deleter method for **self.__filesCache** attribute.
+		Deleter for **self.__filesCache** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -237,9 +246,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def searchPatternsModel(self):
 		"""
-		This method is the property for **self.__searchPatternsModel** attribute.
+		Property for **self.__searchPatternsModel** attribute.
 
-		:return: self.__searchPatternsModel. ( PatternsModel )
+		:return: self.__searchPatternsModel.
+		:rtype: PatternsModel
 		"""
 
 		return self.__searchPatternsModel
@@ -248,9 +258,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchPatternsModel(self, value):
 		"""
-		This method is the setter method for **self.__searchPatternsModel** attribute.
+		Setter for **self.__searchPatternsModel** attribute.
 
-		:param value: Attribute value. ( PatternsModel )
+		:param value: Attribute value.
+		:type value: PatternsModel
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -260,7 +271,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchPatternsModel(self):
 		"""
-		This method is the deleter method for **self.__searchPatternsModel** attribute.
+		Deleter for **self.__searchPatternsModel** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -269,9 +280,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def replaceWithPatternsModel(self):
 		"""
-		This method is the property for **self.__replaceWithPatternsModel** attribute.
+		Property for **self.__replaceWithPatternsModel** attribute.
 
-		:return: self.__replaceWithPatternsModel. ( PatternsModel )
+		:return: self.__replaceWithPatternsModel.
+		:rtype: PatternsModel
 		"""
 
 		return self.__replaceWithPatternsModel
@@ -280,9 +292,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def replaceWithPatternsModel(self, value):
 		"""
-		This method is the setter method for **self.__replaceWithPatternsModel** attribute.
+		Setter for **self.__replaceWithPatternsModel** attribute.
 
-		:param value: Attribute value. ( PatternsModel )
+		:param value: Attribute value.
+		:type value: PatternsModel
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -292,7 +305,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def replaceWithPatternsModel(self):
 		"""
-		This method is the deleter method for **self.__replaceWithPatternsModel** attribute.
+		Deleter for **self.__replaceWithPatternsModel** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -301,9 +314,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def model(self):
 		"""
-		This method is the property for **self.__model** attribute.
+		Property for **self.__model** attribute.
 
-		:return: self.__model. ( SearchResultsModel )
+		:return: self.__model.
+		:rtype: SearchResultsModel
 		"""
 
 		return self.__model
@@ -312,9 +326,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def model(self, value):
 		"""
-		This method is the setter method for **self.__model** attribute.
+		Setter for **self.__model** attribute.
 
-		:param value: Attribute value. ( SearchResultsModel )
+		:param value: Attribute value.
+		:type value: SearchResultsModel
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -324,7 +339,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def model(self):
 		"""
-		This method is the deleter method for **self.__model** attribute.
+		Deleter for **self.__model** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -333,9 +348,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def view(self):
 		"""
-		This method is the property for **self.__view** attribute.
+		Property for **self.__view** attribute.
 
-		:return: self.__view. ( QWidget )
+		:return: self.__view.
+		:rtype: QWidget
 		"""
 
 		return self.__view
@@ -344,9 +360,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def view(self, value):
 		"""
-		This method is the setter method for **self.__view** attribute.
+		Setter for **self.__view** attribute.
 
-		:param value: Attribute value. ( QWidget )
+		:param value: Attribute value.
+		:type value: QWidget
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -356,7 +373,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def view(self):
 		"""
-		This method is the deleter method for **self.__view** attribute.
+		Deleter for **self.__view** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -365,9 +382,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def delegate(self):
 		"""
-		This method is the property for **self.__delegate** attribute.
+		Property for **self.__delegate** attribute.
 
-		:return: self.__delegate. ( QItemDelegate )
+		:return: self.__delegate.
+		:rtype: QItemDelegate
 		"""
 
 		return self.__delegate
@@ -376,9 +394,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def delegate(self, value):
 		"""
-		This method is the setter method for **self.__delegate** attribute.
+		Setter for **self.__delegate** attribute.
 
-		:param value: Attribute value. ( QItemDelegate )
+		:param value: Attribute value.
+		:type value: QItemDelegate
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -388,7 +407,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def delegate(self):
 		"""
-		This method is the deleter method for **self.__delegate** attribute.
+		Deleter for **self.__delegate** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -397,9 +416,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def locations(self):
 		"""
-		This method is the property for **self.__locations** attribute.
+		Property for **self.__locations** attribute.
 
-		:return: self.__locations. ( OrderedDict )
+		:return: self.__locations.
+		:rtype: OrderedDict
 		"""
 
 		return self.__locations
@@ -408,9 +428,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def locations(self, value):
 		"""
-		This method is the setter method for **self.__locations** attribute.
+		Setter for **self.__locations** attribute.
 
-		:param value: Attribute value. ( OrderedDict )
+		:param value: Attribute value.
+		:type value: OrderedDict
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -420,7 +441,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def locations(self):
 		"""
-		This method is the deleter method for **self.__locations** attribute.
+		Deleter for **self.__locations** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -429,9 +450,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def locationsMenu(self):
 		"""
-		This method is the property for **self.__locationsMenu** attribute.
+		Property for **self.__locationsMenu** attribute.
 
-		:return: self.__locationsMenu. ( QMenu )
+		:return: self.__locationsMenu.
+		:rtype: QMenu
 		"""
 
 		return self.__locationsMenu
@@ -440,9 +462,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def locationsMenu(self, value):
 		"""
-		This method is the setter method for **self.__locationsMenu** attribute.
+		Setter for **self.__locationsMenu** attribute.
 
-		:param value: Attribute value. ( QMenu )
+		:param value: Attribute value.
+		:type value: QMenu
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -452,7 +475,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def locationsMenu(self):
 		"""
-		This method is the deleter method for **self.__locationsMenu** attribute.
+		Deleter for **self.__locationsMenu** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -461,9 +484,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def defaultFilterIn(self):
 		"""
-		This method is the property for **self.__defaultFilterIn** attribute.
+		Property for **self.__defaultFilterIn** attribute.
 
-		:return: self.__defaultFilterIn. ( String )
+		:return: self.__defaultFilterIn.
+		:rtype: unicode
 		"""
 
 		return self.__defaultFilterIn
@@ -472,9 +496,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def defaultFilterIn(self, value):
 		"""
-		This method is the setter method for **self.__defaultFilterIn** attribute.
+		Setter for **self.__defaultFilterIn** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -487,7 +512,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultFilterIn(self):
 		"""
-		This method is the deleter method for **self.__defaultFilterIn** attribute.
+		Deleter for **self.__defaultFilterIn** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -495,9 +520,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def filtersInFormat(self):
 		"""
-		This method is the property for **self.__filtersInFormat** attribute.
+		Property for **self.__filtersInFormat** attribute.
 
-		:return: self.__filtersInFormat. ( String )
+		:return: self.__filtersInFormat.
+		:rtype: unicode
 		"""
 
 		return self.__filtersInFormat
@@ -506,9 +532,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def filtersInFormat(self, value):
 		"""
-		This method is the setter method for **self.__filtersInFormat** attribute.
+		Setter for **self.__filtersInFormat** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -521,7 +548,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def filtersInFormat(self):
 		"""
-		This method is the deleter method for **self.__filtersInFormat** attribute.
+		Deleter for **self.__filtersInFormat** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -530,9 +557,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def defaultFilterOut(self):
 		"""
-		This method is the property for **self.__defaultFilterOut** attribute.
+		Property for **self.__defaultFilterOut** attribute.
 
-		:return: self.__defaultFilterOut. ( String )
+		:return: self.__defaultFilterOut.
+		:rtype: unicode
 		"""
 
 		return self.__defaultFilterOut
@@ -541,9 +569,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def defaultFilterOut(self, value):
 		"""
-		This method is the setter method for **self.__defaultFilterOut** attribute.
+		Setter for **self.__defaultFilterOut** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -556,7 +585,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultFilterOut(self):
 		"""
-		This method is the deleter method for **self.__defaultFilterOut** attribute.
+		Deleter for **self.__defaultFilterOut** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -564,9 +593,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def filtersOutFormat(self):
 		"""
-		This method is the property for **self.__filtersOutFormat** attribute.
+		Property for **self.__filtersOutFormat** attribute.
 
-		:return: self.__filtersOutFormat. ( String )
+		:return: self.__filtersOutFormat.
+		:rtype: unicode
 		"""
 
 		return self.__filtersOutFormat
@@ -575,9 +605,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def filtersOutFormat(self, value):
 		"""
-		This method is the setter method for **self.__filtersOutFormat** attribute.
+		Setter for **self.__filtersOutFormat** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -590,7 +621,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def filtersOutFormat(self):
 		"""
-		This method is the deleter method for **self.__filtersOutFormat** attribute.
+		Deleter for **self.__filtersOutFormat** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -599,9 +630,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def defaultTarget(self):
 		"""
-		This method is the property for **self.__defaultTarget** attribute.
+		Property for **self.__defaultTarget** attribute.
 
-		:return: self.__defaultTarget. ( String )
+		:return: self.__defaultTarget.
+		:rtype: unicode
 		"""
 
 		return self.__defaultTarget
@@ -610,9 +642,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def defaultTarget(self, value):
 		"""
-		This method is the setter method for **self.__defaultTarget** attribute.
+		Setter for **self.__defaultTarget** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -625,7 +658,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultTarget(self):
 		"""
-		This method is the deleter method for **self.__defaultTarget** attribute.
+		Deleter for **self.__defaultTarget** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -633,9 +666,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def targetsFormat(self):
 		"""
-		This method is the property for **self.__targetsFormat** attribute.
+		Property for **self.__targetsFormat** attribute.
 
-		:return: self.__targetsFormat. ( String )
+		:return: self.__targetsFormat.
+		:rtype: unicode
 		"""
 
 		return self.__targetsFormat
@@ -644,9 +678,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def targetsFormat(self, value):
 		"""
-		This method is the setter method for **self.__targetsFormat** attribute.
+		Setter for **self.__targetsFormat** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -659,7 +694,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def targetsFormat(self):
 		"""
-		This method is the deleter method for **self.__targetsFormat** attribute.
+		Deleter for **self.__targetsFormat** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -668,9 +703,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def defaultLineNumberWidth(self):
 		"""
-		This method is the property for **self.__defaultLineNumberWidth** attribute.
+		Property for **self.__defaultLineNumberWidth** attribute.
 
-		:return: self.__defaultLineNumberWidth. ( Integer )
+		:return: self.__defaultLineNumberWidth.
+		:rtype: int
 		"""
 
 		return self.__defaultLineNumberWidth
@@ -679,9 +715,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def defaultLineNumberWidth(self, value):
 		"""
-		This method is the setter method for **self.__defaultLineNumberWidth** attribute.
+		Setter for **self.__defaultLineNumberWidth** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -694,7 +731,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultLineNumberWidth(self):
 		"""
-		This method is the deleter method for **self.__defaultLineNumberWidth** attribute.
+		Deleter for **self.__defaultLineNumberWidth** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -703,9 +740,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def defaultLineColor(self):
 		"""
-		This method is the property for **self.__defaultLineColor** attribute.
+		Property for **self.__defaultLineColor** attribute.
 
-		:return: self.__defaultLineColor. ( QColor )
+		:return: self.__defaultLineColor.
+		:rtype: QColor
 		"""
 
 		return self.__defaultLineColor
@@ -714,9 +752,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def defaultLineColor(self, value):
 		"""
-		This method is the setter method for **self.__defaultLineColor** attribute.
+		Setter for **self.__defaultLineColor** attribute.
 
-		:param value: Attribute value. ( QColor )
+		:param value: Attribute value.
+		:type value: QColor
 		"""
 
 		if value is not None:
@@ -727,7 +766,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultLineColor(self):
 		"""
-		This method is the deleter method for **self.__defaultLineColor** attribute.
+		Deleter for **self.__defaultLineColor** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -736,9 +775,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def ignoreHiddenFiles(self):
 		"""
-		This method is the property for **self.__ignoreHiddenFiles** attribute.
+		Property for **self.__ignoreHiddenFiles** attribute.
 
-		:return: self.__ignoreHiddenFiles. ( Boolean )
+		:return: self.__ignoreHiddenFiles.
+		:rtype: bool
 		"""
 
 		return self.__ignoreHiddenFiles
@@ -747,9 +787,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def ignoreHiddenFiles(self, value):
 		"""
-		This method is the setter method for **self.__ignoreHiddenFiles** attribute.
+		Setter for **self.__ignoreHiddenFiles** attribute.
 
-		:param value: Attribute value. ( Boolean )
+		:param value: Attribute value.
+		:type value: bool
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -759,7 +800,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def ignoreHiddenFiles(self):
 		"""
-		This method is the deleter method for **self.__ignoreHiddenFiles** attribute.
+		Deleter for **self.__ignoreHiddenFiles** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -768,9 +809,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@property
 	def searchWorkerThread(self):
 		"""
-		This method is the property for **self.__searchWorkerThread** attribute.
+		Property for **self.__searchWorkerThread** attribute.
 
-		:return: self.__searchWorkerThread. ( QThread )
+		:return: self.__searchWorkerThread.
+		:rtype: QThread
 		"""
 
 		return self.__searchWorkerThread
@@ -779,9 +821,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchWorkerThread(self, value):
 		"""
-		This method is the setter method for **self.__searchWorkerThread** attribute.
+		Setter for **self.__searchWorkerThread** attribute.
 
-		:param value: Attribute value. ( QThread )
+		:param value: Attribute value.
+		:type value: QThread
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -791,7 +834,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchWorkerThread(self):
 		"""
-		This method is the deleter method for **self.__searchWorkerThread** attribute.
+		Deleter for **self.__searchWorkerThread** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -802,7 +845,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	#******************************************************************************************************************
 	def show(self):
 		"""
-		This method reimplements the :meth:`QWidget.show` method.
+		Reimplements the :meth:`QWidget.show` method.
 		"""
 
 		selectedText = self.__container.getCurrentEditor().getSelectedText()
@@ -815,9 +858,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def closeEvent(self, event):
 		"""
-		This method reimplements the :meth:`QWidget.closeEvent` method.
+		Reimplements the :meth:`QWidget.closeEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		self.__interruptSearch()
@@ -825,7 +869,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __initializeUi(self):
 		"""
-		This method initializes the Widget ui.
+		Initializes the Widget ui.
 		"""
 
 		umbra.ui.common.setWindowDefaultIcon(self)
@@ -881,7 +925,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __view_addActions(self):
 		"""
-		This method sets the View actions.
+		Sets the View actions.
 		"""
 
 		self.__view.addAction(self.__container.engine.actionsManager.registerAction(
@@ -902,10 +946,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __view_replaceAllAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Replace All'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Replace All'** action.
 
-		:param checked: Action checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Action checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		allNodes = filter(lambda x: x.family in ("SearchFile", "SearchOccurence"), self.__model.rootNode.children)
@@ -914,10 +960,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __view_replaceSelectedAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Replace Selected'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Replace Selected'** action.
 
-		:param checked: Action checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Action checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		selectedNodes = filter(lambda x: x.family in ("SearchFile", "SearchOccurence"), self.__view.getSelectedNodes())
@@ -926,10 +974,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __view_saveAllAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Save All'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Save All'** action.
 
-		:param checked: Action checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Action checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		allNodes = filter(lambda x: x.family is "ReplaceResult", self.__model.rootNode.children)
@@ -938,10 +988,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __view_saveSelectedAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Save Selected'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|Search In Files|Save Selected'** action.
 
-		:param checked: Action checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Action checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		selectedNodes = filter(lambda x: x.family is "ReplaceResult", self.__view.getSelectedNodes())
@@ -950,37 +1002,42 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __patternsModel__patternInserted(self, comboBox, index):
 		"""
-		This method is triggered when a pattern has been inserted into a patterns Model.
+		Defines the slot triggered by a pattern when inserted into a patterns Model.
 
-		:param comboBox: Pattern Model attached comboBox. ( QComboBox )
-		:param index: Inserted pattern index. ( QModelIndex )
+		:param comboBox: Pattern Model attached comboBox.
+		:type comboBox: QComboBox
+		:param index: Inserted pattern index.
+		:type index: QModelIndex
 		"""
 
 		comboBox.setCurrentIndex(index.row())
 
 	def __Search_pushButton__clicked(self, checked):
 		"""
-		This method is triggered when **Search_pushButton** Widget is clicked.
+		Defines the slot triggered by **Search_pushButton** Widget when clicked.
 
-		:param checked: Checked state. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
 		"""
 
 		self.search()
 
 	def __Close_pushButton__clicked(self, checked):
 		"""
-		This method is triggered when **Close_pushButton** Widget is clicked.
+		Defines the slot triggered by **Close_pushButton** Widget when clicked.
 
-		:param checked: Checked state. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
 		"""
 
 		self.close()
 
 	def __view__doubleClicked(self, index):
 		"""
-		This method is triggered when a View Widget is double clicked.
+		Defines the slot triggered by a View when double clicked.
 
-		:param index: Clicked item index. ( QModelIndex )
+		:param index: Clicked item index.
+		:type index: QModelIndex
 		"""
 
 		node = self.__model.getNode(index)
@@ -996,10 +1053,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __view_selectionModel__selectionChanged(self, selectedItems, deselectedItems):
 		"""
-		This method is triggered when the View **selectionModel** has changed.
+		Defines the slot triggered by the View **selectionModel** when selection changed.
 
-		:param selectedItems: Selected items. ( QItemSelection )
-		:param deselectedItems: Deselected items. ( QItemSelection )
+		:param selectedItems: Selected items.
+		:type selectedItems: QItemSelection
+		:param deselectedItems: Deselected items.
+		:type deselectedItems: QItemSelection
 		"""
 
 		indexes = selectedItems.indexes()
@@ -1020,10 +1079,11 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __searchWorkerThread__searchFinished(self, searchResults):
 		"""
-		This method is triggered by the :attr:`SearchInFiles.grepWorkerThread` attribute worker thread
+		Defines the slot triggered by :attr:`SearchInFiles.grepWorkerThread` attribute worker thread
 		when the search is finished.
-	
-		:param searchResults: Search results. ( List )
+
+		:param searchResults: Search results.
+		:type searchResults: list
 		"""
 
 		self.setSearchResults(searchResults)
@@ -1037,10 +1097,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __addLocation(self, type, *args):
 		"""
-		This method is triggered when a **Where_lineEdit** Widget context menu entry is clicked.
+		Defines the slot triggered by **Where_lineEdit** Widget when a context menu entry is clicked.
 
-		:param type: Location type. ( String )
-		:param \*args: Arguments. ( \* )
+		:param type: Location type.
+		:type type: unicode
+		:param \*args: Arguments.
+		:type \*args: \*
 		"""
 
 		if type == "directory":
@@ -1064,10 +1126,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __formatOccurence(self, occurence):
 		"""
-		This method formats the given occurence and returns the matching rich html text.
+		Formats the given occurence and returns the matching rich html text.
 
-		:param occurence: Occurence to format. ( Occurence )
-		:return: Rich text. ( String )
+		:param occurence: Occurence to format.
+		:type occurence: Occurence
+		:return: Rich text.
+		:rtype: unicode
 		"""
 
 		color = "rgb({0}, {1}, {2})"
@@ -1082,11 +1146,14 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __formatReplaceMetrics(self, file, metrics):
 		"""
-		This method formats the given replace metrics and returns the matching rich html text.
+		Formats the given replace metrics and returns the matching rich html text.
 
-		:param file: File. ( String )
-		:param metrics: Replace metrics to format. ( String )
-		:return: Rich text. ( String )
+		:param file: File.
+		:type file: unicode
+		:param metrics: Replace metrics to format.
+		:type metrics: unicode
+		:return: Rich text.
+		:rtype: unicode
 		"""
 
 		color = "rgb({0}, {1}, {2})"
@@ -1105,10 +1172,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __highlightOccurence(self, file, occurence):
 		"""
-		This method highlights given file occurence.
-		
-		:param file: File containing the occurence. ( String )
-		:param occurence: Occurence to highlight. ( Occurence / SearchOccurenceNode )
+		Highlights given file occurence.
+
+		:param file: File containing the occurence.
+		:type file: unicode
+		:param occurence: Occurence to highlight.
+		:type occurence: Occurence or SearchOccurenceNode
 		"""
 
 		if not self.__container.getEditor(file):
@@ -1132,10 +1201,11 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __getDocument(self, content):
 		"""
-		This method returns a `QTextDocument <http://doc.qt.nokia.com/qtextdocument.html>`_ class instance
+		Returns a `QTextDocument <http://doc.qt.nokia.com/qtextdocument.html>`_ class instance
 		with given content.
 
-		:return: Document. ( QTextDocument )
+		:return: Document.
+		:rtype: QTextDocument
 		"""
 
 		document = QTextDocument(QString(content))
@@ -1143,19 +1213,22 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		document.setModified(False)
 		return document
 
-	def __replaceWithinDocument(self, document, occurences, replacementPattern):
+	def __replaceWithinDocument(self, document, occurrences, replacementPattern):
 		"""
-		This method replaces given pattern occurences in given document using given settings.
-	
-		:param document: Document. ( QTextDocument )
-		:param replacementPattern: Replacement pattern. ( String )
-		:return: Replaced occurences count. ( Integer )
+		Replaces given pattern occurrences in given document using given settings.
+
+		:param document: Document.
+		:type document: QTextDocument
+		:param replacementPattern: Replacement pattern.
+		:type replacementPattern: unicode
+		:return: Replaced occurrences count.
+		:rtype: int
 		"""
 
 		cursor = QTextCursor(document)
 		cursor.beginEditBlock()
 		offset = count = 0
-		for occurence in sorted(occurences, key=lambda x: x.position):
+		for occurence in sorted(occurrences, key=lambda x: x.position):
 			cursor.setPosition(offset + occurence.position, QTextCursor.MoveAnchor)
 			cursor.setPosition(offset + occurence.position + occurence.length, QTextCursor.KeepAnchor)
 			cursor.insertText(replacementPattern)
@@ -1166,9 +1239,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __getSettings(self):
 		"""
-		This method returns the current search and replace settings.
+		Returns the current search and replace settings.
 
-		:return: Settings. ( Dictionary )
+		:return: Settings.
+		:rtype: dict
 		"""
 
 		return {"caseSensitive" : self.Case_Sensitive_checkBox.isChecked(),
@@ -1177,7 +1251,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __interruptSearch(self):
 		"""
-		This method interrupt the current search.
+		Interrupt the current search.
 		"""
 
 		if self.__searchWorkerThread:
@@ -1187,20 +1261,24 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def __cache(self, file, content, document):
 		"""
-		This method caches given file.
+		Caches given file.
 
-		:param file: File to cache. ( String )
-		:param content: File content. ( List )
-		:param document: File document. ( QTextDocument )
+		:param file: File to cache.
+		:type file: unicode
+		:param content: File content.
+		:type content: list
+		:param document: File document.
+		:type document: QTextDocument
 		"""
 
 		self.__filesCache.addContent(**{file : CacheData(content=content, document=document)})
 
 	def __uncache(self, file):
 		"""
-		This method uncaches given file.
+		Uncaches given file.
 
-		:param file: File to uncache. ( String )
+		:param file: File to uncache.
+		:type file: unicode
 		"""
 
 		if file in self.__filesCache:
@@ -1208,10 +1286,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def setSearchResults(self, searchResults):
 		"""
-		This method sets the Model Nodes using given search results.
-		
-		:param searchResults: Search results. ( List )
-		:return: Method success. ( Boolean )
+		Sets the Model Nodes using given search results.
+
+		:param searchResults: Search results.
+		:type searchResults: list
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		rootNode = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
@@ -1221,8 +1301,8 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 			searchFileNode.update(searchResult)
 			width = \
 			max(self.__defaultLineNumberWidth,
-			max([len(foundations.strings.toString(occurence.line)) for occurence in searchResult.occurences]))
-			for occurence in searchResult.occurences:
+			max([len(foundations.strings.toString(occurence.line)) for occurence in searchResult.occurrences]))
+			for occurence in searchResult.occurrences:
 				formatter = "{{0:>{0}}}".format(width)
 				name = "{0}:{1}".format(formatter.format(occurence.line + 1).replace(" ", "&nbsp;"),
 										self.__formatOccurence(occurence))
@@ -1234,10 +1314,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def setReplaceResults(self, replaceResults):
 		"""
-		This method sets the Model Nodes using given replace results.
-		
-		:param replaceResults: Replace results. ( List )
-		:return: Method success. ( Boolean )
+		Sets the Model Nodes using given replace results.
+
+		:param replaceResults: Replace results.
+		:type replaceResults: list
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		rootNode = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
@@ -1250,9 +1332,10 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def search(self):
 		"""
-		This method searchs user defined locations for search pattern.
+		Searchs user defined locations for search pattern.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.__interruptSearch()
@@ -1283,10 +1366,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def replace(self, nodes):
 		"""
-		This method replaces user defined files search pattern occurences with replacement pattern using given nodes.
-		
-		:param nodes: Nodes. ( List )
-		:return: Method success. ( Boolean )
+		Replaces user defined files search pattern occurrences with replacement pattern using given nodes.
+
+		:param nodes: Nodes.
+		:type nodes: list
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		files = {}
@@ -1303,7 +1388,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		SearchAndReplace.insertPattern(replacementPattern, self.__replaceWithPatternsModel)
 
 		replaceResults = {}
-		for file, occurences in files.iteritems():
+		for file, occurrences in files.iteritems():
 			editor = self.__container.getEditor(file)
 			if editor:
 				document = editor.document()
@@ -1317,7 +1402,7 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 				content = self.__filesCache.getContent(file).content
 				document = self.__getDocument(content)
 				self.__cache(file, content, document)
-			replaceResults[file] = self.__replaceWithinDocument(document, occurences, replacementPattern)
+			replaceResults[file] = self.__replaceWithinDocument(document, occurrences, replacementPattern)
 
 		self.setReplaceResults(replaceResults)
 		self.__container.engine.notificationsManager.notify(
@@ -1327,10 +1412,12 @@ class SearchInFiles(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 
 	def saveFiles(self, nodes):
 		"""
-		This method saves user defined files using give nodes.
+		Saves user defined files using give nodes.
 
-		:param nodes: Nodes. ( List )
-		:return: Method success. ( Boolean )
+		:param nodes: Nodes.
+		:type nodes: list
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		metrics = {"Opened" : 0, "Cached" : 0}

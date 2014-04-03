@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines units tests for :mod:`umbra.globals.constants` module.
+	Defines units tests for :mod:`umbra.globals.constants` module.
 
 **Others:**
 
@@ -37,7 +37,7 @@ from umbra.globals.constants import Constants
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -50,92 +50,92 @@ __all__ = ["ConstantsTestCase"]
 #**********************************************************************************************************************
 class ConstantsTestCase(unittest.TestCase):
 	"""
-	This class defines :class:`umbra.globals.constants.Constants` class units tests methods.
+	Defines :class:`umbra.globals.constants.Constants` class units tests methods.
 	"""
 
 	def testRequiredAttributes(self):
 		"""
-		This method tests presence of required attributes.
+		Tests presence of required attributes.
 		"""
 
 		requiredAttributes = ("applicationName",
-								"majorVersion",
-								"minorVersion",
-								"changeVersion",
-								"releaseVersion",
-								"logger",
-								"verbosityLevel",
-								"verbosityLabels",
-								"loggingDefaultFormatter",
-								"loggingSeparators",
-								"encodingCodec",
-								"encodingError",
-								"applicationDirectory",
-								"providerDirectory",
-								"patchesDirectory",
-								"settingsDirectory",
-								"userComponentsDirectory",
-								"loggingDirectory",
-								"ioDirectory",
-								"preferencesDirectories",
-								"factoryComponentsDirectory",
-								"factoryAddonsComponentsDirectory",
-								"resourcesDirectory",
-								"patchesFile",
-								"settingsFile",
-								"loggingFile",
-								"librariesDirectory",
-								"defaultTimerCycle",
-								"nullObject")
+							"majorVersion",
+							"minorVersion",
+							"changeVersion",
+							"version",
+							"logger",
+							"verbosityLevel",
+							"verbosityLabels",
+							"loggingDefaultFormatter",
+							"loggingSeparators",
+							"defaultCodec",
+							"codecError",
+							"applicationDirectory",
+							"providerDirectory",
+							"patchesDirectory",
+							"settingsDirectory",
+							"userComponentsDirectory",
+							"loggingDirectory",
+							"ioDirectory",
+							"preferencesDirectories",
+							"factoryComponentsDirectory",
+							"factoryAddonsComponentsDirectory",
+							"resourcesDirectory",
+							"patchesFile",
+							"settingsFile",
+							"loggingFile",
+							"librariesDirectory",
+							"defaultTimerCycle",
+							"nullObject")
 
 		for attribute in requiredAttributes:
 			self.assertIn(attribute, Constants.__dict__)
 
 	def testApplicationNameAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.applicationName` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.applicationName` attribute.
 		"""
 
 		self.assertRegexpMatches(Constants.applicationName, "\w+")
 
 	def testMajorVersionAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.majorVersion` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.majorVersion` attribute.
 		"""
 
-		self.assertRegexpMatches(Constants.releaseVersion, "\d")
+		self.assertRegexpMatches(Constants.version, "\d")
 
 	def testMinorVersionAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.minorVersion` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.minorVersion` attribute.
 		"""
 
-		self.assertRegexpMatches(Constants.releaseVersion, "\d")
+		self.assertRegexpMatches(Constants.version, "\d")
 
 	def testChangeVersionAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.changeVersion` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.changeVersion` attribute.
 		"""
 
-		self.assertRegexpMatches(Constants.releaseVersion, "\d")
+		self.assertRegexpMatches(Constants.version, "\d")
 
-	def testReleaseVersionAttribute(self):
+	def testversionAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.releaseVersion` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.version` attribute.
 		"""
 
-		self.assertRegexpMatches(Constants.releaseVersion, "\d\.\d\.\d")
+		self.assertRegexpMatches(Constants.version, "\d\.\d\.\d")
 
 	def testLoggerAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.logger` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.logger` attribute.
 		"""
 
 		self.assertRegexpMatches(Constants.logger, "\w+")
 
 	def testVerbosityLevelAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.verbosityLevel` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.verbosityLevel` attribute.
 		"""
 
 		self.assertIsInstance(Constants.verbosityLevel, int)
@@ -144,158 +144,157 @@ class ConstantsTestCase(unittest.TestCase):
 
 	def testVerbosityLabelsAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.verbosityLabels` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.verbosityLabels` attribute.
 		"""
 
 		self.assertIsInstance(Constants.verbosityLabels, tuple)
 		for label in Constants.verbosityLabels:
 			self.assertIsInstance(label, unicode)
 
-	def testLoggingDefaultFormaterAttribute(self):
+	def testLoggingDefaultFormatterAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.loggingDefaultFormatter` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.loggingDefaultFormatter` attribute.
 		"""
 
 		self.assertIsInstance(Constants.loggingDefaultFormatter, unicode)
 
 	def testLoggingSeparatorsAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.loggingSeparators` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.loggingSeparators` attribute.
 		"""
 
 		self.assertIsInstance(Constants.loggingSeparators, unicode)
 
-	def testencodingCodecAttribute(self):
+	def testDefaultCodecAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.encodingCodec` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.defaultCodec` attribute.
 		"""
 
-		validEncodings = ("ascii",
-						"utf-8",
+		validEncodings = ("utf-8",
 						"cp1252")
 
-		self.assertIn(Constants.encodingCodec, validEncodings)
+		self.assertIn(Constants.defaultCodec, validEncodings)
 
 	def testEncodingErrorAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.encodingError` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.codecError` attribute.
 		"""
 
-		validEncodings = ("strict",
+		validEncodingsErrors = ("strict",
 						"ignore",
 						"replace",
 						"xmlcharrefreplace")
 
-		self.assertIn(Constants.encodingError, validEncodings)
+		self.assertIn(Constants.codecError, validEncodingsErrors)
 
 	def testApplicationDirectoryAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.applicationDirectory` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.applicationDirectory` attribute.
 		"""
 
 		self.assertRegexpMatches(Constants.applicationDirectory, "\w+")
 
 	def testProviderDirectoryAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.providerDirectory` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.providerDirectory` attribute.
 		"""
 
 		self.assertRegexpMatches(Constants.providerDirectory, "\w+")
 
 	def testPatchesDirectoryAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.patchesDirectory` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.patchesDirectory` attribute.
 		"""
 
 		self.assertRegexpMatches(Constants.patchesDirectory, "\w+")
 
 	def testSettingsDirectoryAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.settingsDirectory` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.settingsDirectory` attribute.
 		"""
 
 		self.assertRegexpMatches(Constants.settingsDirectory, "\w+")
 
 	def testUserComponentsDirectoryAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.userComponentsDirectory` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.userComponentsDirectory` attribute.
 		"""
 
 		self.assertRegexpMatches(Constants.userComponentsDirectory, "\w+")
 
 	def testLoggingDirectoryAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.loggingDirectory` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.loggingDirectory` attribute.
 		"""
 
 		self.assertRegexpMatches(Constants.loggingDirectory, "\w+")
 
 	def testIoDirectoryAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.ioDirectory` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.ioDirectory` attribute.
 		"""
 
 		self.assertRegexpMatches(Constants.ioDirectory, "\w+")
 
 	def testPreferencesDirectoriesAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.preferencesDirectories` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.preferencesDirectories` attribute.
 		"""
 
 		self.assertIsInstance(Constants.preferencesDirectories, tuple)
 
 	def testFactoryComponentsDirectoryAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.factoryComponentsDirectory` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.factoryComponentsDirectory` attribute.
 		"""
 
 		self.assertRegexpMatches(Constants.factoryComponentsDirectory, "\w+")
 
 	def testFactoryAddonsComponentsDirectoryAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.factoryAddonsComponentsDirectory` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.factoryAddonsComponentsDirectory` attribute.
 		"""
 
 		self.assertRegexpMatches(Constants.factoryAddonsComponentsDirectory, "\w+")
 
 	def testResourcesDirectoryAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.resourcesDirectory` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.resourcesDirectory` attribute.
 		"""
 
 		self.assertRegexpMatches(Constants.resourcesDirectory, "\w+")
 
 	def testPatchesFileAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.patchesFile` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.patchesFile` attribute.
 		"""
 
 		self.assertRegexpMatches(Constants.patchesFile, "\w+")
 
 	def testSettingsFileAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.settingsFile` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.settingsFile` attribute.
 		"""
 
 		self.assertRegexpMatches(Constants.settingsFile, "\w+")
 
 	def testLoggingFileAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.loggingFile` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.loggingFile` attribute.
 		"""
 
 		self.assertRegexpMatches(Constants.loggingFile, "\w+")
 
 	def testLibrariesDirectoryAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.librariesDirectory` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.librariesDirectory` attribute.
 		"""
 
 		self.assertRegexpMatches(Constants.librariesDirectory, "\w+")
 
 	def testDefaultTimerCycleAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.defaultTimerCycle` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.defaultTimerCycle` attribute.
 		"""
 
 		self.assertIsInstance(Constants.defaultTimerCycle, int)
@@ -304,7 +303,7 @@ class ConstantsTestCase(unittest.TestCase):
 
 	def testNullObjectAttribute(self):
 		"""
-		This method tests :attr:`umbra.globals.constants.Constants.nullObject` attribute.
+		Tests :attr:`umbra.globals.constants.Constants.nullObject` attribute.
 		"""
 
 		self.assertRegexpMatches(Constants.nullObject, "\w+")

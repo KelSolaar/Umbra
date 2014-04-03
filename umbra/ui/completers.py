@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	| This module defines the Application completers classes.
+	| Defines the Application completers classes.
 	| Each completer class completion list is initialized only once per session and
 	| cached at the first class instantiation.
 
@@ -38,7 +38,7 @@ import foundations.verbose
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -53,20 +53,26 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class DefaultCompleter(QCompleter):
 	"""
-	This class is a `QCompleter <http://doc.qt.nokia.com/qcompleter.html>`_ subclass used
+	Defines a `QCompleter <http://doc.qt.nokia.com/qcompleter.html>`_ subclass used
 	as a completion widget.
 	"""
 
 	__tokens = {}
-	"""Tokens cache. ( Dictionary )"""
+	"""
+	:param __tokens: Tokens cache.
+	:type __tokens: dict
+	"""
 
 	def __init__(self, parent=None, language=None, tokens=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param language: Language name. ( String )
-		:param tokens: Completer tokens list. ( Tuple / List )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param language: Language name.
+		:type language: unicode
+		:param tokens: Completer tokens list.
+		:type tokens: tuple or list
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -89,9 +95,10 @@ class DefaultCompleter(QCompleter):
 	@property
 	def language(self):
 		"""
-		This method is the property for **self.__language** attribute.
+		Property for **self.__language** attribute.
 
-		:return: self.__language. ( String )
+		:return: self.__language.
+		:rtype: unicode
 		"""
 
 		return self.__language
@@ -100,9 +107,10 @@ class DefaultCompleter(QCompleter):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def language(self, value):
 		"""
-		This method is the setter method for **self.__language** attribute.
+		Setter for **self.__language** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -114,7 +122,7 @@ class DefaultCompleter(QCompleter):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def language(self):
 		"""
-		This method is the deleter method for **self.__language** attribute.
+		Deleter for **self.__language** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -125,9 +133,10 @@ class DefaultCompleter(QCompleter):
 	#******************************************************************************************************************
 	def __setCache(self, tokens):
 		"""
-		This method sets the tokens cache.
+		Sets the tokens cache.
 		
-		:param tokens: Completer tokens list. ( Tuple / List )
+		:param tokens: Completer tokens list.
+		:type tokens: tuple or list
 		"""
 
 		if DefaultCompleter._DefaultCompleter__tokens.get(self.__language):
@@ -137,10 +146,12 @@ class DefaultCompleter(QCompleter):
 
 	def updateModel(self, words):
 		"""
-		This method updates the completer model.
+		Updates the completer model.
 
-		:param words: Words to update the completer with. ( Tuple / List )
-		:return: Method success. ( Boolean )
+		:param words: Words to update the completer with.
+		:type words: tuple or list
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		extendedWords = DefaultCompleter._DefaultCompleter__tokens[self.__language][:]

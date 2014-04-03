@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`NotificationsManager` and :class:`Notification` classes.
+	Defines the :class:`NotificationsManager` and :class:`Notification` classes.
 
 **Others:**
 
@@ -40,7 +40,7 @@ from umbra.ui.widgets.notification_QLabel import Notification_QLabel
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -55,14 +55,15 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Notification(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for :class:`NotificationsManager` class notification.
+	Defines a storage object for :class:`NotificationsManager` class notification.
 	"""
 
 	def __init__(self, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param \*\*kwargs: message, time. ( Key / Value pairs )
+		:param \*\*kwargs: message, time.
+		:type \*\*kwargs: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -71,7 +72,7 @@ class Notification(foundations.dataStructures.Structure):
 
 class NotificationsManager(QObject):
 	"""
-	This class defines the Application notifications manager. 
+	Defines the Application notifications manager.
 	"""
 
 	# Custom signals definitions.
@@ -79,12 +80,13 @@ class NotificationsManager(QObject):
 	"""
 	This signal is emited by the :class:`NotificationsManager` class when a notification is registered. ( pyqtSignal )
 
-	:return: Current registered notification. ( Notification )	
+	:return: Current registered notification.
+	:rtype: Notification
 	"""
 
 	def __init__(self, parent=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -98,6 +100,7 @@ class NotificationsManager(QObject):
 		self.__notifiers = []
 
 		self.__notifiersStackPadding = 10
+		self.__maximumNotifiers = 5
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -105,9 +108,10 @@ class NotificationsManager(QObject):
 	@property
 	def container(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -116,30 +120,32 @@ class NotificationsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		Deleter for **self.__container** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
 	@property
 	def notifications(self):
 		"""
-		This method is the property for **self.__notifications** attribute.
+		Property for **self.__notifications** attribute.
 
-		:return: self.__notifications. ( List )
+		:return: self.__notifications.
+		:rtype: list
 		"""
 
 		return self.__notifications
@@ -148,30 +154,32 @@ class NotificationsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notifications(self, value):
 		"""
-		This method is the setter method for **self.__notifications** attribute.
+		Setter for **self.__notifications** attribute.
 
-		:param value: Attribute value. ( List )
+		:param value: Attribute value.
+		:type value: list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "notifications"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "notifications"))
 
 	@notifications.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notifications(self):
 		"""
-		This method is the deleter method for **self.__notifications** attribute.
+		Deleter for **self.__notifications** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "notifications"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "notifications"))
 
 	@property
 	def notifiers(self):
 		"""
-		This method is the property for **self.__notifiers** attribute.
+		Property for **self.__notifiers** attribute.
 
-		:return: self.__notifiers. ( List )
+		:return: self.__notifiers.
+		:rtype: list
 		"""
 
 		return self.__notifiers
@@ -180,30 +188,32 @@ class NotificationsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notifiers(self, value):
 		"""
-		This method is the setter method for **self.__notifiers** attribute.
+		Setter for **self.__notifiers** attribute.
 
-		:param value: Attribute value. ( List )
+		:param value: Attribute value.
+		:type value: list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "notifiers"))
+			"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "notifiers"))
 
 	@notifiers.deleter
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notifiers(self):
 		"""
-		This method is the deleter method for **self.__notifiers** attribute.
+		Deleter for **self.__notifiers** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "notifiers"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "notifiers"))
 
 	@property
 	def notifiersStackPadding(self):
 		"""
-		This method is the property for **self.__notifiersStackPadding** attribute.
+		Property for **self.__notifiersStackPadding** attribute.
 
-		:return: self.__notifiersStackPadding. ( Integer )
+		:return: self.__notifiersStackPadding.
+		:rtype: int
 		"""
 
 		return self.__notifiersStackPadding
@@ -212,13 +222,15 @@ class NotificationsManager(QObject):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def notifiersStackPadding(self, value):
 		"""
-		This method is the setter method for **self.__notifiersStackPadding** attribute.
+		Setter for **self.__notifiersStackPadding** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
-			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("notifiersStackPadding", value)
+			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("notifiersStackPadding",
+																						  value)
 			assert value >= 0, "'{0}' attribute: '{1}' need to be positive!".format("notifiersStackPadding", value)
 		self.__notifiersStackPadding = value
 
@@ -226,76 +238,124 @@ class NotificationsManager(QObject):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def notifiersStackPadding(self):
 		"""
-		This method is the deleter method for **self.__notifiersStackPadding** attribute.
+		Deleter for **self.__notifiersStackPadding** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "notifiersStackPadding"))
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "notifiersStackPadding"))
+
+	@property
+	def maximumNotifiers(self):
+		"""
+		Property for **self.__maximumNotifiers** attribute.
+
+		:return: self.__maximumNotifiers.
+		:rtype: int
+		"""
+
+		return self.__maximumNotifiers
+
+	@maximumNotifiers.setter
+	@foundations.exceptions.handleExceptions(AssertionError)
+	def maximumNotifiers(self, value):
+		"""
+		Setter for **self.__maximumNotifiers** attribute.
+
+		:param value: Attribute value.
+		:type value: int
+		"""
+
+		if value is not None:
+			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("maximumNotifiers",
+																						  value)
+			assert value > 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("maximumNotifiers", value)
+		self.__maximumNotifiers = value
+
+	@maximumNotifiers.deleter
+	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	def maximumNotifiers(self):
+		"""
+		Deleter for **self.__maximumNotifiers** attribute.
+		"""
+
+		raise foundations.exceptions.ProgrammingError(
+			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "maximumNotifiers"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
 	def __iter__(self):
 		"""
-		This method reimplements the :meth:`object.__iter__` method.
+		Reimplements the :meth:`object.__iter__` method.
 
-		:return: Notifications iterator. ( Object )
+		:return: Notifications iterator.
+		:rtype: object
 		"""
 
 		return iter(self.__notifications)
 
 	def __len__(self):
 		"""
-		This method reimplements the :meth:`object.__len__` method.
+		Reimplements the :meth:`object.__len__` method.
 
-		:return: Notifications count. ( Integer )
+		:return: Notifications count.
+		:rtype: int
 		"""
 
 		return len(self.__notifications)
 
 	def __notifier__fadedOut(self):
 		"""
-		This method is triggered when a **Notification_QLabel** Widget has faded out.
+		Defines the slot triggered by **Notification_QLabel** Widget when faded out.
 		"""
 
-		self.__notifiers.pop(self.__notifiers.index(self.sender()))
+		if self.sender() in self.__notifiers:
+			self.__notifiers.pop(self.__notifiers.index(self.sender()))
 
 	def __offsetNotifiers(self, offset):
 		"""
-		This method offsets existing notifiers.
+		Offsets existing notifiers.
 
-		:param offset: Offset. ( Integer )
+		:param offset: Offset.
+		:type offset: int
 		"""
 
+		overallOffset = offset
 		for notifier in self.__notifiers:
-			notifier.verticalOffset += offset
+			notifier.verticalOffset = overallOffset
 			notifier.refreshPosition()
+			overallOffset += offset
 
 	def listNotifications(self):
 		"""
-		This method returns the registered notifications.
+		Returns the registered notifications.
 
-		:return: Notifications list. ( List )
+		:return: Notifications list.
+		:rtype: list
 		"""
 
 		return [self.formatNotification(notification) for notification in self]
 
 	def isNotificationRegistered(self, notification):
 		"""
-		This method returns if the given notification is registered.
+		Returns if the given notification is registered.
 
-		:param notification: Notification. ( String )
-		:return: Is notification registered. ( Boolean )
+		:param notification: Notification.
+		:type notification: unicode
+		:return: Is notification registered.
+		:rtype: bool
 		"""
 
 		return notification in self
 
 	def registerNotification(self, notification):
 		"""
-		This method registers given notification.
+		Registers given notification.
 
-		:param notification: Notification to register. ( Notification )
-		:return: Method success. ( Boolean )
+		:param notification: Notification to register.
+		:type notification: Notification
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Registering notification: '{0}'.".format(notification))
@@ -306,25 +366,37 @@ class NotificationsManager(QObject):
 
 	def formatNotification(self, notification):
 		"""
-		This method formats given notification.
+		Formats given notification.
 
-		:param notification: Notification to format. ( Notification )
-		:return: Method success. ( Boolean )
+		:param notification: Notification to format.
+		:type notification: Notification
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return "{0} | '{1}'".format(time.ctime(notification.time), notification.message)
 
 	def notify(self, message, duration=3000, notificationClickedSlot=None, messageLevel="Information", **kwargs):
 		"""
-		This method displays an Application notification.
+		Displays an Application notification.
 
-		:param message: Notification message. ( String )
-		:param duration: Notification display duration. ( Integer )
-		:param notificationClickedSlot: Notification clicked slot. ( Object )
-		:param messageLevel: Message level ( "Information", "Warning", "Exception" ). ( String )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		:return: Method success. ( Boolean )
+		:param message: Notification message.
+		:type message: unicode
+		:param duration: Notification display duration.
+		:type duration: int
+		:param notificationClickedSlot: Notification clicked slot.
+		:type notificationClickedSlot: object
+		:param messageLevel: Message level ( "Information", "Warning", "Exception" ).
+		:type messageLevel: unicode
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
+		:return: Method success.
+		:rtype: bool
 		"""
+
+		for notifier in self.__notifiers[self.__maximumNotifiers - 1:]:
+			notifier.duration=150
+			notifier.hideMessage()
 
 		notification = Notification(message=message, time=time.time())
 
@@ -343,7 +415,7 @@ class NotificationsManager(QObject):
 		notifier.showMessage(message, duration)
 
 		self.__offsetNotifiers(-notifier.height() - self.__notifiersStackPadding)
-		self.__notifiers.append(notifier)
+		self.__notifiers.insert(0, notifier)
 
 		if messageLevel == "Information":
 			LOGGER.info("{0} | '{1}'.".format(self.__class__.__name__, self.formatNotification(notification)))
@@ -351,44 +423,55 @@ class NotificationsManager(QObject):
 			LOGGER.warning("!> {0} | '{1}'.".format(self.__class__.__name__, self.formatNotification(notification)))
 		elif messageLevel == "Exception":
 			LOGGER.error("!> {0} | '{1}'.".format(self.__class__.__name__, self.formatNotification(notification)))
+
 		return True
 
 	def warnify(self, message, duration=3000, notificationClickedSlot=None, **kwargs):
 		"""
-		This method displays an Application notification warning.
+		Displays an Application notification warning.
 
-		:param message: Notification message. ( String )
-		:param duration: Notification display duration. ( Integer )
-		:param notificationClickedSlot: Notification clicked slot. ( Object )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		:return: Method success. ( Boolean )
+		:param message: Notification message.
+		:type message: unicode
+		:param duration: Notification display duration.
+		:type duration: int
+		:param notificationClickedSlot: Notification clicked slot.
+		:type notificationClickedSlot: object
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.notify(message,
-					duration,
-					notificationClickedSlot,
-					messageLevel="Warning",
-					color=QColor(220, 128, 64),
-					backgroundColor=QColor(32, 32, 32),
-					borderColor=QColor(220, 128, 64),
-					**kwargs)
+						   duration,
+						   notificationClickedSlot,
+						   messageLevel="Warning",
+						   color=QColor(220, 128, 64),
+						   backgroundColor=QColor(32, 32, 32),
+						   borderColor=QColor(220, 128, 64),
+						   **kwargs)
 
 	def exceptify(self, message, duration=3000, notificationClickedSlot=None, **kwargs):
 		"""
-		This method displays an Application notification exception.
+		Displays an Application notification exception.
 
-		:param message: Notification message. ( String )
-		:param duration: Notification display duration. ( Integer )
-		:param notificationClickedSlot: Notification clicked slot. ( Object )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
-		:return: Method success. ( Boolean )
+		:param message: Notification message.
+		:type message: unicode
+		:param duration: Notification display duration.
+		:type duration: int
+		:param notificationClickedSlot: Notification clicked slot.
+		:type notificationClickedSlot: object
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.notify(message,
-					duration,
-					notificationClickedSlot,
-					messageLevel="Exception",
-					color=QColor(220, 64, 64),
-					backgroundColor=QColor(32, 32, 32),
-					borderColor=QColor(220, 64, 64),
-					**kwargs)
+						   duration,
+						   notificationClickedSlot,
+						   messageLevel="Exception",
+						   color=QColor(220, 64, 64),
+						   backgroundColor=QColor(32, 32, 32),
+						   borderColor=QColor(220, 64, 64),
+						   **kwargs)

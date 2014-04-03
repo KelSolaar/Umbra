@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`ScriptEditor` Component Interface class.
+	Defines the :class:`ScriptEditor` Component Interface class.
 
 **Others:**
 
@@ -78,7 +78,7 @@ from umbra.ui.widgets.basic_QPlainTextEdit import Basic_QPlainTextEdit
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -95,7 +95,7 @@ COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Script_Editor
 #**********************************************************************************************************************
 class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
-	This class is the :mod:`sibl_gui.components.addons.scriptEditor.scriptEditor` Component Interface class.
+	Defines the :mod:`sibl_gui.components.addons.scriptEditor.scriptEditor` Component Interface class.
 	"""
 
 	# Custom signals definitions.
@@ -113,24 +113,30 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
 	This signal is emited by the :class:`ScriptEditor` class when a file is loaded. ( pyqtSignal )
 
-	:return: Loaded file. ( String )	
+	:return: Loaded file.
+	:rtype: unicode
 	"""
 
 	fileClosed = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`ScriptEditor` class when a file is closed. ( pyqtSignal )
 
-	:return: Closed file. ( String )	
+	:return: Closed file.
+	:rtype: unicode
 	"""
 
 	def __init__(self, parent=None, name=None, *args, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param name: Component name. ( String )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param name: Component name.
+		:type name: unicode
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -197,9 +203,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def dockArea(self):
 		"""
-		This method is the property for **self.__dockArea** attribute.
+		Property for **self.__dockArea** attribute.
 
-		:return: self.__dockArea. ( Integer )
+		:return: self.__dockArea.
+		:rtype: int
 		"""
 
 		return self.__dockArea
@@ -208,9 +215,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def dockArea(self, value):
 		"""
-		This method is the setter method for **self.__dockArea** attribute.
+		Setter for **self.__dockArea** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -220,7 +228,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def dockArea(self):
 		"""
-		This method is the deleter method for **self.__dockArea** attribute.
+		Deleter for **self.__dockArea** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -229,9 +237,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def engine(self):
 		"""
-		This method is the property for **self.__engine** attribute.
+		Property for **self.__engine** attribute.
 
-		:return: self.__engine. ( QObject )
+		:return: self.__engine.
+		:rtype: QObject
 		"""
 
 		return self.__engine
@@ -240,9 +249,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def engine(self, value):
 		"""
-		This method is the setter method for **self.__engine** attribute.
+		Setter for **self.__engine** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -252,7 +262,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def engine(self):
 		"""
-		This method is the deleter method for **self.__engine** attribute.
+		Deleter for **self.__engine** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -261,9 +271,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def settings(self):
 		"""
-		This method is the property for **self.__settings** attribute.
+		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( QSettings )
+		:return: self.__settings.
+		:rtype: QSettings
 		"""
 
 		return self.__settings
@@ -272,9 +283,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self, value):
 		"""
-		This method is the setter method for **self.__settings** attribute.
+		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( QSettings )
+		:param value: Attribute value.
+		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -284,7 +296,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
-		This method is the deleter method for **self.__settings** attribute.
+		Deleter for **self.__settings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -293,9 +305,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def settingsSection(self):
 		"""
-		This method is the property for **self.__settingsSection** attribute.
+		Property for **self.__settingsSection** attribute.
 
-		:return: self.__settingsSection. ( String )
+		:return: self.__settingsSection.
+		:rtype: unicode
 		"""
 
 		return self.__settingsSection
@@ -304,9 +317,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settingsSection(self, value):
 		"""
-		This method is the setter method for **self.__settingsSection** attribute.
+		Setter for **self.__settingsSection** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -316,7 +330,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settingsSection(self):
 		"""
-		This method is the deleter method for **self.__settingsSection** attribute.
+		Deleter for **self.__settingsSection** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -325,9 +339,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def developmentLayout(self):
 		"""
-		This method is the property for **self.__developmentLayout** attribute.
+		Property for **self.__developmentLayout** attribute.
 
-		:return: self.__developmentLayout. ( String )
+		:return: self.__developmentLayout.
+		:rtype: unicode
 		"""
 
 		return self.__developmentLayout
@@ -336,9 +351,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def developmentLayout(self, value):
 		"""
-		This method is the setter method for **self.__developmentLayout** attribute.
+		Setter for **self.__developmentLayout** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -348,7 +364,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def developmentLayout(self):
 		"""
-		This method is the deleter method for **self.__developmentLayout** attribute.
+		Deleter for **self.__developmentLayout** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -357,9 +373,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def grammarsDirectory(self):
 		"""
-		This method is the property for **self.__grammarsDirectory** attribute.
+		Property for **self.__grammarsDirectory** attribute.
 
-		:return: self.__grammarsDirectory. ( String )
+		:return: self.__grammarsDirectory.
+		:rtype: unicode
 		"""
 
 		return self.__grammarsDirectory
@@ -368,9 +385,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def grammarsDirectory(self, value):
 		"""
-		This method is the setter method for **self.__grammarsDirectory** attribute.
+		Setter for **self.__grammarsDirectory** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -380,7 +398,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def grammarsDirectory(self):
 		"""
-		This method is the deleter method for **self.__grammarsDirectory** attribute.
+		Deleter for **self.__grammarsDirectory** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -389,9 +407,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def extension(self):
 		"""
-		This method is the property for **self.__extension** attribute.
+		Property for **self.__extension** attribute.
 
-		:return: self.__extension. ( String )
+		:return: self.__extension.
+		:rtype: unicode
 		"""
 
 		return self.__extension
@@ -400,9 +419,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def extension(self, value):
 		"""
-		This method is the setter method for **self.__extension** attribute.
+		Setter for **self.__extension** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -412,7 +432,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def extension(self):
 		"""
-		This method is the deleter method for **self.__extension** attribute.
+		Deleter for **self.__extension** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -421,9 +441,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def model(self):
 		"""
-		This method is the property for **self.__model** attribute.
+		Property for **self.__model** attribute.
 
-		:return: self.__model. ( ProjectsModel )
+		:return: self.__model.
+		:rtype: ProjectsModel
 		"""
 
 		return self.__model
@@ -432,9 +453,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def model(self, value):
 		"""
-		This method is the setter method for **self.__model** attribute.
+		Setter for **self.__model** attribute.
 
-		:param value: Attribute value. ( ProjectsModel )
+		:param value: Attribute value.
+		:type value: ProjectsModel
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -444,7 +466,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def model(self):
 		"""
-		This method is the deleter method for **self.__model** attribute.
+		Deleter for **self.__model** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -453,9 +475,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def languagesModel(self):
 		"""
-		This method is the property for **self.__languagesModel** attribute.
+		Property for **self.__languagesModel** attribute.
 
-		:return: self.__languagesModel. ( LanguagesModel )
+		:return: self.__languagesModel.
+		:rtype: LanguagesModel
 		"""
 
 		return self.__languagesModel
@@ -464,9 +487,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def languagesModel(self, value):
 		"""
-		This method is the setter method for **self.__languagesModel** attribute.
+		Setter for **self.__languagesModel** attribute.
 
-		:param value: Attribute value. ( LanguagesModel )
+		:param value: Attribute value.
+		:type value: LanguagesModel
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -476,7 +500,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def languagesModel(self):
 		"""
-		This method is the deleter method for **self.__languagesModel** attribute.
+		Deleter for **self.__languagesModel** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -485,9 +509,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def defaultProject(self):
 		"""
-		This method is the property for **self.__defaultProject** attribute.
+		Property for **self.__defaultProject** attribute.
 
-		:return: self.__defaultProject. ( String )
+		:return: self.__defaultProject.
+		:rtype: unicode
 		"""
 
 		return self.__defaultProject
@@ -496,9 +521,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultProject(self, value):
 		"""
-		This method is the setter method for **self.__defaultProject** attribute.
+		Setter for **self.__defaultProject** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -508,7 +534,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultProject(self):
 		"""
-		This method is the deleter method for **self.__defaultProject** attribute.
+		Deleter for **self.__defaultProject** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -517,9 +543,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def defaultLanguage(self):
 		"""
-		This method is the property for **self.__defaultLanguage** attribute.
+		Property for **self.__defaultLanguage** attribute.
 
-		:return: self.__defaultLanguage. ( String )
+		:return: self.__defaultLanguage.
+		:rtype: unicode
 		"""
 
 		return self.__defaultLanguage
@@ -528,9 +555,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultLanguage(self, value):
 		"""
-		This method is the setter method for **self.__defaultLanguage** attribute.
+		Setter for **self.__defaultLanguage** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -540,7 +568,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultLanguage(self):
 		"""
-		This method is the deleter method for **self.__defaultLanguage** attribute.
+		Deleter for **self.__defaultLanguage** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -549,9 +577,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def defaultScriptLanguage(self):
 		"""
-		This method is the property for **self.__defaultScriptLanguage** attribute.
+		Property for **self.__defaultScriptLanguage** attribute.
 
-		:return: self.__defaultScriptLanguage. ( String )
+		:return: self.__defaultScriptLanguage.
+		:rtype: unicode
 		"""
 
 		return self.__defaultScriptLanguage
@@ -560,9 +589,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultScriptLanguage(self, value):
 		"""
-		This method is the setter method for **self.__defaultScriptLanguage** attribute.
+		Setter for **self.__defaultScriptLanguage** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -572,7 +602,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultScriptLanguage(self):
 		"""
-		This method is the deleter method for **self.__defaultScriptLanguage** attribute.
+		Deleter for **self.__defaultScriptLanguage** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -581,9 +611,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def defaultFileName(self):
 		"""
-		This method is the property for **self.__defaultFileName** attribute.
+		Property for **self.__defaultFileName** attribute.
 
-		:return: self.__defaultFileName. ( String )
+		:return: self.__defaultFileName.
+		:rtype: unicode
 		"""
 
 		return self.__defaultFileName
@@ -592,9 +623,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultFileName(self, value):
 		"""
-		This method is the setter method for **self.__defaultFileName** attribute.
+		Setter for **self.__defaultFileName** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -604,7 +636,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultFileName(self):
 		"""
-		This method is the deleter method for **self.__defaultFileName** attribute.
+		Deleter for **self.__defaultFileName** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -613,9 +645,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def defaultFileExtension(self):
 		"""
-		This method is the property for **self.__defaultFileExtension** attribute.
+		Property for **self.__defaultFileExtension** attribute.
 
-		:return: self.__defaultFileExtension. ( String )
+		:return: self.__defaultFileExtension.
+		:rtype: unicode
 		"""
 
 		return self.__defaultFileExtension
@@ -624,9 +657,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultFileExtension(self, value):
 		"""
-		This method is the setter method for **self.__defaultFileExtension** attribute.
+		Setter for **self.__defaultFileExtension** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -636,7 +670,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultFileExtension(self):
 		"""
-		This method is the deleter method for **self.__defaultFileExtension** attribute.
+		Deleter for **self.__defaultFileExtension** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -645,9 +679,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def defaultWindowTitle(self):
 		"""
-		This method is the property for **self.__defaultWindowTitle** attribute.
+		Property for **self.__defaultWindowTitle** attribute.
 
-		:return: self.__defaultWindowTitle. ( String )
+		:return: self.__defaultWindowTitle.
+		:rtype: unicode
 		"""
 
 		return self.__defaultWindowTitle
@@ -656,9 +691,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultWindowTitle(self, value):
 		"""
-		This method is the setter method for **self.__defaultWindowTitle** attribute.
+		Setter for **self.__defaultWindowTitle** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -668,7 +704,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultWindowTitle(self):
 		"""
-		This method is the deleter method for **self.__defaultWindowTitle** attribute.
+		Deleter for **self.__defaultWindowTitle** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -677,9 +713,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def defaultScriptEditorDirectory(self):
 		"""
-		This method is the property for **self.__defaultScriptEditorDirectory** attribute.
+		Property for **self.__defaultScriptEditorDirectory** attribute.
 
-		:return: self.__defaultScriptEditorDirectory. ( String )
+		:return: self.__defaultScriptEditorDirectory.
+		:rtype: unicode
 		"""
 
 		return self.__defaultScriptEditorDirectory
@@ -688,9 +725,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultScriptEditorDirectory(self, value):
 		"""
-		This method is the setter method for **self.__defaultScriptEditorDirectory** attribute.
+		Setter for **self.__defaultScriptEditorDirectory** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -700,7 +738,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultScriptEditorDirectory(self):
 		"""
-		This method is the deleter method for **self.__defaultScriptEditorDirectory** attribute.
+		Deleter for **self.__defaultScriptEditorDirectory** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -709,9 +747,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def defaultSessionDirectory(self):
 		"""
-		This method is the property for **self.__defaultSessionDirectory** attribute.
+		Property for **self.__defaultSessionDirectory** attribute.
 
-		:return: self.__defaultSessionDirectory. ( String )
+		:return: self.__defaultSessionDirectory.
+		:rtype: unicode
 		"""
 
 		return self.__defaultSessionDirectory
@@ -720,9 +759,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultSessionDirectory(self, value):
 		"""
-		This method is the setter method for **self.__defaultSessionDirectory** attribute.
+		Setter for **self.__defaultSessionDirectory** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -732,7 +772,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultSessionDirectory(self):
 		"""
-		This method is the deleter method for **self.__defaultSessionDirectory** attribute.
+		Deleter for **self.__defaultSessionDirectory** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -741,9 +781,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def defaultScriptEditorFile(self):
 		"""
-		This method is the property for **self.__defaultScriptEditorFile** attribute.
+		Property for **self.__defaultScriptEditorFile** attribute.
 
-		:return: self.__defaultScriptEditorFile. ( String )
+		:return: self.__defaultScriptEditorFile.
+		:rtype: unicode
 		"""
 
 		return self.__defaultScriptEditorFile
@@ -752,9 +793,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultScriptEditorFile(self, value):
 		"""
-		This method is the setter method for **self.__defaultScriptEditorFile** attribute.
+		Setter for **self.__defaultScriptEditorFile** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -764,7 +806,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultScriptEditorFile(self):
 		"""
-		This method is the deleter method for **self.__defaultScriptEditorFile** attribute.
+		Deleter for **self.__defaultScriptEditorFile** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -773,9 +815,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def factoryDefaultScriptEditorFile(self):
 		"""
-		This method is the property for **self.__factoryDefaultScriptEditorFile** attribute.
+		Property for **self.__factoryDefaultScriptEditorFile** attribute.
 
-		:return: self.__factoryDefaultScriptEditorFile. ( String )
+		:return: self.__factoryDefaultScriptEditorFile.
+		:rtype: unicode
 		"""
 
 		return self.__factoryDefaultScriptEditorFile
@@ -784,9 +827,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def factoryDefaultScriptEditorFile(self, value):
 		"""
-		This method is the setter method for **self.__factoryDefaultScriptEditorFile** attribute.
+		Setter for **self.__factoryDefaultScriptEditorFile** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -796,7 +840,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def factoryDefaultScriptEditorFile(self):
 		"""
-		This method is the deleter method for **self.__factoryDefaultScriptEditorFile** attribute.
+		Deleter for **self.__factoryDefaultScriptEditorFile** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -805,9 +849,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def scriptEditorFile(self):
 		"""
-		This method is the property for **self.__scriptEditorFile** attribute.
+		Property for **self.__scriptEditorFile** attribute.
 
-		:return: self.__scriptEditorFile. ( String )
+		:return: self.__scriptEditorFile.
+		:rtype: unicode
 		"""
 
 		return self.__scriptEditorFile
@@ -816,9 +861,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def scriptEditorFile(self, value):
 		"""
-		This method is the setter method for **self.__scriptEditorFile** attribute.
+		Setter for **self.__scriptEditorFile** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -830,7 +876,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def scriptEditorFile(self):
 		"""
-		This method is the deleter method for **self.__scriptEditorFile** attribute.
+		Deleter for **self.__scriptEditorFile** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -839,9 +885,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def maximumRecentFiles(self):
 		"""
-		This method is the property for **self.__maximumRecentFiles** attribute.
+		Property for **self.__maximumRecentFiles** attribute.
 
-		:return: self.__maximumRecentFiles. ( Integer )
+		:return: self.__maximumRecentFiles.
+		:rtype: int
 		"""
 
 		return self.__maximumRecentFiles
@@ -850,9 +897,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def maximumRecentFiles(self, value):
 		"""
-		This method is the setter method for **self.__maximumRecentFiles** attribute.
+		Setter for **self.__maximumRecentFiles** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -862,7 +910,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def maximumRecentFiles(self):
 		"""
-		This method is the deleter method for **self.__maximumRecentFiles** attribute.
+		Deleter for **self.__maximumRecentFiles** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -871,9 +919,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def recentFilesActions(self):
 		"""
-		This method is the property for **self.__recentFilesActions** attribute.
+		Property for **self.__recentFilesActions** attribute.
 
-		:return: self.__recentFilesActions. ( List )
+		:return: self.__recentFilesActions.
+		:rtype: list
 		"""
 
 		return self.__recentFilesActions
@@ -882,9 +931,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def recentFilesActions(self, value):
 		"""
-		This method is the setter method for **self.__recentFilesActions** attribute.
+		Setter for **self.__recentFilesActions** attribute.
 
-		:param value: Attribute value. ( List )
+		:param value: Attribute value.
+		:type value: list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -894,7 +944,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def recentFilesActions(self):
 		"""
-		This method is the deleter method for **self.__recentFilesActions** attribute.
+		Deleter for **self.__recentFilesActions** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -903,9 +953,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def searchAndReplace(self):
 		"""
-		This method is the property for **self.__searchAndReplace** attribute.
+		Property for **self.__searchAndReplace** attribute.
 
-		:return: self.__searchAndReplace. ( SearchAndReplace )
+		:return: self.__searchAndReplace.
+		:rtype: SearchAndReplace
 		"""
 
 		return self.__searchAndReplace
@@ -914,9 +965,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchAndReplace(self, value):
 		"""
-		This method is the setter method for **self.__searchAndReplace** attribute.
+		Setter for **self.__searchAndReplace** attribute.
 
-		:param value: Attribute value. ( SearchAndReplace )
+		:param value: Attribute value.
+		:type value: SearchAndReplace
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -926,7 +978,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchAndReplace(self):
 		"""
-		This method is the deleter method for **self.__searchAndReplace** attribute.
+		Deleter for **self.__searchAndReplace** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -935,9 +987,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def searchInFiles(self):
 		"""
-		This method is the property for **self.__searchInFiles** attribute.
+		Property for **self.__searchInFiles** attribute.
 
-		:return: self.__searchInFiles. ( SearchInFiles )
+		:return: self.__searchInFiles.
+		:rtype: SearchInFiles
 		"""
 
 		return self.__searchInFiles
@@ -946,9 +999,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchInFiles(self, value):
 		"""
-		This method is the setter method for **self.__searchInFiles** attribute.
+		Setter for **self.__searchInFiles** attribute.
 
-		:param value: Attribute value. ( SearchInFiles )
+		:param value: Attribute value.
+		:type value: SearchInFiles
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -958,7 +1012,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchInFiles(self):
 		"""
-		This method is the deleter method for **self.__searchInFiles** attribute.
+		Deleter for **self.__searchInFiles** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -967,9 +1021,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def indentWidth(self):
 		"""
-		This method is the property for **self.__indentWidth** attribute.
+		Property for **self.__indentWidth** attribute.
 
-		:return: self.__indentWidth. ( Integer )
+		:return: self.__indentWidth.
+		:rtype: int
 		"""
 
 		return self.__indentWidth
@@ -978,9 +1033,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def indentWidth(self, value):
 		"""
-		This method is the setter method for **self.__indentWidth** attribute.
+		Setter for **self.__indentWidth** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -990,7 +1046,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def indentWidth(self):
 		"""
-		This method is the deleter method for **self.__indentWidth** attribute.
+		Deleter for **self.__indentWidth** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -999,9 +1055,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def defaultFontsSettings(self):
 		"""
-		This method is the property for **self.__defaultFontsSettings** attribute.
+		Property for **self.__defaultFontsSettings** attribute.
 
-		:return: self.__defaultFontsSettings. ( Dictionary )
+		:return: self.__defaultFontsSettings.
+		:rtype: dict
 		"""
 
 		return self.__defaultFontsSettings
@@ -1010,9 +1067,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultFontsSettings(self, value):
 		"""
-		This method is the setter method for **self.__defaultFontsSettings** attribute.
+		Setter for **self.__defaultFontsSettings** attribute.
 
-		:param value: Attribute value. ( Dictionary )
+		:param value: Attribute value.
+		:type value: dict
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1022,7 +1080,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultFontsSettings(self):
 		"""
-		This method is the deleter method for **self.__defaultFontsSettings** attribute.
+		Deleter for **self.__defaultFontsSettings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1031,9 +1089,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def console(self):
 		"""
-		This method is the property for **self.__console** attribute.
+		Property for **self.__console** attribute.
 
-		:return: self.__console. ( Dictionary )
+		:return: self.__console.
+		:rtype: dict
 		"""
 
 		return self.__console
@@ -1042,9 +1101,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def console(self, value):
 		"""
-		This method is the setter method for **self.__console** attribute.
+		Setter for **self.__console** attribute.
 
-		:param value: Attribute value. ( Dictionary )
+		:param value: Attribute value.
+		:type value: dict
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1054,7 +1114,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def console(self):
 		"""
-		This method is the deleter method for **self.__console** attribute.
+		Deleter for **self.__console** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1063,9 +1123,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def memoryHandlerStackDepth(self):
 		"""
-		This method is the property for **self.__memoryHandlerStackDepth** attribute.
+		Property for **self.__memoryHandlerStackDepth** attribute.
 
-		:return: self.__memoryHandlerStackDepth. ( Integer )
+		:return: self.__memoryHandlerStackDepth.
+		:rtype: int
 		"""
 
 		return self.__memoryHandlerStackDepth
@@ -1074,9 +1135,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def memoryHandlerStackDepth(self, value):
 		"""
-		This method is the setter method for **self.__memoryHandlerStackDepth** attribute.
+		Setter for **self.__memoryHandlerStackDepth** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1086,7 +1148,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def memoryHandlerStackDepth(self):
 		"""
-		This method is the deleter method for **self.__memoryHandlerStackDepth** attribute.
+		Deleter for **self.__memoryHandlerStackDepth** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1095,9 +1157,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def menuBar(self):
 		"""
-		This method is the property for **self.__menuBar** attribute.
+		Property for **self.__menuBar** attribute.
 
-		:return: self.__menuBar. ( QToolbar )
+		:return: self.__menuBar.
+		:rtype: QToolbar
 		"""
 
 		return self.__menuBar
@@ -1106,9 +1169,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def menuBar(self, value):
 		"""
-		This method is the setter method for **self.__menuBar** attribute.
+		Setter for **self.__menuBar** attribute.
 
-		:param value: Attribute value. ( QToolbar )
+		:param value: Attribute value.
+		:type value: QToolbar
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1118,7 +1182,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def menuBar(self):
 		"""
-		This method is the deleter method for **self.__menuBar** attribute.
+		Deleter for **self.__menuBar** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1127,9 +1191,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def fileMenu(self):
 		"""
-		This method is the property for **self.__fileMenu** attribute.
+		Property for **self.__fileMenu** attribute.
 
-		:return: self.__fileMenu. ( QMenu )
+		:return: self.__fileMenu.
+		:rtype: QMenu
 		"""
 
 		return self.__fileMenu
@@ -1138,9 +1203,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def fileMenu(self, value):
 		"""
-		This method is the setter method for **self.__fileMenu** attribute.
+		Setter for **self.__fileMenu** attribute.
 
-		:param value: Attribute value. ( QMenu )
+		:param value: Attribute value.
+		:type value: QMenu
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1150,7 +1216,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def fileMenu(self):
 		"""
-		This method is the deleter method for **self.__fileMenu** attribute.
+		Deleter for **self.__fileMenu** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1159,9 +1225,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def editMenu(self):
 		"""
-		This method is the property for **self.__editMenu** attribute.
+		Property for **self.__editMenu** attribute.
 
-		:return: self.__editMenu. ( QMenu )
+		:return: self.__editMenu.
+		:rtype: QMenu
 		"""
 
 		return self.__editMenu
@@ -1170,9 +1237,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def editMenu(self, value):
 		"""
-		This method is the setter method for **self.__editMenu** attribute.
+		Setter for **self.__editMenu** attribute.
 
-		:param value: Attribute value. ( QMenu )
+		:param value: Attribute value.
+		:type value: QMenu
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1182,7 +1250,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def editMenu(self):
 		"""
-		This method is the deleter method for **self.__editMenu** attribute.
+		Deleter for **self.__editMenu** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1191,9 +1259,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def sourceMenu(self):
 		"""
-		This method is the property for **self.__sourceMenu** attribute.
+		Property for **self.__sourceMenu** attribute.
 
-		:return: self.__sourceMenu. ( QMenu )
+		:return: self.__sourceMenu.
+		:rtype: QMenu
 		"""
 
 		return self.__sourceMenu
@@ -1202,9 +1271,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def sourceMenu(self, value):
 		"""
-		This method is the setter method for **self.__sourceMenu** attribute.
+		Setter for **self.__sourceMenu** attribute.
 
-		:param value: Attribute value. ( QMenu )
+		:param value: Attribute value.
+		:type value: QMenu
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1214,7 +1284,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def sourceMenu(self):
 		"""
-		This method is the deleter method for **self.__sourceMenu** attribute.
+		Deleter for **self.__sourceMenu** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1223,9 +1293,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def navigateMenu(self):
 		"""
-		This method is the property for **self.__navigateMenu** attribute.
+		Property for **self.__navigateMenu** attribute.
 
-		:return: self.__navigateMenu. ( QMenu )
+		:return: self.__navigateMenu.
+		:rtype: QMenu
 		"""
 
 		return self.__navigateMenu
@@ -1234,9 +1305,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def navigateMenu(self, value):
 		"""
-		This method is the setter method for **self.__navigateMenu** attribute.
+		Setter for **self.__navigateMenu** attribute.
 
-		:param value: Attribute value. ( QMenu )
+		:param value: Attribute value.
+		:type value: QMenu
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1246,7 +1318,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def navigateMenu(self):
 		"""
-		This method is the deleter method for **self.__navigateMenu** attribute.
+		Deleter for **self.__navigateMenu** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1255,9 +1327,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def searchMenu(self):
 		"""
-		This method is the property for **self.__searchMenu** attribute.
+		Property for **self.__searchMenu** attribute.
 
-		:return: self.__searchMenu. ( QMenu )
+		:return: self.__searchMenu.
+		:rtype: QMenu
 		"""
 
 		return self.__searchMenu
@@ -1266,9 +1339,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchMenu(self, value):
 		"""
-		This method is the setter method for **self.__searchMenu** attribute.
+		Setter for **self.__searchMenu** attribute.
 
-		:param value: Attribute value. ( QMenu )
+		:param value: Attribute value.
+		:type value: QMenu
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1278,7 +1352,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchMenu(self):
 		"""
-		This method is the deleter method for **self.__searchMenu** attribute.
+		Deleter for **self.__searchMenu** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1287,9 +1361,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def commandMenu(self):
 		"""
-		This method is the property for **self.__commandMenu** attribute.
+		Property for **self.__commandMenu** attribute.
 
-		:return: self.__commandMenu. ( QMenu )
+		:return: self.__commandMenu.
+		:rtype: QMenu
 		"""
 
 		return self.__commandMenu
@@ -1298,9 +1373,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def commandMenu(self, value):
 		"""
-		This method is the setter method for **self.__commandMenu** attribute.
+		Setter for **self.__commandMenu** attribute.
 
-		:param value: Attribute value. ( QMenu )
+		:param value: Attribute value.
+		:type value: QMenu
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1310,7 +1386,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def commandMenu(self):
 		"""
-		This method is the deleter method for **self.__commandMenu** attribute.
+		Deleter for **self.__commandMenu** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1319,9 +1395,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def viewMenu(self):
 		"""
-		This method is the property for **self.__viewMenu** attribute.
+		Property for **self.__viewMenu** attribute.
 
-		:return: self.__viewMenu. ( QMenu )
+		:return: self.__viewMenu.
+		:rtype: QMenu
 		"""
 
 		return self.__viewMenu
@@ -1330,9 +1407,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def viewMenu(self, value):
 		"""
-		This method is the setter method for **self.__viewMenu** attribute.
+		Setter for **self.__viewMenu** attribute.
 
-		:param value: Attribute value. ( QMenu )
+		:param value: Attribute value.
+		:type value: QMenu
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1342,7 +1420,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def viewMenu(self):
 		"""
-		This method is the deleter method for **self.__viewMenu** attribute.
+		Deleter for **self.__viewMenu** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1353,10 +1431,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	#******************************************************************************************************************
 	def activate(self, engine):
 		"""
-		This method activates the Component.
+		Activates the Component.
 
-		:param engine: Container to attach the Component to. ( QObject )
-		:return: Method success. ( Boolean )
+		:param engine: Container to attach the Component to.
+		:type engine: QObject
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
@@ -1383,9 +1463,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def deactivate(self):
 		"""
-		This method deactivates the Component.
+		Deactivates the Component.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1393,9 +1474,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def initializeUi(self):
 		"""
-		This method initializes the Component ui.
+		Initializes the Component ui.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
@@ -1415,6 +1497,8 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		self.__menuBar = QMenuBar()
 		self.__menuBar.setNativeMenuBar(False)
 		self.menuBar_frame_gridLayout.addWidget(self.__menuBar)
+		# Qt 4.8.4: Needs to show the menuBar, otherwise it doesn't appear.
+		self.__menuBar.show()
 		self.__initializeMenuBar()
 
 		self.Script_Editor_Output_plainTextEdit.setParent(None)
@@ -1467,9 +1551,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def uninitializeUi(self):
 		"""
-		This method uninitializes the Component ui.
+		Uninitializes the Component ui.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -1477,9 +1562,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def addWidget(self):
 		"""
-		This method adds the Component Widget to the engine.
+		Adds the Component Widget to the engine.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Adding '{0}' Component Widget.".format(self.__class__.__name__))
@@ -1490,9 +1576,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def removeWidget(self):
 		"""
-		This method removes the Component Widget from the engine.
+		Removes the Component Widget from the engine.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Removing '{0}' Component Widget.".format(self.__class__.__name__))
@@ -1504,7 +1591,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def onStartup(self):
 		"""
-		This method is triggered on Framework startup.
+		Defines the slot triggered on Framework startup.
 		"""
 
 		LOGGER.debug("> Calling '{0}' Component Framework 'onStartup' method.".format(self.__class__.__name__))
@@ -1534,17 +1621,19 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def onClose(self):
 		"""
-		This method is triggered on Framework close.
+		Defines the slot triggered on Framework close.
 		"""
 
 		LOGGER.debug("> Calling '{0}' Component Framework 'onClose' method.".format(self.__class__.__name__))
+
+		map(self.unregisterFile, self.listFiles())
 
 		if self.storeSession() and self.closeAllFiles(leaveFirstEditor=False):
 			return True
 
 	def __initializeMenuBar(self):
 		"""
-		This method initializes Component menuBar.
+		Initializes Component menuBar.
 		"""
 
 		self.__fileMenu = QMenu("&File", parent=self.__menuBar)
@@ -1735,7 +1824,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.trace.untracable
 	def __Script_Editor_Output_plainTextEdit_setUi(self):
 		"""
-		This method sets the **Script_Editor_Output_plainTextEdit** Widget.
+		Sets the **Script_Editor_Output_plainTextEdit** Widget.
 		"""
 
 		self.Script_Editor_Output_plainTextEdit.setReadOnly(True)
@@ -1762,7 +1851,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.trace.untracable
 	def __Script_Editor_Output_plainTextEdit_setDefaultViewState(self):
 		"""
-		This method sets the **Script_Editor_Output_plainTextEdit** Widget default View state.
+		Sets the **Script_Editor_Output_plainTextEdit** Widget default View state.
 		"""
 
 		self.Script_Editor_Output_plainTextEdit.moveCursor(QTextCursor.End)
@@ -1771,7 +1860,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.trace.untracable
 	def __Script_Editor_Output_plainTextEdit_refreshUi(self):
 		"""
-		This method updates the **Script_Editor_Output_plainTextEdit** Widget.
+		Updates the **Script_Editor_Output_plainTextEdit** Widget.
 		"""
 
 		memoryHandlerStackDepth = len(self.__engine.loggingSessionHandlerStream.stream)
@@ -1785,9 +1874,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Script_Editor_Output_plainTextEdit_contextMenuEvent(self, event):
 		"""
-		This method reimplements the :meth:`QPlainTextEdit.contextMenuEvent` method.
+		Reimplements the :meth:`QPlainTextEdit.contextMenuEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		menu = self.Script_Editor_Output_plainTextEdit.createStandardContextMenu()
@@ -1799,7 +1889,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Script_Editor_tabWidget_setUi(self):
 		"""
-		This method sets the **Script_Editor_tabWidget** Widget.
+		Sets the **Script_Editor_tabWidget** Widget.
 		"""
 
 		self.Script_Editor_tabWidget.setTabsClosable(True)
@@ -1807,9 +1897,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Script_Editor_tabWidget__tabCloseRequested(self, index):
 		"""
-		This method is triggered by the **Script_Editor_tabWidget** Widget when a tab is requested to be closed.
+		Defines the slot triggered by **Script_Editor_tabWidget** Widget when a tab is requested to be closed.
 
-		:param index: Tab index. ( Integer )
+		:param index: Tab index.
+		:type index: int
 		"""
 
 		LOGGER.debug("> Closing tab with index '{0}'.".format(index))
@@ -1819,9 +1910,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Script_Editor_tabWidget__currentChanged(self, index):
 		"""
-		This method is triggered by the **Script_Editor_tabWidget** Widget when the current tab is changed.
+		Defines the slot triggered by **Script_Editor_tabWidget** Widget when the current tab is changed.
 
-		:param index: Tab index. ( Integer )
+		:param index: Tab index.
+		:type index: int
 		"""
 
 		LOGGER.debug("> Current tab changed to '{0}' index.".format(index))
@@ -1831,19 +1923,22 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __Script_Editor_tabWidget__contentDropped(self, event):
 		"""
-		This method is triggered when content is dropped in the **Script_Editor_tabWidget** Widget.
+		Defines the slot triggered by content when dropped in the **Script_Editor_tabWidget** Widget.
 
-		:param event: Event. ( QEvent )
+		:param event: Event.
+		:type event: QEvent
 		"""
 
 		self.__handleDroppedContent(event)
 
 	def __Script_Editor_tabWidget_tabBar__tabMoved(self, toIndex, fromIndex):
 		"""
-		This method is triggered when a **Script_Editor_tabWidget** Widget tab is moved.
+		Defines the slot triggered by a **Script_Editor_tabWidget** Widget tab when moved.
 
-		:param toIndex: Index to. ( Integer )
-		:param fromIndex: Index from. ( Integer )
+		:param toIndex: Index to.
+		:type toIndex: int
+		:param fromIndex: Index from.
+		:type fromIndex: int
 		"""
 
 		editor = self.getCurrentEditor()
@@ -1858,27 +1953,30 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __engine__contentDropped(self, event):
 		"""
-		This method is triggered when content is dropped into the engine.
-		
-		:param event: Event. ( QEvent )
+		Defines the slot triggered by content when dropped into the engine.
+
+		:param event: Event.
+		:type event: QEvent
 		"""
 
 		self.__handleDroppedContent(event)
 
 	def __engine_layoutsManager__layoutRestored(self, currentLayout):
 		"""
-		This method is triggered when the engine layout is changed.
+		Defines the slot triggered by the engine layout when changed.
 
-		:param currentLayout: Current layout. ( String )
+		:param currentLayout: Current layout.
+		:type currentLayout: unicode
 		"""
 
 		self.Editor_Status_editorStatus.setVisible(not self.isHidden())
 
 	def __engine_fileSystemEventsManager__fileChanged(self, file):
 		"""
-		This method is triggered by the **fileSystemEventsManager** when a file is changed.
-		
-		:param file: File changed. ( String )
+		Defines the slot triggered by the **fileSystemEventsManager** when a file is changed.
+
+		:param file: File changed.
+		:type file: unicode
 		"""
 
 		file = foundations.strings.toString(file)
@@ -1887,9 +1985,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __engine_fileSystemEventsManager__fileInvalidated(self, file):
 		"""
-		This method is triggered by the **fileSystemEventsManager** when a file is invalidated.
-		
-		:param file: File changed. ( String )
+		Defines the slot triggered by the **fileSystemEventsManager** when a file is invalidated.
+
+		:param file: File changed.
+		:type file: unicode
 		"""
 
 		file = foundations.strings.toString(file)
@@ -1899,9 +1998,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __engine_fileSystemEventsManager__directoryChanged(self, directory):
 		"""
-		This method is triggered by the **fileSystemEventsManager** when a directory is changed.
-		
-		:param directory: Directory changed. ( String )
+		Defines the slot triggered by the **fileSystemEventsManager** when a directory is changed.
+
+		:param directory: Directory changed.
+		:type directory: unicode
 		"""
 
 		for projectNode in self.__model.listProjectNodes():
@@ -1915,9 +2015,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __engine_fileSystemEventsManager__directoryInvalidated(self, directory):
 		"""
-		This method is triggered by the **fileSystemEventsManager** when a directory is invalidated.
-		
-		:param directory: Directory invalidated. ( String )
+		Defines the slot triggered by the **fileSystemEventsManager** when a directory is invalidated.
+
+		:param directory: Directory invalidated.
+		:type directory: unicode
 		"""
 
 		for projectNode in self.__model.listProjectNodes():
@@ -1927,111 +2028,126 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __scriptEditor__visibilityChanged(self, visibility):
 		"""
-		This method is triggered when the **scriptEditor** Component visibility changed.
+		Defines the slot triggered by the **scriptEditor** Component when visibility changed.
 
-		:param visibility: Widget visibility. ( Boolean )
+		:param visibility: Widget visibility.
+		:type visibility: bool
 		"""
 
 		self.Editor_Status_editorStatus.setVisible(visibility)
 
 	def __newFileAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&New'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&New'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.newFile()
 
 	def __model__fileRegistered(self, fileNode):
 		"""
-		This method is triggered by the Model when a file is registered.
-		
-		:param fileNode: Registered file FileNode. ( FileNode )
+		Defines the slot triggered by Model when a file is registered.
+
+		:param fileNode: Registered file FileNode.
+		:type fileNode: FileNode
 		"""
 
 		self.registerNodePath(fileNode)
 
 	def __model__fileUnregistered(self, fileNode):
 		"""
-		This method is triggered by the Model when a file is unregistered.
-		
-		:param fileNode: Unregistered file FileNode. ( FileNode )
+		Defines the slot triggered by Model when a file is unregistered.
+
+		:param fileNode: Unregistered file FileNode.
+		:type fileNode: FileNode
 		"""
 
 		self.unregisterNodePath(fileNode)
 
 	def __model__directoryRegistered(self, directoryNode):
 		"""
-		This method is triggered by the Model when a directory is registered.
-		
-		:param directoryNode: Registered directory DirectoryNode. ( DirectoryNode )
+		Defines the slot triggered by Model when a directory is registered.
+
+		:param directoryNode: Registered directory DirectoryNode.
+		:type directoryNode: DirectoryNode
 		"""
 
 		self.registerNodePath(directoryNode)
 
 	def __model__directoryUnregistered(self, directoryNode):
 		"""
-		This method is triggered by the Model when a directory is unregistered.
-		
-		:param directoryNode: Unregistered directory DirectoryNode. ( DirectoryNode )
+		Defines the slot triggered by Model when a directory is unregistered.
+
+		:param directoryNode: Unregistered directory DirectoryNode.
+		:type directoryNode: DirectoryNode
 		"""
 
 		self.unregisterNodePath(directoryNode)
 
 	def __model__projectRegistered(self, projectNode):
 		"""
-		This method is triggered by the Model when a project is registered.
-		
-		:param projectNode: Registered project ProjectNode. ( ProjectNode )
+		Defines the slot triggered by Model when a project is registered.
+
+		:param projectNode: Registered project ProjectNode.
+		:type projectNode: ProjectNode
 		"""
 
 		self.registerNodePath(projectNode)
 
 	def __model__projectUnregistered(self, projectNode):
 		"""
-		This method is triggered by the Model when a project is unregistered.
-		
-		:param projectNode: Unregistered project ProjectNode. ( ProjectNode )
+		Defines the slot triggered by Model when a project is unregistered.
+
+		:param projectNode: Unregistered project ProjectNode.
+		:type projectNode: ProjectNode
 		"""
 
 		self.unregisterNodePath(projectNode)
 
 	def __model__editorRegistered(self, editorNode):
 		"""
-		This method is triggered by the Model when an editor is registered.
-		
-		:param editorNode: Registered editor EditorNode. ( EditorNode )
+		Defines the slot triggered by Model when an editor is registered.
+
+		:param editorNode: Registered editor EditorNode.
+		:type editorNode: EditorNode
 		"""
 
 		self.addEditorTab(editorNode.editor)
 
 	def __model__editorUnregistered(self, editorNode):
 		"""
-		This method is triggered by the Model when an editor is unregistered.
-		
-		:param editorNode: Unregistered editor EditorNode. ( EditorNode )
+		Defines the slot triggered by Model when an editor is unregistered.
+
+		:param editorNode: Unregistered editor EditorNode.
+		:type editorNode: EditorNode
 		"""
 
 		self.removeEditorTab(editorNode.editor)
 
 	def __loadFileAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Load ...'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Load ...'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.loadFileUi()
 
 	def __sourceFileAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Source ...'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Source ...'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if self.loadFileUi():
@@ -2039,80 +2155,96 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __addProjectAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Add Project ...'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Add Project ...'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.addProjectUi()
 
 	def __saveFileAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Save'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|&Save'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.saveFile()
 
 	def __saveFileAsAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Save As ...'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Save As ...'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.saveFileAs()
 
 	def __saveAllFilesAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Save All'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Save All'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.saveAllFiles()
 
 	def __revertFileAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Revert'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Revert'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.revertFile()
 
 	def __closeFileAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Close ...'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Close ...'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.closeFile()
 
 	def __closeAllFilesAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Close All ...'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&File|Close All ...'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.closeAllFiles()
 
 	def __loadRecentFile__triggered(self, checked):
 		"""
-		This method is triggered by any recent file related action.
+		Defines the slot triggered by any recent file related action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		file = self.sender().data
@@ -2121,10 +2253,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __undoAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Undo'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Undo'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.hasEditorTab():
@@ -2135,10 +2269,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __redoAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Redo'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Redo'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.hasEditorTab():
@@ -2149,10 +2285,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __cutAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Cu&t'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Cu&t'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		currentWidget = self.getFocusWidget()
@@ -2167,10 +2305,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __copyAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Copy'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Copy'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		currentWidget = self.getFocusWidget()
@@ -2182,10 +2322,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __pasteAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Paste'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|&Paste'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.hasEditorTab():
@@ -2196,10 +2338,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __deleteAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Delete'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.hasEditorTab():
@@ -2210,10 +2354,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __selectAllAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Select All'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Edit|Select All'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		currentWidget = self.getFocusWidget()
@@ -2225,10 +2371,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __deleteLinesAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Delete Line(s)'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Delete Line(s)'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.hasEditorTab():
@@ -2238,10 +2386,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __duplicateLinesAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Duplicate Line(s)'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Duplicate Line(s)'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.hasEditorTab():
@@ -2251,10 +2401,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __moveUpAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Move Up'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Move Up'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.hasEditorTab():
@@ -2264,10 +2416,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __moveDownAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Move Down'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Move Down'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.hasEditorTab():
@@ -2277,10 +2431,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __indentSelectionAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Indent Selection'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Indent Selection'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.hasEditorTab():
@@ -2290,10 +2446,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __unindentSelectionAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Unindent Selection'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Unindent Selection'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.hasEditorTab():
@@ -2303,11 +2461,13 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __convertIndentationToTabsAction__triggered(self, checked):
 		"""
-		This method is triggered by
+		Defines the slot triggered by
 		**'Actions|Umbra|Components|factory.scriptEditor|&Source|Convert Identation To Tabs'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.hasEditorTab():
@@ -2317,11 +2477,13 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __convertIndentationToSpacesAction__triggered(self, checked):
 		"""
-		This method is triggered by
+		Defines the slot triggered by
 		**'Actions|Umbra|Components|factory.scriptEditor|&Source|Convert Identation To Spaces'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.hasEditorTab():
@@ -2331,11 +2493,13 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __removeTrailingWhiteSpacesAction__triggered(self, checked):
 		"""
-		This method is triggered by
+		Defines the slot triggered by
 		**'Actions|Umbra|Components|factory.scriptEditor|&Source|Remove Trailing WhiteSpaces'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.hasEditorTab():
@@ -2345,10 +2509,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __toggleCommentsAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Toggle Comments'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Source|Toggle Comments'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.hasEditorTab():
@@ -2358,42 +2524,50 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __gotoLineAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Navigate|Goto Line ...'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Navigate|Goto Line ...'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.gotoLine()
 
 	def __searchAndReplaceAction__triggered(self, checked):
 		"""
-		This method is triggered by
+		Defines the slot triggered by
 		**'Actions|Umbra|Components|factory.scriptEditor|&Search|Search And Replace ...'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.searchAndReplaceUi()
 
 	def __searchInFilesAction__triggered(self, checked):
 		"""
-		This method is triggered by
+		Defines the slot triggered by
 		**'Actions|Umbra|Components|factory.scriptEditor|&Search|Search In Files ...'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.searchInFilesUi()
 
 	def __searchNextAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Search|Search Next'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Search|Search Next'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.hasEditorTab():
@@ -2403,10 +2577,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __searchPreviousAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Search|Search Previous'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Search|Search Previous'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.hasEditorTab():
@@ -2416,31 +2592,37 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __evaluateSelectionAction__triggered(self, checked):
 		"""
-		This method is triggered by
+		Defines the slot triggered by
 		**'Actions|Umbra|Components|factory.scriptEditor|&Command|&Evaluate Selection'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.evaluateSelection()
 
 	def __evaluateScriptAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&Command|Evaluate &Script'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.evaluateScript()
 
 	def __increaseFontSizeAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Increase Font Size'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Increase Font Size'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		currentWidget = self.getFocusWidget()
@@ -2451,10 +2633,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __decreaseFontSizeAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Decrease Font Size'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Decrease Font Size'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		currentWidget = self.getFocusWidget()
@@ -2465,10 +2649,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __toggleWordWrapAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Toggle Word Wrap'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Toggle Word Wrap'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		currentWidget = self.getFocusWidget()
@@ -2479,10 +2665,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __toggleWhiteSpacesAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Toggle White Spaces'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Toggle White Spaces'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		currentWidget = self.getFocusWidget()
@@ -2493,27 +2681,31 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __loopThroughEditorsAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Loop Through Editors'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|&View|Loop Through Editors'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.loopThroughEditors()
 
 	def __editSelectedPathAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.scriptEditor|Edit Selected Path'** action.
+		Defines the slot triggered by **'Actions|Umbra|Components|factory.scriptEditor|Edit Selected Path'** action.
 
-		:param checked: Checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.loadPath(foundations.strings.toString(self.Script_Editor_Output_plainTextEdit.getSelectedText()))
 
 	def __editor__patternsReplaced(self, patterns):
 		"""
-		This method is triggered when an editor patterns have been replaced.
+		Defines the slot triggered by an editor when patterns have been replaced.
 		"""
 
 		replacedPatternsCount = len(patterns)
@@ -2522,7 +2714,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __editor__titleChanged(self):
 		"""
-		This method is triggered when an editor title is changed.
+		Defines the slot triggered by an editor when title is changed.
 		"""
 
 		self.__setTabTitle(self.getEditorTab(self.sender()))
@@ -2530,37 +2722,39 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __editor__fileLoaded(self):
 		"""
-		This method is triggered when an editor file is loaded.
+		Defines the slot triggered by an editor when file is loaded.
 		"""
 
 		self.registerNodePath(self.sender())
 
 	def __editor__fileSaved(self):
 		"""
-		This method is triggered when an editor file is saved.
+		Defines the slot triggered by an editor when file is saved.
 		"""
 
 		self.registerNodePath(self.sender())
 
 	def __editor__languageChanged(self):
 		"""
-		This method is triggered when an editor language is changed.
+		Defines the slot triggered by an editor when language is changed.
 		"""
 
 		self.Editor_Status_editorStatus._EditorStatus__Languages_comboBox_setDefaultViewState()
 
 	def __editor__modificationChanged(self, changed):
 		"""
-		This method is triggered when an editor document is modified.
-		
-		:param changed: File modification state. ( Boolean )
+		Defines the slot triggered by an editor when document is modified.
+
+		:param changed: File modification state.
+		:type changed: bool
 		"""
 
-		self.searchInFiles._SearchInFiles__uncache(self.sender().file)
+		if self.sender() is not None:
+			self.searchInFiles._SearchInFiles__uncache(self.sender().file)
 
 	def __initializeLanguagesModel(self):
 		"""
-		This method initializes the languages Model.
+		Initializes the languages Model.
 		"""
 
 		languages = [PYTHON_LANGUAGE, LOGGING_LANGUAGE, TEXT_LANGUAGE]
@@ -2584,9 +2778,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@umbra.engine.encapsulateProcessing
 	def __handleDroppedContent(self, event):
 		"""
-		This method handles dopped content event.
-		
-		:param event: Content dropped event. ( QEvent )
+		Handles dopped content event.
+
+		:param event: Content dropped event.
+		:type event: QEvent
 		"""
 
 		if not event.mimeData().hasUrls():
@@ -2606,7 +2801,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __getSupportedFileTypesString(self):
 		"""
-		This method returns the supported file types dialog string.
+		Returns the supported file types dialog string.
 		"""
 
 		languages = ["All Files (*)"]
@@ -2617,7 +2812,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __setRecentFilesActions(self):
 		"""
-		This method sets the recent files actions.
+		Sets the recent files actions.
 		"""
 
 		recentFiles = [foundations.strings.toString(file)
@@ -2642,9 +2837,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __storeRecentFile(self, file):
 		"""
-		This method stores given recent file into the settings.
-		
-		:param file: File to store. ( String )
+		Stores given recent file into the settings.
+
+		:param file: File to store.
+		:type file: unicode
 		"""
 
 		LOGGER.debug("> Storing '{0}' file in recent files.".format(file))
@@ -2664,7 +2860,7 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __setWindowTitle(self):
 		"""
-		This method sets the Component window title.
+		Sets the Component window title.
 		"""
 
 		if self.hasEditorTab():
@@ -2677,9 +2873,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __setTabTitle(self, index):
 		"""
-		This method sets the name and toolTip of the **Script_Editor_tabWidget** Widget tab with given index.
+		Sets the name and toolTip of the **Script_Editor_tabWidget** Widget tab with given index.
 
-		:param index: Index of the tab containing the Model editor. ( Integer )
+		:param index: Index of the tab containing the Model editor.
+		:type index: int
 		"""
 
 		editor = self.getWidget(index)
@@ -2697,37 +2894,42 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __hasEditorLock(self, editor):
 		"""
-		This method returns if given editor has a lock.
+		Returns if given editor has a lock.
 
-		:param editor: Editor. ( Editor )
-		:return: Has editor lock. ( Boolean )
+		:param editor: Editor.
+		:type editor: Editor
+		:return: Has editor lock.
+		:rtype: bool
 		"""
 
 		return hasattr(editor, "__lock")
 
 	def __lockEditor(self, editor):
 		"""
-		This method locks given editor.
+		Locks given editor.
 
-		:param editor: Editor. ( Editor )
+		:param editor: Editor.
+		:type editor: Editor
 		"""
 
 		setattr(editor, "__lock", True)
 
 	def __unlockEditor(self, editor):
 		"""
-		This method locks given editor.
+		Locks given editor.
 
-		:param editor: Editor. ( Editor )
+		:param editor: Editor.
+		:type editor: Editor
 		"""
 
 		delattr(editor, "__lock")
 
 	def __getUntitledFileName(self):
 		"""
-		This method returns an untitled file name.
+		Returns an untitled file name.
 
-		:return: Untitled file name. ( String )
+		:return: Untitled file name.
+		:rtype: unicode
 		"""
 
 		untitledNameId = Editor._Editor__untitledNameId
@@ -2746,12 +2948,42 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		LOGGER.debug("> Next untitled file name: '{0}'.".format(name))
 		return name
 
+	def registerFile(self, file):
+		"""
+		Registers given file in the **fileSystemEventsManager**.
+
+		:param file: File.
+		:type file: unicode
+		:return: Method success.
+		:rtype: bool
+		"""
+
+		not self.__engine.fileSystemEventsManager.isPathRegistered(file) and \
+		self.__engine.fileSystemEventsManager.registerPath(file)
+		return True
+
+	def unregisterFile(self, file):
+		"""
+		Unregisters given file in the **fileSystemEventsManager**.
+
+		:param file: File.
+		:type file: unicode
+		:return: Method success.
+		:rtype: bool
+		"""
+
+		self.__engine.fileSystemEventsManager.isPathRegistered(file) and \
+		self.__engine.fileSystemEventsManager.unregisterPath(file)
+		return True
+
 	def registerNodePath(self, node):
 		"""
-		This method registers given Node path in the **fileSystemEventsManager**.
+		Registers given Node path in the **fileSystemEventsManager**.
 
-		:param node: Node. ( FileNode / DirectoryNode / ProjectNode )
-		:return: Method success. ( Boolean )
+		:param node: Node.
+		:type node: FileNode or DirectoryNode or ProjectNode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		path = node.file if hasattr(node, "file") else node.path
@@ -2759,31 +2991,31 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 		if not foundations.common.pathExists(path):
 			return False
 
-		not self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
-		self.__engine.fileSystemEventsManager.registerPath(path)
-		return True
+		return self.registerFile(path)
 
 	def unregisterNodePath(self, node):
 		"""
-		This method unregisters given Node path from the **fileSystemEventsManager**..
+		Unregisters given Node path from the **fileSystemEventsManager**.
 
-		:param node: Node. ( FileNode / DirectoryNode / ProjectNode )
-		:return: Method success. ( Boolean )
+		:param node: Node.
+		:type node: FileNode or DirectoryNode or ProjectNode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		path = node.file if hasattr(node, "file") else node.path
 		path = foundations.strings.toString(path)
-		self.__engine.fileSystemEventsManager.isPathRegistered(path) and \
-		self.__engine.fileSystemEventsManager.unregisterPath(path)
-		return True
+
+		return self.unregisterFile(path)
 
 	def loadFileUi(self):
 		"""
-		This method loads user chosen file(s) into **Script_Editor_tabWidget** Widget tab Model editor(s).
+		Loads user chosen file(s) into **Script_Editor_tabWidget** Widget tab Model editor(s).
 
-		:return: Method success. ( Boolean )
-		
-		:note: This method may require user interaction.
+		:return: Method success.
+		:rtype: bool
+
+		:note: May require user interaction.
 		"""
 
 		editor = self.getCurrentEditor()
@@ -2804,11 +3036,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def addProjectUi(self):
 		"""
-		This method adds user chosen project **Script_Editor_tabWidget** Widget tab Model.
+		Adds user chosen project **Script_Editor_tabWidget** Widget tab Model.
 
-		:return: Method success. ( Boolean )
-		
-		:note: This method may require user interaction.
+		:return: Method success.
+		:rtype: bool
+
+		:note: May require user interaction.
 		"""
 
 		directory = umbra.ui.common.storeLastBrowsedPath(QFileDialog.getExistingDirectory(self,
@@ -2821,11 +3054,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def searchAndReplaceUi(self):
 		"""
-		This method performs a search and replace in the current **Script_Editor_tabWidget** Widget tab Model editor.
+		Performs a search and replace in the current **Script_Editor_tabWidget** Widget tab Model editor.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 
-		:note: This method may require user interaction.
+		:note: May require user interaction.
 		"""
 
 		self.__searchAndReplace.show()
@@ -2833,11 +3067,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def searchInFilesUi(self):
 		"""
-		This method performs a search in the current user chosen files.
+		Performs a search in the current user chosen files.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 
-		:note: This method may require user interaction.
+		:note: May require user interaction.
 		"""
 
 		self.__searchInFiles.show()
@@ -2845,10 +3080,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def getWidget(self, index):
 		"""
-		This method returns the **Script_Editor_tabWidget** Widget associated with given index.
+		Returns the **Script_Editor_tabWidget** Widget associated with given index.
 
-		:param index: Tab index. ( Integer )
-		:return: Widget. ( QWidget )
+		:param index: Tab index.
+		:type index: int
+		:return: Widget.
+		:rtype: QWidget
 		"""
 
 		if index is not None:
@@ -2856,22 +3093,28 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def getFocusWidget(self):
 		"""
-		This method returns the Widget with focus.
+		Returns the Widget with focus.
 
-		:return: Widget with focus. ( QWidget )
+		:return: Widget with focus.
+		:rtype: QWidget
 		"""
 
 		currentWidget = QApplication.focusWidget()
+		if currentWidget is None:
+			return False
+
 		if currentWidget.objectName() == "Script_Editor_Output_plainTextEdit" or \
 			isinstance(currentWidget, Editor):
 			return currentWidget
 
 	def getEditorTab(self, editor):
 		"""
-		This method returns the **Script_Editor_tabWidget** Widget tab associated with the given editor.
+		Returns the **Script_Editor_tabWidget** Widget tab associated with the given editor.
 
-		:param Editor: Editor to search tab for. ( Editor )
-		:return: Tab index. ( Editor )
+		:param editor: Editor to search tab for.
+		:type editor: Editor
+		:return: Tab index.
+		:rtype: Editor
 		"""
 
 		for i in range(self.Script_Editor_tabWidget.count()):
@@ -2883,10 +3126,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def addEditorTab(self, editor):
 		"""
-		This method adds a new tab to the **Script_Editor_tabWidget** Widget and sets the given editor as child widget.
+		Adds a new tab to the **Script_Editor_tabWidget** Widget and sets the given editor as child widget.
 
-		:param editor: Editor. ( Editor )
-		:return: New tab index. ( Integer )
+		:param editor: Editor.
+		:type editor: Editor
+		:return: New tab index.
+		:rtype: int
 		"""
 
 		index = self.Script_Editor_tabWidget.addTab(editor, editor.getFileShortName())
@@ -2906,10 +3151,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def removeEditorTab(self, editor):
 		"""
-		This method removes the **Script_Editor_tabWidget** Widget tab with given editor.
+		Removes the **Script_Editor_tabWidget** Widget tab with given editor.
 
-		:param editor: Editor. ( Editor )
-		:return: Method success. ( Boolean )
+		:param editor: Editor.
+		:type editor: Editor
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Removing tab with Editor '{0}'.".format(editor))
@@ -2918,10 +3165,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def findEditorTab(self, file):
 		"""
-		This method finds the **Script_Editor_tabWidget** Widget tab associated to the given file.
+		Finds the **Script_Editor_tabWidget** Widget tab associated to the given file.
 
-		:param file: File to search tab for. ( String )
-		:return: Tab index. ( Editor )
+		:param file: File to search tab for.
+		:type file: unicode
+		:return: Tab index.
+		:rtype: Editor
 		"""
 
 		for i in range(self.Script_Editor_tabWidget.count()):
@@ -2933,18 +3182,20 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def hasEditorTab(self):
 		"""
-		This method returns if the **Script_Editor_tabWidget** Widget has at least one tab.
+		Returns if the **Script_Editor_tabWidget** Widget has at least one tab.
 
-		:return: Has tab. ( Boolean )
+		:return: Has tab.
+		:rtype: bool
 		"""
 
 		return self.Script_Editor_tabWidget.count() and True or False
 
 	def getCurrentEditor(self):
 		"""
-		This method returns the current **Script_Editor_tabWidget** Widget tab Model editor.
+		Returns the current **Script_Editor_tabWidget** Widget tab Model editor.
 
-		:return: Current editor. ( Editor )
+		:return: Current editor.
+		:rtype: Editor
 		"""
 
 		if not self.hasEditorTab():
@@ -2954,10 +3205,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def setCurrentEditor(self, file):
 		"""
-		This method focus the **Script_Editor_tabWidget** Widget tab Model editor with given file.
+		Focus the **Script_Editor_tabWidget** Widget tab Model editor with given file.
 
-		:param file: File. ( String )
-		:return: Method success. ( Boolean )
+		:param file: File.
+		:type file: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		index = self.findEditorTab(file)
@@ -2967,10 +3220,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def loadPath(self, path):
 		"""
-		This method loads given path.
-		
-		:param path: Path to load. ( String )
-		:return: Method success. ( Boolean )
+		Loads given path.
+
+		:param path: Path to load.
+		:type path: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not foundations.common.pathExists(path):
@@ -2988,11 +3243,14 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def loadDocument(self, document, file):
 		"""
-		This method loads given document into a new **Script_Editor_tabWidget** Widget tab Model editor.
+		Loads given document into a new **Script_Editor_tabWidget** Widget tab Model editor.
 
-		:param document: Document to load. ( QTextDocument )
-		:param file: Document file. ( String )
-		:return: Method success. ( Boolean )
+		:param document: Document to load.
+		:type document: QTextDocument
+		:param file: Document file.
+		:type file: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not foundations.common.pathExists(file):
@@ -3021,10 +3279,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def addProject(self, path):
 		"""
-		This method adds a project.
-		
-		:param path: Project path. ( String )
-		:return: Method success. ( Boolean )
+		Adds a project.
+
+		:param path: Project path.
+		:type path: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not foundations.common.pathExists(path):
@@ -3046,10 +3306,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def removeProject(self, path):
 		"""
-		This method removes a project.
-		
-		:param path: Project path. ( String )
-		:return: Method success. ( Boolean )
+		Removes a project.
+
+		:param path: Project path.
+		:type path: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		projectNode = foundations.common.getFirstItem(self.__model.getProjectNodes(path))
@@ -3064,9 +3326,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def newFile(self):
 		"""
-		This method creates a new file into a new **Script_Editor_tabWidget** Widget tab.
+		Creates a new file into a new **Script_Editor_tabWidget** Widget tab.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		language = self.__languagesModel.getLanguage(self.__defaultScriptLanguage)
@@ -3086,10 +3349,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.FileExistsError)
 	def loadFile(self, file):
 		"""
-		This method loads user chosen file in a new **Script_Editor_tabWidget** Widget tab Model editor.
+		Loads user chosen file in a new **Script_Editor_tabWidget** Widget tab Model editor.
 
-		:param file: File to load. ( String )
-		:return: Method success. ( Boolean )
+		:param file: File to load.
+		:type file: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not foundations.common.pathExists(file):
@@ -3117,11 +3382,14 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.FileExistsError)
 	def reloadFile(self, file, isModified=True):
 		"""
-		This method reloads given file **Script_Editor_tabWidget** Widget tab Model editor content.
+		Reloads given file **Script_Editor_tabWidget** Widget tab Model editor content.
 
-		:param file: File to reload. ( String )
-		:param isModified: File modified state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param file: File to reload.
+		:type file: unicode
+		:param isModified: File modified state.
+		:type isModified: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not foundations.common.pathExists(file):
@@ -3141,10 +3409,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def saveFile(self, file=None):
 		"""
-		This method saves either given file or current **Script_Editor_tabWidget** Widget tab Model editor file.
+		Saves either given file or current **Script_Editor_tabWidget** Widget tab Model editor file.
 
-		:param file: File to save. ( String )
-		:return: Method success. ( Boolean )
+		:param file: File to save.
+		:type file: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		editor = file and self.getEditor(file) or self.getCurrentEditor()
@@ -3162,9 +3432,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 											foundations.exceptions.UserError)
 	def saveFileAs(self):
 		"""
-		This method saves current **Script_Editor_tabWidget** Widget tab Model editor file as user chosen file.
+		Saves current **Script_Editor_tabWidget** Widget tab Model editor file as user chosen file.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		editor = self.getCurrentEditor()
@@ -3196,9 +3467,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@umbra.engine.encapsulateProcessing
 	def saveAllFiles(self):
 		"""
-		This method saves all **Script_Editor_tabWidget** Widget tab Model editor files.
+		Saves all **Script_Editor_tabWidget** Widget tab Model editor files.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.__engine.startProcessing("Saving All Files ...", len(self.listEditors()))
@@ -3212,10 +3484,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@umbra.engine.encapsulateProcessing
 	def revertFile(self, file=None):
 		"""
-		This method reverts either given file or current **Script_Editor_tabWidget** Widget tab Model editor file.
+		Reverts either given file or current **Script_Editor_tabWidget** Widget tab Model editor file.
 
-		:param file: File to revert. ( String )
-		:return: Method success. ( Boolean )
+		:param file: File to revert.
+		:type file: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		editor = file and self.getEditor(file) or self.getCurrentEditor()
@@ -3229,11 +3503,14 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def closeFile(self, file=None, leaveFirstEditor=True):
 		"""
-		This method closes either given file or current **Script_Editor_tabWidget** Widget tab Model editor file.
+		Closes either given file or current **Script_Editor_tabWidget** Widget tab Model editor file.
 
-		:param file: File to save. ( String )
-		:param leaveFirstEditor: Leave first editor. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param file: File to save.
+		:type file: unicode
+		:param leaveFirstEditor: Leave first editor.
+		:type leaveFirstEditor: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		editor = file and self.getEditor(file) or self.getCurrentEditor()
@@ -3254,24 +3531,29 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	# @umbra.engine.encapsulateProcessing
 	def closeAllFiles(self, leaveFirstEditor=True):
 		"""
-		This method closes every opened files and removes their associated **Script_Editor_tabWidget** Widget tabs.
+		Closes every opened files and removes their associated **Script_Editor_tabWidget** Widget tabs.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		# self.__engine.startProcessing("Closing All Files ...", len(self.listEditors()))
 		success = True
 		for file in self.listFiles():
-			success *= self.closeFile(file, leaveFirstEditor) and True or False
+			success *= True if self.closeFile(file, leaveFirstEditor) else False
+			if not success:
+				break
+
 			# self.__engine.stepProcessing()
 		# self.__engine.stopProcessing()
 		return success
 
 	def closeFirstFile(self):
 		"""
-		This method attemtps to close the first **Script_Editor_tabWidget** Widget tab Model editor file.
+		Attemtps to close the first **Script_Editor_tabWidget** Widget tab Model editor file.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		editor = self.getCurrentEditor()
@@ -3281,46 +3563,52 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def listEditors(self):
 		"""
-		This method returns the Model editors.
+		Returns the Model editors.
 
-		:return: Editors. ( List )
+		:return: Editors.
+		:rtype: list
 		"""
 
 		return self.__model.listEditors()
 
 	def listFiles(self):
 		"""
-		This method returns the Model files.
-		
-		:return: FileNode nodes. ( List )
+		Returns the Model files.
+
+		:return: FileNode nodes.
+		:rtype: list
 		"""
 
 		return self.__model.listFiles()
 
 	def listDirectories(self):
 		"""
-		This method returns the Model directories.
-		
-		:return: DirectoryNode nodes. ( List )
+		Returns the Model directories.
+
+		:return: DirectoryNode nodes.
+		:rtype: list
 		"""
 
 		return self.__model.listDirectories()
 
 	def listProjects(self, ignoreDefaultProject=True):
 		"""
-		This method returns the Model projects.
-		
-		:return: ProjectNode nodes. ( List )
+		Returns the Model projects.
+
+		:return: ProjectNode nodes.
+		:rtype: list
 		"""
 
 		return self.__model.listProjects()
 
 	def getEditor(self, file):
 		"""
-		This method returns the Model editor associated with given file.
+		Returns the Model editor associated with given file.
 
-		:param file: File to search editors for. ( String )
-		:return: Editor. ( Editor )
+		:param file: File to search editors for.
+		:type file: unicode
+		:return: Editor.
+		:rtype: Editor
 		"""
 
 		for editor in self.__model.listEditors():
@@ -3329,11 +3617,14 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def setLanguage(self, editor, language):
 		"""
-		This method sets given language to given Model editor.
-		
-		:param editor: Editor to set language to. ( Editor )
-		:param language: Language to set. ( Language )
-		:return: Method success. ( Boolean )
+		Sets given language to given Model editor.
+
+		:param editor: Editor to set language to.
+		:type editor: Editor
+		:param language: Language to set.
+		:type language: Language
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Setting '{0}' language to '{1}' editor.".format(language.name, editor))
@@ -3342,11 +3633,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def gotoLine(self):
 		"""
-		This method moves current **Script_Editor_tabWidget** Widget tab Model editor cursor to user defined line.
+		Moves current **Script_Editor_tabWidget** Widget tab Model editor cursor to user defined line.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 
-		:note: This method may require user interaction.
+		:note: May require user interaction.
 		"""
 
 		editor = self.getCurrentEditor()
@@ -3362,10 +3654,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def evaluateSelection(self):
 		"""
-		This method evaluates current **Script_Editor_tabWidget** Widget tab Model editor
+		Evaluates current **Script_Editor_tabWidget** Widget tab Model editor
 		selected content in the interactive console.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		editor = self.getCurrentEditor()
@@ -3380,10 +3673,11 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def evaluateScript(self):
 		"""
-		This method evaluates current **Script_Editor_tabWidget** Widget tab Model editor content
+		Evaluates current **Script_Editor_tabWidget** Widget tab Model editor content
 		into the interactive console.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		editor = self.getCurrentEditor()
@@ -3397,10 +3691,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def evaluateCode(self, code):
 		"""
-		This method evaluates given code into the interactive console.
+		Evaluates given code into the interactive console.
 
-		:param code: Code to evaluate. ( String )
-		:return: Method success. ( Boolean )
+		:param code: Code to evaluate.
+		:type code: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not code:
@@ -3423,9 +3719,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def storeSession(self):
 		"""
-		This method stores the current session.
+		Stores the current session.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		session = []
@@ -3451,9 +3748,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def restoreSession(self):
 		"""
-		This method restores the stored session.
+		Restores the stored session.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		session = [foundations.strings.toString(path)
@@ -3472,10 +3770,12 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def loopThroughEditors(self, backward=False):
 		"""
-		This method loops through the editor tabs.
+		Loops through the editor tabs.
 
-		:param backward: Looping backward. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param backward: Looping backward.
+		:type backward: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		step = not backward and 1 or -1
@@ -3489,9 +3789,10 @@ class ScriptEditor(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def restoreDevelopmentLayout(self):
 		"""
-		This definition restores the development layout.
-	
-		:return: Definition success. ( Boolean )
+		Restores the development layout.
+
+		:return: Definition success.
+		:rtype: bool
 		"""
 
 		if self.__engine.layoutsManager.currentLayout != self.__developmentLayout and not self.isVisible():

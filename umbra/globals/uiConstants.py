@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines **Umbra** package ui constants through the :class:`UiConstants` class.
+	Defines **Umbra** package ui constants through the :class:`UiConstants` class.
 
 **Others:**
 
@@ -23,7 +23,7 @@ from __future__ import unicode_literals
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -36,101 +36,218 @@ __all__ = ["UiConstants"]
 #**********************************************************************************************************************
 class UiConstants():
 	"""
-	This class provides **Umbra** package ui constants.
+	Defines **Umbra** package ui constants.
 	"""
 
 	uiFile = "Umbra.ui"
-	"""Application ui file: '**Umbra.ui**' ( String )"""
+	"""
+	:param uiFile: Application ui file.
+	:type uiFile: unicode
+	"""
 
 	processingUiFile = "Processing.ui"
-	"""Processing ui file: '**Processing.ui**' ( String )"""
+	"""
+	:param processingUiFile: Processing ui file.
+	:type processingUiFile: unicode
+	"""
 	reporterUiFile = "Reporter.ui"
-	"""Reporter ui file: '**Reporter.ui**' ( String )"""
+	"""
+	:param reporterUiFile: Reporter ui file.
+	:type reporterUiFile: unicode
+	"""
 
 	windowsStylesheetFile = "styles/Windows_styleSheet.qss"
-	"""Application Windows Os stylesheet file: '**styles/Windows_styleSheet.qss**' ( String )"""
+	"""
+	:param windowsStylesheetFile: Application Windows Os stylesheet file.
+	:type windowsStylesheetFile: unicode
+	"""
 	darwinStylesheetFile = "styles/Darwin_styleSheet.qss"
-	"""Application Mac Os X Os stylesheet file: '**styles/Darwin_styleSheet.qss**' ( String )"""
+	"""
+	:param darwinStylesheetFile: Application Mac Os X Os stylesheet file.
+	:type darwinStylesheetFile: unicode
+	"""
 	linuxStylesheetFile = "styles/Linux_styleSheet.qss"
-	"""Application Linux Os stylesheet file: '**styles/Linux_styleSheet.qss**' ( String )"""
+	"""
+	:param linuxStylesheetFile: Application Linux Os stylesheet file.
+	:type linuxStylesheetFile: unicode
+	"""
 	windowsFullScreenStylesheetFile = "styles/Windows_FullScreen_styleSheet.qss"
-	"""Application Windows Os fullscreen stylesheet file: '**styles/Windows_FullScreen_styleSheet.qss**' ( String )"""
+	"""
+	:param windowsFullScreenStylesheetFile: Application Windows Os fullscreen stylesheet file.
+	:type windowsFullScreenStylesheetFile: unicode
+	"""
 	darwinFullScreenStylesheetFile = "styles/Darwin_FullScreen_styleSheet.qss"
-	"""Application Mac Os X Os fullscreen stylesheet file: '**styles/Darwin_FullScreen_styleSheet.qss**' ( String )"""
+	"""
+	:param darwinFullScreenStylesheetFile: Application Mac Os X Os fullscreen stylesheet file.
+	:type darwinFullScreenStylesheetFile: unicode
+	"""
 	linuxFullScreenStylesheetFile = "styles/Linux_FullScreen_styleSheet.qss"
-	"""Application Linux Os fullscreen stylesheet file: '**styles/Linux_FullScreen_styleSheet.qss**' ( String )"""
+	"""
+	:param linuxFullScreenStylesheetFile: Application Linux Os fullscreen stylesheet file.
+	:type linuxFullScreenStylesheetFile: unicode
+	"""
 	windowsStyle = "plastique"
-	"""Application Windows Os style: '**plastique**' ( String )"""
+	"""
+	:param windowsStyle: Application Windows Os style.
+	:type windowsStyle: unicode
+	"""
 	darwinStyle = "plastique"
-	"""Application Mac Os X Os style: '**plastique**' ( String )"""
+	"""
+	:param darwinStyle: Application Mac Os X Os style.
+	:type darwinStyle: unicode
+	"""
 	linuxStyle = "plastique"
-	"""Application Linux Os style: '**plastique**' ( String )"""
+	"""
+	:param linuxStyle: Application Linux Os style.
+	:type linuxStyle: unicode
+	"""
 
 	settingsFile = "preferences/Default_Settings.rc"
-	"""Application defaults settings file: '**preferences/Default_Settings.rc**' ( String )"""
+	"""
+	:param settingsFile: Application defaults settings file.
+	:type settingsFile: unicode
+	"""
 
 	layoutsFile = "layouts/Default_Layouts.rc"
-	"""Application defaults layouts file: '**layouts/Default_Layouts.rc**' ( String )"""
+	"""
+	:param layoutsFile: Application defaults layouts file.
+	:type layoutsFile: unicode
+	"""
 
 	applicationWindowsIcon = "images/Icon_Dark.png"
-	"""Application icon file: '**images/Icon_Dark.png**' ( String )"""
+	"""
+	:param applicationWindowsIcon: Application icon file.
+	:type applicationWindowsIcon: unicode
+	"""
 
 	splashScreenImage = "images/Umbra_SpashScreen.png"
-	"""Application splashscreen image: '**images/Umbra_SpashScreen.png**' ( String )"""
+	"""
+	:param splashScreenImage: Application splashscreen image.
+	:type splashScreenImage: unicode
+	"""
 	logoImage = "images/Umbra_Logo.png"
-	"""Application logo image: '**images/Umbra_Logo.png**' ( String )"""
+	"""
+	:param logoImage: Application logo image.
+	:type logoImage: unicode
+	"""
 
 	defaultToolbarIconSize = 32
-	"""Application toolbar icons size: '**32**' ( Integer )"""
+	"""
+	:param defaultToolbarIconSize: Application toolbar icons size.
+	:type defaultToolbarIconSize: int
+	"""
 
 	customLayoutsIcon = "images/Custom_Layouts.png"
-	"""Application **Custom Layouts** icon: '**images/Custom_Layouts.png**' ( String )"""
+	"""
+	:param customLayoutsIcon: Application **Custom Layouts** icon.
+	:type customLayoutsIcon: unicode
+	"""
 	customLayoutsHoverIcon = "images/Custom_Layouts_Hover.png"
-	"""Application **Custom Layouts** hover icon: '**images/Custom_Layouts_Hover.png**' ( String )"""
+	"""
+	:param customLayoutsHoverIcon: Application **Custom Layouts** hover icon.
+	:type customLayoutsHoverIcon: unicode
+	"""
 	customLayoutsActiveIcon = "images/Custom_Layouts_Active.png"
-	"""Application **Custom Layouts** active icon: '**images/Custom_Layouts_Active.png**' ( String )"""
+	"""
+	:param customLayoutsActiveIcon: Application **Custom Layouts** active icon.
+	:type customLayoutsActiveIcon: unicode
+	"""
 
 	miscellaneousIcon = "images/Miscellaneous.png"
-	"""Application **Miscellaneous** icon: '**images/Miscellaneous.png**' ( String )"""
+	"""
+	:param miscellaneousIcon: Application **Miscellaneous** icon.
+	:type miscellaneousIcon: unicode
+	"""
 	miscellaneousHoverIcon = "images/Miscellaneous_Hover.png"
-	"""Application **Miscellaneous** hover icon: '**images/Miscellaneous_Hover.png**' ( String )"""
+	"""
+	:param miscellaneousHoverIcon: Application **Miscellaneous** hover icon.
+	:type miscellaneousHoverIcon: unicode
+	"""
 	miscellaneousActiveIcon = "images/Miscellaneous_Active.png"
-	"""Application **Miscellaneous** active icon: '**images/Miscellaneous_Active.png**' ( String )"""
+	"""
+	:param miscellaneousActiveIcon: Application **Miscellaneous** active icon.
+	:type miscellaneousActiveIcon: unicode
+	"""
 
 	developmentIcon = "images/Development.png"
-	"""Application **Development** icon: '**images/Development.png**' ( String )"""
+	"""
+	:param developmentIcon: Application **Development** icon.
+	:type developmentIcon: unicode
+	"""
 	developmentHoverIcon = "images/Development_Hover.png"
-	"""Application **Development** hover icon: '**images/Development_Hover.png**' ( String )"""
+	"""
+	:param developmentHoverIcon: Application **Development** hover icon.
+	:type developmentHoverIcon: unicode
+	"""
 	developmentActiveIcon = "images/Development_Active.png"
-	"""Application **Development** active icon: '**images/Development_Active.png**' ( String )"""
+	"""
+	:param developmentActiveIcon: Application **Development** active icon.
+	:type developmentActiveIcon: unicode
+	"""
 
 	preferencesIcon = "images/Preferences.png"
-	"""Application **Preferences** icon: '**images/Preferences.png**' ( String )"""
+	"""
+	:param preferencesIcon: Application **Preferences** icon.
+	:type preferencesIcon: unicode
+	"""
 	preferencesHoverIcon = "images/Preferences_Hover.png"
-	"""Application **Preferences** hover icon: '**images/Preferences_Hover.png**' ( String )"""
+	"""
+	:param preferencesHoverIcon: Application **Preferences** hover icon.
+	:type preferencesHoverIcon: unicode
+	"""
 	preferencesActiveIcon = "images/Preferences_Active.png"
-	"""Application **Preferences** active icon: '**images/Preferences_Active.png**' ( String )"""
+	"""
+	:param preferencesActiveIcon: Application **Preferences** active icon.
+	:type preferencesActiveIcon: unicode
+	"""
 
 	startupLayout = "startupCentric"
-	"""Application startup layout: '**startupCentric**' ( String )"""
+	"""
+	:param startupLayout: Application startup layout.
+	:type startupLayout: unicode
+	"""
 
 	helpFile = "http://thomasmansencal.com/Sharing/Umbra/Support/Documentation/Help/Umbra_Manual.html"
-	"""Application online help file: '**"http://thomasmansencal.com/Sharing/Umbra/Support/Documentation/Help/Umbra_Manual.html"**' ( String )"""
+	"""
+	:param helpFile: Application online help file.
+	:type helpFile: unicode
+	"""
 	apiFile = "http://thomasmansencal.com/Sharing/Umbra/Support/Documentation/Api/index.html"
-	"""Application online Api file: '**"http://thomasmansencal.com/Sharing/Umbra/Support/Documentation/Api/index.html"**' ( String )"""
+	"""
+	:param apiFile: Application online Api file.
+	:type apiFile: unicode
+	"""
 
 	developmentLayout = "developmentCentric"
-	"""Application development layout: '**"developmentCentric"**' ( String )"""
+	"""
+	:param developmentLayout: Application development layout.
+	:type developmentLayout: unicode
+	"""
 
 	pythonGrammarFile = "grammars/Python/Python.grc"
-	"""Python language grammar file: '**grammars/Python/Python.grc**' ( String )"""
+	"""
+	:param pythonGrammarFile: Python language grammar file.
+	:type pythonGrammarFile: unicode
+	"""
 	loggingGrammarFile = "grammars/Logging/Logging.grc"
-	"""Logging language grammar file: '**grammars/Logging/Logging.grc**' ( String )"""
+	"""
+	:param loggingGrammarFile: Logging language grammar file.
+	:type loggingGrammarFile: unicode
+	"""
 	textGrammarFile = "grammars/Text/Text.grc"
-	"""Text language grammar file: '**grammars/Text/Text.grc**' ( String )"""
+	"""
+	:param textGrammarFile: Text language grammar file.
+	:type textGrammarFile: unicode
+	"""
 
 	invalidLinkHtmlFile = "htmls/Invalid_Link.html"
-	"""Invalid link html file: '**htmls/Invalid_Link.html**' ( String )"""
+	"""
+	:param invalidLinkHtmlFile: Invalid link html file.
+	:type invalidLinkHtmlFile: unicode
+	"""
 
 	crittercismId = "51290b63421c983d17000490"
-	"""Crittercism Id: '**51290b63421c983d17000490**' ( String )"""
+	"""
+	:param crittercismId: Crittercism Id.
+	:type crittercismId: unicode
+	"""

@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Defines the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class Models.
 
 **Others:**
@@ -35,6 +35,7 @@ from PyQt4.QtCore import pyqtSignal
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.exceptions
+import foundations.io
 import foundations.verbose
 import foundations.walkers
 import umbra.ui.models
@@ -50,7 +51,7 @@ from umbra.ui.languages import Language
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -68,64 +69,72 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class ProjectsModel(umbra.ui.models.GraphModel):
 	"""
-	This class defines the Model used by :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
-	Component Interface class. 
+	Defines the Model used by :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Component Interface class.
 	"""
 
 	fileRegistered = pyqtSignal(FileNode)
 	"""
 	This signal is emited by the :class:`ProjectsModel` class when a file is registered. ( pyqtSignal )
 
-	:return: Registered file FileNode. ( FileNode )	
+	:return: Registered file FileNode.
+	:rtype: FileNode
 	"""
 
 	fileUnregistered = pyqtSignal(FileNode)
 	"""
 	This signal is emited by the :class:`ProjectsModel` class when a file is unregistered. ( pyqtSignal )
 
-	:return: Unregistered file FileNode. ( FileNode )	
+	:return: Unregistered file FileNode.
+	:rtype: FileNode
 	"""
 
 	editorRegistered = pyqtSignal(EditorNode)
 	"""
 	This signal is emited by the :class:`ProjectsModel` class when an editor is registered. ( pyqtSignal )
 
-	:return: Registered editor EditorNode. ( EditorNode )	
+	:return: Registered editor EditorNode.
+	:rtype: EditorNode
 	"""
 
 	editorUnregistered = pyqtSignal(EditorNode)
 	"""
 	This signal is emited by the :class:`ProjectsModel` class when an editor is unregistered. ( pyqtSignal )
 
-	:return: Unregistered editor EditorNode. ( EditorNode )	
+	:return: Unregistered editor EditorNode.
+	:rtype: EditorNode
 	"""
 
 	directoryRegistered = pyqtSignal(DirectoryNode)
 	"""
 	This signal is emited by the :class:`ProjectsModel` class when a directory is registered. ( pyqtSignal )
 
-	:return: Registered directory DirectoryNode. ( DirectoryNode )	
+	:return: Registered directory DirectoryNode.
+	:rtype: DirectoryNode
 	"""
 
 	directoryUnregistered = pyqtSignal(DirectoryNode)
 	"""
 	This signal is emited by the :class:`ProjectsModel` class when a directory is unregistered. ( pyqtSignal )
 
-	:return: Unregistered directory DirectoryNode. ( DirectoryNode )	
+	:return: Unregistered directory DirectoryNode.
+	:rtype: DirectoryNode
 	"""
 
 	projectRegistered = pyqtSignal(ProjectNode)
 	"""
 	This signal is emited by the :class:`ProjectsModel` class when a project is registered. ( pyqtSignal )
 
-	:return: Registered project ProjectNode. ( ProjectNode )	
+	:return: Registered project ProjectNode.
+	:rtype: ProjectNode
 	"""
 
 	projectUnregistered = pyqtSignal(ProjectNode)
 	"""
 	This signal is emited by the :class:`ProjectsModel` class when a project is unregistered. ( pyqtSignal )
 
-	:return: Unregistered project ProjectNode. ( ProjectNode )	
+	:return: Unregistered project ProjectNode.
+	:rtype: ProjectNode
 	"""
 
 	def __init__(self,
@@ -136,14 +145,20 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 				defaultNode=None,
 				defaultProject=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param defaultProject: Default project name. ( String )
-		:param parent: Object parent. ( QObject )
-		:param rootNode: Root node. ( AbstractCompositeNode )
-		:param horizontalHeaders: Headers. ( OrderedDict )
-		:param verticalHeaders: Headers. ( OrderedDict )
-		:param defaultNode: Default node. ( GraphModelNode )
+		:param defaultProject: Default project name.
+		:type defaultProject: unicode
+		:param parent: Object parent.
+		:type parent: QObject
+		:param rootNode: Root node.
+		:type rootNode: AbstractCompositeNode
+		:param horizontalHeaders: Headers.
+		:type horizontalHeaders: OrderedDict
+		:param verticalHeaders: Headers.
+		:type verticalHeaders: OrderedDict
+		:param defaultNode: Default node.
+		:type defaultNode: GraphModelNode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -164,9 +179,10 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@property
 	def defaultProject(self):
 		"""
-		This method is the property for **self.__defaultProject** attribute.
+		Property for **self.__defaultProject** attribute.
 
-		:return: self.__defaultProject. ( String )
+		:return: self.__defaultProject.
+		:rtype: unicode
 		"""
 
 		return self.__defaultProject
@@ -175,9 +191,10 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def defaultProject(self, value):
 		"""
-		This method is the setter method for **self.__defaultProject** attribute.
+		Setter for **self.__defaultProject** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -189,7 +206,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultProject(self):
 		"""
-		This method is the deleter method for **self.__defaultProject** attribute.
+		Deleter for **self.__defaultProject** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -198,9 +215,10 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@property
 	def defaultProjectNode(self):
 		"""
-		This method is the property for **self.__defaultProjectNode** attribute.
+		Property for **self.__defaultProjectNode** attribute.
 
-		:return: self.__defaultProjectNode. ( String )
+		:return: self.__defaultProjectNode.
+		:rtype: unicode
 		"""
 
 		return self.__defaultProjectNode
@@ -209,9 +227,10 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultProjectNode(self, value):
 		"""
-		This method is the setter method for **self.__defaultProjectNode** attribute.
+		Setter for **self.__defaultProjectNode** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -221,7 +240,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def defaultProjectNode(self):
 		"""
-		This method is the deleter method for **self.__defaultProjectNode** attribute.
+		Deleter for **self.__defaultProjectNode** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -232,7 +251,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	#******************************************************************************************************************
 	def __initializeModel(self):
 		"""
-		This method initializes the Model.
+		Initializes the Model.
 		"""
 
 		LOGGER.debug("> Initializing model.")
@@ -248,39 +267,46 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def listEditorNodes(self, node=None):
 		"""
-		This method returns the Model :class:`umbra.components.factory.scriptEditor.nodes.EditorNode` class nodes.
-		
-		:param node: Node to start walking from. ( AbstractNode / AbstractCompositeNode / Object )
-		:return: EditorNode nodes. ( List )
+		Returns the Model :class:`umbra.components.factory.scriptEditor.nodes.EditorNode` class nodes.
+
+		:param node: Node to start walking from.
+		:type node: AbstractNode or AbstractCompositeNode or Object
+		:return: EditorNode nodes.
+		:rtype: list
 		"""
 
 		return self.findFamily("Editor", node=node or self.__defaultProjectNode)
 
 	def listFileNodes(self, node=None):
 		"""
-		This method returns the Model :class:`umbra.components.factory.scriptEditor.nodes.FileNode` class nodes.
-		
-		:param node: Node to start walking from. ( AbstractNode / AbstractCompositeNode / Object )
-		:return: FileNode nodes. ( List )
+		Returns the Model :class:`umbra.components.factory.scriptEditor.nodes.FileNode` class nodes.
+
+		:param node: Node to start walking from.
+		:type node: AbstractNode or AbstractCompositeNode or Object
+		:return: FileNode nodes.
+		:rtype: list
 		"""
 
 		return self.findFamily("File", node=node or self.__defaultProjectNode)
 
 	def listDirectoryNodes(self):
 		"""
-		This method returns the Model :class:`umbra.components.factory.scriptEditor.nodes.DirectoryNode` class nodes.
-		
-		:return: DirectoryNode nodes. ( List )
+		Returns the Model :class:`umbra.components.factory.scriptEditor.nodes.DirectoryNode` class nodes.
+
+		:return: DirectoryNode nodes.
+		:rtype: list
 		"""
 
 		return self.findFamily("Directory")
 
 	def listProjectNodes(self, ignoreDefaultProjectNode=True):
 		"""
-		This method returns the Model :class:`umbra.components.factory.scriptEditor.nodes.ProjectNode` class nodes.
-		
-		:param ignoreDefaultProjectNode: Default ProjectNode will be ignored. (  Boolean )
-		:return: ProjectNode nodes. ( List )
+		Returns the Model :class:`umbra.components.factory.scriptEditor.nodes.ProjectNode` class nodes.
+
+		:param ignoreDefaultProjectNode: Default ProjectNode will be ignored.
+		:type ignoreDefaultProjectNode: bool
+		:return: ProjectNode nodes.
+		:rtype: list
 		"""
 
 		projectNodes = self.findFamily("Project")
@@ -289,95 +315,115 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def listEditors(self, node=None):
 		"""
-		This method returns the Model editors.
-		
-		:param node: Node to start walking from. ( AbstractNode / AbstractCompositeNode / Object )
-		:return: Editors. ( List )
+		Returns the Model editors.
+
+		:param node: Node to start walking from.
+		:type node: AbstractNode or AbstractCompositeNode or Object
+		:return: Editors.
+		:rtype: list
 		"""
 
 		return [editorNode.editor for editorNode in self.listEditorNodes(node) 	if editorNode.editor]
 
 	def listFiles(self, node=None):
 		"""
-		This method returns the Model files.
-		
-		:param node: Node to start walking from. ( AbstractNode / AbstractCompositeNode / Object )
-		:return: FileNode nodes. ( List )
+		Returns the Model files.
+
+		:param node: Node to start walking from.
+		:type node: AbstractNode or AbstractCompositeNode or Object
+		:return: FileNode nodes.
+		:rtype: list
 		"""
 
 		return [fileNode.path for fileNode in self.listFileNodes(node) if fileNode.path]
 
 	def listDirectories(self):
 		"""
-		This method returns the Model directories.
-		
-		:return: DirectoryNode nodes. ( List )
+		Returns the Model directories.
+
+		:return: DirectoryNode nodes.
+		:rtype: list
 		"""
 
 		return [directoryNode.path for directoryNode in self.listDirectoryNodes() if directoryNode.path]
 
 	def listProjects(self, ignoreDefaultProjectNode=True):
 		"""
-		This method returns the Model projects.
-		
-		:param ignoreDefaultProjectNode: Default ProjectNode will be ignored. (  Boolean )
-		:return: ProjectNode nodes. ( List )
+		Returns the Model projects.
+
+		:param ignoreDefaultProjectNode: Default ProjectNode will be ignored.
+		:type ignoreDefaultProjectNode: bool
+		:return: ProjectNode nodes.
+		:rtype: list
 		"""
 
 		return [projectNode.path for projectNode in self.listProjectNodes(ignoreDefaultProjectNode) if projectNode.path]
 
 	def getEditorNodes(self, editor, node=None):
 		"""
-		This method returns the :class:`umbra.components.factory.scriptEditor.nodes.EditorNode` class Nodes with given editor.
-		
-		:param node: Node to start walking from. ( AbstractNode / AbstractCompositeNode / Object )
-		:param editor: Editor. ( Editor )
-		:return: EditorNode nodes. ( List )
+		Returns the :class:`umbra.components.factory.scriptEditor.nodes.EditorNode` class Nodes with given editor.
+
+		:param node: Node to start walking from.
+		:type node: AbstractNode or AbstractCompositeNode or Object
+		:param editor: Editor.
+		:type editor: Editor
+		:return: EditorNode nodes.
+		:rtype: list
 		"""
 
 		return [editorNode for editorNode in self.listEditorNodes(node) if editorNode.editor == editor]
 
 	def getFileNodes(self, path, node=None):
 		"""
-		This method returns the :class:`umbra.components.factory.scriptEditor.nodes.FileNode` class Nodes with given path.
-		
-		:param node: Node to start walking from. ( AbstractNode / AbstractCompositeNode / Object )
-		:param path: File path. ( String )
-		:return: FileNode nodes. ( List )
+		Returns the :class:`umbra.components.factory.scriptEditor.nodes.FileNode` class Nodes with given path.
+
+		:param node: Node to start walking from.
+		:type node: AbstractNode or AbstractCompositeNode or Object
+		:param path: File path.
+		:type path: unicode
+		:return: FileNode nodes.
+		:rtype: list
 		"""
 
 		return [fileNode for fileNode in self.listFileNodes(node) if fileNode.path == path]
 
 	def getDirectoryNodes(self, path):
 		"""
-		This method returns the :class:`umbra.components.factory.scriptEditor.nodes.DirectoryNode` class Nodes with given path.
-		
-		:param path: Directory path. ( String )
-		:return: DirectoryNode nodes. ( List )
+		Returns the :class:`umbra.components.factory.scriptEditor.nodes.DirectoryNode` class Nodes with given path.
+
+		:param path: Directory path.
+		:type path: unicode
+		:return: DirectoryNode nodes.
+		:rtype: list
 		"""
 
 		return [directoryNode for directoryNode in self.listDirectoryNodes() if directoryNode.path == path]
 
 	def getProjectNodes(self, path):
 		"""
-		This method returns the :class:`umbra.components.factory.scriptEditor.nodes.ProjectNode` class Nodes with given path.
-		
-		:param path: Project path. ( String )
-		:return: ProjectNode nodes. ( List )
+		Returns the :class:`umbra.components.factory.scriptEditor.nodes.ProjectNode` class Nodes with given path.
+
+		:param path: Project path.
+		:type path: unicode
+		:return: ProjectNode nodes.
+		:rtype: list
 		"""
 
 		return [projectNode for projectNode in self.listProjectNodes() if projectNode.path == path]
 
 	def moveNode(self, parent, fromIndex, toIndex):
 		"""
-		This method moves given parent child to given index.
+		Moves given parent child to given index.
 
-		:param toIndex: Index to. ( Integer )
-		:param fromIndex: Index from. ( Integer )
-		:return: Method success. ( Boolean )
+		:param toIndex: Index to.
+		:type toIndex: int
+		:param fromIndex: Index from.
+		:type fromIndex: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
-		# TODO: This method should be refactored once this ticket is fixed:
+		# TODO: Should be refactored once this ticket is fixed:
 		# https://bugreports.qt-project.org/browse/PYSIDE-78
 		if not fromIndex >= 0 or \
 		not fromIndex < parent.childrenCount() or \
@@ -412,12 +458,16 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def registerFile(self, file, parent, ensureUniqueness=False):
 		"""
-		This method registers given file in the Model.
-		
-		:param file: File to register. ( String )
-		:param parent: FileNode parent. ( GraphModelNode )
-		:param ensureUniqueness: Ensure registrar uniqueness. ( Boolean )
-		:return: FileNode. ( FileNode )
+		Registers given file in the Model.
+
+		:param file: File to register.
+		:type file: unicode
+		:param parent: FileNode parent.
+		:type parent: GraphModelNode
+		:param ensureUniqueness: Ensure registrar uniqueness.
+		:type ensureUniqueness: bool
+		:return: FileNode.
+		:rtype: FileNode
 		"""
 
 		if ensureUniqueness:
@@ -441,11 +491,14 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def unregisterFile(self, fileNode, raiseException=False):
 		"""
-		This method unregisters given :class:`umbra.components.factory.scriptEditor.nodes.FileNode` class Node from the Model.
-		
-		:param fileNode: FileNode to unregister. ( FileNode )
-		:param raiseException: Raise the exception. ( Boolean )
-		:return: FileNode. ( FileNode )
+		Unregisters given :class:`umbra.components.factory.scriptEditor.nodes.FileNode` class Node from the Model.
+
+		:param fileNode: FileNode to unregister.
+		:type fileNode: FileNode
+		:param raiseException: Raise the exception.
+		:type raiseException: bool
+		:return: FileNode.
+		:rtype: FileNode
 		"""
 
 		if raiseException:
@@ -468,12 +521,16 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def registerDirectory(self, directory, parent, ensureUniqueness=False):
 		"""
-		This method registers given directory in the Model.
-		
-		:param directory: Directory to register. ( String )
-		:param parent: DirectoryNode parent. ( GraphModelNode )
-		:param ensureUniqueness: Ensure registrar uniqueness. ( Boolean )
-		:return: DirectoryNode. ( DirectoryNode )
+		Registers given directory in the Model.
+
+		:param directory: Directory to register.
+		:type directory: unicode
+		:param parent: DirectoryNode parent.
+		:type parent: GraphModelNode
+		:param ensureUniqueness: Ensure registrar uniqueness.
+		:type ensureUniqueness: bool
+		:return: DirectoryNode.
+		:rtype: DirectoryNode
 		"""
 
 		if ensureUniqueness:
@@ -497,11 +554,14 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def unregisterDirectory(self, directoryNode, raiseException=False):
 		"""
-		This method unregisters given :class:`umbra.components.factory.scriptEditor.nodes.DirectoryNode` class Node from the Model.
-		
-		:param directoryNode: DirectoryNode to unregister. ( DirectoryNode )
-		:param raiseException: Raise the exception. ( Boolean )
-		:return: DirectoryNode. ( DirectoryNode )
+		Unregisters given :class:`umbra.components.factory.scriptEditor.nodes.DirectoryNode` class Node from the Model.
+
+		:param directoryNode: DirectoryNode to unregister.
+		:type directoryNode: DirectoryNode
+		:param raiseException: Raise the exception.
+		:type raiseException: bool
+		:return: DirectoryNode.
+		:rtype: DirectoryNode
 		"""
 
 		if raiseException:
@@ -524,12 +584,16 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def registerEditor(self, editor, parent, ensureUniqueness=False):
 		"""
-		This method registers given :class:`umbra.components.factory.scriptEditor.editor.Editor` class editor in the Model.
-		
-		:param editor: Editor to register. ( Editor )
-		:param parent: EditorNode parent. ( GraphModelNode )
-		:param ensureUniqueness: Ensure registrar uniqueness. ( Boolean )
-		:return: EditorNode. ( EditorNode )
+		Registers given :class:`umbra.components.factory.scriptEditor.editor.Editor` class editor in the Model.
+
+		:param editor: Editor to register.
+		:type editor: Editor
+		:param parent: EditorNode parent.
+		:type parent: GraphModelNode
+		:param ensureUniqueness: Ensure registrar uniqueness.
+		:type ensureUniqueness: bool
+		:return: EditorNode.
+		:rtype: EditorNode
 		"""
 
 		if ensureUniqueness:
@@ -552,11 +616,14 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def unregisterEditor(self, editorNode, raiseException=False):
 		"""
-		This method unregisters given :class:`umbra.components.factory.scriptEditor.nodes.EditorNode` class Node from the Model.
-		
-		:param editorNode: EditorNode to unregister. ( EditorNode )
-		:param raiseException: Raise the exception. ( Boolean )
-		:return: EditorNode. ( EditorNode )
+		Unregisters given :class:`umbra.components.factory.scriptEditor.nodes.EditorNode` class Node from the Model.
+
+		:param editorNode: EditorNode to unregister.
+		:type editorNode: EditorNode
+		:param raiseException: Raise the exception.
+		:type raiseException: bool
+		:return: EditorNode.
+		:rtype: EditorNode
 		"""
 
 		if raiseException:
@@ -579,11 +646,14 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def registerProject(self, path, ensureUniqueness=False):
 		"""
-		This method registers given path in the Model as a project.
+		Registers given path in the Model as a project.
 
-		:param path: Project path to register. ( String )
-		:param ensureUniqueness: Ensure registrar uniqueness. ( Boolean )
-		:return: ProjectNode. ( ProjectNode )		
+		:param path: Project path to register.
+		:type path: unicode
+		:param ensureUniqueness: Ensure registrar uniqueness.
+		:type ensureUniqueness: bool
+		:return: ProjectNode.
+		:rtype: ProjectNode
 		"""
 
 		if ensureUniqueness:
@@ -607,11 +677,14 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def unregisterProject(self, projectNode, raiseException=False):
 		"""
-		This method unregisters given :class:`umbra.components.factory.scriptProject.nodes.ProjectNode` class Node from the Model.
-		
-		:param projectNode: ProjectNode to unregister. ( ProjectNode )
-		:param raiseException: Raise the exception. ( Boolean )
-		:return: ProjectNode. ( ProjectNode )
+		Unregisters given :class:`umbra.components.factory.scriptProject.nodes.ProjectNode` class Node from the Model.
+
+		:param projectNode: ProjectNode to unregister.
+		:type projectNode: ProjectNode
+		:param raiseException: Raise the exception.
+		:type raiseException: bool
+		:return: ProjectNode.
+		:rtype: ProjectNode
 		"""
 
 		if raiseException:
@@ -633,10 +706,12 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def isAuthoringNode(self, node):
 		"""
-		This method returns if given Node is an authoring node.
+		Returns if given Node is an authoring node.
 
-		:param node: Node. ( ProjectNode / DirectoryNode / FileNode )
-		:return: Is authoring node. ( Boolean )
+		:param node: Node.
+		:type node: ProjectNode or DirectoryNode or FileNode
+		:return: Is authoring node.
+		:rtype: bool
 		"""
 
 		for parentNode in foundations.walkers.nodesWalker(node, ascendants=True):
@@ -646,10 +721,12 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def setAuthoringNodes(self, editor):
 		"""
-		This method sets the Model authoring Nodes using given editor.
+		Sets the Model authoring Nodes using given editor.
 
-		:param editor: Editor to set. ( Editor )
-		:return: Method success. ( Boolean )
+		:param editor: Editor to set.
+		:type editor: Editor
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		projectNode = self.defaultProjectNode
@@ -659,10 +736,12 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def deleteAuthoringNodes(self, editor):
 		"""
-		This method deletes the Model authoring Nodes associated with given editor.
+		Deletes the Model authoring Nodes associated with given editor.
 
-		:param editor: Editor. ( Editor )
-		:return: Method success. ( Boolean )
+		:param editor: Editor.
+		:type editor: Editor
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		editorNode = foundations.common.getFirstItem(self.getEditorNodes(editor))
@@ -673,10 +752,12 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def updateAuthoringNodes(self, editor):
 		"""
-		This method updates given editor Model authoring nodes.
-		
-		:param editor: Editor. ( Editor )
-		:return: Method success. ( Boolean )
+		Updates given editor Model authoring nodes.
+
+		:param editor: Editor.
+		:type editor: Editor
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		editorNode = foundations.common.getFirstItem(self.getEditorNodes(editor))
@@ -690,10 +771,12 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def setProjectNodes(self, rootNode, maximumDepth=1):
 		"""
-		This method sets the project Model children Nodes using given root node.
+		Sets the project Model children Nodes using given root node.
 
-		:param rootNode: Root node. ( ProjectNode / DirectoryNode )
-		:param maximumDepth: Maximum nodes nesting depth. ( Integer )
+		:param rootNode: Root node.
+		:type rootNode: ProjectNode or DirectoryNode
+		:param maximumDepth: Maximum nodes nesting depth.
+		:type maximumDepth: int
 		"""
 
 		rootDirectory = rootNode.path
@@ -727,16 +810,18 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 				if path in paths:
 					continue
 
-				if foundations.common.isBinaryFile(path):
-					continue
+				if foundations.io.isReadable(path):
+					if foundations.io.isBinaryFile(path):
+						continue
 
 				fileNode = self.registerFile(path, parentNode)
 
 	def deleteProjectNodes(self, node):
 		"""
-		This method deletes the Model project Nodes associated with given node.
+		Deletes the Model project Nodes associated with given node.
 
-		:param node: Node. ( ProjectNode )
+		:param node: Node.
+		:type node: ProjectNode
 		"""
 
 		self.unregisterProjectNodes(node)
@@ -744,9 +829,10 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def unregisterProjectNodes(self, node):
 		"""
-		This method unregisters given Node children.
-		
-		:param node: Node. ( ProjectNode / DirectoryNode )
+		Unregisters given Node children.
+
+		:param node: Node.
+		:type node: ProjectNode or DirectoryNode
 		"""
 
 		for node in reversed(list(foundations.walkers.nodesWalker(node))):
@@ -757,9 +843,10 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 	def updateProjectNodes(self, node):
 		"""
-		This method updates given root Node children.
-		
-		:param node: Node. ( ProjectNode / DirectoryNode )
+		Updates given root Node children.
+
+		:param node: Node.
+		:type node: ProjectNode or DirectoryNode
 		"""
 
 		self.unregisterProjectNodes(node)
@@ -767,17 +854,19 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 class LanguagesModel(QAbstractListModel):
 	"""
-	This class is a `QAbstractListModel <http://doc.qt.nokia.com/qabstractListmodel.html>`_ subclass used
+	Defines a `QAbstractListModel <http://doc.qt.nokia.com/qabstractListmodel.html>`_ subclass used
 	to store the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class languages.
 	"""
 
 	def __init__(self, parent=None, languages=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Parent object. ( QObject )
-		:param languages: Languages. ( List )
+		:param parent: Parent object.
+		:type parent: QObject
+		:param languages: Languages.
+		:type languages: list
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -794,9 +883,10 @@ class LanguagesModel(QAbstractListModel):
 	@property
 	def languages(self):
 		"""
-		This method is the property for **self.__languages** attribute.
+		Property for **self.__languages** attribute.
 
-		:return: self.__languages. ( List )
+		:return: self.__languages.
+		:rtype: list
 		"""
 
 		return self.__languages
@@ -805,9 +895,10 @@ class LanguagesModel(QAbstractListModel):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def languages(self, value):
 		"""
-		This method is the setter method for **self.__languages** attribute.
+		Setter for **self.__languages** attribute.
 
-		:param value: Attribute value. ( List )
+		:param value: Attribute value.
+		:type value: list
 		"""
 
 		if value is not None:
@@ -822,7 +913,7 @@ class LanguagesModel(QAbstractListModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def languages(self):
 		"""
-		This method is the deleter method for **self.__languages** attribute.
+		Deleter for **self.__languages** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -833,21 +924,26 @@ class LanguagesModel(QAbstractListModel):
 	#******************************************************************************************************************
 	def rowCount(self, parent=QModelIndex()):
 		"""
-		This method reimplements the :meth:`QAbstractListModel.rowCount` method.
+		Reimplements the :meth:`QAbstractListModel.rowCount` method.
 
-		:param parent: Parent. ( QModelIndex )
-		:return: Row count. ( Integer )
+		:param parent: Parent.
+		:type parent: QModelIndex
+		:return: Row count.
+		:rtype: int
 		"""
 
 		return len(self.__languages)
 
 	def data(self, index, role=Qt.DisplayRole):
 		"""
-		This method reimplements the :meth:`QAbstractListModel.data` method.
+		Reimplements the :meth:`QAbstractListModel.data` method.
 
-		:param index: Index. ( QModelIndex )
-		:param role: Role. ( Integer )
-		:return: Data. ( QVariant )
+		:param index: Index.
+		:type index: QModelIndex
+		:param role: Role.
+		:type role: int
+		:return: Data.
+		:rtype: QVariant
 		"""
 
 		if not index.isValid():
@@ -859,8 +955,8 @@ class LanguagesModel(QAbstractListModel):
 
 	def sortLanguages(self, order=Qt.AscendingOrder):
 		"""
-		This method sorts the Model languages.
-		
+		Sorts the Model languages.
+
 		:param order: Order. ( Qt.SortOrder )
 		"""
 
@@ -871,10 +967,12 @@ class LanguagesModel(QAbstractListModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def registerLanguage(self, language):
 		"""
-		This method registers given language in the :obj:`LanguagesModel.languages` class property.
-		
-		:param language: Language to register. ( Language )
-		:return: Method success. ( Boolean )
+		Registers given language in the :obj:`LanguagesModel.languages` class property.
+
+		:param language: Language to register.
+		:type language: Language
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if self.getLanguage(language):
@@ -890,10 +988,12 @@ class LanguagesModel(QAbstractListModel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def unregisterLanguage(self, name):
 		"""
-		This method unregisters language with given name from the :obj:`LanguagesModel.languages` class property.
-		
-		:param name: Language to unregister. ( String )
-		:return: Method success. ( Boolean )
+		Unregisters language with given name from the :obj:`LanguagesModel.languages` class property.
+
+		:param name: Language to unregister.
+		:type name: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not self.getLanguage(name):
@@ -912,10 +1012,12 @@ class LanguagesModel(QAbstractListModel):
 
 	def getLanguage(self, name):
 		"""
-		This method returns the language with given name.
-		
-		:param name: Language name. ( String )
-		:return: File language. ( Language )
+		Returns the language with given name.
+
+		:param name: Language name.
+		:type name: unicode
+		:return: File language.
+		:rtype: Language
 		"""
 
 		for language in self.__languages:
@@ -925,10 +1027,12 @@ class LanguagesModel(QAbstractListModel):
 
 	def getFileLanguage(self, file):
 		"""
-		This method returns the language of given file.
-		
-		:param file: File to get language of. ( String )
-		:return: File language. ( Language )
+		Returns the language of given file.
+
+		:param file: File to get language of.
+		:type file: unicode
+		:return: File language.
+		:rtype: Language
 		"""
 
 		for language in self.__languages:
@@ -938,7 +1042,7 @@ class LanguagesModel(QAbstractListModel):
 
 class PatternsModel(umbra.ui.models.GraphModel):
 	"""
-	This class defines the Model used the by
+	Defines the Model used the by
 	:class:`umbra.patterns.factory.scriptEditor.searchAndReplace.SearchAndReplace` class to store the search and \
 	replace patterns.
 	"""
@@ -948,7 +1052,8 @@ class PatternsModel(umbra.ui.models.GraphModel):
 	"""
 	This signal is emited by the :class:`PatternsModel` class when a pattern has been inserted. ( pyqtSignal )
 
-	:return: Inserted pattern node. ( PatternNode )
+	:return: Inserted pattern node.
+	:rtype: PatternNode
 	"""
 
 	# Custom signals definitions.
@@ -956,17 +1061,22 @@ class PatternsModel(umbra.ui.models.GraphModel):
 	"""
 	This signal is emited by the :class:`PatternsModel` class when a pattern has been removed. ( pyqtSignal )
 
-	:return: Removed pattern node. ( PatternNode )
+	:return: Removed pattern node.
+	:rtype: PatternNode
 	"""
 
 	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None, verticalHeaders=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param rootNode: Root node. ( AbstractCompositeNode )
-		:param horizontalHeaders: Headers. ( OrderedDict )
-		:param verticalHeaders: Headers. ( OrderedDict )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param rootNode: Root node.
+		:type rootNode: AbstractCompositeNode
+		:param horizontalHeaders: Headers.
+		:type horizontalHeaders: OrderedDict
+		:param verticalHeaders: Headers.
+		:type verticalHeaders: OrderedDict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -978,10 +1088,12 @@ class PatternsModel(umbra.ui.models.GraphModel):
 	#******************************************************************************************************************
 	def initializeModel(self, rootNode):
 		"""
-		This method initializes the Model using given root node.
-		
-		:param rootNode: Graph root node. ( DefaultNode )
-		:return: Method success ( Boolean )
+		Initializes the Model using given root node.
+
+		:param rootNode: Graph root node.
+		:type rootNode: DefaultNode
+		:return: Method success
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Initializing model with '{0}' root node.".format(rootNode))
@@ -994,11 +1106,14 @@ class PatternsModel(umbra.ui.models.GraphModel):
 
 	def insertPattern(self, pattern, index):
 		"""
-		This method inserts given pattern into the Model.
+		Inserts given pattern into the Model.
 
-		:param pattern: Pattern. ( String )
-		:param index: Insertion index. ( Integer )
-		:return: Method success. ( Boolean )
+		:param pattern: Pattern.
+		:type pattern: unicode
+		:param index: Insertion index.
+		:type index: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Inserting '{0}' at '{1}' index.".format(pattern, index))
@@ -1014,10 +1129,12 @@ class PatternsModel(umbra.ui.models.GraphModel):
 
 	def removePattern(self, pattern):
 		"""
-		This method removes given pattern from the Model.
+		Removes given pattern from the Model.
 
-		:param pattern: Pattern. ( String )
-		:return: Method success. ( Boolean )
+		:param pattern: Pattern.
+		:type pattern: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		for index, node in enumerate(self.rootNode.children):
@@ -1035,19 +1152,24 @@ class PatternsModel(umbra.ui.models.GraphModel):
 
 class SearchResultsModel(umbra.ui.models.GraphModel):
 	"""
-	This class defines the Model used the by
+	Defines the Model used the by
 	:class:`umbra.patterns.factory.scriptEditor.searchInFiles.SearchInFiles` class to store the search results.
 	"""
 
 	def __init__(self, parent=None, rootNode=None, horizontalHeaders=None, verticalHeaders=None, defaultNode=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param rootNode: Root node. ( AbstractCompositeNode )
-		:param horizontalHeaders: Headers. ( OrderedDict )
-		:param verticalHeaders: Headers. ( OrderedDict )
-		:param defaultNode: Default node. ( GraphModelNode )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param rootNode: Root node.
+		:type rootNode: AbstractCompositeNode
+		:param horizontalHeaders: Headers.
+		:type horizontalHeaders: OrderedDict
+		:param verticalHeaders: Headers.
+		:type verticalHeaders: OrderedDict
+		:param defaultNode: Default node.
+		:type defaultNode: GraphModelNode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -1059,10 +1181,12 @@ class SearchResultsModel(umbra.ui.models.GraphModel):
 	#******************************************************************************************************************
 	def initializeModel(self, rootNode):
 		"""
-		This method initializes the Model using given root node.
-		
-		:param rootNode: Graph root node. ( DefaultNode )
-		:return: Method success ( Boolean )
+		Initializes the Model using given root node.
+
+		:param rootNode: Graph root node.
+		:type rootNode: DefaultNode
+		:return: Method success
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Initializing model with '{0}' root node.".format(rootNode))
@@ -1075,9 +1199,10 @@ class SearchResultsModel(umbra.ui.models.GraphModel):
 
 	def getMetrics(self):
 		"""
-		This method returns the Model metrics.
-		
-		:return: Nodes metrics. ( Dictionary )
+		Returns the Model metrics.
+
+		:return: Nodes metrics.
+		:rtype: dict
 		"""
 
 		searchFileNodesCount = searchOccurenceNodesCount = 0

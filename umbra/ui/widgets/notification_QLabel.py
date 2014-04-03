@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`Notification_QLabel` class.
+	Defines the :class:`Notification_QLabel` class.
 
 **Others:**
 	Portions of the code and logic from Prymatex:
@@ -40,7 +40,7 @@ from umbra.globals.runtimeGlobals import RuntimeGlobals
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -55,7 +55,7 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Notification_QLabel(QLabel):
 	"""
-	This class is a `QLabel <http://doc.qt.nokia.com/qlabel.html>`_ subclass providing
+	Defines a `QLabel <http://doc.qt.nokia.com/qlabel.html>`_ subclass providing
 	a notification label with fading capabilities.
 	"""
 
@@ -64,7 +64,8 @@ class Notification_QLabel(QLabel):
 	"""
 	This signal is emited by the :class:`Notification_QLabel` class when it receives a mouse press event. ( pyqtSignal )
 
-	:return: Current notification text. ( QString )	
+	:return: Current notification text.
+	:rtype: QString
 	"""
 
 	fadedIn = pyqtSignal()
@@ -91,20 +92,32 @@ class Notification_QLabel(QLabel):
 				targetOpacity=None,
 				duration=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Widget parent. ( QObject )
-		:param color: Widget text color. ( QColor )
-		:param backgroundColor: Widget background color. ( QColor )
-		:param borderColor: Widget border color. ( QColor )
-		:param anchor: Widget anchoring area ( From 0 to 8 ). ( Integer )
-		:param horizontalPadding: Left padding relative to parent Widget. ( Integer )
-		:param verticalPadding: Bottom padding relative to parent Widget. ( Integer )
-		:param horizontalOffset: Widget horizontal offset. ( Integer )
-		:param verticalOffset: Widget vertical offset. ( Integer )
-		:param fadeSpeed: Notification fading speed. ( Float )
-		:param targetOpacity: Notification maximum target opacity. ( Float )
-		:param duration: Notification duration in milliseconds. ( Integer )
+		:param parent: Widget parent.
+		:type parent: QObject
+		:param color: Widget text color.
+		:type color: QColor
+		:param backgroundColor: Widget background color.
+		:type backgroundColor: QColor
+		:param borderColor: Widget border color.
+		:type borderColor: QColor
+		:param anchor: Widget anchoring area ( From 0 to 8 ).
+		:type anchor: int
+		:param horizontalPadding: Left padding relative to parent Widget.
+		:type horizontalPadding: int
+		:param verticalPadding: Bottom padding relative to parent Widget.
+		:type verticalPadding: int
+		:param horizontalOffset: Widget horizontal offset.
+		:type horizontalOffset: int
+		:param verticalOffset: Widget vertical offset.
+		:type verticalOffset: int
+		:param fadeSpeed: Notification fading speed.
+		:type fadeSpeed: float
+		:param targetOpacity: Notification maximum target opacity.
+		:type targetOpacity: float
+		:param duration: Notification duration in milliseconds.
+		:type duration: int
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -165,9 +178,10 @@ class Notification_QLabel(QLabel):
 	@property
 	def color(self):
 		"""
-		This method is the property for **self.__color** attribute.
+		Property for **self.__color** attribute.
 
-		:return: self.__color. ( QColor )
+		:return: self.__color.
+		:rtype: QColor
 		"""
 
 		return self.__color
@@ -176,9 +190,10 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def color(self, value):
 		"""
-		This method is the setter method for **self.__color** attribute.
+		Setter for **self.__color** attribute.
 
-		:param value: Attribute value. ( QColor )
+		:param value: Attribute value.
+		:type value: QColor
 		"""
 
 		if value is not None:
@@ -190,7 +205,7 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def color(self):
 		"""
-		This method is the deleter method for **self.__color** attribute.
+		Deleter for **self.__color** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -199,9 +214,10 @@ class Notification_QLabel(QLabel):
 	@property
 	def backgroundColor(self):
 		"""
-		This method is the property for **self.__backgroundColor** attribute.
+		Property for **self.__backgroundColor** attribute.
 
-		:return: self.__backgroundColor. ( QColor )
+		:return: self.__backgroundColor.
+		:rtype: QColor
 		"""
 
 		return self.__backgroundColor
@@ -210,9 +226,10 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def backgroundColor(self, value):
 		"""
-		This method is the setter method for **self.__backgroundColor** attribute.
+		Setter for **self.__backgroundColor** attribute.
 
-		:param value: Attribute value. ( QColor )
+		:param value: Attribute value.
+		:type value: QColor
 		"""
 
 		if value is not None:
@@ -224,7 +241,7 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def backgroundColor(self):
 		"""
-		This method is the deleter method for **self.__backgroundColor** attribute.
+		Deleter for **self.__backgroundColor** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -233,9 +250,10 @@ class Notification_QLabel(QLabel):
 	@property
 	def borderColor(self):
 		"""
-		This method is the property for **self.__borderColor** attribute.
+		Property for **self.__borderColor** attribute.
 
-		:return: self.__borderColor. ( QColor )
+		:return: self.__borderColor.
+		:rtype: QColor
 		"""
 
 		return self.__borderColor
@@ -244,9 +262,10 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def borderColor(self, value):
 		"""
-		This method is the setter method for **self.__borderColor** attribute.
+		Setter for **self.__borderColor** attribute.
 
-		:param value: Attribute value. ( QColor )
+		:param value: Attribute value.
+		:type value: QColor
 		"""
 
 		if value is not None:
@@ -258,7 +277,7 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def borderColor(self):
 		"""
-		This method is the deleter method for **self.__borderColor** attribute.
+		Deleter for **self.__borderColor** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -267,9 +286,10 @@ class Notification_QLabel(QLabel):
 	@property
 	def anchor(self):
 		"""
-		This method is the property for **self.__anchor** attribute.
+		Property for **self.__anchor** attribute.
 
-		:return: self.__anchor. ( Integer )
+		:return: self.__anchor.
+		:rtype: int
 		"""
 
 		return self.__anchor
@@ -278,9 +298,10 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def anchor(self, value):
 		"""
-		This method is the setter method for **self.__anchor** attribute.
+		Setter for **self.__anchor** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -292,7 +313,7 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def anchor(self):
 		"""
-		This method is the deleter method for **self.__anchor** attribute.
+		Deleter for **self.__anchor** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -301,9 +322,10 @@ class Notification_QLabel(QLabel):
 	@property
 	def horizontalPadding(self):
 		"""
-		This method is the property for **self.__horizontalPadding** attribute.
+		Property for **self.__horizontalPadding** attribute.
 
-		:return: self.__horizontalPadding. ( Integer )
+		:return: self.__horizontalPadding.
+		:rtype: int
 		"""
 
 		return self.__horizontalPadding
@@ -312,9 +334,10 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def horizontalPadding(self, value):
 		"""
-		This method is the setter method for **self.__horizontalPadding** attribute.
+		Setter for **self.__horizontalPadding** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -326,7 +349,7 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def horizontalPadding(self):
 		"""
-		This method is the deleter method for **self.__horizontalPadding** attribute.
+		Deleter for **self.__horizontalPadding** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -335,9 +358,10 @@ class Notification_QLabel(QLabel):
 	@property
 	def verticalPadding(self):
 		"""
-		This method is the property for **self.__verticalPadding** attribute.
+		Property for **self.__verticalPadding** attribute.
 
-		:return: self.__verticalPadding. ( Integer )
+		:return: self.__verticalPadding.
+		:rtype: int
 		"""
 
 		return self.__verticalPadding
@@ -346,9 +370,10 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def verticalPadding(self, value):
 		"""
-		This method is the setter method for **self.__verticalPadding** attribute.
+		Setter for **self.__verticalPadding** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -360,7 +385,7 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def verticalPadding(self):
 		"""
-		This method is the deleter method for **self.__verticalPadding** attribute.
+		Deleter for **self.__verticalPadding** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -369,9 +394,10 @@ class Notification_QLabel(QLabel):
 	@property
 	def horizontalOffset(self):
 		"""
-		This method is the property for **self.__horizontalOffset** attribute.
+		Property for **self.__horizontalOffset** attribute.
 
-		:return: self.__horizontalOffset. ( Integer )
+		:return: self.__horizontalOffset.
+		:rtype: int
 		"""
 
 		return self.__horizontalOffset
@@ -380,9 +406,10 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def horizontalOffset(self, value):
 		"""
-		This method is the setter method for **self.__horizontalOffset** attribute.
+		Setter for **self.__horizontalOffset** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -393,7 +420,7 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def horizontalOffset(self):
 		"""
-		This method is the deleter method for **self.__horizontalOffset** attribute.
+		Deleter for **self.__horizontalOffset** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -402,9 +429,10 @@ class Notification_QLabel(QLabel):
 	@property
 	def verticalOffset(self):
 		"""
-		This method is the property for **self.__verticalOffset** attribute.
+		Property for **self.__verticalOffset** attribute.
 
-		:return: self.__verticalOffset. ( Integer )
+		:return: self.__verticalOffset.
+		:rtype: int
 		"""
 
 		return self.__verticalOffset
@@ -413,9 +441,10 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def verticalOffset(self, value):
 		"""
-		This method is the setter method for **self.__verticalOffset** attribute.
+		Setter for **self.__verticalOffset** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -426,7 +455,7 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def verticalOffset(self):
 		"""
-		This method is the deleter method for **self.__verticalOffset** attribute.
+		Deleter for **self.__verticalOffset** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -435,9 +464,10 @@ class Notification_QLabel(QLabel):
 	@property
 	def fadeSpeed(self):
 		"""
-		This method is the property for **self.__fadeSpeed** attribute.
+		Property for **self.__fadeSpeed** attribute.
 
-		:return: self.__fadeSpeed. ( Float )
+		:return: self.__fadeSpeed.
+		:rtype: float
 		"""
 
 		return self.__fadeSpeed
@@ -446,9 +476,10 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def fadeSpeed(self, value):
 		"""
-		This method is the setter method for **self.__fadeSpeed** attribute.
+		Setter for **self.__fadeSpeed** attribute.
 
-		:param value: Attribute value. ( Float )
+		:param value: Attribute value.
+		:type value: float
 		"""
 
 		if value is not None:
@@ -460,7 +491,7 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def fadeSpeed(self):
 		"""
-		This method is the deleter method for **self.__fadeSpeed** attribute.
+		Deleter for **self.__fadeSpeed** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -469,9 +500,10 @@ class Notification_QLabel(QLabel):
 	@property
 	def targetOpacity(self):
 		"""
-		This method is the property for **self.__targetOpacity** attribute.
+		Property for **self.__targetOpacity** attribute.
 
-		:return: self.__targetOpacity. ( Float )
+		:return: self.__targetOpacity.
+		:rtype: float
 		"""
 
 		return self.__targetOpacity
@@ -480,9 +512,10 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def targetOpacity(self, value):
 		"""
-		This method is the setter method for **self.__targetOpacity** attribute.
+		Setter for **self.__targetOpacity** attribute.
 
-		:param value: Attribute value. ( Float )
+		:param value: Attribute value.
+		:type value: float
 		"""
 
 		if value is not None:
@@ -495,7 +528,7 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def targetOpacity(self):
 		"""
-		This method is the deleter method for **self.__targetOpacity** attribute.
+		Deleter for **self.__targetOpacity** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -504,9 +537,10 @@ class Notification_QLabel(QLabel):
 	@property
 	def duration(self):
 		"""
-		This method is the property for **self.__duration** attribute.
+		Property for **self.__duration** attribute.
 
-		:return: self.__duration. ( Integer )
+		:return: self.__duration.
+		:rtype: int
 		"""
 
 		return self.__duration
@@ -515,9 +549,10 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def duration(self, value):
 		"""
-		This method is the setter method for **self.__duration** attribute.
+		Setter for **self.__duration** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		if value is not None:
@@ -529,7 +564,7 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def duration(self):
 		"""
-		This method is the deleter method for **self.__duration** attribute.
+		Deleter for **self.__duration** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -538,9 +573,10 @@ class Notification_QLabel(QLabel):
 	@property
 	def opacity(self):
 		"""
-		This method is the property for **self.__opacity** attribute.
+		Property for **self.__opacity** attribute.
 
-		:return: self.__opacity. ( Float )
+		:return: self.__opacity.
+		:rtype: float
 		"""
 
 		return self.__opacity
@@ -549,9 +585,10 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def opacity(self, value):
 		"""
-		This method is the setter method for **self.__opacity** attribute.
+		Setter for **self.__opacity** attribute.
 
-		:param value: Attribute value. ( Float )
+		:param value: Attribute value.
+		:type value: float
 		"""
 
 		if value is not None:
@@ -569,7 +606,7 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def opacity(self):
 		"""
-		This method is the deleter method for **self.__opacity** attribute.
+		Deleter for **self.__opacity** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -578,9 +615,10 @@ class Notification_QLabel(QLabel):
 	@property
 	def style(self):
 		"""
-		This method is the property for **self.__style** attribute.
+		Property for **self.__style** attribute.
 
-		:return: self.__style. ( String )
+		:return: self.__style.
+		:rtype: unicode
 		"""
 
 		return self.__style
@@ -589,9 +627,10 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def style(self, value):
 		"""
-		This method is the setter method for **self.__style** attribute.
+		Setter for **self.__style** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -601,7 +640,7 @@ class Notification_QLabel(QLabel):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def style(self):
 		"""
-		This method is the deleter method for **self.__style** attribute.
+		Deleter for **self.__style** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -612,9 +651,10 @@ class Notification_QLabel(QLabel):
 	#******************************************************************************************************************
 	def setParent(self, parent):
 		"""
-		This method reimplements the :meth:`QLabel.setParent` method.
+		Reimplements the :meth:`QLabel.setParent` method.
 
-		:param parent: Parent. ( QObject )
+		:param parent: Parent.
+		:type parent: QObject
 		"""
 
 		QLabel.setParent(self, parent)
@@ -622,9 +662,10 @@ class Notification_QLabel(QLabel):
 
 	def resizeEvent(self, event):
 		"""
-		This method reimplements the :meth:`QLabel.resizeEvent` method.
+		Reimplements the :meth:`QLabel.resizeEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		QLabel.resizeEvent(self, event)
@@ -632,18 +673,20 @@ class Notification_QLabel(QLabel):
 
 	def mousePressEvent(self, event):
 		"""
-		This method reimplements the :meth:`QLabel.mousePressEvent` method.
+		Reimplements the :meth:`QLabel.mousePressEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		self.notificationClicked.emit(self.text())
 
 	def showEvent(self, event):
 		"""
-		This method reimplements the :meth:`QLabel.showEvent` method.
+		Reimplements the :meth:`QLabel.showEvent` method.
 
-		:param event: QEvent. ( QEvent )
+		:param event: QEvent.
+		:type event: QEvent
 		"""
 
 		QLabel.showEvent(self, event)
@@ -651,9 +694,10 @@ class Notification_QLabel(QLabel):
 
 	def __raise(self, *args):
 		"""
-		This method ensures that the Widget stays on top of the parent stack forcing the redraw.
+		Ensures that the Widget stays on top of the parent stack forcing the redraw.
 
-		:param \*args: Arguments. ( \* )
+		:param \*args: Arguments.
+		:type \*args: \*
 		"""
 
 		children = self.parent().children().remove(self)
@@ -665,7 +709,7 @@ class Notification_QLabel(QLabel):
 
 	def __setPosition(self):
 		"""
-		This method sets the Widget position relatively to its parent.
+		Sets the Widget position relatively to its parent.
 		"""
 
 		rectangle = hasattr(self.parent(), "viewport") and self.parent().viewport().rect() or self.parent().rect()
@@ -706,7 +750,7 @@ class Notification_QLabel(QLabel):
 
 	def __fadeIn(self):
 		"""
-		This method starts the Widget fade in.
+		Starts the Widget fade in.
 		"""
 
 		self.__timer.stop()
@@ -715,7 +759,7 @@ class Notification_QLabel(QLabel):
 
 	def __fadeOut(self):
 		"""
-		This method starts the Widget fade out.
+		Starts the Widget fade out.
 		"""
 
 		self.__timer.stop()
@@ -724,7 +768,7 @@ class Notification_QLabel(QLabel):
 
 	def __setOpacity(self):
 		"""
-		This method sets the Widget opacity.
+		Sets the Widget opacity.
 		"""
 
 		if self.__vector > 0:
@@ -746,7 +790,7 @@ class Notification_QLabel(QLabel):
 
 	def __setStyleSheet(self):
 		"""
-		This method sets the Widget stylesheet.
+		Sets the Widget stylesheet.
 		"""
 
 		colors = map(lambda x:"rgb({0}, {1}, {2}, {3})".format(x.red(), x.green(), x.blue(), int(self.__opacity * 255)),
@@ -755,11 +799,14 @@ class Notification_QLabel(QLabel):
 
 	def showMessage(self, message, duration=2500):
 		"""
-		This method shows given message.
+		Shows given message.
 		
-		:param message: Message. ( String )
-		:param duration: Notification duration in milliseconds. ( Integer )
-		:return: Method success. ( Boolean )
+		:param message: Message.
+		:type message: unicode
+		:param duration: Notification duration in milliseconds.
+		:type duration: int
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.setText(message)
@@ -775,9 +822,10 @@ class Notification_QLabel(QLabel):
 
 	def hideMessage(self):
 		"""
-		This method hides the current message.
+		Hides the current message.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.__fadeOut()
@@ -785,9 +833,10 @@ class Notification_QLabel(QLabel):
 
 	def refreshPosition(self):
 		"""
-		This method refreshes the Widget position.
+		Refreshes the Widget position.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		self.__setPosition()

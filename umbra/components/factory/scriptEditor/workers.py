@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
+	Defines the :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor`
 	Component Interface class Workers.
 
 **Others:**
@@ -47,7 +47,7 @@ import umbra.ui.common
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -62,14 +62,15 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 class Occurence(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for the :class:`Search_worker` class search occurence.
+	Defines a storage object for the :class:`Search_worker` class search occurence.
 	"""
 
 	def __init__(self, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param \*\*kwargs: line, column, length, text. ( Key / Value pairs )
+		:param \*\*kwargs: line, column, length, text.
+		:type \*\*kwargs: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -78,14 +79,15 @@ class Occurence(foundations.dataStructures.Structure):
 
 class SearchResult(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for the :class:`Search_worker` class search result.
+	Defines a storage object for the :class:`Search_worker` class search result.
 	"""
 
 	def __init__(self, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param \*\*kwargs: file, pattern, settings, occurences. ( Key / Value pairs )
+		:param \*\*kwargs: file, pattern, settings, occurrences.
+		:type \*\*kwargs: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -94,14 +96,15 @@ class SearchResult(foundations.dataStructures.Structure):
 
 class CacheData(foundations.dataStructures.Structure):
 	"""
-	This class represents a storage object for the :class:`Search_worker` class cache data.
+	Defines a storage object for the :class:`Search_worker` class cache data.
 	"""
 
 	def __init__(self, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param \*\*kwargs: content, document. ( Key / Value pairs )
+		:param \*\*kwargs: content, document.
+		:type \*\*kwargs: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -110,7 +113,7 @@ class CacheData(foundations.dataStructures.Structure):
 
 class Search_worker(QThread):
 	"""
-	This class is a `QThread <http://doc.qt.nokia.com/qthread.html>`_ subclass used
+	Defines a `QThread <http://doc.qt.nokia.com/qthread.html>`_ subclass used
 	to search for a pattern in a directory files.
 	"""
 
@@ -119,14 +122,16 @@ class Search_worker(QThread):
 	"""
 	This signal is emited by the :class:`Search_worker` class when the search is finished. ( pyqtSignal )
 
-	:return: Search results. ( List )
+	:return: Search results.
+	:rtype: list
 	"""
 
 	def __init__(self, parent, pattern=None, location=None, settings=None):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
+		:param parent: Object parent.
+		:type parent: QObject
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -154,9 +159,10 @@ class Search_worker(QThread):
 	@property
 	def container(self):
 		"""
-		This method is the property for **self.__container** attribute.
+		Property for **self.__container** attribute.
 
-		:return: self.__container. ( QObject )
+		:return: self.__container.
+		:rtype: QObject
 		"""
 
 		return self.__container
@@ -165,9 +171,10 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
-		This method is the setter method for **self.__container** attribute.
+		Setter for **self.__container** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -177,7 +184,7 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
-		This method is the deleter method for **self.__container** attribute.
+		Deleter for **self.__container** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -186,9 +193,10 @@ class Search_worker(QThread):
 	@property
 	def pattern(self):
 		"""
-		This method is the property for **self.__pattern** attribute.
+		Property for **self.__pattern** attribute.
 
-		:return: self.__pattern. ( String )
+		:return: self.__pattern.
+		:rtype: unicode
 		"""
 
 		return self.__pattern
@@ -197,9 +205,10 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def pattern(self, value):
 		"""
-		This method is the setter method for **self.__pattern** attribute.
+		Setter for **self.__pattern** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		if value is not None:
@@ -211,7 +220,7 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def pattern(self):
 		"""
-		This method is the deleter method for **self.__pattern** attribute.
+		Deleter for **self.__pattern** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -220,9 +229,10 @@ class Search_worker(QThread):
 	@property
 	def location(self):
 		"""
-		This method is the property for **self.__location** attribute.
+		Property for **self.__location** attribute.
 
-		:return: self.__location. ( Location )
+		:return: self.__location.
+		:rtype: Location
 		"""
 
 		return self.__location
@@ -231,9 +241,10 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def location(self, value):
 		"""
-		This method is the setter method for **self.__location** attribute.
+		Setter for **self.__location** attribute.
 
-		:param value: Attribute value. ( Location )
+		:param value: Attribute value.
+		:type value: Location
 		"""
 
 		if value is not None:
@@ -245,7 +256,7 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def location(self):
 		"""
-		This method is the deleter method for **self.__location** attribute.
+		Deleter for **self.__location** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -254,9 +265,10 @@ class Search_worker(QThread):
 	@property
 	def settings(self):
 		"""
-		This method is the property for **self.__settings** attribute.
+		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( Location )
+		:return: self.__settings.
+		:rtype: Location
 		"""
 
 		return self.__settings
@@ -265,9 +277,10 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(AssertionError)
 	def settings(self, value):
 		"""
-		This method is the setter method for **self.__settings** attribute.
+		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( Location )
+		:param value: Attribute value.
+		:type value: Location
 		"""
 
 		if value is not None:
@@ -281,7 +294,7 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
-		This method is the deleter method for **self.__settings** attribute.
+		Deleter for **self.__settings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -290,9 +303,10 @@ class Search_worker(QThread):
 	@property
 	def searchResults(self):
 		"""
-		This method is the property for **self.__searchResults** attribute.
+		Property for **self.__searchResults** attribute.
 
-		:return: self.__searchResults. ( List )
+		:return: self.__searchResults.
+		:rtype: list
 		"""
 
 		return self.__searchResults
@@ -301,9 +315,10 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchResults(self, value):
 		"""
-		This method is the setter method for **self.__searchResults** attribute.
+		Setter for **self.__searchResults** attribute.
 
-		:param value: Attribute value. ( List )
+		:param value: Attribute value.
+		:type value: list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -313,7 +328,7 @@ class Search_worker(QThread):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def searchResults(self):
 		"""
-		This method is the deleter method for **self.__searchResults** attribute.
+		Deleter for **self.__searchResults** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -324,14 +339,14 @@ class Search_worker(QThread):
 	#******************************************************************************************************************
 	def run(self):
 		"""
-		This method reimplements the :meth:`QThread.run` method.
+		Reimplements the :meth:`QThread.run` method.
 		"""
 
 		self.__search()
 
 	def quit(self):
 		"""
-		This method reimplements the :meth:`QThread.quit` method.
+		Reimplements the :meth:`QThread.quit` method.
 		"""
 
 		self.__interrupt = True
@@ -340,7 +355,7 @@ class Search_worker(QThread):
 
 	def __search(self):
 		"""
-		This method performs the search.
+		Performs the search.
 		"""
 
 		self.__searchResults = []
@@ -366,17 +381,19 @@ class Search_worker(QThread):
 
 	def __searchEditorsFiles(self, files):
 		"""
-		This method searches in :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` class editors files.
+		Searches in :class:`umbra.components.factory.scriptEditor.scriptEditor.ScriptEditor` class editors files.
 
-		:param files: Editor files. ( List )
+		:param files: Editor files.
+		:type files: list
 		"""
 
 		for file in files:
 			if self.__interrupt:
 				return
 
-			if foundations.common.isBinaryFile(file):
-				continue
+			if foundations.io.isReadable(file):
+				if foundations.io.isBinaryFile(file):
+					continue
 
 			LOGGER.info("{0} | Searching '{1}' file!".format(self.__class__.__name__, file))
 			editor = self.__container.scriptEditor.getEditor(file)
@@ -384,18 +401,19 @@ class Search_worker(QThread):
 				continue
 
 			self.__lock.lock()
-			occurences = self.__searchDocument(editor.document(), self.__pattern, self.__settings)
+			occurrences = self.__searchDocument(editor.document(), self.__pattern, self.__settings)
 			self.__lock.unlock()
-			occurences and self.__searchResults.append(SearchResult(file=file,
+			occurrences and self.__searchResults.append(SearchResult(file=file,
 																	pattern=self.__pattern,
 																	settings=self.__settings,
-																	occurences=occurences))
+																	occurrences=occurrences))
 
 	def __searchFiles(self, files):
 		"""
-		This method searches in given files.
+		Searches in given files.
 
-		:param files: Files. ( List )
+		:param files: Files.
+		:type files: list
 		"""
 
 		for file in files:
@@ -405,8 +423,9 @@ class Search_worker(QThread):
 			if not foundations.common.pathExists(file):
 				continue
 
-			if foundations.common.isBinaryFile(file):
-				continue
+			if foundations.io.isReadable(file):
+				if foundations.io.isBinaryFile(file):
+					continue
 
 			LOGGER.info("{0} | Searching '{1}' file!".format(self.__class__.__name__, file))
 			cacheData = self.__container.filesCache.getContent(file)
@@ -419,20 +438,24 @@ class Search_worker(QThread):
 				self.__container.filesCache.addContent(**{file : CacheData(content=content, document=None)})
 			else:
 				content = cacheData.content
-			occurences = self.__searchDocument(QTextDocument(QString(content)), self.__pattern, self.__settings)
-			occurences and self.__searchResults.append(SearchResult(file=file,
+			occurrences = self.__searchDocument(QTextDocument(QString(content)), self.__pattern, self.__settings)
+			occurrences and self.__searchResults.append(SearchResult(file=file,
 																	pattern=self.__pattern,
 																	settings=self.__settings,
-																	occurences=occurences))
+																	occurrences=occurrences))
 
 	def __searchDocument(self, document, pattern, settings):
 		"""
-		This method searches for given pattern occurences in given document using given settings.
-	
-		:param document: Document. ( QTextDocument )
-		:param pattern: Pattern. ( String )
-		:param settings: Search settings. ( Structure )
-		:return: Matched occurences. ( List )
+		Searches for given pattern occurrences in given document using given settings.
+
+		:param document: Document.
+		:type document: QTextDocument
+		:param pattern: Pattern.
+		:type pattern: unicode
+		:param settings: Search settings.
+		:type settings: Structure
+		:return: Matched occurrences.
+		:rtype: list
 		"""
 
 		pattern = settings.regularExpressions and QRegExp(pattern) or pattern
@@ -443,7 +466,7 @@ class Search_worker(QThread):
 		if settings.wholeWord:
 			flags = flags | QTextDocument.FindWholeWords
 
-		occurences = []
+		occurrences = []
 		block = document.findBlock(0)
 		cursor = document.find(pattern, block.position(), flags)
 		while block.isValid() and cursor.position() != -1:
@@ -454,11 +477,11 @@ class Search_worker(QThread):
 			blockCursor.movePosition(QTextCursor.StartOfLine, QTextCursor.MoveAnchor)
 			blockCursor.movePosition(QTextCursor.EndOfLine, QTextCursor.KeepAnchor)
 			length = cursor.selectionEnd() - cursor.selectionStart()
-			occurences.append(Occurence(line=cursor.blockNumber(),
+			occurrences.append(Occurence(line=cursor.blockNumber(),
 										column=cursor.columnNumber() - length,
 										length=length,
 										position=cursor.position() - length,
 										text=blockCursor.selectedText()))
 			cursor = document.find(pattern, cursor.position(), flags)
 			block = block.next()
-		return occurences
+		return occurrences

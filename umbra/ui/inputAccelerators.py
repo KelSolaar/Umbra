@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the Application input accelerators objects.
+	Defines the Application input accelerators objects.
 
 **Others:**
 """
@@ -36,7 +36,7 @@ import foundations.verbose
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -59,11 +59,14 @@ LOGGER = foundations.verbose.installLogger()
 #**********************************************************************************************************************
 def getEditorCapability(editor, capability):
 	"""
-	This definition returns given editor capability.
+	Returns given editor capability.
 	
-	:param editor: Document editor. ( QWidget )
-	:param capability: Capability to retrieve. ( String )
-	:return: Capability. ( Object )
+	:param editor: Document editor.
+	:type editor: QWidget
+	:param capability: Capability to retrieve.
+	:type capability: unicode
+	:return: Capability.
+	:rtype: object
 	"""
 
 	if not hasattr(editor, "language"):
@@ -73,11 +76,14 @@ def getEditorCapability(editor, capability):
 
 def isSymbolsPairComplete(editor, symbol):
 	"""
-	This definition returns if the symbols pair is complete on current editor line.
+	Returns if the symbols pair is complete on current editor line.
 
-	:param editor: Document editor. ( QWidget )
-	:param symbol: Symbol to check. ( String )
-	:return: Is symbols pair complete. ( Boolean )
+	:param editor: Document editor.
+	:type editor: QWidget
+	:param symbol: Symbol to check.
+	:type symbol: unicode
+	:return: Is symbols pair complete.
+	:rtype: bool
 	"""
 
 	symbolsPairs = getEditorCapability(editor, "symbolsPairs")
@@ -95,10 +101,12 @@ def isSymbolsPairComplete(editor, symbol):
 
 def performCompletion(editor):
 	"""
-	This definition performs the completion on given editor.
+	Performs the completion on given editor.
 
-	:param editor: Document editor. ( QWidget )
-	:return: Method success. ( Boolean )
+	:param editor: Document editor.
+	:type editor: QWidget
+	:return: Method success.
+	:rtype: bool
 	"""
 
 	completionPrefix = editor.getPartialWordUnderCursor()
@@ -130,11 +138,14 @@ def performCompletion(editor):
 
 def indentationPreEventInputAccelerators(editor, event):
 	"""
-	This definition implements indentation pre event input accelerators.
+	Implements indentation pre event input accelerators.
 	
-	:param editor: Document editor. ( QWidget )
-	:param event: Event being handled. ( QEvent )
-	:return: Process event. ( Boolean )
+	:param editor: Document editor.
+	:type editor: QWidget
+	:param event: Event being handled.
+	:type event: QEvent
+	:return: Process event.
+	:rtype: bool
 	"""
 
 	processEvent = True
@@ -149,11 +160,14 @@ def indentationPreEventInputAccelerators(editor, event):
 
 def indentationPostEventInputAccelerators(editor, event):
 	"""
-	This definition implements indentation post event input accelerators.
+	Implements indentation post event input accelerators.
 	
-	:param editor: Document editor. ( QWidget )
-	:param event: Event being handled. ( QEvent )
-	:return: Method success. ( Boolean )
+	:param editor: Document editor.
+	:type editor: QWidget
+	:param event: Event being handled.
+	:type event: QEvent
+	:return: Method success.
+	:rtype: bool
 	"""
 
 	if event.key() in (Qt.Key_Enter, Qt.Key_Return):
@@ -197,11 +211,14 @@ def indentationPostEventInputAccelerators(editor, event):
 
 def completionPreEventInputAccelerators(editor, event):
 	"""
-	This definition implements completion pre event input accelerators.
+	Implements completion pre event input accelerators.
 
-	:param editor: Document editor. ( QWidget )
-	:param event: Event being handled. ( QEvent )
-	:return: Process event. ( Boolean )
+	:param editor: Document editor.
+	:type editor: QWidget
+	:param event: Event being handled.
+	:type event: QEvent
+	:return: Process event.
+	:rtype: bool
 	"""
 
 	processEvent = True
@@ -225,11 +242,14 @@ def completionPreEventInputAccelerators(editor, event):
 
 def completionPostEventInputAccelerators(editor, event):
 	"""
-	This definition implements completion post event input accelerators.
+	Implements completion post event input accelerators.
 
-	:param editor: Document editor. ( QWidget )
-	:param event: Event being handled. ( QEvent )	
-	:return: Process event. ( Boolean )
+	:param editor: Document editor.
+	:type editor: QWidget
+	:param event: Event being handled.
+	:type event: QEvent
+	:return: Process event.
+	:rtype: bool
 	"""
 
 	if editor.completer:
@@ -239,11 +259,14 @@ def completionPostEventInputAccelerators(editor, event):
 
 def symbolsExpandingPreEventInputAccelerators(editor, event):
 	"""
-	This definition implements symbols expanding pre event input accelerators.
+	Implements symbols expanding pre event input accelerators.
 
-	:param editor: Document editor. ( QWidget )
-	:param event: Event being handled. ( QEvent )
-	:return: Process event. ( Boolean )
+	:param editor: Document editor.
+	:type editor: QWidget
+	:param event: Event being handled.
+	:type event: QEvent
+	:return: Process event.
+	:rtype: bool
 	"""
 
 	processEvent = True

@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module is a dummy patch provided as an example file.
+	Is a dummy patch provided as an example file.
 
 **Others:**
 
@@ -23,7 +23,7 @@ from __future__ import unicode_literals
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -38,8 +38,9 @@ UID = "845d7ca6fca3888b0293eb982fa51ddf"
 #**********************************************************************************************************************
 def apply():
 	"""
-	This definition is called by the Application and triggers the patch execution.
-	:return: Definition success. ( Boolean )
+	Triggers the patch execution.
+	:return: Definition success.
+	:rtype: bool
 	"""
 
 	return True

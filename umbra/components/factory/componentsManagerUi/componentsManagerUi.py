@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines the :class:`ComponentsManagerUi` Component Interface class.
+	Defines the :class:`ComponentsManagerUi` Component Interface class.
 
 **Others:**
 
@@ -54,7 +54,7 @@ from umbra.components.factory.componentsManagerUi.views import Components_QTreeV
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -71,7 +71,7 @@ COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Components_Ma
 #**********************************************************************************************************************
 class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
-	| This class is the :mod:`umbra.components.factory.componentsManagerUi.componentsManagerUi` Component Interface class.
+	| Defines the :mod:`umbra.components.factory.componentsManagerUi.componentsManagerUi` Component Interface class.
 	| It defines methods to interact with
 		the :class:`manager.componentsManager.Manager` class Application instance Components.
 	"""
@@ -87,32 +87,39 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	"""
 	This signal is emited by the :class:`ComponentsManagerUi` class when a Component is activated. ( pyqtSignal )
 
-	:return: Activated Component name. ( String )	
+	:return: Activated Component name.
+	:rtype: unicode
 	"""
 
 	deactivatedComponent = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`ComponentsManagerUi` class when a Component is deactivated. ( pyqtSignal )
 
-	:return: Deactivated Component name. ( String )	
+	:return: Deactivated Component name.
+	:rtype: unicode
 	"""
 
 	reloadedComponent = pyqtSignal(unicode)
 	"""
 	This signal is emited by the :class:`ComponentsManagerUi` class when a Component is reloaded. ( pyqtSignal )
 
-	:return: Reloaded Component name. ( String )	
+	:return: Reloaded Component name.
+	:rtype: unicode
 	"""
 
 
 	def __init__(self, parent=None, name=None, *args, **kwargs):
 		"""
-		This method initializes the class.
+		Initializes the class.
 
-		:param parent: Object parent. ( QObject )
-		:param name: Component name. ( String )
-		:param \*args: Arguments. ( \* )
-		:param \*\*kwargs: Keywords arguments. ( \*\* )
+		:param parent: Object parent.
+		:type parent: QObject
+		:param name: Component name.
+		:type name: unicode
+		:param \*args: Arguments.
+		:type \*args: \*
+		:param \*\*kwargs: Keywords arguments.
+		:type \*\*kwargs: \*\*
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -167,9 +174,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def uiResourcesDirectory(self):
 		"""
-		This method is the property for **self.__uiResourcesDirectory** attribute.
+		Property for **self.__uiResourcesDirectory** attribute.
 
-		:return: self.__uiResourcesDirectory. ( String )
+		:return: self.__uiResourcesDirectory.
+		:rtype: unicode
 		"""
 
 		return self.__uiResourcesDirectory
@@ -178,9 +186,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def uiResourcesDirectory(self, value):
 		"""
-		This method is the setter method for **self.__uiResourcesDirectory** attribute.
+		Setter for **self.__uiResourcesDirectory** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -190,7 +199,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def uiResourcesDirectory(self):
 		"""
-		This method is the deleter method for **self.__uiResourcesDirectory** attribute.
+		Deleter for **self.__uiResourcesDirectory** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -199,9 +208,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def uiActivatedImage(self):
 		"""
-		This method is the property for **self.__uiActivatedImage** attribute.
+		Property for **self.__uiActivatedImage** attribute.
 
-		:return: self.__uiActivatedImage. ( String )
+		:return: self.__uiActivatedImage.
+		:rtype: unicode
 		"""
 
 		return self.__uiActivatedImage
@@ -210,9 +220,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def uiActivatedImage(self, value):
 		"""
-		This method is the setter method for **self.__uiActivatedImage** attribute.
+		Setter for **self.__uiActivatedImage** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -222,7 +233,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def uiActivatedImage(self):
 		"""
-		This method is the deleter method for **self.__uiActivatedImage** attribute.
+		Deleter for **self.__uiActivatedImage** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -231,9 +242,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def uiDeactivatedImage(self):
 		"""
-		This method is the property for **self.__uiDeactivatedImage** attribute.
+		Property for **self.__uiDeactivatedImage** attribute.
 
-		:return: self.__uiDeactivatedImage. ( String )
+		:return: self.__uiDeactivatedImage.
+		:rtype: unicode
 		"""
 
 		return self.__uiDeactivatedImage
@@ -242,9 +254,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def uiDeactivatedImage(self, value):
 		"""
-		This method is the setter method for **self.__uiDeactivatedImage** attribute.
+		Setter for **self.__uiDeactivatedImage** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -254,7 +267,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def uiDeactivatedImage(self):
 		"""
-		This method is the deleter method for **self.__uiDeactivatedImage** attribute.
+		Deleter for **self.__uiDeactivatedImage** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -263,9 +276,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def uiCategoryAffixe(self):
 		"""
-		This method is the property for **self.__uiCategoryAffixe** attribute.
+		Property for **self.__uiCategoryAffixe** attribute.
 
-		:return: self.__uiCategoryAffixe. ( String )
+		:return: self.__uiCategoryAffixe.
+		:rtype: unicode
 		"""
 
 		return self.__uiCategoryAffixe
@@ -274,9 +288,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def uiCategoryAffixe(self, value):
 		"""
-		This method is the setter method for **self.__uiCategoryAffixe** attribute.
+		Setter for **self.__uiCategoryAffixe** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -286,7 +301,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def uiCategoryAffixe(self):
 		"""
-		This method is the deleter method for **self.__uiCategoryAffixe** attribute.
+		Deleter for **self.__uiCategoryAffixe** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -295,9 +310,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def dockArea(self):
 		"""
-		This method is the property for **self.__dockArea** attribute.
+		Property for **self.__dockArea** attribute.
 
-		:return: self.__dockArea. ( Integer )
+		:return: self.__dockArea.
+		:rtype: int
 		"""
 
 		return self.__dockArea
@@ -306,9 +322,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def dockArea(self, value):
 		"""
-		This method is the setter method for **self.__dockArea** attribute.
+		Setter for **self.__dockArea** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -318,7 +335,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def dockArea(self):
 		"""
-		This method is the deleter method for **self.__dockArea** attribute.
+		Deleter for **self.__dockArea** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -327,9 +344,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def engine(self):
 		"""
-		This method is the property for **self.__engine** attribute.
+		Property for **self.__engine** attribute.
 
-		:return: self.__engine. ( QObject )
+		:return: self.__engine.
+		:rtype: QObject
 		"""
 
 		return self.__engine
@@ -338,9 +356,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def engine(self, value):
 		"""
-		This method is the setter method for **self.__engine** attribute.
+		Setter for **self.__engine** attribute.
 
-		:param value: Attribute value. ( QObject )
+		:param value: Attribute value.
+		:type value: QObject
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -350,7 +369,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def engine(self):
 		"""
-		This method is the deleter method for **self.__engine** attribute.
+		Deleter for **self.__engine** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -359,9 +378,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def settings(self):
 		"""
-		This method is the property for **self.__settings** attribute.
+		Property for **self.__settings** attribute.
 
-		:return: self.__settings. ( QSettings )
+		:return: self.__settings.
+		:rtype: QSettings
 		"""
 
 		return self.__settings
@@ -370,9 +390,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self, value):
 		"""
-		This method is the setter method for **self.__settings** attribute.
+		Setter for **self.__settings** attribute.
 
-		:param value: Attribute value. ( QSettings )
+		:param value: Attribute value.
+		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -382,7 +403,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
-		This method is the deleter method for **self.__settings** attribute.
+		Deleter for **self.__settings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -391,9 +412,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def model(self):
 		"""
-		This method is the property for **self.__model** attribute.
+		Property for **self.__model** attribute.
 
-		:return: self.__model. ( ComponentsModel )
+		:return: self.__model.
+		:rtype: ComponentsModel
 		"""
 
 		return self.__model
@@ -402,9 +424,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def model(self, value):
 		"""
-		This method is the setter method for **self.__model** attribute.
+		Setter for **self.__model** attribute.
 
-		:param value: Attribute value. ( ComponentsModel )
+		:param value: Attribute value.
+		:type value: ComponentsModel
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -414,7 +437,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def model(self):
 		"""
-		This method is the deleter method for **self.__model** attribute.
+		Deleter for **self.__model** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -423,9 +446,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def view(self):
 		"""
-		This method is the property for **self.__view** attribute.
+		Property for **self.__view** attribute.
 
-		:return: self.__view. ( QWidget )
+		:return: self.__view.
+		:rtype: QWidget
 		"""
 
 		return self.__view
@@ -434,9 +458,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def view(self, value):
 		"""
-		This method is the setter method for **self.__view** attribute.
+		Setter for **self.__view** attribute.
 
-		:param value: Attribute value. ( QWidget )
+		:param value: Attribute value.
+		:type value: QWidget
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -446,7 +471,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def view(self):
 		"""
-		This method is the deleter method for **self.__view** attribute.
+		Deleter for **self.__view** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -455,9 +480,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def headers(self):
 		"""
-		This method is the property for **self.__headers** attribute.
+		Property for **self.__headers** attribute.
 
-		:return: self.__headers. ( List )
+		:return: self.__headers.
+		:rtype: list
 		"""
 
 		return self.__headers
@@ -466,9 +492,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def headers(self, value):
 		"""
-		This method is the setter method for **self.__headers** attribute.
+		Setter for **self.__headers** attribute.
 
-		:param value: Attribute value. ( List )
+		:param value: Attribute value.
+		:type value: list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -478,7 +505,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def headers(self):
 		"""
-		This method is the deleter method for **self.__headers** attribute.
+		Deleter for **self.__headers** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -487,9 +514,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def treeViewInnerMargins(self):
 		"""
-		This method is the property for **self.__treeViewInnerMargins** attribute.
+		Property for **self.__treeViewInnerMargins** attribute.
 
-		:return: self.__treeViewInnerMargins. ( Integer )
+		:return: self.__treeViewInnerMargins.
+		:rtype: int
 		"""
 
 		return self.__treeViewInnerMargins
@@ -498,9 +526,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def treeViewInnerMargins(self, value):
 		"""
-		This method is the setter method for **self.__treeViewInnerMargins** attribute.
+		Setter for **self.__treeViewInnerMargins** attribute.
 
-		:param value: Attribute value. ( Integer )
+		:param value: Attribute value.
+		:type value: int
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -510,7 +539,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def treeViewInnerMargins(self):
 		"""
-		This method is the deleter method for **self.__treeViewInnerMargins** attribute.
+		Deleter for **self.__treeViewInnerMargins** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -519,9 +548,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def componentsInformationsDefaultText(self):
 		"""
-		This method is the property for **self.__componentsInformationsDefaultText** attribute.
+		Property for **self.__componentsInformationsDefaultText** attribute.
 
-		:return: self.__componentsInformationsDefaultText. ( String )
+		:return: self.__componentsInformationsDefaultText.
+		:rtype: unicode
 		"""
 
 		return self.__componentsInformationsDefaultText
@@ -530,9 +560,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def componentsInformationsDefaultText(self, value):
 		"""
-		This method is the setter method for **self.__componentsInformationsDefaultText** attribute.
+		Setter for **self.__componentsInformationsDefaultText** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -542,7 +573,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def componentsInformationsDefaultText(self):
 		"""
-		This method is the deleter method for **self.__componentsInformationsDefaultText** attribute.
+		Deleter for **self.__componentsInformationsDefaultText** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -551,9 +582,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@property
 	def componentsInformationsText(self):
 		"""
-		This method is the property for **self.__componentsInformationsText** attribute.
+		Property for **self.__componentsInformationsText** attribute.
 
-		:return: self.__componentsInformationsText. ( String )
+		:return: self.__componentsInformationsText.
+		:rtype: unicode
 		"""
 
 		return self.__componentsInformationsText
@@ -562,9 +594,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def componentsInformationsText(self, value):
 		"""
-		This method is the setter method for **self.__componentsInformationsText** attribute.
+		Setter for **self.__componentsInformationsText** attribute.
 
-		:param value: Attribute value. ( String )
+		:param value: Attribute value.
+		:type value: unicode
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -574,7 +607,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def componentsInformationsText(self):
 		"""
-		This method is the deleter method for **self.__componentsInformationsText** attribute.
+		Deleter for **self.__componentsInformationsText** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -585,10 +618,12 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	#******************************************************************************************************************
 	def activate(self, engine):
 		"""
-		This method activates the Component.
+		Activates the Component.
 
-		:param engine: Engine to attach the Component to. ( QObject )
-		:return: Method success. ( Boolean )
+		:param engine: Engine to attach the Component to.
+		:type engine: QObject
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Activating '{0}' Component.".format(self.__class__.__name__))
@@ -604,7 +639,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def deactivate(self):
 		"""
-		This method deactivates the Component.
+		Deactivates the Component.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -612,9 +647,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def initializeUi(self):
 		"""
-		This method initializes the Component ui.
+		Initializes the Component ui.
 		
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Initializing '{0}' Component ui.".format(self.__class__.__name__))
@@ -645,7 +681,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def uninitializeUi(self):
 		"""
-		This method uninitializes the Component ui.
+		Uninitializes the Component ui.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -653,9 +689,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def addWidget(self):
 		"""
-		This method adds the Component Widget to the engine.
+		Adds the Component Widget to the engine.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Adding '{0}' Component Widget.".format(self.__class__.__name__))
@@ -667,7 +704,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
 	def removeWidget(self):
 		"""
-		This method removes the Component Widget from the engine.
+		Removes the Component Widget from the engine.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
@@ -675,9 +712,10 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def onStartup(self):
 		"""
-		This method is triggered on Framework startup.
+		Defines the slot triggered by Framework startup.
 
-		:return: Method success. ( Boolean )		
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		LOGGER.debug("> Calling '{0}' Component Framework 'onStartup' method.".format(self.__class__.__name__))
@@ -687,7 +725,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __model__refreshNodes(self):
 		"""
-		This method is triggered when the Model data need refresh.
+		Defines the slot triggered by the Model when nodes need refresh.
 		"""
 
 		LOGGER.debug("> Refreshing '{0}' Model!".format("Components_Manager_Ui_treeView"))
@@ -696,7 +734,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __view_addActions(self):
 		"""
-		This method sets the **Components_Manager_Ui_treeView** actions.
+		Sets the **Components_Manager_Ui_treeView** actions.
 		"""
 
 		self.Components_Manager_Ui_treeView.addAction(self.__engine.actionsManager.registerAction(
@@ -720,41 +758,49 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __view_activateComponentsAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.ComponentsManagerUi|Activate Component(s)'** action.
+		Defines the slot triggered by \*\*'Actions|Umbra|Components|factory.ComponentsManagerUi|Activate Component(s)'** action.
 
-		:param checked: Action checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Action checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.activateComponentsUi()
 
 	def __view_deactivateComponentsAction__triggered(self, checked):
 		"""
-		This method is triggered by
+		Defines the slot triggered by
 		**'Actions|Umbra|Components|factory.ComponentsManagerUi|Deactivate Component(s)'** action.
 
-		:param checked: Action checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Action checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.deactivateComponentsUi()
 
 	def __view_reloadComponentsAction__triggered(self, checked):
 		"""
-		This method is triggered by **'Actions|Umbra|Components|factory.ComponentsManagerUi|Reload Component(s)'** action.
+		Defines the slot triggered by \*\*'Actions|Umbra|Components|factory.ComponentsManagerUi|Reload Component(s)'** action.
 
-		:param checked: Action checked state. ( Boolean )
-		:return: Method success. ( Boolean )
+		:param checked: Action checked state.
+		:type checked: bool
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		return self.reloadComponentsUi()
 
 	def __view_selectionModel__selectionChanged(self, selectedItems, deselectedItems):
 		"""
-		This method sets the **Additional_Informations_textEdit** Widget.
+		Sets the **Additional_Informations_textEdit** Widget.
 
-		:param selectedItems: Selected items. ( QItemSelection )
-		:param deselectedItems: Deselected items. ( QItemSelection )
+		:param selectedItems: Selected items.
+		:type selectedItems: QItemSelection
+		:param deselectedItems: Deselected items.
+		:type deselectedItems: QItemSelection
 		"""
 
 		LOGGER.debug("> Initializing '{0}' Widget.".format("Additional_Informations_textEdit"))
@@ -777,7 +823,7 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def __storeDeactivatedComponents(self):
 		"""
-		This method stores deactivated Components in settings file.
+		Stores deactivated Components in settings file.
 		"""
 
 		deactivatedComponents = []
@@ -793,11 +839,12 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@umbra.engine.encapsulateProcessing
 	def activateComponentsUi(self):
 		"""
-		This method activates user selected Components.
+		Activates user selected Components.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 
-		:note: This method may require user interaction.
+		:note: May require user interaction.
 		"""
 
 		selectedComponents = self.getSelectedComponents()
@@ -829,11 +876,12 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@umbra.engine.encapsulateProcessing
 	def deactivateComponentsUi(self):
 		"""
-		This method deactivates user selected Components.
+		Deactivates user selected Components.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 
-		:note: This method may require user interaction.
+		:note: May require user interaction.
 		"""
 
 		selectedComponents = self.getSelectedComponents()
@@ -870,11 +918,12 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@umbra.engine.encapsulateProcessing
 	def reloadComponentsUi(self):
 		"""
-		This method reloads user selected Components.
+		Reloads user selected Components.
 
-		:return: Method success. ( Boolean )
+		:return: Method success.
+		:rtype: bool
 
-		:note: This method may require user interaction.
+		:note: May require user interaction.
 		"""
 
 		selectedComponents = self.getSelectedComponents()
@@ -903,10 +952,12 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 	@foundations.exceptions.handleExceptions(manager.exceptions.ComponentExistsError, Exception)
 	def activateComponent(self, name):
 		"""
-		This method activates given Component.
+		Activates given Component.
 
-		:param name: Component name. ( String )
-		:return: Method success. ( Boolean )
+		:param name: Component name.
+		:type name: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not name in self.__engine.componentsManager.components:
@@ -934,10 +985,12 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 											manager.exceptions.ComponentDeactivationError)
 	def deactivateComponent(self, name):
 		"""
-		This method deactivates given Component.
+		Deactivates given Component.
 
-		:param name: Component name. ( String )
-		:return: Method success. ( Boolean )
+		:param name: Component name.
+		:type name: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not name in self.__engine.componentsManager.components:
@@ -969,10 +1022,12 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 											manager.exceptions.ComponentReloadError)
 	def reloadComponent(self, name):
 		"""
-		This method reloads given Component.
+		Reloads given Component.
 
-		:param name: Component name. ( String )
-		:return: Method success. ( Boolean )
+		:param name: Component name.
+		:type name: unicode
+		:return: Method success.
+		:rtype: bool
 		"""
 
 		if not name in self.__engine.componentsManager.components:
@@ -1020,25 +1075,27 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def getComponents(self):
 		"""
-		This method returns the Components.
+		Returns the Components.
 
-		:return: Components. ( List )
+		:return: Components.
+		:rtype: list
 		"""
 
 		return self.__engine.componentsManager.components
 
 	def listComponents(self):
 		"""
-		This method lists the Components names.
+		Lists the Components names.
 
-		:return: Components names. ( List )
+		:return: Components names.
+		:rtype: list
 		"""
 
 		return self.__engine.componentsManager.listComponents()
 
 	def setComponents(self):
 		"""
-		This method sets the Components Model nodes.
+		Sets the Components Model nodes.
 		"""
 
 		nodeFlags = attributesFlags = int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
@@ -1086,27 +1143,30 @@ class ComponentsManagerUi(QWidgetComponentFactory(uiFile=COMPONENT_UI_FILE)):
 
 	def getSelectedNodes(self):
 		"""
-		This method returns the View selected nodes.
+		Returns the View selected nodes.
 
-		:return: View selected nodes. ( Dictionary )
+		:return: View selected nodes.
+		:rtype: dict
 		"""
 
 		return self.__view.getSelectedNodes()
 
 	def getSelectedComponentsNodes(self):
 		"""
-		This method returns the View selected Components nodes.
+		Returns the View selected Components nodes.
 
-		:return: View selected Components nodes. ( List )
+		:return: View selected Components nodes.
+		:rtype: list
 		"""
 
 		return [node for node in self.getSelectedNodes() if node.family == "Component"]
 
 	def getSelectedComponents(self):
 		"""
-		This method gets the View selected Components.
+		Returns the View selected Components.
 
-		:return: View selected Components. ( List )
+		:return: View selected Components.
+		:rtype: list
 		"""
 
 		return [node.component for node in self.getSelectedComponentsNodes()]

@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	This module defines **Umbra** package runtime globals through the :class:`RuntimeGlobals` class.
+	Defines **Umbra** package runtime globals through the :class:`RuntimeGlobals` class.
 
 **Others:**
 
@@ -28,7 +28,7 @@ import os
 #***	Module attributes.
 #**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
-__copyright__ = "Copyright (C) 2008 - 2013 - Thomas Mansencal"
+__copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
 __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
@@ -41,7 +41,7 @@ __all__ = ["RuntimeGlobals"]
 #**********************************************************************************************************************
 class RuntimeGlobals():
 	"""
-	This class provides **Umbra** package runtime constants.
+	Defines **Umbra** package runtime constants.
 	"""
 
 	parameters = None
