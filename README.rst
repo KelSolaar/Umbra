@@ -1,3 +1,6 @@
+.. image:: https://badge.waffle.io/kelsolaar/umbra.png?label=ready&title=Ready 
+ :target: https://waffle.io/kelsolaar/umbra
+ :alt: 'Stories in Ready'
 Umbra
 =====
 
