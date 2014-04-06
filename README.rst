@@ -1,11 +1,11 @@
-.. image:: https://badge.waffle.io/kelsolaar/umbra.png?label=ready&title=Ready 
- :target: https://waffle.io/kelsolaar/umbra
- :alt: 'Stories in Ready'
 Umbra
 =====
 
 ..  image:: https://secure.travis-ci.org/KelSolaar/Umbra.png?branch=master
 ..  image:: https://gemnasium.com/KelSolaar/Umbra.png  
+.. image:: https://badge.waffle.io/kelsolaar/umbra.png?label=ready&title=Ready 
+ :target: https://waffle.io/kelsolaar/umbra
+ :alt: 'Stories in Ready'
 
 Introduction
 ------------
