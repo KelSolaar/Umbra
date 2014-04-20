@@ -46,19 +46,19 @@ __all__ = ["LOGGER",
 		   "STATEMENT_SUBSTITUTE",
 		   "bleach"]
 
-LOGGER = foundations.verbose.installLogger()
+LOGGER = foundations.verbose.install_logger()
 
 STATEMENT_UPDATE_MESSAGE = "# Oncilla: Statement commented by auto-documentation process: "
 
 STATEMENT_SUBSTITUTE = ("(\n)(?P<bleach>\s*if\s+__name__\s+==\s+[\"']__main__[\"']\s*:.*)",
 					  "(\n)(?P<bleach>\s*@(?!property|\w+\.setter|\w+\.deleter).*?)(\n+\s*def\s+)",
-					  "(\n)(?P<bleach>\s*_initializeApplication\(\))")
+					  "(\n)(?P<bleach>\s*_initialize_application\(\))")
 
-STATEMENT_REPLACE = {"PYTHON_LANGUAGE = getPythonLanguage()": \
+STATEMENT_REPLACE = {"PYTHON_LANGUAGE = get_python_language()": \
 					   "{0}\nPYTHON_LANGUAGE = None".format(STATEMENT_UPDATE_MESSAGE),
-				   "LOGGING_LANGUAGE = getLoggingLanguage()": \
+				   "LOGGING_LANGUAGE = get_logging_language()": \
 					   "{0}\nLOGGING_LANGUAGE = None".format(STATEMENT_UPDATE_MESSAGE),
-				   "TEXT_LANGUAGE = getTextLanguage()": \
+				   "TEXT_LANGUAGE = get_text_language()": \
 					   "{0}\nTEXT_LANGUAGE = None".format(STATEMENT_UPDATE_MESSAGE)}
 
 #**********************************************************************************************************************
@@ -76,8 +76,8 @@ def bleach(file):
 
 	LOGGER.info("{0} | Sanitizing '{1}' python module!".format(__name__, file))
 
-	sourceFile = File(file)
-	content = sourceFile.read()
+	source_file = File(file)
+	content = source_file.read()
 	for pattern in STATEMENT_SUBSTITUTE:
 		matches = [match for match in re.finditer(pattern, content, re.DOTALL)]
 
@@ -94,7 +94,7 @@ def bleach(file):
 
 	content = foundations.strings.replace(content, STATEMENT_REPLACE)
 
-	sourceFile.content = [content]
-	sourceFile.write()
+	source_file.content = [content]
+	source_file.write()
 
 	return True

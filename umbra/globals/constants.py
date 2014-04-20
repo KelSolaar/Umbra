@@ -50,27 +50,27 @@ class Constants():
 	Defines **Umbra** package default constants.
 	"""
 
-	applicationName = "Umbra"
+	application_name = "Umbra"
 	"""
-	:param applicationName: Package Application name.
-	:type applicationName: unicode
+	:param application_name: Package Application name.
+	:type application_name: unicode
 	"""
-	majorVersion = "1"
+	major_version = "1"
 	"""
-	:param majorVersion: Package major version.
-	:type majorVersion: unicode
+	:param major_version: Package major version.
+	:type major_version: unicode
 	"""
-	minorVersion = "0"
+	minor_version = "0"
 	"""
-	:param minorVersion: Package minor version.
-	:type minorVersion: unicode
+	:param minor_version: Package minor version.
+	:type minor_version: unicode
 	"""
-	changeVersion = "9"
+	change_version = "9"
 	"""
-	:param changeVersion: Package change version.
-	:type changeVersion: unicode
+	:param change_version: Package change version.
+	:type change_version: unicode
 	"""
-	version = ".".join((majorVersion, minorVersion, changeVersion))
+	version = ".".join((major_version, minor_version, change_version))
 	"""
 	:param version: Package version.
 	:type version: unicode
@@ -81,139 +81,139 @@ class Constants():
 	:param logger: Package logger name.
 	:type logger: unicode
 	"""
-	verbosityLevel = 3
+	verbosity_level = 3
 	"""
-	:param verbosityLevel: Default logging verbosity level.
-	:type verbosityLevel: int
+	:param verbosity_level: Default logging verbosity level.
+	:type verbosity_level: int
 	"""
-	verbosityLabels = ("Critical", "Error", "Warning", "Info", "Debug")
+	verbosity_labels = ("Critical", "Error", "Warning", "Info", "Debug")
 	"""
-	:param verbosityLabels: Logging verbosity labels.
-	:type verbosityLabels: tuple
+	:param verbosity_labels: Logging verbosity labels.
+	:type verbosity_labels: tuple
 	"""
-	loggingDefaultFormatter = "Default"
+	logging_default_formatter = "Default"
 	"""
-	:param loggingDefaultFormatter: Default logging formatter name.
-	:type loggingDefaultFormatter: unicode
+	:param logging_default_formatter: Default logging formatter name.
+	:type logging_default_formatter: unicode
 	"""
-	loggingSeparators = "*" * 96
+	logging_separators = "*" * 96
 	"""
-	:param loggingSeparators: Logging separators.
-	:type loggingSeparators: unicode
-	"""
-
-	defaultCodec = umbra.DEFAULT_CODEC
-	"""
-	:param defaultCodec: Default codec.
-	:type defaultCodec: unicode
-	"""
-	codecError = umbra.CODEC_ERROR
-	"""
-	:param codecError: Default codec error behavior.
-	:type codecError: unicode
+	:param logging_separators: Logging separators.
+	:type logging_separators: unicode
 	"""
 
-	applicationDirectory = os.sep.join(("Umbra", ".".join((majorVersion, minorVersion))))
+	default_codec = umbra.DEFAULT_CODEC
 	"""
-	:param applicationDirectory: Package Application directory.
-	:type applicationDirectory: unicode
+	:param default_codec: Default codec.
+	:type default_codec: unicode
+	"""
+	codec_error = umbra.CODEC_ERROR
+	"""
+	:param codec_error: Default codec error behavior.
+	:type codec_error: unicode
+	"""
+
+	application_directory = os.sep.join(("Umbra", ".".join((major_version, minor_version))))
+	"""
+	:param application_directory: Package Application directory.
+	:type application_directory: unicode
 	"""
 	if platform.system() in ("Windows", "Microsoft") or platform.system() == "Darwin":
-		providerDirectory = "HDRLabs"
+		provider_directory = "HDRLabs"
 		"""
-		:param providerDirectory: Package provider directory.
-		:type providerDirectory: unicode
+		:param provider_directory: Package provider directory.
+		:type provider_directory: unicode
 		"""
 	elif platform.system() == "Linux":
-		providerDirectory = ".HDRLabs"
+		provider_directory = ".HDRLabs"
 		"""
-		:param providerDirectory: Package provider directory.
-		:type providerDirectory: unicode
+		:param provider_directory: Package provider directory.
+		:type provider_directory: unicode
 		"""
 
-	patchesDirectory = "patches"
+	patches_directory = "patches"
 	"""
-	:param patchesDirectory: Application patches directory.
-	:type patchesDirectory: unicode
+	:param patches_directory: Application patches directory.
+	:type patches_directory: unicode
 	"""
-	settingsDirectory = "settings"
+	settings_directory = "settings"
 	"""
-	:param settingsDirectory: Application settings directory.
-	:type settingsDirectory: unicode
+	:param settings_directory: Application settings directory.
+	:type settings_directory: unicode
 	"""
-	userComponentsDirectory = "components"
+	user_components_directory = "components"
 	"""
-	:param userComponentsDirectory: Application user components directory.
-	:type userComponentsDirectory: unicode
+	:param user_components_directory: Application user components directory.
+	:type user_components_directory: unicode
 	"""
-	loggingDirectory = "logging"
+	logging_directory = "logging"
 	"""
-	:param loggingDirectory: Application logging directory.
-	:type loggingDirectory: unicode
+	:param logging_directory: Application logging directory.
+	:type logging_directory: unicode
 	"""
-	ioDirectory = "io"
+	io_directory = "io"
 	"""
-	:param ioDirectory: Application io directory.
-	:type ioDirectory: unicode
-	"""
-
-	preferencesDirectories = (patchesDirectory,
-								settingsDirectory,
-								userComponentsDirectory,
-								loggingDirectory,
-								ioDirectory)
-	"""
-	:param preferencesDirectories: Application preferences directories.
-	:type preferencesDirectories: tuple
+	:param io_directory: Application io directory.
+	:type io_directory: unicode
 	"""
 
-	factoryComponentsDirectory = "components/factory"
+	preferences_directories = (patches_directory,
+								settings_directory,
+								user_components_directory,
+								logging_directory,
+								io_directory)
 	"""
-	:param factoryComponentsDirectory: Application factory components directory.
-	:type factoryComponentsDirectory: unicode
-	"""
-
-	factoryAddonsComponentsDirectory = "components/addons"
-	"""
-	:param factoryAddonsComponentsDirectory: Application addons components directory.
-	:type factoryAddonsComponentsDirectory: unicode
+	:param preferences_directories: Application preferences directories.
+	:type preferences_directories: tuple
 	"""
 
-	resourcesDirectory = "resources"
+	factory_components_directory = "components/factory"
 	"""
-	:param resourcesDirectory: Application resources directory.
-	:type resourcesDirectory: unicode
-	"""
-
-	patchesFile = "Umbra_Patches.rc"
-	"""
-	:param patchesFile: Application settings file.
-	:type patchesFile: unicode
-	"""
-	settingsFile = "Umbra_Settings.rc"
-	"""
-	:param settingsFile: Application settings file.
-	:type settingsFile: unicode
-	"""
-	loggingFile = "Umbra_Logging_{0}.log"
-	"""
-	:param loggingFile: Application logging file.
-	:type loggingFile: unicode
+	:param factory_components_directory: Application factory components directory.
+	:type factory_components_directory: unicode
 	"""
 
-	librariesDirectory = "libraries"
+	factory_addons_components_directory = "components/addons"
 	"""
-	:param librariesDirectory: Application libraries directory.
-	:type librariesDirectory: unicode
+	:param factory_addons_components_directory: Application addons components directory.
+	:type factory_addons_components_directory: unicode
 	"""
 
-	defaultTimerCycle = 125
+	resources_directory = "resources"
 	"""
-	:param defaultTimerCycle: Default timer cycle length in milliseconds.
-	:type defaultTimerCycle: int
+	:param resources_directory: Application resources directory.
+	:type resources_directory: unicode
 	"""
-	nullObject = "None"
+
+	patches_file = "Umbra_Patches.rc"
 	"""
-	:param nullObject: Default null object string.
-	:type nullObject: unicode
+	:param patches_file: Application settings file.
+	:type patches_file: unicode
+	"""
+	settings_file = "Umbra_Settings.rc"
+	"""
+	:param settings_file: Application settings file.
+	:type settings_file: unicode
+	"""
+	logging_file = "Umbra_Logging_{0}.log"
+	"""
+	:param logging_file: Application logging file.
+	:type logging_file: unicode
+	"""
+
+	libraries_directory = "libraries"
+	"""
+	:param libraries_directory: Application libraries directory.
+	:type libraries_directory: unicode
+	"""
+
+	default_timer_cycle = 125
+	"""
+	:param default_timer_cycle: Default timer cycle length in milliseconds.
+	:type default_timer_cycle: int
+	"""
+	null_object = "None"
+	"""
+	:param null_object: Default null object string.
+	:type null_object: unicode
 	"""

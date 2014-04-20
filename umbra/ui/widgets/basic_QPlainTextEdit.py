@@ -40,7 +40,7 @@ from PyQt4.QtGui import QTextOption
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.common
-import foundations.dataStructures
+import foundations.data_structures
 import foundations.exceptions
 import foundations.strings
 import foundations.trace
@@ -56,14 +56,14 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["LOGGER", "editBlock", "anchorTextCursor", "centerTextCursor", "Basic_QPlainTextEdit"]
+__all__ = ["LOGGER", "edit_block", "anchor_text_cursor", "center_text_cursor", "Basic_QPlainTextEdit"]
 
-LOGGER = foundations.verbose.installLogger()
+LOGGER = foundations.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-def editBlock(object):
+def edit_block(object):
 	"""
 	Handles edit blocks undo states.
 
@@ -74,7 +74,7 @@ def editBlock(object):
 	"""
 
 	@functools.wraps(object)
-	def editBlockWrapper(*args, **kwargs):
+	def edit_block_wrapper(*args, **kwargs):
 		"""
 		Handles edit blocks undo states.
 
@@ -87,7 +87,7 @@ def editBlock(object):
 		"""
 
 		if args:
-			cursor = foundations.common.getFirstItem(args).textCursor()
+			cursor = foundations.common.get_first_item(args).textCursor()
 			cursor.beginEditBlock()
 		value = None
 		try:
@@ -97,9 +97,9 @@ def editBlock(object):
 				cursor.endEditBlock()
 			return value
 
-	return editBlockWrapper
+	return edit_block_wrapper
 
-def anchorTextCursor(object):
+def anchor_text_cursor(object):
 	"""
 	Anchors the text cursor position.
 
@@ -110,7 +110,7 @@ def anchorTextCursor(object):
 	"""
 
 	@functools.wraps(object)
-	def anchorTextCursorWrapper(*args, **kwargs):
+	def anchor_text_cursorWrapper(*args, **kwargs):
 		"""
 		Anchors the text cursor position.
 
@@ -123,20 +123,20 @@ def anchorTextCursor(object):
 		"""
 
 		if args:
-			if hasattr(foundations.common.getFirstItem(args), "storeTextCursorAnchor"):
-				foundations.common.getFirstItem(args).storeTextCursorAnchor()
+			if hasattr(foundations.common.get_first_item(args), "store_text_cursor_anchor"):
+				foundations.common.get_first_item(args).store_text_cursor_anchor()
 
 		value = object(*args, **kwargs)
 
 		if args:
-			if hasattr(foundations.common.getFirstItem(args), "restoreTextCursorAnchor"):
-				foundations.common.getFirstItem(args).storeTextCursorAnchor()
+			if hasattr(foundations.common.get_first_item(args), "restore_text_cursor_anchor"):
+				foundations.common.get_first_item(args).store_text_cursor_anchor()
 
 		return value
 
-	return anchorTextCursorWrapper
+	return anchor_text_cursorWrapper
 
-def centerTextCursor(object):
+def center_text_cursor(object):
 	"""
 	Centers the text cursor position.
 
@@ -147,7 +147,7 @@ def centerTextCursor(object):
 	"""
 
 	@functools.wraps(object)
-	def centerTextCursorWrapper(*args, **kwargs):
+	def center_text_cursor_wrapper(*args, **kwargs):
 		"""
 		Centers the text cursor position.
 
@@ -160,18 +160,18 @@ def centerTextCursor(object):
 		"""
 
 		if args:
-			if hasattr(foundations.common.getFirstItem(args), "setCenterOnScroll"):
-				foundations.common.getFirstItem(args).setCenterOnScroll(True)
+			if hasattr(foundations.common.get_first_item(args), "setCenterOnScroll"):
+				foundations.common.get_first_item(args).setCenterOnScroll(True)
 
 		value = object(*args, **kwargs)
 
 		if args:
-			if hasattr(foundations.common.getFirstItem(args), "setCenterOnScroll"):
-				foundations.common.getFirstItem(args).setCenterOnScroll(False)
+			if hasattr(foundations.common.get_first_item(args), "setCenterOnScroll"):
+				foundations.common.get_first_item(args).setCenterOnScroll(False)
 
 		return value
 
-	return centerTextCursorWrapper
+	return center_text_cursor_wrapper
 
 class Basic_QPlainTextEdit(QPlainTextEdit):
 	"""
@@ -180,10 +180,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 	"""
 
 	# Custom signals definitions.
-	patternsReplaced = pyqtSignal(list)
+	patterns_replaced = pyqtSignal(list)
 	"""
 	This signal is emited by the :class:`Basic_QPlainTextEdit` class
-	when patterns have been replaced. ( pyqtSignal )
+	when patterns have been replaced.
 
 	:return: Replaced patterns.
 	:rtype: list
@@ -206,31 +206,31 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		QPlainTextEdit.__init__(self, parent, *args, **kwargs)
 
 		# --- Setting class attributes. ---
-		self.__searchPattern = None
-		self.__minimumFontPointSize = 6
-		self.__maximumFontPointSize = 24
+		self.__search_pattern = None
+		self.__minimum_font_point_size = 6
+		self.__maximum_font_point_size = 24
 
-		self.__textCursorAnchor = None
+		self.__text_cursor_anchor = None
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
 	#******************************************************************************************************************
 	@property
-	def searchPattern(self):
+	def search_pattern(self):
 		"""
-		Property for **self.__searchPattern** attribute.
+		Property for **self.__search_pattern** attribute.
 
-		:return: self.__searchPattern.
+		:return: self.__search_pattern.
 		:rtype: unicode
 		"""
 
-		return self.__searchPattern
+		return self.__search_pattern
 
-	@searchPattern.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def searchPattern(self, value):
+	@search_pattern.setter
+	@foundations.exceptions.handle_exceptions(AssertionError)
+	def search_pattern(self, value):
 		"""
-		Setter for **self.__searchPattern** attribute.
+		Setter for **self.__search_pattern** attribute.
 
 		:param value: Attribute value.
 		:type value: unicode
@@ -238,35 +238,35 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		if value is not None:
 			assert type(value) in (unicode, QString), \
-			"'{0}' attribute: '{1}' type is not 'unicode' or 'QString'!".format("searchPattern", value)
-		self.__searchPattern = value
+			"'{0}' attribute: '{1}' type is not 'unicode' or 'QString'!".format("search_pattern", value)
+		self.__search_pattern = value
 
-	@searchPattern.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def searchPattern(self):
+	@search_pattern.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def search_pattern(self):
 		"""
-		Deleter for **self.__searchPattern** attribute.
+		Deleter for **self.__search_pattern** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "searchPattern"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "search_pattern"))
 
 	@property
-	def minimumFontPointSize(self):
+	def minimum_font_point_size(self):
 		"""
-		Property for **self.__minimumFontPointSize** attribute.
+		Property for **self.__minimum_font_point_size** attribute.
 
-		:return: self.__minimumFontPointSize.
+		:return: self.__minimum_font_point_size.
 		:rtype: int
 		"""
 
-		return self.__minimumFontPointSize
+		return self.__minimum_font_point_size
 
-	@minimumFontPointSize.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def minimumFontPointSize(self, value):
+	@minimum_font_point_size.setter
+	@foundations.exceptions.handle_exceptions(AssertionError)
+	def minimum_font_point_size(self, value):
 		"""
-		Setter for **self.__minimumFontPointSize** attribute.
+		Setter for **self.__minimum_font_point_size** attribute.
 
 		:param value: Attribute value.
 		:type value: int
@@ -274,36 +274,36 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		if value is not None:
 			assert type(value) in (int, float), "'{0}' attribute: '{1}' type is not 'int' or 'float'!".format(
-			"minimumFontPointSize", value)
-			assert value > 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("minimumFontPointSize", value)
-		self.__minimumFontPointSize = value
+			"minimum_font_point_size", value)
+			assert value > 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("minimum_font_point_size", value)
+		self.__minimum_font_point_size = value
 
-	@minimumFontPointSize.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def minimumFontPointSize(self):
+	@minimum_font_point_size.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def minimum_font_point_size(self):
 		"""
-		Deleter for **self.__minimumFontPointSize** attribute.
+		Deleter for **self.__minimum_font_point_size** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "minimumFontPointSize"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "minimum_font_point_size"))
 
 	@property
-	def maximumFontPointSize(self):
+	def maximum_font_point_size(self):
 		"""
-		Property for **self.__maximumFontPointSize** attribute.
+		Property for **self.__maximum_font_point_size** attribute.
 
-		:return: self.__maximumFontPointSize.
+		:return: self.__maximum_font_point_size.
 		:rtype: int
 		"""
 
-		return self.__maximumFontPointSize
+		return self.__maximum_font_point_size
 
-	@maximumFontPointSize.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def maximumFontPointSize(self, value):
+	@maximum_font_point_size.setter
+	@foundations.exceptions.handle_exceptions(AssertionError)
+	def maximum_font_point_size(self, value):
 		"""
-		Setter for **self.__maximumFontPointSize** attribute.
+		Setter for **self.__maximum_font_point_size** attribute.
 
 		:param value: Attribute value.
 		:type value: int
@@ -311,21 +311,21 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		if value is not None:
 			assert type(value) in (int, float), "'{0}' attribute: '{1}' type is not 'int' or 'float'!".format(
-			"maximumFontPointSize", value)
-			assert value > self.__minimumFontPointSize, \
+			"maximum_font_point_size", value)
+			assert value > self.__minimum_font_point_size, \
 			"'{0}' attribute: '{1}' need to be exactly superior to '{2}'!".format(
-			"maximumFontPointSize", value, self.__minimumFontPointSize)
-		self.__maximumFontPointSize = value
+			"maximum_font_point_size", value, self.__minimum_font_point_size)
+		self.__maximum_font_point_size = value
 
-	@maximumFontPointSize.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def maximumFontPointSize(self):
+	@maximum_font_point_size.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def maximum_font_point_size(self):
 		"""
-		Deleter for **self.__maximumFontPointSize** attribute.
+		Deleter for **self.__maximum_font_point_size** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "maximumFontPointSize"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "maximum_font_point_size"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -341,14 +341,14 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		if event.modifiers() == Qt.ControlModifier:
 			if event.delta() == 120:
-				self.zoomIn()
+				self.zoom_in()
 			elif event.delta() == -120:
-				self.zoomOut()
+				self.zoom_out()
 			event.ignore()
 		else:
 			QPlainTextEdit.wheelEvent(self, event)
 
-	def __selectTextUnderCursorBlocks(self, cursor):
+	def __select_text_under_cursor_blocks(self, cursor):
 		"""
 		Selects the document text under cursor blocks.
 
@@ -356,14 +356,14 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		:type cursor: QTextCursor
 		"""
 
-		startBlock = self.document().findBlock(cursor.selectionStart()).firstLineNumber()
-		endBlock = self.document().findBlock(cursor.selectionEnd()).firstLineNumber()
-		cursor.setPosition(self.document().findBlockByLineNumber(startBlock).position())
+		start_block = self.document().findBlock(cursor.selectionStart()).firstLineNumber()
+		end_block = self.document().findBlock(cursor.selectionEnd()).firstLineNumber()
+		cursor.setPosition(self.document().findBlockByLineNumber(start_block).position())
 		cursor.movePosition(QTextCursor.StartOfLine, QTextCursor.MoveAnchor)
-		cursor.movePosition(QTextCursor.Down, QTextCursor.KeepAnchor, endBlock - startBlock)
+		cursor.movePosition(QTextCursor.Down, QTextCursor.KeepAnchor, end_block - start_block)
 		cursor.movePosition(QTextCursor.EndOfLine, QTextCursor.KeepAnchor)
 
-	def getSelectedTextMetrics(self):
+	def get_selected_text_metrics(self):
 		"""
 		Returns current document selected text metrics.
 
@@ -371,13 +371,13 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		:rtype: tuple
 		"""
 
-		selectedText = self.getSelectedText()
-		if not selectedText:
+		selected_text = self.get_selected_text()
+		if not selected_text:
 			return tuple()
 
-		return (selectedText, self.getCursorLine(), self.getCursorColumn() - len(selectedText))
+		return (selected_text, self.get_cursor_line(), self.get_cursor_column() - len(selected_text))
 
-	def getDefaultTextOption(self):
+	def get_default_text_option(self):
 		"""
 		Returns default text option.
 
@@ -387,20 +387,20 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		return self.document().defaultTextOption()
 
-	def setDefaultTextOption(self, textOption):
+	def set_default_text_option(self, text_option):
 		"""
 		Sets default text option using given flag.
 
-		:param textOption: Text option.
-		:type textOption: QTextOption
+		:param text_option: Text option.
+		:type text_option: QTextOption
 		:return: Method success.
 		:rtype: bool
 		"""
 
-		self.document().setDefaultTextOption(textOption)
+		self.document().set_default_text_option(text_option)
 		return True
 
-	def storeTextCursorAnchor(self):
+	def store_text_cursor_anchor(self):
 		"""
 		Stores the document cursor anchor.
 
@@ -408,12 +408,12 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		:rtype: bool
 		"""
 
-		self.__textCursorAnchor = (self.textCursor(),
+		self.__text_cursor_anchor = (self.textCursor(),
 								self.horizontalScrollBar().sliderPosition(),
 								self.verticalScrollBar().sliderPosition())
 		return True
 
-	def restoreTextCursorAnchor(self):
+	def restore_text_cursor_anchor(self):
 		"""
 		Restores the document cursor anchor.
 
@@ -421,16 +421,16 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		:rtype: bool
 		"""
 
-		if not self.__textCursorAnchor:
+		if not self.__text_cursor_anchor:
 			return False
 
-		textCursor, horizontalScrollBarSliderPosition, verticalScrollBarSliderPosition = self.__textCursorAnchor
-		self.setTextCursor(textCursor)
-		self.horizontalScrollBar().setSliderPosition(horizontalScrollBarSliderPosition)
-		self.verticalScrollBar().setSliderPosition(verticalScrollBarSliderPosition)
+		text_cursor, horizontal_scroll_bar_slider_position, vertical_scroll_bar_slider_position = self.__text_cursor_anchor
+		self.setTextCursor(text_cursor)
+		self.horizontalScrollBar().setSliderPosition(horizontal_scroll_bar_slider_position)
+		self.verticalScrollBar().setSliderPosition(vertical_scroll_bar_slider_position)
 		return True
 
-	def getCursorLine(self):
+	def get_cursor_line(self):
 		"""
 		Returns the document cursor line.
 
@@ -440,7 +440,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		return self.textCursor().blockNumber()
 
-	def getCursorColumn(self):
+	def get_cursor_column(self):
 		"""
 		Returns the document cursor column.
 
@@ -450,7 +450,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		return self.textCursor().columnNumber()
 
-	def getPreviousCharacter(self):
+	def get_previous_character(self):
 		"""
 		Returns the character before the cursor.
 
@@ -462,7 +462,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		cursor.movePosition(QTextCursor.PreviousCharacter, QTextCursor.KeepAnchor)
 		return cursor.selectedText()
 
-	def getNextCharacter(self):
+	def get_next_character(self):
 		"""
 		Returns the character after the cursor.
 
@@ -474,7 +474,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		cursor.movePosition(QTextCursor.NextCharacter, QTextCursor.KeepAnchor)
 		return cursor.selectedText()
 
-	def getWords(self):
+	def get_words(self):
 		"""
 		Returns the document words.
 
@@ -485,13 +485,13 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		words = []
 		block = self.document().findBlockByLineNumber(0)
 		while block.isValid():
-			blockWords = foundations.strings.getWords(foundations.strings.toString(block.text()))
+			blockWords = foundations.strings.get_words(foundations.strings.to_string(block.text()))
 			if blockWords:
 				words.extend(blockWords)
 			block = block.next()
 		return words
 
-	def getSelectedText(self):
+	def get_selected_text(self):
 		"""
 		Returns the document text under cursor.
 
@@ -501,7 +501,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		return self.textCursor().selectedText()
 
-	def getWordUnderCursorLegacy(self):
+	def get_word_under_cursor_legacy(self):
 		"""
 		Returns the document word under cursor ( Using Qt legacy "QTextCursor.WordUnderCursor" ).
 
@@ -513,7 +513,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		cursor.select(QTextCursor.WordUnderCursor)
 		return cursor.selectedText()
 
-	def getWordUnderCursor(self):
+	def get_word_under_cursor(self):
 		"""
 		Returns the document word under cursor.
 
@@ -521,7 +521,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		:rtype: QString
 		"""
 
-		if not re.match(r"^\w+$", foundations.strings.toString(self.getPreviousCharacter())):
+		if not re.match(r"^\w+$", foundations.strings.to_string(self.get_previous_character())):
 			return QString()
 
 		cursor = self.textCursor()
@@ -529,7 +529,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		cursor.movePosition(QTextCursor.EndOfWord, QTextCursor.KeepAnchor)
 		return cursor.selectedText()
 
-	def getPartialWordUnderCursor(self):
+	def get_partial_word_under_cursor(self):
 		"""
 		Returns the document partial word under cursor ( From word start to cursor position ).
 
@@ -537,7 +537,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		:rtype: QString
 		"""
 
-		if not re.match(r"^\w+$", foundations.strings.toString(self.getPreviousCharacter())):
+		if not re.match(r"^\w+$", foundations.strings.to_string(self.get_previous_character())):
 			return QString()
 
 		cursor = self.textCursor()
@@ -545,7 +545,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		cursor.movePosition(QTextCursor.PreviousWord, QTextCursor.KeepAnchor)
 		return cursor.selectedText()
 
-	def isModified(self):
+	def is_modified(self):
 		"""
 		Returns if the document is modified.
 
@@ -555,7 +555,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		return self.document().isModified()
 
-	def setModified(self, state):
+	def set_modified(self, state):
 		"""
 		Sets the document modified state.
 
@@ -568,7 +568,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		self.document().setModified(state)
 		return True
 
-	def isEmpty(self):
+	def is_empty(self):
 		"""
 		Returns if the document is empty.
 
@@ -578,8 +578,8 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		return self.document().isEmpty()
 
-	@editBlock
-	def setContent(self, content):
+	@edit_block
+	def set_content(self, content):
 		"""
 		Sets document with given content while providing undo capability.
 
@@ -609,8 +609,8 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		self.textCursor().removeSelectedText()
 		return True
 
-	@editBlock
-	def deleteLines(self):
+	@edit_block
+	def delete_lines(self):
 		"""
 		Deletes the document lines under cursor.
 
@@ -619,13 +619,13 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		cursor = self.textCursor()
-		self.__selectTextUnderCursorBlocks(cursor)
+		self.__select_text_under_cursor_blocks(cursor)
 		cursor.removeSelectedText()
 		cursor.deleteChar()
 		return True
 
-	@editBlock
-	def duplicateLines(self):
+	@edit_block
+	def duplicate_lines(self):
 		"""
 		Duplicates the document lines under cursor.
 
@@ -634,26 +634,26 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		"""
 
 		cursor = self.textCursor()
-		self.__selectTextUnderCursorBlocks(cursor)
+		self.__select_text_under_cursor_blocks(cursor)
 		text = cursor.selectedText()
 
 		cursor.setPosition(cursor.block().next().position())
 		cursor.position() == cursor.document().firstBlock().position() and cursor.setPosition(
 		cursor.document().lastBlock().position())
 
-		startPosition = cursor.position()
+		start_position = cursor.position()
 		cursor.insertText(text)
-		endPosition = cursor.position()
+		end_position = cursor.position()
 		cursor.insertText(QChar(QChar.ParagraphSeparator))
 
-		cursor.setPosition(startPosition, QTextCursor.MoveAnchor)
-		cursor.setPosition(endPosition, QTextCursor.KeepAnchor)
+		cursor.setPosition(start_position, QTextCursor.MoveAnchor)
+		cursor.setPosition(end_position, QTextCursor.KeepAnchor)
 		self.setTextCursor(cursor)
 
 		return True
 
-	@editBlock
-	def moveLines(self, direction=QTextCursor.Up):
+	@edit_block
+	def move_lines(self, direction=QTextCursor.Up):
 		"""
 		Moves the document lines under cursor.
 
@@ -667,7 +667,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		(direction == QTextCursor.Down and cursor.block() == cursor.document().lastBlock()):
 			return False
 
-		self.__selectTextUnderCursorBlocks(cursor)
+		self.__select_text_under_cursor_blocks(cursor)
 		text = cursor.selectedText()
 		cursor.removeSelectedText()
 		cursor.deleteChar()
@@ -678,18 +678,18 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 			cursor.movePosition(QTextCursor.End)
 			cursor.insertText(QChar(QChar.ParagraphSeparator))
 
-		startPosition = cursor.position()
+		start_position = cursor.position()
 		cursor.insertText(text)
-		endPosition = cursor.position()
+		end_position = cursor.position()
 		not cursor.atEnd() and cursor.insertText(QChar(QChar.ParagraphSeparator))
 
-		cursor.setPosition(startPosition, QTextCursor.MoveAnchor)
-		cursor.setPosition(endPosition, QTextCursor.KeepAnchor)
+		cursor.setPosition(start_position, QTextCursor.MoveAnchor)
+		cursor.setPosition(end_position, QTextCursor.KeepAnchor)
 		self.setTextCursor(cursor)
 
 		return True
 
-	def moveLinesUp(self):
+	def move_lines_up(self):
 		"""
 		Moves up the document lines under cursor.
 
@@ -697,9 +697,9 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		:rtype: bool
 		"""
 
-		return self.moveLines(QTextCursor.Up)
+		return self.move_lines(QTextCursor.Up)
 
-	def moveLinesDown(self):
+	def move_lines_down(self):
 		"""
 		Moves down the document lines under cursor.
 
@@ -707,21 +707,21 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		:rtype: bool
 		"""
 
-		return self.moveLines(QTextCursor.Down)
+		return self.move_lines(QTextCursor.Down)
 
-	@centerTextCursor
+	@center_text_cursor
 	def search(self, pattern, **kwargs):
 		"""
 		Searchs given pattern text in the document.
 
 		Usage::
 
-			>>> scriptEditor = Umbra.componentsManager.getInterface("factory.scriptEditor")
+			>>> script_editor = Umbra.components_manager.get_interface("factory.script_editor")
 			True
-			>>> codeEditor = scriptEditor.getCurrentEditor()
+			>>> codeEditor = script_editor.get_current_editor()
 			True
-			>>> codeEditor.search(searchPattern, caseSensitive=True, wholeWord=True, regularExpressions=True, \
-backwardSearch=True, wrapAround=True)
+			>>> codeEditor.search(search_pattern, case_sensitive=True, whole_word=True, regular_expressions=True, \
+backward_search=True, wrap_around=True)
 			True
 
 		:param pattern: Pattern to search for.
@@ -732,25 +732,25 @@ backwardSearch=True, wrapAround=True)
 		:rtype: bool
 		"""
 
-		settings = foundations.dataStructures.Structure(**{"caseSensitive" : False,
-								"wholeWord" : False,
-								"regularExpressions" : False,
-								"backwardSearch" : False,
-								"wrapAround" : True})
+		settings = foundations.data_structures.Structure(**{"case_sensitive" : False,
+								"whole_word" : False,
+								"regular_expressions" : False,
+								"backward_search" : False,
+								"wrap_around" : True})
 		settings.update(kwargs)
 
-		self.__searchPattern = pattern
+		self.__search_pattern = pattern
 
-		if settings.regularExpressions:
+		if settings.regular_expressions:
 			pattern = QRegExp(pattern)
-			pattern.setCaseSensitivity(Qt.CaseSensitive if settings.caseSensitive else Qt.CaseInsensitive)
+			pattern.setCaseSensitivity(Qt.CaseSensitive if settings.case_sensitive else Qt.CaseInsensitive)
 
 		flags = QTextDocument.FindFlags()
-		if settings.caseSensitive:
+		if settings.case_sensitive:
 			flags = flags | QTextDocument.FindCaseSensitively
-		if settings.wholeWord:
+		if settings.whole_word:
 			flags = flags | QTextDocument.FindWholeWords
-		if settings.backwardSearch:
+		if settings.backward_search:
 			flags = flags | QTextDocument.FindBackward
 
 		cursor = self.document().find(pattern, self.textCursor(), flags)
@@ -758,22 +758,22 @@ backwardSearch=True, wrapAround=True)
 			self.setTextCursor(cursor)
 			return True
 		else:
-			if settings.wrapAround:
-				self.storeTextCursorAnchor()
+			if settings.wrap_around:
+				self.store_text_cursor_anchor()
 				cursor = self.textCursor()
-				if settings.backwardSearch:
+				if settings.backward_search:
 					cursor.movePosition(QTextCursor.End, QTextCursor.MoveAnchor)
 				else:
 					cursor.movePosition(QTextCursor.Start, QTextCursor.MoveAnchor)
 				self.setTextCursor(cursor)
-				settings.wrapAround = False
+				settings.wrap_around = False
 				if self.search(pattern, **settings):
 					return True
 				else:
-					self.restoreTextCursorAnchor()
+					self.restore_text_cursor_anchor()
 
-	@centerTextCursor
-	def searchNext(self):
+	@center_text_cursor
+	def search_next(self):
 		"""
 		Searchs the next search pattern in the document.
 
@@ -781,18 +781,18 @@ backwardSearch=True, wrapAround=True)
 		:rtype: bool
 		"""
 
-		pattern = self.getSelectedText() or self.__searchPattern
+		pattern = self.get_selected_text() or self.__search_pattern
 		if not pattern:
 			return False
 
-		return self.search(pattern, **{"caseSensitive" : True,
-										"wholeWord" : False,
-										"regularExpressions" : False,
-										"backwardSearch" : False,
-										"wrapAround" : True})
+		return self.search(pattern, **{"case_sensitive" : True,
+										"whole_word" : False,
+										"regular_expressions" : False,
+										"backward_search" : False,
+										"wrap_around" : True})
 
-	@centerTextCursor
-	def searchPrevious(self):
+	@center_text_cursor
+	def search_previous(self):
 		"""
 		Searchs the previous search pattern in the document.
 
@@ -800,118 +800,118 @@ backwardSearch=True, wrapAround=True)
 		:rtype: bool
 		"""
 
-		pattern = self.getSelectedText() or self.__searchPattern
+		pattern = self.get_selected_text() or self.__search_pattern
 		if not pattern:
 			return False
 
-		return self.search(pattern, **{"caseSensitive" : True,
-										"wholeWord" : False,
-										"regularExpressions" : False,
-										"backwardSearch" : True,
-										"wrapAround" : True})
+		return self.search(pattern, **{"case_sensitive" : True,
+										"whole_word" : False,
+										"regular_expressions" : False,
+										"backward_search" : True,
+										"wrap_around" : True})
 
-	@centerTextCursor
-	@editBlock
-	def replace(self, pattern, replacementPattern, **kwargs):
+	@center_text_cursor
+	@edit_block
+	def replace(self, pattern, replacement_pattern, **kwargs):
 		"""
 		Replaces current given pattern occurence in the document with the replacement pattern.
 
 		Usage::
 
-			>>> scriptEditor = Umbra.componentsManager.getInterface("factory.scriptEditor")
+			>>> script_editor = Umbra.components_manager.get_interface("factory.script_editor")
 			True
-			>>> codeEditor = scriptEditor.getCurrentEditor()
+			>>> codeEditor = script_editor.get_current_editor()
 			True
-			>>> codeEditor.replace(searchPattern, replacementPattern, caseSensitive=True, wholeWord=True, \
-regularExpressions=True, backwardSearch=True, wrapAround=True)
+			>>> codeEditor.replace(search_pattern, replacement_pattern, case_sensitive=True, whole_word=True, \
+regular_expressions=True, backward_search=True, wrap_around=True)
 			True
 
 		:param pattern: Pattern to replace.
 		:type pattern: unicode
-		:param replacementPattern: Replacement pattern.
-		:type replacementPattern: unicode
+		:param replacement_pattern: Replacement pattern.
+		:type replacement_pattern: unicode
 		:param \*\*kwargs: Format settings.
 		:type \*\*kwargs: dict
 		:return: Method success.
 		:rtype: bool
 		"""
 
-		settings = foundations.dataStructures.Structure(**{"caseSensitive" : False,
-														"regularExpressions" : False})
+		settings = foundations.data_structures.Structure(**{"case_sensitive" : False,
+														"regular_expressions" : False})
 		settings.update(kwargs)
 
 
-		selectedText = self.getSelectedText()
-		regex = "^{0}$".format(pattern if settings.regularExpressions else re.escape(foundations.strings.toString(pattern)))
-		flags = int() if settings.caseSensitive else re.IGNORECASE
-		if not selectedText or not re.search(regex, selectedText, flags=flags):
+		selected_text = self.get_selected_text()
+		regex = "^{0}$".format(pattern if settings.regular_expressions else re.escape(foundations.strings.to_string(pattern)))
+		flags = int() if settings.case_sensitive else re.IGNORECASE
+		if not selected_text or not re.search(regex, selected_text, flags=flags):
 			self.search(pattern, **kwargs)
 			return False
 
 		cursor = self.textCursor()
-		metrics = self.getSelectedTextMetrics()
+		metrics = self.get_selected_text_metrics()
 		if cursor.isNull():
 			return False
 
 		if not cursor.hasSelection():
 			return False
 
-		cursor.insertText(replacementPattern)
+		cursor.insertText(replacement_pattern)
 
-		self.patternsReplaced.emit([metrics])
+		self.patterns_replaced.emit([metrics])
 
 		self.search(pattern, **kwargs)
 
 		return True
 
-	@centerTextCursor
-	@anchorTextCursor
-	@editBlock
-	def replaceAll(self, pattern, replacementPattern, **kwargs):
+	@center_text_cursor
+	@anchor_text_cursor
+	@edit_block
+	def replace_all(self, pattern, replacement_pattern, **kwargs):
 		"""
 		| Replaces every given pattern occurrences in the document with the replacement pattern.
 
 		.. warning::
 
-			Initializing **wrapAround** keyword to **True** leads to infinite recursion loop
-			if the search pattern and the replacementPattern are the same.
+			Initializing **wrap_around** keyword to **True** leads to infinite recursion loop
+			if the search pattern and the replacement_pattern are the same.
 
 		:param pattern: Pattern to replace.
 		:type pattern: unicode
-		:param replacementPattern: Replacement pattern.
-		:type replacementPattern: unicode
+		:param replacement_pattern: Replacement pattern.
+		:type replacement_pattern: unicode
 		:param \*\*kwargs: Format settings.
 		:type \*\*kwargs: dict
 		:return: Method success.
 		:rtype: bool
 		"""
 
-		editCursor = self.textCursor()
+		edit_cursor = self.textCursor()
 
-		editCursor.movePosition(QTextCursor.Start, QTextCursor.MoveAnchor)
-		self.setTextCursor(editCursor)
+		edit_cursor.movePosition(QTextCursor.Start, QTextCursor.MoveAnchor)
+		self.setTextCursor(edit_cursor)
 
-		patternsReplaced = []
+		patterns_replaced = []
 		while True:
 			if not self.search(pattern, **kwargs):
 				break
 
 			cursor = self.textCursor()
-			metrics = self.getSelectedTextMetrics()
+			metrics = self.get_selected_text_metrics()
 			if cursor.isNull():
 				break
 
 			if not cursor.hasSelection():
 				break
-			cursor.insertText(replacementPattern)
-			patternsReplaced.append(metrics)
+			cursor.insertText(replacement_pattern)
+			patterns_replaced.append(metrics)
 
-		self.patternsReplaced.emit(patternsReplaced)
+		self.patterns_replaced.emit(patterns_replaced)
 
 		return True
 
-	@centerTextCursor
-	def gotoLine(self, line):
+	@center_text_cursor
+	def go_to_line(self, line):
 		"""
 		Moves the text cursor to given line.
 
@@ -926,7 +926,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		self.setTextCursor(cursor)
 		return True
 
-	def gotoColumn(self, column):
+	def go_to_column(self, column):
 		"""
 		Moves the text cursor to given column.
 
@@ -941,7 +941,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		self.setTextCursor(cursor)
 		return True
 
-	def gotoPosition(self, position):
+	def go_to_position(self, position):
 		"""
 		Moves the text cursor to given position.
 
@@ -956,7 +956,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		self.setTextCursor(cursor)
 		return True
 
-	def toggleWordWrap(self):
+	def toggle_word_wrap(self):
 		"""
 		Toggles document word wrap.
 
@@ -967,7 +967,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		self.setWordWrapMode(not self.wordWrapMode() and QTextOption.WordWrap or QTextOption.NoWrap)
 		return True
 
-	def toggleWhiteSpaces(self):
+	def toggle_white_spaces(self):
 		"""
 		Toggles document white spaces display.
 
@@ -975,17 +975,17 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		:rtype: bool
 		"""
 
-		textOption = self.getDefaultTextOption()
-		if textOption.flags().__int__():
-			textOption = QTextOption()
-			textOption.setTabStop(self.tabStopWidth())
+		text_option = self.get_default_text_option()
+		if text_option.flags().__int__():
+			text_option = QTextOption()
+			text_option.setTabStop(self.tabStopWidth())
 		else:
-			textOption.setFlags(
-			textOption.flags() | QTextOption.ShowTabsAndSpaces | QTextOption.ShowLineAndParagraphSeparators)
-		self.setDefaultTextOption(textOption)
+			text_option.setFlags(
+			text_option.flags() | QTextOption.ShowTabsAndSpaces | QTextOption.ShowLineAndParagraphSeparators)
+		self.set_default_text_option(text_option)
 		return True
 
-	def setFontIncrement(self, value):
+	def set_font_increment(self, value):
 		"""
 		Increments the document font size.
 
@@ -996,15 +996,15 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		"""
 
 		font = self.font()
-		pointSize = font.pointSize() + value
-		if pointSize < self.__minimumFontPointSize or pointSize > self.__maximumFontPointSize:
+		point_size = font.pointSize() + value
+		if point_size < self.__minimum_font_point_size or point_size > self.__maximum_font_point_size:
 			return False
 
-		font.setPointSize(pointSize)
+		font.setPointSize(point_size)
 		self.setFont(font)
 		return True
 
-	def zoomIn(self):
+	def zoom_in(self):
 		"""
 		Increases the document font size.
 
@@ -1012,9 +1012,9 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		:rtype: bool
 		"""
 
-		return self.setFontIncrement(1)
+		return self.set_font_increment(1)
 
-	def zoomOut(self):
+	def zoom_out(self):
 		"""
 		Increases the document font size.
 
@@ -1022,7 +1022,7 @@ regularExpressions=True, backwardSearch=True, wrapAround=True)
 		:rtype: bool
 		"""
 
-		return self.setFontIncrement(-1)
+		return self.set_font_increment(-1)
 
 if __name__ == "__main__":
 	import sys
@@ -1034,12 +1034,12 @@ if __name__ == "__main__":
 	import umbra.ui.common
 	from umbra.globals.constants import Constants
 
-	application = umbra.ui.common.getApplicationInstance()
+	application = umbra.ui.common.get_application_instance()
 
 	widget = QWidget()
 
-	gridLayout = QGridLayout()
-	widget.setLayout(gridLayout)
+	grid_layout = QGridLayout()
+	widget.setLayout(grid_layout)
 
 	content = "\n".join(("Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
 			"Phasellus tincidunt tempus volutpat.",
@@ -1048,19 +1048,19 @@ if __name__ == "__main__":
 			"Mauris consequat urna enim."))
 
 	basic_QPlainTextEdit = Basic_QPlainTextEdit()
-	basic_QPlainTextEdit.setContent(content)
-	gridLayout.addWidget(basic_QPlainTextEdit)
+	basic_QPlainTextEdit.set_content(content)
+	grid_layout.addWidget(basic_QPlainTextEdit)
 
-	lineEdit = QLineEdit("basic_QPlainTextEdit.replace(\"Lorem\", \"Nemo\")")
-	gridLayout.addWidget(lineEdit)
+	line_edit = QLineEdit("basic_QPlainTextEdit.replace(\"Lorem\", \"Nemo\")")
+	grid_layout.addWidget(line_edit)
 
 	def _pushButton__clicked(*args):
-		statement = unicode(lineEdit.text(), Constants.defaultCodec, Constants.codecError)
+		statement = unicode(line_edit.text(), Constants.default_codec, Constants.codec_error)
 		exec(statement)
 
-	pushButton = QPushButton("Execute Statement")
-	pushButton.clicked.connect(_pushButton__clicked)
-	gridLayout.addWidget(pushButton)
+	push_button = QPushButton("Execute Statement")
+	push_button.clicked.connect(_pushButton__clicked)
+	grid_layout.addWidget(push_button)
 
 	widget.show()
 	widget.raise_()

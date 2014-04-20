@@ -56,12 +56,12 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["getLongDescription"]
+__all__ = ["get_long_description"]
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-def getLongDescription():
+def get_long_description():
 	"""
 	Returns the Package long description.
 
@@ -81,7 +81,7 @@ def getLongDescription():
 			description.append(line)
 	return "".join(description)
 
-setup(name=umbra.globals.constants.Constants.applicationName,
+setup(name=umbra.globals.constants.Constants.application_name,
 	version=umbra.globals.constants.Constants.version,
 	author=umbra.globals.constants.__author__,
 	author_email=umbra.globals.constants.__email__,
@@ -91,7 +91,7 @@ setup(name=umbra.globals.constants.Constants.applicationName,
 	url="https://github.com/KelSolaar/Umbra",
 	license="GPLv3",
 	description="Umbra is the main package of sIBL_GUI and sIBL_Reporter.",
-	long_description=getLongDescription(),
+	long_description=get_long_description(),
 	install_requires=["Manager>=2.0.5"],
 	classifiers=["Development Status :: 5 - Production/Stable",
 				"Environment :: Console",

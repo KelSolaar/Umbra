@@ -23,8 +23,8 @@ from __future__ import unicode_literals
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.exceptions
-from umbra.globals.runtimeGlobals import RuntimeGlobals
-from umbra.globals.uiConstants import UiConstants
+from umbra.globals.runtime_globals import RuntimeGlobals
+from umbra.globals.ui_constants import UiConstants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -37,7 +37,7 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-		"notifyExceptionHandler",
+		"notify_exception_handler",
 		"AbstractEngineError",
 		"EngineConfigurationError",
 		"EngineInitializationError",
@@ -61,7 +61,7 @@ __all__ = ["LOGGER",
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-def notifyExceptionHandler(*args):
+def notify_exception_handler(*args):
 	"""
 	Provides a notifier exception handler.
 
@@ -71,10 +71,10 @@ def notifyExceptionHandler(*args):
 	:rtype: bool
 	"""
 
-	callback = RuntimeGlobals.componentsManager["factory.scriptEditor"].restoreDevelopmentLayout
-	foundations.exceptions.baseExceptionHandler(*args)
-	cls, instance = foundations.exceptions.extractException(*args)[:2]
-	RuntimeGlobals.notificationsManager.exceptify(message="{0}".format(instance), notificationClickedSlot=callback)
+	callback = RuntimeGlobals.components_manager["factory.script_editor"].restore_development_layout
+	foundations.exceptions.base_exception_handler(*args)
+	cls, instance = foundations.exceptions.extract_exception(*args)[:2]
+	RuntimeGlobals.notifications_manager.exceptify(message="{0}".format(instance), notification_clicked_slot=callback)
 	return True
 
 class AbstractEngineError(foundations.exceptions.AbstractError):
@@ -107,7 +107,7 @@ class ResourceExistsError(foundations.exceptions.AbstractOsError):
 
 class AbstractActionsManagerError(foundations.exceptions.AbstractError):
 	"""
-	Defines the abstract base class for :class:`umbra.managers.actionsManager.ActionsManager` related exceptions.
+	Defines the abstract base class for :class:`umbra.managers.actions_manager.ActionsManager` related exceptions.
 	"""
 
 	pass
@@ -128,7 +128,7 @@ class ActionExistsError(AbstractActionsManagerError):
 
 class AbstractPatchesManagerError(foundations.exceptions.AbstractError):
 	"""
-	Defines the abstract base class for :class:`umbra.managers.patchesManager.PatchesManager` related exceptions.
+	Defines the abstract base class for :class:`umbra.managers.patches_manager.PatchesManager` related exceptions.
 	"""
 
 	pass
@@ -156,7 +156,7 @@ class PatchApplyError(AbstractPatchesManagerError):
 
 class AbstractLayoutsManagerError(foundations.exceptions.AbstractError):
 	"""
-	Defines the abstract base class for :class:`umbra.managers.layoutsManager.LayoutsManager` related exceptions.
+	Defines the abstract base class for :class:`umbra.managers.layouts_manager.LayoutsManager` related exceptions.
 	"""
 
 	pass
@@ -177,7 +177,7 @@ class LayoutExistError(AbstractLayoutsManagerError):
 
 class AbstractFileSystemEventsManagerError(foundations.exceptions.AbstractError):
 	"""
-	Defines the abstract base class for :class:`umbra.managers.fileSystemEventsManager.FileSystemEventsManager`
+	Defines the abstract base class for :class:`umbra.managers.file_system_events_manager.FileSystemEventsManager`
 	related exceptions.
 	"""
 

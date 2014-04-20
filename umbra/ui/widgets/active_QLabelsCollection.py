@@ -46,7 +46,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "Active_QLabelsCollection"]
 
-LOGGER = foundations.verbose.installLogger()
+LOGGER = foundations.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -58,37 +58,37 @@ class Active_QLabelsCollection(QObject):
 	"""
 
 	# Custom signals definitions.
-	activeLabelClicked = pyqtSignal(Active_QLabel)
+	active_label_clicked = pyqtSignal(Active_QLabel)
 	"""
 	This signal is emited by the :class:`Active_QLabelsCollection` class
-	when one of its :class:`umbra.ui.widgets.active_QLabel.Active_QLabel` child has been clicked. ( pyqtSignal )
+	when one of its :class:`umbra.ui.widgets.active_QLabel.Active_QLabel` child has been clicked.
 
 	:return: Current clicked active label.
 	:rtype: Active_QLabel
 	"""
 
-	activeLabelPressed = pyqtSignal(Active_QLabel)
+	active_label_pressed = pyqtSignal(Active_QLabel)
 	"""
 	This signal is emited by the :class:`Active_QLabelsCollection` class
-	when one of its :class:`umbra.ui.widgets.active_QLabel.Active_QLabel` child has been pressed. ( pyqtSignal )
+	when one of its :class:`umbra.ui.widgets.active_QLabel.Active_QLabel` child has been pressed.
 
 	:return: Current clicked active label.
 	:rtype: Active_QLabel
 	"""
 
-	activeLabelReleased = pyqtSignal(Active_QLabel)
+	active_label_released = pyqtSignal(Active_QLabel)
 	"""
 	This signal is emited by the :class:`Active_QLabelsCollection` class
-	when one of its :class:`umbra.ui.widgets.active_QLabel.Active_QLabel` child has been released. ( pyqtSignal )
+	when one of its :class:`umbra.ui.widgets.active_QLabel.Active_QLabel` child has been released.
 
 	:return: Current clicked active label.
 	:rtype: Active_QLabel
 	"""
 
-	activeLabelToggled = pyqtSignal(Active_QLabel)
+	active_label_toggled = pyqtSignal(Active_QLabel)
 	"""
 	This signal is emited by the :class:`Active_QLabelsCollection` class
-	when one of its :class:`umbra.ui.widgets.active_QLabel.Active_QLabel` child has been toggled. ( pyqtSignal )
+	when one of its :class:`umbra.ui.widgets.active_QLabel.Active_QLabel` child has been toggled.
 
 	:return: Current checked active label.
 	:rtype: Active_QLabel
@@ -109,7 +109,7 @@ class Active_QLabelsCollection(QObject):
 		# --- Setting class attributes. ---
 		self.__container = parent
 
-		self.__activeLabels = []
+		self.__active_labels = []
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -126,7 +126,7 @@ class Active_QLabelsCollection(QObject):
 		return self.__container
 
 	@container.setter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
 		Setter for **self.__container** attribute.
@@ -139,7 +139,7 @@ class Active_QLabelsCollection(QObject):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
 		Deleter for **self.__container** attribute.
@@ -149,123 +149,123 @@ class Active_QLabelsCollection(QObject):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
 	@property
-	def activeLabels(self):
+	def active_labels(self):
 		"""
-		Property for **self.__activeLabels** attribute.
+		Property for **self.__active_labels** attribute.
 
-		:return: self.__activeLabels.
+		:return: self.__active_labels.
 		:rtype: list
 		"""
 
-		return self.__activeLabels
+		return self.__active_labels
 
-	@activeLabels.setter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def activeLabels(self, value):
+	@active_labels.setter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def active_labels(self, value):
 		"""
-		Setter for **self.__activeLabels** attribute.
+		Setter for **self.__active_labels** attribute.
 
 		:param value: Attribute value.
 		:type value: list
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "activeLabels"))
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "active_labels"))
 
-	@activeLabels.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def activeLabels(self):
+	@active_labels.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def active_labels(self):
 		"""
-		Deleter for **self.__activeLabels** attribute.
+		Deleter for **self.__active_labels** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "activeLabels"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "active_labels"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	def __activeLabel__toggled(self, activeLabel, state):
+	def __active_label__toggled(self, active_label, state):
 		"""
 		Defines the slot triggered by an **Active_QLabel** Widget when toggled.
 
-		:param activeLabel: Active label.
-		:type activeLabel: Active_QLabel
+		:param active_label: Active label.
+		:type active_label: Active_QLabel
 		:param state: Active label checked state.
 		:type state: bool
 		"""
 
-		LOGGER.debug("> Toggled 'Active_QLabel': '{0}'.".format(activeLabel))
+		LOGGER.debug("> Toggled 'Active_QLabel': '{0}'.".format(active_label))
 
-		self.__updateSiblingsActiveLabelsStates(activeLabel)
+		self.__update_siblings_active_labels_states(active_label)
 
-	def __updateSiblingsActiveLabelsStates(self, activeLabel):
+	def __update_siblings_active_labels_states(self, active_label):
 		"""
 		Updates given **Active_QLabel** Widget siblings states.
 
-		:param activeLabel: Active label.
-		:type activeLabel: Active_QLabel
+		:param active_label: Active label.
+		:type active_label: Active_QLabel
 		"""
 
-		LOGGER.debug("> Clicked 'Active_QLabel': '{0}'.".format(activeLabel))
+		LOGGER.debug("> Clicked 'Active_QLabel': '{0}'.".format(active_label))
 
-		for item in self.__activeLabels:
-			if item is activeLabel:
+		for item in self.__active_labels:
+			if item is active_label:
 				continue
 
-			umbra.ui.common.signalsBlocker(item, item.setChecked, False)
+			umbra.ui.common.signals_blocker(item, item.set_checked, False)
 
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def addActiveLabel(self, activeLabel):
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def add_active_label(self, active_label):
 		"""
 		Adds given **Active_QLabel** Widget.
 
-		:param activeLabel: Active label to add.
-		:type activeLabel: Active_QLabel
+		:param active_label: Active label to add.
+		:type active_label: Active_QLabel
 		:return: Method success.
 		:rtype: bool
 		"""
 
-		if not issubclass(activeLabel.__class__, Active_QLabel):
+		if not issubclass(active_label.__class__, Active_QLabel):
 			raise foundations.exceptions.ProgrammingError("{0} | '{1}' must be a '{2}' subclass!".format(
-			self.__class__.__name__, activeLabel, Active_QLabel.__name__))
+			self.__class__.__name__, active_label, Active_QLabel.__name__))
 
-		if activeLabel in self.__activeLabels:
+		if active_label in self.__active_labels:
 			raise foundations.exceptions.ProgrammingError("{0} | '{1}' is already in the collection!".format(
-			self.__class__.__name__, activeLabel))
+			self.__class__.__name__, active_label))
 
-		activeLabel.checkable = True
-		not self.__activeLabels and activeLabel.setChecked(True) or activeLabel.setChecked(False)
-		self.__activeLabels.append(activeLabel)
+		active_label.checkable = True
+		not self.__active_labels and active_label.set_checked(True) or active_label.set_checked(False)
+		self.__active_labels.append(active_label)
 
 		# Signals / Slots.
-		activeLabel.toggled.connect(functools.partial(self.__activeLabel__toggled, activeLabel))
+		active_label.toggled.connect(functools.partial(self.__active_label__toggled, active_label))
 
-		activeLabel.clicked.connect(functools.partial(self.activeLabelClicked.emit, activeLabel))
-		activeLabel.pressed.connect(functools.partial(self.activeLabelPressed.emit, activeLabel))
-		activeLabel.released.connect(functools.partial(self.activeLabelReleased.emit, activeLabel))
-		activeLabel.toggled.connect(functools.partial(self.activeLabelToggled.emit, activeLabel))
+		active_label.clicked.connect(functools.partial(self.active_label_clicked.emit, active_label))
+		active_label.pressed.connect(functools.partial(self.active_label_pressed.emit, active_label))
+		active_label.released.connect(functools.partial(self.active_label_released.emit, active_label))
+		active_label.toggled.connect(functools.partial(self.active_label_toggled.emit, active_label))
 
 		return True
 
-	def removeActiveLabel(self, activeLabel):
+	def remove_active_label(self, active_label):
 		"""
 		Removes given **Active_QLabel** Widget.
 
-		:param activeLabel: Active label to remove.
-		:type activeLabel: Active_QLabel
+		:param active_label: Active label to remove.
+		:type active_label: Active_QLabel
 		:return: Method success.
 		:rtype: bool
 		"""
 
-		if not activeLabel in self.__activeLabels:
+		if not active_label in self.__active_labels:
 			raise foundations.exceptions.ProgrammingError("{0} | '{1}' is not in the collection!".format(
-			self.__class__.__name__, activeLabel))
+			self.__class__.__name__, active_label))
 
-		self.__activeLabels.remove(activeLabel)
+		self.__active_labels.remove(active_label)
 		return True
 
-	def getToggledActiveLabel(self):
+	def get_toggled_active_label(self):
 		"""
 		Returns the toggled **Active_QLabel** Widget.
 
@@ -273,23 +273,23 @@ class Active_QLabelsCollection(QObject):
 		:rtype: bool
 		"""
 
-		for activeLabel in self.__activeLabels:
-			if activeLabel.checked:
-				return activeLabel
+		for active_label in self.__active_labels:
+			if active_label.checked:
+				return active_label
 
-	def getActiveLabelIndex(self, activeLabel):
+	def get_active_label_index(self, active_label):
 		"""
 		Returns given **Active_QLabel** Widget index.
 
-		:param activeLabel: Active label to retrieve index.
-		:type activeLabel: Active_QLabel
+		:param active_label: Active label to retrieve index.
+		:type active_label: Active_QLabel
 		:return: Active label index.
 		:rtype: int
 		"""
 
-		return self.__activeLabels.index(activeLabel)
+		return self.__active_labels.index(active_label)
 
-	def getActiveLabelFromIndex(self, index):
+	def get_active_label_from_index(self, index):
 		"""
 		Returns the **Active_QLabel** Widget from given index.
 
@@ -299,7 +299,7 @@ class Active_QLabelsCollection(QObject):
 		:rtype: Active_QLabel
 		"""
 
-		return self.__activeLabels[index]
+		return self.__active_labels[index]
 
 if __name__ == "__main__":
 	import sys
@@ -307,41 +307,41 @@ if __name__ == "__main__":
 	from PyQt4.QtGui import QPixmap
 	from PyQt4.QtGui import QWidget
 
-	from umbra.globals.uiConstants import UiConstants
+	from umbra.globals.ui_constants import UiConstants
 
-	application = umbra.ui.common.getApplicationInstance()
+	application = umbra.ui.common.get_application_instance()
 
 	widget = QWidget()
 
-	gridLayout = QGridLayout()
-	widget.setLayout(gridLayout)
+	grid_layout = QGridLayout()
+	widget.setLayout(grid_layout)
 
-	activeLabelA = Active_QLabel(widget, QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentIcon)),
-									QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentHoverIcon)),
-									QPixmap(umbra.ui.common.getResourcePath(UiConstants.developmentActiveIcon)),
+	active_label_a = Active_QLabel(widget, QPixmap(umbra.ui.common.get_resource_path(UiConstants.development_icon)),
+									QPixmap(umbra.ui.common.get_resource_path(UiConstants.development_hover_icon)),
+									QPixmap(umbra.ui.common.get_resource_path(UiConstants.development_active_icon)),
 									checkable=True,
 									checked=True)
-	activeLabelB = Active_QLabel(widget, QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesIcon)),
-									QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesHoverIcon)),
-									QPixmap(umbra.ui.common.getResourcePath(UiConstants.preferencesActiveIcon)),
+	active_label_b = Active_QLabel(widget, QPixmap(umbra.ui.common.get_resource_path(UiConstants.preferences_icon)),
+									QPixmap(umbra.ui.common.get_resource_path(UiConstants.preferences_hover_icon)),
+									QPixmap(umbra.ui.common.get_resource_path(UiConstants.preferences_active_icon)),
 									checkable=True,
 									checked=False)
-	activeLabelC = Active_QLabel(widget, QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsIcon)),
-									QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsHoverIcon)),
-									QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsActiveIcon)),
+	active_label_c = Active_QLabel(widget, QPixmap(umbra.ui.common.get_resource_path(UiConstants.custom_layouts_icon)),
+									QPixmap(umbra.ui.common.get_resource_path(UiConstants.custom_layouts_hover_icon)),
+									QPixmap(umbra.ui.common.get_resource_path(UiConstants.custom_layouts_active_icon)),
 									checkable=True,
 									checked=False)
-	activeLabelD = Active_QLabel(widget, QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousIcon)),
-									QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousHoverIcon)),
-									QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousActiveIcon)),
+	active_label_d = Active_QLabel(widget, QPixmap(umbra.ui.common.get_resource_path(UiConstants.miscellaneous_icon)),
+									QPixmap(umbra.ui.common.get_resource_path(UiConstants.miscellaneous_hover_icon)),
+									QPixmap(umbra.ui.common.get_resource_path(UiConstants.miscellaneous_active_icon)),
 									checkable=True,
 									checked=False)
-	for activeLabel in (activeLabelA, activeLabelB, activeLabelC, activeLabelD):
-		gridLayout.addWidget(activeLabel)
+	for active_label in (active_label_a, active_label_b, active_label_c, active_label_d):
+		grid_layout.addWidget(active_label)
 
 	active_QLabelsCollection = Active_QLabelsCollection()
-	for activeLabel in (activeLabelA, activeLabelB, activeLabelC, activeLabelD):
-		active_QLabelsCollection.addActiveLabel(activeLabel)
+	for active_label in (active_label_a, active_label_b, active_label_c, active_label_d):
+		active_QLabelsCollection.add_active_label(active_label)
 
 	widget.show()
 	widget.raise_()

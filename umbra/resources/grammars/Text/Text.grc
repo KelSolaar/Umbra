@@ -4,6 +4,6 @@ Extensions = \.txt$
 
 [Accelerators]
 Completer = DefaultCompleter
-PreInputAccelerators = symbolsExpandingPreEventInputAccelerators|completionPreEventInputAccelerators
-PostInputAccelerators = completionPostEventInputAccelerators
+PreInputAccelerators = symbols_expanding_pre_event_input_accelerators|completion_pre_event_input_accelerators
+PostInputAccelerators = completion_post_event_input_accelerators
 Dictionary = English_Words.drc

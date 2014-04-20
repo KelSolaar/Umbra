@@ -34,7 +34,7 @@ from PyQt4.QtGui import QLabel
 #**********************************************************************************************************************
 import foundations.exceptions
 import foundations.verbose
-from umbra.globals.runtimeGlobals import RuntimeGlobals
+from umbra.globals.runtime_globals import RuntimeGlobals
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -48,7 +48,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "Notification_QLabel"]
 
-LOGGER = foundations.verbose.installLogger()
+LOGGER = foundations.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -60,36 +60,36 @@ class Notification_QLabel(QLabel):
 	"""
 
 	# Custom signals definitions.
-	notificationClicked = pyqtSignal(QString)
+	notification_clicked = pyqtSignal(QString)
 	"""
-	This signal is emited by the :class:`Notification_QLabel` class when it receives a mouse press event. ( pyqtSignal )
+	This signal is emited by the :class:`Notification_QLabel` class when it receives a mouse press event.
 
 	:return: Current notification text.
 	:rtype: QString
 	"""
 
-	fadedIn = pyqtSignal()
+	faded_in = pyqtSignal()
 	"""
-	This signal is emited by the :class:`Notification_QLabel` class when it has faded in. ( pyqtSignal )
+	This signal is emited by the :class:`Notification_QLabel` class when it has faded in.
 	"""
 
-	fadedOut = pyqtSignal()
+	faded_out = pyqtSignal()
 	"""
-	This signal is emited by the :class:`Notification_QLabel` class when it has faded out. ( pyqtSignal )
+	This signal is emited by the :class:`Notification_QLabel` class when it has faded out.
 	"""
 
 	def __init__(self,
 				parent=None,
 				color=None,
-				backgroundColor=None,
-				borderColor=None,
+				background_color=None,
+				border_color=None,
 				anchor=None,
-				horizontalPadding=None,
-				verticalPadding=None,
-				horizontalOffset=None,
-				verticalOffset=None,
-				fadeSpeed=None,
-				targetOpacity=None,
+				horizontal_padding=None,
+				vertical_padding=None,
+				horizontal_offset=None,
+				vertical_offset=None,
+				fade_speed=None,
+				target_opacity=None,
 				duration=None):
 		"""
 		Initializes the class.
@@ -98,24 +98,24 @@ class Notification_QLabel(QLabel):
 		:type parent: QObject
 		:param color: Widget text color.
 		:type color: QColor
-		:param backgroundColor: Widget background color.
-		:type backgroundColor: QColor
-		:param borderColor: Widget border color.
-		:type borderColor: QColor
+		:param background_color: Widget background color.
+		:type background_color: QColor
+		:param border_color: Widget border color.
+		:type border_color: QColor
 		:param anchor: Widget anchoring area ( From 0 to 8 ).
 		:type anchor: int
-		:param horizontalPadding: Left padding relative to parent Widget.
-		:type horizontalPadding: int
-		:param verticalPadding: Bottom padding relative to parent Widget.
-		:type verticalPadding: int
-		:param horizontalOffset: Widget horizontal offset.
-		:type horizontalOffset: int
-		:param verticalOffset: Widget vertical offset.
-		:type verticalOffset: int
-		:param fadeSpeed: Notification fading speed.
-		:type fadeSpeed: float
-		:param targetOpacity: Notification maximum target opacity.
-		:type targetOpacity: float
+		:param horizontal_padding: Left padding relative to parent Widget.
+		:type horizontal_padding: int
+		:param vertical_padding: Bottom padding relative to parent Widget.
+		:type vertical_padding: int
+		:param horizontal_offset: Widget horizontal offset.
+		:type horizontal_offset: int
+		:param vertical_offset: Widget vertical offset.
+		:type vertical_offset: int
+		:param fade_speed: Notification fading speed.
+		:type fade_speed: float
+		:param target_opacity: Notification maximum target opacity.
+		:type target_opacity: float
 		:param duration: Notification duration in milliseconds.
 		:type duration: int
 		"""
@@ -138,26 +138,26 @@ class Notification_QLabel(QLabel):
 						"""
 
 		self.__color = QColor(220, 220, 220)
-		self.__backgroundColor = QColor(32, 32, 32)
-		self.__borderColor = QColor(220, 220, 220)
+		self.__background_color = QColor(32, 32, 32)
+		self.__border_color = QColor(220, 220, 220)
 		self.color = color if color is not None else self.__color
-		self.backgroundColor = backgroundColor if backgroundColor is not None else self.__backgroundColor
-		self.borderColor = borderColor if borderColor is not None else self.__borderColor
+		self.background_color = background_color if background_color is not None else self.__background_color
+		self.border_color = border_color if border_color is not None else self.__border_color
 
 		self.__anchor = None
 		self.anchor = anchor if anchor is not None else 4
-		self.__horizontalPadding = None
-		self.horizontalPadding = horizontalPadding if horizontalPadding is not None else 0
-		self.__verticalPadding = None
-		self.verticalPadding = verticalPadding if verticalPadding is not None else 48
-		self.__horizontalOffset = None
-		self.horizontalOffset = horizontalOffset if horizontalOffset is not None else 0
-		self.__verticalOffset = None
-		self.verticalOffset = verticalOffset if verticalOffset is not None else 0
-		self.__fadeSpeed = fadeSpeed
-		self.fadeSpeed = fadeSpeed if fadeSpeed is not None else 0.15
-		self.__targetOpacity = None
-		self.targetOpacity = targetOpacity if targetOpacity is not None else 0.75
+		self.__horizontal_padding = None
+		self.horizontal_padding = horizontal_padding if horizontal_padding is not None else 0
+		self.__vertical_padding = None
+		self.vertical_padding = vertical_padding if vertical_padding is not None else 48
+		self.__horizontal_offset = None
+		self.horizontal_offset = horizontal_offset if horizontal_offset is not None else 0
+		self.__vertical_offset = None
+		self.vertical_offset = vertical_offset if vertical_offset is not None else 0
+		self.__fade_speed = fade_speed
+		self.fade_speed = fade_speed if fade_speed is not None else 0.15
+		self.__target_opacity = None
+		self.target_opacity = target_opacity if target_opacity is not None else 0.75
 		self.__duration = None
 		self.duration = duration if duration is not None else 2500
 
@@ -165,12 +165,12 @@ class Notification_QLabel(QLabel):
 
 		self.__timer = QTimer(self)
 		self.__timer.setInterval(25)
-		self.__timer.timeout.connect(self.__setOpacity)
+		self.__timer.timeout.connect(self.__set_opacity)
 
-		#TODO: Check future Qt releases to remove this hack.
-		RuntimeGlobals.layoutsManager and RuntimeGlobals.layoutsManager.layoutRestored.connect(self.__raise)
+		# TODO: Check future Qt releases to remove this hack.
+		RuntimeGlobals.layouts_manager and RuntimeGlobals.layouts_manager.layout_restored.connect(self.__raise)
 
-		self.__setStyleSheet()
+		self.__set_style_sheet()
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -187,7 +187,7 @@ class Notification_QLabel(QLabel):
 		return self.__color
 
 	@color.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
+	@foundations.exceptions.handle_exceptions(AssertionError)
 	def color(self, value):
 		"""
 		Setter for **self.__color** attribute.
@@ -199,10 +199,10 @@ class Notification_QLabel(QLabel):
 		if value is not None:
 			assert type(value) is QColor, "'{0}' attribute: '{1}' type is not 'QColor'!".format("color", value)
 		self.__color = value
-		self.__setStyleSheet()
+		self.__set_style_sheet()
 
 	@color.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def color(self):
 		"""
 		Deleter for **self.__color** attribute.
@@ -212,76 +212,76 @@ class Notification_QLabel(QLabel):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "color"))
 
 	@property
-	def backgroundColor(self):
+	def background_color(self):
 		"""
-		Property for **self.__backgroundColor** attribute.
+		Property for **self.__background_color** attribute.
 
-		:return: self.__backgroundColor.
+		:return: self.__background_color.
 		:rtype: QColor
 		"""
 
-		return self.__backgroundColor
+		return self.__background_color
 
-	@backgroundColor.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def backgroundColor(self, value):
+	@background_color.setter
+	@foundations.exceptions.handle_exceptions(AssertionError)
+	def background_color(self, value):
 		"""
-		Setter for **self.__backgroundColor** attribute.
+		Setter for **self.__background_color** attribute.
 
 		:param value: Attribute value.
 		:type value: QColor
 		"""
 
 		if value is not None:
-			assert type(value) is QColor, "'{0}' attribute: '{1}' type is not 'QColor'!".format("backgroundColor", value)
-		self.__backgroundColor = value
-		self.__setStyleSheet()
+			assert type(value) is QColor, "'{0}' attribute: '{1}' type is not 'QColor'!".format("background_color", value)
+		self.__background_color = value
+		self.__set_style_sheet()
 
-	@backgroundColor.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def backgroundColor(self):
+	@background_color.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def background_color(self):
 		"""
-		Deleter for **self.__backgroundColor** attribute.
+		Deleter for **self.__background_color** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "backgroundColor"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "background_color"))
 
 	@property
-	def borderColor(self):
+	def border_color(self):
 		"""
-		Property for **self.__borderColor** attribute.
+		Property for **self.__border_color** attribute.
 
-		:return: self.__borderColor.
+		:return: self.__border_color.
 		:rtype: QColor
 		"""
 
-		return self.__borderColor
+		return self.__border_color
 
-	@borderColor.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def borderColor(self, value):
+	@border_color.setter
+	@foundations.exceptions.handle_exceptions(AssertionError)
+	def border_color(self, value):
 		"""
-		Setter for **self.__borderColor** attribute.
+		Setter for **self.__border_color** attribute.
 
 		:param value: Attribute value.
 		:type value: QColor
 		"""
 
 		if value is not None:
-			assert type(value) is QColor, "'{0}' attribute: '{1}' type is not 'QColor'!".format("borderColor", value)
-		self.__borderColor = value
-		self.__setStyleSheet()
+			assert type(value) is QColor, "'{0}' attribute: '{1}' type is not 'QColor'!".format("border_color", value)
+		self.__border_color = value
+		self.__set_style_sheet()
 
-	@borderColor.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def borderColor(self):
+	@border_color.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def border_color(self):
 		"""
-		Deleter for **self.__borderColor** attribute.
+		Deleter for **self.__border_color** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "borderColor"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "border_color"))
 
 	@property
 	def anchor(self):
@@ -295,7 +295,7 @@ class Notification_QLabel(QLabel):
 		return self.__anchor
 
 	@anchor.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
+	@foundations.exceptions.handle_exceptions(AssertionError)
 	def anchor(self, value):
 		"""
 		Setter for **self.__anchor** attribute.
@@ -310,7 +310,7 @@ class Notification_QLabel(QLabel):
 		self.__anchor = value
 
 	@anchor.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def anchor(self):
 		"""
 		Deleter for **self.__anchor** attribute.
@@ -320,219 +320,219 @@ class Notification_QLabel(QLabel):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "anchor"))
 
 	@property
-	def horizontalPadding(self):
+	def horizontal_padding(self):
 		"""
-		Property for **self.__horizontalPadding** attribute.
+		Property for **self.__horizontal_padding** attribute.
 
-		:return: self.__horizontalPadding.
+		:return: self.__horizontal_padding.
 		:rtype: int
 		"""
 
-		return self.__horizontalPadding
+		return self.__horizontal_padding
 
-	@horizontalPadding.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def horizontalPadding(self, value):
+	@horizontal_padding.setter
+	@foundations.exceptions.handle_exceptions(AssertionError)
+	def horizontal_padding(self, value):
 		"""
-		Setter for **self.__horizontalPadding** attribute.
+		Setter for **self.__horizontal_padding** attribute.
 
 		:param value: Attribute value.
 		:type value: int
 		"""
 
 		if value is not None:
-			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("horizontalPadding", value)
-			assert value >= 0, "'{0}' attribute: '{1}' need to be positive!".format("horizontalPadding", value)
-		self.__horizontalPadding = value
+			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("horizontal_padding", value)
+			assert value >= 0, "'{0}' attribute: '{1}' need to be positive!".format("horizontal_padding", value)
+		self.__horizontal_padding = value
 
-	@horizontalPadding.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def horizontalPadding(self):
+	@horizontal_padding.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def horizontal_padding(self):
 		"""
-		Deleter for **self.__horizontalPadding** attribute.
+		Deleter for **self.__horizontal_padding** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "horizontalPadding"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "horizontal_padding"))
 
 	@property
-	def verticalPadding(self):
+	def vertical_padding(self):
 		"""
-		Property for **self.__verticalPadding** attribute.
+		Property for **self.__vertical_padding** attribute.
 
-		:return: self.__verticalPadding.
+		:return: self.__vertical_padding.
 		:rtype: int
 		"""
 
-		return self.__verticalPadding
+		return self.__vertical_padding
 
-	@verticalPadding.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def verticalPadding(self, value):
+	@vertical_padding.setter
+	@foundations.exceptions.handle_exceptions(AssertionError)
+	def vertical_padding(self, value):
 		"""
-		Setter for **self.__verticalPadding** attribute.
+		Setter for **self.__vertical_padding** attribute.
 
 		:param value: Attribute value.
 		:type value: int
 		"""
 
 		if value is not None:
-			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("verticalPadding", value)
-			assert value > 0, "'{0}' attribute: '{1}' need to be positive!".format("verticalPadding", value)
-		self.__verticalPadding = value
+			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("vertical_padding", value)
+			assert value > 0, "'{0}' attribute: '{1}' need to be positive!".format("vertical_padding", value)
+		self.__vertical_padding = value
 
-	@verticalPadding.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def verticalPadding(self):
+	@vertical_padding.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def vertical_padding(self):
 		"""
-		Deleter for **self.__verticalPadding** attribute.
+		Deleter for **self.__vertical_padding** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "verticalPadding"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "vertical_padding"))
 
 	@property
-	def horizontalOffset(self):
+	def horizontal_offset(self):
 		"""
-		Property for **self.__horizontalOffset** attribute.
+		Property for **self.__horizontal_offset** attribute.
 
-		:return: self.__horizontalOffset.
+		:return: self.__horizontal_offset.
 		:rtype: int
 		"""
 
-		return self.__horizontalOffset
+		return self.__horizontal_offset
 
-	@horizontalOffset.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def horizontalOffset(self, value):
+	@horizontal_offset.setter
+	@foundations.exceptions.handle_exceptions(AssertionError)
+	def horizontal_offset(self, value):
 		"""
-		Setter for **self.__horizontalOffset** attribute.
+		Setter for **self.__horizontal_offset** attribute.
 
 		:param value: Attribute value.
 		:type value: int
 		"""
 
 		if value is not None:
-			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("horizontalOffset", value)
-		self.__horizontalOffset = value
+			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("horizontal_offset", value)
+		self.__horizontal_offset = value
 
-	@horizontalOffset.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def horizontalOffset(self):
+	@horizontal_offset.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def horizontal_offset(self):
 		"""
-		Deleter for **self.__horizontalOffset** attribute.
+		Deleter for **self.__horizontal_offset** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "horizontalOffset"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "horizontal_offset"))
 
 	@property
-	def verticalOffset(self):
+	def vertical_offset(self):
 		"""
-		Property for **self.__verticalOffset** attribute.
+		Property for **self.__vertical_offset** attribute.
 
-		:return: self.__verticalOffset.
+		:return: self.__vertical_offset.
 		:rtype: int
 		"""
 
-		return self.__verticalOffset
+		return self.__vertical_offset
 
-	@verticalOffset.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def verticalOffset(self, value):
+	@vertical_offset.setter
+	@foundations.exceptions.handle_exceptions(AssertionError)
+	def vertical_offset(self, value):
 		"""
-		Setter for **self.__verticalOffset** attribute.
+		Setter for **self.__vertical_offset** attribute.
 
 		:param value: Attribute value.
 		:type value: int
 		"""
 
 		if value is not None:
-			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("verticalOffset", value)
-		self.__verticalOffset = value
+			assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format("vertical_offset", value)
+		self.__vertical_offset = value
 
-	@verticalOffset.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def verticalOffset(self):
+	@vertical_offset.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def vertical_offset(self):
 		"""
-		Deleter for **self.__verticalOffset** attribute.
+		Deleter for **self.__vertical_offset** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "verticalOffset"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "vertical_offset"))
 
 	@property
-	def fadeSpeed(self):
+	def fade_speed(self):
 		"""
-		Property for **self.__fadeSpeed** attribute.
+		Property for **self.__fade_speed** attribute.
 
-		:return: self.__fadeSpeed.
+		:return: self.__fade_speed.
 		:rtype: float
 		"""
 
-		return self.__fadeSpeed
+		return self.__fade_speed
 
-	@fadeSpeed.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def fadeSpeed(self, value):
+	@fade_speed.setter
+	@foundations.exceptions.handle_exceptions(AssertionError)
+	def fade_speed(self, value):
 		"""
-		Setter for **self.__fadeSpeed** attribute.
+		Setter for **self.__fade_speed** attribute.
 
 		:param value: Attribute value.
 		:type value: float
 		"""
 
 		if value is not None:
-			assert type(value) is float, "'{0}' attribute: '{1}' type is not 'float'!".format("fadeSpeed", value)
-			assert value >= 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("fadeSpeed", value)
-		self.__fadeSpeed = value
+			assert type(value) is float, "'{0}' attribute: '{1}' type is not 'float'!".format("fade_speed", value)
+			assert value >= 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("fade_speed", value)
+		self.__fade_speed = value
 
-	@fadeSpeed.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def fadeSpeed(self):
+	@fade_speed.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def fade_speed(self):
 		"""
-		Deleter for **self.__fadeSpeed** attribute.
+		Deleter for **self.__fade_speed** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "fadeSpeed"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "fade_speed"))
 
 	@property
-	def targetOpacity(self):
+	def target_opacity(self):
 		"""
-		Property for **self.__targetOpacity** attribute.
+		Property for **self.__target_opacity** attribute.
 
-		:return: self.__targetOpacity.
+		:return: self.__target_opacity.
 		:rtype: float
 		"""
 
-		return self.__targetOpacity
+		return self.__target_opacity
 
-	@targetOpacity.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def targetOpacity(self, value):
+	@target_opacity.setter
+	@foundations.exceptions.handle_exceptions(AssertionError)
+	def target_opacity(self, value):
 		"""
-		Setter for **self.__targetOpacity** attribute.
+		Setter for **self.__target_opacity** attribute.
 
 		:param value: Attribute value.
 		:type value: float
 		"""
 
 		if value is not None:
-			assert type(value) is float, "'{0}' attribute: '{1}' type is not 'float'!".format("targetOpacity", value)
-			assert value >= 0, "'{0}' attribute: '{1}' need to be positive!".format("targetOpacity", value)
-			assert value <= 1, "'{0}' attribute: '{1}' need to be less or equal than '1'!".format("targetOpacity", value)
-		self.__targetOpacity = value
+			assert type(value) is float, "'{0}' attribute: '{1}' type is not 'float'!".format("target_opacity", value)
+			assert value >= 0, "'{0}' attribute: '{1}' need to be positive!".format("target_opacity", value)
+			assert value <= 1, "'{0}' attribute: '{1}' need to be less or equal than '1'!".format("target_opacity", value)
+		self.__target_opacity = value
 
-	@targetOpacity.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def targetOpacity(self):
+	@target_opacity.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def target_opacity(self):
 		"""
-		Deleter for **self.__targetOpacity** attribute.
+		Deleter for **self.__target_opacity** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "targetOpacity"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "target_opacity"))
 
 	@property
 	def duration(self):
@@ -546,7 +546,7 @@ class Notification_QLabel(QLabel):
 		return self.__duration
 
 	@duration.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
+	@foundations.exceptions.handle_exceptions(AssertionError)
 	def duration(self, value):
 		"""
 		Setter for **self.__duration** attribute.
@@ -561,7 +561,7 @@ class Notification_QLabel(QLabel):
 		self.__duration = value
 
 	@duration.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def duration(self):
 		"""
 		Deleter for **self.__duration** attribute.
@@ -582,7 +582,7 @@ class Notification_QLabel(QLabel):
 		return self.__opacity
 
 	@opacity.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
+	@foundations.exceptions.handle_exceptions(AssertionError)
 	def opacity(self, value):
 		"""
 		Setter for **self.__opacity** attribute.
@@ -600,10 +600,10 @@ class Notification_QLabel(QLabel):
 			value = 0
 
 		self.__opacity = float(value)
-		self.__setStyleSheet()
+		self.__set_style_sheet()
 
 	@opacity.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def opacity(self):
 		"""
 		Deleter for **self.__opacity** attribute.
@@ -624,7 +624,7 @@ class Notification_QLabel(QLabel):
 		return self.__style
 
 	@style.setter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def style(self, value):
 		"""
 		Setter for **self.__style** attribute.
@@ -637,7 +637,7 @@ class Notification_QLabel(QLabel):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "style"))
 
 	@style.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def style(self):
 		"""
 		Deleter for **self.__style** attribute.
@@ -658,7 +658,7 @@ class Notification_QLabel(QLabel):
 		"""
 
 		QLabel.setParent(self, parent)
-		self.__setPosition()
+		self.__set_position()
 
 	def resizeEvent(self, event):
 		"""
@@ -669,7 +669,7 @@ class Notification_QLabel(QLabel):
 		"""
 
 		QLabel.resizeEvent(self, event)
-		self.__setPosition()
+		self.__set_position()
 
 	def mousePressEvent(self, event):
 		"""
@@ -679,7 +679,7 @@ class Notification_QLabel(QLabel):
 		:type event: QEvent
 		"""
 
-		self.notificationClicked.emit(self.text())
+		self.notification_clicked.emit(self.text())
 
 	def showEvent(self, event):
 		"""
@@ -690,7 +690,7 @@ class Notification_QLabel(QLabel):
 		"""
 
 		QLabel.showEvent(self, event)
-		self.__setPosition()
+		self.__set_position()
 
 	def __raise(self, *args):
 		"""
@@ -707,7 +707,7 @@ class Notification_QLabel(QLabel):
 			self.lower()
 		self.raise_()
 
-	def __setPosition(self):
+	def __set_position(self):
 		"""
 		Sets the Widget position relatively to its parent.
 		"""
@@ -719,54 +719,54 @@ class Notification_QLabel(QLabel):
 		self.adjustSize()
 
 		if self.__anchor == 0:
-			pointX = rectangle.width() / 2 - self.width() / 2
-			pointY = self.__verticalPadding
+			point_x = rectangle.width() / 2 - self.width() / 2
+			point_y = self.__vertical_padding
 		elif self.__anchor == 1:
-			pointX = rectangle.width() - self.width() - self.__horizontalPadding
-			pointY = self.__verticalPadding
+			point_x = rectangle.width() - self.width() - self.__horizontal_padding
+			point_y = self.__vertical_padding
 		elif self.__anchor == 2:
-			pointX = rectangle.width() - self.width() - self.__horizontalPadding
-			pointY = rectangle.height() / 2 - self.height() / 2
+			point_x = rectangle.width() - self.width() - self.__horizontal_padding
+			point_y = rectangle.height() / 2 - self.height() / 2
 		elif self.__anchor == 3:
-			pointX = rectangle.width() - self.width() - self.__horizontalPadding
-			pointY = rectangle.height() - self.height() - self.__verticalPadding
+			point_x = rectangle.width() - self.width() - self.__horizontal_padding
+			point_y = rectangle.height() - self.height() - self.__vertical_padding
 		elif self.__anchor == 4:
-			pointX = rectangle.width() / 2 - self.width() / 2
-			pointY = rectangle.height() - self.height() - self.__verticalPadding
+			point_x = rectangle.width() / 2 - self.width() / 2
+			point_y = rectangle.height() - self.height() - self.__vertical_padding
 		elif self.__anchor == 5:
-			pointX = self.__horizontalPadding
-			pointY = rectangle.height() - self.height() - self.__verticalPadding
+			point_x = self.__horizontal_padding
+			point_y = rectangle.height() - self.height() - self.__vertical_padding
 		elif self.__anchor == 6:
-			pointX = self.__horizontalPadding
-			pointY = rectangle.height() / 2 - self.height() / 2
+			point_x = self.__horizontal_padding
+			point_y = rectangle.height() / 2 - self.height() / 2
 		elif self.__anchor == 7:
-			pointX = self.__horizontalPadding
-			pointY = self.__verticalPadding
+			point_x = self.__horizontal_padding
+			point_y = self.__vertical_padding
 		elif self.__anchor == 8:
-			pointX = rectangle.width() / 2 - self.width() / 2
-			pointY = rectangle.height() / 2 - self.height() / 2
+			point_x = rectangle.width() / 2 - self.width() / 2
+			point_y = rectangle.height() / 2 - self.height() / 2
 
-		self.setGeometry(pointX + self.__horizontalOffset, pointY + self.__verticalOffset, self.width(), self.height())
+		self.setGeometry(point_x + self.__horizontal_offset, point_y + self.__vertical_offset, self.width(), self.height())
 
-	def __fadeIn(self):
+	def __fade_in(self):
 		"""
 		Starts the Widget fade in.
 		"""
 
 		self.__timer.stop()
-		self.__vector = self.__fadeSpeed
+		self.__vector = self.__fade_speed
 		self.__timer.start()
 
-	def __fadeOut(self):
+	def __fade_out(self):
 		"""
 		Starts the Widget fade out.
 		"""
 
 		self.__timer.stop()
-		self.__vector = -self.__fadeSpeed
+		self.__vector = -self.__fade_speed
 		self.__timer.start()
 
-	def __setOpacity(self):
+	def __set_opacity(self):
 		"""
 		Sets the Widget opacity.
 		"""
@@ -774,30 +774,30 @@ class Notification_QLabel(QLabel):
 		if self.__vector > 0:
 			if self.isHidden():
 				self.show()
-			if self.opacity <= self.__targetOpacity:
+			if self.opacity <= self.__target_opacity:
 				self.opacity += self.__vector
 			else:
 				self.__timer.stop()
-				self.fadedIn.emit()
-				self.__duration and QTimer.singleShot(self.__duration, self.__fadeOut)
+				self.faded_in.emit()
+				self.__duration and QTimer.singleShot(self.__duration, self.__fade_out)
 		elif self.__vector < 0:
 			if self.opacity > 0:
 				self.opacity += self.__vector
 			else:
 				self.__timer.stop()
-				self.fadedOut.emit()
+				self.faded_out.emit()
 				self.hide()
 
-	def __setStyleSheet(self):
+	def __set_style_sheet(self):
 		"""
 		Sets the Widget stylesheet.
 		"""
 
 		colors = map(lambda x:"rgb({0}, {1}, {2}, {3})".format(x.red(), x.green(), x.blue(), int(self.__opacity * 255)),
-														(self.__color, self.__backgroundColor, self.__borderColor))
+														(self.__color, self.__background_color, self.__border_color))
 		self.setStyleSheet(self.__style.format(*colors))
 
-	def showMessage(self, message, duration=2500):
+	def show_message(self, message, duration=2500):
 		"""
 		Shows given message.
 		
@@ -812,15 +812,15 @@ class Notification_QLabel(QLabel):
 		self.setText(message)
 		self.__duration = duration
 
-		self.__setPosition()
+		self.__set_position()
 
 		if message:
-			self.__fadeIn()
+			self.__fade_in()
 		else:
-			self.__fadeOut()
+			self.__fade_out()
 		return True
 
-	def hideMessage(self):
+	def hide_message(self):
 		"""
 		Hides the current message.
 
@@ -828,10 +828,10 @@ class Notification_QLabel(QLabel):
 		:rtype: bool
 		"""
 
-		self.__fadeOut()
+		self.__fade_out()
 		return True
 
-	def refreshPosition(self):
+	def refresh_position(self):
 		"""
 		Refreshes the Widget position.
 
@@ -839,7 +839,7 @@ class Notification_QLabel(QLabel):
 		:rtype: bool
 		"""
 
-		self.__setPosition()
+		self.__set_position()
 		return True
 
 if __name__ == "__main__":
@@ -852,28 +852,28 @@ if __name__ == "__main__":
 
 	import umbra.ui.common
 
-	application = umbra.ui.common.getApplicationInstance()
+	application = umbra.ui.common.get_application_instance()
 
 	widget = QWidget()
 
-	gridLayout = QGridLayout()
-	widget.setLayout(gridLayout)
+	grid_layout = QGridLayout()
+	widget.setLayout(grid_layout)
 
-	plainTextEdit = QPlainTextEdit()
-	plainTextEdit.setReadOnly(True)
-	gridLayout.addWidget(plainTextEdit)
-	notification_QLabel = Notification_QLabel(plainTextEdit, verticalPadding=64)
+	plain_text_edit = QPlainTextEdit()
+	plain_text_edit.setReadOnly(True)
+	grid_layout.addWidget(plain_text_edit)
+	notification_QLabel = Notification_QLabel(plain_text_edit, vertical_padding=64)
 
 	def _pushButton__clicked(*args):
 		notification_QLabel.color = QColor(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-		notification_QLabel.showMessage("This is a notification message!", 1500)
+		notification_QLabel.show_message("This is a notification message!", 1500)
 
-	plainTextEdit.resizeEvent = lambda event: reduce(lambda *args: None,
-	(notification_QLabel.refreshPosition(), QPlainTextEdit(plainTextEdit).resizeEvent(event)))
+	plain_text_edit.resizeEvent = lambda event: reduce(lambda *args: None,
+	(notification_QLabel.refresh_position(), QPlainTextEdit(plain_text_edit).resizeEvent(event)))
 
-	pushButton = QPushButton("Notify!")
-	pushButton.clicked.connect(_pushButton__clicked)
-	gridLayout.addWidget(pushButton)
+	push_button = QPushButton("Notify!")
+	push_button.clicked.connect(_pushButton__clicked)
+	grid_layout.addWidget(push_button)
 
 	widget.show()
 	widget.raise_()

@@ -45,7 +45,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "Variable_QPushButton"]
 
-LOGGER = foundations.verbose.installLogger()
+LOGGER = foundations.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -92,9 +92,9 @@ class Variable_QPushButton(QPushButton):
 		# Initializing the button
 		self.setCheckable(True)
 		if self.__state:
-			self.__setTrueState()
+			self.__set_true_state()
 		else:
-			self.__setFalseState()
+			self.__set_false_state()
 
 		# Signals / Slots.
 		self.clicked.connect(self.__variable_QPushButton__clicked)
@@ -114,7 +114,7 @@ class Variable_QPushButton(QPushButton):
 		return self.__state
 
 	@state.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
+	@foundations.exceptions.handle_exceptions(AssertionError)
 	def state(self, value):
 		"""
 		Setter for **self.__state** attribute.
@@ -128,7 +128,7 @@ class Variable_QPushButton(QPushButton):
 		self.__state = value
 
 	@state.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def state(self):
 		"""
 		Deleter for **self.__state** attribute.
@@ -149,7 +149,7 @@ class Variable_QPushButton(QPushButton):
 		return self.__colors
 
 	@colors.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
+	@foundations.exceptions.handle_exceptions(AssertionError)
 	def colors(self, value):
 		"""
 		Setter for **self.__colors** attribute.
@@ -166,7 +166,7 @@ class Variable_QPushButton(QPushButton):
 		self.__colors = value
 
 	@colors.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def colors(self):
 		"""
 		Deleter for **self.__colors** attribute.
@@ -187,7 +187,7 @@ class Variable_QPushButton(QPushButton):
 		return self.__labels
 
 	@labels.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
+	@foundations.exceptions.handle_exceptions(AssertionError)
 	def labels(self, value):
 		"""
 		Setter for **self.__labels** attribute.
@@ -204,7 +204,7 @@ class Variable_QPushButton(QPushButton):
 		self.__labels = value
 
 	@labels.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def labels(self):
 		"""
 		Deleter for **self.__labels** attribute.
@@ -225,11 +225,11 @@ class Variable_QPushButton(QPushButton):
 		"""
 
 		if self.__state:
-			self.__setFalseState()
+			self.__set_false_state()
 		else:
-			self.__setTrueState()
+			self.__set_true_state()
 
-	def __setTrueState(self):
+	def __set_true_state(self):
 		"""
 		Sets the variable button true state.
 		"""
@@ -238,13 +238,13 @@ class Variable_QPushButton(QPushButton):
 		self.__state = True
 
 		palette = QPalette()
-		palette.setColor(QPalette.Button, foundations.common.getFirstItem(self.__colors))
+		palette.setColor(QPalette.Button, foundations.common.get_first_item(self.__colors))
 		self.setPalette(palette)
 
 		self.setChecked(True)
-		self.setText(foundations.common.getFirstItem(self.__labels))
+		self.setText(foundations.common.get_first_item(self.__labels))
 
-	def __setFalseState(self):
+	def __set_false_state(self):
 		"""
 		Sets the variable QPushButton true state.
 		"""
@@ -267,19 +267,19 @@ if __name__ == "__main__":
 
 	import umbra.ui.common
 
-	application = umbra.ui.common.getApplicationInstance()
+	application = umbra.ui.common.get_application_instance()
 
 	widget = QWidget()
 
-	gridLayout = QGridLayout()
-	widget.setLayout(gridLayout)
+	grid_layout = QGridLayout()
+	widget.setLayout(grid_layout)
 
-	variable_QPushButtonA = Variable_QPushButton()
-	variable_QPushButtonB = Variable_QPushButton(labels=("-", "+"))
-	variable_QPushButtonC = Variable_QPushButton(colors=(QColor(120, 240, 120), QColor(240, 120, 120)))
+	variable_QPushButton_a = Variable_QPushButton()
+	variable_QPushButton_b = Variable_QPushButton(labels=("-", "+"))
+	variable_QPushButton_c = Variable_QPushButton(colors=(QColor(120, 240, 120), QColor(240, 120, 120)))
 
-	for variable_QPushButton in (variable_QPushButtonA, variable_QPushButtonB, variable_QPushButtonC):
-		gridLayout.addWidget(variable_QPushButton)
+	for variable_QPushButton in (variable_QPushButton_a, variable_QPushButton_b, variable_QPushButton_c):
+		grid_layout.addWidget(variable_QPushButton)
 
 	widget.show()
 	widget.raise_()

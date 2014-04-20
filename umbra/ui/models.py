@@ -58,7 +58,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "GraphModel"]
 
-LOGGER = foundations.verbose.installLogger()
+LOGGER = foundations.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -74,10 +74,10 @@ class GraphModel(QAbstractItemModel):
 		`QComboBox <http://doc.qt.nokia.com/qcombobox.html>`_ ).
 	"""
 
-	__modelsInstances = weakref.WeakValueDictionary()
+	__models_instances = weakref.WeakValueDictionary()
 	"""
-	:param __modelsInstances: Models instances.
-	:type __modelsInstances: dict
+	:param __models_instances: Models instances.
+	:type __models_instances: dict
 	"""
 
 	def __new__(cls, *args, **kwargs):
@@ -94,28 +94,28 @@ class GraphModel(QAbstractItemModel):
 
 		instance = super(GraphModel, cls).__new__(cls)
 
-		GraphModel._GraphModel__modelsInstances[id(instance)] = instance
+		GraphModel._GraphModel__models_instances[id(instance)] = instance
 		return instance
 
 	def __init__(self,
 				parent=None,
-				rootNode=None,
-				horizontalHeaders=None,
-				verticalHeaders=None,
-				defaultNode=None):
+				root_node=None,
+				horizontal_headers=None,
+				vertical_headers=None,
+				default_node=None):
 		"""
 		Initializes the class.
 
 		:param parent: Object parent.
 		:type parent: QObject
-		:param rootNode: Root node.
-		:type rootNode: AbstractCompositeNode or GraphModelNode
-		:param horizontalHeaders: Headers.
-		:type horizontalHeaders: OrderedDict
-		:param verticalHeaders: Headers.
-		:type verticalHeaders: OrderedDict
-		:param defaultNode: Default node.
-		:type defaultNode: AbstractCompositeNode or GraphModelNode
+		:param root_node: Root node.
+		:type root_node: AbstractCompositeNode or GraphModelNode
+		:param horizontal_headers: Headers.
+		:type horizontal_headers: OrderedDict
+		:param vertical_headers: Headers.
+		:type vertical_headers: OrderedDict
+		:param default_node: Default node.
+		:type default_node: AbstractCompositeNode or GraphModelNode
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
@@ -123,34 +123,34 @@ class GraphModel(QAbstractItemModel):
 		QAbstractItemModel.__init__(self, parent)
 
 		# --- Setting class attributes. ---
-		self.__rootNode = None
-		self.rootNode = rootNode or umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
-		self.__horizontalHeaders = None
-		self.horizontalHeaders = horizontalHeaders or OrderedDict([("Graph Model", "graphModel")])
-		self.__verticalHeaders = None
-		self.verticalHeaders = verticalHeaders or OrderedDict()
-		self.__defaultNode = None
-		self.defaultNode = defaultNode or umbra.ui.nodes.GraphModelNode
+		self.__root_node = None
+		self.root_node = root_node or umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
+		self.__horizontal_headers = None
+		self.horizontal_headers = horizontal_headers or OrderedDict([("Graph Model", "graphModel")])
+		self.__vertical_headers = None
+		self.vertical_headers = vertical_headers or OrderedDict()
+		self.__default_node = None
+		self.default_node = default_node or umbra.ui.nodes.GraphModelNode
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
 	#******************************************************************************************************************
 	@property
-	def rootNode(self):
+	def root_node(self):
 		"""
-		Property for **self.__rootNode** attribute.
+		Property for **self.__root_node** attribute.
 
-		:return: self.__rootNode.
+		:return: self.__root_node.
 		:rtype: AbstractCompositeNode or GraphModelNode
 		"""
 
-		return self.__rootNode
+		return self.__root_node
 
-	@rootNode.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def rootNode(self, value):
+	@root_node.setter
+	@foundations.exceptions.handle_exceptions(AssertionError)
+	def root_node(self, value):
 		"""
-		Setter for **self.__rootNode** attribute.
+		Setter for **self.__root_node** attribute.
 
 		:param value: Attribute value.
 		:type value: AbstractCompositeNode or GraphModelNode
@@ -158,35 +158,35 @@ class GraphModel(QAbstractItemModel):
 
 		if value is not None:
 			assert issubclass(value.__class__, AbstractCompositeNode), \
-			"'{0}' attribute: '{1}' is not a '{2}' subclass!".format("rootNode", value, AbstractCompositeNode.__name__)
-		self.__rootNode = value
+			"'{0}' attribute: '{1}' is not a '{2}' subclass!".format("root_node", value, AbstractCompositeNode.__name__)
+		self.__root_node = value
 
-	@rootNode.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def rootNode(self):
+	@root_node.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def root_node(self):
 		"""
-		Deleter for **self.__rootNode** attribute.
+		Deleter for **self.__root_node** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "rootNode"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "root_node"))
 
 	@property
-	def horizontalHeaders(self):
+	def horizontal_headers(self):
 		"""
-		Property for **self.__horizontalHeaders** attribute.
+		Property for **self.__horizontal_headers** attribute.
 
-		:return: self.__horizontalHeaders.
+		:return: self.__horizontal_headers.
 		:rtype: OrderedDict
 		"""
 
-		return self.__horizontalHeaders
+		return self.__horizontal_headers
 
-	@horizontalHeaders.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def horizontalHeaders(self, value):
+	@horizontal_headers.setter
+	@foundations.exceptions.handle_exceptions(AssertionError)
+	def horizontal_headers(self, value):
 		"""
-		Setter for **self.__horizontalHeaders** attribute.
+		Setter for **self.__horizontal_headers** attribute.
 
 		:param value: Attribute value.
 		:type value: OrderedDict
@@ -194,35 +194,35 @@ class GraphModel(QAbstractItemModel):
 
 		if value is not None:
 			assert type(value) is OrderedDict, "'{0}' attribute: '{1}' type is not 'OrderedDict'!".format(
-			"horizontalHeaders", value)
-		self.__horizontalHeaders = value
+			"horizontal_headers", value)
+		self.__horizontal_headers = value
 
-	@horizontalHeaders.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def horizontalHeaders(self):
+	@horizontal_headers.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def horizontal_headers(self):
 		"""
-		Deleter for **self.__horizontalHeaders** attribute.
+		Deleter for **self.__horizontal_headers** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "horizontalHeaders"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "horizontal_headers"))
 
 	@property
-	def verticalHeaders(self):
+	def vertical_headers(self):
 		"""
-		Property for **self.__verticalHeaders** attribute.
+		Property for **self.__vertical_headers** attribute.
 
-		:return: self.__verticalHeaders.
+		:return: self.__vertical_headers.
 		:rtype: OrderedDict
 		"""
 
-		return self.__verticalHeaders
+		return self.__vertical_headers
 
-	@verticalHeaders.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def verticalHeaders(self, value):
+	@vertical_headers.setter
+	@foundations.exceptions.handle_exceptions(AssertionError)
+	def vertical_headers(self, value):
 		"""
-		Setter for **self.__verticalHeaders** attribute.
+		Setter for **self.__vertical_headers** attribute.
 
 		:param value: Attribute value.
 		:type value: OrderedDict
@@ -230,35 +230,35 @@ class GraphModel(QAbstractItemModel):
 
 		if value is not None:
 			assert type(value) is OrderedDict, "'{0}' attribute: '{1}' type is not 'OrderedDict'!".format(
-			"verticalHeaders", value)
-		self.__verticalHeaders = value
+			"vertical_headers", value)
+		self.__vertical_headers = value
 
-	@verticalHeaders.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def verticalHeaders(self):
+	@vertical_headers.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def vertical_headers(self):
 		"""
-		Deleter for **self.__verticalHeaders** attribute.
+		Deleter for **self.__vertical_headers** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "verticalHeaders"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "vertical_headers"))
 
 	@property
-	def defaultNode(self):
+	def default_node(self):
 		"""
-		Property for **self.__defaultNode** attribute.
+		Property for **self.__default_node** attribute.
 
-		:return: self.__defaultNode.
+		:return: self.__default_node.
 		:rtype: AbstractCompositeNode or GraphModelNode
 		"""
 
-		return self.__defaultNode
+		return self.__default_node
 
-	@defaultNode.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def defaultNode(self, value):
+	@default_node.setter
+	@foundations.exceptions.handle_exceptions(AssertionError)
+	def default_node(self, value):
 		"""
-		Setter for **self.__defaultNode** attribute.
+		Setter for **self.__default_node** attribute.
 
 		:param value: Attribute value.
 		:type value: AbstractCompositeNode or GraphModelNode
@@ -266,18 +266,18 @@ class GraphModel(QAbstractItemModel):
 
 		if value is not None:
 			assert issubclass(value, AbstractCompositeNode), \
-			"'{0}' attribute: '{1}' is not a '{2}' subclass!".format("defaultNode", value, AbstractCompositeNode.__name__)
-		self.__defaultNode = value
+			"'{0}' attribute: '{1}' is not a '{2}' subclass!".format("default_node", value, AbstractCompositeNode.__name__)
+		self.__default_node = value
 
-	@defaultNode.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def defaultNode(self):
+	@default_node.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def default_node(self):
 		"""
-		Deleter for **self.__defaultNode** attribute.
+		Deleter for **self.__default_node** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultNode"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_node"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
@@ -293,10 +293,10 @@ class GraphModel(QAbstractItemModel):
 		"""
 
 		if not parent.isValid():
-			parentNode = self.__rootNode
+			parent_node = self.__root_node
 		else:
-			parentNode = parent.internalPointer()
-		return parentNode.childrenCount()
+			parent_node = parent.internalPointer()
+		return parent_node.children_count()
 
 	def columnCount(self, parent=QModelIndex()):
 		"""
@@ -308,7 +308,7 @@ class GraphModel(QAbstractItemModel):
 		:rtype: int
 		"""
 
-		return len(self.__horizontalHeaders)
+		return len(self.__horizontal_headers)
 
 	def data(self, index, role=Qt.DisplayRole):
 		"""
@@ -325,7 +325,7 @@ class GraphModel(QAbstractItemModel):
 		if not index.isValid():
 			return QVariant()
 
-		node = self.getNode(index)
+		node = self.get_node(index)
 		if index.column() == 0:
 			if hasattr(node, "roles"):
 				if role == Qt.DecorationRole:
@@ -333,7 +333,7 @@ class GraphModel(QAbstractItemModel):
 				else:
 					return node.roles.get(role, QVariant())
 		else:
-			attribute = self.getAttribute(node, index.column())
+			attribute = self.get_attribute(node, index.column())
 			if attribute:
 				if hasattr(attribute, "roles"):
 					if role == Qt.DecorationRole:
@@ -359,9 +359,9 @@ class GraphModel(QAbstractItemModel):
 		if not index.isValid():
 			return False
 
-		node = self.getNode(index)
+		node = self.get_node(index)
 		if role == Qt.DisplayRole or role == Qt.EditRole:
-			value = foundations.strings.toString(value.toString())
+			value = foundations.strings.to_string(value.toString())
 			roles = {Qt.DisplayRole : value, Qt.EditRole : value}
 		else:
 			roles = {role : value}
@@ -371,7 +371,7 @@ class GraphModel(QAbstractItemModel):
 				node.roles.update(roles)
 				node.name = value
 		else:
-			attribute = self.getAttribute(node, index.column())
+			attribute = self.get_attribute(node, index.column())
 			if (attribute and hasattr(attribute, "roles")):
 				attribute.roles.update(roles)
 				attribute.value = value
@@ -394,11 +394,11 @@ class GraphModel(QAbstractItemModel):
 
 		if role == Qt.DisplayRole:
 			if orientation == Qt.Horizontal:
-				if section < len(self.__horizontalHeaders):
-					return self.__horizontalHeaders.keys()[section]
+				if section < len(self.__horizontal_headers):
+					return self.__horizontal_headers.keys()[section]
 			elif orientation == Qt.Vertical:
-				if section < len(self.__verticalHeaders):
-					return self.__verticalHeaders.keys()[section]
+				if section < len(self.__vertical_headers):
+					return self.__vertical_headers.keys()[section]
 		return QVariant()
 
 	def flags(self, index):
@@ -413,11 +413,11 @@ class GraphModel(QAbstractItemModel):
 		if not index.isValid():
 			return Qt.NoItemFlags
 
-		node = self.getNode(index)
+		node = self.get_node(index)
 		if index.column() == 0:
 			return hasattr(node, "flags") and Qt.ItemFlags(node.flags) or Qt.NoItemFlags
 		else:
-			attribute = self.getAttribute(node, index.column())
+			attribute = self.get_attribute(node, index.column())
 			return attribute and hasattr(attribute, "flags") and Qt.ItemFlags(attribute.flags) or Qt.NoItemFlags
 
 	def parent(self, index):
@@ -433,16 +433,16 @@ class GraphModel(QAbstractItemModel):
 		if not index.isValid():
 			return QModelIndex()
 
-		node = self.getNode(index)
-		parentNode = node.parent
-		if not parentNode:
+		node = self.get_node(index)
+		parent_node = node.parent
+		if not parent_node:
 			return QModelIndex()
 
-		if parentNode == self.__rootNode:
+		if parent_node == self.__root_node:
 			return QModelIndex()
 
-		row = parentNode.row()
-		return self.createIndex(row, 0, parentNode) if row is not None else QModelIndex()
+		row = parent_node.row()
+		return self.createIndex(row, 0, parent_node) if row is not None else QModelIndex()
 
 	def index(self, row, column=0, parent=QModelIndex()):
 		"""
@@ -458,8 +458,8 @@ class GraphModel(QAbstractItemModel):
 		:rtype: QModelIndex
 		"""
 
-		parentNode = self.getNode(parent)
-		child = parentNode.child(row)
+		parent_node = self.get_node(parent)
+		child = parent_node.child(row)
 		if child:
 			return self.createIndex(row, column, child)
 		else:
@@ -479,10 +479,10 @@ class GraphModel(QAbstractItemModel):
 
 		self.beginResetModel()
 		if column == 0:
-			self.__rootNode.sortChildren(reverseOrder=order)
+			self.__root_node.sort_children(reverse_order=order)
 		else:
-			self.__rootNode.sortChildren(attribute=self.__horizontalHeaders[self.__horizontalHeaders.keys()[column]],
-										reverseOrder=order)
+			self.__root_node.sort_children(attribute=self.__horizontal_headers[self.__horizontal_headers.keys()[column]],
+										reverse_order=order)
 		self.endResetModel()
 
 	def insertRows(self, row, count, parent=QModelIndex()):
@@ -499,12 +499,12 @@ class GraphModel(QAbstractItemModel):
 		:rtype: bool
 		"""
 
-		parentNode = self.getNode(parent)
+		parent_node = self.get_node(parent)
 		self.beginInsertRows(parent, row, row + count - 1)
 		success = True
 		for i in range(count):
-			childNode = self.__defaultNode()
-			success *= True if parentNode.insertChild(childNode, row) else False
+			childNode = self.__default_node()
+			success *= True if parent_node.insert_child(childNode, row) else False
 		self.endInsertRows()
 		return success
 
@@ -522,15 +522,15 @@ class GraphModel(QAbstractItemModel):
 		:rtype: bool
 		"""
 
-		parentNode = self.getNode(parent)
+		parent_node = self.get_node(parent)
 		self.beginRemoveRows(parent, row, row + count - 1)
 		success = True
 		for i in range(count):
-			success *= True if parentNode.removeChild(row) else False
+			success *= True if parent_node.remove_child(row) else False
 		self.endRemoveRows()
 		return success
 
-	def movesRows(self, fromParent, fromFirstRow, fromLastRow, toParent, toRow):
+	def movesRows(self, from_parent, from_first_row, from_last_row, to_parent, to_row):
 		"""
 		Moves given rows from parent to parent row.
 		"""
@@ -559,10 +559,10 @@ class GraphModel(QAbstractItemModel):
 		:rtype: QMimeData
 		"""
 
-		byteStream = pickle.dumps([self.getNode(index) for index in indexes], pickle.HIGHEST_PROTOCOL)
-		mimeData = QMimeData()
-		mimeData.setData("application/x-umbragraphmodeldatalist", byteStream)
-		return mimeData
+		byte_stream = pickle.dumps([self.get_node(index) for index in indexes], pickle.HIGHEST_PROTOCOL)
+		mime_data = QMimeData()
+		mime_data.setData("application/x-umbragraphmodeldatalist", byte_stream)
+		return mime_data
 
 	def clear(self):
 		"""
@@ -573,10 +573,10 @@ class GraphModel(QAbstractItemModel):
 		"""
 
 		self.beginResetModel()
-		self.rootNode.children = []
+		self.root_node.children = []
 		self.endResetModel()
 
-	def hasNodes(self):
+	def has_nodes(self):
 		"""
 		Returns if Model has nodes.
 		
@@ -584,9 +584,9 @@ class GraphModel(QAbstractItemModel):
 		:rtype: bool
 		"""
 
-		return True if self.__rootNode.children else False
+		return True if self.__root_node.children else False
 
-	def getNode(self, index):
+	def get_node(self, index):
 		"""
 		Returns the Node at given index.
 		
@@ -597,10 +597,10 @@ class GraphModel(QAbstractItemModel):
 		"""
 
 		if not index.isValid():
-			return self.__rootNode
-		return index.internalPointer() or self.__rootNode
+			return self.__root_node
+		return index.internalPointer() or self.__root_node
 
-	def getAttribute(self, node, column):
+	def get_attribute(self, node, column):
 		"""
 		Returns the given Node attribute associated to the given column.
 		
@@ -612,10 +612,10 @@ class GraphModel(QAbstractItemModel):
 		:rtype: Attribute
 		"""
 
-		if column > 0 and column < len(self.__horizontalHeaders):
-			return node.get(self.__horizontalHeaders[self.__horizontalHeaders.keys()[column]], None)
+		if column > 0 and column < len(self.__horizontal_headers):
+			return node.get(self.__horizontal_headers[self.__horizontal_headers.keys()[column]], None)
 
-	def getNodeIndex(self, node):
+	def get_node_index(self, node):
 		"""
 		Returns given Node index.
 		
@@ -625,13 +625,13 @@ class GraphModel(QAbstractItemModel):
 		:rtype: QModelIndex
 		"""
 
-		if node == self.__rootNode:
+		if node == self.__root_node:
 			return QModelIndex()
 		else:
 			row = node.row()
 			return self.createIndex(row, 0, node) if row is not None else QModelIndex()
 
-	def getAttributeIndex(self, node, column):
+	def get_attribute_index(self, node, column):
 		"""
 		Returns given Node attribute index at given column.
 		
@@ -643,11 +643,11 @@ class GraphModel(QAbstractItemModel):
 		:rtype: QModelIndex
 		"""
 
-		if column > 0 and column < len(self.__horizontalHeaders):
+		if column > 0 and column < len(self.__horizontal_headers):
 			row = node.row()
 			return self.createIndex(row, column, node) if row is not None else QModelIndex()
 
-	def findChildren(self, pattern=".*", flags=0):
+	def find_children(self, pattern=".*", flags=0):
 		"""
 		Finds the children matching the given patten.
 		
@@ -659,9 +659,9 @@ class GraphModel(QAbstractItemModel):
 		:rtype: list
 		"""
 
-		return self.__rootNode.findChildren(pattern, flags)
+		return self.__root_node.find_children(pattern, flags)
 
-	def findFamily(self, pattern=r".*", flags=0, node=None):
+	def find_family(self, pattern=r".*", flags=0, node=None):
 		"""
 		Returns the Nodes from given family.
 		
@@ -675,10 +675,10 @@ class GraphModel(QAbstractItemModel):
 		:rtype: list
 		"""
 
-		return self.__rootNode.findFamily(pattern, flags, node or self.__rootNode)
+		return self.__root_node.find_family(pattern, flags, node or self.__root_node)
 
-#	@foundations.decorators.memoize(cache=None)
-	def findNode(self, attribute):
+	# @foundations.decorators.memoize(cache=None)
+	def find_node(self, attribute):
 		"""
 		Returns the Node with given attribute.
 		
@@ -688,14 +688,14 @@ class GraphModel(QAbstractItemModel):
 		:rtype: GraphModelNode
 		"""
 
-		for model in GraphModel._GraphModel__modelsInstances.itervalues():
-			for node in foundations.walkers.nodesWalker(model.rootNode):
-				if attribute in node.getAttributes():
+		for model in GraphModel._GraphModel__models_instances.itervalues():
+			for node in foundations.walkers.nodes_walker(model.root_node):
+				if attribute in node.get_attributes():
 					return node
 
 	@staticmethod
-#	@foundations.decorators.memoize(cache=None)
-	def findModel(object):
+	# @foundations.decorators.memoize(cache=None)
+	def find_model(object):
 		"""
 		Returns the model(s) associated with given object.
 		
@@ -706,17 +706,17 @@ class GraphModel(QAbstractItemModel):
 		"""
 
 		models = []
-		for model in GraphModel._GraphModel__modelsInstances.itervalues():
-			for node in foundations.walkers.nodesWalker(model.rootNode):
+		for model in GraphModel._GraphModel__models_instances.itervalues():
+			for node in foundations.walkers.nodes_walker(model.root_node):
 				if node is object:
 					models.append(model)
 
-				for attribute in node.getAttributes():
+				for attribute in node.get_attributes():
 					if attribute is object:
 						models.append(model)
 		return models
 
-	def enableModelTriggers(self, state):
+	def enable_model_triggers(self, state):
 		"""
 		Enables Model Nodes and attributes triggers.
 		
@@ -726,13 +726,13 @@ class GraphModel(QAbstractItemModel):
 		:rtype: bool
 		"""
 
-		for node in foundations.walkers.nodesWalker(self.rootNode):
-			node.triggerModel = state
+		for node in foundations.walkers.nodes_walker(self.root_node):
+			node.trigger_model = state
 
-			for attribute in node.getAttributes():
-				attribute.triggerModel = state
+			for attribute in node.get_attributes():
+				attribute.trigger_model = state
 
-	def nodeChanged(self, node):
+	def node_changed(self, node):
 		"""
 		Calls :meth:`QAbstractItemModel.dataChanged` with given Node index.
 		
@@ -742,14 +742,14 @@ class GraphModel(QAbstractItemModel):
 		:rtype: bool
 		"""
 
-		index = self.getNodeIndex(node)
+		index = self.get_node_index(node)
 		if index is not None:
 			self.dataChanged.emit(index, index)
 			return True
 		else:
 			return False
 
-	def attributeChanged(self, node, column):
+	def attribute_changed(self, node, column):
 		"""
 		Calls :meth:`QAbstractItemModel.dataChanged` with given Node attribute index.
 		
@@ -761,7 +761,7 @@ class GraphModel(QAbstractItemModel):
 		:rtype: bool
 		"""
 
-		index = self.getAttributeIndex(node, column)
+		index = self.get_attribute_index(node, column)
 		if index is not None:
 			self.dataChanged.emit(index, index)
 			return True

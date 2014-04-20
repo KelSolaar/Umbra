@@ -39,15 +39,15 @@ from PyQt4.QtGui import QIcon
 #***	Internal imports.
 #**********************************************************************************************************************
 import foundations.common
-import foundations.dataStructures
+import foundations.data_structures
 import foundations.exceptions
 import foundations.strings
 import foundations.verbose
 import umbra.exceptions
 from foundations.parsers import SectionsFileParser
 from umbra.globals.constants import Constants
-from umbra.globals.runtimeGlobals import RuntimeGlobals
-from umbra.globals.uiConstants import UiConstants
+from umbra.globals.runtime_globals import RuntimeGlobals
+from umbra.globals.ui_constants import UiConstants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -61,25 +61,25 @@ __status__ = "Production"
 
 __all__ = ["LOGGER",
 		"Location",
-		"getApplicationInstance",
-		"parseLocation",
-		"getResourcePath",
-		"setWindowDefaultIcon",
-		"getSectionsFileParser",
-		"storeLastBrowsedPath",
-		"getQVariantAsString",
-		"parentsWalker",
-		"signalsBlocker",
-		"showWaitCursor",
-		"setToolBoxHeight",
-		"setChildrenPadding"]
+		"get_application_instance",
+		"parse_location",
+		"get_resource_path",
+		"set_window_default_icon",
+		"get_sections_file_parser",
+		"store_last_browsed_path",
+		"QVariant_to_string",
+		"parents_walker",
+		"signals_blocker",
+		"show_wait_cursor",
+		"set_toolBox_height",
+		"set_children_padding"]
 
-LOGGER = foundations.verbose.installLogger()
+LOGGER = foundations.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class Location(foundations.dataStructures.Structure):
+class Location(foundations.data_structures.Structure):
 	"""
 	Defines a storage object for the :class:`SearchInFiles` class location.
 	"""
@@ -88,15 +88,15 @@ class Location(foundations.dataStructures.Structure):
 		"""
 		Initializes the class.
 
-		:param \*\*kwargs: directories, files, filtersIn, filtersOut, targets.
+		:param \*\*kwargs: directories, files, filters_in, filters_out, targets.
 		:type \*\*kwargs: dict
 		"""
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		foundations.dataStructures.Structure.__init__(self, **kwargs)
+		foundations.data_structures.Structure.__init__(self, **kwargs)
 
-def getApplicationInstance():
+def get_application_instance():
 	"""
 	Returns the current `QApplication <http://doc.qt.nokia.com/qapplication.html>`_ instance or
 	create one if it doesn't exists.
@@ -110,7 +110,7 @@ def getApplicationInstance():
 		instance = QApplication(sys.argv)
 	return instance
 
-def parseLocation(data):
+def parse_location(data):
 	"""
 	Parses given location data.
 
@@ -121,7 +121,7 @@ def parseLocation(data):
 	"""
 
 	tokens = data.split(",")
-	location = Location(directories=[], files=[], filtersIn=[], filtersOut=[], targets=[])
+	location = Location(directories=[], files=[], filters_in=[], filters_out=[], targets=[])
 	if not tokens:
 		return location
 
@@ -130,7 +130,7 @@ def parseLocation(data):
 		if not token:
 			continue
 
-		if foundations.common.pathExists(token):
+		if foundations.common.path_exists(token):
 			if os.path.isdir(token):
 				location.directories.append(token)
 			else:
@@ -138,11 +138,11 @@ def parseLocation(data):
 		else:
 			match = re.match("(?P<filterIn>\*\.\w+)", token)
 			if match:
-				location.filtersIn.append(fnmatch.translate(match.group("filterIn")))
+				location.filters_in.append(fnmatch.translate(match.group("filterIn")))
 				continue
 			match = re.match("!(?P<filterOut>\*\.\w+)", token)
 			if match:
-				location.filtersOut.append(fnmatch.translate(match.group("filterOut")))
+				location.filters_out.append(fnmatch.translate(match.group("filterOut")))
 				continue
 			match = re.match("\<(?P<target>[\w ]+)\>", token)
 			if match:
@@ -150,34 +150,34 @@ def parseLocation(data):
 				continue
 	return location
 
-@foundations.exceptions.handleExceptions(umbra.exceptions.ResourceExistsError)
-def getResourcePath(name, raiseException=False):
+@foundations.exceptions.handle_exceptions(umbra.exceptions.ResourceExistsError)
+def get_resource_path(name, raise_exception=False):
 	"""
 	Returns the resource file path matching the given name.
 
 	:param name: Resource name.
 	:type name: unicode
-	:param raiseException: Raise the exception.
-	:type raiseException: bool
+	:param raise_exception: Raise the exception.
+	:type raise_exception: bool
 	:return: Resource path.
 	:rtype: unicode
 	"""
 
-	if not RuntimeGlobals.resourcesDirectories:
-		RuntimeGlobals.resourcesDirectories.append(
-		os.path.normpath(os.path.join(umbra.__path__[0], Constants.resourcesDirectory)))
+	if not RuntimeGlobals.resources_directories:
+		RuntimeGlobals.resources_directories.append(
+		os.path.normpath(os.path.join(umbra.__path__[0], Constants.resources_directory)))
 
-	for path in RuntimeGlobals.resourcesDirectories:
+	for path in RuntimeGlobals.resources_directories:
 		path = os.path.join(path, name)
-		if foundations.common.pathExists(path):
+		if foundations.common.path_exists(path):
 			LOGGER.debug("> '{0}' resource path: '{1}'.".format(name, path))
 			return path
 
-	if raiseException:
+	if raise_exception:
 		raise umbra.exceptions.ResourceExistsError(
 		"{0} | No resource file path found for '{1}' name!".format(__name__, name))
 
-def setWindowDefaultIcon(window):
+def set_window_default_icon(window):
 	"""
 	Sets the default Application icon to the given window.
 
@@ -187,11 +187,11 @@ def setWindowDefaultIcon(window):
 	:rtype: bool
 	"""
 
-	window.setWindowIcon(QIcon(getResourcePath(UiConstants.applicationWindowsIcon)))
+	window.setWindowIcon(QIcon(get_resource_path(UiConstants.application_windows_icon)))
 	return True
 
-@foundations.exceptions.handleExceptions(foundations.exceptions.FileExistsError)
-def getSectionsFileParser(file):
+@foundations.exceptions.handle_exceptions(foundations.exceptions.FileExistsError)
+def get_sections_file_parser(file):
 	"""
 	Returns a sections file parser.
 
@@ -201,15 +201,15 @@ def getSectionsFileParser(file):
 	:rtype: SectionsFileParser
 	"""
 
-	if not foundations.common.pathExists(file):
+	if not foundations.common.path_exists(file):
 		raise foundations.exceptions.FileExistsError("{0} | '{1}' sections file doesn't exists!".format(__name__, file))
 
-	sectionsFileParser = SectionsFileParser(file)
-	sectionsFileParser.parse()
-	return sectionsFileParser
+	sections_file_parser = SectionsFileParser(file)
+	sections_file_parser.parse()
+	return sections_file_parser
 
-@foundations.exceptions.handleExceptions(TypeError)
-def storeLastBrowsedPath(data):
+@foundations.exceptions.handle_exceptions(TypeError)
+def store_last_browsed_path(data):
 	"""
 	Defines a wrapper method used to store the last browsed path.
 
@@ -220,23 +220,23 @@ def storeLastBrowsedPath(data):
 	"""
 
 	if type(data) in (tuple, list, QStringList):
-		data = [foundations.strings.toString(path) for path in data]
-		lastBrowsedPath = foundations.common.getFirstItem(data)
+		data = [foundations.strings.to_string(path) for path in data]
+		last_browsed_path = foundations.common.get_first_item(data)
 	elif type(data) in (unicode, QString):
-		data = lastBrowsedPath = foundations.strings.toString(data)
+		data = last_browsed_path = foundations.strings.to_string(data)
 	else:
 		raise TypeError("{0} | '{1}' type is not supported!".format(__name__, type(data)))
 
-	if foundations.common.pathExists(lastBrowsedPath):
-		lastBrowsedPath = os.path.normpath(lastBrowsedPath)
-		if os.path.isfile(lastBrowsedPath):
-			lastBrowsedPath = os.path.dirname(lastBrowsedPath)
+	if foundations.common.path_exists(last_browsed_path):
+		last_browsed_path = os.path.normpath(last_browsed_path)
+		if os.path.isfile(last_browsed_path):
+			last_browsed_path = os.path.dirname(last_browsed_path)
 
-		LOGGER.debug("> Storing last browsed path: '%s'.", lastBrowsedPath)
-		RuntimeGlobals.lastBrowsedPath = lastBrowsedPath
+		LOGGER.debug("> Storing last browsed path: '%s'.", last_browsed_path)
+		RuntimeGlobals.last_browsed_path = last_browsed_path
 	return data
 
-def getQVariantAsString(data):
+def QVariant_to_string(data):
 	"""
 	Returns given `QVariant <http://doc.qt.nokia.com/qvariant.html>`_ data as a string.
 
@@ -250,9 +250,9 @@ def getQVariantAsString(data):
 		data = data.toString()
 
 	data = QString(data)
-	return foundations.strings.toString(data)
+	return foundations.strings.to_string(data)
 
-def parentsWalker(object):
+def parents_walker(object):
 	"""
 	Defines a generator used to retrieve the chain of parents of the given :class:`QObject` instance.
 
@@ -265,7 +265,7 @@ def parentsWalker(object):
 		object = object.parent()
 		yield object
 
-def signalsBlocker(instance, attribute, *args, **kwargs):
+def signals_blocker(instance, attribute, *args, **kwargs):
 	"""
 	Blocks given instance signals before calling the given attribute with \
 	given arguments and then unblocks the signals.
@@ -290,7 +290,7 @@ def signalsBlocker(instance, attribute, *args, **kwargs):
 		hasattr(instance, "blockSignals") and instance.blockSignals(False)
 		return value
 
-def showWaitCursor(object):
+def show_wait_cursor(object):
 	"""
 	Shows a wait cursor while processing.
 	
@@ -301,7 +301,7 @@ def showWaitCursor(object):
 	"""
 
 	@functools.wraps(object)
-	def showWaitCursorWrapper(*args, **kwargs):
+	def show_wait_cursorWrapper(*args, **kwargs):
 		"""
 		Shows a wait cursor while processing.
 
@@ -321,9 +321,9 @@ def showWaitCursor(object):
 			QApplication.restoreOverrideCursor()
 			return value
 
-	return showWaitCursorWrapper
+	return show_wait_cursorWrapper
 
-def setToolBoxHeight(toolBox, height=32):
+def set_toolBox_height(tool_box, height=32):
 	"""
 	Sets given height to given QToolBox widget.
 
@@ -335,11 +335,11 @@ def setToolBoxHeight(toolBox, height=32):
 	:rtype: bool
 	"""
 
-	for button in toolBox.findChildren(QAbstractButton):
+	for button in tool_box.findChildren(QAbstractButton):
 		button.setMinimumHeight(height)
 	return True
 
-def setChildrenPadding(widget, types, height=None, width=None):
+def set_children_padding(widget, types, height=None, width=None):
 	"""
 	Sets given Widget children padding.
 

@@ -31,7 +31,7 @@ from PyQt4.QtCore import QVariant
 import foundations.exceptions
 import foundations.verbose
 import umbra.ui.common
-from umbra.globals.uiConstants import UiConstants
+from umbra.globals.ui_constants import UiConstants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -45,7 +45,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "Preferences"]
 
-LOGGER = foundations.verbose.installLogger()
+LOGGER = foundations.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -72,12 +72,12 @@ class Preferences(object):
 
 		self.__settings = QSettings(self.__file, QSettings.IniFormat) if self.__file is not None else QSettings()
 
-		self.__defaultSettings = None
-		self.__defaultLayoutsSettings = None
+		self.__default_settings = None
+		self.__default_layouts_settings = None
 
 		# --- Initializing preferences. ---
-		self.__getDefaultSettings()
-		self.__getDefaultLayoutsSettings()
+		self.__get_default_settings()
+		self.__get_default_layouts_settings()
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -94,7 +94,7 @@ class Preferences(object):
 		return self.__file
 
 	@file.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
+	@foundations.exceptions.handle_exceptions(AssertionError)
 	def file(self, value):
 		"""
 		Setter for **self.__file** attribute.
@@ -109,7 +109,7 @@ class Preferences(object):
 		self.__file = value
 
 	@file.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def file(self):
 		"""
 		Deleter for **self.__file** attribute.
@@ -130,7 +130,7 @@ class Preferences(object):
 		return self.__settings
 
 	@settings.setter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def settings(self, value):
 		"""
 		Setter for **self.__settings** attribute.
@@ -143,7 +143,7 @@ class Preferences(object):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
 	@settings.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
 		Deleter for **self.__settings** attribute.
@@ -153,77 +153,77 @@ class Preferences(object):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
 	@property
-	def defaultSettings(self):
+	def default_settings(self):
 		"""
-		Property for **self.__defaultSettings** attribute.
+		Property for **self.__default_settings** attribute.
 
-		:return: self.__defaultSettings.
+		:return: self.__default_settings.
 		:rtype: QSettings
 		"""
 
-		return self.__defaultSettings
+		return self.__default_settings
 
-	@defaultSettings.setter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def defaultSettings(self, value):
+	@default_settings.setter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def default_settings(self, value):
 		"""
-		Setter for **self.__defaultSettings** attribute.
+		Setter for **self.__default_settings** attribute.
 
 		:param value: Attribute value.
 		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultSettings"))
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "default_settings"))
 
-	@defaultSettings.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def defaultSettings(self):
+	@default_settings.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def default_settings(self):
 		"""
-		Deleter for **self.__defaultSettings** attribute.
+		Deleter for **self.__default_settings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultSettings"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_settings"))
 
 	@property
-	def defaultLayoutsSettings(self):
+	def default_layouts_settings(self):
 		"""
-		Property for **self.__defaultLayoutsSettings** attribute.
+		Property for **self.__default_layouts_settings** attribute.
 
-		:return: self.__defaultLayoutsSettings.
+		:return: self.__default_layouts_settings.
 		:rtype: QSettings
 		"""
 
-		return self.__defaultLayoutsSettings
+		return self.__default_layouts_settings
 
-	@defaultLayoutsSettings.setter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def defaultLayoutsSettings(self, value):
+	@default_layouts_settings.setter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def default_layouts_settings(self, value):
 		"""
-		Setter for **self.__defaultLayoutsSettings** attribute.
+		Setter for **self.__default_layouts_settings** attribute.
 
 		:param value: Attribute value.
 		:type value: QSettings
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "defaultLayoutsSettings"))
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "default_layouts_settings"))
 
-	@defaultLayoutsSettings.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def defaultLayoutsSettings(self):
+	@default_layouts_settings.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def default_layouts_settings(self):
 		"""
-		Deleter for **self.__defaultLayoutsSettings** attribute.
+		Deleter for **self.__default_layouts_settings** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "defaultLayoutsSettings"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_layouts_settings"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	def setKey(self, section, key, value):
+	def set_key(self, section, key, value):
 		"""
 		Stores given key in settings file.
 
@@ -236,13 +236,13 @@ class Preferences(object):
 		"""
 
 		LOGGER.debug("> Saving '{0}' in '{1}' section with value: '{2}' in settings file.".format(
-		key, section, foundations.strings.toString(value)))
+		key, section, foundations.strings.to_string(value)))
 
 		self.__settings.beginGroup(section)
 		self.__settings.setValue(key , QVariant(value))
 		self.__settings.endGroup()
 
-	def getKey(self, section, key):
+	def get_key(self, section, key):
 		"""
 		Gets key value from settings file.
 
@@ -263,7 +263,7 @@ class Preferences(object):
 
 		return value
 
-	def keyExists(self, section, key):
+	def key_exists(self, section, key):
 		"""
 		Checks if given key exists.
 
@@ -282,24 +282,24 @@ class Preferences(object):
 		self.__settings.endGroup()
 		return exists
 
-	def __getDefaultSettings(self):
+	def __get_default_settings(self):
 		"""
 		Gets the default settings.
 		"""
 
-		LOGGER.debug("> Accessing '{0}' default settings file!".format(UiConstants.settingsFile))
-		self.__defaultSettings = QSettings(umbra.ui.common.getResourcePath(UiConstants.settingsFile), QSettings.IniFormat)
+		LOGGER.debug("> Accessing '{0}' default settings file!".format(UiConstants.settings_file))
+		self.__default_settings = QSettings(umbra.ui.common.get_resource_path(UiConstants.settings_file), QSettings.IniFormat)
 
-	def __getDefaultLayoutsSettings(self):
+	def __get_default_layouts_settings(self):
 		"""
 		Gets the default layouts settings.
 		"""
 
-		LOGGER.debug("> Accessing '{0}' default layouts settings file!".format(UiConstants.layoutsFile))
-		self.__defaultLayoutsSettings = QSettings(umbra.ui.common.getResourcePath(UiConstants.layoutsFile),
+		LOGGER.debug("> Accessing '{0}' default layouts settings file!".format(UiConstants.layouts_file))
+		self.__default_layouts_settings = QSettings(umbra.ui.common.get_resource_path(UiConstants.layouts_file),
 												QSettings.IniFormat)
 
-	def setDefaultPreferences(self):
+	def set_default_preferences(self):
 		"""
 		Defines the default settings file content.
 		
@@ -309,25 +309,25 @@ class Preferences(object):
 
 		LOGGER.debug("> Initializing default settings!")
 
-		for key in self.__defaultSettings.allKeys():
-			self.__settings.setValue(key, self.__defaultSettings.value(key))
+		for key in self.__default_settings.allKeys():
+			self.__settings.setValue(key, self.__default_settings.value(key))
 
-		self.setDefaultLayouts()
+		self.set_default_layouts()
 		return True
 
-	def setDefaultLayouts(self, ignoredLayouts=None):
+	def set_default_layouts(self, ignored_layouts=None):
 		"""
 		Sets the default layouts in the preferences file.
 
-		:param ignoredLayouts: Ignored layouts.
-		:type ignoredLayouts: tuple or list
+		:param ignored_layouts: Ignored layouts.
+		:type ignored_layouts: tuple or list
 		:return: Method success.
 		:rtype: bool
 		"""
 
-		for key in self.__defaultLayoutsSettings.allKeys():
-			if ignoredLayouts:
-				if tuple((layout for layout in ignoredLayouts if layout in key)):
+		for key in self.__default_layouts_settings.allKeys():
+			if ignored_layouts:
+				if tuple((layout for layout in ignored_layouts if layout in key)):
 					continue
-			self.__settings.setValue(key, self.__defaultLayoutsSettings.value(key))
+			self.__settings.setValue(key, self.__default_layouts_settings.value(key))
 		return True

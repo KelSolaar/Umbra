@@ -32,7 +32,7 @@ from PyQt4.QtGui import QTextDocument
 #**********************************************************************************************************************
 #***	Internal imports.
 #**********************************************************************************************************************
-import foundations.dataStructures
+import foundations.data_structures
 import foundations.exceptions
 import foundations.verbose
 import umbra.ui.common
@@ -49,12 +49,12 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "RichText_QStyledItemDelegate"]
 
-LOGGER = foundations.verbose.installLogger()
+LOGGER = foundations.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class Style(foundations.dataStructures.Structure):
+class Style(foundations.data_structures.Structure):
 	"""
 	Defines a storage object for the :class:`RichText_QStyledItemDelegate` class style. 
 	"""
@@ -69,7 +69,7 @@ class Style(foundations.dataStructures.Structure):
 
 		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		foundations.dataStructures.Structure.__init__(self, **kwargs)
+		foundations.data_structures.Structure.__init__(self, **kwargs)
 
 class RichText_QStyledItemDelegate(QStyledItemDelegate):
 	"""
@@ -82,7 +82,7 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 				style=None,
 				highlightColor=None,
 				hoverColor=None,
-				backgroundColor=None,
+				background_color=None,
 				highlightBackgroundColor=None,
 				hoverBackgroundColor=None):
 		"""
@@ -105,7 +105,7 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 		self.__label.setIndent(self.__indent)
 		self.__label.setTextFormat(Qt.RichText)
 
-		self.__defaultStyle = Style(default=\
+		self.__default_style = Style(default=\
 								"""
 								QLabel, QLabel link {
 									background-color: rgb(32, 32, 32);
@@ -127,7 +127,7 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 								}
 								""")
 
-		self.__style = self.__defaultStyle
+		self.__style = self.__default_style
 		self.style = style or self.__style
 
 	#******************************************************************************************************************
@@ -145,7 +145,7 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 		return self.__style
 
 	@style.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
+	@foundations.exceptions.handle_exceptions(AssertionError)
 	def style(self, value):
 		"""
 		Setter for **self.__style** attribute.
@@ -157,13 +157,13 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 		if value is not None:
 			assert type(value) is Style, "'{0}' attribute: '{1}' type is not 'Style'!".format("style", value)
 			style = Style()
-			for item in(self.__defaultStyle, value):
+			for item in(self.__default_style, value):
 				style.update(item)
 			value = style
 		self.__style = value
 
 	@style.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def style(self):
 		"""
 		Deleter for **self.__style** attribute.
@@ -189,7 +189,7 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 
 		self.__label.setStyleSheet(styleSheet)
 		data = index.model().data(index, Qt.DisplayRole)
-		self.__label.setText(umbra.ui.common.getQVariantAsString(data))
+		self.__label.setText(umbra.ui.common.QVariant_to_string(data))
 		self.__label.setFixedSize(option.rect.size())
 		painter.save()
 		painter.translate(option.rect.topLeft())
@@ -204,7 +204,7 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 		document = QTextDocument()
 		document.setDefaultFont(option.font)
 		data = index.model().data(index)
-		text = umbra.ui.common.getQVariantAsString(data)
+		text = umbra.ui.common.QVariant_to_string(data)
 		self.__label.setText(text)
 		document.setHtml(text)
 		return QSize(document.idealWidth() + self.__indent, option.fontMetrics.height())

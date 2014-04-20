@@ -50,7 +50,7 @@ __all__ = ["LOGGER",
 		"DefaultNode" ,
 		"FormatNode"]
 
-LOGGER = foundations.verbose.installLogger()
+LOGGER = foundations.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -72,7 +72,7 @@ class Mixin_GraphModelObject(object):
 		self.__roles = None
 		self.__flags = None
 
-		self.__triggerModel = False
+		self.__trigger_model = False
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -89,7 +89,7 @@ class Mixin_GraphModelObject(object):
 		return self.__roles
 
 	@roles.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
+	@foundations.exceptions.handle_exceptions(AssertionError)
 	def roles(self, value):
 		"""
 		Setter for **self.__roles** attribute.
@@ -105,7 +105,7 @@ class Mixin_GraphModelObject(object):
 		self.__roles = value
 
 	@roles.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def roles(self):
 		"""
 		Deleter for **self.__roles** attribute.
@@ -126,7 +126,7 @@ class Mixin_GraphModelObject(object):
 		return self.__flags
 
 	@flags.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
+	@foundations.exceptions.handle_exceptions(AssertionError)
 	def flags(self, value):
 		"""
 		Setter for **self.__flags** attribute.
@@ -140,7 +140,7 @@ class Mixin_GraphModelObject(object):
 		self.__flags = value
 
 	@flags.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def flags(self):
 		"""
 		Deleter for **self.__flags** attribute.
@@ -150,39 +150,39 @@ class Mixin_GraphModelObject(object):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "flags"))
 
 	@property
-	def triggerModel(self):
+	def trigger_model(self):
 		"""
-		Property for **self.__triggerModel** attribute.
+		Property for **self.__trigger_model** attribute.
 	
-		:return: self.__triggerModel.
+		:return: self.__trigger_model.
 		:rtype: bool
 		"""
 
-		return self.__triggerModel
+		return self.__trigger_model
 
-	@triggerModel.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def triggerModel(self, value):
+	@trigger_model.setter
+	@foundations.exceptions.handle_exceptions(AssertionError)
+	def trigger_model(self, value):
 		"""
-		Setter for **self.__triggerModel** attribute.
+		Setter for **self.__trigger_model** attribute.
 	
 		:param value: Attribute value.
 		:type value: bool
 		"""
 
 		if value is not None:
-			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format("triggerModel", value)
-		self.__triggerModel = value
+			assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format("trigger_model", value)
+		self.__trigger_model = value
 
-	@triggerModel.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def triggerModel(self):
+	@trigger_model.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def trigger_model(self):
 		"""
-		Deleter for **self.__triggerModel** attribute.
+		Deleter for **self.__trigger_model** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "triggerModel"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "trigger_model"))
 
 class GraphModelAttribute(Attribute, Mixin_GraphModelObject):
 	"""
@@ -227,7 +227,7 @@ class GraphModelAttribute(Attribute, Mixin_GraphModelObject):
 		:type value: object
 		"""
 
-		currentValue = getattr(self, attribute, None)
+		current_value = getattr(self, attribute, None)
 
 		Attribute.__setattr__(self, attribute, value)
 
@@ -237,26 +237,26 @@ class GraphModelAttribute(Attribute, Mixin_GraphModelObject):
 							"_Attribute__flags"):
 			return
 
-		triggerModel = getattr(self, "_Mixin_GraphModelObject__triggerModel", False)
-		if triggerModel and value is not currentValue:
-			self.attributeChanged()
+		trigger_model = getattr(self, "_Mixin_GraphModelObject__trigger_model", False)
+		if trigger_model and value is not current_value:
+			self.attribute_changed()
 
 	__setitem__ = __setattr__
 
-	def attributeChanged(self):
+	def attribute_changed(self):
 		"""
-		Triggers the host model(s) :meth:`umbra.ui.models.GraphModel.attributeChanged` method.
+		Triggers the host model(s) :meth:`umbra.ui.models.GraphModel.attribute_changed` method.
 		
 		:return: Method success.
 		:rtype: bool
 		"""
 
-		for model in umbra.ui.models.GraphModel.findModel(self):
-			headers = model.horizontalHeaders.values()
+		for model in umbra.ui.models.GraphModel.find_model(self):
+			headers = model.horizontal_headers.values()
 			if not self.name in headers:
 				continue
 
-			model.attributeChanged(model.findNode(self), headers.index(self.name))
+			model.attribute_changed(model.find_node(self), headers.index(self.name))
 		return True
 
 class GraphModelNode(AbstractCompositeNode, Mixin_GraphModelObject):
@@ -309,7 +309,7 @@ class GraphModelNode(AbstractCompositeNode, Mixin_GraphModelObject):
 		:type value.: object
 		"""
 
-		currentValue = getattr(self, attribute, None)
+		current_value = getattr(self, attribute, None)
 
 		AbstractCompositeNode.__setattr__(self, attribute, value)
 
@@ -318,22 +318,22 @@ class GraphModelNode(AbstractCompositeNode, Mixin_GraphModelObject):
 							"_GraphModelNode__flags"):
 			return
 
-		triggerModel = getattr(self, "_Mixin_GraphModelObject__triggerModel", False)
-		if triggerModel and value is not currentValue:
-			self.nodeChanged()
+		trigger_model = getattr(self, "_Mixin_GraphModelObject__trigger_model", False)
+		if trigger_model and value is not current_value:
+			self.node_changed()
 
 	__setitem__ = __setattr__
 
-	def nodeChanged(self):
+	def node_changed(self):
 		"""
-		Triggers the host model(s) :meth:`umbra.ui.models.GraphModel.nodeChanged` method.
+		Triggers the host model(s) :meth:`umbra.ui.models.GraphModel.node_changed` method.
 		
 		:return: Method success.
 		:rtype: bool
 		"""
 
-		for model in umbra.ui.models.GraphModel.findModel(self):
-			model.nodeChanged(self)
+		for model in umbra.ui.models.GraphModel.find_model(self):
+			model.node_changed(self)
 		return True
 
 class DefaultNode(AbstractCompositeNode):
@@ -427,7 +427,7 @@ class FormatNode(AbstractCompositeNode):
 		self.__format = value
 
 	@format.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def format(self):
 		"""
 		Deleter for **self.__format** attribute.

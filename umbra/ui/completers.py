@@ -46,7 +46,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "DefaultCompleter"]
 
-LOGGER = foundations.verbose.installLogger()
+LOGGER = foundations.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -81,7 +81,7 @@ class DefaultCompleter(QCompleter):
 		self.__language = None
 		self.language = language
 
-		self.__setCache(tokens)
+		self.__set_cache(tokens)
 
 		QCompleter.__init__(self,
 		DefaultCompleter._DefaultCompleter__tokens[self.__language], parent)
@@ -104,7 +104,7 @@ class DefaultCompleter(QCompleter):
 		return self.__language
 
 	@language.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
+	@foundations.exceptions.handle_exceptions(AssertionError)
 	def language(self, value):
 		"""
 		Setter for **self.__language** attribute.
@@ -119,7 +119,7 @@ class DefaultCompleter(QCompleter):
 		self.__language = value
 
 	@language.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def language(self):
 		"""
 		Deleter for **self.__language** attribute.
@@ -131,7 +131,7 @@ class DefaultCompleter(QCompleter):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	def __setCache(self, tokens):
+	def __set_cache(self, tokens):
 		"""
 		Sets the tokens cache.
 		
@@ -144,7 +144,7 @@ class DefaultCompleter(QCompleter):
 
 		DefaultCompleter._DefaultCompleter__tokens[self.__language] = tokens
 
-	def updateModel(self, words):
+	def update_model(self, words):
 		"""
 		Updates the completer model.
 
@@ -154,8 +154,8 @@ class DefaultCompleter(QCompleter):
 		:rtype: bool
 		"""
 
-		extendedWords = DefaultCompleter._DefaultCompleter__tokens[self.__language][:]
-		extendedWords.extend((word for word in set(words)
+		extended_words = DefaultCompleter._DefaultCompleter__tokens[self.__language][:]
+		extended_words.extend((word for word in set(words)
 							if word not in DefaultCompleter._DefaultCompleter__tokens[self.__language]))
-		self.setModel(QStringListModel(extendedWords))
+		self.setModel(QStringListModel(extended_words))
 		return True

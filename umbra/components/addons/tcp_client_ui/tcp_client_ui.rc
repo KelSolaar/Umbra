@@ -1,0 +1,13 @@
+[Component]
+Name = addons.tcp_client_ui
+Title = TCP Client Ui
+Module = tcp_client_ui
+Object = TCPClientUi
+Require = factory.preferences_manager
+Version = 1.0
+
+[Informations]
+Author = Thomas Mansencal
+Email = thomas.mansencal@gmail.com
+Url = http://www.hdrlabs.com/
+Description = TCP Client addons Ui Component.

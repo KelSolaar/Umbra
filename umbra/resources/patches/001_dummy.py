@@ -8,7 +8,7 @@
 	Windows, Linux, Mac Os X.
 
 **Description:**
-	Is a dummy patch provided as an example file.
+	Dummy patch provided as an example file.
 
 **Others:**
 

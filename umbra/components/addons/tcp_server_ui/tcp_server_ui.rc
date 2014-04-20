@@ -1,0 +1,13 @@
+[Component]
+Name = addons.tcp_server_ui
+Title = TCP Server Ui
+Module = tcp_server_ui
+Object = TCPServerUi
+Require = factory.preferences_manager
+Version = 1.0
+
+[Informations]
+Author = Thomas Mansencal
+Email = thomas.mansencal@gmail.com
+Url = http://www.hdrlabs.com/
+Description = TCP Server addons Ui Component.

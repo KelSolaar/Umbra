@@ -39,10 +39,10 @@ from PyQt4.QtGui import QToolBar
 #**********************************************************************************************************************
 import foundations.exceptions
 import foundations.verbose
-import umbra.managers.layoutsManager
+import umbra.managers.layouts_manager
 import umbra.ui.common
 from umbra.globals.constants import Constants
-from umbra.globals.uiConstants import UiConstants
+from umbra.globals.ui_constants import UiConstants
 from umbra.ui.widgets.active_QLabel import Active_QLabel
 from umbra.ui.widgets.active_QLabelsCollection import Active_QLabelsCollection
 
@@ -58,7 +58,7 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "Application_QToolBar"]
 
-LOGGER = foundations.verbose.installLogger()
+LOGGER = foundations.verbose.install_logger()
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
@@ -85,17 +85,17 @@ class Application_QToolBar(QToolBar):
 		self.__container = parent
 		self.__settings = self.__container.settings
 
-		self.__layoutsActiveLabelsCollection = None
-		self.__customLayoutsMenu = None
-		self.__miscellaneousMenu = None
+		self.__layouts_active_labels_collection = None
+		self.__custom_layouts_menu = None
+		self.__miscellaneous_menu = None
 
-		self.__userLayouts = (umbra.managers.layoutsManager.Layout(name="1", identity="one", shortcut=Qt.Key_1),
-							umbra.managers.layoutsManager.Layout(name="2", identity="two", shortcut=Qt.Key_2),
-							umbra.managers.layoutsManager.Layout(name="3", identity="three", shortcut=Qt.Key_3),
-							umbra.managers.layoutsManager.Layout(name="4", identity="four", shortcut=Qt.Key_4),
-							umbra.managers.layoutsManager.Layout(name="5", identity="five", shortcut=Qt.Key_5))
+		self.__user_layouts = (umbra.managers.layouts_manager.Layout(name="1", identity="one", shortcut=Qt.Key_1),
+							umbra.managers.layouts_manager.Layout(name="2", identity="two", shortcut=Qt.Key_2),
+							umbra.managers.layouts_manager.Layout(name="3", identity="three", shortcut=Qt.Key_3),
+							umbra.managers.layouts_manager.Layout(name="4", identity="four", shortcut=Qt.Key_4),
+							umbra.managers.layouts_manager.Layout(name="5", identity="five", shortcut=Qt.Key_5))
 
-		Application_QToolBar.__initializeUi(self)
+		Application_QToolBar.__initialize_ui(self)
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -112,7 +112,7 @@ class Application_QToolBar(QToolBar):
 		return self.__container
 
 	@container.setter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
 		Setter for **self.__container** attribute.
@@ -125,7 +125,7 @@ class Application_QToolBar(QToolBar):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
 		Deleter for **self.__container** attribute.
@@ -146,7 +146,7 @@ class Application_QToolBar(QToolBar):
 		return self.__settings
 
 	@settings.setter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def settings(self, value):
 		"""
 		Setter for **self.__settings** attribute.
@@ -159,7 +159,7 @@ class Application_QToolBar(QToolBar):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
 	@settings.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def settings(self):
 		"""
 		Deleter for **self.__settings** attribute.
@@ -169,135 +169,135 @@ class Application_QToolBar(QToolBar):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
 	@property
-	def layoutsActiveLabelsCollection(self):
+	def layouts_active_labels_collection(self):
 		"""
-		Property for **self.__layoutsActiveLabelsCollection** attribute.
+		Property for **self.__layouts_active_labels_collection** attribute.
 
-		:return: self.__layoutsActiveLabelsCollection.
+		:return: self.__layouts_active_labels_collection.
 		:rtype: Active_QLabelsCollection
 		"""
 
-		return self.__layoutsActiveLabelsCollection
+		return self.__layouts_active_labels_collection
 
-	@layoutsActiveLabelsCollection.setter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def layoutsActiveLabelsCollection(self, value):
+	@layouts_active_labels_collection.setter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def layouts_active_labels_collection(self, value):
 		"""
-		Setter for **self.__layoutsActiveLabelsCollection** attribute.
+		Setter for **self.__layouts_active_labels_collection** attribute.
 
 		:param value: Attribute value.
 		:type value: Active_QLabelsCollection
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "layoutsActiveLabelsCollection"))
+		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "layouts_active_labels_collection"))
 
-	@layoutsActiveLabelsCollection.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def layoutsActiveLabelsCollection(self):
+	@layouts_active_labels_collection.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def layouts_active_labels_collection(self):
 		"""
-		Deleter for **self.__layoutsActiveLabelsCollection** attribute.
+		Deleter for **self.__layouts_active_labels_collection** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "layoutsActiveLabelsCollection"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "layouts_active_labels_collection"))
 
 	@property
-	def customLayoutsMenu(self):
+	def custom_layouts_menu(self):
 		"""
-		Property for **self.__customLayoutsMenu** attribute.
+		Property for **self.__custom_layouts_menu** attribute.
 
-		:return: self.__customLayoutsMenu.
+		:return: self.__custom_layouts_menu.
 		:rtype: QMenu
 		"""
 
-		return self.__customLayoutsMenu
+		return self.__custom_layouts_menu
 
-	@customLayoutsMenu.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def customLayoutsMenu(self, value):
+	@custom_layouts_menu.setter
+	@foundations.exceptions.handle_exceptions(AssertionError)
+	def custom_layouts_menu(self, value):
 		"""
-		Setter for **self.__customLayoutsMenu** attribute.
+		Setter for **self.__custom_layouts_menu** attribute.
 
 		:param value: Attribute value.
 		:type value: QMenu
 		"""
 
 		if value is not None:
-			assert type(value) is QMenu, "'{0}' attribute: '{1}' type is not 'QMenu'!".format("customLayoutsMenu", value)
-		self.__customLayoutsMenu = value
+			assert type(value) is QMenu, "'{0}' attribute: '{1}' type is not 'QMenu'!".format("custom_layouts_menu", value)
+		self.__custom_layouts_menu = value
 
-	@customLayoutsMenu.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def customLayoutsMenu(self):
+	@custom_layouts_menu.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def custom_layouts_menu(self):
 		"""
-		Deleter for **self.__customLayoutsMenu** attribute.
+		Deleter for **self.__custom_layouts_menu** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "customLayoutsMenu"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "custom_layouts_menu"))
 
 	@property
-	def miscellaneousMenu(self):
+	def miscellaneous_menu(self):
 		"""
-		Property for **self.__miscellaneousMenu** attribute.
+		Property for **self.__miscellaneous_menu** attribute.
 
-		:return: self.__miscellaneousMenu.
+		:return: self.__miscellaneous_menu.
 		:rtype: QMenu
 		"""
 
-		return self.__miscellaneousMenu
+		return self.__miscellaneous_menu
 
-	@miscellaneousMenu.setter
-	@foundations.exceptions.handleExceptions(AssertionError)
-	def miscellaneousMenu(self, value):
+	@miscellaneous_menu.setter
+	@foundations.exceptions.handle_exceptions(AssertionError)
+	def miscellaneous_menu(self, value):
 		"""
-		Setter for **self.__miscellaneousMenu** attribute.
+		Setter for **self.__miscellaneous_menu** attribute.
 
 		:param value: Attribute value.
 		:type value: QMenu
 		"""
 
 		if value is not None:
-			assert type(value) is QMenu, "'{0}' attribute: '{1}' type is not 'QMenu'!".format("miscellaneousMenu", value)
-		self.__miscellaneousMenu = value
+			assert type(value) is QMenu, "'{0}' attribute: '{1}' type is not 'QMenu'!".format("miscellaneous_menu", value)
+		self.__miscellaneous_menu = value
 
-	@miscellaneousMenu.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def miscellaneousMenu(self):
+	@miscellaneous_menu.deleter
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+	def miscellaneous_menu(self):
 		"""
-		Deleter for **self.__miscellaneousMenu** attribute.
+		Deleter for **self.__miscellaneous_menu** attribute.
 		"""
 
 		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "miscellaneousMenu"))
+		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "miscellaneous_menu"))
 
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	def __initializeUi(self):
+	def __initialize_ui(self):
 		"""
 		Initializes the Widget ui.
 		"""
 
 		LOGGER.debug("> Initializing Application toolBar!")
 
-		self.setIconSize(QSize(UiConstants.defaultToolbarIconSize, UiConstants.defaultToolbarIconSize))
+		self.setIconSize(QSize(UiConstants.default_toolbar_icon_size, UiConstants.default_toolbar_icon_size))
 		self.setAllowedAreas(Qt.TopToolBarArea)
 		self.setFloatable(False)
 		self.setMovable(False)
-		self.setLayoutDefaultGeometry()
+		self.set_layout_default_geometry()
 
 		self.setObjectName("toolBar")
-		self.setWindowTitle("{0} - toolBar".format(Constants.applicationName))
+		self.setWindowTitle("{0} - toolBar".format(Constants.application_name))
 
-		self.setToolBarChildrenWidgets()
+		self.set_toolbar_children_widgets()
 
 		# Signals / Slots.
-		self.__container.layoutsManager.layoutStored.connect(self.__layoutsManager__layoutStored)
-		self.__container.layoutsManager.layoutRestored.connect(self.__layoutsManager__layoutRestored)
+		self.__container.layouts_manager.layout_stored.connect(self.__layouts_manager__layout_stored)
+		self.__container.layouts_manager.layout_restored.connect(self.__layouts_manager__layout_restored)
 
-	def __layoutActiveLabel__clicked(self, layout):
+	def __layout_active_label__clicked(self, layout):
 		"""
 		Defines the slot triggered by a **Active_QLabel** Widget when clicked.
 
@@ -305,39 +305,39 @@ class Application_QToolBar(QToolBar):
 		:type layout: unicode
 		"""
 
-		self.__container.layoutsManager.restoreLayout(layout)
+		self.__container.layouts_manager.restore_layout(layout)
 
-	def __layoutsManager__layoutStored(self, layout):
+	def __layouts_manager__layout_stored(self, layout):
 		"""
-		Defines the slot triggered by :class:`umbra.managers.layoutsManager.LayoutsManager` class
+		Defines the slot triggered by :class:`umbra.managers.layouts_manager.LayoutsManager` class
 		when a layout is stored.
 
 		:param layout: Layout name.
 		:type layout: unicode
 		"""
 
-		layoutActiveLabel = self.__layoutsActiveLabelsCollection.getToggledActiveLabel()
-		layoutActiveLabel and self.__settings.setKey("Layouts",
-										"{0}_activeLabel".format(layout),
-										layoutActiveLabel.objectName())
+		layout_active_label = self.__layouts_active_labels_collection.get_toggled_active_label()
+		layout_active_label and self.__settings.set_key("Layouts",
+										"{0}_active_label".format(layout),
+										layout_active_label.objectName())
 
-	def __layoutsManager__layoutRestored(self, layout):
+	def __layouts_manager__layout_restored(self, layout):
 		"""
-		Defines the slot triggered by :class:`umbra.managers.layoutsManager.LayoutsManager` class
+		Defines the slot triggered by :class:`umbra.managers.layouts_manager.LayoutsManager` class
 		when a layout is restored.
 
 		:param layout: Layout name.
 		:type layout: unicode
 		"""
 
-		layoutActiveLabel = self.__settings.getKey("Layouts", "{0}_activeLabel".format(layout)).toString()
-		for activeLabel in self.__layoutsActiveLabelsCollection.activeLabels:
-			if not activeLabel.objectName() == layoutActiveLabel:
+		layout_active_label = self.__settings.get_key("Layouts", "{0}_active_label".format(layout)).toString()
+		for active_label in self.__layouts_active_labels_collection.active_labels:
+			if not active_label.objectName() == layout_active_label:
 				continue
 
-			activeLabel.setChecked(True)
+			active_label.set_checked(True)
 
-	def __helpDisplayMiscAction__triggered(self, checked):
+	def __help_display_misc_action__triggered(self, checked):
 		"""
 		Defines the slot triggered by **'Actions|Umbra|ToolBar|Miscellaneous|Help content ...'** action.
 
@@ -347,11 +347,11 @@ class Application_QToolBar(QToolBar):
 		:rtype: bool
 		"""
 
-		LOGGER.debug("> Opening url: '{0}'.".format(UiConstants.helpFile))
-		QDesktopServices.openUrl(QUrl(QString(UiConstants.helpFile)))
+		LOGGER.debug("> Opening url: '{0}'.".format(UiConstants.help_file))
+		QDesktopServices.openUrl(QUrl(QString(UiConstants.help_file)))
 		return True
 
-	def __apiDisplayMiscAction__triggered(self, checked):
+	def __api_display_misc_action__triggered(self, checked):
 		"""
 		Defines the slot triggered by **'Actions|Umbra|ToolBar|Miscellaneous|Api content ...'** action.
 
@@ -361,11 +361,11 @@ class Application_QToolBar(QToolBar):
 		:rtype: bool
 		"""
 
-		LOGGER.debug("> Opening url: '{0}'.".format(UiConstants.apiFile))
-		QDesktopServices.openUrl(QUrl(QString(UiConstants.apiFile)))
+		LOGGER.debug("> Opening url: '{0}'.".format(UiConstants.api_file))
+		QDesktopServices.openUrl(QUrl(QString(UiConstants.api_file)))
 		return True
 
-	def setLayoutDefaultGeometry(self):
+	def set_layout_default_geometry(self):
 		"""
 		Sets the toolBar layout default geometry.
 
@@ -377,7 +377,7 @@ class Application_QToolBar(QToolBar):
 		self.layout().setContentsMargins(0, 0, 0, 0)
 		return True
 
-	def setToolBarChildrenWidgets(self):
+	def set_toolbar_children_widgets(self):
 		"""
 		Sets the toolBar children widgets.
 
@@ -386,27 +386,27 @@ class Application_QToolBar(QToolBar):
 		"""
 
 		LOGGER.debug("> Adding 'Application_Logo_label' widget!")
-		self.addWidget(self.getApplicationLogoLabel())
+		self.addWidget(self.get_application_logo_label())
 
 		LOGGER.debug("> Adding 'Spacer_label' widget!")
-		self.addWidget(self.getSpacerLabel())
+		self.addWidget(self.get_spacer_label())
 
-		LOGGER.debug("> Adding 'Development_activeLabel', 'Preferences_activeLabel' widgets!")
-		for layoutActiveLabel in self.getLayoutsActiveLabels():
-			self.addWidget(layoutActiveLabel)
+		LOGGER.debug("> Adding 'Development_active_label', 'Preferences_active_label' widgets!")
+		for layout_active_label in self.get_layouts_active_labels():
+			self.addWidget(layout_active_label)
 
-		LOGGER.debug("> Adding 'Custom_Layouts_activeLabel' widget!")
-		self.addWidget(self.getCustomLayoutsActiveLabel())
+		LOGGER.debug("> Adding 'Custom_Layouts_active_label' widget!")
+		self.addWidget(self.get_custom_layouts_active_label())
 
-		LOGGER.debug("> Adding 'Miscellaneous_activeLabel' widget!")
-		self.addWidget(self.getMiscellaneousActiveLabel())
+		LOGGER.debug("> Adding 'Miscellaneous_active_label' widget!")
+		self.addWidget(self.get_miscellaneous_active_label())
 
 		LOGGER.debug("> Adding 'Closure_Spacer_label' widget!")
-		self.addWidget(self.getClosureSpacerLabel())
+		self.addWidget(self.get_closure_spacer_label())
 
 		return True
 
-	def getApplicationLogoLabel(self):
+	def get_application_logo_label(self):
 		"""
 		Provides the default **Application_Logo_label** widget.
 
@@ -414,12 +414,12 @@ class Application_QToolBar(QToolBar):
 		:rtype: QLabel
 		"""
 
-		logoLabel = QLabel()
-		logoLabel.setObjectName("Application_Logo_label")
-		logoLabel.setPixmap(QPixmap(umbra.ui.common.getResourcePath(UiConstants.logoImage)))
-		return logoLabel
+		logo_label = QLabel()
+		logo_label.setObjectName("Application_Logo_label")
+		logo_label.setPixmap(QPixmap(umbra.ui.common.get_resource_path(UiConstants.logo_image)))
+		return logo_label
 
-	def getLayoutActiveLabel(self, resources, name, title, identity, shortcut):
+	def get_layout_active_label(self, resources, name, title, identity, shortcut):
 		"""
 		Returns a layout **Active_QLabel** widget.
 
@@ -436,30 +436,30 @@ class Application_QToolBar(QToolBar):
 		:rtype: Active_QLabel
 		"""
 
-		defaultIcon, hoverIcon, activeIcon = resources
-		layoutActiveLabel = Active_QLabel(self,
-										QPixmap(umbra.ui.common.getResourcePath(defaultIcon)),
-										QPixmap(umbra.ui.common.getResourcePath(hoverIcon)),
-										QPixmap(umbra.ui.common.getResourcePath(activeIcon)),
+		default_icon, hover_icon, active_icon = resources
+		layout_active_label = Active_QLabel(self,
+										QPixmap(umbra.ui.common.get_resource_path(default_icon)),
+										QPixmap(umbra.ui.common.get_resource_path(hover_icon)),
+										QPixmap(umbra.ui.common.get_resource_path(active_icon)),
 										True)
-		self.__container.layoutsManager.registerLayout(identity, umbra.managers.layoutsManager.Layout(name=title,
+		self.__container.layouts_manager.register_layout(identity, umbra.managers.layouts_manager.Layout(name=title,
 																								identity=identity,
 																								shortcut=shortcut))
 		self.__container.addAction(
-		self.__container.actionsManager.registerAction("Actions|Umbra|ToolBar|Layouts|Restore layout {0}".format(title),
+		self.__container.actions_manager.register_action("Actions|Umbra|ToolBar|Layouts|Restore layout {0}".format(title),
 														shortcut=shortcut,
-														shortcutContext=Qt.ApplicationShortcut,
+														shortcut_context=Qt.ApplicationShortcut,
 														slot=functools.partial(
-														self.__container.layoutsManager.restoreLayout, identity)))
+														self.__container.layouts_manager.restore_layout, identity)))
 
-		layoutActiveLabel.setObjectName(name)
+		layout_active_label.setObjectName(name)
 
 		# Signals / Slots.
-		layoutActiveLabel.clicked.connect(functools.partial(self.__layoutActiveLabel__clicked, identity))
+		layout_active_label.clicked.connect(functools.partial(self.__layout_active_label__clicked, identity))
 
-		return layoutActiveLabel
+		return layout_active_label
 
-	def getLayoutsActiveLabels(self):
+	def get_layouts_active_labels(self):
 		"""
 		Returns the layouts **Active_QLabel** widgets.
 
@@ -467,94 +467,94 @@ class Application_QToolBar(QToolBar):
 		:rtype: list
 		"""
 
-		self.__layoutsActiveLabelsCollection = Active_QLabelsCollection(self)
+		self.__layouts_active_labels_collection = Active_QLabelsCollection(self)
 
-		self.__layoutsActiveLabelsCollection.addActiveLabel(self.getLayoutActiveLabel((UiConstants.developmentIcon,
-																					UiConstants.developmentHoverIcon,
-																					UiConstants.developmentActiveIcon),
-																					"Development_activeLabel",
+		self.__layouts_active_labels_collection.add_active_label(self.get_layout_active_label((UiConstants.development_icon,
+																					UiConstants.development_hover_icon,
+																					UiConstants.development_active_icon),
+																					"Development_active_label",
 																					"Development",
-																					"developmentCentric",
+																					"development_centric",
 																					Qt.Key_9))
 
-		self.__layoutsActiveLabelsCollection.addActiveLabel(self.getLayoutActiveLabel((UiConstants.preferencesIcon,
-																					UiConstants.preferencesHoverIcon,
-																					UiConstants.preferencesActiveIcon),
-																					"Preferences_activeLabel",
+		self.__layouts_active_labels_collection.add_active_label(self.get_layout_active_label((UiConstants.preferences_icon,
+																					UiConstants.preferences_hover_icon,
+																					UiConstants.preferences_active_icon),
+																					"Preferences_active_label",
 																					"Preferences",
-																					"preferencesCentric",
+																					"preferences_centric",
 																					Qt.Key_0))
-		return self.__layoutsActiveLabelsCollection.activeLabels
+		return self.__layouts_active_labels_collection.active_labels
 
-	def getCustomLayoutsActiveLabel(self):
+	def get_custom_layouts_active_label(self):
 		"""
-		Provides the default **Custom_Layouts_activeLabel** widget.
+		Provides the default **Custom_Layouts_active_label** widget.
 
 		:return: Layout active label.
 		:rtype: Active_QLabel
 		"""
 
-		layoutActiveLabel = Active_QLabel(self, QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsIcon)),
-									QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsHoverIcon)),
-									QPixmap(umbra.ui.common.getResourcePath(UiConstants.customLayoutsActiveIcon)))
-		layoutActiveLabel.setObjectName("Custom_Layouts_activeLabel")
+		layout_active_label = Active_QLabel(self, QPixmap(umbra.ui.common.get_resource_path(UiConstants.custom_layouts_icon)),
+									QPixmap(umbra.ui.common.get_resource_path(UiConstants.custom_layouts_hover_icon)),
+									QPixmap(umbra.ui.common.get_resource_path(UiConstants.custom_layouts_active_icon)))
+		layout_active_label.setObjectName("Custom_Layouts_active_label")
 
-		self.__customLayoutsMenu = QMenu("Layouts", layoutActiveLabel)
+		self.__custom_layouts_menu = QMenu("Layouts", layout_active_label)
 
-		for layout in self.__userLayouts:
-			self.__container.layoutsManager.registerLayout(layout.identity, layout)
-			self.__customLayoutsMenu.addAction(self.__container.actionsManager.registerAction(
+		for layout in self.__user_layouts:
+			self.__container.layouts_manager.register_layout(layout.identity, layout)
+			self.__custom_layouts_menu.addAction(self.__container.actions_manager.register_action(
 			"Actions|Umbra|ToolBar|Layouts|Restore layout {0}".format(layout.name),
 			shortcut=layout.shortcut,
-			slot=functools.partial(self.__container.layoutsManager.restoreLayout, layout.identity)))
+			slot=functools.partial(self.__container.layouts_manager.restore_layout, layout.identity)))
 
-		self.__customLayoutsMenu.addSeparator()
+		self.__custom_layouts_menu.addSeparator()
 
-		for layout in self.__userLayouts:
-			self.__customLayoutsMenu.addAction(self.__container.actionsManager.registerAction(
+		for layout in self.__user_layouts:
+			self.__custom_layouts_menu.addAction(self.__container.actions_manager.register_action(
 			"Actions|Umbra|ToolBar|Layouts|Store layout {0}".format(layout.name),
 			shortcut=Qt.CTRL + layout.shortcut,
-			slot=functools.partial(self.__container.layoutsManager.storeLayout, layout.identity)))
+			slot=functools.partial(self.__container.layouts_manager.store_layout, layout.identity)))
 
-		self.__customLayoutsMenu.addSeparator()
+		self.__custom_layouts_menu.addSeparator()
 
-		self.__customLayoutsMenu.addAction(self.__container.actionsManager.registerAction(
+		self.__custom_layouts_menu.addAction(self.__container.actions_manager.register_action(
 		"Actions|Umbra|ToolBar|Layouts|Toggle FullScreen",
 		shortcut=Qt.ControlModifier + Qt.SHIFT + Qt.Key_F,
-		slot=self.__container.toggleFullScreen))
+		slot=self.__container.toggle_full_screen))
 
-		layoutActiveLabel.setMenu(self.__customLayoutsMenu)
-		return layoutActiveLabel
+		layout_active_label.set_menu(self.__custom_layouts_menu)
+		return layout_active_label
 
-	def getMiscellaneousActiveLabel(self):
+	def get_miscellaneous_active_label(self):
 		"""
-		Provides the default **Miscellaneous_activeLabel** widget.
+		Provides the default **Miscellaneous_active_label** widget.
 
 		:return: Miscellaneous active label.
 		:rtype: Active_QLabel
 		"""
 
-		miscellaneousActiveLabel = Active_QLabel(self,
-											QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousIcon)),
-											QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousHoverIcon)),
-											QPixmap(umbra.ui.common.getResourcePath(UiConstants.miscellaneousActiveIcon)))
-		miscellaneousActiveLabel.setObjectName("Miscellaneous_activeLabel")
+		miscellaneous_active_label = Active_QLabel(self,
+											QPixmap(umbra.ui.common.get_resource_path(UiConstants.miscellaneous_icon)),
+											QPixmap(umbra.ui.common.get_resource_path(UiConstants.miscellaneous_hover_icon)),
+											QPixmap(umbra.ui.common.get_resource_path(UiConstants.miscellaneous_active_icon)))
+		miscellaneous_active_label.setObjectName("Miscellaneous_active_label")
 
-		self.__miscellaneousMenu = QMenu("Miscellaneous", miscellaneousActiveLabel)
+		self.__miscellaneous_menu = QMenu("Miscellaneous", miscellaneous_active_label)
 
-		self.__miscellaneousMenu.addAction(self.__container.actionsManager.registerAction(
+		self.__miscellaneous_menu.addAction(self.__container.actions_manager.register_action(
 											"Actions|Umbra|ToolBar|Miscellaneous|Help content ...",
 											shortcut="F1",
-											slot=self.__helpDisplayMiscAction__triggered))
-		self.__miscellaneousMenu.addAction(self.__container.actionsManager.registerAction(
+											slot=self.__help_display_misc_action__triggered))
+		self.__miscellaneous_menu.addAction(self.__container.actions_manager.register_action(
 											"Actions|Umbra|ToolBar|Miscellaneous|Api content ...",
-											slot=self.__apiDisplayMiscAction__triggered))
-		self.__miscellaneousMenu.addSeparator()
+											slot=self.__api_display_misc_action__triggered))
+		self.__miscellaneous_menu.addSeparator()
 
-		miscellaneousActiveLabel.setMenu(self.__miscellaneousMenu)
-		return miscellaneousActiveLabel
+		miscellaneous_active_label.set_menu(self.__miscellaneous_menu)
+		return miscellaneous_active_label
 
-	def getSpacerLabel(self):
+	def get_spacer_label(self):
 		"""
 		Provides the default **Spacer_label** widget.
 
@@ -567,7 +567,7 @@ class Application_QToolBar(QToolBar):
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		return spacer
 
-	def getClosureSpacerLabel(self):
+	def get_closure_spacer_label(self):
 		"""
 		Provides the default **Closure_Spacer_label** widget.
 
@@ -584,27 +584,27 @@ if __name__ == "__main__":
 	import sys
 	from PyQt4.QtGui import QMainWindow
 
-	from manager.componentsManager import Manager
-	from umbra.managers.actionsManager import ActionsManager
-	from umbra.managers.layoutsManager import LayoutsManager
+	from manager.components_manager import Manager
+	from umbra.managers.actions_manager import ActionsManager
+	from umbra.managers.layouts_manager import LayoutsManager
 	from umbra.preferences import Preferences
 
-	application = umbra.ui.common.getApplicationInstance()
+	application = umbra.ui.common.get_application_instance()
 
-	mainWindow = QMainWindow()
+	main_window = QMainWindow()
 
-	mainWindow.settings = Preferences()
-	mainWindow.actionsManager = ActionsManager(mainWindow)
-	mainWindow.layoutsManager = LayoutsManager(mainWindow)
-	mainWindow.componentsManager = Manager()
-	mainWindow.toggleFullScreen = lambda: sys.stdout.write("toggleFullScreen()\n")
+	main_window.settings = Preferences()
+	main_window.actions_manager = ActionsManager(main_window)
+	main_window.layouts_manager = LayoutsManager(main_window)
+	main_window.components_manager = Manager()
+	main_window.toggle_full_screen = lambda: sys.stdout.write("toggle_full_screen()\n")
 
-	mainWindow.setCentralWidget(QLabel())
+	main_window.setCentralWidget(QLabel())
 
-	application_QToolBar = Application_QToolBar(mainWindow)
-	mainWindow.addToolBar(application_QToolBar)
+	application_QToolBar = Application_QToolBar(main_window)
+	main_window.addToolBar(application_QToolBar)
 
-	mainWindow.show()
-	mainWindow.raise_()
+	main_window.show()
+	main_window.raise_()
 
 	sys.exit(application.exec_())

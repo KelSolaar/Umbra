@@ -26,7 +26,7 @@ import foundations.exceptions
 import foundations.ui.common
 import foundations.verbose
 import umbra.ui.common
-from umbra.globals.uiConstants import UiConstants
+from umbra.globals.ui_constants import UiConstants
 
 #**********************************************************************************************************************
 #***	Module attributes.
@@ -40,14 +40,14 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "UI_FILE", "Processing"]
 
-LOGGER = foundations.verbose.installLogger()
+LOGGER = foundations.verbose.install_logger()
 
-UI_FILE = umbra.ui.common.getResourcePath(UiConstants.processingUiFile)
+UI_FILE = umbra.ui.common.get_resource_path(UiConstants.processing_ui_file)
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class Processing(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
+class Processing(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 	"""
 	Defines the Application processing status bar widget. 
 	"""
@@ -71,7 +71,7 @@ class Processing(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		# --- Setting class attributes. ---
 		self.__container = parent
 
-		Processing.__initializeUi(self)
+		Processing.__initialize_ui(self)
 
 	#******************************************************************************************************************
 	#***	Attributes properties.
@@ -88,7 +88,7 @@ class Processing(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		return self.__container
 
 	@container.setter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def container(self, value):
 		"""
 		Setter for **self.__container** attribute.
@@ -101,7 +101,7 @@ class Processing(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
 	@container.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
+	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
 	def container(self):
 		"""
 		Deleter for **self.__container** attribute.
@@ -113,7 +113,7 @@ class Processing(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
 	#******************************************************************************************************************
 	#***	Class methods.
 	#******************************************************************************************************************
-	def __initializeUi(self):
+	def __initialize_ui(self):
 		"""
 		Initializes the Widget ui.
 		"""

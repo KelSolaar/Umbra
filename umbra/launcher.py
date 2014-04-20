@@ -28,15 +28,15 @@ import sys
 #**********************************************************************************************************************
 #***	Path manipulations.
 #**********************************************************************************************************************
-def _setPackageDirectory():
+def _set_package_directory():
 	"""
 	Sets the Application package directory in the path.
 	"""
 
-	packageDirectory = os.path.normpath(os.path.join(os.path.dirname(__file__), "../"))
-	packageDirectory not in sys.path and sys.path.append(packageDirectory)
+	package_directory = os.path.normpath(os.path.join(os.path.dirname(__file__), "../"))
+	package_directory not in sys.path and sys.path.append(package_directory)
 
-_setPackageDirectory()
+_set_package_directory()
 
 #**********************************************************************************************************************
 #***	Internal imports.
@@ -67,15 +67,15 @@ def main():
 	:rtype: bool
 	"""
 
-	componentsPaths = []
-	for path in (os.path.join(umbra.__path__[0], Constants.factoryComponentsDirectory),
-				os.path.join(umbra.__path__[0], Constants.factoryAddonsComponentsDirectory)):
-		os.path.exists(path) and componentsPaths.append(path)
+	components_paths = []
+	for path in (os.path.join(umbra.__path__[0], Constants.factory_components_directory),
+				os.path.join(umbra.__path__[0], Constants.factory_addons_components_directory)):
+		os.path.exists(path) and components_paths.append(path)
 	return umbra.engine.run(umbra.engine.Umbra,
-							umbra.engine.getCommandLineParametersParser().parse_args(
-							[unicode(argument, Constants.defaultCodec, Constants.codecError) for argument in sys.argv]),
-							componentsPaths,
-							("factory.scriptEditor", "factory.preferencesManager", "factory.componentsManagerUi"))
+							umbra.engine.get_command_line_parameters_parser().parse_args(
+							[unicode(argument, Constants.default_codec, Constants.codec_error) for argument in sys.argv]),
+							components_paths,
+							("factory.script_editor", "factory.preferences_manager", "factory.components_manager_ui"))
 
 if __name__ == "__main__":
 	main()
