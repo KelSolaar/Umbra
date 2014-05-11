@@ -19,6 +19,7 @@ from __future__ import unicode_literals
 import functools
 import os
 import sys
+
 if sys.version_info[:2] <= (2, 6):
     from ordereddict import OrderedDict
 else:
@@ -67,6 +68,7 @@ LOGGER = foundations.verbose.install_logger()
 
 UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Search_In_Files.ui")
 
+
 class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
     """
     Defines search and replace in files dialog used by the **ScriptEditor** Component.
@@ -101,10 +103,10 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         self.__delegate = None
 
         self.__locations = OrderedDict([("Add Directory ...", "directory"),
-                                ("Add File ...", "file"),
-                                ("Add Opened Files", "editors"),
-                                ("Add Include Filter", "include_filter"),
-                                ("Add Exclude Filter", "exclude_filter")])
+                                        ("Add File ...", "file"),
+                                        ("Add Opened Files", "editors"),
+                                        ("Add Include Filter", "include_filter"),
+                                        ("Add Exclude Filter", "exclude_filter")])
         self.__locations_menu = None
 
         self.__default_filter_in = "*.txt"
@@ -145,7 +147,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
     @container.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -155,7 +157,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
     @property
     def script_editor(self):
@@ -179,7 +181,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "script_editor"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "script_editor"))
 
     @script_editor.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -189,7 +191,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "script_editor"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "script_editor"))
 
     @property
     def files_cache(self):
@@ -213,7 +215,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "files_cache"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "files_cache"))
 
     @files_cache.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -223,7 +225,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "files_cache"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "files_cache"))
 
     @property
     def search_patterns_model(self):
@@ -247,7 +249,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "search_patterns_model"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "search_patterns_model"))
 
     @search_patterns_model.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -257,7 +259,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "search_patterns_model"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "search_patterns_model"))
 
     @property
     def replace_with_patterns_model(self):
@@ -281,7 +283,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "replace_with_patterns_model"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "replace_with_patterns_model"))
 
     @replace_with_patterns_model.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -291,7 +293,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "replace_with_patterns_model"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "replace_with_patterns_model"))
 
     @property
     def model(self):
@@ -315,7 +317,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "model"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "model"))
 
     @model.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -325,7 +327,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "model"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "model"))
 
     @property
     def view(self):
@@ -349,7 +351,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "view"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "view"))
 
     @view.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -359,7 +361,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "view"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "view"))
 
     @property
     def delegate(self):
@@ -383,7 +385,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "delegate"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "delegate"))
 
     @delegate.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -393,7 +395,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "delegate"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "delegate"))
 
     @property
     def locations(self):
@@ -417,7 +419,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "locations"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "locations"))
 
     @locations.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -427,7 +429,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "locations"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "locations"))
 
     @property
     def locations_menu(self):
@@ -451,7 +453,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "locations_menu"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "locations_menu"))
 
     @locations_menu.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -461,7 +463,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "locations_menu"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "locations_menu"))
 
     @property
     def default_filter_in(self):
@@ -486,8 +488,9 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 
         if value is not None:
             assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-            "default_filter_in", value)
-            assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("default_filter_in", value)
+                "default_filter_in", value)
+            assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format(
+                "default_filter_in", value)
         self.__default_filter_in = value
 
     @default_filter_in.deleter
@@ -498,7 +501,8 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_filter_in"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_filter_in"))
+
     @property
     def filters_in_format(self):
         """
@@ -522,8 +526,9 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 
         if value is not None:
             assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-            "filters_in_format", value)
-            assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("filters_in_format", value)
+                "filters_in_format", value)
+            assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format(
+                "filters_in_format", value)
         self.__filters_in_format = value
 
     @filters_in_format.deleter
@@ -534,7 +539,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "filters_in_format"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "filters_in_format"))
 
     @property
     def default_filter_out(self):
@@ -559,8 +564,9 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 
         if value is not None:
             assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-            "default_filter_out", value)
-            assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("default_filter_out", value)
+                "default_filter_out", value)
+            assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format(
+                "default_filter_out", value)
         self.__default_filter_out = value
 
     @default_filter_out.deleter
@@ -571,7 +577,8 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_filter_out"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_filter_out"))
+
     @property
     def filters_out_format(self):
         """
@@ -595,8 +602,9 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 
         if value is not None:
             assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-            "filters_out_format", value)
-            assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("filters_out_format", value)
+                "filters_out_format", value)
+            assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format(
+                "filters_out_format", value)
         self.__filters_out_format = value
 
     @filters_out_format.deleter
@@ -607,7 +615,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "filters_out_format"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "filters_out_format"))
 
     @property
     def default_target(self):
@@ -632,7 +640,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 
         if value is not None:
             assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-            "default_target", value)
+                "default_target", value)
             assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("default_target", value)
         self.__default_target = value
 
@@ -644,7 +652,8 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_target"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_target"))
+
     @property
     def targets_format(self):
         """
@@ -668,7 +677,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 
         if value is not None:
             assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-            "targets_format", value)
+                "targets_format", value)
             assert os.path.exists(value), "'{0}' attribute: '{1}' file doesn't exists!".format("targets_format", value)
         self.__targets_format = value
 
@@ -680,7 +689,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "targets_format"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "targets_format"))
 
     @property
     def default_line_number_width(self):
@@ -705,8 +714,9 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 
         if value is not None:
             assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format(
-            "default_line_number_width", value)
-            assert value > 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("default_line_number_width", value)
+                "default_line_number_width", value)
+            assert value > 0, "'{0}' attribute: '{1}' need to be exactly positive!".format(
+                "default_line_number_width", value)
         self.__default_line_number_width = value
 
     @default_line_number_width.deleter
@@ -717,7 +727,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_line_number_width"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_line_number_width"))
 
     @property
     def default_line_color(self):
@@ -741,7 +751,8 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         if value is not None:
-            assert type(value) is QColor, "'{0}' attribute: '{1}' type is not 'QColor'!".format("default_line_color", value)
+            assert type(value) is QColor, "'{0}' attribute: '{1}' type is not 'QColor'!".format(
+                "default_line_color", value)
         self.__default_line_color = value
 
     @default_line_color.deleter
@@ -752,7 +763,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_line_color"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_line_color"))
 
     @property
     def ignore_hidden_files(self):
@@ -776,7 +787,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "ignore_hidden_files"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "ignore_hidden_files"))
 
     @ignore_hidden_files.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -786,7 +797,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "ignore_hidden_files"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "ignore_hidden_files"))
 
     @property
     def search_worker_thread(self):
@@ -810,7 +821,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "search_worker_thread"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "search_worker_thread"))
 
     @search_worker_thread.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -820,7 +831,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "search_worker_thread"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "search_worker_thread"))
 
     def show(self):
         """
@@ -858,8 +869,8 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 
         self.Search_Results_treeView.setParent(None)
         self.Search_Results_treeView = SearchResults_QTreeView(self,
-                                                            self.__model,
-                                                            message="No Search Result to view!")
+                                                               self.__model,
+                                                               message="No Search Result to view!")
         self.Search_Results_treeView.setItemDelegate(self.__delegate)
         self.Search_Results_treeView.setObjectName("Search_Results_treeView")
         self.Search_Results_frame_gridLayout.addWidget(self.Search_Results_treeView, 0, 0)
@@ -884,9 +895,9 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         self.__locations_menu = QMenu()
         for title, location in self.__locations.iteritems():
             self.__locations_menu.addAction(self.__container.engine.actions_manager.register_action(
-            "Actions|Umbra|Components|factory.script_editor|Search In Files|{0}".format(title),
-            text="{0}".format(title),
-            slot=functools.partial(self.__add_location, location)))
+                "Actions|Umbra|Components|factory.script_editor|Search In Files|{0}".format(title),
+                text="{0}".format(title),
+                slot=functools.partial(self.__add_location, location)))
         self.Where_lineEdit.search_active_label.set_menu(self.__locations_menu)
         self.Where_lineEdit.setPlaceholderText("Use the magnifier to add locations!")
 
@@ -896,9 +907,9 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         self.__view.selectionModel().selectionChanged.connect(self.__view_selectionModel__selectionChanged)
         self.__view.doubleClicked.connect(self.__view__doubleClicked)
         self.__search_patterns_model.pattern_inserted.connect(functools.partial(
-        self.__patterns_model__pattern_inserted, self.Search_comboBox))
+            self.__patterns_model__pattern_inserted, self.Search_comboBox))
         self.__replace_with_patterns_model.pattern_inserted.connect(functools.partial(
-        self.__patterns_model__pattern_inserted, self.Replace_With_comboBox))
+            self.__patterns_model__pattern_inserted, self.Replace_With_comboBox))
         self.Search_pushButton.clicked.connect(self.__Search_pushButton__clicked)
         self.Close_pushButton.clicked.connect(self.__Close_pushButton__clicked)
 
@@ -908,20 +919,20 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         self.__view.addAction(self.__container.engine.actions_manager.register_action(
-        "Actions|Umbra|Components|factory.script_editor|Search In Files|Replace All",
-        slot=self.__view_replace_all_action__triggered))
+            "Actions|Umbra|Components|factory.script_editor|Search In Files|Replace All",
+            slot=self.__view_replace_all_action__triggered))
         self.__view.addAction(self.__container.engine.actions_manager.register_action(
-        "Actions|Umbra|Components|factory.script_editor|Search In Files|Replace Selected",
-        slot=self.__view_replace_selected_action__triggered))
+            "Actions|Umbra|Components|factory.script_editor|Search In Files|Replace Selected",
+            slot=self.__view_replace_selected_action__triggered))
         separator_action = QAction(self.__view)
         separator_action.setSeparator(True)
         self.__view.addAction(separator_action)
         self.__view.addAction(self.__container.engine.actions_manager.register_action(
-        "Actions|Umbra|Components|factory.script_editor|Search In Files|Save All",
-        slot=self.__view_save_all_action__triggered))
+            "Actions|Umbra|Components|factory.script_editor|Search In Files|Save All",
+            slot=self.__view_save_all_action__triggered))
         self.__view.addAction(self.__container.engine.actions_manager.register_action(
-        "Actions|Umbra|Components|factory.script_editor|Search In Files|Save Selected",
-        slot=self.__view_save_selected_action__triggered))
+            "Actions|Umbra|Components|factory.script_editor|Search In Files|Save Selected",
+            slot=self.__view_save_selected_action__triggered))
 
     def __view_replace_all_action__triggered(self, checked):
         """
@@ -947,7 +958,8 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         :rtype: bool
         """
 
-        selected_nodes = filter(lambda x: x.family in ("SearchFile", "SearchOccurence"), self.__view.get_selected_nodes())
+        selected_nodes = filter(
+            lambda x: x.family in ("SearchFile", "SearchOccurence"), self.__view.get_selected_nodes())
         if selected_nodes:
             return self.replace(filter(lambda x: x.parent not in selected_nodes, selected_nodes))
 
@@ -1070,9 +1082,9 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         self.__container.engine.stop_processing()
         metrics = self.__model.get_metrics()
         self.__container.engine.notifications_manager.notify(
-        "{0} | '{1}' pattern occurence(s) found in '{2}' files!".format(self.__class__.__name__,
-                                                                    metrics["SearchOccurence"],
-                                                                    metrics["SearchFile"]))
+            "{0} | '{1}' pattern occurence(s) found in '{2}' files!".format(self.__class__.__name__,
+                                                                            metrics["SearchOccurence"],
+                                                                            metrics["SearchFile"]))
 
     def __add_location(self, type, *args):
         """
@@ -1086,13 +1098,13 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 
         if type == "directory":
             location = umbra.ui.common.store_last_browsed_path((QFileDialog.getExistingDirectory(self,
-                                                                                        "Add Directory:",
-                                                                                        RuntimeGlobals.last_browsed_path)))
+                                                                                                 "Add Directory:",
+                                                                                                 RuntimeGlobals.last_browsed_path)))
         elif type == "file":
             location = umbra.ui.common.store_last_browsed_path((QFileDialog.getOpenFileName(self,
-                                                                                        "Add File:",
-                                                                                        RuntimeGlobals.last_browsed_path,
-                                                                                        "All Files (*)")))
+                                                                                            "Add File:",
+                                                                                            RuntimeGlobals.last_browsed_path,
+                                                                                            "All Files (*)")))
         elif type == "editors":
             location = self.__targets_format.format(self.__default_target)
         elif type == "include_filter":
@@ -1101,7 +1113,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
             location = self.__filters_out_format.format(self.__default_filter_out)
 
         location and self.Where_lineEdit.setText(", ".join(filter(bool, (foundations.strings.to_string(
-        self.Where_lineEdit.text()), location))))
+            self.Where_lineEdit.text()), location))))
 
     def __format_occurence(self, occurence):
         """
@@ -1115,8 +1127,8 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 
         color = "rgb({0}, {1}, {2})"
         span_format = "<span style=\"color: {0};\">{{0}}</span>".format(color.format(self.__default_line_color.red(),
-                                                                                    self.__default_line_color.green(),
-                                                                                    self.__default_line_color.blue()))
+                                                                                     self.__default_line_color.green(),
+                                                                                     self.__default_line_color.blue()))
         line = foundations.strings.to_string(occurence.text)
         start = span_format.format(line[:occurence.column])
         pattern = "<b>{0}</b>".format(line[occurence.column:occurence.column + occurence.length])
@@ -1137,8 +1149,8 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 
         color = "rgb({0}, {1}, {2})"
         span_format = "<span style=\"color: {0};\">{{0}}</span>".format(color.format(self.__default_line_color.red(),
-                                                                                    self.__default_line_color.green(),
-                                                                                    self.__default_line_color.blue()))
+                                                                                     self.__default_line_color.green(),
+                                                                                     self.__default_line_color.blue()))
         dir_name, base_name = (os.path.dirname(file), os.path.basename(file))
 
         return "".join((span_format.format("'"),
@@ -1224,9 +1236,9 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         :rtype: dict
         """
 
-        return {"case_sensitive" : self.Case_Sensitive_checkBox.isChecked(),
-                "whole_word" : self.Whole_Word_checkBox.isChecked(),
-                "regular_expressions" : self.Regular_Expressions_checkBox.isChecked()}
+        return {"case_sensitive": self.Case_Sensitive_checkBox.isChecked(),
+                "whole_word": self.Whole_Word_checkBox.isChecked(),
+                "regular_expressions": self.Regular_Expressions_checkBox.isChecked()}
 
     def __interrupt_search(self):
         """
@@ -1250,7 +1262,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         :type document: QTextDocument
         """
 
-        self.__files_cache.add_content(**{file : CacheData(content=content, document=document)})
+        self.__files_cache.add_content(**{file: CacheData(content=content, document=document)})
 
     def __uncache(self, file):
         """
@@ -1276,17 +1288,18 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         root_node = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
         for search_result in search_results:
             search_file_node = SearchFileNode(name=search_result.file,
-                                            parent=root_node)
+                                              parent=root_node)
             search_file_node.update(search_result)
             width = \
-            max(self.__default_line_number_width,
-            max([len(foundations.strings.to_string(occurence.line)) for occurence in search_result.occurrences]))
+                max(self.__default_line_number_width,
+                    max([len(foundations.strings.to_string(occurence.line)) for occurence in
+                         search_result.occurrences]))
             for occurence in search_result.occurrences:
                 formatter = "{{0:>{0}}}".format(width)
                 name = "{0}:{1}".format(formatter.format(occurence.line + 1).replace(" ", "&nbsp;"),
                                         self.__format_occurence(occurence))
                 search_occurence_node = SearchOccurenceNode(name=name,
-                                                        parent=search_file_node)
+                                                            parent=search_file_node)
                 search_occurence_node.update(occurence)
         self.__model.initialize_model(root_node)
         return True
@@ -1304,8 +1317,8 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         root_node = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
         for file, metrics in sorted(replace_results.iteritems()):
             replace_result_node = ReplaceResultNode(name=self.__format_replace_metrics(file, metrics),
-                                                parent=root_node,
-                                                file=file)
+                                                    parent=root_node,
+                                                    file=file)
         self.__model.initialize_model(root_node)
         return True
 
@@ -1328,8 +1341,8 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         SearchAndReplace.insert_pattern(replacement_pattern, self.__replace_with_patterns_model)
 
         location = umbra.ui.common.parse_location(
-        foundations.strings.to_string(self.Where_lineEdit.text()) or \
-        self.__targets_format.format(self.__default_target))
+            foundations.strings.to_string(self.Where_lineEdit.text()) or
+            self.__targets_format.format(self.__default_target))
         self.__ignore_hidden_files and location.filters_out.append("\\\.|/\.")
 
         settings = self.__get_settings()
@@ -1375,7 +1388,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
                 cache_data = self.__files_cache.get_content(file)
                 if cache_data is None:
                     LOGGER.warning(
-                    "!> {0} | '{1}' file doesn't exists in files cache!".format(self.__class__.__name__, file))
+                        "!> {0} | '{1}' file doesn't exists in files cache!".format(self.__class__.__name__, file))
                     continue
 
                 content = self.__files_cache.get_content(file).content
@@ -1385,9 +1398,9 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 
         self.set_replace_results(replace_results)
         self.__container.engine.notifications_manager.notify(
-        "{0} | '{1}' pattern occurence(s) replaced in '{2}' files!".format(self.__class__.__name__,
-                                                                    sum(replace_results.values()),
-                                                                    len(replace_results.keys())))
+            "{0} | '{1}' pattern occurence(s) replaced in '{2}' files!".format(self.__class__.__name__,
+                                                                               sum(replace_results.values()),
+                                                                               len(replace_results.keys())))
 
     def save_files(self, nodes):
         """
@@ -1399,7 +1412,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         :rtype: bool
         """
 
-        metrics = {"Opened" : 0, "Cached" : 0}
+        metrics = {"Opened": 0, "Cached": 0}
         for node in nodes:
             file = node.file
             if self.__container.get_editor(file):
@@ -1410,7 +1423,7 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
                 cache_data = self.__files_cache.get_content(file)
                 if cache_data is None:
                     LOGGER.warning(
-                    "!> {0} | '{1}' file doesn't exists in files cache!".format(self.__class__.__name__, file))
+                        "!> {0} | '{1}' file doesn't exists in files cache!".format(self.__class__.__name__, file))
                     continue
 
                 if cache_data.document:
@@ -1421,9 +1434,10 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
                         self.__uncache(file)
                 else:
                     LOGGER.warning(
-                    "!> {0} | '{1}' file document doesn't exists in files cache!".format(self.__class__.__name__, file))
+                        "!> {0} | '{1}' file document doesn't exists in files cache!".format(self.__class__.__name__,
+                                                                                             file))
 
         self.__container.engine.notifications_manager.notify(
-        "{0} | '{1}' opened file(s) and '{2}' cached file(s) saved!".format(self.__class__.__name__,
-                                                                        metrics["Opened"],
-                                                                        metrics["Cached"]))
+            "{0} | '{1}' opened file(s) and '{2}' cached file(s) saved!".format(self.__class__.__name__,
+                                                                                metrics["Opened"],
+                                                                                metrics["Cached"]))

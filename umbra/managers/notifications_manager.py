@@ -38,6 +38,7 @@ __all__ = ["LOGGER", "Notification", "NotificationsManager"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class Notification(foundations.data_structures.Structure):
     """
     Defines a storage object for :class:`NotificationsManager` class notification.
@@ -54,6 +55,7 @@ class Notification(foundations.data_structures.Structure):
         LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
         foundations.data_structures.Structure.__init__(self, **kwargs)
+
 
 class NotificationsManager(QObject):
     """
@@ -374,7 +376,7 @@ class NotificationsManager(QObject):
         """
 
         for notifier in self.__notifiers[self.__maximum_notifiers - 1:]:
-            notifier.duration=150
+            notifier.duration = 150
             notifier.hide_message()
 
         notification = Notification(message=message, time=time.time())

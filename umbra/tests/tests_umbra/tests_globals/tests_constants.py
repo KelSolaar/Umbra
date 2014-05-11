@@ -17,6 +17,7 @@
 from __future__ import unicode_literals
 
 import sys
+
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
@@ -33,6 +34,7 @@ __status__ = "Production"
 
 __all__ = ["TestConstants"]
 
+
 class TestConstants(unittest.TestCase):
     """
     Defines :class:`umbra.globals.constants.Constants` class units tests methods.
@@ -44,34 +46,34 @@ class TestConstants(unittest.TestCase):
         """
 
         required_attributes = ("application_name",
-                            "major_version",
-                            "minor_version",
-                            "change_version",
-                            "version",
-                            "logger",
-                            "verbosity_level",
-                            "verbosity_labels",
-                            "logging_default_formatter",
-                            "logging_separators",
-                            "default_codec",
-                            "codec_error",
-                            "application_directory",
-                            "provider_directory",
-                            "patches_directory",
-                            "settings_directory",
-                            "user_components_directory",
-                            "logging_directory",
-                            "io_directory",
-                            "preferences_directories",
-                            "factory_components_directory",
-                            "factory_addons_components_directory",
-                            "resources_directory",
-                            "patches_file",
-                            "settings_file",
-                            "logging_file",
-                            "libraries_directory",
-                            "default_timer_cycle",
-                            "null_object")
+                               "major_version",
+                               "minor_version",
+                               "change_version",
+                               "version",
+                               "logger",
+                               "verbosity_level",
+                               "verbosity_labels",
+                               "logging_default_formatter",
+                               "logging_separators",
+                               "default_codec",
+                               "codec_error",
+                               "application_directory",
+                               "provider_directory",
+                               "patches_directory",
+                               "settings_directory",
+                               "user_components_directory",
+                               "logging_directory",
+                               "io_directory",
+                               "preferences_directories",
+                               "factory_components_directory",
+                               "factory_addons_components_directory",
+                               "resources_directory",
+                               "patches_file",
+                               "settings_file",
+                               "logging_file",
+                               "libraries_directory",
+                               "default_timer_cycle",
+                               "null_object")
 
         for attribute in required_attributes:
             self.assertIn(attribute, Constants.__dict__)
@@ -156,7 +158,7 @@ class TestConstants(unittest.TestCase):
         """
 
         valid_encodings = ("utf-8",
-                        "cp1252")
+                           "cp1252")
 
         self.assertIn(Constants.default_codec, valid_encodings)
 
@@ -166,9 +168,9 @@ class TestConstants(unittest.TestCase):
         """
 
         valid_encodings_errors = ("strict",
-                        "ignore",
-                        "replace",
-                        "xmlcharrefreplace")
+                                  "ignore",
+                                  "replace",
+                                  "xmlcharrefreplace")
 
         self.assertIn(Constants.codec_error, valid_encodings_errors)
 
@@ -292,6 +294,7 @@ class TestConstants(unittest.TestCase):
         """
 
         self.assertRegexpMatches(Constants.null_object, "\w+")
+
 
 if __name__ == "__main__":
     unittest.main()

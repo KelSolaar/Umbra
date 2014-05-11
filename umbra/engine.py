@@ -36,6 +36,7 @@ from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtGui import QApplication
 from PyQt4.QtGui import QPixmap
 
+
 def _set_package_directory():
     """
     Sets the Application package directory in the path.
@@ -43,6 +44,7 @@ def _set_package_directory():
 
     package_directory = os.path.normpath(os.path.join(os.path.dirname(__file__), "../"))
     package_directory not in sys.path and sys.path.append(package_directory)
+
 
 _set_package_directory()
 
@@ -53,6 +55,7 @@ from umbra.globals.constants import Constants
 from umbra.globals.runtime_globals import RuntimeGlobals
 from umbra.globals.ui_constants import UiConstants
 
+
 def _override_dependencies_globals():
     """
     Overrides dependencies globals.
@@ -62,9 +65,11 @@ def _override_dependencies_globals():
     foundations.globals.constants.Constants.application_directory = \
         manager.globals.constants.Constants.application_directory = Constants.application_directory
 
+
 _override_dependencies_globals()
 
 import foundations.common
+
 
 def _extend_resources_paths():
     """
@@ -76,6 +81,7 @@ def _extend_resources_paths():
         path = os.path.normpath(path)
         if foundations.common.path_exists(path):
             path not in RuntimeGlobals.resources_directories and RuntimeGlobals.resources_directories.append(path)
+
 
 _extend_resources_paths()
 
@@ -126,6 +132,7 @@ __all__ = ["LOGGER",
 
 LOGGER = foundations.verbose.install_logger()
 
+
 def _initialize_logging():
     """
     Initializes the Application logging.
@@ -137,10 +144,12 @@ def _initialize_logging():
 
     # Defining logging formatters.
     RuntimeGlobals.logging_formatters = {"Default": foundations.verbose.LOGGING_DEFAULT_FORMATTER,
-                                        "Extended": foundations.verbose.LOGGING_EXTENDED_FORMATTER,
-                                        "Standard": foundations.verbose.LOGGING_STANDARD_FORMATTER}
+                                         "Extended": foundations.verbose.LOGGING_EXTENDED_FORMATTER,
+                                         "Standard": foundations.verbose.LOGGING_STANDARD_FORMATTER}
+
 
 _initialize_logging()
+
 
 def _initialize_application():
     """
@@ -152,7 +161,9 @@ def _initialize_application():
 
     RuntimeGlobals.reporter = umbra.reporter.install_exception_reporter()
 
+
 _initialize_application()
+
 
 @umbra.reporter.critical_exception_handler
 def _initialize_applicationUiFile():
@@ -164,6 +175,7 @@ def _initialize_applicationUiFile():
     if not foundations.common.path_exists(RuntimeGlobals.ui_file):
         raise foundations.exceptions.FileExistsError("'{0}' ui file is not available, {1} will now close!".format(
             UiConstants.ui_file, Constants.application_name))
+
 
 _initialize_applicationUiFile()
 
@@ -178,6 +190,7 @@ SESSION_FOOTER_TEXT = ("{0} | Closing interface! ".format(Constants.application_
                        Constants.logging_separators,
                        "{0} | Session ended at: {1}".format(Constants.application_name, time.strftime('%X - %x')),
                        Constants.logging_separators)
+
 
 def show_processing(message=""):
     """
@@ -220,6 +233,7 @@ def show_processing(message=""):
 
     return show_processingDecorator
 
+
 def encapsulate_processing(object):
     """
     Encapsulates a processing operation.
@@ -250,6 +264,7 @@ def encapsulate_processing(object):
             RuntimeGlobals.engine._Umbra__restore_processing_state()
 
     return encapsulate_processing_wrapper
+
 
 class Umbra(foundations.ui.common.QWidget_factory(ui_file=RuntimeGlobals.ui_file)):
     """
@@ -318,21 +333,21 @@ class Umbra(foundations.ui.common.QWidget_factory(ui_file=RuntimeGlobals.ui_file
         LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
         settings = foundations.data_structures.Structure(**{"components_paths": None,
-                                                           "requisite_components": None,
-                                                           "visible_components": None,
-                                                           "splashscreen": None,
-                                                           "requests_stack": None,
-                                                           "patches_manager": None,
-                                                           "user_application_data_directory": None,
-                                                           "logging_session_handler": None,
-                                                           "logging_file_handler": None,
-                                                           "logging_console_handler": None,
-                                                           "logging_session_handler_stream": None,
-                                                           "logging_active_formatter": None,
-                                                           "settings": None,
-                                                           "verbosity_level": None,
-                                                           "parameters": None,
-                                                           "arguments": None})
+                                                            "requisite_components": None,
+                                                            "visible_components": None,
+                                                            "splashscreen": None,
+                                                            "requests_stack": None,
+                                                            "patches_manager": None,
+                                                            "user_application_data_directory": None,
+                                                            "logging_session_handler": None,
+                                                            "logging_file_handler": None,
+                                                            "logging_console_handler": None,
+                                                            "logging_session_handler_stream": None,
+                                                            "logging_active_formatter": None,
+                                                            "settings": None,
+                                                            "verbosity_level": None,
+                                                            "parameters": None,
+                                                            "arguments": None})
 
         settings.update(dict((key, value) for key, value in kwargs.iteritems() if key in settings))
 
@@ -914,7 +929,8 @@ class Umbra(foundations.ui.common.QWidget_factory(ui_file=RuntimeGlobals.ui_file
         """
 
         raise foundations.exceptions.ProgrammingError(
-            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "user_application_data_directory"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__,
+                                                             "user_application_data_directory"))
 
     @property
     def logging_session_handler(self):
@@ -1078,7 +1094,7 @@ class Umbra(foundations.ui.common.QWidget_factory(ui_file=RuntimeGlobals.ui_file
 
         if value is not None:
             assert type(value) in (
-            unicode, QString), "'{0}' attribute: '{1}' type is not 'unicode' or 'QString'!".format(
+                unicode, QString), "'{0}' attribute: '{1}' type is not 'unicode' or 'QString'!".format(
                 "logging_active_formatter", value)
         self.__logging_active_formatter = value
 
@@ -1537,17 +1553,17 @@ class Umbra(foundations.ui.common.QWidget_factory(ui_file=RuntimeGlobals.ui_file
 
         LOGGER.debug("> Setting Application visual style.")
         platform_styles = {"Windows": (("Windows", "Microsoft"),
-                                      UiConstants.windows_style,
-                                      UiConstants.windows_stylesheet_file,
-                                      UiConstants.windows_full_screen_stylesheet_file),
-                          "Darwin": (("Darwin",),
-                                     UiConstants.darwin_style,
-                                     UiConstants.darwin_stylesheet_file,
-                                     UiConstants.darwin_full_screen_stylesheet_file),
-                          "Linux": (("Linux",),
-                                    UiConstants.linux_style,
-                                    UiConstants.linux_stylesheet_file,
-                                    UiConstants.linux_full_screen_stylesheet_file)}
+                                       UiConstants.windows_style,
+                                       UiConstants.windows_stylesheet_file,
+                                       UiConstants.windows_full_screen_stylesheet_file),
+                           "Darwin": (("Darwin",),
+                                      UiConstants.darwin_style,
+                                      UiConstants.darwin_stylesheet_file,
+                                      UiConstants.darwin_full_screen_stylesheet_file),
+                           "Linux": (("Linux",),
+                                     UiConstants.linux_style,
+                                     UiConstants.linux_stylesheet_file,
+                                     UiConstants.linux_full_screen_stylesheet_file)}
 
         style_sheet_file = None
         for platform_style, settings in platform_styles.iteritems():
@@ -1558,7 +1574,7 @@ class Umbra(foundations.ui.common.QWidget_factory(ui_file=RuntimeGlobals.ui_file
                 style_sheet_path = umbra.ui.common.get_resource_path(styleSheeFile)
                 if full_screen_style:
                     full_screen_style_sheet_path = umbra.ui.common.get_resource_path(full_screen_style_sheet_file,
-                                                                               raise_exception=False)
+                                                                                     raise_exception=False)
                     style_sheet_path = full_screen_style_sheet_path or style_sheet_path
                 style_sheet_file = foundations.io.File(style_sheet_path)
                 break
@@ -1576,8 +1592,8 @@ class Umbra(foundations.ui.common.QWidget_factory(ui_file=RuntimeGlobals.ui_file
                     continue
 
                 style_sheet_file.content[i] = line.replace(search.group("url"),
-                                                         foundations.strings.to_forward_slashes(
-                                                             umbra.ui.common.get_resource_path(search.group("url"))))
+                                                           foundations.strings.to_forward_slashes(
+                                                               umbra.ui.common.get_resource_path(search.group("url"))))
             RuntimeGlobals.application.setStyleSheet(QString("".join(style_sheet_file.content)))
             return True
         else:
@@ -1795,6 +1811,7 @@ class Umbra(foundations.ui.common.QWidget_factory(ui_file=RuntimeGlobals.ui_file
 
         exit(exit_code)
 
+
 @umbra.reporter.critical_exception_handler
 def set_user_application_data_directory(directory):
     """
@@ -1817,6 +1834,7 @@ def set_user_application_data_directory(directory):
         raise OSError("{0} | '{1}' directory creation failed , '{2}' will now close!".format(__name__,
                                                                                              directory,
                                                                                              Constants.application_name))
+
 
 def get_command_line_parameters_parser():
     """
@@ -1888,6 +1906,7 @@ def get_command_line_parameters_parser():
                       help="'Trace given modules'.")
     return parser
 
+
 @umbra.reporter.critical_exception_handler
 def get_logging_file(maximum_logging_files=10, retries=2 ^ 16):
     """
@@ -1925,6 +1944,7 @@ def get_logging_file(maximum_logging_files=10, retries=2 ^ 16):
     LOGGER.debug("> Current Logging file: '{0}'".format(path))
 
     return path
+
 
 @umbra.reporter.critical_exception_handler
 def run(engine, parameters, components_paths=None, requisite_components=None, visible_components=None):
@@ -1977,44 +1997,46 @@ def run(engine, parameters, components_paths=None, requisite_components=None, vi
 
     if foundations.environment.get_temporary_directory() in user_application_data_directory:
         umbra.ui.widgets.message_box.message_box("Error",
-                                               "Error",
-"{0} failed to use the default user Application data directory to store its preferences \
+                                                 "Error",
+                                                 "{0} failed to use the default user Application data directory to store its preferences \
 and has defaulted to the following directory:\n\n\t'{1}'.\n\nReasons for this are various:\n\
 \t- Undefined 'APPDATA' ( Windows ) or 'HOME' ( Mac Os X, Linux ) environment variables.\n\
 \t- User name with non 'UTF-8' encoding compliant characters.\n\
 \t- Non 'UTF-8' encoding compliant characters in the preferences directory path.\n\n\
 You will have to define your own preferences directory by launching {0} with the \
 '-u \"path\\to\\the\\custom\\preferences\\directory\"' command line parameter.".format(
-                                                   Constants.application_name,
-                                                   user_application_data_directory))
+                                                     Constants.application_name,
+                                                     user_application_data_directory))
 
     LOGGER.debug("> Application Python interpreter: '{0}'".format(sys.executable))
     LOGGER.debug("> Application PyQt version: '{0}'".format(PYQT_VERSION_STR))
     LOGGER.debug("> Application startup location: '{0}'".format(os.getcwd()))
-    LOGGER.debug("> Session user Application data directory: '{0}'".format(RuntimeGlobals.user_application_data_directory))
+    LOGGER.debug("> Session user Application data directory: '{0}'".format(
+        RuntimeGlobals.user_application_data_directory))
 
     LOGGER.debug("> Initializing '{0}'!".format(Constants.application_name))
 
     # Getting the logging file path.
     RuntimeGlobals.logging_file = get_logging_file()
-    RuntimeGlobals.logging_file_handler = foundations.verbose.get_logging_file_handler(file=RuntimeGlobals.logging_file)
+    RuntimeGlobals.logging_file_handler = foundations.verbose.get_logging_file_handler(
+        file=RuntimeGlobals.logging_file)
 
     # Getting the patches file path.
     RuntimeGlobals.patches_file = os.path.join(RuntimeGlobals.user_application_data_directory,
-                                              Constants.patches_directory,
-                                              Constants.patches_file)
+                                               Constants.patches_directory,
+                                               Constants.patches_file)
     # Initializing the patches manager.
     RuntimeGlobals.patches_manager = umbra.managers.patches_manager.PatchesManager(RuntimeGlobals.patches_file,
-                                                                                 [os.path.join(path,
-                                                                                               Constants.patches_directory)
-                                                                                  for path in
-                                                                                  RuntimeGlobals.resources_directories])
+                                                                                   [os.path.join(path,
+                                                                                                 Constants.patches_directory)
+                                                                                    for path in
+                                                                                    RuntimeGlobals.resources_directories])
     RuntimeGlobals.patches_manager.register_patches() and RuntimeGlobals.patches_manager.apply_patches()
 
     # Retrieving settings file.
     RuntimeGlobals.settings_file = os.path.join(RuntimeGlobals.user_application_data_directory,
-                                               Constants.settings_directory,
-                                               Constants.settings_file)
+                                                Constants.settings_directory,
+                                                Constants.settings_file)
 
     RuntimeGlobals.settings = Preferences(RuntimeGlobals.settings_file)
 
@@ -2088,6 +2110,7 @@ You will have to define your own preferences directory by launching {0} with the
     RuntimeGlobals.engine.raise_()
 
     return sys.exit(RuntimeGlobals.application.exec_())
+
 
 def exit(exit_code=0):
     """

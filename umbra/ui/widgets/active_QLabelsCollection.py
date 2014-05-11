@@ -36,6 +36,7 @@ __all__ = ["LOGGER", "Active_QLabelsCollection"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class Active_QLabelsCollection(QObject):
     """
     Defines a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass providing
@@ -118,7 +119,7 @@ class Active_QLabelsCollection(QObject):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
     @container.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -128,7 +129,7 @@ class Active_QLabelsCollection(QObject):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
     @property
     def active_labels(self):
@@ -152,7 +153,7 @@ class Active_QLabelsCollection(QObject):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "active_labels"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "active_labels"))
 
     @active_labels.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -162,7 +163,7 @@ class Active_QLabelsCollection(QObject):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "active_labels"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "active_labels"))
 
     def __active_label__toggled(self, active_label, state):
         """
@@ -207,11 +208,11 @@ class Active_QLabelsCollection(QObject):
 
         if not issubclass(active_label.__class__, Active_QLabel):
             raise foundations.exceptions.ProgrammingError("{0} | '{1}' must be a '{2}' subclass!".format(
-            self.__class__.__name__, active_label, Active_QLabel.__name__))
+                self.__class__.__name__, active_label, Active_QLabel.__name__))
 
         if active_label in self.__active_labels:
             raise foundations.exceptions.ProgrammingError("{0} | '{1}' is already in the collection!".format(
-            self.__class__.__name__, active_label))
+                self.__class__.__name__, active_label))
 
         active_label.checkable = True
         not self.__active_labels and active_label.set_checked(True) or active_label.set_checked(False)
@@ -239,7 +240,7 @@ class Active_QLabelsCollection(QObject):
 
         if not active_label in self.__active_labels:
             raise foundations.exceptions.ProgrammingError("{0} | '{1}' is not in the collection!".format(
-            self.__class__.__name__, active_label))
+                self.__class__.__name__, active_label))
 
         self.__active_labels.remove(active_label)
         return True
@@ -280,6 +281,7 @@ class Active_QLabelsCollection(QObject):
 
         return self.__active_labels[index]
 
+
 if __name__ == "__main__":
     import sys
     from PyQt4.QtGui import QGridLayout
@@ -296,25 +298,25 @@ if __name__ == "__main__":
     widget.setLayout(grid_layout)
 
     active_label_a = Active_QLabel(widget, QPixmap(umbra.ui.common.get_resource_path(UiConstants.development_icon)),
-                                    QPixmap(umbra.ui.common.get_resource_path(UiConstants.development_hover_icon)),
-                                    QPixmap(umbra.ui.common.get_resource_path(UiConstants.development_active_icon)),
-                                    checkable=True,
-                                    checked=True)
+                                   QPixmap(umbra.ui.common.get_resource_path(UiConstants.development_hover_icon)),
+                                   QPixmap(umbra.ui.common.get_resource_path(UiConstants.development_active_icon)),
+                                   checkable=True,
+                                   checked=True)
     active_label_b = Active_QLabel(widget, QPixmap(umbra.ui.common.get_resource_path(UiConstants.preferences_icon)),
-                                    QPixmap(umbra.ui.common.get_resource_path(UiConstants.preferences_hover_icon)),
-                                    QPixmap(umbra.ui.common.get_resource_path(UiConstants.preferences_active_icon)),
-                                    checkable=True,
-                                    checked=False)
+                                   QPixmap(umbra.ui.common.get_resource_path(UiConstants.preferences_hover_icon)),
+                                   QPixmap(umbra.ui.common.get_resource_path(UiConstants.preferences_active_icon)),
+                                   checkable=True,
+                                   checked=False)
     active_label_c = Active_QLabel(widget, QPixmap(umbra.ui.common.get_resource_path(UiConstants.custom_layouts_icon)),
-                                    QPixmap(umbra.ui.common.get_resource_path(UiConstants.custom_layouts_hover_icon)),
-                                    QPixmap(umbra.ui.common.get_resource_path(UiConstants.custom_layouts_active_icon)),
-                                    checkable=True,
-                                    checked=False)
+                                   QPixmap(umbra.ui.common.get_resource_path(UiConstants.custom_layouts_hover_icon)),
+                                   QPixmap(umbra.ui.common.get_resource_path(UiConstants.custom_layouts_active_icon)),
+                                   checkable=True,
+                                   checked=False)
     active_label_d = Active_QLabel(widget, QPixmap(umbra.ui.common.get_resource_path(UiConstants.miscellaneous_icon)),
-                                    QPixmap(umbra.ui.common.get_resource_path(UiConstants.miscellaneous_hover_icon)),
-                                    QPixmap(umbra.ui.common.get_resource_path(UiConstants.miscellaneous_active_icon)),
-                                    checkable=True,
-                                    checked=False)
+                                   QPixmap(umbra.ui.common.get_resource_path(UiConstants.miscellaneous_hover_icon)),
+                                   QPixmap(umbra.ui.common.get_resource_path(UiConstants.miscellaneous_active_icon)),
+                                   checkable=True,
+                                   checked=False)
     for active_label in (active_label_a, active_label_b, active_label_c, active_label_d):
         grid_layout.addWidget(active_label)
 

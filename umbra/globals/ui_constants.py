@@ -25,6 +25,7 @@ __status__ = "Production"
 
 __all__ = ["UiConstants"]
 
+
 class UiConstants():
     """
     Defines **Umbra** package ui constants.

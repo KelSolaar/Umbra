@@ -48,6 +48,7 @@ LOGGER = foundations.verbose.install_logger()
 
 COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Projects_Explorer.ui")
 
+
 class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
     """
     Defines the :mod:`sibl_gui.components.addons.projects_explorer.projects_explorer` Component Interface class.
@@ -85,22 +86,19 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         self.__model = None
         self.__view = None
         self.__delegate = None
-        self.__style = Style(default=\
-                                """
+        self.__style = Style(default="""
                                 QLabel, QLabel link {
                                     background-color: rgb(32, 32, 32);
                                     color: rgb(192, 192, 192);
                                 }
                                 """,
-                                hover=\
-                                """
+                             hover="""
                                 QLabel, QLabel link {
                                     background-color: rgb(64, 64, 64);
                                     color: rgb(192, 192, 192);
                                 }
                                 """,
-                                highlight=\
-                                """
+                             highlight="""
                                 QLabel, QLabel link {
                                     background-color: rgb(128, 128, 128);
                                     color: rgb(224, 224, 224);
@@ -129,7 +127,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "dock_area"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "dock_area"))
 
     @dock_area.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -139,7 +137,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "dock_area"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "dock_area"))
 
     @property
     def engine(self):
@@ -163,7 +161,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "engine"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "engine"))
 
     @engine.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -173,7 +171,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "engine"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "engine"))
 
     @property
     def settings(self):
@@ -197,7 +195,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
     @settings.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -207,7 +205,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
     @property
     def settings_section(self):
@@ -231,7 +229,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings_section"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings_section"))
 
     @settings_section.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -241,7 +239,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings_section"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings_section"))
 
     @property
     def script_editor(self):
@@ -265,7 +263,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "script_editor"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "script_editor"))
 
     @script_editor.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -275,7 +273,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "script_editor"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "script_editor"))
 
     @property
     def model(self):
@@ -299,7 +297,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "model"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "model"))
 
     @model.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -309,7 +307,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "model"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "model"))
 
     @property
     def view(self):
@@ -333,7 +331,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "view"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "view"))
 
     @view.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -343,7 +341,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "view"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "view"))
 
     @property
     def delegate(self):
@@ -367,7 +365,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "delegate"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "delegate"))
 
     @delegate.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -377,7 +375,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "delegate"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "delegate"))
 
     @property
     def style(self):
@@ -401,7 +399,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "style"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "style"))
 
     @style.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -411,7 +409,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "style"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "style"))
 
     def activate(self, engine):
         """
@@ -482,7 +480,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         self.__view.doubleClicked.connect(self.__view__doubleClicked)
         self.__view.selectionModel().selectionChanged.connect(self.__view_selectionModel__selectionChanged)
         self.__script_editor.Script_Editor_tabWidget.currentChanged.connect(
-        self.__script_editor_Script_Editor_tabWidget__currentChanged)
+            self.__script_editor_Script_Editor_tabWidget__currentChanged)
         self.__script_editor.model.project_registered.connect(self.__script_editor_model__project_registered)
 
         self.initialized_ui = True
@@ -505,7 +503,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         self.__view.doubleClicked.disconnect(self.__view__doubleClicked)
         self.__view.selectionModel().selectionChanged.disconnect(self.__view_selectionModel__selectionChanged)
         self.__script_editor.Script_Editor_tabWidget.currentChanged.disconnect(
-        self.__script_editor_Script_Editor_tabWidget__currentChanged)
+            self.__script_editor_Script_Editor_tabWidget__currentChanged)
         self.__script_editor.model.project_registered.disconnect(self.__script_editor_model__project_registered)
 
         self.__view_remove_actions()
@@ -554,10 +552,10 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         LOGGER.debug("> Adding '{0}' Component actions.".format(self.__class__.__name__))
 
         add_project_action = self.__engine.actions_manager.get_action(
-        "Actions|Umbra|Components|factory.script_editor|&File|Add Project ...")
+            "Actions|Umbra|Components|factory.script_editor|&File|Add Project ...")
         remove_project_action = self.__engine.actions_manager.register_action(
-        "Actions|Umbra|Components|factory.script_editor|&File|Remove Project",
-        slot=self.__view_remove_project_action__triggered)
+            "Actions|Umbra|Components|factory.script_editor|&File|Remove Project",
+            slot=self.__view_remove_project_action__triggered)
         self.__script_editor.file_menu.insertAction(add_project_action, remove_project_action)
         self.__script_editor.file_menu.removeAction(add_project_action)
         self.__script_editor.file_menu.insertAction(remove_project_action, add_project_action)
@@ -579,30 +577,30 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         self.__view.addAction(self.__engine.actions_manager.register_action(
-        "Actions|Umbra|Components|addons.projects_explorer|Add Project ...",
-        slot=self.__view_add_project_action__triggered))
+            "Actions|Umbra|Components|addons.projects_explorer|Add Project ...",
+            slot=self.__view_add_project_action__triggered))
         self.__view.addAction(self.__engine.actions_manager.register_action(
-        "Actions|Umbra|Components|addons.projects_explorer|Remove Project",
-        slot=self.__view_remove_project_action__triggered))
+            "Actions|Umbra|Components|addons.projects_explorer|Remove Project",
+            slot=self.__view_remove_project_action__triggered))
 
         separator_action = QAction(self.__view)
         separator_action.setSeparator(True)
         self.__view.addAction(separator_action)
 
         self.__view.addAction(self.__engine.actions_manager.register_action(
-        "Actions|Umbra|Components|addons.projects_explorer|Add New File ...",
-        slot=self.__view_add_new_file_action__triggered))
+            "Actions|Umbra|Components|addons.projects_explorer|Add New File ...",
+            slot=self.__view_add_new_file_action__triggered))
         self.__view.addAction(self.__engine.actions_manager.register_action(
-        "Actions|Umbra|Components|addons.projects_explorer|Add New Directory ...",
-        slot=self.__view_add_new_directory_action__triggered))
+            "Actions|Umbra|Components|addons.projects_explorer|Add New Directory ...",
+            slot=self.__view_add_new_directory_action__triggered))
 
         separator_action = QAction(self.__view)
         separator_action.setSeparator(True)
         self.__view.addAction(separator_action)
 
         self.__view.addAction(self.__engine.actions_manager.register_action(
-        "Actions|Umbra|Components|addons.projects_explorer|Rename ...",
-        slot=self.__view_rename_action__triggered))
+            "Actions|Umbra|Components|addons.projects_explorer|Rename ...",
+            slot=self.__view_rename_action__triggered))
         # self.__view.addAction(self.__engine.actions_manager.register_action(
         # "Actions|Umbra|Components|addons.projects_explorer|Copy ...",
         # slot=self.__view_copy_action__triggered))
@@ -615,24 +613,24 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         self.__view.addAction(separator_action)
 
         self.__view.addAction(self.__engine.actions_manager.register_action(
-        "Actions|Umbra|Components|addons.projects_explorer|Delete ...",
-        slot=self.__view_delete_action__triggered))
+            "Actions|Umbra|Components|addons.projects_explorer|Delete ...",
+            slot=self.__view_delete_action__triggered))
 
         separator_action = QAction(self.__view)
         separator_action.setSeparator(True)
         self.__view.addAction(separator_action)
 
         self.__view.addAction(self.__engine.actions_manager.register_action(
-        "Actions|Umbra|Components|addons.projects_explorer|Find In Files ...",
-        slot=self.__view_find_in_files_action__triggered))
+            "Actions|Umbra|Components|addons.projects_explorer|Find In Files ...",
+            slot=self.__view_find_in_files_action__triggered))
 
         separator_action = QAction(self.__view)
         separator_action.setSeparator(True)
         self.__view.addAction(separator_action)
 
         self.__view.addAction(self.__engine.actions_manager.register_action(
-        "Actions|Umbra|Components|addons.projects_explorer|Output Selected Path",
-        slot=self.__view_output_selected_path_action__triggered))
+            "Actions|Umbra|Components|addons.projects_explorer|Output Selected Path",
+            slot=self.__view_output_selected_path_action__triggered))
 
     def __view_remove_actions(self):
         """
@@ -651,14 +649,14 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         output_selected_path_action = "Actions|Umbra|Components|addons.projects_explorer|Output Selected Path"
 
         for action in (add_project_action,
-                        remove_project_action,
-                        add_new_file_action,
-                        add_new_directory_action,
-                        rename_action,
-                        # copy_action,
-                        # move_action,
-                        delete_action,
-                        output_selected_path_action):
+                       remove_project_action,
+                       add_new_file_action,
+                       add_new_directory_action,
+                       rename_action,
+                       # copy_action,
+                       # move_action,
+                       delete_action,
+                       output_selected_path_action):
             self.__view.removeAction(self.__engine.actions_manager.get_action(action))
             self.__engine.actions_manager.unregister_action(action)
 
@@ -889,9 +887,9 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         return True
 
     @foundations.exceptions.handle_exceptions(umbra.exceptions.notify_exception_handler,
-                                            foundations.exceptions.FileExistsError,
-                                            foundations.exceptions.DirectoryExistsError,
-                                            Exception)
+                                              foundations.exceptions.FileExistsError,
+                                              foundations.exceptions.DirectoryExistsError,
+                                              Exception)
     def __raise_file_system_exception(self, item, directory):
         """
         Raises a common fileSystem exception.
@@ -905,14 +903,14 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         path = os.path.join(directory, item)
         if os.path.isfile(path):
             raise foundations.exceptions.FileExistsError(
-            "{0} | A file with '{1}' name already exists in '{2}' directory!".format(self.__class__.__name__,
-                                                                                    item,
-                                                                                    directory))
+                "{0} | A file with '{1}' name already exists in '{2}' directory!".format(self.__class__.__name__,
+                                                                                         item,
+                                                                                         directory))
         else:
             raise foundations.exceptions.DirectoryExistsError(
-            "{0} | A directory with '{1}' name already exists in '{2}' directory!".format(self.__class__.__name__,
-                                                                                        item,
-                                                                                        directory))
+                "{0} | A directory with '{1}' name already exists in '{2}' directory!".format(self.__class__.__name__,
+                                                                                              item,
+                                                                                              directory))
 
     def __set_authoring_nodes(self, source, target):
         """
@@ -994,7 +992,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         for node in itertools.chain(self.__script_editor.model.get_project_nodes(source),
-                                            self.__script_editor.model.get_directory_nodes(source)):
+                                    self.__script_editor.model.get_directory_nodes(source)):
             self.__script_editor.model.unregister_project_nodes(node)
             self.__script_editor.unregister_node_path(node)
             self.__rename_path(source, target)
@@ -1041,7 +1039,7 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         for node in itertools.chain(self.__script_editor.model.get_project_nodes(directory),
-                                            self.__script_editor.model.get_directory_nodes(directory)):
+                                    self.__script_editor.model.get_directory_nodes(directory)):
             self.__script_editor.model.unregister_project_nodes(node)
             if node.family == "Directory":
                 self.__script_editor.model.unregister_project_nodes(node)
@@ -1165,7 +1163,8 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 
         if self.__script_editor.model.is_authoring_node(node):
             if not foundations.common.path_exists(source):
-                LOGGER.info("{0} | Renaming '{1}' untitled file to '{2}'!".format(self.__class__.__name__, source, target))
+                LOGGER.info("{0} | Renaming '{1}' untitled file to '{2}'!".format(
+                    self.__class__.__name__, source, target))
                 self.__set_authoring_nodes(source, target)
                 return True
 
@@ -1200,8 +1199,9 @@ class ProjectsExplorer(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
                 return False
 
         if message_box.message_box("Question", "Question",
-        "Are you sure you want to delete '{0}' {1}?".format(path, "file" if os.path.isfile(path) else "directory"),
-        buttons=QMessageBox.Yes | QMessageBox.No) == QMessageBox.Yes:
+                                   "Are you sure you want to delete '{0}' {1}?".format(
+                                           path, "file" if os.path.isfile(path) else "directory"),
+                                   buttons=QMessageBox.Yes | QMessageBox.No) == QMessageBox.Yes:
             if os.path.isfile(path):
                 LOGGER.info("{0} | Deleting '{1}' file!".format(self.__class__.__name__, path))
                 self.__delete_file(path)

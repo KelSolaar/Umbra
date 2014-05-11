@@ -31,16 +31,17 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-        "get_editor_capability",
-        "is_symbols_pair_complete",
-        "perform_completion",
-        "indentation_pre_event_input_accelerators",
-        "indentation_post_event_input_accelerators",
-        "completion_pre_event_input_accelerators",
-        "completion_post_event_input_accelerators",
-        "symbols_expanding_pre_event_input_accelerators"]
+           "get_editor_capability",
+           "is_symbols_pair_complete",
+           "perform_completion",
+           "indentation_pre_event_input_accelerators",
+           "indentation_post_event_input_accelerators",
+           "completion_pre_event_input_accelerators",
+           "completion_post_event_input_accelerators",
+           "symbols_expanding_pre_event_input_accelerators"]
 
 LOGGER = foundations.verbose.install_logger()
+
 
 def get_editor_capability(editor, capability):
     """
@@ -58,6 +59,7 @@ def get_editor_capability(editor, capability):
         return
 
     return editor.language.get(capability)
+
 
 def is_symbols_pair_complete(editor, symbol):
     """
@@ -84,6 +86,7 @@ def is_symbols_pair_complete(editor, symbol):
     else:
         return selected_text.count(symbol) == selected_text.count(symbols_pairs[symbol])
 
+
 def perform_completion(editor):
     """
     Performs the completion on given editor.
@@ -104,7 +107,7 @@ def perform_completion(editor):
     editor.completer.setCompletionPrefix(completion_prefix)
     if editor.completer.completionCount() == 1:
         completion = editor.completer.completionModel().data(
-                    editor.completer.completionModel().index(0, 0)).toString()
+            editor.completer.completionModel().index(0, 0)).toString()
         cursor = editor.textCursor()
         cursor.insertText(completion[len(completion_prefix):])
         editor.setTextCursor(cursor)
@@ -114,12 +117,13 @@ def perform_completion(editor):
 
         completer_rectangle = editor.cursorRect()
         hasattr(editor, "margin_area_LinesNumbers_widget") and completer_rectangle.moveTo(
-        completer_rectangle.topLeft().x() + editor.margin_area_LinesNumbers_widget.get_width(),
-        completer_rectangle.topLeft().y())
-        completer_rectangle.setWidth(editor.completer.popup().sizeHintForColumn(0) + \
-        editor.completer.popup().verticalScrollBar().sizeHint().width())
+            completer_rectangle.topLeft().x() + editor.margin_area_LinesNumbers_widget.get_width(),
+            completer_rectangle.topLeft().y())
+        completer_rectangle.setWidth(editor.completer.popup().sizeHintForColumn(0) +
+                                     editor.completer.popup().verticalScrollBar().sizeHint().width())
         editor.completer.complete(completer_rectangle)
     return True
+
 
 def indentation_pre_event_input_accelerators(editor, event):
     """
@@ -142,6 +146,7 @@ def indentation_pre_event_input_accelerators(editor, event):
     elif event.key() == Qt.Key_Backtab:
         process_event = editor.unindent() and False
     return process_event
+
 
 def indentation_post_event_input_accelerators(editor, event):
     """
@@ -194,6 +199,7 @@ def indentation_post_event_input_accelerators(editor, event):
                     editor.setTextCursor(cursor)
     return True
 
+
 def completion_pre_event_input_accelerators(editor, event):
     """
     Implements completion pre event input accelerators.
@@ -225,6 +231,7 @@ def completion_pre_event_input_accelerators(editor, event):
 
     return process_event
 
+
 def completion_post_event_input_accelerators(editor, event):
     """
     Implements completion post event input accelerators.
@@ -241,6 +248,7 @@ def completion_post_event_input_accelerators(editor, event):
         if editor.completer.popup().isVisible():
             perform_completion(editor)
     return True
+
 
 def symbols_expanding_pre_event_input_accelerators(editor, event):
     """

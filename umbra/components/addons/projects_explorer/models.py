@@ -35,6 +35,7 @@ __all__ = ["LOGGER", "ProjectsProxyModel"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class ProjectsProxyModel(QSortFilterProxyModel):
     """
     Defines the proxy Model used by the

@@ -33,6 +33,7 @@ COMMAND_TEMPLATE = ["[application.components_manager[\"factory.script_editor\"].
                     "application.layouts_manager.restore_layout(\"development_centric\")",
                     "application.raise_()"]
 
+
 def u_edit(*args):
     """
     Edits given paths into Umbra.
@@ -58,6 +59,7 @@ def u_edit(*args):
     connection.send("{0}<!RE>".format("\n".join(COMMAND_TEMPLATE).format(paths)))
     connection.close()
     return True
+
 
 if __name__ == "__main__":
     u_edit(*sys.argv[1:])

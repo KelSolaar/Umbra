@@ -39,6 +39,7 @@ __all__ = ["LOGGER", "Patch", "PatchesManager"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class Patch(foundations.data_structures.Structure):
     """
     Defines a storage object for :class:`PatchesManager` class patch.
@@ -55,6 +56,7 @@ class Patch(foundations.data_structures.Structure):
         LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
         foundations.data_structures.Structure.__init__(self, **kwargs)
+
 
 class PatchesManager(object):
     """

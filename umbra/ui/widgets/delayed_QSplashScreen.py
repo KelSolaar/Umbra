@@ -36,6 +36,7 @@ __all__ = ["LOGGER", "Delayed_QSplashScreen"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class Delayed_QSplashScreen(QSplashScreen):
     """
     Defines a `QSplashScreen <http://doc.qt.nokia.com/qsplashscreen.html>`_ subclass providing
@@ -91,7 +92,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 
         if value is not None:
             assert type(value) in (int, float), "'{0}' attribute: '{1}' type is not 'int' or 'float'!".format(
-            "wait_time", value)
+                "wait_time", value)
             assert value >= 0, "'{0}' attribute: '{1}' need to be positive!".format("wait_time", value)
         self.__wait_time = value
 
@@ -103,7 +104,7 @@ class Delayed_QSplashScreen(QSplashScreen):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "wait_time"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "wait_time"))
 
     @property
     def text_color(self):
@@ -128,7 +129,7 @@ class Delayed_QSplashScreen(QSplashScreen):
 
         if value is not None:
             assert type(value) in (Qt.GlobalColor, QColor), \
-            "'{0}' attribute: '{1}' type is not 'int' or 'QColor'!".format("text_color", value)
+                "'{0}' attribute: '{1}' type is not 'int' or 'QColor'!".format("text_color", value)
         self.__text_color = value
 
     @text_color.deleter
@@ -139,7 +140,7 @@ class Delayed_QSplashScreen(QSplashScreen):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "text_color"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "text_color"))
 
     def show_message(self, message, text_alignement=Qt.AlignLeft, text_color=None, wait_time=None):
         """
@@ -155,12 +156,14 @@ class Delayed_QSplashScreen(QSplashScreen):
         :type wait_time: int
         """
 
-        QSplashScreen.showMessage(self, message, text_alignement, self.__text_color if text_color is None else text_color)
+        QSplashScreen.showMessage(
+            self, message, text_alignement, self.__text_color if text_color is None else text_color)
 
         # Force QSplashscreen refresh.
         QApplication.processEvents()
 
         foundations.core.wait(self.__wait_time if wait_time is None else wait_time)
+
 
 if __name__ == "__main__":
     from PyQt4.QtGui import QPixmap

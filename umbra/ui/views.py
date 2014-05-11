@@ -49,18 +49,19 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-        "ReadOnlyFilter",
-        "Mixin_AbstractBase"
-        "Mixin_AbstractView",
-        "Mixin_AbstractWidget",
-        "Abstract_QListView",
-        "Abstract_QTableView",
-        "Abstract_QTreeView",
-        "Abstract_QListWidget",
-        "Abstract_QTableWidget",
-        "Abstract_QTreeWidget"]
+           "ReadOnlyFilter",
+           "Mixin_AbstractBase"
+           "Mixin_AbstractView",
+           "Mixin_AbstractWidget",
+           "Abstract_QListView",
+           "Abstract_QTableView",
+           "Abstract_QTreeView",
+           "Abstract_QListWidget",
+           "Abstract_QTableWidget",
+           "Abstract_QTreeWidget"]
 
 LOGGER = foundations.verbose.install_logger()
+
 
 class ReadOnlyFilter(QObject):
     """
@@ -88,8 +89,8 @@ class ReadOnlyFilter(QObject):
         return False
 
     @foundations.exceptions.handle_exceptions(umbra.exceptions.notify_exception_handler,
-                                            foundations.exceptions.UserError)
-    def __raise_user_error(self, view) :
+                                              foundations.exceptions.UserError)
+    def __raise_user_error(self, view):
         """
         Raises an error if the given View has been set read only and the user attempted to edit its content.
 
@@ -98,7 +99,8 @@ class ReadOnlyFilter(QObject):
         """
 
         raise foundations.exceptions.UserError("{0} | Cannot perform action, '{1}' View has been set read only!".format(
-        self.__class__.__name__, view.objectName() or view))
+            self.__class__.__name__, view.objectName() or view))
+
 
 class Mixin_AbstractBase(object):
     """
@@ -122,10 +124,10 @@ class Mixin_AbstractBase(object):
         self.message = message or "No Item to view!"
 
         self.__notifier = Notification_QLabel(self,
-                                            color=QColor(192, 192, 192),
-                                            background_color=QColor(24, 24, 24),
-                                            border_color=QColor(32, 32, 32),
-                                            anchor=8)
+                                              color=QColor(192, 192, 192),
+                                              background_color=QColor(24, 24, 24),
+                                              border_color=QColor(32, 32, 32),
+                                              anchor=8)
 
     @property
     def message(self):
@@ -150,7 +152,7 @@ class Mixin_AbstractBase(object):
 
         if value is not None:
             assert type(value) in (unicode, QString), \
-            "'{0}' attribute: '{1}' type is not 'unicode' or 'QString'!".format("message", value)
+                "'{0}' attribute: '{1}' type is not 'unicode' or 'QString'!".format("message", value)
         self.__message = value
 
     @message.deleter
@@ -161,7 +163,7 @@ class Mixin_AbstractBase(object):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "message"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "message"))
 
     def resizeEvent(self, event):
         """
@@ -191,8 +193,8 @@ class Mixin_AbstractBase(object):
             if model.has_nodes():
                 show_message = False
         elif issubclass(type(model), QAbstractItemModel) or \
-        issubclass(type(model), QAbstractListModel) or \
-        issubclass(type(model), QAbstractTableModel):
+                issubclass(type(model), QAbstractListModel) or \
+                issubclass(type(model), QAbstractTableModel):
             if model.rowCount():
                 show_message = False
 
@@ -200,6 +202,7 @@ class Mixin_AbstractBase(object):
             self.__notifier.show_message(self.__message, 0)
         else:
             self.__notifier.hide_message()
+
 
 class Mixin_AbstractView(Mixin_AbstractBase):
     """
@@ -260,7 +263,7 @@ class Mixin_AbstractView(Mixin_AbstractBase):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "read_only"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "read_only"))
 
     def __initialize_ui(self):
         """
@@ -322,11 +325,11 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 
         if not hasattr(model, "get_node"):
             raise NotImplementedError(
-            "{0} | '{1}' Model doesn't implement a 'get_node' method!".format(__name__, model))
+                "{0} | '{1}' Model doesn't implement a 'get_node' method!".format(__name__, model))
 
         if not hasattr(model, "get_attribute"):
             raise NotImplementedError(
-            "{0} | '{1}' Model doesn't implement a 'get_attribute' method!".format(__name__, model))
+                "{0} | '{1}' Model doesn't implement a 'get_attribute' method!".format(__name__, model))
 
         for index in indexes:
             node = model.get_node(index)
@@ -391,12 +394,14 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 
         return self.select_view_indexes(indexes, flags)
 
+
 class Mixin_AbstractWidget(Mixin_AbstractBase):
     """
     Defines a mixin used to bring common capabilities in Application Widgets Views classes.
     """
 
     pass
+
 
 class Abstract_QListView(QListView, Mixin_AbstractView):
     """
@@ -421,6 +426,7 @@ class Abstract_QListView(QListView, Mixin_AbstractView):
         QListView.__init__(self, parent)
         Mixin_AbstractView.__init__(self, read_only, message)
 
+
 class Abstract_QTableView(QTableView, Mixin_AbstractView):
     """
     Defines a `QTableView <http://doc.qt.nokia.com/qtableview.html>`_ subclass used as base
@@ -443,6 +449,7 @@ class Abstract_QTableView(QTableView, Mixin_AbstractView):
 
         QTableView.__init__(self, parent)
         Mixin_AbstractView.__init__(self, read_only, message)
+
 
 class Abstract_QTreeView(QTreeView, Mixin_AbstractView):
     """
@@ -467,6 +474,7 @@ class Abstract_QTreeView(QTreeView, Mixin_AbstractView):
         QTreeView.__init__(self, parent)
         Mixin_AbstractView.__init__(self, read_only, message)
 
+
 class Abstract_QListWidget(QListWidget, Mixin_AbstractWidget):
     """
     Defines a `QListWidget <http://doc.qt.nokia.com/qlistwidget.html>`_ subclass used as base
@@ -488,6 +496,7 @@ class Abstract_QListWidget(QListWidget, Mixin_AbstractWidget):
         QListWidget.__init__(self, parent)
         Mixin_AbstractWidget.__init__(self, message)
 
+
 class Abstract_QTableWidget(QTableWidget, Mixin_AbstractWidget):
     """
     Defines a `QTableWidget <http://doc.qt.nokia.com/qtablewidget.html>`_ subclass used as base
@@ -508,6 +517,7 @@ class Abstract_QTableWidget(QTableWidget, Mixin_AbstractWidget):
 
         QTableWidget.__init__(self, parent)
         Mixin_AbstractWidget.__init__(self, message)
+
 
 class Abstract_QTreeWidget(QTreeWidget, Mixin_AbstractWidget):
     """

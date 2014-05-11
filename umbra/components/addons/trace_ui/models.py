@@ -31,6 +31,7 @@ __all__ = ["LOGGER"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class ModulesModel(umbra.ui.models.GraphModel):
     """
     Defines the Model used the by :class:`umbra.components.factory.trace_ui.trace_ui.TraceUi`
@@ -55,7 +56,8 @@ class ModulesModel(umbra.ui.models.GraphModel):
 
         LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-        umbra.ui.models.GraphModel.__init__(self, parent, root_node, horizontal_headers, vertical_headers, default_node)
+        umbra.ui.models.GraphModel.__init__(
+            self, parent, root_node, horizontal_headers, vertical_headers, default_node)
 
     def initialize_model(self, root_node):
         """

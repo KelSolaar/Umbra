@@ -19,6 +19,7 @@ from __future__ import unicode_literals
 import os
 import re
 import sys
+
 if sys.version_info[:2] <= (2, 6):
     from ordereddict import OrderedDict
 else:
@@ -50,6 +51,7 @@ __all__ = ["LOGGER", "COMPONENT_UI_FILE", "TraceUi"]
 LOGGER = foundations.verbose.install_logger()
 
 COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Trace_Ui.ui")
+
 
 class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
     """
@@ -93,7 +95,7 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         self.__model = None
         self.__view = None
         self.__headers = OrderedDict([("Module", "name"),
-                                        ("Traced", "traced")])
+                                      ("Traced", "traced")])
 
     @property
     def dock_area(self):
@@ -117,7 +119,7 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "dock_area"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "dock_area"))
 
     @dock_area.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -127,7 +129,7 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "dock_area"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "dock_area"))
 
     @property
     def engine(self):
@@ -151,7 +153,7 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "engine"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "engine"))
 
     @engine.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -161,7 +163,7 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "engine"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "engine"))
 
     @property
     def settings(self):
@@ -185,7 +187,7 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
     @settings.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -195,7 +197,7 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
     @property
     def settings_section(self):
@@ -219,7 +221,7 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings_section"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings_section"))
 
     @settings_section.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -229,7 +231,7 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings_section"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings_section"))
 
     @property
     def model(self):
@@ -253,7 +255,7 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "model"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "model"))
 
     @model.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -263,7 +265,7 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "model"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "model"))
 
     @property
     def view(self):
@@ -287,7 +289,7 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "view"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "view"))
 
     @view.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -297,7 +299,7 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "view"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "view"))
 
     @property
     def headers(self):
@@ -321,7 +323,7 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "headers"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "headers"))
 
     @headers.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -331,7 +333,7 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "view"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "view"))
 
     def activate(self, engine):
         """
@@ -476,11 +478,11 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         self.__view.addAction(self.__engine.actions_manager.register_action(
-        "Actions|Umbra|Components|addons.trace_ui|Trace Module(s)",
-        slot=self.__view_trace_modules_action__triggered))
+            "Actions|Umbra|Components|addons.trace_ui|Trace Module(s)",
+            slot=self.__view_trace_modules_action__triggered))
         self.__view.addAction(self.__engine.actions_manager.register_action(
-        "Actions|Umbra|Components|addons.trace_ui|Untrace Module(s)",
-        slot=self.__view_untrace_modules_action__triggered))
+            "Actions|Umbra|Components|addons.trace_ui|Untrace Module(s)",
+            slot=self.__view_untrace_modules_action__triggered))
 
     def __view_remove_actions(self):
         """
@@ -541,7 +543,7 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         return [node.module for node in self.get_selected_nodes()]
 
     @foundations.exceptions.handle_exceptions(umbra.exceptions.notify_exception_handler,
-                                            foundations.exceptions.UserError)
+                                              foundations.exceptions.UserError)
     def trace_modules(self, modules, pattern=r".*", flags=re.IGNORECASE):
         """
         Traces given modules using given filter pattern.
@@ -560,7 +562,7 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
             pattern = re.compile(pattern, flags)
         except Exception:
             raise foundations.exceptions.UserError(
-            "{0} | Invalid objects trace filter pattern: Regex compilation failed!".format(self.__class__.__name__))
+                "{0} | Invalid objects trace filter pattern: Regex compilation failed!".format(self.__class__.__name__))
 
         for module in modules:
             foundations.trace.trace_module(module, foundations.verbose.tracer, pattern)
@@ -607,10 +609,10 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         root_node = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
         for module in modules:
             module_node = ModuleNode(module=module,
-                                    name=foundations.strings.to_string(module.__name__),
-                                    parent=root_node,
-                                    node_flags=node_flags,
-                                    attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled))
+                                     name=foundations.strings.to_string(module.__name__),
+                                     parent=root_node,
+                                     node_flags=node_flags,
+                                     attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled))
 
         root_node.sort_children()
 

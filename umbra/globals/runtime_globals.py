@@ -27,6 +27,7 @@ __status__ = "Production"
 
 __all__ = ["RuntimeGlobals"]
 
+
 class RuntimeGlobals():
     """
     Defines **Umbra** package runtime constants.

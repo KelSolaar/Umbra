@@ -36,6 +36,7 @@ __all__ = ["LOGGER", "DefaultCompleter"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class DefaultCompleter(QCompleter):
     """
     Defines a `QCompleter <http://doc.qt.nokia.com/qcompleter.html>`_ subclass used
@@ -69,7 +70,7 @@ class DefaultCompleter(QCompleter):
         self.__set_cache(tokens)
 
         QCompleter.__init__(self,
-        DefaultCompleter._DefaultCompleter__tokens[self.__language], parent)
+                            DefaultCompleter._DefaultCompleter__tokens[self.__language], parent)
 
         self.setCaseSensitivity(Qt.CaseSensitive)
         self.setCompletionMode(QCompleter.PopupCompletion)
@@ -97,7 +98,7 @@ class DefaultCompleter(QCompleter):
 
         if value is not None:
             assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-            "language", value)
+                "language", value)
         self.__language = value
 
     @language.deleter
@@ -108,7 +109,7 @@ class DefaultCompleter(QCompleter):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "language"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "language"))
 
     def __set_cache(self, tokens):
         """
@@ -135,6 +136,6 @@ class DefaultCompleter(QCompleter):
 
         extended_words = DefaultCompleter._DefaultCompleter__tokens[self.__language][:]
         extended_words.extend((word for word in set(words)
-                            if word not in DefaultCompleter._DefaultCompleter__tokens[self.__language]))
+                               if word not in DefaultCompleter._DefaultCompleter__tokens[self.__language]))
         self.setModel(QStringListModel(extended_words))
         return True

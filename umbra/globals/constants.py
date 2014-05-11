@@ -30,6 +30,7 @@ __status__ = "Production"
 
 __all__ = ["Constants"]
 
+
 class Constants():
     """
     Defines **Umbra** package default constants.
@@ -143,10 +144,10 @@ class Constants():
     """
 
     preferences_directories = (patches_directory,
-                                settings_directory,
-                                user_components_directory,
-                                logging_directory,
-                                io_directory)
+                               settings_directory,
+                               user_components_directory,
+                               logging_directory,
+                               io_directory)
     """
     :param preferences_directories: Application preferences directories.
     :type preferences_directories: tuple

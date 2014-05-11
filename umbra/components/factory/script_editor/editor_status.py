@@ -37,6 +37,7 @@ LOGGER = foundations.verbose.install_logger()
 
 UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Editor_Status.ui")
 
+
 class EditorStatus(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
     """
     Defines the
@@ -88,7 +89,7 @@ class EditorStatus(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
     @container.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -98,7 +99,7 @@ class EditorStatus(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
     @property
     def Lines_Columns_label_default_text(self):
@@ -122,7 +123,7 @@ class EditorStatus(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "Lines_Columns_label_default_text"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "Lines_Columns_label_default_text"))
 
     @Lines_Columns_label_default_text.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -132,7 +133,8 @@ class EditorStatus(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "Lines_Columns_label_default_text"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__,
+                                                             "Lines_Columns_label_default_text"))
 
     def __initialize_ui(self):
         """
@@ -172,7 +174,7 @@ class EditorStatus(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
             return
 
         language = self.__container.languages_model.get_language(foundations.strings.to_string(
-        self.Languages_comboBox.currentText()))
+            self.Languages_comboBox.currentText()))
         if not language:
             return
 

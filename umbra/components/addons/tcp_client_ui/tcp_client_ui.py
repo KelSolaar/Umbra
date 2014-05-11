@@ -42,6 +42,7 @@ LOGGER = foundations.verbose.install_logger()
 
 COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "TCP_Client_Ui.ui")
 
+
 class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
     """
     Defines the :mod:`umbra.components.factory.tcp_client_ui.tcp_client_ui` Component Interface class.
@@ -102,7 +103,7 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "engine"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "engine"))
 
     @engine.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -112,7 +113,7 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "engine"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "engine"))
 
     @property
     def settings(self):
@@ -136,7 +137,7 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
     @settings.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -146,7 +147,7 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
     @property
     def settings_section(self):
@@ -170,7 +171,7 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings_section"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings_section"))
 
     @settings_section.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -180,7 +181,7 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings_section"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings_section"))
 
     @property
     def preferences_manager(self):
@@ -204,7 +205,7 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "preferences_manager"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "preferences_manager"))
 
     @preferences_manager.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -214,7 +215,7 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "preferences_manager"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "preferences_manager"))
 
     @property
     def script_editor(self):
@@ -238,7 +239,7 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "script_editor"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "script_editor"))
 
     @script_editor.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -248,7 +249,7 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "script_editor"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "script_editor"))
 
     @property
     def address(self):
@@ -273,7 +274,7 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 
         if value is not None:
             assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-            "address", value)
+                "address", value)
             self.Address_lineEdit.setText(value)
         self.__address = value
 
@@ -285,7 +286,7 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "address"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "address"))
 
     @property
     def port(self):
@@ -310,9 +311,9 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 
         if value is not None:
             assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format(
-            "port", value)
+                "port", value)
             assert type(value) >= 0 and type(value) >= 65535, \
-            "'{0}' attribute: '{1}' value must be in 0-65535 range!".format("port", value)
+                "'{0}' attribute: '{1}' value must be in 0-65535 range!".format("port", value)
             self.Port_spinBox.setValue(value)
         self.__port = value
 
@@ -324,7 +325,7 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "port"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "port"))
 
     @property
     def file_command(self):
@@ -349,7 +350,7 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 
         if value is not None:
             assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-            "file_command", value)
+                "file_command", value)
         self.__file_command = value
 
     @file_command.deleter
@@ -360,7 +361,7 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "file_command"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "file_command"))
 
     @property
     def connection_end(self):
@@ -385,7 +386,7 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 
         if value is not None:
             assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-            "connection_end", value)
+                "connection_end", value)
         self.__connection_end = value
 
     @connection_end.deleter
@@ -396,7 +397,7 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "connection_end"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "connection_end"))
 
     def activate(self, engine):
         """
@@ -524,13 +525,13 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 
         self.__script_editor.command_menu.addSeparator()
         self.__script_editor.command_menu.addAction(self.__engine.actions_manager.register_action(
-        "Actions|Umbra|Components|addons.tcp_serverUi|&Command|Send Selection To Server",
-        shortcut=Qt.ControlModifier + Qt.AltModifier + Qt.Key_Return,
-        slot=self.__send_selection_to_server_action__triggered))
+            "Actions|Umbra|Components|addons.tcp_serverUi|&Command|Send Selection To Server",
+            shortcut=Qt.ControlModifier + Qt.AltModifier + Qt.Key_Return,
+            slot=self.__send_selection_to_server_action__triggered))
         self.__script_editor.command_menu.addAction(self.__engine.actions_manager.register_action(
-        "Actions|Umbra|Components|addons.tcp_serverUi|&Command|&Send Current File To Server",
-        shortcut=Qt.SHIFT + Qt.AltModifier + Qt.CTRL + Qt.Key_Return,
-        slot=self.__send_file_to_server_action__triggered))
+            "Actions|Umbra|Components|addons.tcp_serverUi|&Command|&Send Current File To Server",
+            shortcut=Qt.SHIFT + Qt.AltModifier + Qt.CTRL + Qt.Key_Return,
+            slot=self.__send_file_to_server_action__triggered))
 
     def __remove_actions(self):
         """
@@ -584,7 +585,7 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         self.__port = port
         self.Port_spinBox.setValue(port)
 
-    def __Port_spinBox__valueChanged (self, value):
+    def __Port_spinBox__valueChanged(self, value):
         """
         Defines the slot triggered by the **Port_spinBox** Widget when value changed.
 
@@ -658,8 +659,9 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         if not editor:
             return False
 
-        selected_text = foundations.strings.to_string(editor.get_selected_text().replace(QChar(QChar.ParagraphSeparator),
-                                                                            QString("\n")))
+        selected_text = foundations.strings.to_string(
+            editor.get_selected_text().replace(QChar(QChar.ParagraphSeparator),
+                                               QString("\n")))
         if not selected_text:
             return False
 
@@ -702,6 +704,6 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         connection.connect((foundations.strings.to_string(self.__address), int(self.__port)))
         connection.send(data)
         self.__engine.notifications_manager.notify(
-        "{0} | Socket connection command dispatched!".format(self.__class__.__name__))
+            "{0} | Socket connection command dispatched!".format(self.__class__.__name__))
         connection.close()
         return True

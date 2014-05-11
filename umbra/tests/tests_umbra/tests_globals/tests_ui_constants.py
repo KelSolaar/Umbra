@@ -17,6 +17,7 @@
 from __future__ import unicode_literals
 
 import sys
+
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
@@ -33,6 +34,7 @@ __status__ = "Production"
 
 __all__ = ["TestUiConstants"]
 
+
 class TestUiConstants(unittest.TestCase):
     """
     Defines :class:`umbra.globals.ui_constants.UiConstants` class units tests methods.
@@ -44,44 +46,44 @@ class TestUiConstants(unittest.TestCase):
         """
 
         required_attributes = ("ui_file",
-                                "processing_ui_file",
-                                "reporter_ui_file",
-                                "windows_stylesheet_file",
-                                "darwin_stylesheet_file",
-                                "linux_stylesheet_file",
-                                "windows_full_screen_stylesheet_file",
-                                "darwin_full_screen_stylesheet_file",
-                                "linux_full_screen_stylesheet_file",
-                                "windows_style",
-                                "darwin_style",
-                                "linux_style",
-                                "settings_file",
-                                "layouts_file",
-                                "application_windows_icon",
-                                "splash_screen_image",
-                                "logo_image",
-                                "default_toolbar_icon_size",
-                                "custom_layouts_icon",
-                                "custom_layouts_hover_icon",
-                                "custom_layouts_active_icon",
-                                "miscellaneous_icon",
-                                "miscellaneous_hover_icon",
-                                "miscellaneous_active_icon",
-                                "development_icon",
-                                "development_hover_icon",
-                                "development_active_icon",
-                                "preferences_icon",
-                                "preferences_hover_icon",
-                                "preferences_active_icon",
-                                "startup_layout",
-                                "help_file",
-                                "api_file",
-                                "development_layout",
-                                "python_grammar_file",
-                                "logging_grammar_file",
-                                "text_grammar_file",
-                                "invalid_link_html_file",
-                                "crittercism_id")
+                               "processing_ui_file",
+                               "reporter_ui_file",
+                               "windows_stylesheet_file",
+                               "darwin_stylesheet_file",
+                               "linux_stylesheet_file",
+                               "windows_full_screen_stylesheet_file",
+                               "darwin_full_screen_stylesheet_file",
+                               "linux_full_screen_stylesheet_file",
+                               "windows_style",
+                               "darwin_style",
+                               "linux_style",
+                               "settings_file",
+                               "layouts_file",
+                               "application_windows_icon",
+                               "splash_screen_image",
+                               "logo_image",
+                               "default_toolbar_icon_size",
+                               "custom_layouts_icon",
+                               "custom_layouts_hover_icon",
+                               "custom_layouts_active_icon",
+                               "miscellaneous_icon",
+                               "miscellaneous_hover_icon",
+                               "miscellaneous_active_icon",
+                               "development_icon",
+                               "development_hover_icon",
+                               "development_active_icon",
+                               "preferences_icon",
+                               "preferences_hover_icon",
+                               "preferences_active_icon",
+                               "startup_layout",
+                               "help_file",
+                               "api_file",
+                               "development_layout",
+                               "python_grammar_file",
+                               "logging_grammar_file",
+                               "text_grammar_file",
+                               "invalid_link_html_file",
+                               "crittercism_id")
 
         for attribute in required_attributes:
             self.assertIn(attribute, UiConstants.__dict__)
@@ -199,7 +201,7 @@ class TestUiConstants(unittest.TestCase):
 
         self.assertRegexpMatches(UiConstants.splash_screen_image, "\w+")
         self.assertRegexpMatches(UiConstants.splash_screen_image,
-                                "\.[bB][mM][pP]$|\.[jJ][pP][eE][gG]$|\.[jJ][pP][gG]|\.[pP][nN][gG]$")
+                                 "\.[bB][mM][pP]$|\.[jJ][pP][eE][gG]$|\.[jJ][pP][gG]|\.[pP][nN][gG]$")
 
     def test_logo_image_attribute(self):
         """
@@ -207,7 +209,8 @@ class TestUiConstants(unittest.TestCase):
         """
 
         self.assertRegexpMatches(UiConstants.logo_image, "\w+")
-        self.assertRegexpMatches(UiConstants.logo_image, "\.[bB][mM][pP]$|\.[jJ][pP][eE][gG]$|\.[jJ][pP][gG]|\.[pP][nN][gG]$")
+        self.assertRegexpMatches(
+            UiConstants.logo_image, "\.[bB][mM][pP]$|\.[jJ][pP][eE][gG]$|\.[jJ][pP][gG]|\.[pP][nN][gG]$")
 
     def test_default_toolbar_icon_size_attribute(self):
         """
@@ -337,7 +340,6 @@ class TestUiConstants(unittest.TestCase):
 
         self.assertRegexpMatches(UiConstants.python_grammar_file, "\w+")
 
-
     def test_logging_grammar_file_file_attribute(self):
         """
         Tests :attr:`umbra.globals.ui_constants.UiConstants.logging_grammar_file` attribute.
@@ -366,6 +368,7 @@ class TestUiConstants(unittest.TestCase):
 
         self.assertRegexpMatches(UiConstants.crittercism_id, "\w+")
         self.assertEqual(UiConstants.crittercism_id, "51290b63421c983d17000490")
+
 
 if __name__ == "__main__":
     unittest.main()

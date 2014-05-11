@@ -32,11 +32,12 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-            "highlight_current_line",
-            "highlight_occurences",
-            "highlight_matching_symbols_pairs"]
+           "highlight_current_line",
+           "highlight_occurences",
+           "highlight_matching_symbols_pairs"]
 
 LOGGER = foundations.verbose.install_logger()
+
 
 def highlight_current_line(editor):
     """
@@ -63,6 +64,7 @@ def highlight_current_line(editor):
     editor.setExtraSelections(extra_selections)
     return True
 
+
 def highlight_occurences(editor):
     """
     Highlights given editor current line.
@@ -85,8 +87,8 @@ def highlight_occurences(editor):
 
         block = editor.document().findBlock(0)
         cursor = editor.document().find(word,
-                                    block.position(),
-                                    QTextDocument.FindCaseSensitively | QTextDocument.FindWholeWords)
+                                        block.position(),
+                                        QTextDocument.FindCaseSensitively | QTextDocument.FindWholeWords)
         while block.isValid() and cursor.position() != -1:
             selection = QTextEdit.ExtraSelection()
             selection.format.setBackground(format.background())
@@ -98,6 +100,7 @@ def highlight_occurences(editor):
             block = block.next()
     editor.setExtraSelections(extra_selections)
     return True
+
 
 def highlight_matching_symbols_pairs(editor):
     """
@@ -132,14 +135,15 @@ def highlight_matching_symbols_pairs(editor):
         if text in editor.language.symbols_pairs.keys():
             extra_selections.append(start_selection)
             end_selection.cursor = editor.get_matching_symbols_pairs(cursor,
-                                                                text,
-                                                                editor.language.symbols_pairs[text])
+                                                                     text,
+                                                                     editor.language.symbols_pairs[text])
         elif text in editor.language.symbols_pairs.values():
             extra_selections.append(start_selection)
             end_selection.cursor = editor.get_matching_symbols_pairs(cursor,
-                                                                text,
-                                                                editor.language.symbols_pairs.get_first_key_from_value(text),
-                                                                True)
+                                                                     text,
+                                                                     editor.language.symbols_pairs.get_first_key_from_value(
+                                                                         text),
+                                                                     True)
         else:
             return False
 

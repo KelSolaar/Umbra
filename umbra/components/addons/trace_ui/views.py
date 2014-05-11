@@ -35,6 +35,7 @@ __all__ = ["LOGGER", "Modules_QTreeView"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class Modules_QTreeView(umbra.ui.views.Abstract_QTreeView):
     """
     Defines the view for modules.
@@ -87,7 +88,7 @@ class Modules_QTreeView(umbra.ui.views.Abstract_QTreeView):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "tree_view_indentation"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "tree_view_indentation"))
 
     @tree_view_indentation.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -97,7 +98,7 @@ class Modules_QTreeView(umbra.ui.views.Abstract_QTreeView):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "tree_view_indentation"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "tree_view_indentation"))
 
     def __initialize_ui(self):
         """

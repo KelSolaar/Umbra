@@ -42,6 +42,7 @@ __all__ = ["LOGGER", "ActionsManager"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class ActionsManager(QObject):
     """
     Defines a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass providing an actions manager.
@@ -214,7 +215,8 @@ class ActionsManager(QObject):
             assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("categories", value)
             for key, element in value.iteritems():
                 assert type(key) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("categories", key)
-                assert type(element) is list, "'{0}' attribute: '{1}' type is not 'list'!".format("categories", element)
+                assert type(element) is list, "'{0}' attribute: '{1}' type is not 'list'!".format(
+                    "categories", element)
         self.__categories = value
 
     @categories.deleter
@@ -304,7 +306,8 @@ class ActionsManager(QObject):
 
         if not name.startswith(self.__root_namespace):
             name = foundations.namespace.set_namespace(self.__root_namespace,
-                                                      foundations.namespace.set_namespace(self.__default_namespace, name))
+                                                       foundations.namespace.set_namespace(self.__default_namespace,
+                                                                                           name))
             LOGGER.debug("> Normalized name: '{0}'.".format(name))
             return name
         else:
@@ -468,17 +471,17 @@ class ActionsManager(QObject):
         """
 
         settings = foundations.data_structures.Structure(**{"parent": None,
-                                                           "text": None,
-                                                           "icon": None,
-                                                           "icon_text": None,
-                                                           "checkable": None,
-                                                           "checked": None,
-                                                           "status_tip": None,
-                                                           "whats_this": None,
-                                                           "tool_tip": None,
-                                                           "shortcut": None,
-                                                           "shortcut_context": None,
-                                                           "slot": None})
+                                                            "text": None,
+                                                            "icon": None,
+                                                            "icon_text": None,
+                                                            "checkable": None,
+                                                            "checked": None,
+                                                            "status_tip": None,
+                                                            "whats_this": None,
+                                                            "tool_tip": None,
+                                                            "shortcut": None,
+                                                            "shortcut_context": None,
+                                                            "slot": None})
         settings.update(kwargs)
 
         name = self.__normalize_name(name)

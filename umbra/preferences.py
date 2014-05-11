@@ -35,6 +35,7 @@ __all__ = ["LOGGER", "Preferences"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class Preferences(object):
     """
     | Defines methods to manipulate Application preferences / settings.
@@ -87,7 +88,7 @@ class Preferences(object):
 
         if value is not None:
             assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-            "file", value)
+                "file", value)
         self.__file = value
 
     @file.deleter
@@ -98,7 +99,7 @@ class Preferences(object):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "file"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "file"))
 
     @property
     def settings(self):
@@ -122,7 +123,7 @@ class Preferences(object):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
     @settings.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -132,7 +133,7 @@ class Preferences(object):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
     @property
     def default_settings(self):
@@ -156,7 +157,7 @@ class Preferences(object):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "default_settings"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "default_settings"))
 
     @default_settings.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -166,7 +167,7 @@ class Preferences(object):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_settings"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_settings"))
 
     @property
     def default_layouts_settings(self):
@@ -190,7 +191,7 @@ class Preferences(object):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "default_layouts_settings"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "default_layouts_settings"))
 
     @default_layouts_settings.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -200,7 +201,7 @@ class Preferences(object):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_layouts_settings"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_layouts_settings"))
 
     def set_key(self, section, key, value):
         """
@@ -215,10 +216,10 @@ class Preferences(object):
         """
 
         LOGGER.debug("> Saving '{0}' in '{1}' section with value: '{2}' in settings file.".format(
-        key, section, foundations.strings.to_string(value)))
+            key, section, foundations.strings.to_string(value)))
 
         self.__settings.beginGroup(section)
-        self.__settings.setValue(key , QVariant(value))
+        self.__settings.setValue(key, QVariant(value))
         self.__settings.endGroup()
 
     def get_key(self, section, key):
@@ -267,7 +268,8 @@ class Preferences(object):
         """
 
         LOGGER.debug("> Accessing '{0}' default settings file!".format(UiConstants.settings_file))
-        self.__default_settings = QSettings(umbra.ui.common.get_resource_path(UiConstants.settings_file), QSettings.IniFormat)
+        self.__default_settings = QSettings(
+            umbra.ui.common.get_resource_path(UiConstants.settings_file), QSettings.IniFormat)
 
     def __get_default_layouts_settings(self):
         """
@@ -276,7 +278,7 @@ class Preferences(object):
 
         LOGGER.debug("> Accessing '{0}' default layouts settings file!".format(UiConstants.layouts_file))
         self.__default_layouts_settings = QSettings(umbra.ui.common.get_resource_path(UiConstants.layouts_file),
-                                                QSettings.IniFormat)
+                                                    QSettings.IniFormat)
 
     def set_default_preferences(self):
         """

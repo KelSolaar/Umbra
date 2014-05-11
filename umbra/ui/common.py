@@ -48,21 +48,22 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-        "Location",
-        "get_application_instance",
-        "parse_location",
-        "get_resource_path",
-        "set_window_default_icon",
-        "get_sections_file_parser",
-        "store_last_browsed_path",
-        "QVariant_to_string",
-        "parents_walker",
-        "signals_blocker",
-        "show_wait_cursor",
-        "set_toolBox_height",
-        "set_children_padding"]
+           "Location",
+           "get_application_instance",
+           "parse_location",
+           "get_resource_path",
+           "set_window_default_icon",
+           "get_sections_file_parser",
+           "store_last_browsed_path",
+           "QVariant_to_string",
+           "parents_walker",
+           "signals_blocker",
+           "show_wait_cursor",
+           "set_toolBox_height",
+           "set_children_padding"]
 
 LOGGER = foundations.verbose.install_logger()
+
 
 class Location(foundations.data_structures.Structure):
     """
@@ -81,6 +82,7 @@ class Location(foundations.data_structures.Structure):
 
         foundations.data_structures.Structure.__init__(self, **kwargs)
 
+
 def get_application_instance():
     """
     Returns the current `QApplication <http://doc.qt.nokia.com/qapplication.html>`_ instance or
@@ -94,6 +96,7 @@ def get_application_instance():
     if not instance:
         instance = QApplication(sys.argv)
     return instance
+
 
 def parse_location(data):
     """
@@ -135,6 +138,7 @@ def parse_location(data):
                 continue
     return location
 
+
 @foundations.exceptions.handle_exceptions(umbra.exceptions.ResourceExistsError)
 def get_resource_path(name, raise_exception=False):
     """
@@ -150,7 +154,7 @@ def get_resource_path(name, raise_exception=False):
 
     if not RuntimeGlobals.resources_directories:
         RuntimeGlobals.resources_directories.append(
-        os.path.normpath(os.path.join(umbra.__path__[0], Constants.resources_directory)))
+            os.path.normpath(os.path.join(umbra.__path__[0], Constants.resources_directory)))
 
     for path in RuntimeGlobals.resources_directories:
         path = os.path.join(path, name)
@@ -160,7 +164,8 @@ def get_resource_path(name, raise_exception=False):
 
     if raise_exception:
         raise umbra.exceptions.ResourceExistsError(
-        "{0} | No resource file path found for '{1}' name!".format(__name__, name))
+            "{0} | No resource file path found for '{1}' name!".format(__name__, name))
+
 
 def set_window_default_icon(window):
     """
@@ -175,6 +180,7 @@ def set_window_default_icon(window):
     window.setWindowIcon(QIcon(get_resource_path(UiConstants.application_windows_icon)))
     return True
 
+
 @foundations.exceptions.handle_exceptions(foundations.exceptions.FileExistsError)
 def get_sections_file_parser(file):
     """
@@ -187,11 +193,13 @@ def get_sections_file_parser(file):
     """
 
     if not foundations.common.path_exists(file):
-        raise foundations.exceptions.FileExistsError("{0} | '{1}' sections file doesn't exists!".format(__name__, file))
+        raise foundations.exceptions.FileExistsError(
+            "{0} | '{1}' sections file doesn't exists!".format(__name__, file))
 
     sections_file_parser = SectionsFileParser(file)
     sections_file_parser.parse()
     return sections_file_parser
+
 
 @foundations.exceptions.handle_exceptions(TypeError)
 def store_last_browsed_path(data):
@@ -221,6 +229,7 @@ def store_last_browsed_path(data):
         RuntimeGlobals.last_browsed_path = last_browsed_path
     return data
 
+
 def QVariant_to_string(data):
     """
     Returns given `QVariant <http://doc.qt.nokia.com/qvariant.html>`_ data as a string.
@@ -237,6 +246,7 @@ def QVariant_to_string(data):
     data = QString(data)
     return foundations.strings.to_string(data)
 
+
 def parents_walker(object):
     """
     Defines a generator used to retrieve the chain of parents of the given :class:`QObject` instance.
@@ -249,6 +259,7 @@ def parents_walker(object):
     while object.parent():
         object = object.parent()
         yield object
+
 
 def signals_blocker(instance, attribute, *args, **kwargs):
     """
@@ -274,6 +285,7 @@ def signals_blocker(instance, attribute, *args, **kwargs):
     finally:
         hasattr(instance, "blockSignals") and instance.blockSignals(False)
         return value
+
 
 def show_wait_cursor(object):
     """
@@ -308,6 +320,7 @@ def show_wait_cursor(object):
 
     return show_wait_cursorWrapper
 
+
 def set_toolBox_height(tool_box, height=32):
     """
     Sets given height to given QToolBox widget.
@@ -323,6 +336,7 @@ def set_toolBox_height(tool_box, height=32):
     for button in tool_box.findChildren(QAbstractButton):
         button.setMinimumHeight(height)
     return True
+
 
 def set_children_padding(widget, types, height=None, width=None):
     """
@@ -343,7 +357,7 @@ def set_children_padding(widget, types, height=None, width=None):
     for type in types:
         for child in widget.findChildren(type):
             child.setStyleSheet("{0}{{height: {1}px; width: {2}px;}}".format(
-                                    type.__name__,
-                                    child.fontMetrics().height() + (height if height is not None else 0) * 2,
-                                    child.fontMetrics().width(child.text()) + (width if width is not None else 0) * 2))
+                type.__name__,
+                child.fontMetrics().height() + (height if height is not None else 0) * 2,
+                child.fontMetrics().width(child.text()) + (width if width is not None else 0) * 2))
     return True

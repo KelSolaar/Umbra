@@ -28,26 +28,27 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-        "notify_exception_handler",
-        "AbstractEngineError",
-        "EngineConfigurationError",
-        "EngineInitializationError",
-        "ResourceExistsError",
-        "AbstractActionsManagerError",
-        "CategoryExistsError",
-        "ActionExistsError",
-        "AbstractPatchesManagerError",
-        "PatchRegistrationError",
-        "PatchInterfaceError",
-        "PatchApplyError",
-        "AbstractLayoutsManagerError",
-        "LayoutRegistrationError",
-        "LayoutExistError",
-        "AbstractFileSystemEventsManagerError",
-        "PathRegistrationError",
-        "PathExistsError",
-        "AbstractLanguageError",
-        "LanguageGrammarError"]
+           "notify_exception_handler",
+           "AbstractEngineError",
+           "EngineConfigurationError",
+           "EngineInitializationError",
+           "ResourceExistsError",
+           "AbstractActionsManagerError",
+           "CategoryExistsError",
+           "ActionExistsError",
+           "AbstractPatchesManagerError",
+           "PatchRegistrationError",
+           "PatchInterfaceError",
+           "PatchApplyError",
+           "AbstractLayoutsManagerError",
+           "LayoutRegistrationError",
+           "LayoutExistError",
+           "AbstractFileSystemEventsManagerError",
+           "PathRegistrationError",
+           "PathExistsError",
+           "AbstractLanguageError",
+           "LanguageGrammarError"]
+
 
 def notify_exception_handler(*args):
     """
@@ -65,12 +66,14 @@ def notify_exception_handler(*args):
     RuntimeGlobals.notifications_manager.exceptify(message="{0}".format(instance), notification_clicked_slot=callback)
     return True
 
+
 class AbstractEngineError(foundations.exceptions.AbstractError):
     """
     Defines the abstract base class for engine related exceptions.
     """
 
     pass
+
 
 class EngineConfigurationError(AbstractEngineError):
     """
@@ -79,12 +82,14 @@ class EngineConfigurationError(AbstractEngineError):
 
     pass
 
+
 class EngineInitializationError(AbstractEngineError):
     """
     Defines engine initialization exception.
     """
 
     pass
+
 
 class ResourceExistsError(foundations.exceptions.AbstractOsError):
     """
@@ -93,12 +98,14 @@ class ResourceExistsError(foundations.exceptions.AbstractOsError):
 
     pass
 
+
 class AbstractActionsManagerError(foundations.exceptions.AbstractError):
     """
     Defines the abstract base class for :class:`umbra.managers.actions_manager.ActionsManager` related exceptions.
     """
 
     pass
+
 
 class CategoryExistsError(AbstractActionsManagerError):
     """
@@ -107,12 +114,14 @@ class CategoryExistsError(AbstractActionsManagerError):
 
     pass
 
+
 class ActionExistsError(AbstractActionsManagerError):
     """
     Defines non existing action exception.
     """
 
     pass
+
 
 class AbstractPatchesManagerError(foundations.exceptions.AbstractError):
     """
@@ -121,12 +130,14 @@ class AbstractPatchesManagerError(foundations.exceptions.AbstractError):
 
     pass
 
+
 class PatchRegistrationError(AbstractPatchesManagerError):
     """
     Defines patch registration exception.
     """
 
     pass
+
 
 class PatchInterfaceError(AbstractPatchesManagerError):
     """
@@ -135,12 +146,14 @@ class PatchInterfaceError(AbstractPatchesManagerError):
 
     pass
 
+
 class PatchApplyError(AbstractPatchesManagerError):
     """
     Defines patch apply exception.
     """
 
     pass
+
 
 class AbstractLayoutsManagerError(foundations.exceptions.AbstractError):
     """
@@ -149,6 +162,7 @@ class AbstractLayoutsManagerError(foundations.exceptions.AbstractError):
 
     pass
 
+
 class LayoutRegistrationError(AbstractLayoutsManagerError):
     """
     Defines layout registration exception.
@@ -156,12 +170,14 @@ class LayoutRegistrationError(AbstractLayoutsManagerError):
 
     pass
 
+
 class LayoutExistError(AbstractLayoutsManagerError):
     """
     Defines non existing layout exception.
     """
 
     pass
+
 
 class AbstractFileSystemEventsManagerError(foundations.exceptions.AbstractError):
     """
@@ -171,12 +187,14 @@ class AbstractFileSystemEventsManagerError(foundations.exceptions.AbstractError)
 
     pass
 
+
 class PathRegistrationError(AbstractFileSystemEventsManagerError):
     """
     Defines path registration exception.
     """
 
     pass
+
 
 class PathExistsError(AbstractFileSystemEventsManagerError):
     """
@@ -185,12 +203,14 @@ class PathExistsError(AbstractFileSystemEventsManagerError):
 
     pass
 
+
 class AbstractLanguageError(foundations.exceptions.AbstractError):
     """
     Defines the abstract base class for language related exceptions.
     """
 
     pass
+
 
 class LanguageGrammarError(AbstractLanguageError):
     """

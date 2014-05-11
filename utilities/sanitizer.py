@@ -39,15 +39,16 @@ LOGGER = foundations.verbose.install_logger()
 STATEMENT_UPDATE_MESSAGE = "# Oncilla: Statement commented by auto-documentation process: "
 
 STATEMENT_SUBSTITUTE = ("(\n)(?P<bleach>\s*if\s+__name__\s+==\s+[\"']__main__[\"']\s*:.*)",
-                      "(\n)(?P<bleach>\s*@(?!property|\w+\.setter|\w+\.deleter).*?)(\n+\s*def\s+)",
-                      "(\n)(?P<bleach>\s*_initialize_application\(\))")
+                        "(\n)(?P<bleach>\s*@(?!property|\w+\.setter|\w+\.deleter).*?)(\n+\s*def\s+)",
+                        "(\n)(?P<bleach>\s*_initialize_application\(\))")
 
-STATEMENT_REPLACE = {"PYTHON_LANGUAGE = get_python_language()": \
-                       "{0}\nPYTHON_LANGUAGE = None".format(STATEMENT_UPDATE_MESSAGE),
-                   "LOGGING_LANGUAGE = get_logging_language()": \
-                       "{0}\nLOGGING_LANGUAGE = None".format(STATEMENT_UPDATE_MESSAGE),
-                   "TEXT_LANGUAGE = get_text_language()": \
-                       "{0}\nTEXT_LANGUAGE = None".format(STATEMENT_UPDATE_MESSAGE)}
+STATEMENT_REPLACE = {"PYTHON_LANGUAGE = get_python_language()":
+                         "{0}\nPYTHON_LANGUAGE = None".format(STATEMENT_UPDATE_MESSAGE),
+                     "LOGGING_LANGUAGE = get_logging_language()":
+                         "{0}\nLOGGING_LANGUAGE = None".format(STATEMENT_UPDATE_MESSAGE),
+                     "TEXT_LANGUAGE = get_text_language()":
+                         "{0}\nTEXT_LANGUAGE = None".format(STATEMENT_UPDATE_MESSAGE)}
+
 
 def bleach(file):
     """

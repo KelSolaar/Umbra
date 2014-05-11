@@ -45,6 +45,7 @@ __all__ = ["LOGGER", "Occurence", "SearchResult", "CacheData", "Search_worker"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class Occurence(foundations.data_structures.Structure):
     """
     Defines a storage object for the :class:`Search_worker` class search occurence.
@@ -61,6 +62,7 @@ class Occurence(foundations.data_structures.Structure):
         LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
         foundations.data_structures.Structure.__init__(self, **kwargs)
+
 
 class SearchResult(foundations.data_structures.Structure):
     """
@@ -79,6 +81,7 @@ class SearchResult(foundations.data_structures.Structure):
 
         foundations.data_structures.Structure.__init__(self, **kwargs)
 
+
 class CacheData(foundations.data_structures.Structure):
     """
     Defines a storage object for the :class:`Search_worker` class cache data.
@@ -95,6 +98,7 @@ class CacheData(foundations.data_structures.Structure):
         LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
         foundations.data_structures.Structure.__init__(self, **kwargs)
+
 
 class Search_worker(QThread):
     """
@@ -160,7 +164,7 @@ class Search_worker(QThread):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
     @container.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -170,7 +174,7 @@ class Search_worker(QThread):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
     @property
     def pattern(self):
@@ -195,7 +199,7 @@ class Search_worker(QThread):
 
         if value is not None:
             assert type(value) in (unicode, QString), \
-            "'{0}' attribute: '{1}' type is not 'unicode' or 'QString'!".format("pattern", value)
+                "'{0}' attribute: '{1}' type is not 'unicode' or 'QString'!".format("pattern", value)
         self.__pattern = value
 
     @pattern.deleter
@@ -206,7 +210,7 @@ class Search_worker(QThread):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "pattern"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "pattern"))
 
     @property
     def location(self):
@@ -231,7 +235,7 @@ class Search_worker(QThread):
 
         if value is not None:
             assert type(value) is umbra.ui.common.Location, \
-            "'{0}' attribute: '{1}' type is not 'umbra.ui.common.Location'!".format("location", value)
+                "'{0}' attribute: '{1}' type is not 'umbra.ui.common.Location'!".format("location", value)
         self.__location = value
 
     @location.deleter
@@ -242,7 +246,7 @@ class Search_worker(QThread):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "location"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "location"))
 
     @property
     def settings(self):
@@ -267,9 +271,9 @@ class Search_worker(QThread):
 
         if value is not None:
             assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("settings", value)
-        self.__settings = foundations.data_structures.Structure(**{"case_sensitive" : False,
-                                                                "whole_word" : False,
-                                                                "regular_expressions" : False})
+        self.__settings = foundations.data_structures.Structure(**{"case_sensitive": False,
+                                                                   "whole_word": False,
+                                                                   "regular_expressions": False})
         self.__settings.update(value)
 
     @settings.deleter
@@ -280,7 +284,7 @@ class Search_worker(QThread):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
     @property
     def search_results(self):
@@ -304,7 +308,7 @@ class Search_worker(QThread):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "search_results"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "search_results"))
 
     @search_results.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -314,7 +318,7 @@ class Search_worker(QThread):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "search_results"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "search_results"))
 
     def run(self):
         """
@@ -340,7 +344,7 @@ class Search_worker(QThread):
         self.__search_results = []
 
         editorsFiles = self.__container.default_target in self.__location.targets and \
-        [editor.file for editor in self.__container.script_editor.list_editors()] or []
+                       [editor.file for editor in self.__container.script_editor.list_editors()] or []
         self.__search_editors_files(editorsFiles)
 
         self.__search_files(self.__location.files)
@@ -350,10 +354,10 @@ class Search_worker(QThread):
                 return
 
             files_walker = foundations.walkers.files_walker(directory,
-                                                        self.__location.filters_in,
-                                                        list(itertools.chain(self.__location.filters_out,
-                                                                            self.__location.files,
-                                                                            editorsFiles)))
+                                                            self.__location.filters_in,
+                                                            list(itertools.chain(self.__location.filters_out,
+                                                                                 self.__location.files,
+                                                                                 editorsFiles)))
             self.__search_files(files_walker)
 
         not self.__interrupt and self.searchFinished.emit(self.__search_results)
@@ -383,9 +387,9 @@ class Search_worker(QThread):
             occurrences = self.__search_document(editor.document(), self.__pattern, self.__settings)
             self.__lock.unlock()
             occurrences and self.__search_results.append(SearchResult(file=file,
-                                                                    pattern=self.__pattern,
-                                                                    settings=self.__settings,
-                                                                    occurrences=occurrences))
+                                                                      pattern=self.__pattern,
+                                                                      settings=self.__settings,
+                                                                      occurrences=occurrences))
 
     def __search_files(self, files):
         """
@@ -414,14 +418,14 @@ class Search_worker(QThread):
                 if content is None:
                     LOGGER.warning("!> Error occured while reading '{0}' file proceeding to next one!".format(file))
                     continue
-                self.__container.files_cache.add_content(**{file : CacheData(content=content, document=None)})
+                self.__container.files_cache.add_content(**{file: CacheData(content=content, document=None)})
             else:
                 content = cache_data.content
             occurrences = self.__search_document(QTextDocument(QString(content)), self.__pattern, self.__settings)
             occurrences and self.__search_results.append(SearchResult(file=file,
-                                                                    pattern=self.__pattern,
-                                                                    settings=self.__settings,
-                                                                    occurrences=occurrences))
+                                                                      pattern=self.__pattern,
+                                                                      settings=self.__settings,
+                                                                      occurrences=occurrences))
 
     def __search_document(self, document, pattern, settings):
         """
@@ -457,10 +461,10 @@ class Search_worker(QThread):
             block_cursor.movePosition(QTextCursor.EndOfLine, QTextCursor.KeepAnchor)
             length = cursor.selectionEnd() - cursor.selectionStart()
             occurrences.append(Occurence(line=cursor.blockNumber(),
-                                        column=cursor.columnNumber() - length,
-                                        length=length,
-                                        position=cursor.position() - length,
-                                        text=block_cursor.selectedText()))
+                                         column=cursor.columnNumber() - length,
+                                         length=length,
+                                         position=cursor.position() - length,
+                                         text=block_cursor.selectedText()))
             cursor = document.find(pattern, cursor.position(), flags)
             block = block.next()
         return occurrences

@@ -39,6 +39,7 @@ __all__ = ["LOGGER", "RichText_QStyledItemDelegate"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class Style(foundations.data_structures.Structure):
     """
     Defines a storage object for the :class:`RichText_QStyledItemDelegate` class style.
@@ -56,6 +57,7 @@ class Style(foundations.data_structures.Structure):
 
         foundations.data_structures.Structure.__init__(self, **kwargs)
 
+
 class RichText_QStyledItemDelegate(QStyledItemDelegate):
     """
     Defines a `QStyledItemDelegate <http://doc.qt.nokia.com/qstyleditemdelegate.html>`_ subclass used as a rich
@@ -63,13 +65,13 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
     """
 
     def __init__(self,
-                parent=None,
-                style=None,
-                highlightColor=None,
-                hoverColor=None,
-                background_color=None,
-                highlightBackgroundColor=None,
-                hoverBackgroundColor=None):
+                 parent=None,
+                 style=None,
+                 highlightColor=None,
+                 hoverColor=None,
+                 background_color=None,
+                 highlightBackgroundColor=None,
+                 hoverBackgroundColor=None):
         """
         Initializes the class.
 
@@ -90,22 +92,19 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
         self.__label.setIndent(self.__indent)
         self.__label.setTextFormat(Qt.RichText)
 
-        self.__default_style = Style(default=\
-                                """
+        self.__default_style = Style(default="""
                                 QLabel, QLabel link {
                                     background-color: rgb(32, 32, 32);
                                     color: rgb(192, 192, 192);
                                 }
                                 """,
-                                hover=\
-                                """
+                                     hover="""
                                 QLabel, QLabel link {
                                     background-color: rgb(64, 64, 64);
                                     color: rgb(192, 192, 192);
                                 }
                                 """,
-                                highlight=\
-                                """
+                                     highlight="""
                                 QLabel, QLabel link {
                                     background-color: rgb(128, 128, 128);
                                     color: rgb(224, 224, 224);
@@ -139,7 +138,7 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
         if value is not None:
             assert type(value) is Style, "'{0}' attribute: '{1}' type is not 'Style'!".format("style", value)
             style = Style()
-            for item in(self.__default_style, value):
+            for item in (self.__default_style, value):
                 style.update(item)
             value = style
         self.__style = value
@@ -152,7 +151,7 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "style"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "style"))
 
     def paint(self, painter, option, index):
         """

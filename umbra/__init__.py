@@ -26,14 +26,17 @@ __all__ = ["DEFAULT_CODEC",
 DEFAULT_CODEC = "utf-8"
 CODEC_ERROR = "ignore"
 
+
 def _setEncoding():
     """
     Sets the Package encoding.
     """
 
     import sys
+
     reload(sys)
 
     sys.setdefaultencoding(DEFAULT_CODEC)
+
 
 _setEncoding()

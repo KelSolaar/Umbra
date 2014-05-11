@@ -33,16 +33,17 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-            "EditorNode",
-            "FileNode",
-            "DirectoryNode",
-            "ProjectNode",
-            "PatternNode",
-            "SearchFileNode",
-            "SearchOccurenceNode",
-            "ReplaceResultNode"]
+           "EditorNode",
+           "FileNode",
+           "DirectoryNode",
+           "ProjectNode",
+           "PatternNode",
+           "SearchFileNode",
+           "SearchOccurenceNode",
+           "ReplaceResultNode"]
 
 LOGGER = foundations.verbose.install_logger()
+
 
 class EditorNode(umbra.ui.nodes.GraphModelNode):
     """
@@ -53,14 +54,14 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
     __family = "Editor"
 
     def __init__(self,
-                editor=None,
-                name=None,
-                parent=None,
-                children=None,
-                roles=None,
-                node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                **kwargs):
+                 editor=None,
+                 name=None,
+                 parent=None,
+                 children=None,
+                 roles=None,
+                 node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 **kwargs):
         """
         Initializes the class.
 
@@ -123,7 +124,7 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "editor"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "editor"))
 
     def __initialize_node(self, attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
         """
@@ -135,6 +136,7 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 
         pass
 
+
 class FileNode(umbra.ui.nodes.GraphModelNode):
     """
     Defines :class:`umbra.components.factory.script_editor.script_editor.ScriptEditor`
@@ -144,13 +146,13 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
     __family = "File"
 
     def __init__(self,
-                path=None,
-                name=None,
-                parent=None,
-                roles=None,
-                node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                **kwargs):
+                 path=None,
+                 name=None,
+                 parent=None,
+                 roles=None,
+                 node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 **kwargs):
         """
         Initializes the class.
 
@@ -213,7 +215,7 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "path"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "path"))
 
     def __initialize_node(self, attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
         """
@@ -225,6 +227,7 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 
         pass
 
+
 class DirectoryNode(umbra.ui.nodes.GraphModelNode):
     """
     Defines :class:`umbra.components.factory.script_editor.script_editor.ScriptEditor`
@@ -234,14 +237,14 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
     __family = "Directory"
 
     def __init__(self,
-                path=None,
-                name=None,
-                parent=None,
-                children=None,
-                roles=None,
-                node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                **kwargs):
+                 path=None,
+                 name=None,
+                 parent=None,
+                 children=None,
+                 roles=None,
+                 node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 **kwargs):
         """
         Initializes the class.
 
@@ -307,7 +310,7 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "path"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "path"))
 
     def __initialize_node(self, attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
         """
@@ -319,6 +322,7 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 
         pass
 
+
 class ProjectNode(umbra.ui.nodes.GraphModelNode):
     """
     Defines :class:`umbra.components.factory.script_editor.script_editor.ScriptEditor`
@@ -328,14 +332,14 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
     __family = "Project"
 
     def __init__(self,
-                path=None,
-                name=None,
-                parent=None,
-                children=None,
-                roles=None,
-                node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                **kwargs):
+                 path=None,
+                 name=None,
+                 parent=None,
+                 children=None,
+                 roles=None,
+                 node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 **kwargs):
         """
         Initializes the class.
 
@@ -401,7 +405,7 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "path"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "path"))
 
     def __initialize_node(self, attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
         """
@@ -412,6 +416,7 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
         """
 
         pass
+
 
 class PatternNode(umbra.ui.nodes.GraphModelNode):
     """
@@ -426,13 +431,13 @@ class PatternNode(umbra.ui.nodes.GraphModelNode):
     """
 
     def __init__(self,
-                name=None,
-                parent=None,
-                children=None,
-                roles=None,
-                node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                **kwargs):
+                 name=None,
+                 parent=None,
+                 children=None,
+                 roles=None,
+                 node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 **kwargs):
         """
         Initializes the class.
 
@@ -468,6 +473,7 @@ class PatternNode(umbra.ui.nodes.GraphModelNode):
 
         pass
 
+
 class SearchFileNode(umbra.ui.nodes.GraphModelNode):
     """
     Defines :class:`umbra.patterns.factory.script_editor.search_in_files.SearchInFiles` class
@@ -481,13 +487,13 @@ class SearchFileNode(umbra.ui.nodes.GraphModelNode):
     """
 
     def __init__(self,
-                name=None,
-                parent=None,
-                children=None,
-                roles=None,
-                node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                **kwargs):
+                 name=None,
+                 parent=None,
+                 children=None,
+                 roles=None,
+                 node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 **kwargs):
         """
         Initializes the class.
 
@@ -523,6 +529,7 @@ class SearchFileNode(umbra.ui.nodes.GraphModelNode):
 
         pass
 
+
 class SearchOccurenceNode(umbra.ui.nodes.GraphModelNode):
     """
     Defines :class:`umbra.patterns.factory.script_editor.search_in_files.SearchInFiles` class
@@ -536,13 +543,13 @@ class SearchOccurenceNode(umbra.ui.nodes.GraphModelNode):
     """
 
     def __init__(self,
-                name=None,
-                parent=None,
-                children=None,
-                roles=None,
-                node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                **kwargs):
+                 name=None,
+                 parent=None,
+                 children=None,
+                 roles=None,
+                 node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 **kwargs):
         """
         Initializes the class.
 
@@ -578,6 +585,7 @@ class SearchOccurenceNode(umbra.ui.nodes.GraphModelNode):
 
         pass
 
+
 class ReplaceResultNode(umbra.ui.nodes.GraphModelNode):
     """
     Defines :class:`umbra.patterns.factory.script_editor.search_in_files.SearchInFiles` class
@@ -591,13 +599,13 @@ class ReplaceResultNode(umbra.ui.nodes.GraphModelNode):
     """
 
     def __init__(self,
-                name=None,
-                parent=None,
-                children=None,
-                roles=None,
-                node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                **kwargs):
+                 name=None,
+                 parent=None,
+                 children=None,
+                 roles=None,
+                 node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 **kwargs):
         """
         Initializes the class.
 

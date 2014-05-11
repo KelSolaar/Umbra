@@ -35,6 +35,7 @@ __all__ = ["LOGGER", "ModuleNode"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class ModuleNode(umbra.ui.nodes.GraphModelNode):
     """
     Defines :class:`umbra.components.factory.trace_ui.trace_ui.TraceUi`
@@ -44,14 +45,14 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
     __family = "Module"
 
     def __init__(self,
-                module=None,
-                name=None,
-                parent=None,
-                children=None,
-                roles=None,
-                node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                **kwargs):
+                 module=None,
+                 name=None,
+                 parent=None,
+                 children=None,
+                 roles=None,
+                 node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 **kwargs):
         """
         Initializes the class.
 
@@ -104,7 +105,7 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "module"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "module"))
 
     @module.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -114,7 +115,7 @@ class ModuleNode(umbra.ui.nodes.GraphModelNode):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "module"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "module"))
 
     def __initialize_node(self, attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
         """

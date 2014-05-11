@@ -48,6 +48,7 @@ __all__ = ["LOGGER", "edit_block", "anchor_text_cursor", "center_text_cursor", "
 
 LOGGER = foundations.verbose.install_logger()
 
+
 def edit_block(object):
     """
     Handles edit blocks undo states.
@@ -83,6 +84,7 @@ def edit_block(object):
             return value
 
     return edit_block_wrapper
+
 
 def anchor_text_cursor(object):
     """
@@ -121,6 +123,7 @@ def anchor_text_cursor(object):
 
     return anchor_text_cursorWrapper
 
+
 def center_text_cursor(object):
     """
     Centers the text cursor position.
@@ -157,6 +160,7 @@ def center_text_cursor(object):
         return value
 
     return center_text_cursor_wrapper
+
 
 class Basic_QPlainTextEdit(QPlainTextEdit):
     """
@@ -220,7 +224,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
         if value is not None:
             assert type(value) in (unicode, QString), \
-            "'{0}' attribute: '{1}' type is not 'unicode' or 'QString'!".format("search_pattern", value)
+                "'{0}' attribute: '{1}' type is not 'unicode' or 'QString'!".format("search_pattern", value)
         self.__search_pattern = value
 
     @search_pattern.deleter
@@ -231,7 +235,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "search_pattern"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "search_pattern"))
 
     @property
     def minimum_font_point_size(self):
@@ -256,8 +260,9 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
         if value is not None:
             assert type(value) in (int, float), "'{0}' attribute: '{1}' type is not 'int' or 'float'!".format(
-            "minimum_font_point_size", value)
-            assert value > 0, "'{0}' attribute: '{1}' need to be exactly positive!".format("minimum_font_point_size", value)
+                "minimum_font_point_size", value)
+            assert value > 0, "'{0}' attribute: '{1}' need to be exactly positive!".format(
+                "minimum_font_point_size", value)
         self.__minimum_font_point_size = value
 
     @minimum_font_point_size.deleter
@@ -268,7 +273,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "minimum_font_point_size"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "minimum_font_point_size"))
 
     @property
     def maximum_font_point_size(self):
@@ -293,10 +298,10 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
         if value is not None:
             assert type(value) in (int, float), "'{0}' attribute: '{1}' type is not 'int' or 'float'!".format(
-            "maximum_font_point_size", value)
+                "maximum_font_point_size", value)
             assert value > self.__minimum_font_point_size, \
-            "'{0}' attribute: '{1}' need to be exactly superior to '{2}'!".format(
-            "maximum_font_point_size", value, self.__minimum_font_point_size)
+                "'{0}' attribute: '{1}' need to be exactly superior to '{2}'!".format(
+                    "maximum_font_point_size", value, self.__minimum_font_point_size)
         self.__maximum_font_point_size = value
 
     @maximum_font_point_size.deleter
@@ -307,7 +312,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "maximum_font_point_size"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "maximum_font_point_size"))
 
     @foundations.trace.untracable
     def wheelEvent(self, event):
@@ -388,8 +393,8 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
         """
 
         self.__text_cursor_anchor = (self.textCursor(),
-                                self.horizontalScrollBar().sliderPosition(),
-                                self.verticalScrollBar().sliderPosition())
+                                     self.horizontalScrollBar().sliderPosition(),
+                                     self.verticalScrollBar().sliderPosition())
         return True
 
     def restore_text_cursor_anchor(self):
@@ -618,7 +623,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
         cursor.setPosition(cursor.block().next().position())
         cursor.position() == cursor.document().firstBlock().position() and cursor.setPosition(
-        cursor.document().lastBlock().position())
+            cursor.document().lastBlock().position())
 
         start_position = cursor.position()
         cursor.insertText(text)
@@ -643,7 +648,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
         cursor = self.textCursor()
         if (direction == QTextCursor.Up and cursor.block() == cursor.document().firstBlock()) or \
-        (direction == QTextCursor.Down and cursor.block() == cursor.document().lastBlock()):
+                (direction == QTextCursor.Down and cursor.block() == cursor.document().lastBlock()):
             return False
 
         self.__select_text_under_cursor_blocks(cursor)
@@ -651,8 +656,8 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
         cursor.removeSelectedText()
         cursor.deleteChar()
 
-        cursor.setPosition(cursor.block().next().position() if direction == QTextCursor.Down else \
-                        cursor.block().previous().position())
+        cursor.setPosition(cursor.block().next().position() if direction == QTextCursor.Down else
+                           cursor.block().previous().position())
         if cursor.position() == cursor.document().firstBlock().position() and direction == QTextCursor.Down:
             cursor.movePosition(QTextCursor.End)
             cursor.insertText(QChar(QChar.ParagraphSeparator))
@@ -711,11 +716,11 @@ backward_search=True, wrap_around=True)
         :rtype: bool
         """
 
-        settings = foundations.data_structures.Structure(**{"case_sensitive" : False,
-                                "whole_word" : False,
-                                "regular_expressions" : False,
-                                "backward_search" : False,
-                                "wrap_around" : True})
+        settings = foundations.data_structures.Structure(**{"case_sensitive": False,
+                                                            "whole_word": False,
+                                                            "regular_expressions": False,
+                                                            "backward_search": False,
+                                                            "wrap_around": True})
         settings.update(kwargs)
 
         self.__search_pattern = pattern
@@ -764,11 +769,11 @@ backward_search=True, wrap_around=True)
         if not pattern:
             return False
 
-        return self.search(pattern, **{"case_sensitive" : True,
-                                        "whole_word" : False,
-                                        "regular_expressions" : False,
-                                        "backward_search" : False,
-                                        "wrap_around" : True})
+        return self.search(pattern, **{"case_sensitive": True,
+                                       "whole_word": False,
+                                       "regular_expressions": False,
+                                       "backward_search": False,
+                                       "wrap_around": True})
 
     @center_text_cursor
     def search_previous(self):
@@ -783,11 +788,11 @@ backward_search=True, wrap_around=True)
         if not pattern:
             return False
 
-        return self.search(pattern, **{"case_sensitive" : True,
-                                        "whole_word" : False,
-                                        "regular_expressions" : False,
-                                        "backward_search" : True,
-                                        "wrap_around" : True})
+        return self.search(pattern, **{"case_sensitive": True,
+                                       "whole_word": False,
+                                       "regular_expressions": False,
+                                       "backward_search": True,
+                                       "wrap_around": True})
 
     @center_text_cursor
     @edit_block
@@ -815,13 +820,13 @@ regular_expressions=True, backward_search=True, wrap_around=True)
         :rtype: bool
         """
 
-        settings = foundations.data_structures.Structure(**{"case_sensitive" : False,
-                                                        "regular_expressions" : False})
+        settings = foundations.data_structures.Structure(**{"case_sensitive": False,
+                                                            "regular_expressions": False})
         settings.update(kwargs)
 
-
         selected_text = self.get_selected_text()
-        regex = "^{0}$".format(pattern if settings.regular_expressions else re.escape(foundations.strings.to_string(pattern)))
+        regex = "^{0}$".format(
+            pattern if settings.regular_expressions else re.escape(foundations.strings.to_string(pattern)))
         flags = int() if settings.case_sensitive else re.IGNORECASE
         if not selected_text or not re.search(regex, selected_text, flags=flags):
             self.search(pattern, **kwargs)
@@ -960,7 +965,7 @@ regular_expressions=True, backward_search=True, wrap_around=True)
             text_option.setTabStop(self.tabStopWidth())
         else:
             text_option.setFlags(
-            text_option.flags() | QTextOption.ShowTabsAndSpaces | QTextOption.ShowLineAndParagraphSeparators)
+                text_option.flags() | QTextOption.ShowTabsAndSpaces | QTextOption.ShowLineAndParagraphSeparators)
         self.set_default_text_option(text_option)
         return True
 
@@ -1003,6 +1008,7 @@ regular_expressions=True, backward_search=True, wrap_around=True)
 
         return self.set_font_increment(-1)
 
+
 if __name__ == "__main__":
     import sys
     from PyQt4.QtGui import QGridLayout
@@ -1021,10 +1027,10 @@ if __name__ == "__main__":
     widget.setLayout(grid_layout)
 
     content = "\n".join(("Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            "Phasellus tincidunt tempus volutpat.",
-            "Cras malesuada nunc id neque fermentum accumsan.",
-            "Aenean mauris lorem, faucibus et viverra iaculis, vulputate ac augue.",
-            "Mauris consequat urna enim."))
+                         "Phasellus tincidunt tempus volutpat.",
+                         "Cras malesuada nunc id neque fermentum accumsan.",
+                         "Aenean mauris lorem, faucibus et viverra iaculis, vulputate ac augue.",
+                         "Mauris consequat urna enim."))
 
     basic_QPlainTextEdit = Basic_QPlainTextEdit()
     basic_QPlainTextEdit.set_content(content)
@@ -1035,7 +1041,7 @@ if __name__ == "__main__":
 
     def _pushButton__clicked(*args):
         statement = unicode(line_edit.text(), Constants.default_codec, Constants.codec_error)
-        exec(statement)
+        exec (statement)
 
     push_button = QPushButton("Execute Statement")
     push_button.clicked.connect(_pushButton__clicked)

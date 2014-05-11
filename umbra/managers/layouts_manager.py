@@ -36,6 +36,7 @@ __all__ = ["LOGGER", "Layout", "LayoutsManager"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class Layout(foundations.data_structures.Structure):
     """
     Defines a storage object for :class:`LayoutsManager` class layout.
@@ -52,6 +53,7 @@ class Layout(foundations.data_structures.Structure):
         LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
         foundations.data_structures.Structure.__init__(self, **kwargs)
+
 
 class LayoutsManager(QObject):
     """
@@ -96,8 +98,8 @@ class LayoutsManager(QObject):
         self.__restore_geometry_on_layout_change = False
 
         self.register_layout(UiConstants.startup_layout, Layout(name="Startup",
-                                                            identity=UiConstants.startup_layout,
-                                                            shortcut=None))
+                                                                identity=UiConstants.startup_layout,
+                                                                shortcut=None))
 
     @property
     def container(self):
@@ -121,7 +123,7 @@ class LayoutsManager(QObject):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
     @container.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -131,7 +133,7 @@ class LayoutsManager(QObject):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
     @property
     def settings(self):
@@ -155,7 +157,7 @@ class LayoutsManager(QObject):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
     @settings.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -165,7 +167,7 @@ class LayoutsManager(QObject):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
     @property
     def layouts(self):
@@ -189,7 +191,7 @@ class LayoutsManager(QObject):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "layouts"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "layouts"))
 
     @layouts.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -199,7 +201,7 @@ class LayoutsManager(QObject):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "layouts"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "layouts"))
 
     @property
     def current_layout(self):
@@ -223,7 +225,7 @@ class LayoutsManager(QObject):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "current_layout"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "current_layout"))
 
     @current_layout.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -233,7 +235,7 @@ class LayoutsManager(QObject):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "current_layout"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "current_layout"))
 
     @property
     def restore_geometry_on_layout_change(self):
@@ -258,7 +260,7 @@ class LayoutsManager(QObject):
 
         if value is not None:
             assert type(value) is bool, "'{0}' attribute: '{1}' type is not 'bool'!".format(
-            "restore_geometry_on_layout_change", value)
+                "restore_geometry_on_layout_change", value)
         self.__restore_geometry_on_layout_change = value
 
     @restore_geometry_on_layout_change.deleter
@@ -269,7 +271,8 @@ class LayoutsManager(QObject):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "restore_geometry_on_layout_change"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__,
+                                                             "restore_geometry_on_layout_change"))
 
     def __getitem__(self, layout):
         """
@@ -381,7 +384,7 @@ class LayoutsManager(QObject):
 
         if name in self:
             raise umbra.exceptions.LayoutRegistrationError("{0} | '{1}' layout is already registered!".format(
-            self.__class__.__name__, name))
+                self.__class__.__name__, name))
 
         self.__layouts[name] = layout
         return True
@@ -401,9 +404,9 @@ class LayoutsManager(QObject):
 
         if not name in self:
             raise umbra.exceptions.LayoutRegistrationError("{0} | '{1}' layout is not registered!".format(
-            self.__class__.__name__, name))
+                self.__class__.__name__, name))
 
-        del(self.__layouts[name])
+        del (self.__layouts[name])
         return True
 
     @foundations.exceptions.handle_exceptions(umbra.exceptions.LayoutExistError)
@@ -422,7 +425,7 @@ class LayoutsManager(QObject):
         layout = self.__layouts.get(name)
         if not layout:
             raise umbra.exceptions.LayoutExistError("{0} | '{1}' layout isn't registered!".format(
-            self.__class__.__name__, name))
+                self.__class__.__name__, name))
 
         LOGGER.debug("> Restoring layout '{0}'.".format(name))
 
@@ -433,12 +436,12 @@ class LayoutsManager(QObject):
 
         self.__current_layout = name
         self.__container.centralWidget().setVisible(
-        self.__settings.get_key("Layouts", "{0}_central_widget".format(name)).toBool())
+            self.__settings.get_key("Layouts", "{0}_central_widget".format(name)).toBool())
         self.__container.restoreState(
-        self.__settings.get_key("Layouts", "{0}_window_state".format(name)).toByteArray())
+            self.__settings.get_key("Layouts", "{0}_window_state".format(name)).toByteArray())
         self.__restore_geometry_on_layout_change and \
         self.__container.restoreGeometry(
-        self.__settings.get_key("Layouts", "{0}_geometry".format(name)).toByteArray())
+            self.__settings.get_key("Layouts", "{0}_geometry".format(name)).toByteArray())
         self.layout_restored.emit(self.__current_layout)
         return True
 
@@ -458,14 +461,15 @@ class LayoutsManager(QObject):
         layout = self.__layouts.get(name)
         if not layout:
             raise umbra.exceptions.LayoutExistError("{0} | '{1}' layout isn't registered!".format(
-            self.__class__.__name__, name))
+                self.__class__.__name__, name))
 
         LOGGER.debug("> Storing layout '{0}'.".format(name))
 
         self.__current_layout = name
         self.__settings.set_key("Layouts", "{0}_geometry".format(name), self.__container.saveGeometry())
         self.__settings.set_key("Layouts", "{0}_window_state".format(name), self.__container.saveState())
-        self.__settings.set_key("Layouts", "{0}_central_widget".format(name), self.__container.centralWidget().isVisible())
+        self.__settings.set_key("Layouts", "{0}_central_widget".format(
+            name), self.__container.centralWidget().isVisible())
         self.layout_stored.emit(self.__current_layout)
         return True
 
@@ -481,7 +485,7 @@ class LayoutsManager(QObject):
 
         if self.restore_layout(UiConstants.startup_layout):
             not self.__restore_geometry_on_layout_change and self.__container.restoreGeometry(
-            self.__settings.get_key("Layouts", "{0}_geometry".format(UiConstants.startup_layout)).toByteArray())
+                self.__settings.get_key("Layouts", "{0}_geometry".format(UiConstants.startup_layout)).toByteArray())
             return True
 
     def store_startup_layout(self):

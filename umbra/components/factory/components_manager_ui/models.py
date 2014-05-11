@@ -31,6 +31,7 @@ __all__ = ["LOGGER", "ComponentsModel"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class ComponentsModel(umbra.ui.models.GraphModel):
     """
     Defines the Model used the by

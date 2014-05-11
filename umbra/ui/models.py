@@ -19,6 +19,7 @@ from __future__ import unicode_literals
 import pickle
 import sys
 import weakref
+
 if sys.version_info[:2] <= (2, 6):
     from ordereddict import OrderedDict
 else:
@@ -47,6 +48,7 @@ __status__ = "Production"
 __all__ = ["LOGGER", "GraphModel"]
 
 LOGGER = foundations.verbose.install_logger()
+
 
 class GraphModel(QAbstractItemModel):
     """
@@ -83,11 +85,11 @@ class GraphModel(QAbstractItemModel):
         return instance
 
     def __init__(self,
-                parent=None,
-                root_node=None,
-                horizontal_headers=None,
-                vertical_headers=None,
-                default_node=None):
+                 parent=None,
+                 root_node=None,
+                 horizontal_headers=None,
+                 vertical_headers=None,
+                 default_node=None):
         """
         Initializes the class.
 
@@ -140,7 +142,8 @@ class GraphModel(QAbstractItemModel):
 
         if value is not None:
             assert issubclass(value.__class__, AbstractCompositeNode), \
-            "'{0}' attribute: '{1}' is not a '{2}' subclass!".format("root_node", value, AbstractCompositeNode.__name__)
+                "'{0}' attribute: '{1}' is not a '{2}' subclass!".format(
+                    "root_node", value, AbstractCompositeNode.__name__)
         self.__root_node = value
 
     @root_node.deleter
@@ -151,7 +154,7 @@ class GraphModel(QAbstractItemModel):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "root_node"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "root_node"))
 
     @property
     def horizontal_headers(self):
@@ -176,7 +179,7 @@ class GraphModel(QAbstractItemModel):
 
         if value is not None:
             assert type(value) is OrderedDict, "'{0}' attribute: '{1}' type is not 'OrderedDict'!".format(
-            "horizontal_headers", value)
+                "horizontal_headers", value)
         self.__horizontal_headers = value
 
     @horizontal_headers.deleter
@@ -187,7 +190,7 @@ class GraphModel(QAbstractItemModel):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "horizontal_headers"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "horizontal_headers"))
 
     @property
     def vertical_headers(self):
@@ -212,7 +215,7 @@ class GraphModel(QAbstractItemModel):
 
         if value is not None:
             assert type(value) is OrderedDict, "'{0}' attribute: '{1}' type is not 'OrderedDict'!".format(
-            "vertical_headers", value)
+                "vertical_headers", value)
         self.__vertical_headers = value
 
     @vertical_headers.deleter
@@ -223,7 +226,7 @@ class GraphModel(QAbstractItemModel):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "vertical_headers"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "vertical_headers"))
 
     @property
     def default_node(self):
@@ -248,7 +251,8 @@ class GraphModel(QAbstractItemModel):
 
         if value is not None:
             assert issubclass(value, AbstractCompositeNode), \
-            "'{0}' attribute: '{1}' is not a '{2}' subclass!".format("default_node", value, AbstractCompositeNode.__name__)
+                "'{0}' attribute: '{1}' is not a '{2}' subclass!".format(
+                    "default_node", value, AbstractCompositeNode.__name__)
         self.__default_node = value
 
     @default_node.deleter
@@ -259,7 +263,7 @@ class GraphModel(QAbstractItemModel):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_node"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_node"))
 
     def rowCount(self, parent=QModelIndex()):
         """
@@ -341,9 +345,9 @@ class GraphModel(QAbstractItemModel):
         node = self.get_node(index)
         if role == Qt.DisplayRole or role == Qt.EditRole:
             value = foundations.strings.to_string(value.toString())
-            roles = {Qt.DisplayRole : value, Qt.EditRole : value}
+            roles = {Qt.DisplayRole: value, Qt.EditRole: value}
         else:
-            roles = {role : value}
+            roles = {role: value}
 
         if index.column() == 0:
             if (node and hasattr(node, "roles")):
@@ -460,8 +464,9 @@ class GraphModel(QAbstractItemModel):
         if column == 0:
             self.__root_node.sort_children(reverse_order=order)
         else:
-            self.__root_node.sort_children(attribute=self.__horizontal_headers[self.__horizontal_headers.keys()[column]],
-                                        reverse_order=order)
+            self.__root_node.sort_children(
+                attribute=self.__horizontal_headers[self.__horizontal_headers.keys()[column]],
+                reverse_order=order)
         self.endResetModel()
 
     def insertRows(self, row, count, parent=QModelIndex()):

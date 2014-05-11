@@ -42,6 +42,7 @@ LOGGER = foundations.verbose.install_logger()
 
 COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Preferences_Manager.ui")
 
+
 class PreferencesManager(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
     """
     | Defines the :mod:`umbra.components.factory.preferences_manager.preferences_manager` Component Interface class.
@@ -97,7 +98,7 @@ class PreferencesManager(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "dock_area"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "dock_area"))
 
     @dock_area.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -107,7 +108,7 @@ class PreferencesManager(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "dock_area"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "dock_area"))
 
     @property
     def engine(self):
@@ -131,7 +132,7 @@ class PreferencesManager(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "engine"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "engine"))
 
     @engine.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -141,7 +142,7 @@ class PreferencesManager(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "engine"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "engine"))
 
     @property
     def settings(self):
@@ -165,7 +166,7 @@ class PreferencesManager(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
     @settings.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -175,7 +176,7 @@ class PreferencesManager(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
     def activate(self, engine):
         """
@@ -203,7 +204,7 @@ class PreferencesManager(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, self.__name))
+            "{0} | '{1}' Component cannot be deactivated!".format(self.__class__.__name__, self.__name))
 
     def initialize_ui(self):
         """
@@ -226,7 +227,7 @@ class PreferencesManager(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         self.Logging_Formatters_comboBox.activated.connect(self.__Logging_Formatters_comboBox__activated)
         self.Verbose_Level_comboBox.activated.connect(self.__Verbose_Level_comboBox__activated)
         self.Restore_Geometry_On_Layout_Change_checkBox.stateChanged.connect(
-        self.__Restore_Geometry_On_Layout_Change_checkBox__stateChanged)
+            self.__Restore_Geometry_On_Layout_Change_checkBox__stateChanged)
 
         self.initialized_ui = True
         return True
@@ -238,7 +239,7 @@ class PreferencesManager(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' Component ui cannot be uninitialized!".format(self.__class__.__name__, self.name))
+            "{0} | '{1}' Component ui cannot be uninitialized!".format(self.__class__.__name__, self.name))
 
     def add_widget(self):
         """
@@ -261,7 +262,7 @@ class PreferencesManager(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' Component Widget cannot be removed!".format(self.__class__.__name__, self.name))
+            "{0} | '{1}' Component Widget cannot be removed!".format(self.__class__.__name__, self.name))
 
     def __engine__verbosity_level_changed(self, verbosity_level):
         """
@@ -284,7 +285,7 @@ class PreferencesManager(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         logging_formatter = self.__settings.get_key("Settings", "logging_formatter").toString()
         self.__engine.logging_active_formatter = logging_formatter and logging_formatter or Constants.logging_default_formatter
         self.Logging_Formatters_comboBox.setCurrentIndex(self.Logging_Formatters_comboBox.findText(
-        self.__engine.logging_active_formatter, Qt.MatchExactly))
+            self.__engine.logging_active_formatter, Qt.MatchExactly))
 
     def __Logging_Formatters_comboBox__activated(self, index):
         """
@@ -307,9 +308,9 @@ class PreferencesManager(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 
         self.Verbose_Level_comboBox.clear()
         LOGGER.debug("> Available verbose levels: '{0}'.".format(Constants.verbosity_labels))
-        self.Verbose_Level_comboBox.insertItems(0, QStringList (Constants.verbosity_labels))
+        self.Verbose_Level_comboBox.insertItems(0, QStringList(Constants.verbosity_labels))
         self.__engine.verbosity_level = foundations.common.get_first_item(
-                                    self.__settings.get_key("Settings", "verbosity_level").toInt())
+            self.__settings.get_key("Settings", "verbosity_level").toInt())
         self.Verbose_Level_comboBox.setCurrentIndex(self.__engine.verbosity_level)
 
     def __Verbose_Level_comboBox__activated(self, index):
@@ -335,7 +336,7 @@ class PreferencesManager(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         self.__settings.set_key("Settings", "restore_geometry_on_layout_change", Qt.Unchecked)
 
         restore_geometry_on_layout_change = foundations.common.get_first_item(
-                                        self.__settings.get_key("Settings", "restore_geometry_on_layout_change").toInt())
+            self.__settings.get_key("Settings", "restore_geometry_on_layout_change").toInt())
         LOGGER.debug("> Setting '{0}' with value '{1}'.".format("Restore_Geometry_On_Layout_Change_checkBox",
                                                                 restore_geometry_on_layout_change))
         self.Restore_Geometry_On_Layout_Change_checkBox.setCheckState(restore_geometry_on_layout_change)
@@ -361,4 +362,5 @@ class PreferencesManager(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         for handler in (RuntimeGlobals.logging_console_handler,
                         RuntimeGlobals.logging_file_handler,
                         RuntimeGlobals.logging_session_handler):
-            handler and handler.setFormatter(RuntimeGlobals.logging_formatters[RuntimeGlobals.logging_active_formatter])
+            handler and handler.setFormatter(
+                RuntimeGlobals.logging_formatters[RuntimeGlobals.logging_active_formatter])

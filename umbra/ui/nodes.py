@@ -32,13 +32,14 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-        "Mixin_GraphModelObject",
-        "GraphModelAttribute",
-        "GraphModelNode",
-        "DefaultNode" ,
-        "FormatNode"]
+           "Mixin_GraphModelObject",
+           "GraphModelAttribute",
+           "GraphModelNode",
+           "DefaultNode",
+           "FormatNode"]
 
 LOGGER = foundations.verbose.install_logger()
+
 
 class Mixin_GraphModelObject(object):
     """
@@ -83,7 +84,8 @@ class Mixin_GraphModelObject(object):
         if value is not None:
             assert type(value) is dict, "'{0}' attribute: '{1}' type is not 'dict'!".format("roles", value)
             for key in value:
-                assert type(key) is Qt.ItemDataRole, "'{0}' attribute: '{1}' type is not 'Qt.ItemDataRole'!".format("roles", key)
+                assert type(key) is Qt.ItemDataRole, "'{0}' attribute: '{1}' type is not 'Qt.ItemDataRole'!".format(
+                    "roles", key)
         self.__roles = value
 
     @roles.deleter
@@ -94,7 +96,7 @@ class Mixin_GraphModelObject(object):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "roles"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "roles"))
 
     @property
     def flags(self):
@@ -129,7 +131,7 @@ class Mixin_GraphModelObject(object):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "flags"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "flags"))
 
     @property
     def trigger_model(self):
@@ -164,7 +166,8 @@ class Mixin_GraphModelObject(object):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "trigger_model"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "trigger_model"))
+
 
 class GraphModelAttribute(Attribute, Mixin_GraphModelObject):
     """
@@ -193,7 +196,7 @@ class GraphModelAttribute(Attribute, Mixin_GraphModelObject):
         Mixin_GraphModelObject.__init__(self)
 
         # --- Setting class attributes. ---
-        self.roles = roles or {Qt.DisplayRole : value, Qt.EditRole : value}
+        self.roles = roles or {Qt.DisplayRole: value, Qt.EditRole: value}
         self.flags = flags or int(Qt.ItemIsSelectable | Qt.ItemIsEditable | Qt.ItemIsEnabled)
 
     def __setattr__(self, attribute, value):
@@ -211,9 +214,9 @@ class GraphModelAttribute(Attribute, Mixin_GraphModelObject):
         Attribute.__setattr__(self, attribute, value)
 
         if not attribute in ("_Attribute__name",
-                            "_Attribute__value",
-                            "_Attribute__roles",
-                            "_Attribute__flags"):
+                             "_Attribute__value",
+                             "_Attribute__roles",
+                             "_Attribute__flags"):
             return
 
         trigger_model = getattr(self, "_Mixin_GraphModelObject__trigger_model", False)
@@ -237,6 +240,7 @@ class GraphModelAttribute(Attribute, Mixin_GraphModelObject):
 
             model.attribute_changed(model.find_node(self), headers.index(self.name))
         return True
+
 
 class GraphModelNode(AbstractCompositeNode, Mixin_GraphModelObject):
     """
@@ -272,7 +276,7 @@ class GraphModelNode(AbstractCompositeNode, Mixin_GraphModelObject):
         Mixin_GraphModelObject.__init__(self)
 
         # --- Setting class attributes. ---
-        self.roles = roles or {Qt.DisplayRole : self.name, Qt.EditRole : self.name}
+        self.roles = roles or {Qt.DisplayRole: self.name, Qt.EditRole: self.name}
         self.flags = flags or int(Qt.ItemIsSelectable | Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsDragEnabled)
 
     def __setattr__(self, attribute, value):
@@ -290,8 +294,8 @@ class GraphModelNode(AbstractCompositeNode, Mixin_GraphModelObject):
         AbstractCompositeNode.__setattr__(self, attribute, value)
 
         if not attribute in ("_GraphModelNode__name",
-                            "_GraphModelNode__roles",
-                            "_GraphModelNode__flags"):
+                             "_GraphModelNode__roles",
+                             "_GraphModelNode__flags"):
             return
 
         trigger_model = getattr(self, "_Mixin_GraphModelObject__trigger_model", False)
@@ -311,6 +315,7 @@ class GraphModelNode(AbstractCompositeNode, Mixin_GraphModelObject):
         for model in umbra.ui.models.GraphModel.find_model(self):
             model.node_changed(self)
         return True
+
 
 class DefaultNode(AbstractCompositeNode):
     """
@@ -341,6 +346,7 @@ class DefaultNode(AbstractCompositeNode):
         LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
         AbstractCompositeNode.__init__(self, name, parent, children, **kwargs)
+
 
 class FormatNode(AbstractCompositeNode):
     """
@@ -407,4 +413,4 @@ class FormatNode(AbstractCompositeNode):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "format"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "format"))

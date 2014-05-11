@@ -47,6 +47,7 @@ LOGGER = foundations.verbose.install_logger()
 
 UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Search_And_Replace.ui")
 
+
 class ValidationFilter(QObject):
     """
     Defines a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass used as an event filter
@@ -73,6 +74,7 @@ class ValidationFilter(QObject):
             return True
         else:
             return QObject.eventFilter(self, object, event)
+
 
 class SearchAndReplace(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
     """
@@ -127,7 +129,7 @@ class SearchAndReplace(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
     @container.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -137,7 +139,7 @@ class SearchAndReplace(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
     @property
     def search_patterns_model(self):
@@ -161,7 +163,7 @@ class SearchAndReplace(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "search_patterns_model"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "search_patterns_model"))
 
     @search_patterns_model.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -171,7 +173,7 @@ class SearchAndReplace(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "search_patterns_model"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "search_patterns_model"))
 
     @property
     def replace_with_patterns_model(self):
@@ -195,7 +197,7 @@ class SearchAndReplace(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "replace_with_patterns_model"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "replace_with_patterns_model"))
 
     @replace_with_patterns_model.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -205,7 +207,7 @@ class SearchAndReplace(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "replace_with_patterns_model"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "replace_with_patterns_model"))
 
     @property
     def maximum_stored_patterns(self):
@@ -229,7 +231,7 @@ class SearchAndReplace(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "maximum_stored_patterns"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "maximum_stored_patterns"))
 
     @maximum_stored_patterns.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -239,7 +241,7 @@ class SearchAndReplace(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "maximum_stored_patterns"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "maximum_stored_patterns"))
 
     def show(self):
         """
@@ -262,14 +264,16 @@ class SearchAndReplace(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         umbra.ui.common.set_window_default_icon(self)
 
         for model, settings_key, combo_box in \
-        (("_SearchAndReplace__search_patterns_model", "recent_search_patterns", self.Search_comboBox),
-        ("_SearchAndReplace__replace_with_patterns_model", "recent_replace_with_patterns", self.Replace_With_comboBox)):
+                (("_SearchAndReplace__search_patterns_model", "recent_search_patterns", self.Search_comboBox),
+                 ("_SearchAndReplace__replace_with_patterns_model", "recent_replace_with_patterns",
+                  self.Replace_With_comboBox)):
             self.__dict__[model] = PatternsModel()
-            patterns = foundations.common.ordered_uniqify([foundations.strings.to_string(pattern) for pattern in \
-                                                        self.__container.settings.get_key(self.__container.settings_section,
-                                                                                        settings_key).toStringList()])
-            [PatternNode(parent=self.__dict__[model].root_node, name=pattern) \
-            for pattern in patterns[:self.__maximum_stored_patterns]]
+            patterns = foundations.common.ordered_uniqify([foundations.strings.to_string(pattern) for pattern in
+                                                           self.__container.settings.get_key(
+                                                               self.__container.settings_section,
+                                                               settings_key).toStringList()])
+            [PatternNode(parent=self.__dict__[model].root_node, name=pattern)
+             for pattern in patterns[:self.__maximum_stored_patterns]]
             combo_box.setInsertPolicy(QComboBox.InsertAtTop)
             combo_box.setModel(self.__dict__[model])
 
@@ -277,7 +281,7 @@ class SearchAndReplace(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 
             # Signals / Slots.
             self.__dict__[model].pattern_inserted.connect(
-            functools.partial(self.__patterns_model__pattern_inserted, settings_key, combo_box))
+                functools.partial(self.__patterns_model__pattern_inserted, settings_key, combo_box))
 
         self.Wrap_Around_checkBox.setChecked(True)
 
@@ -306,9 +310,9 @@ class SearchAndReplace(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         LOGGER.debug("> Storing '{0}' model patterns in '{1}' settings key.".format(patterns_model, settings_key))
 
         self.__container.settings.set_key(self.__container.settings_section,
-                                        settings_key,
-                                        [pattern_node.name for pattern_node in \
-                                        patterns_model.root_node.children[:self.maximum_stored_patterns]])
+                                          settings_key,
+                                          [pattern_node.name for pattern_node in
+                                           patterns_model.root_node.children[:self.maximum_stored_patterns]])
         combo_box.setCurrentIndex(index.row())
 
     def __Search_pushButton__clicked(self, checked):
@@ -359,11 +363,11 @@ class SearchAndReplace(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         :rtype: dict
         """
 
-        return {"case_sensitive" : self.Case_Sensitive_checkBox.isChecked(),
-                "whole_word" : self.Whole_Word_checkBox.isChecked(),
-                "regular_expressions" : self.Regular_Expressions_checkBox.isChecked(),
-                "backward_search" : self.Backward_Search_checkBox.isChecked(),
-                "wrap_around" : self.Wrap_Around_checkBox.isChecked()}
+        return {"case_sensitive": self.Case_Sensitive_checkBox.isChecked(),
+                "whole_word": self.Whole_Word_checkBox.isChecked(),
+                "regular_expressions": self.Regular_Expressions_checkBox.isChecked(),
+                "backward_search": self.Backward_Search_checkBox.isChecked(),
+                "wrap_around": self.Wrap_Around_checkBox.isChecked()}
 
     @staticmethod
     def insert_pattern(pattern, model, index=0):
@@ -435,7 +439,7 @@ class SearchAndReplace(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         settings = self.__get_settings()
 
         LOGGER.debug("> 'Replace' on search '{0}' pattern, '{1}' replacement pattern with '{2}' settings.".format(
-        search_pattern, replacement_pattern, settings))
+            search_pattern, replacement_pattern, settings))
 
         return editor.replace(search_pattern, replacement_pattern, **settings)
 
@@ -458,10 +462,10 @@ class SearchAndReplace(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         self.insert_pattern(replacement_pattern, self.__replace_with_patterns_model)
 
         settings = self.__get_settings()
-        settings.update({"backward_search" : False,
-                        "wrap_around" : False})
+        settings.update({"backward_search": False,
+                         "wrap_around": False})
 
         LOGGER.debug("> 'Replace All' on search '{0}' pattern, '{1}' replacement pattern with '{2}' settings.".format(
-        search_pattern, replacement_pattern, settings))
+            search_pattern, replacement_pattern, settings))
 
         return editor.replace_all(search_pattern, replacement_pattern, **settings)

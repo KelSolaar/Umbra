@@ -42,13 +42,14 @@ LOGGER = foundations.verbose.install_logger()
 
 COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "TCP_Server_Ui.ui")
 
+
 class RequestsStackDataHandler(SocketServer.BaseRequestHandler):
     """
     Defines the default requests handler.
     """
 
     codes = foundations.data_structures.Structure(request_end="<!RE>",
-                                                server_shutdown="<!SS>")
+                                                  server_shutdown="<!SS>")
 
     def handle(self):
         """
@@ -92,6 +93,7 @@ class RequestsStackDataHandler(SocketServer.BaseRequestHandler):
         """
 
         return self.container.stop(terminate=True)
+
 
 class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
     """
@@ -152,7 +154,7 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "engine"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "engine"))
 
     @engine.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -162,7 +164,7 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "engine"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "engine"))
 
     @property
     def settings(self):
@@ -186,7 +188,7 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
     @settings.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -196,7 +198,7 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
     @property
     def settings_section(self):
@@ -220,7 +222,7 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings_section"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings_section"))
 
     @settings_section.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -230,7 +232,7 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings_section"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings_section"))
 
     @property
     def preferences_manager(self):
@@ -254,7 +256,7 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "preferences_manager"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "preferences_manager"))
 
     @preferences_manager.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -264,7 +266,7 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "preferences_manager"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "preferences_manager"))
 
     @property
     def tcp_server(self):
@@ -288,7 +290,7 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "tcp_server"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "tcp_server"))
 
     @tcp_server.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -298,7 +300,7 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "tcp_server"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "tcp_server"))
 
     @property
     def address(self):
@@ -323,7 +325,7 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 
         if value is not None:
             assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-            "address", value)
+                "address", value)
         self.__address = value
 
     @address.deleter
@@ -334,7 +336,7 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "address"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "address"))
 
     @property
     def port(self):
@@ -359,9 +361,9 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 
         if value is not None:
             assert type(value) is int, "'{0}' attribute: '{1}' type is not 'int'!".format(
-            "port", value)
+                "port", value)
             assert type(value) >= 0 and type(value) >= 65535, \
-            "'{0}' attribute: '{1}' value must be in 0-65535 range!".format("port", value)
+                "'{0}' attribute: '{1}' value must be in 0-65535 range!".format("port", value)
         self.__port = value
 
     @port.deleter
@@ -372,8 +374,7 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "port"))
-
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "port"))
 
     def activate(self, engine):
         """
@@ -436,7 +437,7 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         # Signals / Slots.
         self.Port_spinBox.valueChanged.connect(self.__Port_spinBox__valueChanged)
         self.Autostart_TCP_Server_checkBox.stateChanged.connect(
-        self.__Autostart_TCP_Server_checkBox__stateChanged)
+            self.__Autostart_TCP_Server_checkBox__stateChanged)
         self.Start_TCP_Server_pushButton.clicked.connect(self.__Start_TCP_Server_pushButton__clicked)
         self.Stop_TCP_Server_pushButton.clicked.connect(self.__Stop_TCP_Server_pushButton__clicked)
 
@@ -456,7 +457,7 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         # Signals / Slots.
         self.Port_spinBox.valueChanged.disconnect(self.__Port_spinBox__valueChanged)
         self.Autostart_TCP_Server_checkBox.stateChanged.disconnect(
-        self.__Autostart_TCP_Server_checkBox__stateChanged)
+            self.__Autostart_TCP_Server_checkBox__stateChanged)
         self.Start_TCP_Server_pushButton.clicked.disconnect(self.__Start_TCP_Server_pushButton__clicked)
         self.Stop_TCP_Server_pushButton.clicked.disconnect(self.__Stop_TCP_Server_pushButton__clicked)
 
@@ -528,7 +529,7 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         self.Port_spinBox.setValue(port)
         self.__port = port
 
-    def __Port_spinBox__valueChanged (self, value):
+    def __Port_spinBox__valueChanged(self, value):
         """
         Defines the slot triggered by the **Port_spinBox** Widget when value changed.
 
@@ -550,7 +551,7 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         self.__settings.set_key(self.__settings_section, "autostart_tcp_server", Qt.Checked)
 
         autostart_tcp_server = foundations.common.get_first_item(
-                            self.__settings.get_key(self.__settings_section, "autostart_tcp_server").toInt())
+            self.__settings.get_key(self.__settings_section, "autostart_tcp_server").toInt())
         LOGGER.debug("> Setting '{0}' with value '{1}'.".format("Autostart_TCP_Server_checkBox",
                                                                 autostart_tcp_server))
         self.Autostart_TCP_Server_checkBox.setCheckState(autostart_tcp_server)
@@ -601,14 +602,14 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         if not self.__tcp_server.online:
             if self.__tcp_server.start():
                 self.__engine.notifications_manager.notify(
-                "{0} | TCP Server has started with '{1}' address on '{2}' port!".format(
-                                                                                        self.__class__.__name__,
-                                                                                        self.__address,
-                                                                                        self.__port))
+                    "{0} | TCP Server has started with '{1}' address on '{2}' port!".format(
+                        self.__class__.__name__,
+                        self.__address,
+                        self.__port))
                 return True
         else:
             self.__engine.notifications_manager.warnify(
-            "{0} | TCP Server is already online!".format(self.__class__.__name__))
+                "{0} | TCP Server is already online!".format(self.__class__.__name__))
             return False
 
     def stop_tcp_server(self):
@@ -622,9 +623,9 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
         if self.__tcp_server.online:
             if self.__tcp_server.stop():
                 self.__engine.notifications_manager.notify(
-                "{0} | TCP Server has stopped!".format(self.__class__.__name__))
+                    "{0} | TCP Server has stopped!".format(self.__class__.__name__))
                 return True
         else:
             self.__engine.notifications_manager.warnify(
-            "{0} | TCP Server is not online!".format(self.__class__.__name__))
+                "{0} | TCP Server is not online!".format(self.__class__.__name__))
             return False

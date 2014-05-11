@@ -35,6 +35,7 @@ __all__ = ["LOGGER", "Components_QTreeView"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
     """
     Defines the view for Components.
@@ -89,7 +90,7 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
     @container.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -99,7 +100,7 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
     @property
     def tree_view_indentation(self):
@@ -123,7 +124,7 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "tree_view_indentation"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "tree_view_indentation"))
 
     @tree_view_indentation.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -133,7 +134,7 @@ class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "tree_view_indentation"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "tree_view_indentation"))
 
     def setModel(self, model):
         """

@@ -40,6 +40,7 @@ __all__ = ["LOGGER", "message_box"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 def message_box(type, title, message, icon=None, buttons=QMessageBox.Ok, custom_buttons=None):
     """
     Provides a fast GUI message box.
@@ -129,6 +130,7 @@ def message_box(type, title, message, icon=None, buttons=QMessageBox.Ok, custom_
     foundations.ui.common.center_widget_on_screen(message_box)
     return message_box.exec_()
 
+
 if __name__ == "__main__":
     import sys
     from PyQt4.QtCore import QString
@@ -141,6 +143,6 @@ if __name__ == "__main__":
     message_box("Information", "Information", "This is an 'Information' QMessageBox!")
     message_box("Question", "Question", "This is a 'Question' QMessageBox!")
     message_box("Information", "Information", "This QMessageBox is using a custom button!",
-    custom_buttons=((QString("Custom"), QMessageBox.RejectRole),))
+                custom_buttons=((QString("Custom"), QMessageBox.RejectRole),))
 
     sys.exit(application.exec_())

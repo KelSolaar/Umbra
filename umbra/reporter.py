@@ -22,6 +22,7 @@ import os
 import platform
 import re
 import sys
+
 if sys.version_info[:2] <= (2, 6):
     from ordereddict import OrderedDict
 else:
@@ -49,19 +50,20 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-        "UI_FILE",
-        "Reporter",
-        "base_exception_handler",
-        "system_exit_exception_handler"
-        "critical_exception_handler",
-        "install_exception_reporter",
-        "uninstall_exception_reporter",
-        "enable_exception_reporter",
-        "disable_exception_reporter"]
+           "UI_FILE",
+           "Reporter",
+           "base_exception_handler",
+           "system_exit_exception_handler"
+           "critical_exception_handler",
+           "install_exception_reporter",
+           "uninstall_exception_reporter",
+           "enable_exception_reporter",
+           "disable_exception_reporter"]
 
 LOGGER = foundations.verbose.install_logger()
 
 UI_FILE = umbra.ui.common.get_resource_path(UiConstants.reporter_ui_file)
+
 
 class Reporter(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
     """
@@ -122,12 +124,13 @@ class Reporter(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         self.enabled = enabled
 
         self.__jquery_javascript_path = umbra.ui.common.get_resource_path(os.path.join("javascripts", "jquery.js"))
-        self.__crittercism_javascript_path = umbra.ui.common.get_resource_path(os.path.join("javascripts", "crittercism.js"))
+        self.__crittercism_javascript_path = umbra.ui.common.get_resource_path(
+            os.path.join("javascripts", "crittercism.js"))
         self.__reporter_javascript_path = umbra.ui.common.get_resource_path(os.path.join("javascripts", "reporter.js"))
         self.__jquery_javascript = foundations.io.File(self.__jquery_javascript_path).read()
         self.__crittercism_javascript = foundations.io.File(self.__crittercism_javascript_path).read()
         self.__reporter_javascript = foundations.io.File(self.__reporter_javascript_path).read().format(
-        UiConstants.crittercism_id, Constants.version)
+            UiConstants.crittercism_id, Constants.version)
 
         self.__style = """* {
                             margin: 0;
@@ -277,7 +280,8 @@ this report has been sent to <b>HDRLabs</b> development team!"
         self.__offlineText = "An <b>unhandled</b> exception occured, \
 mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__email__, Constants.application_name)
         self.__footerText = \
-        "The severity of this exception is not critical and <b>{0}</b> will resume!".format(Constants.application_name)
+            "The severity of this exception is not critical and <b>{0}</b> will resume!".format(
+                Constants.application_name)
 
         self.__initialize_ui()
 
@@ -314,7 +318,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "report"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "report"))
 
     @property
     def enabled(self):
@@ -349,7 +353,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "enabled"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "enabled"))
 
     def __call__(self, *args):
         """
@@ -442,8 +446,8 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
         output.append("<html>")
         output.append("<head>")
         for javascript in (self.__jquery_javascript,
-                        self.__crittercism_javascript,
-                        self.__reporter_javascript):
+                           self.__crittercism_javascript,
+                           self.__reporter_javascript):
             output.append("<script type=\"text/javascript\">")
             output.append(javascript)
             output.append("</script>")
@@ -511,7 +515,8 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 
         cls, instance, trcback = foundations.exceptions.extract_exception(*args)
 
-        LOGGER.info("{0} | Handling '{1}' exception!".format(self.__class__.__name__, foundations.strings.to_string(cls)))
+        LOGGER.info("{0} | Handling '{1}' exception!".format(
+            self.__class__.__name__, foundations.strings.to_string(cls)))
 
         self.__initialize_context_ui()
 
@@ -534,9 +539,11 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
         """
 
         escape = lambda x: foundations.strings.replace(x,
-        OrderedDict([("&", "&amp;"), ("<", "&lt;"), (">", "&gt;")]))
+                                                       OrderedDict([("&", "&amp;"), ("<", "&lt;"), (">", "&gt;")]))
         format = lambda x: foundations.strings.replace(x.expandtabs(8),
-        OrderedDict([("\n\n", "\n \n"), ("\n\n", "\n \n"), (" ", "&nbsp;"), ("\n", "<br/>\n")]))
+                                                       OrderedDict(
+                                                           [("\n\n", "\n \n"), ("\n\n", "\n \n"), (" ", "&nbsp;"),
+                                                            ("\n", "<br/>\n")]))
 
         verbose = 10
         cls, instance, trcback = args
@@ -547,8 +554,8 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 
         html = []
         html.append(
-        "<div class=\"header\"><span class=\"floatRight textAlignRight\"><h4>{0}<br/>{1}</h4></span><h2>{2}</h2></div>".format(
-        python, date, escape(foundations.strings.to_string(cls))))
+            "<div class=\"header\"><span class=\"floatRight textAlignRight\"><h4>{0}<br/>{1}</h4></span><h2>{2}</h2></div>".format(
+                python, date, escape(foundations.strings.to_string(cls))))
 
         html.append("<div class=\"traceback\">")
         for line in foundations.exceptions.format_exception(cls, instance, trcback):
@@ -558,20 +565,20 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
         html.append("<div class=\"content\">")
         html.append("<p>An unhandled exception occured in <b>{0} {1}</b>! \
                 Sequence of calls leading up to the exception, in their occurring order:</p>".format(
-                Constants.application_name, Constants.version))
+            Constants.application_name, Constants.version))
         html.append("<br/>")
         html.append("<div class=\"stack\">")
         for frame, file_name, line_number, name, context, index in stack:
             location = "<b>{0}{1}</b>".format(escape(name) if name != "<module>" else "",
-                                            inspect.formatargvalues(*inspect.getargvalues(frame)))
+                                              inspect.formatargvalues(*inspect.getargvalues(frame)))
             html.append(
-            "<div class=\"location\">File <a href=file://{0}>\"{0}\"</a>, line <b>{1}</b>, in {2}</div><br>".format(
-            file_name, line_number, location))
+                "<div class=\"location\">File <a href=file://{0}>\"{0}\"</a>, line <b>{1}</b>, in {2}</div><br>".format(
+                    file_name, line_number, location))
             html.append("<div class=\"context\">")
             for i, line in enumerate(context):
                 if i == index:
                     html.append("<span class=\"highlight\">{0}&nbsp;{1}</span>".format(
-                    line_number - index + i, format(line)))
+                        line_number - index + i, format(line)))
                 else:
                     html.append("{0}&nbsp;{1}".format(line_number - index + i, format(line)))
             html.append("</div>")
@@ -588,8 +595,8 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
         for frame, locals in foundations.exceptions.extract_locals(trcback):
             name, file_name, line_number = frame
             html.append(
-            "<div class=\"frame\">Frame \"{0}\" in <a href=file://{1}>\"{1}\"</a> file, line <b>{2}</b>:</div>".format(
-            escape(name), file_name, line_number))
+                "<div class=\"frame\">Frame \"{0}\" in <a href=file://{1}>\"{1}\"</a> file, line <b>{2}</b>:</div>".format(
+                    escape(name), file_name, line_number))
             html.append("<br/>")
             html.append("<div class=\"locals\">")
             arguments, nameless_args, keyword_args, locals = locals
@@ -644,7 +651,7 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 
         for frame, file_name, line_number, name, context, index in stack:
             location = "{0}{1}".format(name if name != "<module>" else "",
-                                            inspect.formatargvalues(*inspect.getargvalues(frame)))
+                                       inspect.formatargvalues(*inspect.getargvalues(frame)))
             text.append("File \"{0}\", line {1}, in {2}".format(file_name, line_number, location))
             for i, line in enumerate(context):
                 if i == index:
@@ -696,13 +703,14 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
             stack = repr(map(str, self.formatTextException(cls, instance, trcback)))
 
             javascript = "Crittercism.logExternalException(\"{0}\", \"{1}\", {2}, {3});".format(
-            title, file, line_number, stack)
+                title, file, line_number, stack)
             self.__evaluate_javascript(javascript)
             LOGGER.info("{0} | Exception report sent to Crittercism!".format(self.__class__.__name__))
             return True
         else:
             LOGGER.warning("!> {0} | Failed sending exception report to Crittercism!".format(self.__class__.__name__))
             return False
+
 
 def base_exception_handler(*args):
     """
@@ -718,6 +726,7 @@ def base_exception_handler(*args):
 
     return True
 
+
 def system_exit_exception_handler(*args):
     """
     Provides a system exit exception handler.
@@ -730,14 +739,15 @@ def system_exit_exception_handler(*args):
 
     reporter = Reporter()
     reporter.Footer_label.setText(
-    "The severity of this exception is critical, <b>{0}</b> cannot continue and will now close!".format(
-    Constants.application_name))
+        "The severity of this exception is critical, <b>{0}</b> cannot continue and will now close!".format(
+            Constants.application_name))
 
     base_exception_handler(*args)
 
     foundations.core.exit(1)
 
     return True
+
 
 def critical_exception_handler(object):
     """
@@ -769,6 +779,7 @@ def critical_exception_handler(object):
 
     return critical_exception_handler_wrapper
 
+
 def install_exception_reporter(report=True):
     """
     Installs the exceptions reporter.
@@ -783,6 +794,7 @@ def install_exception_reporter(report=True):
     sys.excepthook = reporter
     return reporter
 
+
 def uninstall_exception_reporter():
     """
     Uninstalls the exceptions reporter.
@@ -792,6 +804,7 @@ def uninstall_exception_reporter():
     """
 
     return foundations.exceptions.install_exception_handler()
+
 
 def enable_exception_reporter():
     """
@@ -804,6 +817,7 @@ def enable_exception_reporter():
     reporter = Reporter().enabled = True
     return True
 
+
 def disable_exception_reporter():
     """
     Disables the exceptions reporter.
@@ -814,6 +828,7 @@ def disable_exception_reporter():
 
     reporter = Reporter().enabled = False
     return True
+
 
 if __name__ == "__main__":
     foundations.verbose.get_logging_console_handler()

@@ -38,6 +38,7 @@ __all__ = ["LOGGER", "FileSystemEventsManager"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class FileSystemEventsManager(QThread):
     """
     Defines the file system events manager.
@@ -115,7 +116,7 @@ class FileSystemEventsManager(QThread):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
     @container.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -125,7 +126,7 @@ class FileSystemEventsManager(QThread):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
     @property
     def paths(self):
@@ -149,7 +150,7 @@ class FileSystemEventsManager(QThread):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "paths"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "paths"))
 
     @paths.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -159,7 +160,7 @@ class FileSystemEventsManager(QThread):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "paths"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "paths"))
 
     @property
     def timer(self):
@@ -183,7 +184,7 @@ class FileSystemEventsManager(QThread):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "timer"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "timer"))
 
     @timer.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -193,7 +194,7 @@ class FileSystemEventsManager(QThread):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "timer"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "timer"))
 
     @property
     def timer_cycle_multiplier(self):
@@ -217,7 +218,7 @@ class FileSystemEventsManager(QThread):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "timer_cycle_multiplier"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "timer_cycle_multiplier"))
 
     @timer_cycle_multiplier.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -227,7 +228,7 @@ class FileSystemEventsManager(QThread):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "timer_cycle_multiplier"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "timer_cycle_multiplier"))
 
     def __getitem__(self, path):
         """
@@ -325,8 +326,9 @@ class FileSystemEventsManager(QThread):
             try:
                 if not foundations.common.path_exists(path):
                     LOGGER.warning(
-                    "!> {0} | '{1}' path has been invalidated and will be unregistered!".format(self.__class__.__name__, path))
-                    del(self.__paths[path])
+                        "!> {0} | '{1}' path has been invalidated and will be unregistered!".format(
+                            self.__class__.__name__, path))
+                    del (self.__paths[path])
                     if is_file:
                         self.file_invalidated.emit(path)
                     else:
@@ -334,14 +336,14 @@ class FileSystemEventsManager(QThread):
                     continue
             except KeyError:
                 LOGGER.debug("> {0} | '{1}' path has been unregistered while iterating!".format(
-                self.__class__.__name__, path))
+                    self.__class__.__name__, path))
                 continue
 
             try:
                 modified_time = self.get_path_modified_time(path)
             except OSError:
                 LOGGER.debug("> {0} | '{1}' path has been invalidated while iterating!".format(
-                self.__class__.__name__, path))
+                    self.__class__.__name__, path))
                 continue
 
             if stored_modified_time != modified_time:
@@ -375,7 +377,7 @@ class FileSystemEventsManager(QThread):
         return path in self
 
     @foundations.exceptions.handle_exceptions(foundations.exceptions.PathExistsError,
-                                            umbra.exceptions.PathRegistrationError)
+                                              umbra.exceptions.PathRegistrationError)
     def register_path(self, path, modified_time=None):
         """
         Registers given path.
@@ -390,13 +392,14 @@ class FileSystemEventsManager(QThread):
 
         if not foundations.common.path_exists(path):
             raise foundations.exceptions.PathExistsError("{0} | '{1}' path doesn't exists!".format(
-            self.__class__.__name__, path))
+                self.__class__.__name__, path))
 
         if path in self:
             raise umbra.exceptions.PathRegistrationError("{0} | '{1}' path is already registered!".format(
-            self.__class__.__name__, path))
+                self.__class__.__name__, path))
 
-        self.__paths[path] = (self.get_path_modified_time(path) if modified_time is None else modified_time, os.path.isfile(path))
+        self.__paths[path] = (self.get_path_modified_time(
+            path) if modified_time is None else modified_time, os.path.isfile(path))
         return True
 
     @foundations.exceptions.handle_exceptions(umbra.exceptions.PathExistsError)
@@ -412,9 +415,9 @@ class FileSystemEventsManager(QThread):
 
         if not path in self:
             raise umbra.exceptions.PathExistsError("{0} | '{1}' path isn't registered!".format(
-            self.__class__.__name__, path))
+                self.__class__.__name__, path))
 
-        del(self.__paths[path])
+        del (self.__paths[path])
         return True
 
     @staticmethod

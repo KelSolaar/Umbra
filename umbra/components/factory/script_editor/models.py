@@ -46,12 +46,13 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-            "ProjectsModel",
-            "LanguagesModel",
-            "PatternsModel",
-            "SearchResultsModel"]
+           "ProjectsModel",
+           "LanguagesModel",
+           "PatternsModel",
+           "SearchResultsModel"]
 
 LOGGER = foundations.verbose.install_logger()
+
 
 class ProjectsModel(umbra.ui.models.GraphModel):
     """
@@ -124,12 +125,12 @@ class ProjectsModel(umbra.ui.models.GraphModel):
     """
 
     def __init__(self,
-                parent=None,
-                root_node=None,
-                horizontal_headers=None,
-                vertical_headers=None,
-                default_node=None,
-                default_project=None):
+                 parent=None,
+                 root_node=None,
+                 horizontal_headers=None,
+                 vertical_headers=None,
+                 default_node=None,
+                 default_project=None):
         """
         Initializes the class.
 
@@ -149,7 +150,8 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
         LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-        umbra.ui.models.GraphModel.__init__(self, parent, root_node, horizontal_headers, vertical_headers, default_node)
+        umbra.ui.models.GraphModel.__init__(
+            self, parent, root_node, horizontal_headers, vertical_headers, default_node)
 
         # --- Setting class attributes. ---
         self.__default_project = None
@@ -182,7 +184,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
         if value is not None:
             assert type(value) is unicode, \
-             "'{0}' attribute: '{1}' type is not 'unicode'!".format("default_project", value)
+                "'{0}' attribute: '{1}' type is not 'unicode'!".format("default_project", value)
         self.__default_project = value
 
     @default_project.deleter
@@ -193,7 +195,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_project"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_project"))
 
     @property
     def default_project_node(self):
@@ -217,7 +219,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "default_project_node"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "default_project_node"))
 
     @default_project_node.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -227,7 +229,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_project_node"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_project_node"))
 
     def __initialize_model(self):
         """
@@ -239,9 +241,9 @@ class ProjectsModel(umbra.ui.models.GraphModel):
         self.beginResetModel()
         self.root_node = umbra.ui.nodes.DefaultNode(name="InvisibleRootNode")
         self.__default_project_node = ProjectNode(name=self.__default_project,
-                                parent=self.root_node,
-                                node_flags=int(Qt.ItemIsEnabled),
-                                attributes_flags=int(Qt.ItemIsEnabled))
+                                                  parent=self.root_node,
+                                                  node_flags=int(Qt.ItemIsEnabled),
+                                                  attributes_flags=int(Qt.ItemIsEnabled))
         self.enable_model_triggers(True)
         self.endResetModel()
 
@@ -291,7 +293,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
         project_nodes = self.find_family("Project")
         return filter(lambda x: x != self.__default_project_node, project_nodes) \
-        if ignore_default_project_node else project_nodes
+            if ignore_default_project_node else project_nodes
 
     def list_editors(self, node=None):
         """
@@ -303,7 +305,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
         :rtype: list
         """
 
-        return [editor_node.editor for editor_node in self.list_editor_nodes(node) 	if editor_node.editor]
+        return [editor_node.editor for editor_node in self.list_editor_nodes(node) if editor_node.editor]
 
     def list_files(self, node=None):
         """
@@ -337,7 +339,8 @@ class ProjectsModel(umbra.ui.models.GraphModel):
         :rtype: list
         """
 
-        return [project_node.path for project_node in self.list_project_nodes(ignore_default_project_node) if project_node.path]
+        return [project_node.path for project_node in self.list_project_nodes(ignore_default_project_node) if
+                project_node.path]
 
     def get_editor_nodes(self, editor, node=None):
         """
@@ -406,9 +409,9 @@ class ProjectsModel(umbra.ui.models.GraphModel):
         # TODO: Should be refactored once this ticket is fixed:
         # https://bugreports.qt-project.org/browse/PYSIDE-78
         if not from_index >= 0 or \
-        not from_index < parent.children_count() or \
-        not to_index >= 0 or \
-        not to_index < parent.children_count():
+                not from_index < parent.children_count() or \
+                not to_index >= 0 or \
+                not to_index < parent.children_count():
             return False
 
         parent_index = self.get_node_index(parent)
@@ -453,15 +456,15 @@ class ProjectsModel(umbra.ui.models.GraphModel):
         if ensure_uniqueness:
             if self.get_file_nodes(file):
                 raise foundations.exceptions.ProgrammingError("{0} | '{1}' file is already registered!".format(
-                self.__class__.__name__, file))
+                    self.__class__.__name__, file))
 
         LOGGER.debug("> Registering '{0}' file.".format(file))
 
         row = parent.children_count()
         self.beginInsertRows(self.get_node_index(parent), row, row)
         file_node = FileNode(name=os.path.basename(file),
-                            path=file,
-                            parent=parent)
+                             path=file,
+                             parent=parent)
         self.endInsertRows()
 
         self.file_registered.emit(file_node)
@@ -484,7 +487,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
         if raise_exception:
             if not file_node in self.list_file_nodes():
                 raise foundations.exceptions.ProgrammingError("{0} | '{1}' file 'FileNode' isn't registered!".format(
-                self.__class__.__name__, file_node))
+                    self.__class__.__name__, file_node))
 
         LOGGER.debug("> Unregistering '{0}' file 'FileNode'.".format(file_node))
 
@@ -516,15 +519,15 @@ class ProjectsModel(umbra.ui.models.GraphModel):
         if ensure_uniqueness:
             if self.get_directory_nodes(directory):
                 raise foundations.exceptions.ProgrammingError("{0} | '{1}' directory is already registered!".format(
-                self.__class__.__name__, directory))
+                    self.__class__.__name__, directory))
 
         LOGGER.debug("> Registering '{0}' directory.".format(directory))
 
         row = parent.children_count()
         self.beginInsertRows(self.get_node_index(parent), row, row)
         directory_node = DirectoryNode(name=os.path.basename(directory),
-                                    path=directory,
-                                    parent=parent)
+                                       path=directory,
+                                       parent=parent)
         self.endInsertRows()
 
         self.directory_registered.emit(directory_node)
@@ -546,8 +549,9 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
         if raise_exception:
             if not directory_node in self.list_directory_nodes():
-                raise foundations.exceptions.ProgrammingError("{0} | '{1}' directory 'DirectoryNode' isn't registered!".format(
-                self.__class__.__name__, directory_node))
+                raise foundations.exceptions.ProgrammingError(
+                    "{0} | '{1}' directory 'DirectoryNode' isn't registered!".format(
+                        self.__class__.__name__, directory_node))
 
         LOGGER.debug("> Unregistering '{0}' directory 'DirectoryNode'.".format(directory_node))
 
@@ -579,14 +583,14 @@ class ProjectsModel(umbra.ui.models.GraphModel):
         if ensure_uniqueness:
             if self.get_editor_nodes(editor):
                 raise foundations.exceptions.ProgrammingError("{0} | '{1}' editor is already registered!".format(
-                self.__class__.__name__, editor))
+                    self.__class__.__name__, editor))
 
         LOGGER.debug("> Registering '{0}' editor.".format(editor))
 
         row = parent.children_count()
         self.beginInsertRows(self.get_node_index(parent), row, row)
         editor_node = EditorNode(editor=editor,
-                                parent=parent)
+                                 parent=parent)
         self.endInsertRows()
 
         self.editor_registered.emit(editor_node)
@@ -608,8 +612,9 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
         if raise_exception:
             if not editor_node in self.list_editor_nodes():
-                raise foundations.exceptions.ProgrammingError("{0} | '{1}' editor 'EditorNode' isn't registered!".format(
-                self.__class__.__name__, editor_node))
+                raise foundations.exceptions.ProgrammingError(
+                    "{0} | '{1}' editor 'EditorNode' isn't registered!".format(
+                        self.__class__.__name__, editor_node))
 
         LOGGER.debug("> Unregistering '{0}' editor 'EditorNode'.".format(editor_node))
 
@@ -639,15 +644,15 @@ class ProjectsModel(umbra.ui.models.GraphModel):
         if ensure_uniqueness:
             if self.get_project_nodes(path):
                 raise foundations.exceptions.ProgrammingError("{0} | '{1}' project is already registered!".format(
-                self.__class__.__name__, path))
+                    self.__class__.__name__, path))
 
         LOGGER.debug("> Registering '{0}' project.".format(path))
 
         row = self.root_node.children_count()
-        self.beginInsertRows(self.get_node_index(self.root_node,), row, row)
+        self.beginInsertRows(self.get_node_index(self.root_node, ), row, row)
         project_node = ProjectNode(name=os.path.basename(path),
-                                path=path,
-                                parent=self.root_node)
+                                   path=path,
+                                   parent=self.root_node)
         self.endInsertRows()
 
         self.project_registered.emit(project_node)
@@ -669,8 +674,9 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
         if raise_exception:
             if not project_node in self.list_project_nodes():
-                raise foundations.exceptions.ProgrammingError("{0} | '{1}' project 'ProjectNode' isn't registered!".format(
-                self.__class__.__name__, project_node))
+                raise foundations.exceptions.ProgrammingError(
+                    "{0} | '{1}' project 'ProjectNode' isn't registered!".format(
+                        self.__class__.__name__, project_node))
 
         LOGGER.debug("> Unregistering '{0}' project 'ProjectNode'.".format(project_node))
 
@@ -765,8 +771,8 @@ class ProjectsModel(umbra.ui.models.GraphModel):
                 parent_node = root_node
             else:
                 parent_node = foundations.common.get_first_item(
-                            [node for node in foundations.walkers.nodes_walker(root_node) \
-                            if node.family == "Directory" and node.path == parent_directory])
+                    [node for node in foundations.walkers.nodes_walker(root_node)
+                     if node.family == "Directory" and node.path == parent_directory])
 
             if not parent_node:
                 continue
@@ -832,6 +838,7 @@ class ProjectsModel(umbra.ui.models.GraphModel):
         self.unregister_project_nodes(node)
         self.set_project_nodes(node)
 
+
 class LanguagesModel(QAbstractListModel):
     """
     Defines a `QAbstractListModel <http://doc.qt.nokia.com/qabstractListmodel.html>`_ subclass used
@@ -881,7 +888,8 @@ class LanguagesModel(QAbstractListModel):
         if value is not None:
             assert type(value) is list, "'{0}' attribute: '{1}' type is not 'list'!".format("languages", value)
             for element in value:
-                assert type(element) is Language, "'{0}' attribute: '{1}' type is not 'Language'!".format("languages", element)
+                assert type(element) is Language, "'{0}' attribute: '{1}' type is not 'Language'!".format(
+                    "languages", element)
         self.beginResetModel()
         self.__languages = value
         self.endResetModel()
@@ -894,7 +902,7 @@ class LanguagesModel(QAbstractListModel):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "languages"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "languages"))
 
     def rowCount(self, parent=QModelIndex()):
         """
@@ -951,7 +959,7 @@ class LanguagesModel(QAbstractListModel):
 
         if self.get_language(language):
             raise foundations.exceptions.ProgrammingError("{0} | '{1}' language is already registered!".format(
-            self.__class__.__name__, language.name))
+                self.__class__.__name__, language.name))
 
         LOGGER.debug("> Registering '{0}' language.".format(language.name))
 
@@ -972,7 +980,7 @@ class LanguagesModel(QAbstractListModel):
 
         if not self.get_language(name):
             raise foundations.exceptions.ProgrammingError("{0} | '{1}' language isn't registered!".format(
-            self.__class__.__name__, name))
+                self.__class__.__name__, name))
 
         LOGGER.debug("> Unregistering '{0}' language.".format(name))
 
@@ -980,7 +988,7 @@ class LanguagesModel(QAbstractListModel):
             if not language.name == name:
                 continue
 
-            del(self.__languages[i])
+            del (self.__languages[i])
             self.sort_languages()
             return True
 
@@ -1013,6 +1021,7 @@ class LanguagesModel(QAbstractListModel):
             if re.search(language.extensions, file):
                 LOGGER.debug("> '{0}' file detected language: '{1}'.".format(file, language.name))
                 return language
+
 
 class PatternsModel(umbra.ui.models.GraphModel):
     """
@@ -1121,6 +1130,7 @@ class PatternsModel(umbra.ui.models.GraphModel):
             self.pattern_removed.emit(pattern_node)
             return True
 
+
 class SearchResultsModel(umbra.ui.models.GraphModel):
     """
     Defines the Model used the by
@@ -1145,7 +1155,8 @@ class SearchResultsModel(umbra.ui.models.GraphModel):
 
         LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-        umbra.ui.models.GraphModel.__init__(self, parent, root_node, horizontal_headers, vertical_headers, default_node)
+        umbra.ui.models.GraphModel.__init__(
+            self, parent, root_node, horizontal_headers, vertical_headers, default_node)
 
     def initialize_model(self, root_node):
         """
@@ -1181,4 +1192,4 @@ class SearchResultsModel(umbra.ui.models.GraphModel):
             elif node.family == "SearchOccurence":
                 search_occurence_nodesCount += 1
 
-        return {"SearchFile" : search_file_nodes_count, "SearchOccurence" : search_occurence_nodesCount}
+        return {"SearchFile": search_file_nodes_count, "SearchOccurence": search_occurence_nodesCount}

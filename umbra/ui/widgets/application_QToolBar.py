@@ -48,6 +48,7 @@ __all__ = ["LOGGER", "Application_QToolBar"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class Application_QToolBar(QToolBar):
     """
     Defines a `QToolBar <http://doc.qt.nokia.com/qtoolbar.html>`_ subclass providing
@@ -75,10 +76,10 @@ class Application_QToolBar(QToolBar):
         self.__miscellaneous_menu = None
 
         self.__user_layouts = (umbra.managers.layouts_manager.Layout(name="1", identity="one", shortcut=Qt.Key_1),
-                            umbra.managers.layouts_manager.Layout(name="2", identity="two", shortcut=Qt.Key_2),
-                            umbra.managers.layouts_manager.Layout(name="3", identity="three", shortcut=Qt.Key_3),
-                            umbra.managers.layouts_manager.Layout(name="4", identity="four", shortcut=Qt.Key_4),
-                            umbra.managers.layouts_manager.Layout(name="5", identity="five", shortcut=Qt.Key_5))
+                               umbra.managers.layouts_manager.Layout(name="2", identity="two", shortcut=Qt.Key_2),
+                               umbra.managers.layouts_manager.Layout(name="3", identity="three", shortcut=Qt.Key_3),
+                               umbra.managers.layouts_manager.Layout(name="4", identity="four", shortcut=Qt.Key_4),
+                               umbra.managers.layouts_manager.Layout(name="5", identity="five", shortcut=Qt.Key_5))
 
         Application_QToolBar.__initialize_ui(self)
 
@@ -104,7 +105,7 @@ class Application_QToolBar(QToolBar):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
     @container.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -114,7 +115,7 @@ class Application_QToolBar(QToolBar):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
     @property
     def settings(self):
@@ -138,7 +139,7 @@ class Application_QToolBar(QToolBar):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "settings"))
 
     @settings.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -148,7 +149,7 @@ class Application_QToolBar(QToolBar):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "settings"))
 
     @property
     def layouts_active_labels_collection(self):
@@ -172,7 +173,7 @@ class Application_QToolBar(QToolBar):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "layouts_active_labels_collection"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "layouts_active_labels_collection"))
 
     @layouts_active_labels_collection.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -182,7 +183,8 @@ class Application_QToolBar(QToolBar):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "layouts_active_labels_collection"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__,
+                                                             "layouts_active_labels_collection"))
 
     @property
     def custom_layouts_menu(self):
@@ -206,7 +208,8 @@ class Application_QToolBar(QToolBar):
         """
 
         if value is not None:
-            assert type(value) is QMenu, "'{0}' attribute: '{1}' type is not 'QMenu'!".format("custom_layouts_menu", value)
+            assert type(value) is QMenu, "'{0}' attribute: '{1}' type is not 'QMenu'!".format(
+                "custom_layouts_menu", value)
         self.__custom_layouts_menu = value
 
     @custom_layouts_menu.deleter
@@ -217,7 +220,7 @@ class Application_QToolBar(QToolBar):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "custom_layouts_menu"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "custom_layouts_menu"))
 
     @property
     def miscellaneous_menu(self):
@@ -241,7 +244,8 @@ class Application_QToolBar(QToolBar):
         """
 
         if value is not None:
-            assert type(value) is QMenu, "'{0}' attribute: '{1}' type is not 'QMenu'!".format("miscellaneous_menu", value)
+            assert type(value) is QMenu, "'{0}' attribute: '{1}' type is not 'QMenu'!".format(
+                "miscellaneous_menu", value)
         self.__miscellaneous_menu = value
 
     @miscellaneous_menu.deleter
@@ -252,7 +256,7 @@ class Application_QToolBar(QToolBar):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "miscellaneous_menu"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "miscellaneous_menu"))
 
     def __initialize_ui(self):
         """
@@ -297,8 +301,8 @@ class Application_QToolBar(QToolBar):
 
         layout_active_label = self.__layouts_active_labels_collection.get_toggled_active_label()
         layout_active_label and self.__settings.set_key("Layouts",
-                                        "{0}_active_label".format(layout),
-                                        layout_active_label.objectName())
+                                                        "{0}_active_label".format(layout),
+                                                        layout_active_label.objectName())
 
     def __layouts_manager__layout_restored(self, layout):
         """
@@ -417,19 +421,20 @@ class Application_QToolBar(QToolBar):
 
         default_icon, hover_icon, active_icon = resources
         layout_active_label = Active_QLabel(self,
-                                        QPixmap(umbra.ui.common.get_resource_path(default_icon)),
-                                        QPixmap(umbra.ui.common.get_resource_path(hover_icon)),
-                                        QPixmap(umbra.ui.common.get_resource_path(active_icon)),
-                                        True)
+                                            QPixmap(umbra.ui.common.get_resource_path(default_icon)),
+                                            QPixmap(umbra.ui.common.get_resource_path(hover_icon)),
+                                            QPixmap(umbra.ui.common.get_resource_path(active_icon)),
+                                            True)
         self.__container.layouts_manager.register_layout(identity, umbra.managers.layouts_manager.Layout(name=title,
-                                                                                                identity=identity,
-                                                                                                shortcut=shortcut))
+                                                                                                         identity=identity,
+                                                                                                         shortcut=shortcut))
         self.__container.addAction(
-        self.__container.actions_manager.register_action("Actions|Umbra|ToolBar|Layouts|Restore layout {0}".format(title),
-                                                        shortcut=shortcut,
-                                                        shortcut_context=Qt.ApplicationShortcut,
-                                                        slot=functools.partial(
-                                                        self.__container.layouts_manager.restore_layout, identity)))
+            self.__container.actions_manager.register_action(
+                "Actions|Umbra|ToolBar|Layouts|Restore layout {0}".format(title),
+                shortcut=shortcut,
+                shortcut_context=Qt.ApplicationShortcut,
+                slot=functools.partial(
+                    self.__container.layouts_manager.restore_layout, identity)))
 
         layout_active_label.setObjectName(name)
 
@@ -448,21 +453,23 @@ class Application_QToolBar(QToolBar):
 
         self.__layouts_active_labels_collection = Active_QLabelsCollection(self)
 
-        self.__layouts_active_labels_collection.add_active_label(self.get_layout_active_label((UiConstants.development_icon,
-                                                                                    UiConstants.development_hover_icon,
-                                                                                    UiConstants.development_active_icon),
-                                                                                    "Development_active_label",
-                                                                                    "Development",
-                                                                                    "development_centric",
-                                                                                    Qt.Key_9))
+        self.__layouts_active_labels_collection.add_active_label(
+            self.get_layout_active_label((UiConstants.development_icon,
+                                          UiConstants.development_hover_icon,
+                                          UiConstants.development_active_icon),
+                                         "Development_active_label",
+                                         "Development",
+                                         "development_centric",
+                                         Qt.Key_9))
 
-        self.__layouts_active_labels_collection.add_active_label(self.get_layout_active_label((UiConstants.preferences_icon,
-                                                                                    UiConstants.preferences_hover_icon,
-                                                                                    UiConstants.preferences_active_icon),
-                                                                                    "Preferences_active_label",
-                                                                                    "Preferences",
-                                                                                    "preferences_centric",
-                                                                                    Qt.Key_0))
+        self.__layouts_active_labels_collection.add_active_label(
+            self.get_layout_active_label((UiConstants.preferences_icon,
+                                          UiConstants.preferences_hover_icon,
+                                          UiConstants.preferences_active_icon),
+                                         "Preferences_active_label",
+                                         "Preferences",
+                                         "preferences_centric",
+                                         Qt.Key_0))
         return self.__layouts_active_labels_collection.active_labels
 
     def get_custom_layouts_active_label(self):
@@ -473,9 +480,13 @@ class Application_QToolBar(QToolBar):
         :rtype: Active_QLabel
         """
 
-        layout_active_label = Active_QLabel(self, QPixmap(umbra.ui.common.get_resource_path(UiConstants.custom_layouts_icon)),
-                                    QPixmap(umbra.ui.common.get_resource_path(UiConstants.custom_layouts_hover_icon)),
-                                    QPixmap(umbra.ui.common.get_resource_path(UiConstants.custom_layouts_active_icon)))
+        layout_active_label = Active_QLabel(self,
+                                            QPixmap(umbra.ui.common.get_resource_path(UiConstants.custom_layouts_icon)),
+                                            QPixmap(
+                                                umbra.ui.common.get_resource_path(
+                                                    UiConstants.custom_layouts_hover_icon)),
+                                            QPixmap(umbra.ui.common.get_resource_path(
+                                                UiConstants.custom_layouts_active_icon)))
         layout_active_label.setObjectName("Custom_Layouts_active_label")
 
         self.__custom_layouts_menu = QMenu("Layouts", layout_active_label)
@@ -483,24 +494,24 @@ class Application_QToolBar(QToolBar):
         for layout in self.__user_layouts:
             self.__container.layouts_manager.register_layout(layout.identity, layout)
             self.__custom_layouts_menu.addAction(self.__container.actions_manager.register_action(
-            "Actions|Umbra|ToolBar|Layouts|Restore layout {0}".format(layout.name),
-            shortcut=layout.shortcut,
-            slot=functools.partial(self.__container.layouts_manager.restore_layout, layout.identity)))
+                "Actions|Umbra|ToolBar|Layouts|Restore layout {0}".format(layout.name),
+                shortcut=layout.shortcut,
+                slot=functools.partial(self.__container.layouts_manager.restore_layout, layout.identity)))
 
         self.__custom_layouts_menu.addSeparator()
 
         for layout in self.__user_layouts:
             self.__custom_layouts_menu.addAction(self.__container.actions_manager.register_action(
-            "Actions|Umbra|ToolBar|Layouts|Store layout {0}".format(layout.name),
-            shortcut=Qt.CTRL + layout.shortcut,
-            slot=functools.partial(self.__container.layouts_manager.store_layout, layout.identity)))
+                "Actions|Umbra|ToolBar|Layouts|Store layout {0}".format(layout.name),
+                shortcut=Qt.CTRL + layout.shortcut,
+                slot=functools.partial(self.__container.layouts_manager.store_layout, layout.identity)))
 
         self.__custom_layouts_menu.addSeparator()
 
         self.__custom_layouts_menu.addAction(self.__container.actions_manager.register_action(
-        "Actions|Umbra|ToolBar|Layouts|Toggle FullScreen",
-        shortcut=Qt.ControlModifier + Qt.SHIFT + Qt.Key_F,
-        slot=self.__container.toggle_full_screen))
+            "Actions|Umbra|ToolBar|Layouts|Toggle FullScreen",
+            shortcut=Qt.ControlModifier + Qt.SHIFT + Qt.Key_F,
+            slot=self.__container.toggle_full_screen))
 
         layout_active_label.set_menu(self.__custom_layouts_menu)
         return layout_active_label
@@ -514,20 +525,25 @@ class Application_QToolBar(QToolBar):
         """
 
         miscellaneous_active_label = Active_QLabel(self,
-                                            QPixmap(umbra.ui.common.get_resource_path(UiConstants.miscellaneous_icon)),
-                                            QPixmap(umbra.ui.common.get_resource_path(UiConstants.miscellaneous_hover_icon)),
-                                            QPixmap(umbra.ui.common.get_resource_path(UiConstants.miscellaneous_active_icon)))
+                                                   QPixmap(
+                                                       umbra.ui.common.get_resource_path(
+                                                           UiConstants.miscellaneous_icon)),
+                                                   QPixmap(
+                                                       umbra.ui.common.get_resource_path(
+                                                           UiConstants.miscellaneous_hover_icon)),
+                                                   QPixmap(umbra.ui.common.get_resource_path(
+                                                       UiConstants.miscellaneous_active_icon)))
         miscellaneous_active_label.setObjectName("Miscellaneous_active_label")
 
         self.__miscellaneous_menu = QMenu("Miscellaneous", miscellaneous_active_label)
 
         self.__miscellaneous_menu.addAction(self.__container.actions_manager.register_action(
-                                            "Actions|Umbra|ToolBar|Miscellaneous|Help content ...",
-                                            shortcut="F1",
-                                            slot=self.__help_display_misc_action__triggered))
+            "Actions|Umbra|ToolBar|Miscellaneous|Help content ...",
+            shortcut="F1",
+            slot=self.__help_display_misc_action__triggered))
         self.__miscellaneous_menu.addAction(self.__container.actions_manager.register_action(
-                                            "Actions|Umbra|ToolBar|Miscellaneous|Api content ...",
-                                            slot=self.__api_display_misc_action__triggered))
+            "Actions|Umbra|ToolBar|Miscellaneous|Api content ...",
+            slot=self.__api_display_misc_action__triggered))
         self.__miscellaneous_menu.addSeparator()
 
         miscellaneous_active_label.set_menu(self.__miscellaneous_menu)
@@ -558,6 +574,7 @@ class Application_QToolBar(QToolBar):
         spacer.setObjectName("Closure_Spacer_label")
         spacer.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Expanding)
         return spacer
+
 
 if __name__ == "__main__":
     import sys

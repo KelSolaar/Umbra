@@ -19,6 +19,7 @@ from __future__ import unicode_literals
 import os
 import sys
 
+
 def _set_package_directory():
     """
     Sets the Application package directory in the path.
@@ -26,6 +27,7 @@ def _set_package_directory():
 
     package_directory = os.path.normpath(os.path.join(os.path.dirname(__file__), "../"))
     package_directory not in sys.path and sys.path.append(package_directory)
+
 
 _set_package_directory()
 
@@ -41,6 +43,7 @@ __status__ = "Production"
 
 __all__ = []
 
+
 def main():
     """
     Starts the Application.
@@ -51,13 +54,15 @@ def main():
 
     components_paths = []
     for path in (os.path.join(umbra.__path__[0], Constants.factory_components_directory),
-                os.path.join(umbra.__path__[0], Constants.factory_addons_components_directory)):
+                 os.path.join(umbra.__path__[0], Constants.factory_addons_components_directory)):
         os.path.exists(path) and components_paths.append(path)
     return umbra.engine.run(umbra.engine.Umbra,
                             umbra.engine.get_command_line_parameters_parser().parse_args(
-                            [unicode(argument, Constants.default_codec, Constants.codec_error) for argument in sys.argv]),
+                                [unicode(argument, Constants.default_codec, Constants.codec_error) for argument in
+                                 sys.argv]),
                             components_paths,
                             ("factory.script_editor", "factory.preferences_manager", "factory.components_manager_ui"))
+
 
 if __name__ == "__main__":
     main()

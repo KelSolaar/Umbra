@@ -18,6 +18,7 @@ from __future__ import unicode_literals
 
 import os
 import sys
+
 if sys.version_info[:2] <= (2, 6):
     import unittest2 as unittest
 else:
@@ -34,6 +35,7 @@ __status__ = "Production"
 
 __all__ = ["TestRuntimeGlobals"]
 
+
 class TestRuntimeGlobals(unittest.TestCase):
     """
     Defines :class:`umbra.globals.runtime_globals.RuntimeGlobals` class units tests methods.
@@ -45,34 +47,34 @@ class TestRuntimeGlobals(unittest.TestCase):
         """
 
         required_attributes = ("parameters",
-                            "arguments",
-                            "logging_console_handler",
-                            "logging_file_handler",
-                            "logging_session_handler",
-                            "logging_session_handler_stream",
-                            "logging_formatters",
-                            "logging_active_formatter",
-                            "verbosity_level",
-                            "logging_file",
-                            "requests_stack",
-                            "engine",
-                            "patches_manager",
-                            "components_manager",
-                            "actions_manager",
-                            "file_system_events_manager",
-                            "notifications_manager",
-                            "layouts_manager",
-                            "reporter",
-                            "application",
-                            "user_application_data_directory",
-                            "resources_directories",
-                            "ui_file",
-                            "patches_file",
-                            "settings_file",
-                            "settings",
-                            "last_browsed_path",
-                            "splashscreen_image",
-                            "splashscreen")
+                               "arguments",
+                               "logging_console_handler",
+                               "logging_file_handler",
+                               "logging_session_handler",
+                               "logging_session_handler_stream",
+                               "logging_formatters",
+                               "logging_active_formatter",
+                               "verbosity_level",
+                               "logging_file",
+                               "requests_stack",
+                               "engine",
+                               "patches_manager",
+                               "components_manager",
+                               "actions_manager",
+                               "file_system_events_manager",
+                               "notifications_manager",
+                               "layouts_manager",
+                               "reporter",
+                               "application",
+                               "user_application_data_directory",
+                               "resources_directories",
+                               "ui_file",
+                               "patches_file",
+                               "settings_file",
+                               "settings",
+                               "last_browsed_path",
+                               "splashscreen_image",
+                               "splashscreen")
 
         for attribute in required_attributes:
             self.assertIn(attribute, RuntimeGlobals.__dict__)
@@ -90,6 +92,7 @@ class TestRuntimeGlobals(unittest.TestCase):
         """
 
         self.assertTrue(os.path.exists(RuntimeGlobals.last_browsed_path))
+
 
 if __name__ == "__main__":
     unittest.main()

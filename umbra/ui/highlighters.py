@@ -38,12 +38,13 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-        "Rule",
-        "FormatsTree",
-        "AbstractHighlighter",
-        "DefaultHighlighter"]
+           "Rule",
+           "FormatsTree",
+           "AbstractHighlighter",
+           "DefaultHighlighter"]
 
 LOGGER = foundations.verbose.install_logger()
+
 
 class Rule(foundations.data_structures.Structure):
     """
@@ -61,6 +62,7 @@ class Rule(foundations.data_structures.Structure):
         LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
         foundations.data_structures.Structure.__init__(self, **kwargs)
+
 
 class FormatsTree(object):
     """
@@ -105,7 +107,8 @@ class FormatsTree(object):
 
         if value is not None:
             assert issubclass(value.__class__, AbstractCompositeNode), \
-            "'{0}' attribute: '{1}' is not a '{2}' subclass!".format("root_node", value, AbstractCompositeNode.__name__)
+                "'{0}' attribute: '{1}' is not a '{2}' subclass!".format(
+                    "root_node", value, AbstractCompositeNode.__name__)
         self.__root_node = value
 
     @root_node.deleter
@@ -116,7 +119,7 @@ class FormatsTree(object):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".root_node(self.__class__.__name__, "root_node"))
+            "{0} | '{1}' attribute is not deletable!".root_node(self.__class__.__name__, "root_node"))
 
     def __initialize_tree(self, theme):
         """
@@ -191,6 +194,7 @@ class FormatsTree(object):
             format = format_node.format
         return format
 
+
 class AbstractHighlighter(QSyntaxHighlighter):
     """
     Defines a `QSyntaxHighlighter <http://doc.qt.nokia.com/qsyntaxhighlighter.html>`_ subclass used
@@ -235,7 +239,8 @@ class AbstractHighlighter(QSyntaxHighlighter):
         """
 
         if value is not None:
-            assert type(value) is FormatsTree, "'{0}' attribute: '{1}' type is not 'FormatsTree'!".format("formats", value)
+            assert type(value) is FormatsTree, "'{0}' attribute: '{1}' type is not 'FormatsTree'!".format(
+                "formats", value)
         self.__formats = value
 
     @formats.deleter
@@ -246,7 +251,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "formats"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "formats"))
 
     @property
     def rules(self):
@@ -271,7 +276,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
 
         if value is not None:
             assert type(value) in (tuple, list), "'{0}' attribute: '{1}' type is not 'tuple' or 'list'!".format(
-            "rules", value)
+                "rules", value)
         self.__rules = value
 
     @rules.deleter
@@ -282,7 +287,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "rules"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "rules"))
 
     @foundations.exceptions.handle_exceptions(NotImplementedError)
     def highlightBlock(self, block):
@@ -294,8 +299,8 @@ class AbstractHighlighter(QSyntaxHighlighter):
         """
 
         raise NotImplementedError("{0} | '{1}' must be implemented by '{2}' subclasses!".format(self.__class__.__name__,
-                                                                                            self.highlightBlock.__name__,
-                                                                                            self.__class__.__name__))
+                                                                                                self.highlightBlock.__name__,
+                                                                                                self.__class__.__name__))
 
     def highlight_text(self, text, start, end):
         """
@@ -319,6 +324,7 @@ class AbstractHighlighter(QSyntaxHighlighter):
                 self.setFormat(index, min(length, end - index), format)
                 index = rule.pattern.indexIn(text, index + length)
         return True
+
 
 class DefaultHighlighter(AbstractHighlighter):
     """
@@ -381,7 +387,7 @@ class DefaultHighlighter(AbstractHighlighter):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "theme"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "theme"))
 
     def __set_formats(self):
         """
@@ -405,8 +411,10 @@ class DefaultHighlighter(AbstractHighlighter):
         for rule in self.rules:
             if re.match("comment\.block\.[\w\.]*start", rule.name):
                 format = self.formats.get_format(rule.name) or self.formats.get_format("default")
-                if self.highlight_multiline_block(block, rule.pattern, foundations.common.get_first_item([item for item in self.rules
-                                        if item.name == rule.name.replace("start", "end")]).pattern, state, format):
+                if self.highlight_multiline_block(block, rule.pattern,
+                                                  foundations.common.get_first_item([item for item in self.rules
+                                                                                     if item.name == rule.name.replace(
+                                                              "start", "end")]).pattern, state, format):
                     break
                 state += 1
 

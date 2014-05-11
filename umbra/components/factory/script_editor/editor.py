@@ -46,6 +46,7 @@ __all__ = ["LOGGER", "Editor"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class Editor(CodeEditor_QPlainTextEdit):
     """
     Defines the default editor used by
@@ -120,9 +121,9 @@ class Editor(CodeEditor_QPlainTextEdit):
         self.__file = None
         self.file = file
 
-        self.__default_fonts_settings = {"Windows" : ("Consolas", 10),
-                                        "Darwin" : ("Monaco", 12),
-                                        "Linux" : ("Monospace", 10)}
+        self.__default_fonts_settings = {"Windows": ("Consolas", 10),
+                                         "Darwin": ("Monaco", 12),
+                                         "Linux": ("Monospace", 10)}
         self.__tab_width = None
 
         self.__title = None
@@ -167,7 +168,7 @@ class Editor(CodeEditor_QPlainTextEdit):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "file"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "file"))
 
     @property
     def default_fonts_settings(self):
@@ -191,7 +192,7 @@ class Editor(CodeEditor_QPlainTextEdit):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "default_fonts_settings"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "default_fonts_settings"))
 
     @default_fonts_settings.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -201,7 +202,7 @@ class Editor(CodeEditor_QPlainTextEdit):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_fonts_settings"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_fonts_settings"))
 
     @property
     def tab_width(self):
@@ -225,7 +226,7 @@ class Editor(CodeEditor_QPlainTextEdit):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "tab_width"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "tab_width"))
 
     @tab_width.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -235,7 +236,7 @@ class Editor(CodeEditor_QPlainTextEdit):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "tab_width"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "tab_width"))
 
     @property
     def title(self):
@@ -259,7 +260,7 @@ class Editor(CodeEditor_QPlainTextEdit):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "title"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "title"))
 
     @title.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -269,7 +270,7 @@ class Editor(CodeEditor_QPlainTextEdit):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "title"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "title"))
 
     @property
     def is_untitled(self):
@@ -293,7 +294,7 @@ class Editor(CodeEditor_QPlainTextEdit):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "is_untitled"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "is_untitled"))
 
     @is_untitled.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -303,7 +304,7 @@ class Editor(CodeEditor_QPlainTextEdit):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "is_untitled"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "is_untitled"))
 
     @property
     def default_file_name(self):
@@ -327,7 +328,7 @@ class Editor(CodeEditor_QPlainTextEdit):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "default_file_name"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "default_file_name"))
 
     @default_file_name.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -337,7 +338,7 @@ class Editor(CodeEditor_QPlainTextEdit):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_file_name"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_file_name"))
 
     @property
     def default_file_extension(self):
@@ -361,7 +362,7 @@ class Editor(CodeEditor_QPlainTextEdit):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "default_file_extension"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "default_file_extension"))
 
     @default_file_extension.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -371,7 +372,7 @@ class Editor(CodeEditor_QPlainTextEdit):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_file_extension"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_file_extension"))
 
     def __initialize_ui(self):
         """
@@ -486,7 +487,8 @@ class Editor(CodeEditor_QPlainTextEdit):
         :rtype: unicode
         """
 
-        name = "{0} {1}.{2}".format(self.__default_file_name, Editor._Editor__untitled_name_id, self.default_file_extension)
+        name = "{0} {1}.{2}".format(
+            self.__default_file_name, Editor._Editor__untitled_name_id, self.default_file_extension)
         Editor._Editor__untitled_name_id += 1
         LOGGER.debug("> Next untitled file name: '{0}'.".format(name))
         return name
@@ -540,8 +542,9 @@ class Editor(CodeEditor_QPlainTextEdit):
         """
 
         if not foundations.common.path_exists(file):
-            raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(self.__class__.__name__,
-                                                                                                    file))
+            raise foundations.exceptions.FileExistsError(
+                "{0} | '{1}' file doesn't exists!".format(self.__class__.__name__,
+                                                          file))
 
         LOGGER.debug("> Loading '{0}' file.".format(file))
         reader = foundations.io.File(file)
@@ -564,7 +567,7 @@ class Editor(CodeEditor_QPlainTextEdit):
 
         if not foundations.common.path_exists(self.__file):
             raise foundations.exceptions.FileExistsError("{0} | '{1}' file doesn't exists!".format(
-            self.__class__.__name__, self.__file))
+                self.__class__.__name__, self.__file))
 
         LOGGER.debug("> Reloading '{0}' file.".format(self.__file))
         reader = foundations.io.File(self.__file)
@@ -598,7 +601,8 @@ class Editor(CodeEditor_QPlainTextEdit):
         :note: May require user interaction.
         """
 
-        file = file or umbra.ui.common.store_last_browsed_path(QFileDialog.getSaveFileName(self, "Save As:", self.__file))
+        file = file or umbra.ui.common.store_last_browsed_path(
+            QFileDialog.getSaveFileName(self, "Save As:", self.__file))
         if not file:
             return False
 
@@ -638,8 +642,9 @@ class Editor(CodeEditor_QPlainTextEdit):
             return True
 
         choice = message_box.message_box("Warning", "Warning",
-        "'{0}' document has been modified!\nWould you like to save your changes?".format(self.get_file_short_name()),
-        buttons=QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+                                         "'{0}' document has been modified!\nWould you like to save your changes?".format(
+                                             self.get_file_short_name()),
+                                         buttons=QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
         if choice == QMessageBox.Save:
             if self.save_file():
                 LOGGER.debug("> Closing '{0}' file.".format(self.__file))

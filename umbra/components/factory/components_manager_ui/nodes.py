@@ -34,6 +34,7 @@ __all__ = ["LOGGER", "PathNode", "ComponentNode"]
 
 LOGGER = foundations.verbose.install_logger()
 
+
 class PathNode(umbra.ui.nodes.GraphModelNode):
     """
     Defines :class:`umbra.components.factory.components_manager_ui.components_manager_ui.ComponentsManagerUi`
@@ -47,13 +48,13 @@ class PathNode(umbra.ui.nodes.GraphModelNode):
     """
 
     def __init__(self,
-                name=None,
-                parent=None,
-                children=None,
-                roles=None,
-                node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                **kwargs):
+                 name=None,
+                 parent=None,
+                 children=None,
+                 roles=None,
+                 node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 **kwargs):
         """
         Initializes the class.
 
@@ -88,13 +89,14 @@ class PathNode(umbra.ui.nodes.GraphModelNode):
         """
 
         self["activated"] = umbra.ui.nodes.GraphModelAttribute(name="activated",
-                                                                flags=attributes_flags)
+                                                               flags=attributes_flags)
         self["category"] = umbra.ui.nodes.GraphModelAttribute(name="category",
-                                                                flags=attributes_flags)
+                                                              flags=attributes_flags)
         self["require"] = umbra.ui.nodes.GraphModelAttribute(name="require",
-                                                                flags=attributes_flags)
+                                                             flags=attributes_flags)
         self["version"] = umbra.ui.nodes.GraphModelAttribute(name="version",
-                                                                flags=attributes_flags)
+                                                             flags=attributes_flags)
+
 
 class ComponentNode(umbra.ui.nodes.GraphModelNode):
     """
@@ -110,14 +112,14 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
     """
 
     def __init__(self,
-                component,
-                name=None,
-                parent=None,
-                children=None,
-                roles=None,
-                node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
-                **kwargs):
+                 component,
+                 name=None,
+                 parent=None,
+                 children=None,
+                 roles=None,
+                 node_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled),
+                 **kwargs):
         """
         Initializes the class.
 
@@ -178,7 +180,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "component"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "component"))
 
     @component.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -188,7 +190,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "component"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "component"))
 
     @property
     def tool_tip_text(self):
@@ -213,7 +215,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 
         if value is not None:
             assert type(value) is unicode, "'{0}' attribute: '{1}' type is not 'unicode'!".format(
-            "tool_tip_text", value)
+                "tool_tip_text", value)
         self.__tool_tip_text = value
 
     @tool_tip_text.deleter
@@ -224,7 +226,7 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "tool_tip_text"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "tool_tip_text"))
 
     def __initialize_node(self, attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
         """
@@ -244,8 +246,8 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
 
             value = getattr(self.__component, attribute)
             value = ", ".join(value) if type(value) in (tuple, list) else value
-            roles = {Qt.DisplayRole : value,
-                    Qt.EditRole : value}
+            roles = {Qt.DisplayRole: value,
+                     Qt.EditRole: value}
             self[attribute] = umbra.ui.nodes.GraphModelAttribute(attribute, value, roles, attributes_flags)
 
         self.update_tool_tip()
@@ -259,9 +261,9 @@ class ComponentNode(umbra.ui.nodes.GraphModelNode):
         """
 
         self.roles[Qt.ToolTipRole] = self.__tool_tip_text.format(self.component.name,
-                                                                self.component.author,
-                                                                self.component.category,
-                                                                ", ".join(self.component.require),
-                                                                self.component.version,
-                                                                self.component.description)
+                                                                 self.component.author,
+                                                                 self.component.category,
+                                                                 ", ".join(self.component.require),
+                                                                 self.component.version,
+                                                                 self.component.description)
         return True

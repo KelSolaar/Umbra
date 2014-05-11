@@ -35,6 +35,7 @@ LOGGER = foundations.verbose.install_logger()
 
 UI_FILE = umbra.ui.common.get_resource_path(UiConstants.processing_ui_file)
 
+
 class Processing(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
     """
     Defines the Application processing status bar widget.
@@ -83,7 +84,7 @@ class Processing(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
     @container.deleter
     @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
@@ -93,7 +94,7 @@ class Processing(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
         """
 
         raise foundations.exceptions.ProgrammingError(
-        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
     def __initialize_ui(self):
         """
