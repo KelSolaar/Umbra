@@ -44,12 +44,12 @@ __maintainer__ = "Thomas Mansencal"
 __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
-__all__ = ["RuntimeGlobalsTestCase"]
+__all__ = ["TestRuntimeGlobals"]
 
 #**********************************************************************************************************************
 #***	Module classes and definitions.
 #**********************************************************************************************************************
-class RuntimeGlobalsTestCase(unittest.TestCase):
+class TestRuntimeGlobals(unittest.TestCase):
 	"""
 	Defines :class:`umbra.globals.runtime_globals.RuntimeGlobals` class units tests methods.
 	"""
