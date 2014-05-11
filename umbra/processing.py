@@ -5,10 +5,10 @@
 **processing.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines the :class:`Processing` class.
+    Defines the :class:`Processing` class.
 
 **Others:**
 
@@ -36,68 +36,68 @@ LOGGER = foundations.verbose.install_logger()
 UI_FILE = umbra.ui.common.get_resource_path(UiConstants.processing_ui_file)
 
 class Processing(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
-	"""
-	Defines the Application processing status bar widget. 
-	"""
+    """
+    Defines the Application processing status bar widget.
+    """
 
-	def __init__(self, parent, *args, **kwargs):
-		"""
-		Initializes the class.
+    def __init__(self, parent, *args, **kwargs):
+        """
+        Initializes the class.
 
-		:param parent: Object parent.
-		:type parent: QObject
-		:param \*args: Arguments.
-		:type \*args: \*
-		:param \*\*kwargs: Keywords arguments.
-		:type \*\*kwargs: \*\*
-		"""
+        :param parent: Object parent.
+        :type parent: QObject
+        :param \*args: Arguments.
+        :type \*args: \*
+        :param \*\*kwargs: Keywords arguments.
+        :type \*\*kwargs: \*\*
+        """
 
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+        LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		super(Processing, self).__init__(parent, *args, **kwargs)
+        super(Processing, self).__init__(parent, *args, **kwargs)
 
-		# --- Setting class attributes. ---
-		self.__container = parent
+        # --- Setting class attributes. ---
+        self.__container = parent
 
-		Processing.__initialize_ui(self)
+        Processing.__initialize_ui(self)
 
-	@property
-	def container(self):
-		"""
-		Property for **self.__container** attribute.
+    @property
+    def container(self):
+        """
+        Property for **self.__container** attribute.
 
-		:return: self.__container.
-		:rtype: QObject
-		"""
+        :return: self.__container.
+        :rtype: QObject
+        """
 
-		return self.__container
+        return self.__container
 
-	@container.setter
-	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
-	def container(self, value):
-		"""
-		Setter for **self.__container** attribute.
+    @container.setter
+    @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+    def container(self, value):
+        """
+        Setter for **self.__container** attribute.
 
-		:param value: Attribute value.
-		:type value: QObject
-		"""
+        :param value: Attribute value.
+        :type value: QObject
+        """
 
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+        raise foundations.exceptions.ProgrammingError(
+        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
-	@container.deleter
-	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
-	def container(self):
-		"""
-		Deleter for **self.__container** attribute.
-		"""
+    @container.deleter
+    @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+    def container(self):
+        """
+        Deleter for **self.__container** attribute.
+        """
 
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+        raise foundations.exceptions.ProgrammingError(
+        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
-	def __initialize_ui(self):
-		"""
-		Initializes the Widget ui.
-		"""
+    def __initialize_ui(self):
+        """
+        Initializes the Widget ui.
+        """
 
-		pass
+        pass

@@ -5,7 +5,7 @@
 **__init__.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
 
@@ -21,21 +21,19 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["DEFAULT_CODEC",
-		   "CODEC_ERROR"]
+           "CODEC_ERROR"]
 
 DEFAULT_CODEC = "utf-8"
 CODEC_ERROR = "ignore"
 
 def _setEncoding():
-	"""
-	Sets the Package encoding.
-	"""
+    """
+    Sets the Package encoding.
+    """
 
-	import sys
-	reload(sys)
+    import sys
+    reload(sys)
 
-	sys.setdefaultencoding(DEFAULT_CODEC)
+    sys.setdefaultencoding(DEFAULT_CODEC)
 
 _setEncoding()
-
-

@@ -5,11 +5,11 @@
 **views.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines the :class:`umbra.components.factory.components_manager_ui.components_manager_ui.ComponentsManagerUi`
-	Component Interface class Views.
+    Defines the :class:`umbra.components.factory.components_manager_ui.components_manager_ui.ComponentsManagerUi`
+    Component Interface class Views.
 
 **Others:**
 
@@ -36,168 +36,168 @@ __all__ = ["LOGGER", "Components_QTreeView"]
 LOGGER = foundations.verbose.install_logger()
 
 class Components_QTreeView(umbra.ui.views.Abstract_QTreeView):
-	"""
-	Defines the view for Components.
-	"""
+    """
+    Defines the view for Components.
+    """
 
-	def __init__(self, parent, model=None, read_only=False, message=None):
-		"""
-		Initializes the class.
+    def __init__(self, parent, model=None, read_only=False, message=None):
+        """
+        Initializes the class.
 
-		:param parent: Object parent.
-		:type parent: QObject
-		:param model: Model.
-		:type model: QObject
-		:param read_only: View is read only.
-		:type read_only: bool
-		:param message: View default message when Model is empty.
-		:type message: unicode
-		"""
+        :param parent: Object parent.
+        :type parent: QObject
+        :param model: Model.
+        :type model: QObject
+        :param read_only: View is read only.
+        :type read_only: bool
+        :param message: View default message when Model is empty.
+        :type message: unicode
+        """
 
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+        LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		umbra.ui.views.Abstract_QTreeView.__init__(self, parent, read_only, message)
+        umbra.ui.views.Abstract_QTreeView.__init__(self, parent, read_only, message)
 
-		# --- Setting class attributes. ---
-		self.__container = parent
+        # --- Setting class attributes. ---
+        self.__container = parent
 
-		self.__tree_view_indentation = 15
+        self.__tree_view_indentation = 15
 
-		self.setModel(model)
+        self.setModel(model)
 
-		Components_QTreeView.__initialize_ui(self)
+        Components_QTreeView.__initialize_ui(self)
 
-	@property
-	def container(self):
-		"""
-		Property for **self.__container** attribute.
+    @property
+    def container(self):
+        """
+        Property for **self.__container** attribute.
 
-		:return: self.__container.
-		:rtype: QObject
-		"""
+        :return: self.__container.
+        :rtype: QObject
+        """
 
-		return self.__container
+        return self.__container
 
-	@container.setter
-	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
-	def container(self, value):
-		"""
-		Setter for **self.__container** attribute.
+    @container.setter
+    @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+    def container(self, value):
+        """
+        Setter for **self.__container** attribute.
 
-		:param value: Attribute value.
-		:type value: QObject
-		"""
+        :param value: Attribute value.
+        :type value: QObject
+        """
 
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+        raise foundations.exceptions.ProgrammingError(
+        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
-	@container.deleter
-	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
-	def container(self):
-		"""
-		Deleter for **self.__container** attribute.
-		"""
+    @container.deleter
+    @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+    def container(self):
+        """
+        Deleter for **self.__container** attribute.
+        """
 
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+        raise foundations.exceptions.ProgrammingError(
+        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
-	@property
-	def tree_view_indentation(self):
-		"""
-		Property for **self.__tree_view_indentation** attribute.
+    @property
+    def tree_view_indentation(self):
+        """
+        Property for **self.__tree_view_indentation** attribute.
 
-		:return: self.__tree_view_indentation.
-		:rtype: int
-		"""
+        :return: self.__tree_view_indentation.
+        :rtype: int
+        """
 
-		return self.__tree_view_indentation
+        return self.__tree_view_indentation
 
-	@tree_view_indentation.setter
-	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
-	def tree_view_indentation(self, value):
-		"""
-		Setter for **self.__tree_view_indentation** attribute.
+    @tree_view_indentation.setter
+    @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+    def tree_view_indentation(self, value):
+        """
+        Setter for **self.__tree_view_indentation** attribute.
 
-		:param value: Attribute value.
-		:type value: int
-		"""
+        :param value: Attribute value.
+        :type value: int
+        """
 
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "tree_view_indentation"))
+        raise foundations.exceptions.ProgrammingError(
+        "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "tree_view_indentation"))
 
-	@tree_view_indentation.deleter
-	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
-	def tree_view_indentation(self):
-		"""
-		Deleter for **self.__tree_view_indentation** attribute.
-		"""
+    @tree_view_indentation.deleter
+    @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+    def tree_view_indentation(self):
+        """
+        Deleter for **self.__tree_view_indentation** attribute.
+        """
 
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "tree_view_indentation"))
+        raise foundations.exceptions.ProgrammingError(
+        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "tree_view_indentation"))
 
-	def setModel(self, model):
-		"""
-		Reimplements the **umbra.ui.views.Abstract_QTreeView.setModel** method.
-		
-		:param model: Model to set.
-		:type model: QObject
-		"""
+    def setModel(self, model):
+        """
+        Reimplements the **umbra.ui.views.Abstract_QTreeView.setModel** method.
 
-		if not model:
-			return
+        :param model: Model to set.
+        :type model: QObject
+        """
 
-		LOGGER.debug("> Setting '{0}' model.".format(model))
+        if not model:
+            return
 
-		umbra.ui.views.Abstract_QTreeView.setModel(self, model)
+        LOGGER.debug("> Setting '{0}' model.".format(model))
 
-		# Signals / Slots.
-		self.model().modelAboutToBeReset.connect(self.__model__modelAboutToBeReset)
-		self.model().modelReset.connect(self.__model__modelReset)
+        umbra.ui.views.Abstract_QTreeView.setModel(self, model)
 
-	def __model__modelAboutToBeReset(self):
-		"""
-		Defines the slot triggered by the Model when about to be reset.
-		"""
+        # Signals / Slots.
+        self.model().modelAboutToBeReset.connect(self.__model__modelAboutToBeReset)
+        self.model().modelReset.connect(self.__model__modelReset)
 
-		pass
+    def __model__modelAboutToBeReset(self):
+        """
+        Defines the slot triggered by the Model when about to be reset.
+        """
 
-	def __model__modelReset(self):
-		"""
-		Defines the slot triggered by the Model when reset.
-		"""
+        pass
 
-		pass
+    def __model__modelReset(self):
+        """
+        Defines the slot triggered by the Model when reset.
+        """
 
-	def __initialize_ui(self):
-		"""
-		Initializes the Widget ui.
-		"""
+        pass
 
-		self.setAutoScroll(False)
-		self.setDragDropMode(QAbstractItemView.NoDragDrop)
-		self.setEditTriggers(QAbstractItemView.NoEditTriggers)
-		self.setIndentation(self.__tree_view_indentation)
-		self.setSelectionMode(QAbstractItemView.ExtendedSelection)
+    def __initialize_ui(self):
+        """
+        Initializes the Widget ui.
+        """
 
-		self.setSortingEnabled(True)
-		self.sortByColumn(0, Qt.AscendingOrder)
+        self.setAutoScroll(False)
+        self.setDragDropMode(QAbstractItemView.NoDragDrop)
+        self.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.setIndentation(self.__tree_view_indentation)
+        self.setSelectionMode(QAbstractItemView.ExtendedSelection)
 
-		self.__set_default_ui_state()
+        self.setSortingEnabled(True)
+        self.sortByColumn(0, Qt.AscendingOrder)
 
-		# Signals / Slots.
-		self.model().modelReset.connect(self.__set_default_ui_state)
+        self.__set_default_ui_state()
 
-	def __set_default_ui_state(self):
-		"""
-		Sets the Widget default ui state.
-		"""
+        # Signals / Slots.
+        self.model().modelReset.connect(self.__set_default_ui_state)
 
-		LOGGER.debug("> Setting default View state!")
+    def __set_default_ui_state(self):
+        """
+        Sets the Widget default ui state.
+        """
 
-		if not self.model():
-			return
+        LOGGER.debug("> Setting default View state!")
 
-		self.expandAll()
+        if not self.model():
+            return
 
-		for column in range(len(self.model().horizontal_headers)):
-			self.resizeColumnToContents(column)
+        self.expandAll()
+
+        for column in range(len(self.model().horizontal_headers)):
+            self.resizeColumnToContents(column)

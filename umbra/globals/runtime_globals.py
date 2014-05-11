@@ -5,10 +5,10 @@
 **runtime_globals.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines **Umbra** package runtime globals through the :class:`RuntimeGlobals` class.
+    Defines **Umbra** package runtime globals through the :class:`RuntimeGlobals` class.
 
 **Others:**
 
@@ -28,78 +28,78 @@ __status__ = "Production"
 __all__ = ["RuntimeGlobals"]
 
 class RuntimeGlobals():
-	"""
-	Defines **Umbra** package runtime constants.
-	"""
+    """
+    Defines **Umbra** package runtime constants.
+    """
 
-	parameters = None
-	"""Application startup parameters."""
-	arguments = None
-	"""Application startup arguments."""
+    parameters = None
+    """Application startup parameters."""
+    arguments = None
+    """Application startup arguments."""
 
-	logging_console_handler = None
-	"""Logging console handler instance."""
-	logging_file_handler = None
-	"""Logging file handler instance."""
-	logging_session_handler = None
-	"""Logging session handler instance."""
-	logging_session_handler_stream = None
-	"""Logging session handler stream."""
-	logging_formatters = None
-	"""Logging formatters."""
-	logging_active_formatter = None
-	"""Logging current formatter."""
+    logging_console_handler = None
+    """Logging console handler instance."""
+    logging_file_handler = None
+    """Logging file handler instance."""
+    logging_session_handler = None
+    """Logging session handler instance."""
+    logging_session_handler_stream = None
+    """Logging session handler stream."""
+    logging_formatters = None
+    """Logging formatters."""
+    logging_active_formatter = None
+    """Logging current formatter."""
 
-	verbosity_level = None
-	"""Logging current verbosity level."""
-	logging_file = None
-	"""Application logging file."""
+    verbosity_level = None
+    """Logging current verbosity level."""
+    logging_file = None
+    """Application logging file."""
 
-	requests_stack = None
-	"""Application requests stack."""
+    requests_stack = None
+    """Application requests stack."""
 
-	engine = None
-	"""Application engine instance."""
+    engine = None
+    """Application engine instance."""
 
-	patches_manager = None
-	"""Application patches manager instance."""
-	components_manager = None
-	"""Application components manager instance."""
-	actions_manager = None
-	"""Application actions manager instance."""
-	file_system_events_manager = None
-	"""Application file system events manager instance."""
-	notifications_manager = None
-	"""Application notifications manager instance."""
-	layouts_manager = None
-	"""Application layouts manager instance."""
+    patches_manager = None
+    """Application patches manager instance."""
+    components_manager = None
+    """Application components manager instance."""
+    actions_manager = None
+    """Application actions manager instance."""
+    file_system_events_manager = None
+    """Application file system events manager instance."""
+    notifications_manager = None
+    """Application notifications manager instance."""
+    layouts_manager = None
+    """Application layouts manager instance."""
 
-	reporter = None
-	"""Application reporter instance."""
+    reporter = None
+    """Application reporter instance."""
 
-	application = None
-	"""Application instance."""
-	user_application_data_directory = None
-	"""Application user data directory."""
+    application = None
+    """Application instance."""
+    user_application_data_directory = None
+    """Application user data directory."""
 
-	resources_directories = []
-	"""Resources paths."""
+    resources_directories = []
+    """Resources paths."""
 
-	ui_file = None
-	"""Application ui file."""
+    ui_file = None
+    """Application ui file."""
 
-	patches_file = None
-	"""Application patches file."""
+    patches_file = None
+    """Application patches file."""
 
-	settings_file = None
-	"""Application settings file."""
-	settings = None
-	"""Application settings instance."""
+    settings_file = None
+    """Application settings file."""
+    settings = None
+    """Application settings instance."""
 
-	last_browsed_path = os.getcwd()
-	"""Last browsed path."""
+    last_browsed_path = os.getcwd()
+    """Last browsed path."""
 
-	splashscreen_image = None
-	"""Application splashscreen picture."""
-	splashscreen = None
-	"""Application splashscreen instance."""
+    splashscreen_image = None
+    """Application splashscreen picture."""
+    splashscreen = None
+    """Application splashscreen instance."""

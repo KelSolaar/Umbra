@@ -5,10 +5,10 @@
 **001_dummy.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Dummy patch provided as an example file.
+    Dummy patch provided as an example file.
 
 **Others:**
 
@@ -28,10 +28,10 @@ __all__ = ["UID", "apply"]
 UID = "845d7ca6fca3888b0293eb982fa51ddf"
 
 def apply():
-	"""
-	Triggers the patch execution.
-	:return: Definition success.
-	:rtype: bool
-	"""
+    """
+    Triggers the patch execution.
+    :return: Definition success.
+    :rtype: bool
+    """
 
-	return True
+    return True

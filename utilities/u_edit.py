@@ -5,10 +5,10 @@
 **u_edit.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	**Umbra** editing helper module.
+    **Umbra** editing helper module.
 
 **Others:**
 
@@ -30,34 +30,34 @@ __status__ = "Production"
 __all__ = ["u_edit"]
 
 COMMAND_TEMPLATE = ["[application.components_manager[\"factory.script_editor\"].load_path(path) for path in {0}]",
-					"application.layouts_manager.restore_layout(\"development_centric\")",
-					"application.raise_()"]
+                    "application.layouts_manager.restore_layout(\"development_centric\")",
+                    "application.raise_()"]
 
 def u_edit(*args):
-	"""
-	Edits given paths into Umbra.
+    """
+    Edits given paths into Umbra.
 
-	:param \*args: Arguments.
-	:type \*args: \*
-	:return: Definition success.
-	:rtype: bool
-	"""
+    :param \*args: Arguments.
+    :type \*args: \*
+    :return: Definition success.
+    :rtype: bool
+    """
 
-	paths = []
-	for path in args:
-		if not os.path.exists(path):
-			continue
+    paths = []
+    for path in args:
+        if not os.path.exists(path):
+            continue
 
-		paths.append(os.path.abspath(path))
+        paths.append(os.path.abspath(path))
 
-	if not paths:
-		return
+    if not paths:
+        return
 
-	connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	connection.connect((socket.gethostbyname(socket.gethostname()), 16384))
-	connection.send("{0}<!RE>".format("\n".join(COMMAND_TEMPLATE).format(paths)))
-	connection.close()
-	return True
+    connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    connection.connect((socket.gethostbyname(socket.gethostname()), 16384))
+    connection.send("{0}<!RE>".format("\n".join(COMMAND_TEMPLATE).format(paths)))
+    connection.close()
+    return True
 
 if __name__ == "__main__":
-	u_edit(*sys.argv[1:])
+    u_edit(*sys.argv[1:])

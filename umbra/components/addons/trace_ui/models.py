@@ -5,11 +5,11 @@
 **models.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines the :class:`umbra.components.factory.trace_ui.trace_ui.TraceUi`
-	Component Interface class Models.
+    Defines the :class:`umbra.components.factory.trace_ui.trace_ui.TraceUi`
+    Component Interface class Models.
 
 **Others:**
 
@@ -32,46 +32,45 @@ __all__ = ["LOGGER"]
 LOGGER = foundations.verbose.install_logger()
 
 class ModulesModel(umbra.ui.models.GraphModel):
-	"""
-	Defines the Model used the by :class:`umbra.components.factory.trace_ui.trace_ui.TraceUi`
-	Component Interface class.
-	"""
+    """
+    Defines the Model used the by :class:`umbra.components.factory.trace_ui.trace_ui.TraceUi`
+    Component Interface class.
+    """
 
-	def __init__(self, parent=None, root_node=None, horizontal_headers=None, vertical_headers=None, default_node=None):
-		"""
-		Initializes the class.
+    def __init__(self, parent=None, root_node=None, horizontal_headers=None, vertical_headers=None, default_node=None):
+        """
+        Initializes the class.
 
-		:param parent: Object parent.
-		:type parent: QObject
-		:param root_node: Root node.
-		:type root_node: AbstractCompositeNode
-		:param horizontal_headers: Headers.
-		:type horizontal_headers: OrderedDict
-		:param vertical_headers: Headers.
-		:type vertical_headers: OrderedDict
-		:param default_node: Default node.
-		:type default_node: GraphModelNode
-		"""
+        :param parent: Object parent.
+        :type parent: QObject
+        :param root_node: Root node.
+        :type root_node: AbstractCompositeNode
+        :param horizontal_headers: Headers.
+        :type horizontal_headers: OrderedDict
+        :param vertical_headers: Headers.
+        :type vertical_headers: OrderedDict
+        :param default_node: Default node.
+        :type default_node: GraphModelNode
+        """
 
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+        LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		umbra.ui.models.GraphModel.__init__(self, parent, root_node, horizontal_headers, vertical_headers, default_node)
+        umbra.ui.models.GraphModel.__init__(self, parent, root_node, horizontal_headers, vertical_headers, default_node)
 
-	def initialize_model(self, root_node):
-		"""
-		Initializes the Model using given root node.
+    def initialize_model(self, root_node):
+        """
+        Initializes the Model using given root node.
 
-		:param root_node: Graph root node.
-		:type root_node: DefaultNode
-		:return: Method success
-		:rtype: bool
-		"""
+        :param root_node: Graph root node.
+        :type root_node: DefaultNode
+        :return: Method success
+        :rtype: bool
+        """
 
-		LOGGER.debug("> Initializing model with '{0}' root node.".format(root_node))
+        LOGGER.debug("> Initializing model with '{0}' root node.".format(root_node))
 
-		self.beginResetModel()
-		self.root_node = root_node
-		self.enable_model_triggers(True)
-		self.endResetModel()
-		return True
-
+        self.beginResetModel()
+        self.root_node = root_node
+        self.enable_model_triggers(True)
+        self.endResetModel()
+        return True

@@ -5,10 +5,10 @@
 **delegates.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines the Application Delegates classes.
+    Defines the Application Delegates classes.
 
 **Others:**
 
@@ -40,150 +40,150 @@ __all__ = ["LOGGER", "RichText_QStyledItemDelegate"]
 LOGGER = foundations.verbose.install_logger()
 
 class Style(foundations.data_structures.Structure):
-	"""
-	Defines a storage object for the :class:`RichText_QStyledItemDelegate` class style. 
-	"""
+    """
+    Defines a storage object for the :class:`RichText_QStyledItemDelegate` class style.
+    """
 
-	def __init__(self, **kwargs):
-		"""
-		Initializes the class.
+    def __init__(self, **kwargs):
+        """
+        Initializes the class.
 
-		:param \*\*kwargs: .
-		:type \*\*kwargs: dict
-		"""
+        :param \*\*kwargs: .
+        :type \*\*kwargs: dict
+        """
 
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+        LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		foundations.data_structures.Structure.__init__(self, **kwargs)
+        foundations.data_structures.Structure.__init__(self, **kwargs)
 
 class RichText_QStyledItemDelegate(QStyledItemDelegate):
-	"""
-	Defines a `QStyledItemDelegate <http://doc.qt.nokia.com/qstyleditemdelegate.html>`_ subclass used as a rich
-	text Delegate for Application Views. 
-	"""
+    """
+    Defines a `QStyledItemDelegate <http://doc.qt.nokia.com/qstyleditemdelegate.html>`_ subclass used as a rich
+    text Delegate for Application Views.
+    """
 
-	def __init__(self,
-				parent=None,
-				style=None,
-				highlightColor=None,
-				hoverColor=None,
-				background_color=None,
-				highlightBackgroundColor=None,
-				hoverBackgroundColor=None):
-		"""
-		Initializes the class.
+    def __init__(self,
+                parent=None,
+                style=None,
+                highlightColor=None,
+                hoverColor=None,
+                background_color=None,
+                highlightBackgroundColor=None,
+                hoverBackgroundColor=None):
+        """
+        Initializes the class.
 
-		:param parent: Widget parent.
-		:type parent: QObject
-		:param style: Style.
-		:type style: Style
-		"""
+        :param parent: Widget parent.
+        :type parent: QObject
+        :param style: Style.
+        :type style: Style
+        """
 
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+        LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		QStyledItemDelegate.__init__(self, parent)
+        QStyledItemDelegate.__init__(self, parent)
 
-		# --- Setting class attributes. ---
-		self.__indent = 5
+        # --- Setting class attributes. ---
+        self.__indent = 5
 
-		self.__label = QLabel()
-		self.__label.setIndent(self.__indent)
-		self.__label.setTextFormat(Qt.RichText)
+        self.__label = QLabel()
+        self.__label.setIndent(self.__indent)
+        self.__label.setTextFormat(Qt.RichText)
 
-		self.__default_style = Style(default=\
-								"""
-								QLabel, QLabel link {
-									background-color: rgb(32, 32, 32);
-									color: rgb(192, 192, 192);
-								}
-								""",
-								hover=\
-								"""
-								QLabel, QLabel link {
-									background-color: rgb(64, 64, 64);
-									color: rgb(192, 192, 192);
-								}
-								""",
-								highlight=\
-								"""
-								QLabel, QLabel link {
-									background-color: rgb(128, 128, 128);
-									color: rgb(224, 224, 224);
-								}
-								""")
+        self.__default_style = Style(default=\
+                                """
+                                QLabel, QLabel link {
+                                    background-color: rgb(32, 32, 32);
+                                    color: rgb(192, 192, 192);
+                                }
+                                """,
+                                hover=\
+                                """
+                                QLabel, QLabel link {
+                                    background-color: rgb(64, 64, 64);
+                                    color: rgb(192, 192, 192);
+                                }
+                                """,
+                                highlight=\
+                                """
+                                QLabel, QLabel link {
+                                    background-color: rgb(128, 128, 128);
+                                    color: rgb(224, 224, 224);
+                                }
+                                """)
 
-		self.__style = self.__default_style
-		self.style = style or self.__style
+        self.__style = self.__default_style
+        self.style = style or self.__style
 
-	@property
-	def style(self):
-		"""
-		Property for **self.__style** attribute.
+    @property
+    def style(self):
+        """
+        Property for **self.__style** attribute.
 
-		:return: self.__style.
-		:rtype: Style
-		"""
+        :return: self.__style.
+        :rtype: Style
+        """
 
-		return self.__style
+        return self.__style
 
-	@style.setter
-	@foundations.exceptions.handle_exceptions(AssertionError)
-	def style(self, value):
-		"""
-		Setter for **self.__style** attribute.
+    @style.setter
+    @foundations.exceptions.handle_exceptions(AssertionError)
+    def style(self, value):
+        """
+        Setter for **self.__style** attribute.
 
-		:param value: Attribute value.
-		:type value: Style
-		"""
+        :param value: Attribute value.
+        :type value: Style
+        """
 
-		if value is not None:
-			assert type(value) is Style, "'{0}' attribute: '{1}' type is not 'Style'!".format("style", value)
-			style = Style()
-			for item in(self.__default_style, value):
-				style.update(item)
-			value = style
-		self.__style = value
+        if value is not None:
+            assert type(value) is Style, "'{0}' attribute: '{1}' type is not 'Style'!".format("style", value)
+            style = Style()
+            for item in(self.__default_style, value):
+                style.update(item)
+            value = style
+        self.__style = value
 
-	@style.deleter
-	@foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
-	def style(self):
-		"""
-		Deleter for **self.__style** attribute.
-		"""
+    @style.deleter
+    @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+    def style(self):
+        """
+        Deleter for **self.__style** attribute.
+        """
 
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "style"))
+        raise foundations.exceptions.ProgrammingError(
+        "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "style"))
 
-	def paint(self, painter, option, index):
-		"""
-		Reimplements the :meth:`QStyledItemDelegate.paint` method.
-		"""
+    def paint(self, painter, option, index):
+        """
+        Reimplements the :meth:`QStyledItemDelegate.paint` method.
+        """
 
-		if option.state & QStyle.State_MouseOver:
-			styleSheet = self.__style.hover
-		elif option.state & QStyle.State_Selected:
-			styleSheet = self.__style.highlight
-		else:
-			styleSheet = self.__style.default
+        if option.state & QStyle.State_MouseOver:
+            styleSheet = self.__style.hover
+        elif option.state & QStyle.State_Selected:
+            styleSheet = self.__style.highlight
+        else:
+            styleSheet = self.__style.default
 
-		self.__label.setStyleSheet(styleSheet)
-		data = index.model().data(index, Qt.DisplayRole)
-		self.__label.setText(umbra.ui.common.QVariant_to_string(data))
-		self.__label.setFixedSize(option.rect.size())
-		painter.save()
-		painter.translate(option.rect.topLeft())
-		self.__label.render(painter)
-		painter.restore()
+        self.__label.setStyleSheet(styleSheet)
+        data = index.model().data(index, Qt.DisplayRole)
+        self.__label.setText(umbra.ui.common.QVariant_to_string(data))
+        self.__label.setFixedSize(option.rect.size())
+        painter.save()
+        painter.translate(option.rect.topLeft())
+        self.__label.render(painter)
+        painter.restore()
 
-	def sizeHint(self, option, index):
-		"""
-		Reimplements the :meth:`QStyledItemDelegate.sizeHint` method.
-		"""
+    def sizeHint(self, option, index):
+        """
+        Reimplements the :meth:`QStyledItemDelegate.sizeHint` method.
+        """
 
-		document = QTextDocument()
-		document.setDefaultFont(option.font)
-		data = index.model().data(index)
-		text = umbra.ui.common.QVariant_to_string(data)
-		self.__label.setText(text)
-		document.setHtml(text)
-		return QSize(document.idealWidth() + self.__indent, option.fontMetrics.height())
+        document = QTextDocument()
+        document.setDefaultFont(option.font)
+        data = index.model().data(index)
+        text = umbra.ui.common.QVariant_to_string(data)
+        self.__label.setText(text)
+        document.setHtml(text)
+        return QSize(document.idealWidth() + self.__indent, option.fontMetrics.height())
