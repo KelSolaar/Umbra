@@ -16,14 +16,8 @@
 	Prymatex: https://github.com/D3f0/prymatex/
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import functools
 import re
 from PyQt4.QtCore import QChar
@@ -36,9 +30,6 @@ from PyQt4.QtGui import QTextCursor
 from PyQt4.QtGui import QTextDocument
 from PyQt4.QtGui import QTextOption
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.common
 import foundations.data_structures
 import foundations.exceptions
@@ -46,9 +37,6 @@ import foundations.strings
 import foundations.trace
 import foundations.verbose
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -60,9 +48,6 @@ __all__ = ["LOGGER", "edit_block", "anchor_text_cursor", "center_text_cursor", "
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 def edit_block(object):
 	"""
 	Handles edit blocks undo states.
@@ -212,9 +197,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 
 		self.__text_cursor_anchor = None
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def search_pattern(self):
 		"""
@@ -327,9 +309,6 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "maximum_font_point_size"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	@foundations.trace.untracable
 	def wheelEvent(self, event):
 		"""

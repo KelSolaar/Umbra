@@ -14,22 +14,13 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import os
 import SocketServer
 from PyQt4.QtGui import QGridLayout
 from PyQt4.QtCore import Qt
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.common
 import foundations.data_structures
 import foundations.exceptions
@@ -38,9 +29,6 @@ from foundations.tcp_server import TCPServer
 from manager.QWidget_component import QWidgetComponentFactory
 from umbra.globals.runtime_globals import RuntimeGlobals
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -54,9 +42,6 @@ LOGGER = foundations.verbose.install_logger()
 
 COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "TCP_Server_Ui.ui")
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class RequestsStackDataHandler(SocketServer.BaseRequestHandler):
 	"""
 	Defines the default requests handler.
@@ -145,9 +130,6 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 		self.__address = foundations.common.get_host_address()
 		self.__port = 16384
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def engine(self):
 		"""
@@ -393,9 +375,6 @@ class TCPServerUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "port"))
 
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def activate(self, engine):
 		"""
 		Activates the Component.

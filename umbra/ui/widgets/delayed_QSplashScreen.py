@@ -14,29 +14,17 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QApplication
 from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QSplashScreen
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.core
 import foundations.exceptions
 import foundations.verbose
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -48,9 +36,6 @@ __all__ = ["LOGGER", "Delayed_QSplashScreen"]
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class Delayed_QSplashScreen(QSplashScreen):
 	"""
 	Defines a `QSplashScreen <http://doc.qt.nokia.com/qsplashscreen.html>`_ subclass providing
@@ -83,9 +68,6 @@ class Delayed_QSplashScreen(QSplashScreen):
 		self.__text_color = None
 		self.text_color = text_color
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def wait_time(self):
 		"""
@@ -159,9 +141,6 @@ class Delayed_QSplashScreen(QSplashScreen):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "text_color"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def show_message(self, message, text_alignement=Qt.AlignLeft, text_color=None, wait_time=None):
 		"""
 		Reimplements the :meth:`QSplashScreen.show_message` method.

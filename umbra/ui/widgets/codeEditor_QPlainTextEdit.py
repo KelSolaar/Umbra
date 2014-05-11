@@ -17,14 +17,8 @@
 	Prymatex: https://github.com/D3f0/prymatex/
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import re
 from PyQt4.QtCore import QSize
 from PyQt4.QtCore import pyqtSignal
@@ -39,9 +33,6 @@ from PyQt4.QtGui import QTextCursor
 from PyQt4.QtGui import QTextDocument
 from PyQt4.QtGui import QWidget
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.exceptions
 import foundations.strings
 import foundations.verbose
@@ -51,9 +42,6 @@ from umbra.ui.widgets.basic_QPlainTextEdit import Basic_QPlainTextEdit
 from umbra.ui.widgets.basic_QPlainTextEdit import edit_block
 from umbra.ui.widgets.basic_QPlainTextEdit import anchor_text_cursor
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -66,9 +54,6 @@ __all__ = ["LOGGER", "LinesNumbers_QWidget",
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class LinesNumbers_QWidget(QWidget):
 	"""
 	Defines a `QWidget <http://doc.qt.nokia.com/qwidget.html>`_ subclass providing a lines numbers widget.
@@ -101,9 +86,6 @@ class LinesNumbers_QWidget(QWidget):
 
 		self.set_editor_viewport_margins(0)
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def editor(self):
 		"""
@@ -313,9 +295,6 @@ class LinesNumbers_QWidget(QWidget):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "separator_color"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def sizeHint(self):
 		"""
 		Reimplements the :meth:`QWidget.sizeHint` method.
@@ -511,9 +490,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 
 		CodeEditor_QPlainTextEdit.__initialize_ui(self)
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def language(self):
 		"""
@@ -870,9 +846,6 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "visual_accelerators"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __initialize_ui(self):
 		"""
 		Initializes the Widget ui.

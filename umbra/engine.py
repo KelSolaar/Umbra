@@ -15,14 +15,8 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import collections
 import functools
 import gc
@@ -42,9 +36,6 @@ from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtGui import QApplication
 from PyQt4.QtGui import QPixmap
 
-#**********************************************************************************************************************
-#***	Path manipulations.
-#**********************************************************************************************************************
 def _set_package_directory():
 	"""
 	Sets the Application package directory in the path.
@@ -55,9 +46,6 @@ def _set_package_directory():
 
 _set_package_directory()
 
-#**********************************************************************************************************************
-#***	Dependencies globals manipulation.
-#**********************************************************************************************************************
 import foundations.globals.constants
 import manager.globals.constants
 import umbra.globals.constants
@@ -91,9 +79,6 @@ def _extend_resources_paths():
 
 _extend_resources_paths()
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.core
 import foundations.data_structures
 import foundations.exceptions
@@ -120,9 +105,6 @@ from umbra.processing import Processing
 from umbra.ui.widgets.application_QToolBar import Application_QToolBar
 from umbra.ui.widgets.delayed_QSplashScreen import Delayed_QSplashScreen
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -197,9 +179,6 @@ SESSION_FOOTER_TEXT = ("{0} | Closing interface! ".format(Constants.application_
 					   "{0} | Session ended at: {1}".format(Constants.application_name, time.strftime('%X - %x')),
 					   Constants.logging_separators)
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 def show_processing(message=""):
 	"""
 	Shows processing behavior.
@@ -492,9 +471,6 @@ class Umbra(foundations.ui.common.QWidget_factory(ui_file=RuntimeGlobals.ui_file
 		# --- Running post initialisation method. ---
 		hasattr(self, "on_post_initialisation") and self.on_post_initialisation()
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def timer(self):
 		"""
@@ -1357,9 +1333,6 @@ class Umbra(foundations.ui.common.QWidget_factory(ui_file=RuntimeGlobals.ui_file
 		raise foundations.exceptions.ProgrammingError(
 			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "locals"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def dragEnterEvent(self, event):
 		"""
 		Reimplements the :meth:`QWidget.dragEnterEvent` method.

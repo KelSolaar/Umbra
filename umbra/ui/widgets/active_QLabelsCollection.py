@@ -14,29 +14,17 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import functools
 from PyQt4.QtCore import QObject
 from PyQt4.QtCore import pyqtSignal
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.exceptions
 import foundations.verbose
 import umbra.ui.common
 from umbra.ui.widgets.active_QLabel import Active_QLabel
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -48,9 +36,6 @@ __all__ = ["LOGGER", "Active_QLabelsCollection"]
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class Active_QLabelsCollection(QObject):
 	"""
 	Defines a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass providing
@@ -111,9 +96,6 @@ class Active_QLabelsCollection(QObject):
 
 		self.__active_labels = []
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def container(self):
 		"""
@@ -182,9 +164,6 @@ class Active_QLabelsCollection(QObject):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "active_labels"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __active_label__toggled(self, active_label, state):
 		"""
 		Defines the slot triggered by an **Active_QLabel** Widget when toggled.

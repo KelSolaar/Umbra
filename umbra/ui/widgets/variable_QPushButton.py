@@ -14,28 +14,16 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QPalette
 from PyQt4.QtGui import QPushButton
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.common
 import foundations.exceptions
 import foundations.verbose
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -47,9 +35,6 @@ __all__ = ["LOGGER", "Variable_QPushButton"]
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class Variable_QPushButton(QPushButton):
 	"""
 	Defines a `QPushButton <http://doc.qt.nokia.com/qpushbutton.html>`_ subclass providing
@@ -99,9 +84,6 @@ class Variable_QPushButton(QPushButton):
 		# Signals / Slots.
 		self.clicked.connect(self.__variable_QPushButton__clicked)
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def state(self):
 		"""
@@ -213,9 +195,6 @@ class Variable_QPushButton(QPushButton):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "labels"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __variable_QPushButton__clicked(self, checked):
 		"""
 		Defines the slot triggered by a **Variable_QPushButton** Widget when clicked.

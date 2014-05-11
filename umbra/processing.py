@@ -14,23 +14,14 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.exceptions
 import foundations.ui.common
 import foundations.verbose
 import umbra.ui.common
 from umbra.globals.ui_constants import UiConstants
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -44,9 +35,6 @@ LOGGER = foundations.verbose.install_logger()
 
 UI_FILE = umbra.ui.common.get_resource_path(UiConstants.processing_ui_file)
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class Processing(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 	"""
 	Defines the Application processing status bar widget. 
@@ -73,9 +61,6 @@ class Processing(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 
 		Processing.__initialize_ui(self)
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def container(self):
 		"""
@@ -110,9 +95,6 @@ class Processing(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __initialize_ui(self):
 		"""
 		Initializes the Widget ui.

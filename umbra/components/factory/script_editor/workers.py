@@ -15,14 +15,8 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import itertools
 from PyQt4.QtCore import QMutex
 from PyQt4.QtCore import QRegExp
@@ -32,9 +26,6 @@ from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtGui import QTextCursor
 from PyQt4.QtGui import QTextDocument
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.common
 import foundations.data_structures
 import foundations.exceptions
@@ -43,9 +34,6 @@ import foundations.verbose
 import foundations.walkers
 import umbra.ui.common
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -57,9 +45,6 @@ __all__ = ["LOGGER", "Occurence", "SearchResult", "CacheData", "Search_worker"]
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class Occurence(foundations.data_structures.Structure):
 	"""
 	Defines a storage object for the :class:`Search_worker` class search occurence.
@@ -153,9 +138,6 @@ class Search_worker(QThread):
 		self.__interrupt = False
 		self.__lock = QMutex()
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def container(self):
 		"""
@@ -334,9 +316,6 @@ class Search_worker(QThread):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "search_results"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def run(self):
 		"""
 		Reimplements the :meth:`QThread.run` method.

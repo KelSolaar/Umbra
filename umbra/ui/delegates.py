@@ -14,14 +14,8 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QSize
 from PyQt4.QtGui import QLabel
@@ -29,17 +23,11 @@ from PyQt4.QtGui import QStyle
 from PyQt4.QtGui import QStyledItemDelegate
 from PyQt4.QtGui import QTextDocument
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.data_structures
 import foundations.exceptions
 import foundations.verbose
 import umbra.ui.common
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -51,9 +39,6 @@ __all__ = ["LOGGER", "RichText_QStyledItemDelegate"]
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class Style(foundations.data_structures.Structure):
 	"""
 	Defines a storage object for the :class:`RichText_QStyledItemDelegate` class style. 
@@ -130,9 +115,6 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 		self.__style = self.__default_style
 		self.style = style or self.__style
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def style(self):
 		"""
@@ -172,9 +154,6 @@ class RichText_QStyledItemDelegate(QStyledItemDelegate):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "style"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def paint(self, painter, option, index):
 		"""
 		Reimplements the :meth:`QStyledItemDelegate.paint` method.

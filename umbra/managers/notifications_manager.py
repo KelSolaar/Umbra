@@ -14,31 +14,19 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import time
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QObject
 from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtGui import QColor
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.data_structures
 import foundations.exceptions
 import foundations.verbose
 from umbra.ui.widgets.notification_QLabel import Notification_QLabel
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -50,9 +38,6 @@ __all__ = ["LOGGER", "Notification", "NotificationsManager"]
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class Notification(foundations.data_structures.Structure):
 	"""
 	Defines a storage object for :class:`NotificationsManager` class notification.
@@ -102,9 +87,6 @@ class NotificationsManager(QObject):
 		self.__notifiers_stack_padding = 10
 		self.__maximum_notifiers = 5
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def container(self):
 		"""
@@ -281,9 +263,6 @@ class NotificationsManager(QObject):
 		raise foundations.exceptions.ProgrammingError(
 			"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "maximum_notifiers"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __iter__(self):
 		"""
 		Reimplements the :meth:`object.__iter__` method.

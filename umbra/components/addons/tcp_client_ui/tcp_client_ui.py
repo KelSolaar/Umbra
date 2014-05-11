@@ -14,14 +14,8 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import os
 import socket
 from PyQt4.QtCore import QChar
@@ -29,18 +23,12 @@ from PyQt4.QtCore import QString
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QGridLayout
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.common
 import foundations.exceptions
 import foundations.strings
 import foundations.verbose
 from manager.QWidget_component import QWidgetComponentFactory
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -54,9 +42,6 @@ LOGGER = foundations.verbose.install_logger()
 
 COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "TCP_Client_Ui.ui")
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 	"""
 	Defines the :mod:`umbra.components.factory.tcp_client_ui.tcp_client_ui` Component Interface class.
@@ -95,9 +80,6 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 		self.__file_command = "execfile(\"{0}\")"
 		self.__connection_end = "<!RE>"
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def engine(self):
 		"""
@@ -416,9 +398,6 @@ class TCPClientUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "connection_end"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def activate(self, engine):
 		"""
 		Activates the Component.

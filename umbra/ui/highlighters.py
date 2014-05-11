@@ -14,21 +14,12 @@
 	Portions of the code from PyQtWiki: http://diotavelli.net/PyQtWiki/Python%20syntax%20highlighting
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import re
 from PyQt4.QtGui import QSyntaxHighlighter
 from PyQt4.QtGui import QTextCharFormat
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.common
 import foundations.data_structures
 import foundations.decorators
@@ -39,9 +30,6 @@ from umbra.ui.nodes import DefaultNode
 from umbra.ui.nodes import FormatNode
 from umbra.ui.themes import DEFAULT_THEME
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -57,9 +45,6 @@ __all__ = ["LOGGER",
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class Rule(foundations.data_structures.Structure):
 	"""
 	Defines a storage object for highlighters rule. 
@@ -97,9 +82,6 @@ class FormatsTree(object):
 
 		self._FormatsTree__initialize_tree(theme or DEFAULT_THEME)
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def root_node(self):
 		"""
@@ -136,9 +118,6 @@ class FormatsTree(object):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".root_node(self.__class__.__name__, "root_node"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __initialize_tree(self, theme):
 		"""
 		Initializes the object formats tree.
@@ -234,9 +213,6 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		self.__formats = None
 		self.__rules = None
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def formats(self):
 		"""
@@ -308,9 +284,6 @@ class AbstractHighlighter(QSyntaxHighlighter):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "rules"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	@foundations.exceptions.handle_exceptions(NotImplementedError)
 	def highlightBlock(self, block):
 		"""
@@ -375,9 +348,6 @@ class DefaultHighlighter(AbstractHighlighter):
 
 		self.__set_formats()
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def theme(self):
 		"""
@@ -413,9 +383,6 @@ class DefaultHighlighter(AbstractHighlighter):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "theme"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __set_formats(self):
 		"""
 		Sets the highlighting formats.

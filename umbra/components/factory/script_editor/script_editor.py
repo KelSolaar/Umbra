@@ -14,14 +14,8 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import code
 import os
 import platform
@@ -44,9 +38,6 @@ from PyQt4.QtGui import QMenuBar
 from PyQt4.QtGui import QTextCursor
 from PyQt4.QtGui import QTextOption
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.common
 import foundations.exceptions
 import foundations.strings
@@ -74,9 +65,6 @@ from umbra.ui.languages import PYTHON_LANGUAGE
 from umbra.ui.languages import TEXT_LANGUAGE
 from umbra.ui.widgets.basic_QPlainTextEdit import Basic_QPlainTextEdit
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -90,9 +78,6 @@ LOGGER = foundations.verbose.install_logger()
 
 COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Script_Editor.ui")
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class ScriptEditor(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 	"""
 	Defines the :mod:`sibl_gui.components.addons.script_editor.script_editor` Component Interface class.
@@ -197,9 +182,6 @@ class ScriptEditor(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 		self.__command_menu = None
 		self.__view_menu = None
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def dock_area(self):
 		"""
@@ -1426,9 +1408,6 @@ class ScriptEditor(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "view_menu"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def activate(self, engine):
 		"""
 		Activates the Component.

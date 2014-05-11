@@ -14,14 +14,8 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import functools
 import os
 import sys
@@ -39,9 +33,6 @@ from PyQt4.QtGui import QMenu
 from PyQt4.QtGui import QTextCursor
 from PyQt4.QtGui import QTextDocument
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.cache
 import foundations.exceptions
 import foundations.strings
@@ -63,9 +54,6 @@ from umbra.globals.runtime_globals import RuntimeGlobals
 from umbra.ui.delegates import RichText_QStyledItemDelegate
 from umbra.ui.widgets.search_QLineEdit import Search_QLineEdit
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -79,9 +67,6 @@ LOGGER = foundations.verbose.install_logger()
 
 UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Search_In_Files.ui")
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 	"""
 	Defines search and replace in files dialog used by the **ScriptEditor** Component.
@@ -138,9 +123,6 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 
 		SearchInFiles.__initialize_ui(self)
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def container(self):
 		"""
@@ -840,9 +822,6 @@ class SearchInFiles(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "search_worker_thread"))
 
-	#******************************************************************************************************************
-	#***	Class methods
-	#******************************************************************************************************************
 	def show(self):
 		"""
 		Reimplements the :meth:`QWidget.show` method.

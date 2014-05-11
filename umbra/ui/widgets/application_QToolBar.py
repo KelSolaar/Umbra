@@ -14,14 +14,8 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import functools
 from PyQt4.QtCore import QSize
 from PyQt4.QtCore import QString
@@ -34,9 +28,6 @@ from PyQt4.QtGui import QPixmap
 from PyQt4.QtGui import QSizePolicy
 from PyQt4.QtGui import QToolBar
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.exceptions
 import foundations.verbose
 import umbra.managers.layouts_manager
@@ -46,9 +37,6 @@ from umbra.globals.ui_constants import UiConstants
 from umbra.ui.widgets.active_QLabel import Active_QLabel
 from umbra.ui.widgets.active_QLabelsCollection import Active_QLabelsCollection
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -60,9 +48,6 @@ __all__ = ["LOGGER", "Application_QToolBar"]
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class Application_QToolBar(QToolBar):
 	"""
 	Defines a `QToolBar <http://doc.qt.nokia.com/qtoolbar.html>`_ subclass providing
@@ -97,9 +82,6 @@ class Application_QToolBar(QToolBar):
 
 		Application_QToolBar.__initialize_ui(self)
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def container(self):
 		"""
@@ -272,9 +254,6 @@ class Application_QToolBar(QToolBar):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "miscellaneous_menu"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __initialize_ui(self):
 		"""
 		Initializes the Widget ui.

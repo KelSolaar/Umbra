@@ -14,14 +14,8 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import os
 import re
 import sys
@@ -32,9 +26,6 @@ else:
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import pyqtSignal
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.exceptions
 import foundations.verbose
 import foundations.strings
@@ -47,9 +38,6 @@ from umbra.components.addons.trace_ui.nodes import ModuleNode
 from umbra.components.addons.trace_ui.views import Modules_QTreeView
 from umbra.ui.widgets.search_QLineEdit import Search_QLineEdit
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -63,9 +51,6 @@ LOGGER = foundations.verbose.install_logger()
 
 COMPONENT_UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Trace_Ui.ui")
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 	"""
 	Defines the :mod:`umbra.components.addons.trace_ui.trace_ui` Component Interface class.
@@ -110,9 +95,6 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 		self.__headers = OrderedDict([("Module", "name"),
 										("Traced", "traced")])
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def dock_area(self):
 		"""
@@ -351,9 +333,6 @@ class TraceUi(QWidgetComponentFactory(ui_file=COMPONENT_UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "view"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def activate(self, engine):
 		"""
 		Activates the Component.

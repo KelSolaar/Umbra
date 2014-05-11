@@ -15,28 +15,16 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import os
 from PyQt4.QtCore import Qt
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.exceptions
 import foundations.verbose
 import umbra.ui.nodes
 from umbra.components.factory.script_editor.editor import Editor
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -56,9 +44,6 @@ __all__ = ["LOGGER",
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class EditorNode(umbra.ui.nodes.GraphModelNode):
 	"""
 	Defines :class:`umbra.components.factory.script_editor.script_editor.ScriptEditor`
@@ -105,9 +90,6 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 
 		EditorNode.__initialize_node(self, attributes_flags)
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def editor(self):
 		"""
@@ -143,9 +125,6 @@ class EditorNode(umbra.ui.nodes.GraphModelNode):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "editor"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __initialize_node(self, attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
 		Initializes the node.
@@ -201,9 +180,6 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 
 		FileNode.__initialize_node(self, attributes_flags)
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def path(self):
 		"""
@@ -239,9 +215,6 @@ class FileNode(umbra.ui.nodes.GraphModelNode):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "path"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __initialize_node(self, attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
 		Initializes the node.
@@ -300,9 +273,6 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 
 		DirectoryNode.__initialize_node(self, attributes_flags)
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def path(self):
 		"""
@@ -339,9 +309,6 @@ class DirectoryNode(umbra.ui.nodes.GraphModelNode):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "path"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __initialize_node(self, attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
 		Initializes the node.
@@ -400,9 +367,6 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 
 		ProjectNode.__initialize_node(self, attributes_flags)
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def path(self):
 		"""
@@ -439,9 +403,6 @@ class ProjectNode(umbra.ui.nodes.GraphModelNode):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "path"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __initialize_node(self, attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
 		Initializes the node.
@@ -497,9 +458,6 @@ class PatternNode(umbra.ui.nodes.GraphModelNode):
 
 		PatternNode.__initialize_node(self, attributes_flags)
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __initialize_node(self, attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
 		Initializes the node.
@@ -555,9 +513,6 @@ class SearchFileNode(umbra.ui.nodes.GraphModelNode):
 
 		SearchFileNode.__initialize_node(self, attributes_flags)
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __initialize_node(self, attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
 		Initializes the node.
@@ -613,9 +568,6 @@ class SearchOccurenceNode(umbra.ui.nodes.GraphModelNode):
 
 		SearchOccurenceNode.__initialize_node(self, attributes_flags)
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __initialize_node(self, attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
 		Initializes the node.
@@ -671,9 +623,6 @@ class ReplaceResultNode(umbra.ui.nodes.GraphModelNode):
 
 		ReplaceResultNode.__initialize_node(self, attributes_flags)
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __initialize_node(self, attributes_flags=int(Qt.ItemIsSelectable | Qt.ItemIsEnabled)):
 		"""
 		Initializes the node.

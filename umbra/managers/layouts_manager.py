@@ -14,29 +14,17 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 from PyQt4.QtCore import QObject
 from PyQt4.QtCore import pyqtSignal
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.data_structures
 import foundations.exceptions
 import foundations.verbose
 import umbra.exceptions
 from umbra.globals.ui_constants import UiConstants
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -48,9 +36,6 @@ __all__ = ["LOGGER", "Layout", "LayoutsManager"]
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class Layout(foundations.data_structures.Structure):
 	"""
 	Defines a storage object for :class:`LayoutsManager` class layout.
@@ -114,9 +99,6 @@ class LayoutsManager(QObject):
 															identity=UiConstants.startup_layout,
 															shortcut=None))
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def container(self):
 		"""
@@ -289,9 +271,6 @@ class LayoutsManager(QObject):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "restore_geometry_on_layout_change"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __getitem__(self, layout):
 		"""
 		Reimplements the :meth:`object.__getitem__` method.

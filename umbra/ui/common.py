@@ -14,14 +14,8 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import fnmatch
 import functools
 import os
@@ -35,9 +29,6 @@ from PyQt4.QtGui import QAbstractButton
 from PyQt4.QtGui import QApplication
 from PyQt4.QtGui import QIcon
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.common
 import foundations.data_structures
 import foundations.exceptions
@@ -49,9 +40,6 @@ from umbra.globals.constants import Constants
 from umbra.globals.runtime_globals import RuntimeGlobals
 from umbra.globals.ui_constants import UiConstants
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -76,9 +64,6 @@ __all__ = ["LOGGER",
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class Location(foundations.data_structures.Structure):
 	"""
 	Defines a storage object for the :class:`SearchInFiles` class location.

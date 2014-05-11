@@ -14,14 +14,8 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QFont
 from PyQt4.QtGui import QMessageBox
@@ -29,18 +23,12 @@ from PyQt4.QtGui import QPushButton
 from PyQt4.QtGui import QTextCursor
 from PyQt4.QtGui import QTextEdit
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.ui.common
 import foundations.verbose
 import umbra.ui.common
 from umbra.globals.runtime_globals import RuntimeGlobals
 from umbra.globals.constants import Constants
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -52,9 +40,6 @@ __all__ = ["LOGGER", "message_box"]
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 def message_box(type, title, message, icon=None, buttons=QMessageBox.Ok, custom_buttons=None):
 	"""
 	Provides a fast GUI message box.

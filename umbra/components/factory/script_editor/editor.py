@@ -14,14 +14,8 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import os
 import platform
 from PyQt4.QtCore import Qt
@@ -32,9 +26,6 @@ from PyQt4.QtGui import QMessageBox
 from PyQt4.QtGui import QPlainTextDocumentLayout
 from PyQt4.QtGui import QTextOption
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.exceptions
 import foundations.io
 import foundations.strings
@@ -44,9 +35,6 @@ import umbra.ui.widgets.message_box as message_box
 from umbra.ui.languages import PYTHON_LANGUAGE
 from umbra.ui.widgets.codeEditor_QPlainTextEdit import CodeEditor_QPlainTextEdit
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -58,9 +46,6 @@ __all__ = ["LOGGER", "Editor"]
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class Editor(CodeEditor_QPlainTextEdit):
 	"""
 	Defines the default editor used by
@@ -149,9 +134,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 
 		file and self.load_file(file)
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def file(self):
 		"""
@@ -391,9 +373,6 @@ class Editor(CodeEditor_QPlainTextEdit):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_file_extension"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __initialize_ui(self):
 		"""
 		Initializes the Widget ui.

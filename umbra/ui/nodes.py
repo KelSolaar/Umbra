@@ -14,28 +14,16 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 from PyQt4.QtCore import Qt
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.exceptions
 import foundations.verbose
 import umbra.ui.models
 from foundations.nodes import AbstractCompositeNode
 from foundations.nodes import Attribute
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -52,9 +40,6 @@ __all__ = ["LOGGER",
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class Mixin_GraphModelObject(object):
 	"""
 	Defines a mixin used to bring common capabilities in Application Nodes classes.
@@ -74,9 +59,6 @@ class Mixin_GraphModelObject(object):
 
 		self.__trigger_model = False
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def roles(self):
 		"""
@@ -214,9 +196,6 @@ class GraphModelAttribute(Attribute, Mixin_GraphModelObject):
 		self.roles = roles or {Qt.DisplayRole : value, Qt.EditRole : value}
 		self.flags = flags or int(Qt.ItemIsSelectable | Qt.ItemIsEditable | Qt.ItemIsEnabled)
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __setattr__(self, attribute, value):
 		"""
 		Reimplements the :meth:`foundations.nodes.Attribute.__setattr__` method.
@@ -296,9 +275,6 @@ class GraphModelNode(AbstractCompositeNode, Mixin_GraphModelObject):
 		self.roles = roles or {Qt.DisplayRole : self.name, Qt.EditRole : self.name}
 		self.flags = flags or int(Qt.ItemIsSelectable | Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsDragEnabled)
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __setattr__(self, attribute, value):
 		"""
 		Reimplements the :meth:`foundations.nodes.AbstractCompositeNode.__setattr__` method.
@@ -401,9 +377,6 @@ class FormatNode(AbstractCompositeNode):
 		self.__format = None
 		self.format = format
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def format(self):
 		"""

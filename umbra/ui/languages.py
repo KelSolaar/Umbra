@@ -14,20 +14,11 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import os
 from PyQt4.QtCore import QRegExp
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.data_structures
 import foundations.parsers
 import foundations.verbose
@@ -39,9 +30,6 @@ import umbra.ui.visual_accelerators
 from umbra.exceptions import LanguageGrammarError
 from umbra.globals.ui_constants import UiConstants
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -93,9 +81,6 @@ LANGUAGES_ACCELERATORS = {"DefaultHighlighter" : umbra.ui.highlighters.DefaultHi
 
 DEFAULT_INDENT_MARKER = "\t"
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class Language(foundations.data_structures.Structure):
 	"""
 	Defines a storage object for the :class:`Editor` class language description. 
@@ -272,9 +257,6 @@ def get_text_language():
 
 	return get_language_description(TEXT_GRAMMAR_FILE)
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 PYTHON_LANGUAGE = get_python_language()
 LOGGING_LANGUAGE = get_logging_language()
 TEXT_LANGUAGE = get_text_language()

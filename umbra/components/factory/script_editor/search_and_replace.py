@@ -14,14 +14,8 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import functools
 import os
 from PyQt4.QtCore import QChar
@@ -31,9 +25,6 @@ from PyQt4.QtCore import QString
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QComboBox
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.common
 import foundations.exceptions
 import foundations.strings
@@ -43,9 +34,6 @@ import umbra.ui.common
 from umbra.components.factory.script_editor.models import PatternsModel
 from umbra.components.factory.script_editor.nodes import PatternNode
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -59,9 +47,6 @@ LOGGER = foundations.verbose.install_logger()
 
 UI_FILE = os.path.join(os.path.dirname(__file__), "ui", "Search_And_Replace.ui")
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class ValidationFilter(QObject):
 	"""
 	Defines a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass used as an event filter
@@ -120,9 +105,6 @@ class SearchAndReplace(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 
 		SearchAndReplace.__initialize_ui(self)
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def container(self):
 		"""
@@ -259,9 +241,6 @@ class SearchAndReplace(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "maximum_stored_patterns"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def show(self):
 		"""
 		Reimplements the :meth:`QWidget.show` method.

@@ -15,27 +15,15 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QVariant
 from PyQt4.QtGui import QSortFilterProxyModel
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.verbose
 from umbra.components.factory.script_editor.nodes import EditorNode
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -47,9 +35,6 @@ __all__ = ["LOGGER", "ProjectsProxyModel"]
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class ProjectsProxyModel(QSortFilterProxyModel):
 	"""
 	Defines the proxy Model used by the
@@ -80,9 +65,6 @@ class ProjectsProxyModel(QSortFilterProxyModel):
 		self.__project_node_format = "<b>{0}</b>"
 		self.__default_project_node_format = "<b>Open Files</b>"
 
-	#******************************************************************************************************************
-	#***	Class methods
-	#******************************************************************************************************************
 	def filterAcceptsRow(self, row, parent):
 		"""
 		Reimplements the :meth:`QSortFilterProxyModel.filterAcceptsRow` method.

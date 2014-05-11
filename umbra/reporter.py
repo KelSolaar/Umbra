@@ -14,14 +14,8 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import functools
 import inspect
 import os
@@ -36,9 +30,6 @@ import time
 import traceback
 from PyQt4.QtGui import QApplication
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.core
 import foundations.exceptions
 import foundations.io
@@ -50,9 +41,6 @@ from umbra.globals.constants import Constants
 from umbra.globals.ui_constants import UiConstants
 from umbra.globals.runtime_globals import RuntimeGlobals
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -75,9 +63,6 @@ LOGGER = foundations.verbose.install_logger()
 
 UI_FILE = umbra.ui.common.get_resource_path(UiConstants.reporter_ui_file)
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class Reporter(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
 	"""
 	Defines an exception reporting Widget.
@@ -296,9 +281,6 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 
 		self.__initialize_ui()
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def report(self):
 		"""
@@ -369,9 +351,6 @@ mailing this report to <b>{0}</b> would help improving <b>{1}</b>!".format(__ema
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "enabled"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __call__(self, *args):
 		"""
 		Caller of the class.

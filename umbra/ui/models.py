@@ -14,14 +14,8 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import pickle
 import sys
 import weakref
@@ -37,18 +31,12 @@ from PyQt4.QtCore import QVariant
 from PyQt4.QtCore import Qt
 from PyQt4.QtGui import QIcon
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.exceptions
 import foundations.strings
 import foundations.verbose
 import umbra.ui.nodes
 from foundations.nodes import AbstractCompositeNode
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -60,9 +48,6 @@ __all__ = ["LOGGER", "GraphModel"]
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class GraphModel(QAbstractItemModel):
 	"""
 	| Defines a `QAbstractItemModel <http://doc.qt.nokia.com/qabstractitemmodel.html>`_ subclass
@@ -132,9 +117,6 @@ class GraphModel(QAbstractItemModel):
 		self.__default_node = None
 		self.default_node = default_node or umbra.ui.nodes.GraphModelNode
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def root_node(self):
 		"""
@@ -279,9 +261,6 @@ class GraphModel(QAbstractItemModel):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_node"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def rowCount(self, parent=QModelIndex()):
 		"""
 		Reimplements the :meth:`QAbstractItemModel.rowCount` method.

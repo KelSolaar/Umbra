@@ -15,29 +15,17 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 from PyQt4.QtCore import QEvent
 from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtGui import QAbstractItemView
 from PyQt4.QtGui import QTabWidget
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.exceptions
 import foundations.verbose
 import umbra.ui.views
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -49,9 +37,6 @@ __all__ = ["LOGGER", "SearchResults_QTreeView", "ScriptEditor_QTabWidget"]
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 	"""
 	Defines the view for Database Ibl Sets columns.
@@ -80,9 +65,6 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 
 		SearchResults_QTreeView.__initialize_ui(self)
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def tree_view_indentation(self):
 		"""
@@ -117,9 +99,6 @@ class SearchResults_QTreeView(umbra.ui.views.Abstract_QTreeView):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "tree_view_indentation"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __initialize_ui(self):
 		"""
 		Initializes the Widget ui.
@@ -187,9 +166,6 @@ class ScriptEditor_QTabWidget(QTabWidget):
 		# --- Setting class attributes. ---
 		self.__container = parent
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def container(self):
 		"""
@@ -224,9 +200,6 @@ class ScriptEditor_QTabWidget(QTabWidget):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def dragEnterEvent(self, event):
 		"""
 		Reimplements the :meth:`QTabWidget.dragEnterEvent` method.

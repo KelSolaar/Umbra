@@ -15,20 +15,11 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.verbose
 import umbra.ui.models
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -40,9 +31,6 @@ __all__ = ["LOGGER"]
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class ModulesModel(umbra.ui.models.GraphModel):
 	"""
 	Defines the Model used the by :class:`umbra.components.factory.trace_ui.trace_ui.TraceUi`
@@ -69,9 +57,6 @@ class ModulesModel(umbra.ui.models.GraphModel):
 
 		umbra.ui.models.GraphModel.__init__(self, parent, root_node, horizontal_headers, vertical_headers, default_node)
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def initialize_model(self, root_node):
 		"""
 		Initializes the Model using given root node.

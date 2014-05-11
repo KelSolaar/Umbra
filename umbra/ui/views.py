@@ -14,14 +14,8 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import re
 from PyQt4.QtCore import QAbstractItemModel
 from PyQt4.QtCore import QAbstractListModel
@@ -39,9 +33,6 @@ from PyQt4.QtGui import QListWidget
 from PyQt4.QtGui import QTableWidget
 from PyQt4.QtGui import QTreeWidget
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.exceptions
 import foundations.walkers
 import foundations.verbose
@@ -50,9 +41,6 @@ import umbra.ui.common
 from umbra.ui.models import GraphModel
 from umbra.ui.widgets.notification_QLabel import Notification_QLabel
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -74,9 +62,6 @@ __all__ = ["LOGGER",
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class ReadOnlyFilter(QObject):
 	"""
 	Defines a `QObject <http://doc.qt.nokia.com/qobject.html>`_ subclass used as an event filter
@@ -142,9 +127,6 @@ class Mixin_AbstractBase(object):
 											border_color=QColor(32, 32, 32),
 											anchor=8)
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def message(self):
 		"""
@@ -181,9 +163,6 @@ class Mixin_AbstractBase(object):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "message"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def resizeEvent(self, event):
 		"""
 		Reimplements the :meth:`*.resizeEvent` method.
@@ -248,9 +227,6 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 
 		Mixin_AbstractView.__initialize_ui(self)
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def read_only(self):
 		"""
@@ -286,9 +262,6 @@ class Mixin_AbstractView(Mixin_AbstractBase):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "read_only"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __initialize_ui(self):
 		"""
 		Initializes the View ui.

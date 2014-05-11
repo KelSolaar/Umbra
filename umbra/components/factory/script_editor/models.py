@@ -15,14 +15,8 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import os
 import re
 from PyQt4.QtCore import QAbstractListModel
@@ -31,9 +25,6 @@ from PyQt4.QtCore import QVariant
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import pyqtSignal
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.exceptions
 import foundations.io
 import foundations.verbose
@@ -47,9 +38,6 @@ from umbra.components.factory.script_editor.nodes import FileNode
 from umbra.components.factory.script_editor.nodes import PatternNode
 from umbra.ui.languages import Language
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -65,9 +53,6 @@ __all__ = ["LOGGER",
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class ProjectsModel(umbra.ui.models.GraphModel):
 	"""
 	Defines the Model used by :class:`umbra.components.factory.script_editor.script_editor.ScriptEditor`
@@ -174,9 +159,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 
 		ProjectsModel.__initialize_model(self)
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def default_project(self):
 		"""
@@ -247,9 +229,6 @@ class ProjectsModel(umbra.ui.models.GraphModel):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "default_project_node"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def __initialize_model(self):
 		"""
 		Initializes the Model.
@@ -878,9 +857,6 @@ class LanguagesModel(QAbstractListModel):
 		self.__languages = []
 		self.languages = languages
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def languages(self):
 		"""
@@ -920,9 +896,6 @@ class LanguagesModel(QAbstractListModel):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "languages"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def rowCount(self, parent=QModelIndex()):
 		"""
 		Reimplements the :meth:`QAbstractListModel.rowCount` method.
@@ -1084,9 +1057,6 @@ class PatternsModel(umbra.ui.models.GraphModel):
 
 		umbra.ui.models.GraphModel.__init__(self, parent, root_node, horizontal_headers, vertical_headers, PatternNode)
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def initialize_model(self, root_node):
 		"""
 		Initializes the Model using given root node.
@@ -1177,9 +1147,6 @@ class SearchResultsModel(umbra.ui.models.GraphModel):
 
 		umbra.ui.models.GraphModel.__init__(self, parent, root_node, horizontal_headers, vertical_headers, default_node)
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def initialize_model(self, root_node):
 		"""
 		Initializes the Model using given root node.

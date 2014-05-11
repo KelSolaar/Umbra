@@ -15,30 +15,18 @@
 	https://github.com/D3f0/prymatex/blob/master/prymatex/gui/widgets/overlay.py
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 from PyQt4.QtCore import QString
 from PyQt4.QtCore import QTimer
 from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtGui import QColor
 from PyQt4.QtGui import QLabel
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.exceptions
 import foundations.verbose
 from umbra.globals.runtime_globals import RuntimeGlobals
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -50,9 +38,6 @@ __all__ = ["LOGGER", "Notification_QLabel"]
 
 LOGGER = foundations.verbose.install_logger()
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
 class Notification_QLabel(QLabel):
 	"""
 	Defines a `QLabel <http://doc.qt.nokia.com/qlabel.html>`_ subclass providing
@@ -172,9 +157,6 @@ class Notification_QLabel(QLabel):
 
 		self.__set_style_sheet()
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
 	@property
 	def color(self):
 		"""
@@ -646,9 +628,6 @@ class Notification_QLabel(QLabel):
 		raise foundations.exceptions.ProgrammingError(
 		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "style"))
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
 	def setParent(self, parent):
 		"""
 		Reimplements the :meth:`QLabel.setParent` method.
