@@ -88,12 +88,12 @@ class Constants():
     :type logging_separators: unicode
     """
 
-    default_codec = umbra.DEFAULT_CODEC
+    default_codec = "utf-8"
     """
     :param default_codec: Default codec.
     :type default_codec: unicode
     """
-    codec_error = umbra.CODEC_ERROR
+    codec_error = "ignore"
     """
     :param codec_error: Default codec error behavior.
     :type codec_error: unicode

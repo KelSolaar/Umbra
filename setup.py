@@ -16,21 +16,6 @@
 
 from __future__ import unicode_literals
 
-
-def _setEncoding():
-    """
-    Sets the Package encoding.
-    """
-
-    import sys
-
-    reload(sys)
-
-    sys.setdefaultencoding("utf-8")
-
-
-_setEncoding()
-
 import re
 from setuptools import setup
 from setuptools import find_packages
