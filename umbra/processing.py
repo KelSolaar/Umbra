@@ -5,32 +5,23 @@
 **processing.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines the :class:`Processing` class.
+    Defines the :class:`Processing` class.
 
 **Others:**
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
 import foundations.exceptions
 import foundations.ui.common
 import foundations.verbose
 import umbra.ui.common
-from umbra.globals.uiConstants import UiConstants
+from umbra.globals.ui_constants import UiConstants
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -40,82 +31,74 @@ __status__ = "Production"
 
 __all__ = ["LOGGER", "UI_FILE", "Processing"]
 
-LOGGER = foundations.verbose.installLogger()
+LOGGER = foundations.verbose.install_logger()
 
-UI_FILE = umbra.ui.common.getResourcePath(UiConstants.processingUiFile)
+UI_FILE = umbra.ui.common.get_resource_path(UiConstants.processing_ui_file)
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
-class Processing(foundations.ui.common.QWidgetFactory(uiFile=UI_FILE)):
-	"""
-	Defines the Application processing status bar widget. 
-	"""
 
-	def __init__(self, parent, *args, **kwargs):
-		"""
-		Initializes the class.
+class Processing(foundations.ui.common.QWidget_factory(ui_file=UI_FILE)):
+    """
+    Defines the Application processing status bar widget.
+    """
 
-		:param parent: Object parent.
-		:type parent: QObject
-		:param \*args: Arguments.
-		:type \*args: \*
-		:param \*\*kwargs: Keywords arguments.
-		:type \*\*kwargs: \*\*
-		"""
+    def __init__(self, parent, *args, **kwargs):
+        """
+        Initializes the class.
 
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+        :param parent: Object parent.
+        :type parent: QObject
+        :param \*args: Arguments.
+        :type \*args: \*
+        :param \*\*kwargs: Keywords arguments.
+        :type \*\*kwargs: \*\*
+        """
 
-		super(Processing, self).__init__(parent, *args, **kwargs)
+        LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-		# --- Setting class attributes. ---
-		self.__container = parent
+        super(Processing, self).__init__(parent, *args, **kwargs)
 
-		Processing.__initializeUi(self)
+        # --- Setting class attributes. ---
+        self.__container = parent
 
-	#******************************************************************************************************************
-	#***	Attributes properties.
-	#******************************************************************************************************************
-	@property
-	def container(self):
-		"""
-		Property for **self.__container** attribute.
+        Processing.__initialize_ui(self)
 
-		:return: self.__container.
-		:rtype: QObject
-		"""
+    @property
+    def container(self):
+        """
+        Property for **self.__container** attribute.
 
-		return self.__container
+        :return: self.__container.
+        :rtype: QObject
+        """
 
-	@container.setter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def container(self, value):
-		"""
-		Setter for **self.__container** attribute.
+        return self.__container
 
-		:param value: Attribute value.
-		:type value: QObject
-		"""
+    @container.setter
+    @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+    def container(self, value):
+        """
+        Setter for **self.__container** attribute.
 
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
+        :param value: Attribute value.
+        :type value: QObject
+        """
 
-	@container.deleter
-	@foundations.exceptions.handleExceptions(foundations.exceptions.ProgrammingError)
-	def container(self):
-		"""
-		Deleter for **self.__container** attribute.
-		"""
+        raise foundations.exceptions.ProgrammingError(
+            "{0} | '{1}' attribute is read only!".format(self.__class__.__name__, "container"))
 
-		raise foundations.exceptions.ProgrammingError(
-		"{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
+    @container.deleter
+    @foundations.exceptions.handle_exceptions(foundations.exceptions.ProgrammingError)
+    def container(self):
+        """
+        Deleter for **self.__container** attribute.
+        """
 
-	#******************************************************************************************************************
-	#***	Class methods.
-	#******************************************************************************************************************
-	def __initializeUi(self):
-		"""
-		Initializes the Widget ui.
-		"""
+        raise foundations.exceptions.ProgrammingError(
+            "{0} | '{1}' attribute is not deletable!".format(self.__class__.__name__, "container"))
 
-		pass
+    def __initialize_ui(self):
+        """
+        Initializes the Widget ui.
+        """
+
+        pass

@@ -1,0 +1,12 @@
+[Component]
+Name = factory.components_manager_ui
+Title = Components Manager Ui
+Module = components_manager_ui
+Object = ComponentsManagerUi
+Version = 1.0
+
+[Informations]
+Author = Thomas Mansencal
+Email = thomas.mansencal@gmail.com
+Url = http://www.hdrlabs.com/
+Description = Components Manager Ui factory Component.

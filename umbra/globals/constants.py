@@ -5,34 +5,22 @@
 **constants.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines **Umbra** package default constants through the :class:`Constants` class.
+    Defines **Umbra** package default constants through the :class:`Constants` class.
 
 **Others:**
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import os
 import platform
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import umbra
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -42,178 +30,176 @@ __status__ = "Production"
 
 __all__ = ["Constants"]
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
+
 class Constants():
-	"""
-	Defines **Umbra** package default constants.
-	"""
+    """
+    Defines **Umbra** package default constants.
+    """
 
-	applicationName = "Umbra"
-	"""
-	:param applicationName: Package Application name.
-	:type applicationName: unicode
-	"""
-	majorVersion = "1"
-	"""
-	:param majorVersion: Package major version.
-	:type majorVersion: unicode
-	"""
-	minorVersion = "0"
-	"""
-	:param minorVersion: Package minor version.
-	:type minorVersion: unicode
-	"""
-	changeVersion = "9"
-	"""
-	:param changeVersion: Package change version.
-	:type changeVersion: unicode
-	"""
-	version = ".".join((majorVersion, minorVersion, changeVersion))
-	"""
-	:param version: Package version.
-	:type version: unicode
-	"""
+    application_name = "Umbra"
+    """
+    :param application_name: Package Application name.
+    :type application_name: unicode
+    """
+    major_version = "1"
+    """
+    :param major_version: Package major version.
+    :type major_version: unicode
+    """
+    minor_version = "0"
+    """
+    :param minor_version: Package minor version.
+    :type minor_version: unicode
+    """
+    change_version = "9"
+    """
+    :param change_version: Package change version.
+    :type change_version: unicode
+    """
+    version = ".".join((major_version, minor_version, change_version))
+    """
+    :param version: Package version.
+    :type version: unicode
+    """
 
-	logger = "Umbra_Logger"
-	"""
-	:param logger: Package logger name.
-	:type logger: unicode
-	"""
-	verbosityLevel = 3
-	"""
-	:param verbosityLevel: Default logging verbosity level.
-	:type verbosityLevel: int
-	"""
-	verbosityLabels = ("Critical", "Error", "Warning", "Info", "Debug")
-	"""
-	:param verbosityLabels: Logging verbosity labels.
-	:type verbosityLabels: tuple
-	"""
-	loggingDefaultFormatter = "Default"
-	"""
-	:param loggingDefaultFormatter: Default logging formatter name.
-	:type loggingDefaultFormatter: unicode
-	"""
-	loggingSeparators = "*" * 96
-	"""
-	:param loggingSeparators: Logging separators.
-	:type loggingSeparators: unicode
-	"""
+    logger = "Umbra_Logger"
+    """
+    :param logger: Package logger name.
+    :type logger: unicode
+    """
+    verbosity_level = 3
+    """
+    :param verbosity_level: Default logging verbosity level.
+    :type verbosity_level: int
+    """
+    verbosity_labels = ("Critical", "Error", "Warning", "Info", "Debug")
+    """
+    :param verbosity_labels: Logging verbosity labels.
+    :type verbosity_labels: tuple
+    """
+    logging_default_formatter = "Default"
+    """
+    :param logging_default_formatter: Default logging formatter name.
+    :type logging_default_formatter: unicode
+    """
+    logging_separators = "*" * 96
+    """
+    :param logging_separators: Logging separators.
+    :type logging_separators: unicode
+    """
 
-	defaultCodec = umbra.DEFAULT_CODEC
-	"""
-	:param defaultCodec: Default codec.
-	:type defaultCodec: unicode
-	"""
-	codecError = umbra.CODEC_ERROR
-	"""
-	:param codecError: Default codec error behavior.
-	:type codecError: unicode
-	"""
+    default_codec = umbra.DEFAULT_CODEC
+    """
+    :param default_codec: Default codec.
+    :type default_codec: unicode
+    """
+    codec_error = umbra.CODEC_ERROR
+    """
+    :param codec_error: Default codec error behavior.
+    :type codec_error: unicode
+    """
 
-	applicationDirectory = os.sep.join(("Umbra", ".".join((majorVersion, minorVersion))))
-	"""
-	:param applicationDirectory: Package Application directory.
-	:type applicationDirectory: unicode
-	"""
-	if platform.system() in ("Windows", "Microsoft") or platform.system() == "Darwin":
-		providerDirectory = "HDRLabs"
-		"""
-		:param providerDirectory: Package provider directory.
-		:type providerDirectory: unicode
-		"""
-	elif platform.system() == "Linux":
-		providerDirectory = ".HDRLabs"
-		"""
-		:param providerDirectory: Package provider directory.
-		:type providerDirectory: unicode
-		"""
+    application_directory = os.sep.join(("Umbra", ".".join((major_version, minor_version))))
+    """
+    :param application_directory: Package Application directory.
+    :type application_directory: unicode
+    """
+    if platform.system() in ("Windows", "Microsoft") or platform.system() == "Darwin":
+        provider_directory = "HDRLabs"
+        """
+        :param provider_directory: Package provider directory.
+        :type provider_directory: unicode
+        """
+    elif platform.system() == "Linux":
+        provider_directory = ".HDRLabs"
+        """
+        :param provider_directory: Package provider directory.
+        :type provider_directory: unicode
+        """
 
-	patchesDirectory = "patches"
-	"""
-	:param patchesDirectory: Application patches directory.
-	:type patchesDirectory: unicode
-	"""
-	settingsDirectory = "settings"
-	"""
-	:param settingsDirectory: Application settings directory.
-	:type settingsDirectory: unicode
-	"""
-	userComponentsDirectory = "components"
-	"""
-	:param userComponentsDirectory: Application user components directory.
-	:type userComponentsDirectory: unicode
-	"""
-	loggingDirectory = "logging"
-	"""
-	:param loggingDirectory: Application logging directory.
-	:type loggingDirectory: unicode
-	"""
-	ioDirectory = "io"
-	"""
-	:param ioDirectory: Application io directory.
-	:type ioDirectory: unicode
-	"""
+    patches_directory = "patches"
+    """
+    :param patches_directory: Application patches directory.
+    :type patches_directory: unicode
+    """
+    settings_directory = "settings"
+    """
+    :param settings_directory: Application settings directory.
+    :type settings_directory: unicode
+    """
+    user_components_directory = "components"
+    """
+    :param user_components_directory: Application user components directory.
+    :type user_components_directory: unicode
+    """
+    logging_directory = "logging"
+    """
+    :param logging_directory: Application logging directory.
+    :type logging_directory: unicode
+    """
+    io_directory = "io"
+    """
+    :param io_directory: Application io directory.
+    :type io_directory: unicode
+    """
 
-	preferencesDirectories = (patchesDirectory,
-								settingsDirectory,
-								userComponentsDirectory,
-								loggingDirectory,
-								ioDirectory)
-	"""
-	:param preferencesDirectories: Application preferences directories.
-	:type preferencesDirectories: tuple
-	"""
+    preferences_directories = (patches_directory,
+                               settings_directory,
+                               user_components_directory,
+                               logging_directory,
+                               io_directory)
+    """
+    :param preferences_directories: Application preferences directories.
+    :type preferences_directories: tuple
+    """
 
-	factoryComponentsDirectory = "components/factory"
-	"""
-	:param factoryComponentsDirectory: Application factory components directory.
-	:type factoryComponentsDirectory: unicode
-	"""
+    factory_components_directory = "components/factory"
+    """
+    :param factory_components_directory: Application factory components directory.
+    :type factory_components_directory: unicode
+    """
 
-	factoryAddonsComponentsDirectory = "components/addons"
-	"""
-	:param factoryAddonsComponentsDirectory: Application addons components directory.
-	:type factoryAddonsComponentsDirectory: unicode
-	"""
+    factory_addons_components_directory = "components/addons"
+    """
+    :param factory_addons_components_directory: Application addons components directory.
+    :type factory_addons_components_directory: unicode
+    """
 
-	resourcesDirectory = "resources"
-	"""
-	:param resourcesDirectory: Application resources directory.
-	:type resourcesDirectory: unicode
-	"""
+    resources_directory = "resources"
+    """
+    :param resources_directory: Application resources directory.
+    :type resources_directory: unicode
+    """
 
-	patchesFile = "Umbra_Patches.rc"
-	"""
-	:param patchesFile: Application settings file.
-	:type patchesFile: unicode
-	"""
-	settingsFile = "Umbra_Settings.rc"
-	"""
-	:param settingsFile: Application settings file.
-	:type settingsFile: unicode
-	"""
-	loggingFile = "Umbra_Logging_{0}.log"
-	"""
-	:param loggingFile: Application logging file.
-	:type loggingFile: unicode
-	"""
+    patches_file = "Umbra_Patches.rc"
+    """
+    :param patches_file: Application settings file.
+    :type patches_file: unicode
+    """
+    settings_file = "Umbra_Settings.rc"
+    """
+    :param settings_file: Application settings file.
+    :type settings_file: unicode
+    """
+    logging_file = "Umbra_Logging_{0}.log"
+    """
+    :param logging_file: Application logging file.
+    :type logging_file: unicode
+    """
 
-	librariesDirectory = "libraries"
-	"""
-	:param librariesDirectory: Application libraries directory.
-	:type librariesDirectory: unicode
-	"""
+    libraries_directory = "libraries"
+    """
+    :param libraries_directory: Application libraries directory.
+    :type libraries_directory: unicode
+    """
 
-	defaultTimerCycle = 125
-	"""
-	:param defaultTimerCycle: Default timer cycle length in milliseconds.
-	:type defaultTimerCycle: int
-	"""
-	nullObject = "None"
-	"""
-	:param nullObject: Default null object string.
-	:type nullObject: unicode
-	"""
+    default_timer_cycle = 125
+    """
+    :param default_timer_cycle: Default timer cycle length in milliseconds.
+    :type default_timer_cycle: int
+    """
+    null_object = "None"
+    """
+    :param null_object: Default null object string.
+    :type null_object: unicode
+    """

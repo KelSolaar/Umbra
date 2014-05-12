@@ -1,0 +1,12 @@
+[Component]
+Name = addons.trace_ui
+Title = Trace Ui
+Module = trace_ui
+Object = TraceUi
+Version = 1.0
+
+[Informations]
+Author = Thomas Mansencal
+Email = thomas.mansencal@gmail.com
+Url = http://www.hdrlabs.com/
+Description = Trace Ui addons Component.

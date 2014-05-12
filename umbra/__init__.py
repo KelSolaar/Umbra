@@ -5,7 +5,7 @@
 **__init__.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
 
@@ -13,9 +13,6 @@
 
 """
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -24,24 +21,22 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["DEFAULT_CODEC",
-		   "CODEC_ERROR"]
+           "CODEC_ERROR"]
 
 DEFAULT_CODEC = "utf-8"
 CODEC_ERROR = "ignore"
 
-#**********************************************************************************************************************
-#***	Encoding manipulations.
-#**********************************************************************************************************************
+
 def _setEncoding():
-	"""
-	Sets the Package encoding.
-	"""
+    """
+    Sets the Package encoding.
+    """
 
-	import sys
-	reload(sys)
+    import sys
 
-	sys.setdefaultencoding(DEFAULT_CODEC)
+    reload(sys)
+
+    sys.setdefaultencoding(DEFAULT_CODEC)
+
 
 _setEncoding()
-
-

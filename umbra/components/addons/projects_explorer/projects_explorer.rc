@@ -1,0 +1,13 @@
+[Component]
+Name = addons.projects_explorer
+Title = Projects Explorer
+Module = projects_explorer
+Object = ProjectsExplorer
+Require = factory.script_editor
+Version = 1.0
+
+[Informations]
+Author = Thomas Mansencal
+Email = thomas.mansencal@gmail.com
+Url = http://www.hdrlabs.com/
+Description = Projects Explorer addons Component.

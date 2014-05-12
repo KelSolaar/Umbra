@@ -5,43 +5,31 @@
 **languages.py**
 
 **Platform:**
-	Windows, Linux, Mac Os X.
+    Windows, Linux, Mac Os X.
 
 **Description:**
-	Defines languages manipulation related objects.
+    Defines languages manipulation related objects.
 
 **Others:**
 
 """
 
-#**********************************************************************************************************************
-#***	Future imports.
-#**********************************************************************************************************************
 from __future__ import unicode_literals
 
-#**********************************************************************************************************************
-#***	External imports.
-#**********************************************************************************************************************
 import os
 from PyQt4.QtCore import QRegExp
 
-#**********************************************************************************************************************
-#***	Internal imports.
-#**********************************************************************************************************************
-import foundations.dataStructures
+import foundations.data_structures
 import foundations.parsers
 import foundations.verbose
 import umbra.ui.completers
 import umbra.ui.highlighters
-import umbra.ui.inputAccelerators
+import umbra.ui.input_accelerators
 import umbra.ui.themes
-import umbra.ui.visualAccelerators
+import umbra.ui.visual_accelerators
 from umbra.exceptions import LanguageGrammarError
-from umbra.globals.uiConstants import UiConstants
+from umbra.globals.ui_constants import UiConstants
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
 __author__ = "Thomas Mansencal"
 __copyright__ = "Copyright (C) 2008 - 2014 - Thomas Mansencal"
 __license__ = "GPL V3.0 - http://www.gnu.org/licenses/"
@@ -50,232 +38,235 @@ __email__ = "thomas.mansencal@gmail.com"
 __status__ = "Production"
 
 __all__ = ["LOGGER",
-		"PYTHON_GRAMMAR_FILE",
-		"LOGGING_GRAMMAR_FILE",
-		"TEXT_GRAMMAR_FILE",
-		"LANGUAGES_ACCELERATORS",
-		"DEFAULT_INDENT_MARKER",
-		"Language",
-		"getObjectFromLanguageAccelerators",
-		"getLanguageDescription",
-		"getPythonLanguage",
-		"getLoggingLanguage",
-		"PYTHON_LANGUAGE",
-		"LOGGING_LANGUAGE",
-		"TEXT_LANGUAGE", ]
+           "PYTHON_GRAMMAR_FILE",
+           "LOGGING_GRAMMAR_FILE",
+           "TEXT_GRAMMAR_FILE",
+           "LANGUAGES_ACCELERATORS",
+           "DEFAULT_INDENT_WIDTH",
+           "DEFAULT_INDENT_MARKER",
+           "Language",
+           "get_object_from_language_accelerators",
+           "get_language_description",
+           "get_python_language",
+           "get_logging_language",
+           "PYTHON_LANGUAGE",
+           "LOGGING_LANGUAGE",
+           "TEXT_LANGUAGE", ]
 
-LOGGER = foundations.verbose.installLogger()
+LOGGER = foundations.verbose.install_logger()
 
-PYTHON_GRAMMAR_FILE = umbra.ui.common.getResourcePath(UiConstants.pythonGrammarFile)
-LOGGING_GRAMMAR_FILE = umbra.ui.common.getResourcePath(UiConstants.loggingGrammarFile)
-TEXT_GRAMMAR_FILE = umbra.ui.common.getResourcePath(UiConstants.textGrammarFile)
+PYTHON_GRAMMAR_FILE = umbra.ui.common.get_resource_path(UiConstants.python_grammar_file)
+LOGGING_GRAMMAR_FILE = umbra.ui.common.get_resource_path(UiConstants.logging_grammar_file)
+TEXT_GRAMMAR_FILE = umbra.ui.common.get_resource_path(UiConstants.text_grammar_file)
 
-LANGUAGES_ACCELERATORS = {"DefaultHighlighter" : umbra.ui.highlighters.DefaultHighlighter,
-						"DefaultCompleter" : umbra.ui.completers.DefaultCompleter,
-						"indentationPreEventInputAccelerators" :
-						umbra.ui.inputAccelerators.indentationPreEventInputAccelerators,
-						"indentationPostEventInputAccelerators" :
-						umbra.ui.inputAccelerators.indentationPostEventInputAccelerators,
-						"completionPreEventInputAccelerators" :
-						umbra.ui.inputAccelerators.completionPreEventInputAccelerators,
-						"completionPostEventInputAccelerators" :
-						umbra.ui.inputAccelerators.completionPostEventInputAccelerators,
-						"symbolsExpandingPreEventInputAccelerators" :
-						umbra.ui.inputAccelerators.symbolsExpandingPreEventInputAccelerators,
-						"highlightCurrentLine" :
-						umbra.ui.visualAccelerators.highlightCurrentLine,
-						"highlightOccurences" :
-						umbra.ui.visualAccelerators.highlightOccurences,
-						"highlightMatchingSymbolsPairs" :
-						umbra.ui.visualAccelerators.highlightMatchingSymbolsPairs,
-						"DefaultTheme" : umbra.ui.themes.DEFAULT_THEME,
-						"LoggingTheme" : umbra.ui.themes.LOGGING_THEME}
+LANGUAGES_ACCELERATORS = {"DefaultHighlighter": umbra.ui.highlighters.DefaultHighlighter,
+                          "DefaultCompleter": umbra.ui.completers.DefaultCompleter,
+                          "indentation_pre_event_input_accelerators":
+                              umbra.ui.input_accelerators.indentation_pre_event_input_accelerators,
+                          "indentation_post_event_input_accelerators":
+                              umbra.ui.input_accelerators.indentation_post_event_input_accelerators,
+                          "completion_pre_event_input_accelerators":
+                              umbra.ui.input_accelerators.completion_pre_event_input_accelerators,
+                          "completion_post_event_input_accelerators":
+                              umbra.ui.input_accelerators.completion_post_event_input_accelerators,
+                          "symbols_expanding_pre_event_input_accelerators":
+                              umbra.ui.input_accelerators.symbols_expanding_pre_event_input_accelerators,
+                          "highlight_current_line":
+                              umbra.ui.visual_accelerators.highlight_current_line,
+                          "highlight_occurences":
+                              umbra.ui.visual_accelerators.highlight_occurences,
+                          "highlight_matching_symbols_pairs":
+                              umbra.ui.visual_accelerators.highlight_matching_symbols_pairs,
+                          "DefaultTheme": umbra.ui.themes.DEFAULT_THEME,
+                          "LoggingTheme": umbra.ui.themes.LOGGING_THEME}
 
-DEFAULT_INDENT_MARKER = "\t"
+DEFAULT_INDENT_WIDTH = 4
+DEFAULT_INDENT_MARKER = " " * DEFAULT_INDENT_WIDTH
 
-#**********************************************************************************************************************
-#***	Module classes and definitions.
-#**********************************************************************************************************************
-class Language(foundations.dataStructures.Structure):
-	"""
-	Defines a storage object for the :class:`Editor` class language description. 
-	"""
 
-	def __init__(self, **kwargs):
-		"""
-		Initializes the class.
+class Language(foundations.data_structures.Structure):
+    """
+    Defines a storage object for the :class:`Editor` class language description.
+    """
 
-		:param \*\*kwargs: name, file, parser,	extensions, highlighter, completer,	preInputAccelerators,
-			postInputAccelerators, visualAccelerators, indentMarker, commentMarker, commentBlockMarkerStart, commentBlockMarkerEnd,
-			symbolsPairs, indentationSymbols, rules, tokens, theme. ( Key / Value pairs )
-		"""
+    def __init__(self, **kwargs):
+        """
+        Initializes the class.
 
-		LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
+        :param \*\*kwargs: name, file, parser,	extensions, highlighter, completer,	pre_input_accelerators,
+            post_input_accelerators, visual_accelerators, indent_marker, comment_marker, comment_block_marker_start,
+            comment_block_marker_end, symbols_pairs, indentation_symbols, rules, tokens, theme.
+        """
 
-		foundations.dataStructures.Structure.__init__(self, **kwargs)
+        LOGGER.debug("> Initializing '{0}()' class.".format(self.__class__.__name__))
 
-def getObjectFromLanguageAccelerators(accelerator):
-	"""
-	Returns the object associated to given accelerator.
+        foundations.data_structures.Structure.__init__(self, **kwargs)
 
-	:param accelerator: Accelerator.
-	:type accelerator: unicode
-	:return: Object.
-	:rtype: object
-	"""
 
-	return LANGUAGES_ACCELERATORS.get(accelerator)
+def get_object_from_language_accelerators(accelerator):
+    """
+    Returns the object associated to given accelerator.
 
-@foundations.exceptions.handleExceptions(LanguageGrammarError)
-def getLanguageDescription(grammarfile):
-	"""
-	Gets the language description from given language grammar file.
+    :param accelerator: Accelerator.
+    :type accelerator: unicode
+    :return: Object.
+    :rtype: object
+    """
 
-	:param grammarfile: Language grammar.
-	:type grammarfile: unicode
-	:return: Language description.
-	:rtype: Language
-	"""
+    return LANGUAGES_ACCELERATORS.get(accelerator)
 
-	LOGGER.debug("> Processing '{0}' grammar file.".format(grammarfile))
 
-	sectionsParser = foundations.parsers.SectionsFileParser(grammarfile)
-	sectionsParser.parse(stripQuotationMarkers=False)
+@foundations.exceptions.handle_exceptions(LanguageGrammarError)
+def get_language_description(grammar_file):
+    """
+    Gets the language description from given language grammar file.
 
-	name = sectionsParser.getValue("Name", "Language")
-	if not name:
-		raise LanguageGrammarError("{0} | '{1}' attribute not found in '{2}' file!".format(__name__,
-																						"Language|Name",
-																						grammarfile))
+    :param grammar_file: Language grammar.
+    :type grammar_file: unicode
+    :return: Language description.
+    :rtype: Language
+    """
 
-	extensions = sectionsParser.getValue("Extensions", "Language")
-	if not extensions:
-		raise LanguageGrammarError("{0} | '{1}' attribute not found in '{2}' file!".format(__name__,
-																						"Language|Extensions",
-																						grammarfile))
+    LOGGER.debug("> Processing '{0}' grammar file.".format(grammar_file))
 
-	highlighter = getObjectFromLanguageAccelerators(sectionsParser.getValue("Highlighter", "Accelerators"))
-	completer = getObjectFromLanguageAccelerators(sectionsParser.getValue("Completer", "Accelerators"))
-	preInputAccelerators = sectionsParser.getValue("PreInputAccelerators", "Accelerators")
-	preInputAccelerators = preInputAccelerators and [getObjectFromLanguageAccelerators(accelerator)
-													for accelerator in preInputAccelerators.split("|")] or ()
-	postInputAccelerators = sectionsParser.getValue("PostInputAccelerators", "Accelerators")
-	postInputAccelerators = postInputAccelerators and [getObjectFromLanguageAccelerators(accelerator)
-													for accelerator in postInputAccelerators.split("|")] or ()
+    sections_file_parser = foundations.parsers.SectionsFileParser(grammar_file)
+    sections_file_parser.parse(strip_quotation_markers=False)
 
-	visualAccelerators = sectionsParser.getValue("VisualAccelerators", "Accelerators")
-	visualAccelerators = visualAccelerators and [getObjectFromLanguageAccelerators(accelerator)
-													for accelerator in visualAccelerators.split("|")] or ()
+    name = sections_file_parser.get_value("Name", "Language")
+    if not name:
+        raise LanguageGrammarError("{0} | '{1}' attribute not found in '{2}' file!".format(__name__,
+                                                                                           "Language|Name",
+                                                                                           grammar_file))
 
-	indentMarker = sectionsParser.sectionExists("Syntax") and sectionsParser.getValue("IndentMarker", "Syntax") or \
-					DEFAULT_INDENT_MARKER
-	commentMarker = sectionsParser.sectionExists("Syntax") and \
-					sectionsParser.getValue("CommentMarker", "Syntax") or ""
-	commentBlockMarkerStart = sectionsParser.sectionExists("Syntax") and \
-							sectionsParser.getValue("CommentBlockMarkerStart", "Syntax") or ""
-	commentBlockMarkerEnd = sectionsParser.sectionExists("Syntax") and \
-							sectionsParser.getValue("CommentBlockMarkerEnd", "Syntax") or ""
-	symbolsPairs = sectionsParser.sectionExists("Syntax") and \
-							sectionsParser.getValue("SymbolsPairs", "Syntax") or {}
+    extensions = sections_file_parser.get_value("Extensions", "Language")
+    if not extensions:
+        raise LanguageGrammarError("{0} | '{1}' attribute not found in '{2}' file!".format(__name__,
+                                                                                           "Language|Extensions",
+                                                                                           grammar_file))
 
-	if symbolsPairs:
-		associatedPairs = foundations.dataStructures.Lookup()
-		for pair in symbolsPairs.split("|"):
-			associatedPairs[pair[0]] = pair[1]
-		symbolsPairs = associatedPairs
+    highlighter = get_object_from_language_accelerators(sections_file_parser.get_value("Highlighter", "Accelerators"))
+    completer = get_object_from_language_accelerators(sections_file_parser.get_value("Completer", "Accelerators"))
+    pre_input_accelerators = sections_file_parser.get_value("PreInputAccelerators", "Accelerators")
+    pre_input_accelerators = pre_input_accelerators and [get_object_from_language_accelerators(accelerator)
+                                                         for accelerator in pre_input_accelerators.split("|")] or ()
+    post_input_accelerators = sections_file_parser.get_value("PostInputAccelerators", "Accelerators")
+    post_input_accelerators = post_input_accelerators and [get_object_from_language_accelerators(accelerator)
+                                                           for accelerator in post_input_accelerators.split("|")] or ()
 
-	indentationSymbols = sectionsParser.sectionExists("Syntax") and \
-						sectionsParser.getValue("IndentationSymbols", "Syntax")
-	indentationSymbols = indentationSymbols and indentationSymbols.split("|") or ()
+    visual_accelerators = sections_file_parser.get_value("VisualAccelerators", "Accelerators")
+    visual_accelerators = visual_accelerators and [get_object_from_language_accelerators(accelerator)
+                                                   for accelerator in visual_accelerators.split("|")] or ()
 
-	rules = []
-	attributes = sectionsParser.sections.get("Rules")
-	if attributes:
-		for attribute in sectionsParser.sections["Rules"]:
-			pattern = sectionsParser.getValue(attribute, "Rules")
-			rules.append(umbra.ui.highlighters.Rule(name=foundations.namespace.removeNamespace(attribute),
-								pattern=QRegExp(pattern)))
+    indent_marker = sections_file_parser.section_exists("Syntax") and sections_file_parser.get_value("IndentMarker",
+                                                                                                     "Syntax") or \
+                    DEFAULT_INDENT_MARKER
+    comment_marker = sections_file_parser.section_exists("Syntax") and \
+                     sections_file_parser.get_value("CommentMarker", "Syntax") or ""
+    comment_block_marker_start = sections_file_parser.section_exists("Syntax") and \
+                                 sections_file_parser.get_value("CommentBlockMarkerStart", "Syntax") or ""
+    comment_block_marker_end = sections_file_parser.section_exists("Syntax") and \
+                               sections_file_parser.get_value("CommentBlockMarkerEnd", "Syntax") or ""
+    symbols_pairs = sections_file_parser.section_exists("Syntax") and \
+                    sections_file_parser.get_value("SymbolsPairs", "Syntax") or {}
 
-	tokens = []
-	dictionary = sectionsParser.getValue("Dictionary", "Accelerators")
-	if dictionary:
-		dictionaryFile = os.path.join(os.path.dirname(grammarfile), dictionary)
-		if foundations.common.pathExists(dictionaryFile):
-			with open(dictionaryFile, "r") as file:
-				for line in iter(file):
-					line = line.strip()
-					line and tokens.append(line)
-		else:
-			LOGGER.warning(
-			"!> {0} | '{1}' language dictionary file doesn't exists and will be skipped!".format(__name__,
-																								dictionaryFile))
+    if symbols_pairs:
+        associated_pairs = foundations.data_structures.Lookup()
+        for pair in symbols_pairs.split("|"):
+            associated_pairs[pair[0]] = pair[1]
+        symbols_pairs = associated_pairs
 
-	theme = getObjectFromLanguageAccelerators(sectionsParser.getValue("Theme", "Accelerators")) or \
-			umbra.ui.highlighters.DEFAULT_THEME
+    indentation_symbols = sections_file_parser.section_exists("Syntax") and \
+                          sections_file_parser.get_value("IndentationSymbols", "Syntax")
+    indentation_symbols = indentation_symbols and indentation_symbols.split("|") or ()
 
-	attributes = {"name" : name,
-				"file" : grammarfile,
-				"parser" : sectionsParser,
-				"extensions" : extensions,
-				"highlighter" : highlighter,
-				"completer" : completer,
-				"preInputAccelerators" : preInputAccelerators,
-				"postInputAccelerators" : postInputAccelerators,
-				"visualAccelerators" : visualAccelerators,
-				"indentMarker" : indentMarker,
-				"commentMarker" : commentMarker,
-				"commentBlockMarkerStart" : commentBlockMarkerStart,
-				"commentBlockMarkerEnd" : commentBlockMarkerEnd,
-				"symbolsPairs" : symbolsPairs,
-				"indentationSymbols" : indentationSymbols,
-				"rules" : rules,
-				"tokens" : tokens,
-				"theme" : theme}
+    rules = []
+    attributes = sections_file_parser.sections.get("Rules")
+    if attributes:
+        for attribute in sections_file_parser.sections["Rules"]:
+            pattern = sections_file_parser.get_value(attribute, "Rules")
+            rules.append(umbra.ui.highlighters.Rule(name=foundations.namespace.remove_namespace(attribute),
+                                                    pattern=QRegExp(pattern)))
 
-	for attribute, value in sorted(attributes.iteritems()):
-		if attribute == "rules":
-			LOGGER.debug("> Registered '{0}' syntax rules.".format(len(value)))
-		elif attribute == "tokens":
-			LOGGER.debug("> Registered '{0}' completion tokens.".format(len(value)))
-		else:
-			LOGGER.debug("> Attribute: '{0}', Value: '{1}'.".format(attribute, value))
+    tokens = []
+    dictionary = sections_file_parser.get_value("Dictionary", "Accelerators")
+    if dictionary:
+        dictionary_file = os.path.join(os.path.dirname(grammar_file), dictionary)
+        if foundations.common.path_exists(dictionary_file):
+            with open(dictionary_file, "r") as file:
+                for line in iter(file):
+                    line = line.strip()
+                    line and tokens.append(line)
+        else:
+            LOGGER.warning(
+                "!> {0} | '{1}' language dictionary file doesn't exists and will be skipped!".format(__name__,
+                                                                                                     dictionary_file))
 
-	return Language(**attributes)
+    theme = get_object_from_language_accelerators(sections_file_parser.get_value("Theme", "Accelerators")) or \
+            umbra.ui.highlighters.DEFAULT_THEME
 
-def getPythonLanguage():
-	"""
-	Returns the Python language description.
+    attributes = {"name": name,
+                  "file": grammar_file,
+                  "parser": sections_file_parser,
+                  "extensions": extensions,
+                  "highlighter": highlighter,
+                  "completer": completer,
+                  "pre_input_accelerators": pre_input_accelerators,
+                  "post_input_accelerators": post_input_accelerators,
+                  "visual_accelerators": visual_accelerators,
+                  "indent_marker": indent_marker,
+                  "comment_marker": comment_marker,
+                  "comment_block_marker_start": comment_block_marker_start,
+                  "comment_block_marker_end": comment_block_marker_end,
+                  "symbols_pairs": symbols_pairs,
+                  "indentation_symbols": indentation_symbols,
+                  "rules": rules,
+                  "tokens": tokens,
+                  "theme": theme}
 
-	:return: Python language description.
-	:rtype: Language
-	"""
+    for attribute, value in sorted(attributes.iteritems()):
+        if attribute == "rules":
+            LOGGER.debug("> Registered '{0}' syntax rules.".format(len(value)))
+        elif attribute == "tokens":
+            LOGGER.debug("> Registered '{0}' completion tokens.".format(len(value)))
+        else:
+            LOGGER.debug("> Attribute: '{0}', Value: '{1}'.".format(attribute, value))
 
-	return getLanguageDescription(PYTHON_GRAMMAR_FILE)
+    return Language(**attributes)
 
-def getLoggingLanguage():
-	"""
-	Returns the Logging language description.
 
-	:return: Logging language description.
-	:rtype: Language
-	"""
+def get_python_language():
+    """
+    Returns the Python language description.
 
-	return getLanguageDescription(LOGGING_GRAMMAR_FILE)
+    :return: Python language description.
+    :rtype: Language
+    """
 
-def getTextLanguage():
-	"""
-	Returns the Text language description.
+    return get_language_description(PYTHON_GRAMMAR_FILE)
 
-	:return: Text language description.
-	:rtype: Language
-	"""
 
-	return getLanguageDescription(TEXT_GRAMMAR_FILE)
+def get_logging_language():
+    """
+    Returns the Logging language description.
 
-#**********************************************************************************************************************
-#***	Module attributes.
-#**********************************************************************************************************************
-PYTHON_LANGUAGE = getPythonLanguage()
-LOGGING_LANGUAGE = getLoggingLanguage()
-TEXT_LANGUAGE = getTextLanguage()
+    :return: Logging language description.
+    :rtype: Language
+    """
 
+    return get_language_description(LOGGING_GRAMMAR_FILE)
+
+
+def get_text_language():
+    """
+    Returns the Text language description.
+
+    :return: Text language description.
+    :rtype: Language
+    """
+
+    return get_language_description(TEXT_GRAMMAR_FILE)
+
+
+PYTHON_LANGUAGE = get_python_language()
+LOGGING_LANGUAGE = get_logging_language()
+TEXT_LANGUAGE = get_text_language()
