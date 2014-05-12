@@ -381,7 +381,7 @@ class Basic_QPlainTextEdit(QPlainTextEdit):
         :rtype: bool
         """
 
-        self.document().set_default_text_option(text_option)
+        self.document().setDefaultTextOption(text_option)
         return True
 
     def store_text_cursor_anchor(self):

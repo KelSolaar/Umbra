@@ -42,6 +42,7 @@ __all__ = ["LOGGER",
            "LOGGING_GRAMMAR_FILE",
            "TEXT_GRAMMAR_FILE",
            "LANGUAGES_ACCELERATORS",
+           "DEFAULT_INDENT_WIDTH",
            "DEFAULT_INDENT_MARKER",
            "Language",
            "get_object_from_language_accelerators",
@@ -79,7 +80,8 @@ LANGUAGES_ACCELERATORS = {"DefaultHighlighter": umbra.ui.highlighters.DefaultHig
                           "DefaultTheme": umbra.ui.themes.DEFAULT_THEME,
                           "LoggingTheme": umbra.ui.themes.LOGGING_THEME}
 
-DEFAULT_INDENT_MARKER = "\t"
+DEFAULT_INDENT_WIDTH = 4
+DEFAULT_INDENT_MARKER = " " * DEFAULT_INDENT_WIDTH
 
 
 class Language(foundations.data_structures.Structure):
@@ -115,32 +117,32 @@ def get_object_from_language_accelerators(accelerator):
 
 
 @foundations.exceptions.handle_exceptions(LanguageGrammarError)
-def get_language_description(grammarfile):
+def get_language_description(grammar_file):
     """
     Gets the language description from given language grammar file.
 
-    :param grammarfile: Language grammar.
-    :type grammarfile: unicode
+    :param grammar_file: Language grammar.
+    :type grammar_file: unicode
     :return: Language description.
     :rtype: Language
     """
 
-    LOGGER.debug("> Processing '{0}' grammar file.".format(grammarfile))
+    LOGGER.debug("> Processing '{0}' grammar file.".format(grammar_file))
 
-    sections_file_parser = foundations.parsers.SectionsFileParser(grammarfile)
+    sections_file_parser = foundations.parsers.SectionsFileParser(grammar_file)
     sections_file_parser.parse(strip_quotation_markers=False)
 
     name = sections_file_parser.get_value("Name", "Language")
     if not name:
         raise LanguageGrammarError("{0} | '{1}' attribute not found in '{2}' file!".format(__name__,
                                                                                            "Language|Name",
-                                                                                           grammarfile))
+                                                                                           grammar_file))
 
     extensions = sections_file_parser.get_value("Extensions", "Language")
     if not extensions:
         raise LanguageGrammarError("{0} | '{1}' attribute not found in '{2}' file!".format(__name__,
                                                                                            "Language|Extensions",
-                                                                                           grammarfile))
+                                                                                           grammar_file))
 
     highlighter = get_object_from_language_accelerators(sections_file_parser.get_value("Highlighter", "Accelerators"))
     completer = get_object_from_language_accelerators(sections_file_parser.get_value("Completer", "Accelerators"))
@@ -188,7 +190,7 @@ def get_language_description(grammarfile):
     tokens = []
     dictionary = sections_file_parser.get_value("Dictionary", "Accelerators")
     if dictionary:
-        dictionary_file = os.path.join(os.path.dirname(grammarfile), dictionary)
+        dictionary_file = os.path.join(os.path.dirname(grammar_file), dictionary)
         if foundations.common.path_exists(dictionary_file):
             with open(dictionary_file, "r") as file:
                 for line in iter(file):
@@ -203,7 +205,7 @@ def get_language_description(grammarfile):
             umbra.ui.highlighters.DEFAULT_THEME
 
     attributes = {"name": name,
-                  "file": grammarfile,
+                  "file": grammar_file,
                   "parser": sections_file_parser,
                   "extensions": extensions,
                   "highlighter": highlighter,

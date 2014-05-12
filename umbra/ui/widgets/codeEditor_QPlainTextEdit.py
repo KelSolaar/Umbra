@@ -443,7 +443,7 @@ class CodeEditor_QPlainTextEdit(Basic_QPlainTextEdit):
     def __init__(self,
                  parent=None,
                  language=umbra.ui.languages.PYTHON_LANGUAGE,
-                 indent_marker="\t",
+                 indent_marker=" " * 4,
                  indent_width=4,
                  comment_marker="#",
                  *args,
